@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayoutItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/size_12dp"
+    android:layout_marginRight="12dp"
+    android:layout_marginLeft="12dp"
+    android:background="@drawable/shape_f9f9f9"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:id="@+id/rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_title"
+            tools:text="自营商品"
+            android:textStyle="bold"
+            android:textSize="@dimen/sp_14"
+            android:textColor="#F46D23"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:layout_marginLeft="@dimen/size_15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_toRightOf="@+id/tv_title"
+            tools:text="隔日送达"
+            android:id="@+id/tv2"
+            android:textSize="@dimen/sp_12"
+            android:textColor="#F46D23"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:layout_marginLeft="@dimen/size_11dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_num"
+            android:layout_toRightOf="@+id/tv2"
+            tools:text="订单编号:2313213131313313"
+            android:textSize="@dimen/sp_12"
+            android:textColor="#F46D23"
+            android:layout_marginRight="@dimen/sp_14"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:layout_marginLeft="@dimen/size_11dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/size_15dp"
+        android:layout_marginTop="@dimen/size_15dp">
+
+
+
+        <TextView
+            android:id="@+id/tv_product_name"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/size_70dp"
+            android:ellipsize="end"
+            android:lines="1"
+            tools:text="sdsds"
+            android:textColor="#333333"
+            android:textSize="@dimen/size_14dp" />
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="代付款"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/size_15dp"
+            android:textSize="@dimen/size_12dp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/size_15dp"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/tv_time"
+            tools:text="2020.5.0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_AEAEAE"
+            android:textSize="@dimen/dp_10" />
+
+        <TextView
+            tools:text="sdsds"
+            android:id="@+id/tv_subUserBuy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/size_5dp"
+            android:textColor="@color/color_AEAEAE"
+            android:textSize="@dimen/dp_10" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/size_15dp"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginRight="@dimen/size_15dp"
+        android:layout_marginBottom="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/commodityOne"
+                android:layout_width="@dimen/size_46dp"
+                android:layout_height="@dimen/size_46dp"
+                android:background="@drawable/app_my_wallet_bg"
+                android:scaleType="fitXY" />
+
+            <ImageView
+                android:id="@+id/commodityTwo"
+                android:layout_width="@dimen/size_46dp"
+                android:layout_height="@dimen/size_46dp"
+                android:layout_marginLeft="@dimen/size_2dp"
+                android:background="@drawable/app_my_wallet_bg"
+                android:scaleType="fitXY" />
+
+            <ImageView
+                android:id="@+id/commodityThree"
+                android:layout_width="@dimen/size_46dp"
+                android:layout_height="@dimen/size_46dp"
+                android:layout_marginLeft="@dimen/size_2dp"
+                android:background="@drawable/app_my_wallet_bg"
+                android:scaleType="fitXY" />
+
+            <ImageView
+                android:id="@+id/commodityFour"
+                android:layout_width="@dimen/size_46dp"
+                android:layout_height="@dimen/size_46dp"
+                android:layout_marginLeft="@dimen/size_2dp"
+                android:background="@drawable/app_my_wallet_bg"
+                android:scaleType="fitXY" />
+
+            <ImageView
+                android:id="@+id/commodityMore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/size_10dp"
+                android:src="@mipmap/ic_ellipsis" />
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            tools:text="合计500"
+            android:layout_marginRight="@dimen/size_15dp"
+            android:id="@+id/tv_item_my_order_all_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="#F56E24"
+            android:textSize="@dimen/size_16dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:id="@+id/iv_cancel_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="102dp"
+            android:src="@mipmap/ic_cancel_order"
+            android:visibility="gone" />
+
+
+        <ImageView
+            android:id="@+id/evaluateNow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="102dp"
+            android:src="@mipmap/ic_evaluate_now_two" />
+
+        <ImageView
+            android:id="@+id/imageGo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="@dimen/size_15dp"
+            android:src="@mipmap/ic_pay_now_two"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/againBay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="@dimen/size_15dp"
+            android:src="@mipmap/ic_again_buy" />
+
+        <ImageView
+            android:id="@+id/iv_delete_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="102dp"
+            android:src="@mipmap/ic_delete_order"
+            android:visibility="gone" />
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/iv_confirm_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="102dp"
+            android:src="@mipmap/ic_confirm_order" />
+    </RelativeLayout>
+
+</LinearLayout>

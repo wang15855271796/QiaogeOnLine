@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootview"
+    android:background="#f8f8f8"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/white">
+
+    </LinearLayout>
+
+    <com.puyue.www.qiaoge.view.CompatToolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <ImageView
+                    android:id="@+id/iv_activity_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="7dp"
+                    android:padding="10dp"
+                    android:src="@mipmap/ic_back_arrow" />
+
+                <TextView
+                    android:text="限时秒杀"
+                    android:id="@+id/tv_activity_goods_list_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:textColor="@color/app_top_bar_text"
+                    android:textSize="18dp" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_good_cart"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="@dimen/size_60dp"
+                    android:layout_height="@dimen/size_48dp">
+
+                    <ImageView
+                        android:id="@+id/iv_cart"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/ic_tab_cart_unable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/tv_num"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/iv_cart"
+                        android:visibility="gone"
+                        android:background="@drawable/shape_car_num"
+                        android:gravity="center"
+                        tools:text="9"
+                        android:textColor="@color/white"
+                        android:textSize="7dp" />
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+    </com.puyue.www.qiaoge.view.CompatToolbar>
+
+    <LinearLayout
+        android:id="@+id/linearLayout_spike"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview_spike_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/rl_spike"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#f8f8f8"
+            android:paddingTop="10dp"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/tv_spike_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:text="秒杀抢购中"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_marginBottom="@dimen/size_60dp"
+            android:id="@+id/rv_activity_goods_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:id="@+id/rl"
+            android:background="@color/white"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/size_3dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_60dp">
+
+            <RelativeLayout
+                android:orientation="vertical"
+                android:id="@+id/rl_bg"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/size_23dp"
+                android:layout_marginRight="@dimen/size_23dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_40dp">
+
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/tv_call"
+                    tools:text="添加本场秒杀提醒"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="@dimen/size_15dp"
+                    android:textSize="@dimen/size_16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

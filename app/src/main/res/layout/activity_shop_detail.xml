@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/app_color_white"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+
+    <com.puyue.www.qiaoge.view.CompatToolbar
+        android:layout_marginTop="@dimen/size_30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/app_border_bottom_bg">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:padding="10dp"
+            android:src="@mipmap/ic_back_arrow" />
+
+        <TextView
+            android:text="信息详情"
+            android:id="@+id/tv_pp_input_code_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="13dp"
+            android:layout_marginTop="13dp"
+            android:textColor="@color/app_top_bar_text"
+            android:textSize="18dp" />
+
+    </com.puyue.www.qiaoge.view.CompatToolbar>
+
+
+    <RelativeLayout
+        android:background="#f6f6f6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ScrollView
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_margin="@dimen/size_12dp"
+                    android:background="@drawable/shape_white1"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_60dp">
+
+                        <ImageView
+                            android:id="@+id/iv_pic"
+                            android:layout_marginLeft="@dimen/size_9dp"
+                            android:layout_marginTop="@dimen/size_12dp"
+                            android:src="@mipmap/touxiang"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="@dimen/dp_40" />
+
+                        <TextView
+                            android:text="182****1798"
+                            android:textColor="#000000"
+                            android:id="@+id/tv_phone"
+                            android:textSize="@dimen/size_18dp"
+                            android:layout_marginTop="@dimen/sp_12"
+                            android:layout_marginLeft="@dimen/size_8dp"
+                            android:layout_toRightOf="@+id/iv_pic"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <ImageView
+                            android:id="@+id/iv_pic1"
+                            android:layout_marginTop="@dimen/size_1dp"
+                            android:src="@mipmap/xingyong"
+                            android:layout_below="@+id/tv_phone"
+                            android:layout_marginLeft="@dimen/size_8dp"
+                            android:layout_toRightOf="@+id/iv_pic"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/tv_grade"
+                            android:textColor="#53D4D0"
+                            android:text="平台信用：良好"
+                            android:layout_below="@+id/tv_phone"
+                            android:layout_marginLeft="@dimen/size_8dp"
+                            android:layout_toRightOf="@+id/iv_pic1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tv_content"
+                        android:textSize="14sp"
+                        android:textColor="#333333"
+                        android:layout_margin="@dimen/size_8dp"
+                        tools:text="浔阳江头夜送客，枫叶荻花秋瑟瑟。主人下马客在船，举酒欲饮无管弦。醉不成欢惨将别，别时茫茫江浸月。
+忽闻水上琵琶声，主人忘归客不发。寻声暗问弹者谁，琵琶声停欲语迟。移船相近邀相见，添酒回灯重开宴。千呼万唤始出来，犹抱琵琶半遮面。转轴拨弦三两声，未成曲调先有情。弦弦掩抑声声思，似诉平生不得志。低眉信手续续弹，说尽心中无限事。轻拢慢捻抹复挑，初为霓裳后六幺。大弦嘈嘈如急雨，小弦切切如私语。嘈嘈切切错杂弹，大珠小珠落玉盘。间关莺语花底滑，幽咽泉流冰下难。"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <LinearLayout
+                        android:layout_marginLeft="@dimen/size_9dp"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textStyle="bold"
+                                android:text="产品分类："
+                                android:textSize="@dimen/sp_14"
+                                android:textColor="#F97D17"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:id="@+id/tv_cate"
+                                android:text="器具转让"
+                                android:textSize="@dimen/sp_14"
+                                android:textColor="#666666"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/dp_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textStyle="bold"
+                                android:text="联系电话："
+                                android:textSize="@dimen/sp_14"
+                                android:textColor="#F97D17"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:id="@+id/tv_contact"
+                                tools:text="器具转让"
+                                android:textSize="@dimen/sp_14"
+                                android:textColor="#666666"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/dp_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textStyle="bold"
+                                android:text="详细地址："
+                                android:textSize="@dimen/sp_14"
+                                android:textColor="#F97D17"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:id="@+id/tv_address"
+                                android:text="器具转让"
+                                android:textSize="@dimen/sp_14"
+                                android:textColor="#666666"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_marginTop="@dimen/size_11dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                    </android.support.v7.widget.RecyclerView>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+
+        <RelativeLayout
+            android:background="#ffffff"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_84dp">
+
+            <TextView
+                android:id="@+id/tv"
+                android:layout_marginTop="@dimen/size_9dp"
+                android:layout_marginLeft="@dimen/size_15dp"
+                android:text="拨打电话时，"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_below="@+id/tv"
+                android:layout_marginLeft="@dimen/size_15dp"
+                android:text="请说明是在翘歌平台看到的！"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+            <TextView
+                android:text="电话联系"
+                android:id="@+id/tv_call"
+                android:textColor="#ffffff"
+                android:gravity="center"
+                android:textSize="@dimen/size_18dp"
+                android:background="@drawable/shape_shop_orange"
+                android:layout_alignParentRight="true"
+                android:layout_width="123dp"
+                android:layout_height="@dimen/size_50dp" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>

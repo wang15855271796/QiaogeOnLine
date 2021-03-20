@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/size_20dp"
+        android:layout_marginRight="@dimen/size_20dp"
+        android:background="@drawable/app_my_wallet_bg"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_below="@+id/v1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="100dp"
+            android:layout_marginLeft="@dimen/size_100dp"
+            android:gravity="center"
+            android:text="商品活动"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/size_25dp"
+            android:textColor="#343434"
+            android:textSize="18dp" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_content"
+            android:layout_below="@+id/v1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="22dp"
+            android:layout_marginLeft="@dimen/size_22dp"
+            android:gravity="center"
+            tools:text="购买三统万福超级鸡大胸（1.68kg*10包/箱）"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:textColor="#F42828"
+            android:textSize="18dp" />
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </WebView>
+        <View
+            android:background="#D8D8DE"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
+        <TextView
+            android:id="@+id/tv_ok"
+            android:layout_below="@+id/v1"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="100dp"
+            android:layout_marginLeft="@dimen/size_100dp"
+            android:gravity="center"
+            android:text="我知道了"
+            android:padding="@dimen/size_8dp"
+            android:textColor="#343434"
+            android:textSize="16dp" />
+
+
+
+
+    </LinearLayout>
+</LinearLayout>

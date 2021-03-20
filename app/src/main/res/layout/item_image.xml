@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_height="wrap_content">
+
+    <com.puyue.www.qiaoge.RoundImageView
+        android:scaleType="fitXY"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/iv_image"
+        android:layout_marginBottom="@dimen/size_11dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp" />
+
+</RelativeLayout>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/ll_root"
+        android:layout_marginBottom="15dp"
+        android:layout_width="75dp"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.puyue.www.qiaoge.RoundImageView
+                android:id="@+id/iv_pic"
+                android:scaleType="fitXY"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="75dp"
+                android:layout_height="75dp" />
+
+            <ImageView
+                android:visibility="gone"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/icon_record"
+                android:id="@+id/iv_sale_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_name"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            tools:text="华清源腿排腿排华排..."
+            android:textColor="#333333"
+            android:layout_marginTop="@dimen/size_7dp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="@dimen/sp_12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:textColor="#ffffff"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/tv_price"
+            android:lines="1"
+            android:ellipsize="end"
+            android:gravity="center_horizontal"
+            android:background="@drawable/shape_red_orders"
+            android:layout_marginTop="@dimen/size_10dp"
+            android:textSize="@dimen/sp_12"
+            tools:text="100.00"
+            android:layout_width="@dimen/size_60dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</LinearLayout>

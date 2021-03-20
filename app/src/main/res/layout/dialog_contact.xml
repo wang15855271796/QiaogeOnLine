@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="40dp"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+
+    <RelativeLayout
+        android:background="@drawable/app_my_wallet_bg"
+        android:layout_marginTop="@dimen/size_70dp"
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+
+
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_below="@+id/tv"
+            android:layout_marginTop="23dp"
+            android:textColor="#333333"
+            android:lineHeight="@dimen/size_30dp"
+            android:textSize="@dimen/sp_14"
+            android:layout_marginLeft="@dimen/size_40dp"
+            android:layout_marginRight="@dimen/size_40dp"
+            android:layout_centerHorizontal="true"
+            android:text="若当前帐号18203471798已停用，
+建议您立刻更换手机号。"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+
+
+
+        <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="vertical">
+
+            <View
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#f0f0f0" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="暂不需要"
+                    android:textColor="#333333"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_below="@+id/tv1"
+                    android:layout_toRightOf="@+id/tv_register"
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="#f0f0f0" />
+
+
+                <TextView
+                    android:id="@+id/tv_yes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="立即更换"
+                    android:textColor="#333333"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

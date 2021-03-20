@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:wheelSurfView="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <!--<ImageView-->
+        <!--android:id="@+id/iv_bg"-->
+
+        <!--android:layout_centerInParent="true"-->
+        <!--android:layout_width="410dp"-->
+        <!--android:layout_height="410dp" />-->
+
+    <FrameLayout
+        android:id="@+id/ll"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.puyue.www.qiaoge.WheelSurfView
+            android:id="@+id/wheelSurfView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            wheelSurfView:typenum="-1"
+            android:layout_margin="20dp"/>
+
+
+    </FrameLayout>
+
+    <ImageView
+        android:layout_below="@+id/ll"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/ic_turn_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

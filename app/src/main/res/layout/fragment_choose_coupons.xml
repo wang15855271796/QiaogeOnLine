@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:background="@drawable/shape_white1"
+        android:layout_marginTop="@dimen/size_12dp"
+        android:layout_marginRight="@dimen/size_12dp"
+        android:layout_marginLeft="@dimen/size_12dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:text="不使用优惠券"
+            android:textSize="@dimen/size_15dp"
+            android:textColor="#333333"
+            android:textStyle="bold"
+            android:layout_marginLeft="@dimen/sp_16"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/iv_select_all"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:layout_marginRight="@dimen/size_15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true" />
+
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

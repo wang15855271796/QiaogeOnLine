@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center"
+    android:layout_marginLeft="@dimen/size_53dp"
+    android:layout_marginRight="@dimen/size_53dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:padding="15dp"
+            android:layout_marginTop="@dimen/size_5dp"
+            android:text="是否联系客服获取权限"
+            android:textColor="#000000"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#000000"
+            android:paddingBottom="@dimen/size_11dp"
+            android:paddingTop="@dimen/size_11dp"
+            android:background="@drawable/shape_grey_line"
+            android:layout_toRightOf="@+id/tv1"
+            android:text="在线客服 (08:00-22:00)"
+            android:textSize="@dimen/size_13dp"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_phone"
+            android:layout_marginTop="@dimen/dp_10"
+            android:gravity="center_horizontal"
+            android:paddingBottom="@dimen/size_11dp"
+            android:paddingTop="@dimen/size_11dp"
+            android:layout_marginBottom="@dimen/size_16dp"
+            android:background="@drawable/shape_grey_line"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#000000"
+            android:layout_toRightOf="@+id/tv"
+            tools:text="客服电话:0571-87758340"
+            android:textSize="@dimen/size_13dp"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_dialog_call_phone_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/app_front_black"
+            android:textSize="14dp" />
+    </LinearLayout>
+
+
+    <!--<View-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/app_line_size"-->
+    <!--android:background="@color/app_line_gray" />-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/tv_dialog_call_phone_cancel"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="center"-->
+    <!--android:padding="15dp"-->
+    <!--android:text="取消"-->
+    <!--android:textStyle="bold"-->
+    <!--android:textColor="#333333"-->
+    <!--android:textSize="14dp" />-->
+
+    <!--<View-->
+    <!--android:layout_width="@dimen/app_line_size"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:background="@color/app_line_gray" />-->
+
+    <!--<TextView-->
+    <!--android:textStyle="bold"-->
+    <!--android:id="@+id/tv_dialog_call_phone_sure"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="center"-->
+    <!--android:padding="15dp"-->
+    <!--android:text="确认"-->
+    <!--android:textColor="#333333"-->
+    <!--android:textSize="14dp" />-->
+
+    <!--</LinearLayout>-->
+
+</LinearLayout>

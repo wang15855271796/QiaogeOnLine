@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_color_white"
+    android:orientation="vertical">
+
+    <com.puyue.www.qiaoge.view.CompatToolbar
+        android:layout_marginTop="@dimen/size_30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/app_border_bottom_bg">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:padding="10dp"
+            android:src="@mipmap/ic_back_arrow" />
+
+        <TextView
+            android:id="@+id/tv_pp_input_phone_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="13dp"
+            android:layout_marginTop="13dp"
+            android:textColor="@color/app_top_bar_text"
+            android:textSize="18dp" />
+
+    </com.puyue.www.qiaoge.view.CompatToolbar>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="请设置支付密码"
+        android:layout_marginTop="@dimen/size_50dp"
+        android:layout_marginLeft="@dimen/size_38dp"
+        android:textColor="#333333"
+        android:textSize="24dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="请输入6~16位数字、字母密码"
+        android:layout_marginTop="@dimen/size_5dp"
+        android:layout_marginLeft="@dimen/size_38dp"
+        android:textColor="#999999"
+        android:textSize="14dp" />
+
+    <RelativeLayout
+        android:id="@+id/rl_secret"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/size_38dp"
+        android:layout_marginTop="@dimen/size_30dp"
+        android:layout_marginRight="@dimen/size_30dp"
+        android:background="@color/white">
+
+        <EditText
+            android:id="@+id/et_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="请输入支付密码"
+            android:inputType="textEmailAddress"
+            android:maxLength="16"
+            android:singleLine="true"
+            android:textColor="#999999"
+            android:textColorHint="@color/color_CACACB"
+            android:textSize="@dimen/size_18dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/et_login"
+            android:layout_marginTop="@dimen/size_5dp"
+            android:background="#EFEFEF"
+            android:orientation="vertical" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/et_login"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/size_5dp">
+
+            <ImageView
+                android:id="@+id/iv_close"
+                android:layout_width="18dp"
+                android:layout_height="12dp"
+                android:src="@mipmap/ic_login_display" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/size_38dp"
+        android:layout_marginTop="@dimen/size_30dp"
+        android:layout_marginRight="@dimen/size_30dp"
+        android:background="@color/white">
+
+        <EditText
+            android:id="@+id/et_login_sure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="请再次输入支付密码"
+            android:inputType="textEmailAddress"
+            android:maxLength="16"
+            android:singleLine="true"
+            android:textColor="#999999"
+            android:textColorHint="@color/color_CACACB"
+            android:textSize="@dimen/size_18dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/et_login_sure"
+            android:layout_marginTop="@dimen/size_5dp"
+            android:background="#EFEFEF"
+            android:orientation="vertical" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/et_login_sure"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/size_5dp">
+
+            <ImageView
+                android:id="@+id/iv_close_sure"
+                android:layout_width="18dp"
+                android:layout_height="12dp"
+                android:src="@mipmap/ic_login_display" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_next"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:layout_marginLeft="@dimen/size_38dp"
+        android:layout_marginRight="@dimen/size_38dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/shape_change_btn"
+        android:text="确定"
+        android:textColor="#333333"
+        android:textSize="14dp" />
+
+</LinearLayout>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_marginTop="@dimen/size_12dp"
+        android:id="@+id/rl_group"
+        android:layout_marginLeft="@dimen/size_12dp"
+        android:orientation="vertical"
+        android:background="@drawable/shape_white1"
+        android:layout_width="wrap_content"
+        android:layout_height="280dp">
+
+        <RelativeLayout
+            android:id="@+id/rl_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="171dp">
+
+            <com.puyue.www.qiaoge.view.RoundImageView
+                android:id="@+id/iv_pic"
+                android:scaleType="fitXY"
+                android:layout_centerHorizontal="true"
+                android:src="@mipmap/bg_emptys"
+                android:layout_width="match_parent"
+                android:layout_height="171dp" />
+
+            <TextView
+                android:id="@+id/tv_style"
+                android:text="其他信息"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_alignParentBottom="true"
+                android:textColor="#ffffff"
+                android:background="@drawable/shape_full_reds"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:textSize="@dimen/sp_14"
+            android:textColor="#333333"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_below="@+id/rl_pic"
+            android:layout_marginTop="8dp"
+            android:text="崇贤上亿官场二层真香集排破产了，低价转让了"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/ll_desc"
+            android:layout_below="@+id/tv_title"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_30dp">
+
+            <TextView
+                android:textColor="#999999"
+                android:id="@+id/tv_time"
+                android:textSize="@dimen/size_10dp"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginTop="13dp"
+                android:text="2020.12.10发布"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textColor="#FF5C00"
+                android:id="@+id/tv_num"
+                android:layout_toRightOf="@+id/tv_time"
+                android:textSize="@dimen/size_14dp"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_below="@+id/tv_title"
+                android:layout_marginTop="13dp"
+                android:text="12656"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textColor="#FF5C00"
+                android:layout_toRightOf="@+id/tv_num"
+                android:textSize="@dimen/size_10dp"
+                android:layout_below="@+id/tv_title"
+                android:layout_marginTop="13dp"
+                android:text="人看过"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_below="@+id/ll_desc"
+            android:text="地址：浙江省杭州市"
+            android:textSize="12sp"
+            android:textColor="#999999"
+            android:layout_marginTop="@dimen/size_5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</LinearLayout>

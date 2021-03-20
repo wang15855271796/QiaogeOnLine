@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:anroid="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+        android:id="@+id/rl_group"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginLeft="8dp"
+        android:layout_height="114dp">
+
+        <com.puyue.www.qiaoge.RoundImageView
+            android:id="@+id/iv_pic"
+            android:scaleType="fitXY"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_baidu"
+            android:layout_width="@dimen/size_97dp"
+            android:layout_height="@dimen/size_97dp" />
+
+
+        <TextView
+            android:textColor="#333333"
+            android:maxLines="1"
+            android:layout_toRightOf="@+id/iv_pic"
+            android:layout_marginRight="@dimen/dp_10"
+            android:id="@+id/tv_name"
+            android:layout_marginTop="@dimen/size_10dp"
+            android:layout_below="@+id/rl_pic"
+            android:ellipsize="end"
+            android:textStyle="bold"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:textSize="@dimen/sp_16"
+            tools:text="华清源腿排腿排华排..."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/tv_name"
+            android:layout_toRightOf="@+id/iv_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:textColor="#FF34CE3A"
+                android:maxLines="1"
+                android:id="@+id/tv_descs"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_marginTop="@dimen/size_26dp"
+                android:ellipsize="end"
+                android:textSize="@dimen/sp_12"
+                android:text="满赠优惠券"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="15.0"
+                android:lines="1"
+                android:ellipsize="end"
+                android:textColor="#ffffff"
+                android:id="@+id/tv_price"
+                android:textStyle="bold"
+                android:paddingTop="1dp"
+                android:gravity="center_horizontal"
+                android:paddingBottom="1dp"
+                android:background="@drawable/shape_green_full"
+                android:layout_marginTop="@dimen/size_7dp"
+                android:textSize="@dimen/size_16dp"
+                android:layout_below="@+id/tv_descs"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+        <!--优惠券-->
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/rl_coupon"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tv_name"
+            android:layout_width="@dimen/size_60dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/tv_fit"
+                android:layout_marginTop="@dimen/size_26dp"
+                android:textColor="#FFFF6006"
+                android:text="满1000"
+                android:textSize="@dimen/sp_12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_coupon"
+                android:text="1000优惠券"
+                android:lines="2"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/dp_10"
+                android:background="@mipmap/icon_full_bg"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/tv_fit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+        <!--赠礼-->
+        <RelativeLayout
+            android:id="@+id/rl_given"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.puyue.www.qiaoge.RoundImageView
+                android:id="@+id/iv_given"
+                android:layout_alignParentBottom="true"
+                android:src="@mipmap/icon_adds"
+                android:layout_width="@dimen/size_62dp"
+                android:layout_height="@dimen/size_62dp" />
+
+            <TextView
+                android:text="赠品"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_alignParentBottom="true"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/dp_10"
+                android:background="@drawable/shape_full_reds"
+                android:layout_marginTop="5dp"
+                android:paddingBottom="@dimen/size_2dp"
+                android:paddingTop="@dimen/size_2dp"
+                android:paddingLeft="@dimen/dp_4"
+                android:paddingRight="@dimen/size_4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>

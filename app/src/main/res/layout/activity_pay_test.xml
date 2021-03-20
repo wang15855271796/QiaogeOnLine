@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_color_white"
+    android:orientation="vertical">
+
+    <com.puyue.www.qiaoge.view.CompatToolbar
+        android:layout_marginTop="@dimen/size_30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/app_border_bottom_bg">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:padding="10dp"
+            android:src="@mipmap/ic_back_arrow" />
+
+        <TextView
+            android:id="@+id/tv_pp_input_phone_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="13dp"
+            android:layout_marginTop="13dp"
+            android:textColor="@color/app_top_bar_text"
+            android:textSize="18dp" />
+
+    </com.puyue.www.qiaoge.view.CompatToolbar>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="支付密码验证"
+        android:layout_marginTop="@dimen/size_50dp"
+        android:layout_marginLeft="@dimen/size_38dp"
+        android:textColor="#333333"
+        android:textSize="24dp" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        >
+
+        <EditText
+            android:hint="请输入您的支付密码"
+            android:id="@+id/et_pay"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_50dp"
+            android:background="@null"
+            android:inputType="textEmailAddress"
+            android:maxLength="16"
+            android:layout_marginLeft="@dimen/size_38dp"
+            android:textColor="#232131"
+            android:textColorHint="#D5D5D5"
+            android:textSize="21dp" />
+
+        <View
+            android:layout_below="@+id/et_pay"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_line_size"
+            android:layout_marginLeft="@dimen/size_38dp"
+            android:layout_marginRight="@dimen/size_38dp"
+            android:background="#E5E5E5" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_next"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:layout_marginLeft="@dimen/size_38dp"
+        android:layout_marginRight="@dimen/size_38dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/shape_change_btn"
+        android:text="下一步"
+        android:textColor="#333333"
+        android:textSize="14dp" />
+
+
+</LinearLayout>

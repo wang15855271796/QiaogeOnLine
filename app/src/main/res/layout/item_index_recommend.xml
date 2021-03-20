@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="@dimen/size_10dp"
+    android:layout_height="@dimen/size_20dp">
+
+    <RelativeLayout
+        android:layout_marginLeft="@dimen/size_12dp"
+        android:background="@drawable/shape_reds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="梭子"
+            android:id="@+id/tv_good"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            android:alpha="10"
+            android:layout_marginLeft="@dimen/size_10dp"
+            android:layout_gravity="center_vertical"
+            android:paddingRight="@dimen/size_10dp"
+            android:paddingBottom="@dimen/size_2dp"
+            android:paddingTop="@dimen/size_2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+
+</LinearLayout>

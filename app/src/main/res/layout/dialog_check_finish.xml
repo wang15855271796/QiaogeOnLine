@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/app_my_wallet_bg"
+    android:orientation="vertical"
+    android:layout_marginLeft="@dimen/size_30dp"
+    android:layout_marginRight="@dimen/size_30dp"
+    android:layout_gravity="center"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="更换成功"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:textSize="16dp" />
+
+    <TextView
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/size_20dp"
+        android:text="手机号修改成功"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/size_5dp"
+        android:text="下次可使用该手机号登录"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <View
+        android:layout_marginTop="@dimen/size_20dp"
+        android:layout_width="match_parent"
+        android:background="#D1D1D1"
+        android:layout_height="0.5dp"/>
+
+    <TextView
+        android:id="@+id/tv_next"
+        android:text="下一步，设置密码"
+        android:textColor="#FF680A"
+        android:textSize="@dimen/size_18dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

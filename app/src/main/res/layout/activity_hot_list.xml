@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/shape_white1"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/ll_cart_order"
+        android:layout_width="match_parent"
+        android:layout_height="165dp"
+        android:background="@mipmap/hot_background"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:padding="@dimen/size_5dp"
+                android:src="@mipmap/qg_cart_back"
+                android:layout_marginLeft="@dimen/size_15dp"
+                android:layout_marginTop="@dimen/size_32dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:src="@mipmap/ic_home_good_cart"
+                android:id="@+id/iv_carts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="23dp"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/size_40dp"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tv_num"
+                android:layout_width="15dp"
+
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="@dimen/size_35dp"
+                android:background="@drawable/shape_car_num"
+                android:gravity="center"
+                android:text="99"
+                android:textColor="@color/white"
+                android:textSize="7dp" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_below="@+id/rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="热销榜单"
+                android:id="@+id/tv"
+                android:layout_marginTop="@dimen/size_16dp"
+                android:layout_marginLeft="@dimen/size_16dp"
+                android:textStyle="bold"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/size_24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textColor="#ffffff"
+                android:layout_marginTop="@dimen/size_2dp"
+                android:layout_marginLeft="@dimen/size_16dp"
+                android:layout_below="@+id/tv"
+                android:text="排名依据商品销量每周更新"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_below="@+id/tv_city"
+                android:layout_centerVertical="true"
+                android:id="@+id/tv_search"
+                android:layout_marginRight="@dimen/size_16dp"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:paddingRight="@dimen/size_25dp"
+                android:paddingLeft="@dimen/size_25dp"
+                android:layout_height="@dimen/size_33dp"
+                android:background="@drawable/shape_goods_progress_fill"
+                android:drawableRight="@mipmap/ic_market_search"
+                android:paddingTop="8dp"
+                android:drawablePadding="@dimen/size_15dp"
+                android:paddingBottom="8dp"
+                android:text="请搜索"
+                android:textColor="#666666"
+                android:textSize="@dimen/size_14dp" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.scwang.smartrefresh.header.MaterialHeader
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="?attr/actionBarSize"/>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</LinearLayout>

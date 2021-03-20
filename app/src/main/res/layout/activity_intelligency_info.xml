@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootview"
+    android:background="#f8f8f8"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/white">
+
+    </LinearLayout>
+
+    <com.puyue.www.qiaoge.view.CompatToolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <ImageView
+                    android:id="@+id/iv_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="7dp"
+                    android:padding="10dp"
+                    android:src="@mipmap/ic_back_arrow" />
+
+                <TextView
+                    android:text="资质证书"
+                    android:id="@+id/tv_activity_goods_list_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:textColor="@color/app_top_bar_text"
+                    android:textSize="18dp" />
+
+
+                <RelativeLayout
+                    android:visibility="gone"
+                    android:id="@+id/rl_good_cart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/size_10dp">
+
+
+                    <ImageView
+                        android:id="@+id/iv_cart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/ic_home_good_cart" />
+
+                    <com.puyue.www.qiaoge.view.SuperTextView
+                        android:id="@+id/text_cart_num"
+                        android:layout_width="@dimen/size_13dp"
+                        android:layout_height="@dimen/size_13dp"
+                        android:layout_toRightOf="@id/iv_cart"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="@color/white"
+                        android:textSize="9dp"
+                        android:visibility="gone"
+                        app:corner="7.5dp"
+                        app:solid="#ff0000" />
+
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+    </com.puyue.www.qiaoge.view.CompatToolbar>
+
+    <ScrollView
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/ll_cer"
+            android:orientation="vertical"
+            android:background="#F5F5F5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="营业执照"
+                android:textStyle="bold"
+                android:textColor="#333333"
+                android:layout_marginTop="@dimen/size_24dp"
+                android:textSize="@dimen/size_18dp"
+                android:layout_marginLeft="@dimen/size_15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/sp_16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="所在地区"
+                    android:textColor="#666666"
+                    android:layout_marginLeft="@dimen/size_15dp"
+                    android:textSize="@dimen/sp_14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_area"
+                    tools:text="复仇者"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textColor="#999999"
+                    android:layout_marginLeft="95dp"
+                    android:layout_marginRight="@dimen/size_15dp"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/sp_12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/sp_16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="有效期"
+                    android:textColor="#666666"
+                    android:layout_marginLeft="@dimen/size_15dp"
+                    android:textSize="@dimen/sp_14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    tools:text="复仇者"
+                    android:id="@+id/tv_date"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textColor="#999999"
+                    android:layout_marginLeft="95dp"
+                    android:layout_marginRight="@dimen/size_15dp"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/sp_12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/sp_16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="营业执照"
+                    android:textColor="#666666"
+                    android:layout_marginLeft="@dimen/size_15dp"
+                    android:textSize="@dimen/sp_14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/iv_licence"
+                android:layout_marginTop="@dimen/size_20dp"
+                android:layout_marginLeft="@dimen/size_15dp"
+                android:layout_marginRight="@dimen/size_15dp"
+                android:src="@mipmap/ic_splash_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_marginRight="@dimen/size_15dp"
+                android:layout_marginLeft="@dimen/size_15dp"
+                android:layout_marginTop="@dimen/dp_10"
+                android:text="注：以上营业执照信息，根据国家工商总局《网络交易管理办法》要求对入驻商家营业执照信息进行公示，除公司名称已通过认证之外，其余信息由卖家自行申报填写。如需进一步核实，请联系当地工商行政管理部门。"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="食品流通（经营）许可证"
+                android:textStyle="bold"
+                android:textColor="#333333"
+                android:layout_marginTop="@dimen/size_24dp"
+                android:textSize="@dimen/size_18dp"
+                android:layout_marginLeft="@dimen/size_15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/sp_16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="有效期"
+                    android:textColor="#666666"
+                    android:layout_marginLeft="@dimen/size_15dp"
+                    android:textSize="@dimen/sp_14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    tools:text="复仇者"
+                    android:id="@+id/tv_business_date"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textColor="#999999"
+                    android:layout_marginLeft="95dp"
+                    android:layout_marginRight="@dimen/size_15dp"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/sp_12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/sp_16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="照片"
+                    android:textColor="#666666"
+                    android:layout_marginLeft="@dimen/size_15dp"
+                    android:textSize="@dimen/sp_14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/iv_food_licence"
+                android:layout_marginTop="@dimen/size_20dp"
+                android:layout_marginLeft="@dimen/size_15dp"
+                android:layout_marginRight="@dimen/size_15dp"
+                android:src="@mipmap/ic_splash_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

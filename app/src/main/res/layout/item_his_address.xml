@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/size_8dp"
+        android:layout_marginRight="@dimen/size_8dp"
+        android:background="@drawable/shape_white1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            tools:text="哈哈哈"
+            android:id="@+id/tv_address"
+            android:textColor="#333333"
+            android:layout_marginRight="@dimen/size_45dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/size_13dp"
+            android:textSize="@dimen/sp_16"
+            android:paddingTop="@dimen/size_12dp"
+            android:paddingBottom="@dimen/size_12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:enabled="false"
+            android:clickable="false"
+            android:id="@+id/iv_choose"
+            android:button="@color/white"
+            android:layout_marginRight="@dimen/size_13dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/checkbox_no"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+</LinearLayout>

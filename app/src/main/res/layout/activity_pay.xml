@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_color_white"
+    android:orientation="vertical">
+
+    <com.puyue.www.qiaoge.view.CompatToolbar
+        android:layout_marginTop="@dimen/size_30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/app_border_bottom_bg">
+
+        <ImageView
+            android:id="@+id/iv_pp_input_phone_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:padding="10dp"
+            android:src="@mipmap/ic_back_arrow" />
+
+        <TextView
+            android:id="@+id/tv_pp_input_code_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="13dp"
+            android:layout_marginTop="13dp"
+            android:textColor="@color/app_top_bar_text"
+            android:textSize="18dp" />
+
+    </com.puyue.www.qiaoge.view.CompatToolbar>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="修改支付密码"
+        android:layout_marginTop="@dimen/size_50dp"
+        android:layout_marginLeft="@dimen/size_38dp"
+        android:textColor="#333333"
+        android:textSize="24dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="为保护帐号安全需对现在绑定的号码进行验证"
+        android:layout_marginTop="@dimen/size_5dp"
+        android:layout_marginLeft="@dimen/size_38dp"
+        android:textColor="#999999"
+        android:textSize="14dp" />
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        >
+
+        <TextView
+            android:id="@+id/tv_phone"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_50dp"
+            android:background="@null"
+            android:layout_marginLeft="@dimen/size_38dp"
+            android:textColor="#232131"
+            android:textColorHint="#D5D5D5"
+            android:textSize="21dp" />
+
+        <View
+            android:layout_below="@+id/tv_phone"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_line_size"
+            android:layout_marginLeft="@dimen/size_38dp"
+            android:layout_marginRight="@dimen/size_38dp"
+            android:background="#E5E5E5" />
+
+        <RelativeLayout
+            android:id="@+id/rl"
+            android:layout_below="@+id/tv_phone"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_50dp">
+
+            <EditText
+                android:id="@+id/et_yzm"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_50dp"
+                android:background="@null"
+                android:inputType="number"
+                android:maxLength="6"
+                android:paddingLeft="38dp"
+                android:textColor="#232131"
+                android:textColorHint="#D5D5D5"
+                android:textSize="21dp" />
+
+            <TextView
+                android:text="获取验证码"
+                android:id="@+id/tv_yzm"
+                android:layout_alignParentBottom="true"
+                android:textColor="#333333"
+                android:paddingTop="@dimen/size_11dp"
+                android:paddingBottom="@dimen/size_11dp"
+                android:paddingLeft="@dimen/size_22dp"
+                android:paddingRight="@dimen/size_22dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/size_38dp"
+                android:background="@drawable/shape_change_grey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+
+        <View
+            android:layout_width="151dp"
+            android:layout_below="@+id/rl"
+            android:layout_height="@dimen/app_line_size"
+            android:layout_marginLeft="@dimen/size_38dp"
+            android:background="#E5E5E5" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_next"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:layout_marginLeft="@dimen/size_38dp"
+        android:layout_marginRight="@dimen/size_38dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/shape_change_btn"
+        android:text="下一步"
+        android:textColor="#333333"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/tv_stop"
+        android:text="手机号已停用>"
+        android:textSize="@dimen/sp_14"
+        android:textColor="#333333"
+        android:paddingTop="@dimen/size_30dp"
+        android:drawablePadding="@dimen/size_10dp"
+        android:paddingLeft="@dimen/size_38dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

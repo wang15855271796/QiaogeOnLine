@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_marginTop="@dimen/size_8dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/rl_group"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+
+        <com.puyue.www.qiaoge.RoundImageView
+            android:id="@+id/iv_pic"
+            android:layout_marginLeft="@dimen/size_8dp"
+            tools:src="@mipmap/bg_emptys"
+            android:scaleType="fitXY"
+            android:layout_width="121dp"
+            android:layout_height="121dp" />
+
+        <RelativeLayout
+            android:layout_toRightOf="@+id/iv_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="121dp">
+
+            <TextView
+                android:visibility="gone"
+                android:layout_centerHorizontal="true"
+                android:textColor="#333333"
+                android:maxLines="1"
+                android:layout_marginRight="@dimen/dp_10"
+                android:id="@+id/tv_name"
+                android:layout_marginTop="@dimen/size_10dp"
+                android:layout_below="@+id/rl_pic"
+                android:ellipsize="end"
+                android:textSize="@dimen/sp_12"
+                tools:text="华清源腿排腿排华排..."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="15.0000"
+                android:textColor="#ffffff"
+                android:lines="1"
+                android:ellipsize="end"
+                android:id="@+id/tv_price"
+                android:background="@drawable/shape_greenss"
+                android:paddingRight="@dimen/size_8dp"
+                android:paddingLeft="@dimen/size_8dp"
+                android:layout_marginTop="@dimen/size_25dp"
+                android:layout_centerHorizontal="true"
+                android:textSize="@dimen/size_12dp"
+                android:layout_below="@+id/tv_name"
+                android:layout_width="@dimen/size_60dp"
+                android:layout_height="wrap_content" />
+
+            <com.puyue.www.qiaoge.RoundImageView
+                android:visibility="gone"
+                android:layout_centerHorizontal="true"
+                android:src="@mipmap/icon_baidu"
+                android:id="@+id/iv_given"
+                android:scaleType="fitXY"
+                android:layout_marginRight="@dimen/size_5dp"
+                android:layout_marginLeft="@dimen/size_8dp"
+                android:layout_marginTop="@dimen/size_25dp"
+                android:layout_below="@+id/tv_price"
+                android:layout_width="@dimen/size_60dp"
+                android:layout_height="@dimen/size_60dp" />
+
+            <TextView
+                android:text="赠礼"
+                android:visibility="gone"
+                android:paddingLeft="@dimen/size_5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="@dimen/size_2dp"
+                android:paddingBottom="@dimen/size_2dp"
+                android:background="@drawable/shape_full_reds"
+                android:layout_marginLeft="@dimen/size_18dp"
+                android:layout_alignBottom="@+id/iv_given"
+                android:textSize="@dimen/size_10dp"
+                android:textColor="#ffffff"
+                android:id="@+id/tv_full_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:layout_marginRight="@dimen/size_12dp"
+                android:layout_marginLeft="@dimen/size_12dp"
+                android:layout_width="@dimen/size_60dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/tv_fit"
+                    android:layout_marginTop="72dp"
+                    android:textColor="#FFFF6006"
+                    android:text="满10000"
+                    android:textSize="@dimen/sp_12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:lines="2"
+                    android:ellipsize="end"
+                    android:text="送100元"
+                    android:id="@+id/tv_coupon"
+                    android:paddingRight="@dimen/size_3dp"
+                    android:paddingLeft="@dimen/size_3dp"
+                    android:layout_marginTop="@dimen/size_2dp"
+                    android:layout_below="@+id/tv_fit"
+                    android:gravity="center"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/dp_10"
+                    android:background="@mipmap/icon_full_bg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+
+
+</LinearLayout>

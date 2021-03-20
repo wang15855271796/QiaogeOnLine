@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/rl_group"
+        android:layout_margin="@dimen/size_12dp"
+        android:background="@drawable/shape_white1"
+        android:layout_width="match_parent"
+        android:padding="@dimen/size_12dp"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/rl_pic"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <ImageView
+                android:visibility="gone"
+                android:layout_centerInParent="true"
+                android:id="@+id/iv_sale_done"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:id="@+id/rl_coupon"
+                android:background="@drawable/shape_ring"
+                android:layout_width="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="70dp"
+                android:layout_marginRight="15dp"
+                android:layout_height="30dp"
+                >
+
+                <TextView
+                    tools:text="30"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/tv_coupon"
+                    android:textSize="9dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_back_arrow" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/iv_flag"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/iv_pic"
+            tools:src="@mipmap/icon_baidu"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_width="@dimen/size_92dp"
+            android:layout_height="@dimen/size_92dp" />
+
+
+        <TextView
+            android:textColor="#333333"
+            android:maxLines="1"
+            android:layout_toRightOf="@+id/iv_pic"
+            android:layout_marginRight="@dimen/dp_10"
+            android:id="@+id/tv_name"
+            android:layout_marginTop="@dimen/size_10dp"
+            android:layout_below="@+id/rl_pic"
+            android:ellipsize="end"
+            android:textStyle="bold"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:textSize="@dimen/sp_16"
+            tools:text="华清源腿排腿排华排..."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_full_desc"
+            android:background="@drawable/shape_green_button"
+            android:textColor="#F54022"
+            android:padding="@dimen/size_2dp"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:layout_marginRight="@dimen/size_15dp"
+            android:ellipsize="end"
+            android:textSize="@dimen/size_10dp"
+            android:layout_marginTop="@dimen/size_10dp"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_toRightOf="@+id/iv_pic"
+            android:layout_below="@+id/tv_name"
+            tools:text="满200元赠送10元优惠券"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="15.0"
+            android:textColor="#F54022"
+            android:id="@+id/tv_price"
+            android:textStyle="bold"
+            android:layout_toRightOf="@+id/iv_pic"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:textSize="@dimen/size_24dp"
+            android:layout_below="@+id/tv_full_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_ok"
+            android:text="马上抢购"
+            android:padding="5dp"
+            android:textColor="#F42727"
+            android:layout_below="@+id/tv_full_desc"
+            android:background="@drawable/shape_white_home1"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+</LinearLayout>

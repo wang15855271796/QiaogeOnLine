@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#f9f9f9"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/rl_driver"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:background="@drawable/shouye"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+
+            <TextView
+                android:id="@+id/tv_phone"
+                android:textStyle="bold"
+                android:textSize="@dimen/sp_14"
+                android:textColor="#333333"
+                android:paddingBottom="@dimen/size_5dp"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                tools:text="司机已发货1875522255"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_no"
+                android:paddingTop="5dp"
+                android:textSize="@dimen/size_11dp"
+                android:textColor="#666666"
+                android:layout_below="@+id/tv_phone"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                tools:text="司机已发货1875522255"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:paddingTop="5dp"
+                android:id="@+id/tv_date"
+                android:layout_toRightOf="@+id/tv_no"
+                android:textSize="@dimen/size_11dp"
+                android:textColor="#666666"
+                android:layout_below="@+id/tv_phone"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                tools:text="2019.1.1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+
+                android:id="@+id/iv_icon"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/icon_distribution"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+    
+    <RelativeLayout
+        android:layout_marginRight="@dimen/size_12dp"
+        android:layout_marginLeft="@dimen/size_12dp"
+        android:background="@drawable/shape_white1"
+        android:layout_width="match_parent"
+        android:layout_height="75dp">
+
+        <TextView
+            android:id="@+id/tv_order_state"
+            android:text="订单待支付"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:textSize="@dimen/sp_16"
+            android:layout_marginLeft="@dimen/size_15dp"
+            android:layout_marginTop="@dimen/size_16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="12:00下单"
+            android:id="@+id/tv_time"
+            android:layout_marginTop="@dimen/public_space_value_1"
+            android:layout_marginLeft="@dimen/size_15dp"
+            android:layout_below="@+id/tv_order_state"
+            android:textSize="@dimen/sp_12"
+            android:textColor="#666666"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="#666666"
+            android:id="@+id/tv_pay"
+            android:layout_marginTop="@dimen/public_space_value_1"
+            android:layout_toRightOf="@+id/tv_time"
+            android:layout_marginLeft="@dimen/size_5dp"
+            android:layout_below="@+id/tv_order_state"
+            android:textSize="@dimen/sp_12"
+            android:textColor="#666666"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="12.52"
+            android:id="@+id/tv_unpay"
+            android:visibility="gone"
+            android:paddingBottom="@dimen/size_3dp"
+            android:paddingTop="@dimen/size_3dp"
+            android:paddingRight="@dimen/dp_10"
+            android:paddingLeft="@dimen/dp_10"
+            android:textColor="#ffffff"
+            android:background="@drawable/shape_red_orders"
+            android:textSize="@dimen/sp_14"
+            android:layout_marginRight="@dimen/size_13dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            android:text="查看"
+            android:id="@+id/tv_look"
+            android:visibility="gone"
+            android:paddingBottom="@dimen/size_3dp"
+            android:paddingTop="@dimen/size_3dp"
+            android:paddingRight="@dimen/dp_10"
+            android:paddingLeft="@dimen/dp_10"
+            android:textColor="#FF2925"
+            android:background="@drawable/shape_white_reds"
+            android:textSize="@dimen/sp_14"
+            android:layout_marginRight="@dimen/size_13dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.puyue.www.qiaoge.view.SnapUpCountDownTimerViews
+            android:layout_alignParentRight="true"
+            android:id="@+id/snap"
+            android:visibility="gone"
+            android:background="@drawable/shape_red_orders"
+            android:layout_marginRight="@dimen/size_13dp"
+            android:layout_centerVertical="true"
+            android:paddingRight="@dimen/dp_10"
+            android:paddingLeft="@dimen/dp_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </com.puyue.www.qiaoge.view.SnapUpCountDownTimerViews>
+    </RelativeLayout>
+</LinearLayout>

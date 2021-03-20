@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.puyue.www.qiaoge.view.SearchViews
+        android:id="@+id/searchView"
+        android:layout_marginTop="@dimen/size_30dp"
+        android:layout_gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_60dp">
+
+    </com.puyue.www.qiaoge.view.SearchViews>
+
+    <android.support.v7.widget.RecyclerView
+        android:visibility="gone"
+        android:id="@+id/search_recycleView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f8f8f8" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="搜索历史"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:layout_marginTop="27dp"
+            android:textStyle="bold"
+            android:layout_marginLeft="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/iv_clear"
+            android:layout_marginTop="27dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:layout_marginRight="12dp"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/icon_clear_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+
+
+    <com.puyue.www.qiaoge.activity.flow.TagFlowLayout
+        android:id="@+id/fl_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        app:is_limit="true"
+        app:limit_line_count="2"
+        app:max_select="1">
+
+    </com.puyue.www.qiaoge.activity.flow.TagFlowLayout>
+
+    <TextView
+        android:id="@+id/tv_arrow"
+        android:text="查看更多"
+        android:layout_marginTop="@dimen/dp_10"
+        android:textColor="#333333"
+        android:textSize="16sp"
+        android:visibility="gone"
+        android:drawablePadding="@dimen/dp_10"
+        android:drawableRight="@mipmap/icon_arrow_down"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+
+    <com.puyue.www.qiaoge.view.LineBreakLayout
+        android:visibility="gone"
+        android:id="@+id/tv_item_search_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textSpe"
+        android:layout_alignLeft="@+id/textSpe"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:layout_marginRight="@dimen/size_15dp"
+        android:padding="@dimen/size_5dp"
+        android:paddingBottom="@dimen/size_5dp"
+        app:grivate="left"
+        app:horizontal_Space="@dimen/size_10dp"
+        app:isFull="false"
+        app:vertical_Space="10dp" />
+
+    <TextView
+        android:text="猜你想找"
+        android:textColor="#333333"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_marginTop="27dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>
