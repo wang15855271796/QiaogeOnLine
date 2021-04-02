@@ -133,7 +133,7 @@ public class CommonProductActivity extends BaseSwipeActivity implements View.OnC
 
             @Override
             public void tipClick() {
-                showPhoneDialog(cell);
+                AppHelper.ShowAuthDialog(mActivity,cell);
             }
         });
         refreshLayout.setEnableLoadMore(false);

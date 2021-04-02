@@ -47,7 +47,7 @@
                             android:layout_height="@dimen/size_50dp">
 
                             <TextView
-                                android:text="自营商品"
+                                android:text="包裹1"
                                 android:textColor="#343434"
                                 android:textStyle="bold"
                                 android:layout_centerVertical="true"
@@ -57,6 +57,7 @@
                                 android:layout_height="wrap_content" />
 
                             <ImageView
+                                android:visibility="gone"
                                 android:id="@+id/iv_operate_pic"
                                 android:layout_toRightOf="@+id/tv_operate_title"
                                 tools:src="@mipmap/icon_next"
@@ -67,7 +68,9 @@
 
                             <TextView
                                 android:id="@+id/tv_operate"
-                                android:layout_alignParentBottom="true"
+                                android:layout_marginRight="@dimen/dp_10"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
                                 android:textColor="#F56E24"
                                 android:textSize="@dimen/dp_10"
                                 tools:text="现在下单，预计明天日(9月19日)开始配送"
@@ -103,7 +106,7 @@
                             android:layout_height="@dimen/size_50dp">
 
                             <TextView
-                                android:text="非自营商品"
+                                android:text="包裹2"
                                 android:textColor="#343434"
                                 android:textStyle="bold"
                                 android:layout_centerVertical="true"
@@ -114,6 +117,7 @@
 
                             <ImageView
                                 android:id="@+id/iv_pic"
+                                android:visibility="gone"
                                 android:layout_toRightOf="@+id/tv_title"
                                 tools:src="@mipmap/icon_after_next"
                                 android:layout_centerVertical="true"
@@ -122,8 +126,10 @@
                                 android:layout_height="wrap_content" />
 
                             <TextView
+                                android:layout_marginRight="@dimen/dp_10"
+                                android:layout_centerVertical="true"
+                                android:layout_alignParentRight="true"
                                 android:id="@+id/tv_unOperate"
-                                android:layout_alignParentBottom="true"
                                 android:textColor="#F56E24"
                                 android:textSize="@dimen/dp_10"
                                 tools:text="现在下单，预计明天日(9月19日)开始配送"

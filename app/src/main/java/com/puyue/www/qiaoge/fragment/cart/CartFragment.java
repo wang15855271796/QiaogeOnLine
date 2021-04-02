@@ -126,6 +126,8 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
     LinearLayout ll_go_market;
     @BindView(R.id.ll_service)
     LinearLayout ll_service;
+    @BindView(R.id.tv_free_tip)
+    TextView tv_free_tip;
     @BindView(R.id.tv_price_desc)
     TextView tv_price_desc;
     @BindView(R.id.rv_unable)
@@ -837,8 +839,10 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
             double result = Double.parseDouble(String.format("%.2f", diff));
             tv_price_desc.setText(""+result);
             ll_service.setVisibility(View.VISIBLE);
+            tv_free_tip.setVisibility(View.GONE);
         }else {
             ll_service.setVisibility(View.GONE);
+            tv_free_tip.setVisibility(View.VISIBLE);
         }
 
     }
@@ -1127,7 +1131,8 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
 
                                     @Override
                                     public void tipClick() {
-                                        showPhoneDialog(cell);
+//                                        showPhoneDialog(cell);
+                                        AppHelper.ShowAuthDialog(mActivity,cell);
                                     }
                                 });
 

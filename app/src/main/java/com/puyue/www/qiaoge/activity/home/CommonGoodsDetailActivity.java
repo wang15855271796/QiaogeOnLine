@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -35,6 +36,7 @@ import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.CartActivity;
+import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.IntelliGencyInfoActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.activity.mine.login.RegisterActivity;
@@ -49,6 +51,7 @@ import com.puyue.www.qiaoge.api.home.ClickCollectionAPI;
 import com.puyue.www.qiaoge.api.home.GetAllCommentListByPageAPI;
 import com.puyue.www.qiaoge.api.home.GetProductDetailAPI;
 import com.puyue.www.qiaoge.api.home.GetRegisterShopAPI;
+import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.api.home.UpdateUserInvitationAPI;
 import com.puyue.www.qiaoge.api.mine.GetShareInfoAPI;
 import com.puyue.www.qiaoge.banner.Banner;
@@ -56,8 +59,10 @@ import com.puyue.www.qiaoge.banner.BannerConfig;
 import com.puyue.www.qiaoge.banner.GlideImageLoader;
 import com.puyue.www.qiaoge.banner.Transformer;
 import com.puyue.www.qiaoge.banner.listener.OnBannerListener;
+import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
+import com.puyue.www.qiaoge.dialog.AuthDialog;
 import com.puyue.www.qiaoge.dialog.ChooseDialog;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
 import com.puyue.www.qiaoge.dialog.FullDialog;
@@ -65,6 +70,7 @@ import com.puyue.www.qiaoge.dialog.PromoteDialog;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.fragment.cart.NumEvent;
 import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
+import com.puyue.www.qiaoge.fragment.home.CityEvent;
 import com.puyue.www.qiaoge.fragment.mine.IntelliGencyActivity;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.CollapsingToolbarLayoutStateHelper;
@@ -74,6 +80,7 @@ import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.listener.OnItemClickListener;
+import com.puyue.www.qiaoge.model.OrderModel;
 import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
 import com.puyue.www.qiaoge.model.home.ChoiceSpecModel;
 import com.puyue.www.qiaoge.model.home.ClickCollectionModel;
@@ -542,7 +549,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("wdasaaaaaaa.....",e.getMessage());
+
                     }
 
                     @Override
@@ -564,9 +571,8 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                             }else {
                                 tv_date.setText(models.getData().getSendTimeStr());
                                 tv_date.setVisibility(View.VISIBLE);
-                                Log.d("afsdfdsfds....",models.getData().getSendTimeStr()+"ss");
                             }
-                            Log.d("wdasdqwdd......","111");
+
                             Glide.with(mContext).load(models.getData().getSelfProd()).into(iv3);
                             Glide.with(mContext).load(models.getData().getSelfProd()).into(iv2);
                             if("自营商品".equals(model.getData().getCompanyName())) {
@@ -603,7 +609,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                                     startActivity(messageIntent);
                                 }
                             });
-                            Log.d("wdsaaaaaaaa....","123");
+
                             if(priceType.equals("1")) {
                                 mTvPrice.setText(model.getData().getMinMaxPrice());
                                 mTvPrice.setVisibility(View.VISIBLE);
@@ -612,11 +618,13 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                                 mTvPrice.setVisibility(View.GONE);
                                 tv_price.setVisibility(View.VISIBLE);
                             }
-                            Log.d("wdsaaaaaaaa....","123456");
+
                             tv_price.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    showPhoneDialog(cell);
+                                    AppHelper.ShowAuthDialog(mActivity,cell);
+//                                    ShowAuthDialog();
+
                                 }
                             });
                             if(model.getData().getTypeUrl()==null||model.getData().getTypeUrl().equals("")) {
@@ -682,6 +690,79 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                             mListDetailImage.clear();
                         } else {
                             ToastUtil.showErroMsg(mActivity,model.getMessage());
+                        }
+                    }
+                });
+    }
+
+    TextView tv_sure;
+    TextView tv_cancel;
+    TextView tv_get;
+    EditText et_authprize;
+    private void ShowAuthDialog() {
+        mDialog = new AlertDialog.Builder(mContext).create();
+        mDialog.show();
+        Window window = mDialog.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
+                | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+        mDialog.getWindow().setContentView(R.layout.dialog_authorize);
+        tv_sure = mDialog.getWindow().findViewById(R.id.tv_sure);
+        tv_cancel = mDialog.getWindow().findViewById(R.id.tv_cancel);
+        tv_get = mDialog.getWindow().findViewById(R.id.tv_get);
+        et_authprize = mDialog.getWindow().findViewById(R.id.et_authprize);
+        mDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        tv_get.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPhoneDialog(cell);
+            }
+        });
+
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getCode(et_authprize.getText().toString());
+            }
+        });
+    }
+
+
+    /**
+     * 获取授权码
+     */
+    private void getCode(String code) {
+        IndexHomeAPI.getCode(mActivity,code)
+                .subscribeOn(Schedulers.io())
+                .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel indexInfoModel) {
+                        if (indexInfoModel.success) {
+                            ToastUtil.showSuccessMsg(mContext,indexInfoModel.message);
+                            Intent intent = new Intent(mContext,HomeActivity.class);//跳回首页
+                            startActivity(intent);
+                            EventBus.getDefault().post(new CityEvent());
+                        }else {
+                            ToastUtil.showSuccessMsg(mContext,indexInfoModel.message);
                         }
                     }
                 });

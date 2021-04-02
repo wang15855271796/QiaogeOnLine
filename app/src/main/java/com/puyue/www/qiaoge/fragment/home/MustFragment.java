@@ -139,7 +139,8 @@ public class MustFragment extends BaseFragment {
 
             @Override
             public void tipClick() {
-                showPhoneDialog(cell);
+//                showPhoneDialog(cell);
+                AppHelper.ShowAuthDialog(mActivity,cell);
             }
         });
         recyclerView.setLayoutManager(new GridLayoutManager(mActivity,2));

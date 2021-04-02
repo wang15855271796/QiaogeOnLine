@@ -170,6 +170,8 @@ public class CartActivity extends BaseSwipeActivity implements View.OnClickListe
     TextView tv_time_unOperate;
     @BindView(R.id.smart)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.tv_free_tip)
+    TextView tv_free_tip;
     ImageView iv_head;
     TextView tv_title;
     TextView tv_search;
@@ -829,7 +831,9 @@ public class CartActivity extends BaseSwipeActivity implements View.OnClickListe
             double result = Double.parseDouble(String.format("%.2f", diff));
             tv_price_desc.setText(""+result);
             ll_service.setVisibility(View.VISIBLE);
+            tv_free_tip.setVisibility(View.GONE);
         }else {
+            tv_free_tip.setVisibility(View.VISIBLE);
             ll_service.setVisibility(View.GONE);
         }
 
@@ -1113,7 +1117,8 @@ public class CartActivity extends BaseSwipeActivity implements View.OnClickListe
 
                                     @Override
                                     public void tipClick() {
-                                        showPhoneDialog(cell);
+//                                        showPhoneDialog(cell);
+                                        AppHelper.ShowAuthDialog(mActivity,cell);
                                     }
                                 });
 

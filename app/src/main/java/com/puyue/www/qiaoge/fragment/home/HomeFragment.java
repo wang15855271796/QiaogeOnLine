@@ -1371,7 +1371,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
             @Override
             public void tipClick() {
-                showPhoneDialog(cell);
+//                showPhoneDialog(cell);
+                AppHelper.ShowAuthDialog(mActivity,cell);
             }
         });
     }

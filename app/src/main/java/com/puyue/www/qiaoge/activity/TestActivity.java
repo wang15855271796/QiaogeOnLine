@@ -57,6 +57,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -84,6 +85,7 @@ import com.puyue.www.qiaoge.activity.mine.order.MyOrdersActivity;
 import com.puyue.www.qiaoge.activity.mine.order.NewOrderDetailActivity;
 import com.puyue.www.qiaoge.activity.mine.order.SelfSufficiencyOrderDetailActivity;
 
+import com.puyue.www.qiaoge.adapter.FirstAdapter;
 import com.puyue.www.qiaoge.adapter.MyAdapter;
 import com.puyue.www.qiaoge.adapter.home.SearchReasultAdapter;
 import com.puyue.www.qiaoge.adapter.home.SearchResultAdapter;
@@ -99,6 +101,8 @@ import com.puyue.www.qiaoge.api.home.ClickCollectionAPI;
 import com.puyue.www.qiaoge.api.home.GetAllCommentListByPageAPI;
 import com.puyue.www.qiaoge.api.home.GetProductDetailAPI;
 import com.puyue.www.qiaoge.api.home.UpdateUserInvitationAPI;
+import com.puyue.www.qiaoge.api.market.ClassIfyModel;
+import com.puyue.www.qiaoge.api.market.MarketGoodsClassifyAPI;
 import com.puyue.www.qiaoge.api.mine.AccountCenterAPI;
 import com.puyue.www.qiaoge.api.mine.GetShareInfoAPI;
 import com.puyue.www.qiaoge.api.mine.GetWalletAmountAPI;
@@ -119,6 +123,7 @@ import com.puyue.www.qiaoge.helper.CollapsingToolbarLayoutStateHelper;
 import com.puyue.www.qiaoge.helper.FVHelper;
 import com.puyue.www.qiaoge.helper.PublicRequestHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
+import com.puyue.www.qiaoge.helper.TwoDeviceHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.cart.AddCartModel;
@@ -183,22 +188,11 @@ import static com.umeng.socialize.utils.ContextUtil.getContext;
  * Created by ${王涛} on 2019/9/29
  */
 public class TestActivity extends BaseActivity {
-//    @BindView(R.id.rv)
-//    RecyclerView rv;
-    @BindView(R.id.rl_bg)
-    RelativeLayout rl_bg;
-    @BindView(R.id.appBarLayout)
-    AppBarLayout appBarLayout;
     @BindView(R.id.rv1)
     RecyclerView rv1;
-//    @BindView(R.id.hIndicator)
-//    HIndicators hIndicator;
-//    @BindView(R.id.tv)
-//    TextView tv;
-//    @BindView(R.id.ll_root)
-//    ScrollView ll_root;
+    @BindView(R.id.bt)
+    Button bt;
     List<String> list = new ArrayList<>();
-    private int mMaxScrollSize;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -213,51 +207,20 @@ public class TestActivity extends BaseActivity {
     public void findViewById() {
         ButterKnife.bind(this);
 
-        for (int i = 0; i < 100; i++) {
-            list.add("wdddsdaaqww");
-        }
+//        for (int i = 0; i < 100; i++) {
+//            list.add("123");
+//        }
+        requestGoodsList("");
+//        MyAdapter myAdapter = new MyAdapter(mActivity,list);
+//        rv1.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false));
+//        rv1.setAdapter(myAdapter);
 
-//        GridLayoutManager gridLayoutManager = new GridLayoutManager(mActivity , 2);
-//        gridLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-//        rv.setLayoutManager(gridLayoutManager);
-        MyAdapter myAdapter = new MyAdapter(mActivity,list);
-//        rv.setAdapter(myAdapter);
-//        hIndicator.bindRecyclerView(rv);
-//        tv_title.setVisibility(View.GONE);
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (mMaxScrollSize == 0){
-                    mMaxScrollSize = appBarLayout.getTotalScrollRange();
-                }
-                int currentScrollPercentage = (Math.abs(verticalOffset)) * 100
-                        / mMaxScrollSize;
-                float alpha=(float) (1 - currentScrollPercentage/100.0);
-                float alphas = 1-alpha;
-                if(verticalOffset==0) {
-                    rl_bg.setAlpha(0);
-                }else {
-                    rl_bg.setAlpha(alphas);
-                }
-//
-////                Log.d("wdasasdasd.....",verticalOffset+"ssss");
-//                Log.d("wdasasdasd.....",alphas+"");
-            }
-        });
-//        tv.setOnClickListener(new View.OnClickListener() {
+//        bt.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                ll_root.smoothScrollTo(0,0);
-//                Log.d("wdsadasdasasd","sdsds");
+//                rv1.smoothScrollToPosition(20);
 //            }
 //        });
-
-        for (int i = 0; i < 100; i++) {
-            list.add("123");
-        }
-
-        rv1.setLayoutManager(new LinearLayoutManager(mContext));
-        rv1.setAdapter(myAdapter);
     }
 
     @Override
@@ -269,4 +232,31 @@ public class TestActivity extends BaseActivity {
     public void setClickEvent() {
 
     }
+
+    private void requestGoodsList(String fromId) {
+        MarketGoodsClassifyAPI.getClassifys(getContext())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ClassIfyModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ClassIfyModel marketGoodsModel) {
+                        rv1.setLayoutManager(new LinearLayoutManager(mActivity,LinearLayoutManager.HORIZONTAL,false));
+                        List<ClassIfyModel.DataBean> data = marketGoodsModel.getData();
+                        FirstAdapter firstAdapter = new FirstAdapter(R.layout.item_icons, data);
+                        rv1.setAdapter(firstAdapter);
+
+                    }
+                });
+    }
+
 }

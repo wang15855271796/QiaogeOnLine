@@ -297,4 +297,19 @@ public class IndexHomeAPI {
     }
 
 
+    /**
+     * 获取授权
+     */
+
+    private interface GetAuthorizeService {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Get_Authorize)
+        Observable<BaseModel> getData(@Field("authCode") String authCode);
+
+    }
+
+    public static Observable<BaseModel> getCode(Context context,String authCode) {
+        GetAuthorizeService spikeActiveQueryService = RestHelper.getBaseRetrofit(context).create(GetAuthorizeService.class);
+        return spikeActiveQueryService.getData(authCode);
+    }
 }

@@ -29,22 +29,19 @@
             android:textSize="@dimen/size_14dp" />
     </RelativeLayout>
 
-    <!--<com.daimajia.slider.library.SliderLayout-->
-        <!--android:visibility="gone"-->
-        <!--android:id="@+id/view_market_banner"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="60dp">-->
-
-    <!--</com.daimajia.slider.library.SliderLayout>-->
-
-    <com.puyue.www.qiaoge.banner.Banner
-        android:id="@+id/banner"
-        android:visibility="gone"
+    <android.support.v4.widget.NestedScrollView
+        android:scrollbars="none"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size_50dp"
-        />
+        android:layout_height="wrap_content">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_cate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+    </android.support.v7.widget.RecyclerView>
+
+    </android.support.v4.widget.NestedScrollView>
 
     <LinearLayout
         android:orientation="vertical"
@@ -89,16 +86,19 @@
                 android:paddingTop="1dp">
 
                 <android.support.v4.widget.NestedScrollView
-                    android:scrollbars="none"
                     android:layout_width="wrap_content"
+                    android:background="#F8F8F8"
                     android:layout_height="match_parent">
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_market_second"
                         android:layout_width="100dp"
+                        android:background="#F8F8F8"
                         android:layout_height="match_parent"
                         />
                 </android.support.v4.widget.NestedScrollView>
+
+
 
 
                 <!--筛选布局-->
@@ -109,53 +109,56 @@
                         android:orientation="vertical">
 
                         <LinearLayout
+                            android:layout_marginLeft="@dimen/size_68dp"
                             android:layout_width="match_parent"
-                            android:layout_height="30dp"
+                            android:layout_height="36dp"
                             android:orientation="horizontal">
 
-
-                            <com.puyue.www.qiaoge.view.selectmenu.MenuBar
-                                android:id="@+id/mb_bar"
-                                android:layout_width="match_parent"
-                                android:layout_height="30dp"
+                            <LinearLayout
                                 android:layout_weight="1"
-                                android:background="@color/white"
-                                android:paddingRight="1dp">
-
-                            </com.puyue.www.qiaoge.view.selectmenu.MenuBar>
-
-
-                            <View
-                                android:layout_width="0.5dp"
-                                android:layout_height="28dp"
-                                android:background="@color/app_line_gray" />
-
-                            <RelativeLayout
-                                android:id="@+id/rl_select_good"
-
-                                android:layout_width="match_parent"
-                                android:layout_height="30dp"
-                                android:layout_weight="1"
-                                android:background="@color/white">
+                                android:id="@+id/ll_price"
+                                android:gravity="center_horizontal"
+                                android:layout_width="@dimen/size_20dp"
+                                android:layout_height="match_parent">
 
                                 <TextView
-                                    android:id="@+id/tv_select_good"
+                                    android:text="价格"
+                                    android:id="@+id/tv_price"
+                                    android:layout_gravity="center_vertical"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerHorizontal="true"
-                                    android:gravity="center_vertical"
-                                    android:paddingTop="5dp"
-                                    android:text="筛选"
-                                    android:textColor="#666666"
-                                    android:textSize="13dp" />
+                                    android:textSize="12dp"
+                                    android:layout_height="wrap_content" />
 
                                 <ImageView
+                                    android:id="@+id/iv_tip"
+                                    android:layout_marginLeft="@dimen/public_space_value_5"
+                                    android:layout_marginTop="@dimen/public_space_value_1"
+                                    android:src="@mipmap/icon_grey"
+                                    android:layout_gravity="center_vertical"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerVertical="true"
-                                    android:layout_toRightOf="@id/tv_select_good"
-                                    android:src="@mipmap/ic_market_select" />
-                            </RelativeLayout>
+                                    android:layout_height="wrap_content" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:text="销量"
+                                android:id="@+id/tv_sale"
+                                android:gravity="center"
+                                android:layout_gravity="center_vertical"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:textSize="12dp"
+                                android:layout_height="match_parent" />
+
+                            <TextView
+                                android:gravity="center"
+                                android:id="@+id/tv_select_good"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:text="筛选"
+                                android:textColor="#666666"
+                                android:textSize="12dp" />
 
                         </LinearLayout>
 
@@ -164,11 +167,6 @@
                             android:layout_height="0.5dp"
                             android:background="@color/app_line_gray" />
 
-
-
-                        <!--<android.support.v4.widget.NestedScrollView-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="match_parent">-->
                         <LinearLayout
                             android:orientation="vertical"
                             android:layout_width="match_parent"

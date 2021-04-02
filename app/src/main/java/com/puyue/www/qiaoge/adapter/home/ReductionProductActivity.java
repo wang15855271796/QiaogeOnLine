@@ -144,7 +144,7 @@ public class ReductionProductActivity extends BaseSwipeActivity implements View.
 
             @Override
             public void tipClick() {
-                showPhoneDialog(cell);
+                AppHelper.ShowAuthDialog(mActivity,cell);
             }
         });
 

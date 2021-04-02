@@ -105,6 +105,7 @@ public class ReduceFragment extends BaseFragment {
             @Override
             public void tipClick() {
 //                showPhoneDialog(cell);
+                AppHelper.ShowAuthDialog(mActivity,cell);
             }
         });
         rv_reduce.setAdapter(reduceAdapter);

@@ -569,6 +569,7 @@ public class MarketRightModel {
                  * prodPrices : null
                  */
                 int activeId;
+                String buyFlag;
                 private int businessType;
                 private String type;
                 private int productMainId;
@@ -586,6 +587,14 @@ public class MarketRightModel {
                 private List<ProdSpecsBean> prodSpecs;
                 String sendTimeTpl;
                 String selfProd;
+
+                public String getBuyFlag() {
+                    return buyFlag;
+                }
+
+                public void setBuyFlag(String buyFlag) {
+                    this.buyFlag = buyFlag;
+                }
 
                 public String getSendTimeTpl() {
                     return sendTimeTpl;

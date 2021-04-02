@@ -145,6 +145,7 @@
                         android:layout_height="wrap_content">
 
                         <RelativeLayout
+                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/size_60dp">
 
@@ -191,12 +192,6 @@
 
                         </RelativeLayout>
 
-                        <View
-                            android:background="#F2F3F6"
-                            android:layout_marginTop="@dimen/dp_10"
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"/>
-
                         <com.puyue.www.qiaoge.view.SlideRecyclerView
                             android:id="@+id/rv_cart_operate"
                             android:layout_marginLeft="@dimen/dp_10"
@@ -207,6 +202,7 @@
                     </LinearLayout>
                     <!--非自营-->
                     <LinearLayout
+
                         android:id="@+id/ll_unOperate"
                         android:orientation="vertical"
                         android:layout_marginTop="@dimen/dp_10"
@@ -217,6 +213,7 @@
                         android:layout_height="wrap_content">
 
                         <RelativeLayout
+                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/size_60dp">
 
@@ -262,12 +259,6 @@
 
 
                         </RelativeLayout>
-
-                        <View
-                            android:background="#F2F3F6"
-                            android:layout_marginTop="@dimen/dp_10"
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"/>
 
                         <com.puyue.www.qiaoge.view.SlideRecyclerView
                             android:id="@+id/rv_cart_unOperate"
@@ -583,13 +574,29 @@
                         android:textColor="#666666"
                         android:textSize="13dp" />
 
-                    <TextView
-                        android:id="@+id/tv_total_price"
+                    <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="￥ 0.0"
-                        android:textColor="#FFF6551A"
-                        android:textSize="18dp" />
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_total_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="￥ 0.0"
+                            android:textColor="#FFF6551A"
+                            android:textSize="18dp" />
+
+                        <TextView
+                            android:id="@+id/tv_free_tip"
+                            android:visibility="gone"
+                            android:text="已免运费"
+                            android:textColor="#666666"
+                            android:textSize="@dimen/dp_10"
+                            android:layout_below="@+id/tv_total_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </RelativeLayout>
+
                 </LinearLayout>
 
                 <Button

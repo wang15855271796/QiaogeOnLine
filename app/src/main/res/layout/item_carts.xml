@@ -133,6 +133,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
+                <ImageView
+                    tools:src="@mipmap/icon_grey"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_below="@+id/tv_title"
+                    android:layout_toRightOf="@+id/iv_head"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
             </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView

@@ -102,7 +102,7 @@ public class CommonFragment extends BaseFragment {
 
             @Override
             public void tipClick() {
-                showPhoneDialog(cell);
+                AppHelper.ShowAuthDialog(mActivity,cell);
             }
         });
         emptyView = View.inflate(mActivity, R.layout.layout_empty, null);

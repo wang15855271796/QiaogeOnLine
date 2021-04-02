@@ -1146,7 +1146,7 @@ public class Test1Activity extends BaseSwipeActivity implements View.OnClickList
 
                                 @Override
                                 public void tipClick() {
-                                    showPhoneDialog(cell);
+                                    AppHelper.ShowAuthDialog(mActivity,cell);
                                 }
                             });
 

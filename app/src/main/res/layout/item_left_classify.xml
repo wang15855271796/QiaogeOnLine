@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl_bg"
-    android:background="#f4f4f4"
+    android:background="#f8f8f8"
     android:orientation="vertical">
 
     <FrameLayout
@@ -12,7 +12,6 @@
         android:layout_height="wrap_content">
 
         <RelativeLayout
-
             android:layout_width="90dp"
             android:id="@+id/rl"
             android:layout_height="@dimen/size_50dp">
@@ -24,10 +23,18 @@
             android:orientation="vertical"
             android:layout_height="@dimen/size_50dp">
 
+            <View
+                android:id="@+id/iv_point"
+                android:background="#FF2925"
+                android:layout_width="5dp"
+                android:layout_centerVertical="true"
+                android:layout_height="20dp"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:gravity="center"
                 android:layout_height="match_parent">
+
 
 
                 <ImageView

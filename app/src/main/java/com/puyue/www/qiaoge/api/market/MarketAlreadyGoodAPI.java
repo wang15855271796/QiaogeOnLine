@@ -21,12 +21,12 @@ public class MarketAlreadyGoodAPI {
         @FormUrlEncoded
         @POST(AppInterfaceAddress.GETALREADYPRODUCT)
         Observable<MarketAlreadyGoodModel> setParams(
-                @Field("firstId") int firstId,
+                @Field("firstId") String firstId,
                 @Field("secondId") int secondId
         );
     }
 
-    public static Observable<MarketAlreadyGoodModel> requestMarketAlready(Context context,  int firstId, int secondId) {
+    public static Observable<MarketAlreadyGoodModel> requestMarketAlready(Context context,  String firstId, int secondId) {
         Observable<MarketAlreadyGoodModel> marketGoodsModelObservable = RestHelper.getBaseRetrofit(context).create(MarketGoodsAlreadyService.class).setParams( firstId, secondId);
         return marketGoodsModelObservable;
     }

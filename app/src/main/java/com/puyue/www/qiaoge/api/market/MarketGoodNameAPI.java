@@ -20,12 +20,12 @@ public class MarketGoodNameAPI {
         @FormUrlEncoded
         @POST(AppInterfaceAddress.GETPRODUCTBRAND)
         Observable<MarketSelectGoodModel> setParams(
-                @Field("firstId") int firstId,
+                @Field("firstId") String firstId,
                 @Field("secondId") int secondId,
                 @Field("brandName") String brandName);
     }
 
-    public static Observable<MarketSelectGoodModel> requestMarketName(Context context, int firstId, int secondId,String brandName) {
+    public static Observable<MarketSelectGoodModel> requestMarketName(Context context, String firstId, int secondId,String brandName) {
         Observable<MarketSelectGoodModel> marketGoodsModelObservable = RestHelper.getBaseRetrofit(context).create(MarketGoodsNameService.class).setParams( firstId, secondId,brandName);
         return marketGoodsModelObservable;
     }

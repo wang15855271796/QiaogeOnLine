@@ -17,6 +17,7 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_title"
             tools:text="自营商品"
             android:textStyle="bold"

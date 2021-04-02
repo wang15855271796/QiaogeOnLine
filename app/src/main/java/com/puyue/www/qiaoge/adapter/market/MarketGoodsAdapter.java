@@ -59,6 +59,12 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
         TextView tv_desc = helper.getView(R.id.tv_desc);
         ImageView iv_no_data = helper.getView(R.id.iv_no_data);
         iv_type = helper.getView(R.id.iv_type);
+        if(item.getBuyFlag().equals("")) {
+            helper.getView(R.id.tv_buy).setVisibility(View.GONE);
+        }else {
+            helper.setText(R.id.tv_buy,item.getBuyFlag());
+            helper.getView(R.id.tv_buy).setVisibility(View.VISIBLE);
+        }
         if(item.getFlag()==0) {
             Glide.with(mContext).load(item.getTypeUrl()).into(iv_no_data);
             iv_no_data.setVisibility(View.VISIBLE);

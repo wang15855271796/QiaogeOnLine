@@ -102,7 +102,8 @@ public class NewFragment extends BaseFragment {
 
             @Override
             public void tipClick() {
-                showPhoneDialog(cell);
+//                showPhoneDialog(cell);
+                AppHelper.ShowAuthDialog(mActivity,cell);
             }
         });
         newAdapter.setEmptyView(emptyView);

@@ -418,7 +418,8 @@ public class MineFragment extends BaseFragment {
 
             @Override
             public void tipClick() {
-                showPhoneDialog(cell);
+//                showPhoneDialog(cell);
+                AppHelper.ShowAuthDialog(mActivity,cell);
             }
         });
 

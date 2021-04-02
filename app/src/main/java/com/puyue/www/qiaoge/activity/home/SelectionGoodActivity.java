@@ -148,7 +148,8 @@ public class SelectionGoodActivity extends BaseSwipeActivity implements View.OnC
 
             @Override
             public void tipClick() {
-                showPhoneDialog(cell);
+//                showPhoneDialog(cell);
+                AppHelper.ShowAuthDialog(mActivity,cell);
             }
         });
 

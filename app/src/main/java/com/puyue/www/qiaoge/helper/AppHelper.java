@@ -35,8 +35,13 @@ import android.widget.Toast;
 import com.airbnb.lottie.LottieAnimationView;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
+import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.adapter.market.PhotoViewAdapter;
+import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
+import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.event.LogoutEvent;
+import com.puyue.www.qiaoge.fragment.home.CityEvent;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.PhotoViewPager;
 import com.puyue.www.qiaoge.view.datepicker.FingerFrameLayout;
 
@@ -52,6 +57,9 @@ import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+
+import rx.Subscriber;
+import rx.schedulers.Schedulers;
 
 //import com.airbnb.lottie.LottieAnimationView;
 
@@ -165,6 +173,74 @@ public class AppHelper {
         }
     }
 
+    public static void ShowAuthDialog(Activity context,String cell) {
+        AlertDialog mDialog = new AlertDialog.Builder(context).create();
+        mDialog.show();
+        Window window = mDialog.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
+                | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+        mDialog.getWindow().setContentView(R.layout.dialog_authorize);
+        TextView tv_sure = mDialog.getWindow().findViewById(R.id.tv_sure);
+        TextView tv_cancel = mDialog.getWindow().findViewById(R.id.tv_cancel);
+        TextView tv_get = mDialog.getWindow().findViewById(R.id.tv_get);
+        EditText et_authprize = mDialog.getWindow().findViewById(R.id.et_authprize);
+        mDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        tv_get.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPhoneDialog(context,cell);
+            }
+        });
+
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.finish();
+                mDialog.dismiss();
+            }
+        });
+
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getCode(et_authprize.getText().toString(),context,mDialog);
+            }
+        });
+    }
+
+    private static void getCode(String code, Activity context, AlertDialog mDialog) {
+        IndexHomeAPI.getCode(context,code)
+                .subscribeOn(Schedulers.io())
+                .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel indexInfoModel) {
+                        if (indexInfoModel.success) {
+                            ToastUtil.showSuccessMsg(context,indexInfoModel.message);
+                            Intent intent = new Intent(context,HomeActivity.class);//跳回首页
+                            context.startActivity(intent);
+                            EventBus.getDefault().post(new CityEvent());
+                            mDialog.dismiss();
+                        }else {
+                            ToastUtil.showSuccessMsg(context,indexInfoModel.message);
+                        }
+                    }
+                });
+    }
+
+
     /**
      * 弹出电话号码
      */
@@ -176,6 +252,8 @@ public class AppHelper {
         TextView tv_phones = mDialog.getWindow().findViewById(R.id.tv_phone);
         TextView tv_time = mDialog.getWindow().findViewById(R.id.tv_time);
         tv_phones.setText("客服热线 ("+cell+")");
+
+
         tv_phones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -192,6 +270,8 @@ public class AppHelper {
                 mDialog.dismiss();
             }
         });
+
+
 //        TextView mTvCell = (TextView) mDialog.getWindow().findViewById(R.id.tv_phone);
 //        mTvCell.setText(cell);
 //        mDialog.getWindow().findViewById(R.id.tv_dialog_call_phone_cancel).setOnClickListener(new View.OnClickListener() {

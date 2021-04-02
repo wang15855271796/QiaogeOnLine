@@ -385,7 +385,8 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
                             mAdapterSpikeQuery = new SpikeActiveQueryAdapter(R.layout.spike_new_active_product, seckillListModel.data.kills, activeId, new SpikeActiveQueryAdapter.Onclick() {
                                 @Override
                                 public void tipClick() {
-                                    showPhoneDialog(cell);
+//                                    showPhoneDialog(cell);
+                                    AppHelper.ShowAuthDialog(mActivity,cell);
                                 }
                             });
                             mRvData.setAdapter(mAdapterSpikeQuery);

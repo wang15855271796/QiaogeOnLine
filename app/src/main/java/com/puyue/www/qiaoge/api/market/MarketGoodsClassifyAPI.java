@@ -39,4 +39,14 @@ public class MarketGoodsClassifyAPI {
         MarketsGoodSelectService service = RestHelper.getBaseRetrofit(context).create(MarketsGoodSelectService.class);
         return service.getData();
     }
+
+    private interface MarketsGoodSelectServices {
+        @POST(AppInterfaceAddress.CLASSIFYS)
+        Observable<ClassIfyModel> getData();
+    }
+
+    public static Observable<ClassIfyModel> getClassifys(Context context) {
+        MarketsGoodSelectServices service = RestHelper.getBaseRetrofit(context).create(MarketsGoodSelectServices.class);
+        return service.getData();
+    }
 }

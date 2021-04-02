@@ -42,28 +42,6 @@ public class TestFragment extends BaseFragment {
 
     private void getDate() {
 
-        MarketGoodSelcetAPI.getClassifyRight(mActivity, 1, 12, -5, 0, "", "", "", "", "", "")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<MarketRightModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(MarketRightModel marketGoodSelectModel) {
-//                        ProdAdapter prodAdapter = new ProdAdapter(R.layout.item_prod,marketGoodSelectModel.getData().getBrandProd());
-                        rv_market_detail.setLayoutManager(new LinearLayoutManager(getActivity()));
-//                        rv_market_detail.setAdapter(prodAdapter);
-
-                    }
-                });
     }
 
 
