@@ -344,7 +344,7 @@
                                                         android:layout_height="@dimen/size_32dp">
 
                                                         <TextView
-                                                            android:text="满赠特惠"
+                                                            tools:text="满赠特惠"
                                                             android:id="@+id/tv_full_title"
                                                             android:layout_marginLeft="@dimen/size_16dp"
                                                             android:layout_centerVertical="true"

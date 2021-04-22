@@ -18,6 +18,7 @@ import com.puyue.www.qiaoge.adapter.home.HotProductActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.CommonListDialog;
 import com.puyue.www.qiaoge.dialog.HotDialog;
+import com.puyue.www.qiaoge.fragment.home.CommonListAdapter;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
@@ -38,13 +39,17 @@ public class HotAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
     RelativeLayout rl_group;
     LinearLayout ll_more;
     TextView tv_discount;
-    public HotAdapter(int layoutResId, @Nullable List<ProductNormalModel.DataBean.ListBean> activeList) {
+    TextView tv_desc;
+    Onclick onclick;
+    public HotAdapter(int layoutResId, @Nullable List<ProductNormalModel.DataBean.ListBean> activeList,Onclick onclick) {
         super(layoutResId, activeList);
         this.activesBean = activeList;
+        this.onclick = onclick;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, ProductNormalModel.DataBean.ListBean item) {
+        tv_desc = helper.getView(R.id.tv_desc);
         rl_group = helper.getView(R.id.rl_group);
         ll_more = helper.getView(R.id.ll_more);
         tv_price = helper.getView(R.id.tv_price);
@@ -61,6 +66,30 @@ public class HotAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
         }
 
         tv_discount.setVisibility(View.GONE);
+
+
+        if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+            if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
+                tv_price.setVisibility(View.VISIBLE);
+                tv_desc.setVisibility(View.GONE);
+                tv_price.setText(item.getMinMaxPrice());
+            }else {
+                tv_price.setVisibility(View.GONE);
+                tv_desc.setVisibility(View.VISIBLE);
+            }
+        }else {
+            tv_price.setText(item.getMinMaxPrice());
+            tv_price.setVisibility(View.VISIBLE);
+            tv_desc.setVisibility(View.GONE);
+        }
+        tv_desc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(onclick!=null) {
+                    onclick.tipClick();
+                }
+            }
+        });
 
         if(activesBean.size()>=3) {
             if(helper.getAdapterPosition()==0) {
@@ -100,5 +129,8 @@ public class HotAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
 
     }
 
-
+    public interface Onclick {
+        void addDialog();
+        void tipClick();
+    }
 }

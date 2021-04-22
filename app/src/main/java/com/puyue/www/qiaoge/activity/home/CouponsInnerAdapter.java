@@ -100,29 +100,48 @@ public class CouponsInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.D
         }else {
             rl_coupon.setVisibility(View.GONE);
         }
-
-        if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
+    if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+        if (SharedPreferencesUtil.getString(mContext, "priceType").equals("1")) {
             rl_price.setVisibility(View.GONE);
             tv_add.setVisibility(View.VISIBLE);
             tv_price.setVisibility(View.VISIBLE);
             tv_price.setText(item.getPrice());
             tv_old_price.setVisibility(View.VISIBLE);
             tv_old_price.setText(item.getOldPrice());
-            if(item.getSaleDone()==0) {
+            if (item.getSaleDone() == 0) {
                 //已售完
                 tv_add.setText("  已售罄  ");
                 tv_add.setBackgroundResource(R.drawable.shape_detail_grey);
-            }else {
+            } else {
                 tv_add.setText("立即加购");
                 tv_add.setBackgroundResource(R.drawable.shape_orange);
             }
-        }else {
+        } else {
             rl_price.setVisibility(View.VISIBLE);
             tv_add.setVisibility(View.GONE);
             tv_price.setText("价格授权后可见");
             tv_old_price.setVisibility(View.INVISIBLE);
         }
+    }else {
+        tv_add.setVisibility(View.VISIBLE);
+        tv_price.setText(item.getPrice());
+        tv_add.setText("立即加购");
+        tv_add.setBackgroundResource(R.drawable.shape_orange);
 
+    }
+
+        tv_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+
+                }else {
+                    if(onclick!=null) {
+                        onclick.addDialog();
+                    }
+                }
+            }
+        });
         rl_price.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

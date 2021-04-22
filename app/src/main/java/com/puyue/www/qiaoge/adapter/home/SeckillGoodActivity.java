@@ -330,20 +330,20 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
 
             if(num.equals("-1")) {
                 mTvAddCar.setEnabled(false);
-                getProductDetail(productId);
+                getProductDetail(productId,num);
                 ll_service.setVisibility(View.GONE);
                 mTvAddCar.setEnabled(true);
                 mTvAddCar.setText("加入购物车");
                 mTvAddCar.setBackgroundResource(R.drawable.app_car_orange);
             }else {
-                getProductDetail(productId);
+                getProductDetail(productId,num);
                 ll_service.setVisibility(View.VISIBLE);
                 mTvAddCar.setEnabled(false);
                 mTvAddCar.setBackgroundResource(R.drawable.app_car);
             }
         }else {
             mTvAddCar.setEnabled(false);
-            getProductDetail(productId);
+            getProductDetail(productId,num);
 
             mTvAddCar.setText("加入购物车");
             mTvAddCar.setBackgroundResource(R.drawable.app_car_orange);
@@ -551,8 +551,8 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
     /**
      * 获取详情
      */
-    private void getProductDetail(final int productId) {
-        GetSpecialDetailAPI.requestData(mContext, productId)
+    private void getProductDetail(final int productId,String num) {
+        GetSpecialDetailAPI.requestData(mContext, productId,num)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<SpecialGoodModel>() {
@@ -732,7 +732,8 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
                                             amount++;
                                             mAmount.setText(String.valueOf(amount));
                                         }else {
-                                            showPhoneDialog(cell);
+//                                            showPhoneDialog(cell);
+                                            AppHelper.ShowAuthDialog(mActivity,cell);
                                         }
                                     }else {
                                         initDialog();
@@ -1444,7 +1445,7 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
                     public void onNext(UpdateUserInvitationModel updateUserInvitationModel) {
                         if (updateUserInvitationModel.isSuccess()) {
                             UserInfoHelper.saveUserType(mContext, AppConstant.USER_TYPE_WHOLESALE);
-                            getProductDetail(productId);
+                            getProductDetail(productId,num);
                         } else {
                             AppHelper.showMsg(mContext, updateUserInvitationModel.getMessage());
                         }

@@ -81,6 +81,7 @@
                     android:textSize="12sp" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_stock_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

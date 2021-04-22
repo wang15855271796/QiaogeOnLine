@@ -904,7 +904,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
                                     mListUnOperate.add(validList.get(i));
                                 }
                             }
-
+                            Log.d("ddfdsfsdsdasdf...","ssssss");
                             testAdapter = new TestAdapter(R.layout.item_carts, mListOperate,mListCart,CartFragment.this, new TestAdapter.Onclick() {
                                 @Override
                                 public void deteItem(int pos,CartsListModel.DataBean.ValidListBean validListBean) {

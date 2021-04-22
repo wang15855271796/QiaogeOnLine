@@ -28,10 +28,13 @@ import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.MessageEvent;
+import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.event.UpDateNumEvent7;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.PublicRequestHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
+import com.puyue.www.qiaoge.model.home.GetCustomerPhoneModel;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 import com.puyue.www.qiaoge.model.mine.collection.CollectionListModel;
 import com.puyue.www.qiaoge.model.mine.collection.DeleteCollectionModel;
@@ -94,6 +97,7 @@ public class MyCollectionActivity extends BaseSwipeActivity implements View.OnCl
     TextView tv_manger;
     RelativeLayout rl_foot;
     AVLoadingIndicatorView lav_activity_loading;
+    String cell;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -109,6 +113,27 @@ public class MyCollectionActivity extends BaseSwipeActivity implements View.OnCl
         //刷新UI
         getCartNum();
 
+    }
+
+    /**
+     * @param
+     */
+
+    private void getCustomerPhone() {
+        PublicRequestHelper.getCustomerPhone(mActivity, new OnHttpCallBack<GetCustomerPhoneModel>() {
+            @Override
+            public void onSuccessful(GetCustomerPhoneModel getCustomerPhoneModel) {
+                if (getCustomerPhoneModel.isSuccess()) {
+                    cell = getCustomerPhoneModel.getData();
+                } else {
+                    AppHelper.showMsg(mActivity, getCustomerPhoneModel.getMessage());
+                }
+            }
+
+            @Override
+            public void onFaild(String errorMsg) {
+            }
+        });
     }
 
     @Override
@@ -136,6 +161,7 @@ public class MyCollectionActivity extends BaseSwipeActivity implements View.OnCl
         mTvDelete = (TextView) findViewById(R.id.tv_collection_delete);
         mLlControl = (LinearLayout) findViewById(R.id.ll_my_collection_control);
         getCartNum();
+        getCustomerPhone();
         smart.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -249,7 +275,8 @@ public class MyCollectionActivity extends BaseSwipeActivity implements View.OnCl
 
             @Override
             public void getPrice() {
-
+                //获取授权
+                AppHelper.ShowAuthDialog(mActivity,cell);
             }
         });
         mAdapterMyCollection.setOnItemClickListener(new MyCollectionAdapter.OnEventClickListener() {

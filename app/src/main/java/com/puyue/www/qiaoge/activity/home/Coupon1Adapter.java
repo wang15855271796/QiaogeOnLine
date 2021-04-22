@@ -19,6 +19,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.constant.AppConstant;
+import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.model.home.TeamActiveQueryModel;
 import com.puyue.www.qiaoge.utils.DateUtils;
 import com.puyue.www.qiaoge.utils.Utils;
@@ -55,7 +56,13 @@ public class Coupon1Adapter extends BaseQuickAdapter<TeamActiveQueryModel.DataBe
 
         recyclerView = helper.getView(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        Coupon1InnerAdapter couponsInnerAdapter = new Coupon1InnerAdapter(R.layout.coupon_inner,item.getActives());
+        Coupon1InnerAdapter couponsInnerAdapter = new Coupon1InnerAdapter(R.layout.coupon_inner,item.getActives(), new Onclick() {
+            @Override
+            public void addDialog() {
+                Log.d("wfsdffd.......","qwdad");
+                onclick.addDialog();
+            }
+        });
         recyclerView.setAdapter(couponsInnerAdapter);
 
         tv_cut_down = helper.getView(R.id.tv_cut_down);

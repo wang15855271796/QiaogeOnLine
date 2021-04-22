@@ -23,6 +23,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
+import com.puyue.www.qiaoge.activity.home.FullGiftActivity;
 import com.puyue.www.qiaoge.activity.home.SpecialGoodDetailActivity;
 import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
@@ -62,17 +63,27 @@ public class CommonssAdapter extends  RecyclerView.Adapter<CommonssAdapter.BaseV
         try {
             activesBean = fullActive.get(position % fullActive.size());
             viewHolder.tv_name.setText(activesBean.getProductName());
-            viewHolder.tv_price.setText(activesBean.getMinMaxPrice());
             Glide.with(mActivity).load(activesBean.getDefaultPic()).into(viewHolder.iv_pic);
-
+            if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mActivity))) {
+                if(SharedPreferencesUtil.getString(mActivity,"priceType").equals("1")) {
+                    viewHolder.tv_price.setVisibility(View.VISIBLE);
+                    viewHolder.tv_desc.setVisibility(View.GONE);
+                    viewHolder.tv_price.setText(activesBean.getMinMaxPrice());
+                }else {
+                    viewHolder.tv_price.setVisibility(View.GONE);
+                    viewHolder.tv_desc.setVisibility(View.VISIBLE);
+                }
+            }else {
+                viewHolder.tv_price.setText(activesBean.getMinMaxPrice());
+                viewHolder.tv_price.setVisibility(View.VISIBLE);
+                viewHolder.tv_desc.setVisibility(View.GONE);
+            }
 
             viewHolder.rl_group.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(mActivity,CommonGoodsDetailActivity.class);
-                    intent.putExtra(AppConstant.ACTIVEID, activesBean.getProductMainId());
-                    intent.putExtra("priceType", SharedPreferencesUtil.getString(mActivity,"priceType"));
-                    mActivity.startActivity(intent);
+                    Intent intent1 = new Intent(mActivity,FullGiftActivity.class);
+                    mActivity.startActivity(intent1);
 
                 }
             });
@@ -162,8 +173,10 @@ public class CommonssAdapter extends  RecyclerView.Adapter<CommonssAdapter.BaseV
         RelativeLayout rl_coupon;
         TextView tv_descs;
         RelativeLayout rl_group;
+        TextView tv_desc;
         public BaseViewHolder(View view) {
             super(view);
+            tv_desc = view.findViewById(R.id.tv_desc);
             rl_group = (RelativeLayout) view.findViewById(R.id.rl_group);
             tv_descs = (TextView) view.findViewById(R.id.tv_descs);
             rl_coupon = (RelativeLayout) view.findViewById(R.id.rl_coupon);

@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -52,6 +53,8 @@ public class CartSpecAdapter extends BaseQuickAdapter<CartsListModel.DataBean.Va
     protected void convert(BaseViewHolder helper, CartsListModel.DataBean.ValidListBean.SpecProductListBean item) {
         CheckBox cb_item_in = helper.getView(R.id.cb_item_in);
         cb_item_in.setOnCheckedChangeListener(null);
+        TextView tv_limit = helper.getView(R.id.tv_limit);
+        tv_limit.setText(item.getBuyNumLimit());
         //读取实体内存储的选中状态
         cb_item_in.setChecked(item.isSelected());
         helper.setText(R.id.tv_spec,"规格："+item.getSpec());

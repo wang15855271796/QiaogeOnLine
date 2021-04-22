@@ -346,7 +346,8 @@ public class SearchReasultActivity extends BaseSwipeActivity {
 
                                     @Override
                                     public void getPrice() {
-                                        showPhoneDialog(cell);
+//                                        showPhoneDialog(cell);
+                                        AppHelper.ShowAuthDialog(mActivity,cell);
                                     }
                                 });
                                 lav_activity_loading.setVisibility(View.GONE);

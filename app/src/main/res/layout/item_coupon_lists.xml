@@ -152,12 +152,12 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:textColor="#FF5000"
             android:visibility="gone"
+            android:textColor="#333333"
             android:layout_toRightOf="@+id/rl_pic"
             android:id="@+id/tv_desc"
             android:layout_below="@+id/tv_name"
-            android:textSize="@dimen/sp_14"
+            android:textSize="@dimen/sp_12"
             android:text="价格授权后可见"
             android:layout_marginTop="@dimen/size_38dp"
             android:layout_width="wrap_content"
@@ -184,4 +184,13 @@
             android:layout_height="wrap_content" />
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_more"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </LinearLayout>
 </LinearLayout>

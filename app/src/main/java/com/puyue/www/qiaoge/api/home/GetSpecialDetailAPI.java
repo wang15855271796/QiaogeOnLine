@@ -20,12 +20,12 @@ public class GetSpecialDetailAPI {
     private interface getSpecialDetail {
         @FormUrlEncoded
         @POST(AppInterfaceAddress.SPECIALOFFERDETAIL)
-        Observable<SpecialGoodModel> getData(@Field("activeId") int activeId);
+        Observable<SpecialGoodModel> getData(@Field("activeId") int activeId,@Field("jumpFlag") String jumpFlag);
     }
 
-    public static Observable<SpecialGoodModel> requestData(Context context, int activeId) {
+    public static Observable<SpecialGoodModel> requestData(Context context, int activeId,String jumpFlag) {
         getSpecialDetail service = RestHelper.getBaseRetrofit(context).create(getSpecialDetail.class);
-        return service.getData(activeId);
+        return service.getData(activeId,jumpFlag);
     }
 
     private interface getIntelliInfo {

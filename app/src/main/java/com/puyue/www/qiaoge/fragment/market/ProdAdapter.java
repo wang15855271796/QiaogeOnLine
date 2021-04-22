@@ -41,6 +41,7 @@ public class ProdAdapter extends BaseQuickAdapter<MarketRightModel.DataBean.Bran
         prodInnerAdapter = new ProdInnerAdapter(R.layout.item_prod_inner,list);
         recyclerViewProd.setAdapter(prodInnerAdapter);
 
+
         if(list.size()>3 ) {
             tv_expand.setVisibility(View.VISIBLE);
             helper.getView(R.id.rl).setVisibility(View.VISIBLE);

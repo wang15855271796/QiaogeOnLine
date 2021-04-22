@@ -102,6 +102,7 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
         linearLayoutItem = helper.getView(R.id.linearLayoutItem);
         confirmOrder = helper.getView(R.id.iv_confirm_order);
         tv_product_name.setText(item.prodName);
+
         tv_time.setText(item.orderTime);
         tv_subUserBuy.setText(item.subBuyPhone);
         //判断自营还是非自营
@@ -139,6 +140,7 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
                 // 待付款不显示 再次购买 其他的显示，取消的显示
                 Log.d("weeeesss..............","11111");
                 rl.setVisibility(View.GONE);
+                tv_time.setVisibility(View.VISIBLE);
                 imageGo.setVisibility(View.VISIBLE);
                 cancelOrder.setVisibility(View.VISIBLE);
                 againBay.setVisibility(View.GONE);
@@ -148,6 +150,7 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
             } else if (item.orderStatusName.equals("已取消")) {
                 Log.d("weeeesss..............","22222");
                 rl.setVisibility(View.VISIBLE);
+                tv_time.setVisibility(View.GONE);
                 imageGo.setVisibility(View.GONE);
                 deleteOrder.setVisibility(View.VISIBLE);
                 againBay.setVisibility(View.VISIBLE);
@@ -163,6 +166,7 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
                 imageGo.setVisibility(View.GONE);
                 deleteOrder.setVisibility(View.GONE);
                 confirmOrder.setVisibility(View.GONE);
+                tv_time.setVisibility(View.VISIBLE);
             } else if (item.orderStatusName.equals("待收货")) {
                 Log.d("weeeesss..............","44444");
                 rl.setVisibility(View.VISIBLE);
@@ -172,11 +176,13 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
                 deleteOrder.setVisibility(View.GONE);
                 cancelOrder.setVisibility(View.GONE);
                 evaluateNow.setVisibility(View.GONE);
+                tv_time.setVisibility(View.GONE);
             }
 
 
             if (item.orderStatusName.equals("待评价")) {   // 待评价显示 立即评价 和再次购买
                 rl.setVisibility(View.VISIBLE);
+                tv_time.setVisibility(View.GONE);
                 evaluateNow.setVisibility(View.VISIBLE);
                 againBay.setVisibility(View.VISIBLE);
                 deleteOrder.setVisibility(View.GONE);

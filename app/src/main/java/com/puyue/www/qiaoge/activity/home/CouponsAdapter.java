@@ -44,6 +44,7 @@ public class CouponsAdapter extends BaseQuickAdapter<TeamActiveQueryModel.DataBe
         recyclerView.setAdapter(couponsInnerAdapter);
 
 
+
     }
 
     public interface Onclick {

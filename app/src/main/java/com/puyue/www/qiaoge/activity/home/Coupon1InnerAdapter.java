@@ -13,7 +13,11 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
+import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.StringHelper;
+import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.home.TeamActiveQueryModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
@@ -24,7 +28,7 @@ import java.util.List;
  */
 public class Coupon1InnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.DataBean.ActivesBean,BaseViewHolder> {
 
-    CouponsAdapter.Onclick onclick;
+    Coupon1Adapter.Onclick onclick;
     private ImageView iv_pic;
     TextView tv_old_price;
     private TeamActiveQueryModel.DataBean.ActivesBean activesBean;
@@ -41,8 +45,9 @@ public class Coupon1InnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.D
     private TextView tv_coupon;
     private TextView tv_price;
     RelativeLayout rl_price;
-    public Coupon1InnerAdapter(int layoutResId, @Nullable List<TeamActiveQueryModel.DataBean.ActivesBean> data) {
+    public Coupon1InnerAdapter(int layoutResId, @Nullable List<TeamActiveQueryModel.DataBean.ActivesBean> data, Coupon1Adapter.Onclick onclick) {
         super(layoutResId, data);
+        this.onclick = onclick;
     }
 
     @Override
@@ -65,21 +70,57 @@ public class Coupon1InnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.D
 //        helper.setText(R.id.tv_old_price,item.getOldPrice());
         pb.setProgress(Integer.parseInt(item.getProgress()));
         tv_total.setText(item.getRemainNum());
+        if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+            if (SharedPreferencesUtil.getString(mContext, "priceType").equals("1")) {
+                rl_price.setVisibility(View.GONE);
+                tv_add.setVisibility(View.VISIBLE);
+                tv_add.setText("  未开始  ");
+                tv_price.setVisibility(View.VISIBLE);
+                tv_old_price.setVisibility(View.VISIBLE);
+                tv_old_price.setText(item.getOldPrice());
+                tv_price.setText(item.getPrice());
+            } else {
+                rl_price.setVisibility(View.VISIBLE);
+                tv_add.setVisibility(View.GONE);
+                tv_old_price.setVisibility(View.INVISIBLE);
+                tv_price.setText("价格授权后可见");
+                tv_add.setEnabled(false);
+            }
 
-        if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
-            rl_price.setVisibility(View.GONE);
-            tv_add.setVisibility(View.VISIBLE);
-            tv_add.setText("  未开始  ");
-            tv_price.setVisibility(View.VISIBLE);
-            tv_old_price.setVisibility(View.VISIBLE);
-            tv_old_price.setText(item.getOldPrice());
-            tv_price.setText(item.getPrice());
+            tv_add.setEnabled(true);
         }else {
-            rl_price.setVisibility(View.VISIBLE);
-            tv_add.setVisibility(View.GONE);
-            tv_old_price.setVisibility(View.INVISIBLE);
-            tv_price.setText("价格授权后可见");
+            tv_add.setVisibility(View.VISIBLE);
+            tv_price.setText(item.getPrice());
+            tv_add.setText("未开始");
+            tv_add.setEnabled(false);
+            tv_add.setBackgroundResource(R.drawable.shape_orange);
         }
+
+        tv_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+                    if(onclick!=null) {
+                        onclick.addDialog();
+                    }
+                }else {
+
+                }
+            }
+        });
+
+        tv_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+                    onclick.addDialog();
+                } else {
+                    AppHelper.showMsg(mContext, "请先登录");
+                    mContext.startActivity(LoginActivity.getIntent(mContext, LoginActivity.class));
+                }
+            }
+        });
+
 
         rl_price.setOnClickListener(new View.OnClickListener() {
             @Override

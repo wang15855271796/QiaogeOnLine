@@ -20,6 +20,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.home.SpecialGoodDetailActivity;
+import com.puyue.www.qiaoge.activity.home.TeamDetailActivity;
 import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.helper.StringHelper;
@@ -47,18 +48,32 @@ public class TeamAdapter extends BaseQuickAdapter<CouponModel.DataBean.ActivesBe
         rl_group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext,SpecialGoodDetailActivity.class);
-                intent.putExtra(AppConstant.ACTIVEID,item.getActiveId());
-                intent.putExtra("priceType",SharedPreferencesUtil.getString(mContext,"priceType"));
-                mContext.startActivity(intent);
+                Intent teamIntent = new Intent(mContext, TeamDetailActivity.class);
+                mContext.startActivity(teamIntent);
             }
         });
         ImageView iv_sale_done = helper.getView(R.id.iv_sale_done);
         TextView tv_price = helper.getView(R.id.tv_price);
         TextView tv_name = helper.getView(R.id.tv_name);
+        TextView tv_desc = helper.getView(R.id.tv_desc);
         tv_name.setText(data.get(0).getActiveName());
         Glide.with(mContext).load(data.get(0).getDefaultPic()).into(iv_pic);
-        tv_price.setText(item.getPrice());
+
+        if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+            if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
+                tv_price.setVisibility(View.VISIBLE);
+                tv_desc.setVisibility(View.GONE);
+                tv_price.setText(item.getPrice());
+            }else {
+                tv_price.setVisibility(View.GONE);
+                tv_desc.setVisibility(View.VISIBLE);
+            }
+        }else {
+            tv_price.setText(item.getPrice());
+            tv_price.setVisibility(View.VISIBLE);
+            tv_desc.setVisibility(View.GONE);
+        }
+
         if(item.getFlag()==1) {
             iv_sale_done.setVisibility(View.VISIBLE);
             Glide.with(mContext).load(item.getSoldOutPic()).into(iv_sale_done);

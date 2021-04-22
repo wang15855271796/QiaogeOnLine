@@ -44,11 +44,12 @@ public class Skill3Adapter extends BaseQuickAdapter<CouponModel.DataBean.Actives
     @Override
     protected void convert(BaseViewHolder helper, CouponModel.DataBean.ActivesBean item) {
         RoundImageView iv_pic = helper.getView(R.id.iv_pic);
+        TextView tv_price = helper.getView(R.id.tv_price);
+        TextView tv_desc = helper.getView(R.id.tv_desc);
         ImageView iv_sale_done = helper.getView(R.id.iv_sale_done);
         LinearLayout ll_root = helper.getView(R.id.ll_root);
         Glide.with(mContext).load(item.getDefaultPic()).into(iv_pic);
         helper.setText(R.id.tv_name,item.getActiveName());
-        helper.setText(R.id.tv_price,item.getPrice()+"00000");
 
         if(item.getFlag()==1) {
             iv_sale_done.setVisibility(View.VISIBLE);
@@ -56,6 +57,22 @@ public class Skill3Adapter extends BaseQuickAdapter<CouponModel.DataBean.Actives
         }else {
             iv_sale_done.setVisibility(View.GONE);
         }
+
+        if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+            if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
+                tv_price.setVisibility(View.VISIBLE);
+                tv_desc.setVisibility(View.GONE);
+                tv_price.setText(item.getPrice());
+            }else {
+                tv_price.setVisibility(View.GONE);
+                tv_desc.setVisibility(View.VISIBLE);
+            }
+        }else {
+            tv_price.setText(item.getPrice());
+            tv_price.setVisibility(View.VISIBLE);
+            tv_desc.setVisibility(View.GONE);
+        }
+
 
         ll_root.setOnClickListener(new View.OnClickListener() {
             @Override

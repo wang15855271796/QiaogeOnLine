@@ -58,7 +58,8 @@ public class TeamFragment extends BaseFragment {
         team1Adapter = new Team1Adapter(R.layout.item_coupon_list, teamList, new Team1Adapter.Onclick() {
             @Override
             public void addDialog() {
-                showPhoneDialog(cell);
+//                showPhoneDialog(cell);
+                AppHelper.ShowAuthDialog(mActivity,cell);
             }
         });
         recycleView.setLayoutManager(new LinearLayoutManager(mActivity));

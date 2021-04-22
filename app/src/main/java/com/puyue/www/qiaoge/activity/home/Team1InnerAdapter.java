@@ -14,6 +14,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.constant.AppConstant;
+import com.puyue.www.qiaoge.helper.StringHelper;
+import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.home.TeamActiveQueryModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
@@ -59,8 +61,8 @@ public class Team1InnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.Dat
         helper.setText(R.id.tv_spec,item.getSpec());
 //        helper.setText(R.id.tv_price,item.getPrice());
 //        helper.setText(R.id.tv_old_price,item.getOldPrice());
-
-        if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
+    if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+        if (SharedPreferencesUtil.getString(mContext, "priceType").equals("1")) {
             rl_price.setVisibility(View.GONE);
             tv_add.setVisibility(View.VISIBLE);
             tv_add.setText("  未开始  ");
@@ -68,12 +70,34 @@ public class Team1InnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.Dat
             tv_old_price.setVisibility(View.VISIBLE);
             tv_old_price.setText(item.getOldPrice());
             tv_price.setText(item.getPrice());
-        }else {
+        } else {
             rl_price.setVisibility(View.VISIBLE);
             tv_add.setVisibility(View.GONE);
             tv_price.setText("价格授权后可见");
             tv_old_price.setVisibility(View.INVISIBLE);
+
         }
+        tv_add.setEnabled(true);
+    }else {
+        tv_add.setVisibility(View.VISIBLE);
+        tv_price.setText(item.getPrice());
+        tv_add.setText("未开始");
+        tv_add.setBackgroundResource(R.drawable.shape_orange);
+        tv_add.setEnabled(false);
+    }
+
+        tv_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+
+                }else {
+                    if(onclick!=null) {
+                        onclick.addDialog();
+                    }
+                }
+            }
+        });
 
         rl_price.setOnClickListener(new View.OnClickListener() {
             @Override

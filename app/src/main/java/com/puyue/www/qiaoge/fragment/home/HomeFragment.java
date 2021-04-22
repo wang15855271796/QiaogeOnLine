@@ -678,7 +678,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                             listBeans.addAll(list);
 
                             if (listBeans.size() == 1) {
-                                hotAdapter = new HotAdapter(R.layout.item_common_lists, listBeans);
+//                                hotAdapter = new HotAdapter(R.layout.item_common_lists, listBeans);
                                 rv_hot.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
                                 rv_hot.setAdapter(hotAdapter);
                                 rv_hot1.setVisibility(View.GONE);
@@ -686,13 +686,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                             } else if (listBeans.size() == 2) {
                                 rv_hot1.setVisibility(View.GONE);
                                 rv_hot.setVisibility(View.VISIBLE);
-                                hotAdapter = new HotAdapter(R.layout.item_coupon_lists, listBeans);
+//                                hotAdapter = new HotAdapter(R.layout.item_coupon_lists, listBeans);
                                 rv_hot.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
                                 rv_hot.setAdapter(hotAdapter);
                             } else {
                                 rv_hot1.setVisibility(View.VISIBLE);
                                 rv_hot.setVisibility(View.GONE);
-                                hotAdapter = new HotAdapter(R.layout.item_coupon_listss, listBeans);
+//                                hotAdapter = new HotAdapter(R.layout.item_coupon_listss, listBeans);
                                 rv_hot1.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
                                 rv_hot1.setAdapter(hotAdapter);
                             }

@@ -142,7 +142,8 @@ public class AllGoodsFragment extends BaseFragment {
 
             @Override
             public void getPrice() {
-                showPhoneDialog(cell);
+//                showPhoneDialog(cell);
+                AppHelper.ShowAuthDialog(mActivity,cell);
             }
         });
 

@@ -22,6 +22,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
+import com.puyue.www.qiaoge.activity.home.FullGiftActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
@@ -39,6 +40,7 @@ public class FullAdapter extends RecyclerView.Adapter<FullAdapter.BaseViewHolder
     List<CouponModel.DataBean.ActivesBean> fullActive;
     Context mActivity;
     CouponModel.DataBean.ActivesBean activesBean;
+    int pos = 0;
     public FullAdapter(FragmentActivity mActivity, List<CouponModel.DataBean.ActivesBean> fullActive) {
         this.mActivity = mActivity;
         this.fullActive = fullActive;
@@ -56,18 +58,33 @@ public class FullAdapter extends RecyclerView.Adapter<FullAdapter.BaseViewHolder
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder viewHolder, int position) {
         try {
+            pos = position%fullActive.size();
             activesBean = fullActive.get(position % fullActive.size());
             viewHolder.tv_name.setText(activesBean.getProductName());
-            viewHolder.tv_price.setText(activesBean.getMinMaxPrice());
             Glide.with(mActivity).load(activesBean.getDefaultPic()).into(viewHolder.iv_pic);
+            viewHolder.tv_price.setText(activesBean.getMinMaxPrice());
+
+            if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mActivity))) {
+                if(SharedPreferencesUtil.getString(mActivity,"priceType").equals("1")) {
+                    viewHolder.tv_price.setVisibility(View.VISIBLE);
+                    viewHolder.tv_desc.setVisibility(View.GONE);
+                    viewHolder.tv_price.setText(activesBean.getMinMaxPrice());
+
+                }else {
+                    viewHolder.tv_price.setVisibility(View.GONE);
+                    viewHolder.tv_desc.setVisibility(View.VISIBLE);
+                }
+            }else {
+                viewHolder.tv_price.setText(activesBean.getMinMaxPrice());
+                viewHolder.tv_price.setVisibility(View.VISIBLE);
+                viewHolder.tv_desc.setVisibility(View.GONE);
+            }
 
             viewHolder.rl_group.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(mActivity,CommonGoodsDetailActivity.class);
-                    intent.putExtra(AppConstant.ACTIVEID, activesBean.getProductMainId());
-                    intent.putExtra("priceType", SharedPreferencesUtil.getString(mActivity,"priceType"));
-                    mActivity.startActivity(intent);
+                    Intent intent1 = new Intent(mActivity,FullGiftActivity.class);
+                    mActivity.startActivity(intent1);
 
                 }
             });
@@ -122,7 +139,7 @@ public class FullAdapter extends RecyclerView.Adapter<FullAdapter.BaseViewHolder
                             viewHolder.tv_fit.setText(fullActive.get(i).getRoleAmount());
                             viewHolder.tv_coupon.setVisibility(View.VISIBLE);
                             viewHolder.tv_coupon.setText(fullActive.get(i).getSendGiftInfo());
-                            Log.d("wdassasswww....","333");
+
                         }
                         i++;
                         if(i==fullActive.size()) {
@@ -167,8 +184,10 @@ public class FullAdapter extends RecyclerView.Adapter<FullAdapter.BaseViewHolder
         TextView tv_fit;
         RoundImageView iv_given;
         RelativeLayout rl_group;
+        TextView tv_desc;
         public BaseViewHolder(View view) {
             super(view);
+            tv_desc = view.findViewById(R.id.tv_desc);
             rl_group = view.findViewById(R.id.rl_group);
             tv_coupon = (TextView) view.findViewById(R.id.tv_coupon);
             tv_fit = (TextView) view.findViewById(R.id.tv_fit);

@@ -86,6 +86,7 @@ import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
 import com.puyue.www.qiaoge.dialog.LoadingDialog;
 import com.puyue.www.qiaoge.event.AddressEvent;
+import com.puyue.www.qiaoge.event.BackEvent;
 import com.puyue.www.qiaoge.event.FromIndexEvent;
 import com.puyue.www.qiaoge.event.GoToMarketEvent;
 import com.puyue.www.qiaoge.event.LogoutEvent;
@@ -138,7 +139,7 @@ public class MarketsFragment extends BaseFragment {
     private RecyclerView mRvSecond;
     //右侧列表
     private XRecyclerView mRvDetail;
-    //
+    //一级分类
     private List<ClassIfyModel.DataBean> mList = new ArrayList<>();
     //左侧集合
     private List<ClassIfyModel.DataBean.SecondClassifyBean> mListSecondNow = new ArrayList<>();
@@ -241,6 +242,7 @@ public class MarketsFragment extends BaseFragment {
     FirstAdapter firstAdapter;
     String priceDown;
     int styles = 0;
+    int saleNum = 0;
     @Override
     public void findViewById(View view) {
         context = getActivity();
@@ -275,6 +277,7 @@ public class MarketsFragment extends BaseFragment {
             public void onClick(View v) {
                 dialog.show();
                 styles++;
+                pageNum =1;
                 tv_price.setTextColor(Color.parseColor("#F6391A"));
                 tv_sale.setTextColor(Color.parseColor("#333333"));
                 if(styles%3==0) {
@@ -319,12 +322,21 @@ public class MarketsFragment extends BaseFragment {
         tv_sale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tv_sale.setTextColor(Color.parseColor("#F6391A"));
+
+                if(saleNum%2==0) {
+                    tv_sale.setTextColor(Color.parseColor("#F6391A"));
+                    saleVolume = "1";
+                }else {
+                    tv_sale.setTextColor(Color.parseColor("#333333"));
+                    saleVolume = "";
+                }
+                saleNum++;
                 tv_price.setTextColor(Color.parseColor("#333333"));
                 iv_tip.setImageResource(R.mipmap.icon_grey);
-                saleVolume = "1";
                 Imposition = 2;
                 priceUp = "";
+                pageNum =1;
+                priceDown = "";
                 newProduct = "";
                 minPrice = "";
                 maxPrice = "";
@@ -493,7 +505,7 @@ public class MarketsFragment extends BaseFragment {
                         // if (isChecked && StringHelper.notEmptyAndNull(mEtLowPrice.getText().toString()) && StringHelper.notEmptyAndNull(mEtHighPrice.getText().toString())) {
                         minPrice = mEtLowPrice.getText().toString();
                         maxPrice = mEtHighPrice.getText().toString();
-
+                        pageNum = 1;
                         getDataTwo();
 
                         popupWindow.dismiss();
@@ -814,9 +826,9 @@ public class MarketsFragment extends BaseFragment {
         lav_activity_loading.show();
 
         getSearchProd();
-        getDataThree();
-        getDataTwo();
-        getData();
+//        getDataThree();
+//        getDataTwo();
+//        getData();
         getCustomerPhone();
         requestGoodsList("");
 
@@ -944,7 +956,6 @@ public class MarketsFragment extends BaseFragment {
                     } else {
                         hasPage = false;
                         mRvDetail.noMoreLoading();
-
                     }
                 } else {
 
@@ -1066,7 +1077,8 @@ public class MarketsFragment extends BaseFragment {
 
             @Override
             public void getPrice() {
-                showPhoneDialog(cell);
+//                showPhoneDialog(cell);
+                AppHelper.ShowAuthDialog(mActivity,cell);
             }
         });
 
@@ -1320,6 +1332,7 @@ public class MarketsFragment extends BaseFragment {
      */
     int clicks = 0;
     private void updateGoodsList(String fromId) {
+        dialog.show();
         if(clicks == 0) {
             if(fromId.equals("")) {
                 mList.clear();
@@ -1340,44 +1353,63 @@ public class MarketsFragment extends BaseFragment {
 
                 for (int i = 0; i < mModelMarketGoodsClassify.getData().size(); i++) {
                     if(mModelMarketGoodsClassify.getData().get(i).getFirstId().equals(fromId)) {
-
                         mListSecondNow.addAll(mModelMarketGoodsClassify.getData().get(i).getSecondClassify());
                     }
                 }
+                mAdapterMarketSecond.selectPosition(0);
                 mAdapterMarketSecond.notifyDataSetChanged();
                 mFirstCode = fromId;
                 mSecondCode = -1;
-                firstAdapter.notifyDataSetChanged();
+                for (int i = 0; i < mList.size(); i++) {
+                    if(fromId.equals(mList.get(i).getFirstId())) {
+                        firstAdapter.selectPosition(i);
+                        rv_cate.scrollToPosition(i);
+//                        rv_cate.smoothScrollToPosition(i);
+                    }
+                }
                 getData();
 
+            }
+        }else {
+
+            if(!fromId.equals("")) {
+                mList.clear();
+                mList.addAll(mModelMarketGoodsClassify.getData());
+                mListSecondNow.clear();
+                for (int i = 0; i < mModelMarketGoodsClassify.getData().size(); i++) {
+                    if(mModelMarketGoodsClassify.getData().get(i).getFirstId().equals(fromId)) {
+                        mListSecondNow.addAll(mModelMarketGoodsClassify.getData().get(i).getSecondClassify());
+                    }
+                }
+                mAdapterMarketSecond.selectPosition(0);
+                mAdapterMarketSecond.notifyDataSetChanged();
+                firstAdapter.notifyDataSetChanged();
+                mFirstCode = fromId;
+                mSecondCode  = -1;
                 for (int i = 0; i < mList.size(); i++) {
                     if(fromId.equals(mList.get(i).getFirstId())) {
                         rv_cate.smoothScrollToPosition(i);
                         firstAdapter.selectPosition(i);
                     }
                 }
+                getData();
+            }else {
+
+                mList.clear();
+                mList.addAll(mModelMarketGoodsClassify.getData());
+                mListSecondNow.clear();
+                mListSecondNow.addAll(mModelMarketGoodsClassify.getData().get(0).getSecondClassify());
+                mAdapterMarketSecond.selectPosition(0);
+                mAdapterMarketSecond.notifyDataSetChanged();
+                firstAdapter.notifyDataSetChanged();
+                mFirstCode = mModelMarketGoodsClassify.getData().get(0).getFirstId();
+                mSecondCode  = -1;
+                firstAdapter.selectPosition(0);
+                getData();
             }
-        }else {
-            mList.clear();
-            mList.addAll(mModelMarketGoodsClassify.getData());
-            mListSecondNow.clear();
-            for (int i = 0; i < mModelMarketGoodsClassify.getData().size(); i++) {
-                if(mModelMarketGoodsClassify.getData().get(i).getFirstId().equals(fromId)) {
-                    mListSecondNow.addAll(mModelMarketGoodsClassify.getData().get(i).getSecondClassify());
-                }
-            }
-            mAdapterMarketSecond.notifyDataSetChanged();
-            mFirstCode = fromId;
-            firstAdapter.notifyDataSetChanged();
-            mSecondCode  = -1;
-            getData();
-            for (int i = 0; i < mList.size(); i++) {
-                if(fromId.equals(mList.get(i).getFirstId())) {
-                    rv_cate.smoothScrollToPosition(i);
-                    firstAdapter.selectPosition(i);
-                }
-            }
+
         }
+
     }
 
 
@@ -1551,6 +1583,13 @@ public class MarketsFragment extends BaseFragment {
 
     }
 
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void change(BackEvent fromIndexEvent) {
+//        requestGoodsList(fromId);
+//        getData();
+//        getCustomerPhone();
+//
+//    }
     /**
      * 提示用户去登录还是注册的弹窗
      */

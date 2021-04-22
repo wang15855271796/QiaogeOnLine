@@ -84,7 +84,8 @@ public class CouponFragment extends BaseFragment {
         couponsAdapter = new CouponsAdapter(R.layout.item_coupon_list, couponList, new CouponsAdapter.Onclick() {
             @Override
             public void addDialog() {
-                showPhoneDialog(cell);
+//                showPhoneDialog(cell);
+                AppHelper.ShowAuthDialog(mActivity,cell);
             }
         });
         recycleView.setLayoutManager(new LinearLayoutManager(mActivity));

@@ -68,7 +68,14 @@ public class Test2Adapter extends BaseQuickAdapter<CartsListModel.DataBean.Valid
 
     @Override
     protected void convert(BaseViewHolder helper, CartsListModel.DataBean.ValidListBean item) {
+        ImageView iv_operate = helper.getView(R.id.iv_operate);
         v1 = helper.getView(R.id.v1);
+        if(item.getSelfOrNot().equals("1")) {
+            //1非自营
+            iv_operate.setImageResource(R.mipmap.icon_unoperate);
+        }else {
+            iv_operate.setImageResource(R.mipmap.icon_operate);
+        }
         ImageView iv_icon = helper.getView(R.id.iv_icon);
         rv_full = helper.getView(R.id.rv_full);
         TextView tv_full_desc = helper.getView(R.id.tv_full_desc);

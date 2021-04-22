@@ -493,7 +493,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
         initFragment();
         setListener();
         EventBus.getDefault().register(this);
-        isShow();
         rl_grand.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -692,10 +691,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
         couponListAdapter = new CouponListAdapter(R.layout.item_home_coupon_list, lists);
         getPrivacys();
         getCustomerPhone();
-        isSend();
-        hotKey();
         classifyList();
-        getOrder();
         getProductsList(1,10,"commonBuy");
         mTypedialog = new AlertDialog.Builder(mActivity, R.style.DialogStyle).create();
         mTypedialog.setCancelable(false);
@@ -739,6 +735,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                 getCustomerPhone();
                 getProductsLists(1, 10, "new");
 //                getDriveInfo();
+                isShow();
                 getOrder();
                 classifyList();
                 EventBus.getDefault().post(new BackEvent());
@@ -1013,6 +1010,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                 if (data1 != null) {
                                     fullActive1.clear();
                                     tv_full_title.setText(data1.getTitle());
+
                                     tv_full_title1.setText(data1.getTitle());
                                     fullActive1.addAll(data1.getActives());
                                     commonssAdapter.notifyDataSetChanged();
@@ -1061,7 +1059,17 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                 ll_hot.setVisibility(View.GONE);
                             }
                             if (listBeans.size() == 1) {
-                                hotAdapter = new HotAdapter(R.layout.item_common_lists, listBeans);
+                                hotAdapter = new HotAdapter(R.layout.item_common_lists, listBeans, new HotAdapter.Onclick() {
+                                    @Override
+                                    public void addDialog() {
+
+                                    }
+
+                                    @Override
+                                    public void tipClick() {
+                                        AppHelper.ShowAuthDialog(mActivity,cell);
+                                    }
+                                });
                                 rv_hot.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
                                 rv_hot.setAdapter(hotAdapter);
                                 rv_hot1.setVisibility(View.GONE);
@@ -1069,18 +1077,37 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                             } else if (listBeans.size() == 2) {
                                 rv_hot1.setVisibility(View.GONE);
                                 rv_hot.setVisibility(View.VISIBLE);
-                                hotAdapter = new HotAdapter(R.layout.item_coupon_lists, listBeans);
+                                hotAdapter = new HotAdapter(R.layout.item_coupon_lists, listBeans, new HotAdapter.Onclick() {
+                                    @Override
+                                    public void addDialog() {
+
+                                    }
+
+                                    @Override
+                                    public void tipClick() {
+                                        AppHelper.ShowAuthDialog(mActivity,cell);
+                                    }
+                                });
                                 rv_hot.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
                                 rv_hot.setAdapter(hotAdapter);
                             } else {
                                 rv_hot1.setVisibility(View.VISIBLE);
                                 rv_hot.setVisibility(View.GONE);
-                                hotAdapter = new HotAdapter(R.layout.item_coupon_listss, listBeans);
+                                hotAdapter = new HotAdapter(R.layout.item_coupon_listss, listBeans, new HotAdapter.Onclick() {
+                                    @Override
+                                    public void addDialog() {
+
+                                    }
+
+                                    @Override
+                                    public void tipClick() {
+                                        AppHelper.ShowAuthDialog(mActivity,cell);
+                                    }
+                                });
                                 rv_hot1.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
                                 rv_hot1.setAdapter(hotAdapter);
                             }
 
-                            Log.d("dwqwfdedffe...","2222");
                         } else {
                             ToastUtil.showErroMsg(mActivity, getCommonProductModel.getMessage());
                         }
@@ -2332,7 +2359,10 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void cityEvent(CityEvent event) {
         refreshLayout.autoRefresh();
-        chooseAddressDialog.dismiss();
+        if(chooseAddressDialog!=null) {
+            chooseAddressDialog.dismiss();
+        }
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)

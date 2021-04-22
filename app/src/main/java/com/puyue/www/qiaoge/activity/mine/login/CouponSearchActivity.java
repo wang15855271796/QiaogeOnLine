@@ -87,7 +87,8 @@ public class CouponSearchActivity extends BaseSwipeActivity {
 
             @Override
             public void getPrice() {
-                showPhoneDialog(cell);
+//                showPhoneDialog(cell);
+                AppHelper.ShowAuthDialog(mActivity,cell);
             }
 
         });

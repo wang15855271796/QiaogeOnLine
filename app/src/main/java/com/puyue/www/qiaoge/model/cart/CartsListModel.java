@@ -280,7 +280,7 @@ public class CartsListModel {
                 private List<ProductDescVOListBean> productDescVOList;
                 private List<AdditionVOList> additionVOList;
                 boolean isSelected = true;
-
+                String buyNumLimit;
                 @Override
                 public String toString() {
                     return "SpecProductListBean{" +
@@ -296,6 +296,14 @@ public class CartsListModel {
 
                 public List<AdditionVOList> getAdditionVOList() {
                     return additionVOList;
+                }
+
+                public String getBuyNumLimit() {
+                    return buyNumLimit;
+                }
+
+                public void setBuyNumLimit(String buyNumLimit) {
+                    this.buyNumLimit = buyNumLimit;
                 }
 
                 public void setAdditionVOList(List<AdditionVOList> additionVOList) {

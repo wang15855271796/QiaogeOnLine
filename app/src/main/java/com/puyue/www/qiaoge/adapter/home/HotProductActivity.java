@@ -32,6 +32,7 @@ import com.puyue.www.qiaoge.api.home.ProductListAPI;
 import com.puyue.www.qiaoge.api.home.UpdateUserInvitationAPI;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
+import com.puyue.www.qiaoge.dialog.CouponDialog;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.event.UpDateNumEvent;
 import com.puyue.www.qiaoge.event.UpDateNumEvent6;
@@ -48,6 +49,7 @@ import com.puyue.www.qiaoge.model.home.GetCustomerPhoneModel;
 import com.puyue.www.qiaoge.model.home.GetRegisterShopModel;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 import com.puyue.www.qiaoge.model.home.UpdateUserInvitationModel;
+import com.puyue.www.qiaoge.utils.LoginUtil;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -116,7 +118,17 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
 //        enjoyProduct = SharedPreferencesUtil.getString(mActivity, "priceType");
         refreshLayout.setEnableLoadMore(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        hotAdapter = new HotListAdapter(R.layout.item_hot_list,list);
+        hotAdapter = new HotListAdapter(R.layout.item_hot_list,list, new HotListAdapter.Onclick() {
+            @Override
+            public void addDialog() {
+                AppHelper.ShowAuthDialog(mActivity,cell);
+            }
+
+            @Override
+            public void login() {
+                initDialog();
+            }
+        });
         recyclerView.setAdapter(hotAdapter);
         iv_back.setOnClickListener(this);
 
@@ -167,7 +179,23 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
         });
     }
 
+    CouponDialog couponDialog;
+    private void initDialog() {
+        couponDialog = new CouponDialog(mActivity) {
+            @Override
+            public void Login() {
+                startActivity(LoginActivity.getIntent(mActivity, LoginActivity.class));
+                dismiss();
+            }
 
+            @Override
+            public void Register() {
+                LoginUtil.initRegister(getContext());
+                dismiss();
+            }
+        };
+        couponDialog.show();
+    }
     /**
      * 弹出电话号码
      */

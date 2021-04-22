@@ -301,16 +301,17 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         //获取数据
+        Log.d("qwfsdfsf.....",num+"asdfds");
         if(num!=null) {
             if(num.equals("-1")) {
                 mTvAddCar.setEnabled(false);
-                getProductDetail(productId);
+                getProductDetail(productId,num);
                 ll_service.setVisibility(View.GONE);
                 mTvAddCar.setText("加入购物车");
                 mTvAddCar.setBackgroundResource(R.drawable.app_car_orange);
 
             }else {
-                getProductDetail(productId);
+                getProductDetail(productId,num);
                 ll_service.setVisibility(View.VISIBLE);
                 mTvAddCar.setEnabled(false);
                 mTvAddCar.setBackgroundResource(R.drawable.app_car);
@@ -318,7 +319,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
             }
         }else {
             mTvAddCar.setEnabled(false);
-            getProductDetail(productId);
+            getProductDetail(productId,num);
             mTvAddCar.setText("加入购物车");
             mTvAddCar.setBackgroundResource(R.drawable.app_car_orange);
         }
@@ -451,7 +452,8 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                         }
                         chooseDialog.show();
                     }else {
-                        showPhoneDialog(cell);
+//                        showPhoneDialog(cell);
+                        AppHelper.ShowAuthDialog(mActivity,cell);
                     }
 
                 }else {
@@ -537,8 +539,8 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
      * 获取详情
      */
 
-    private void getProductDetail(final int productId) {
-        GetProductDetailAPI.requestData(mContext,productId)
+    private void getProductDetail(final int productId,String num) {
+        GetProductDetailAPI.requestData(mContext,productId,num)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<GetProductDetailModel>() {
@@ -653,7 +655,8 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                                                 chooseDialog.show();
                                             }
                                         }else {
-                                            showPhoneDialog(cell);
+//                                            showPhoneDialog(cell);
+                                            AppHelper.ShowAuthDialog(mActivity,cell);
                                         }
 
                                     }else {
@@ -699,41 +702,41 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
     TextView tv_cancel;
     TextView tv_get;
     EditText et_authprize;
-    private void ShowAuthDialog() {
-        mDialog = new AlertDialog.Builder(mContext).create();
-        mDialog.show();
-        Window window = mDialog.getWindow();
-        window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
-                | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-
-        mDialog.getWindow().setContentView(R.layout.dialog_authorize);
-        tv_sure = mDialog.getWindow().findViewById(R.id.tv_sure);
-        tv_cancel = mDialog.getWindow().findViewById(R.id.tv_cancel);
-        tv_get = mDialog.getWindow().findViewById(R.id.tv_get);
-        et_authprize = mDialog.getWindow().findViewById(R.id.et_authprize);
-        mDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        tv_get.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPhoneDialog(cell);
-            }
-        });
-
-        tv_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        tv_sure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getCode(et_authprize.getText().toString());
-            }
-        });
-    }
+//    private void ShowAuthDialog() {
+//        mDialog = new AlertDialog.Builder(mContext).create();
+//        mDialog.show();
+//        Window window = mDialog.getWindow();
+//        window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+//        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
+//                | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+//
+//        mDialog.getWindow().setContentView(R.layout.dialog_authorize);
+//        tv_sure = mDialog.getWindow().findViewById(R.id.tv_sure);
+//        tv_cancel = mDialog.getWindow().findViewById(R.id.tv_cancel);
+//        tv_get = mDialog.getWindow().findViewById(R.id.tv_get);
+//        et_authprize = mDialog.getWindow().findViewById(R.id.et_authprize);
+//        mDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+//        tv_get.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showPhoneDialog(cell);
+//            }
+//        });
+//
+//        tv_cancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
+//
+//        tv_sure.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getCode(et_authprize.getText().toString());
+//            }
+//        });
+//    }
 
 
     /**

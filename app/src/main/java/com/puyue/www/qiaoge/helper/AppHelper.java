@@ -37,10 +37,13 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.adapter.market.PhotoViewAdapter;
+import com.puyue.www.qiaoge.api.home.CityChangeAPI;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.event.LogoutEvent;
 import com.puyue.www.qiaoge.fragment.home.CityEvent;
+import com.puyue.www.qiaoge.model.IsShowModel;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.PhotoViewPager;
 import com.puyue.www.qiaoge.view.datepicker.FingerFrameLayout;
@@ -59,6 +62,7 @@ import java.util.List;
 import java.util.Locale;
 
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 //import com.airbnb.lottie.LottieAnimationView;
@@ -197,7 +201,6 @@ public class AppHelper {
         tv_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.finish();
                 mDialog.dismiss();
             }
         });
@@ -210,7 +213,7 @@ public class AppHelper {
         });
     }
 
-    private static void getCode(String code, Activity context, AlertDialog mDialog) {
+    private static void getCode(String code, Context context, AlertDialog mDialog) {
         IndexHomeAPI.getCode(context,code)
                 .subscribeOn(Schedulers.io())
                 .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
@@ -239,7 +242,6 @@ public class AppHelper {
                     }
                 });
     }
-
 
     /**
      * 弹出电话号码

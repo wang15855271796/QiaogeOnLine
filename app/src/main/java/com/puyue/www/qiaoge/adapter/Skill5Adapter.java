@@ -22,6 +22,8 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
+import com.puyue.www.qiaoge.helper.StringHelper;
+import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.home.CouponModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
@@ -53,7 +55,6 @@ public class Skill5Adapter extends RecyclerView.Adapter<Skill5Adapter.BaseViewHo
             int pos = position % skillActive3.size();
             activesBean = skillActive3.get(position % skillActive3.size());
             viewHolder.tv_name.setText(activesBean.getActiveName());
-            viewHolder.tv_price.setText(activesBean.getPrice()+"00000");
             Glide.with(context).load(activesBean.getDefaultPic()).into(viewHolder.iv_pic);
 
             if(activesBean.getFlag()==1) {
@@ -61,6 +62,21 @@ public class Skill5Adapter extends RecyclerView.Adapter<Skill5Adapter.BaseViewHo
                 Glide.with(context).load(activesBean.getSoldOutPic()).into(viewHolder.iv_sale_done);
             }else {
                 viewHolder.iv_sale_done.setVisibility(View.GONE);
+            }
+
+            if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(context))) {
+                if(SharedPreferencesUtil.getString(context,"priceType").equals("1")) {
+                    viewHolder.tv_price.setVisibility(View.VISIBLE);
+                    viewHolder.tv_desc.setVisibility(View.GONE);
+                    viewHolder.tv_price.setText(activesBean.getPrice());
+                }else {
+                    viewHolder.tv_price.setVisibility(View.GONE);
+                    viewHolder.tv_desc.setVisibility(View.VISIBLE);
+                }
+            }else {
+                viewHolder.tv_price.setText(activesBean.getPrice());
+                viewHolder.tv_price.setVisibility(View.VISIBLE);
+                viewHolder.tv_desc.setVisibility(View.GONE);
             }
 
             viewHolder.ll_root.setOnClickListener(new View.OnClickListener() {
@@ -93,11 +109,13 @@ public class Skill5Adapter extends RecyclerView.Adapter<Skill5Adapter.BaseViewHo
         TextView tv_price;
         LinearLayout ll_root;
         ImageView iv_sale_done;
+        TextView tv_desc;
         public BaseViewHolder(View view) {
             super(view);
             iv_sale_done = (ImageView) view.findViewById(R.id.iv_sale_done);
             iv_pic = (ImageView) view.findViewById(R.id.iv_pic);
             tv_name = (TextView) view.findViewById(R.id.tv_name);
+            tv_desc = (TextView) view.findViewById(R.id.tv_desc);
             tv_price = (TextView) view.findViewById(R.id.tv_price);
             ll_root = (LinearLayout) view.findViewById(R.id.ll_root);
         }

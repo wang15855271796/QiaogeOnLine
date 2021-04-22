@@ -19,12 +19,14 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.adapter.market.MarketGoodsAdapter;
 import com.puyue.www.qiaoge.dialog.CollectionDialog;
 import com.puyue.www.qiaoge.dialog.CouponSearchDialog;
+import com.puyue.www.qiaoge.dialog.HotDialog;
 import com.puyue.www.qiaoge.helper.GlideRoundTransform;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 import com.puyue.www.qiaoge.model.mine.collection.CollectionListModel;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.view.GlideModel;
 
 import java.util.List;
@@ -69,12 +71,15 @@ public class MyCollectionAdapter extends BaseQuickAdapter<ProductNormalModel.Dat
 
     @Override
     protected void convert(final BaseViewHolder helper, ProductNormalModel.DataBean.ListBean item) {
+        TextView tv_price_desc = helper.getView(R.id.tv_price_desc);
         RelativeLayout rl_spec = helper.getView(R.id.rl_spec);
         ImageView iv_operate = helper.getView(R.id.iv_operate);
         RelativeLayout rl_price = helper.getView(R.id.rl_price);
         Glide.with(mContext).load(item.getSelfProd()).into(iv_operate);
         iv_sold_out = helper.getView(R.id.iv_sold_out);
         rl_item_collection_data = helper.getView(R.id.rl_item_collection_data);
+
+
         if (StringHelper.notEmptyAndNull(item.getDefaultPic())) {
             GlideModel.displayTransForms(mContext,item.getDefaultPic(),helper.getView(R.id.iv_item_my_collection_img));
         }
@@ -82,7 +87,8 @@ public class MyCollectionAdapter extends BaseQuickAdapter<ProductNormalModel.Dat
         helper.setText(R.id.tv_item_my_collection_title, item.getProductName());
         helper.setText(R.id.tv_item_my_collection_price, item.getMinMaxPrice());
         helper.setText(R.id.tv_item_my_collection_volume, item.getSalesVolume());
-
+        TextView tv_price = helper.getView(R.id.tv_item_my_collection_price);
+        TextView tv_desc = helper.getView(R.id.tv_desc);
         CheckBox cb_item_my_collection = helper.getView(R.id.cb_item_my_collection);
         if(isShow) {
             cb_item_my_collection.setVisibility(View.VISIBLE);
@@ -94,6 +100,22 @@ public class MyCollectionAdapter extends BaseQuickAdapter<ProductNormalModel.Dat
             rl_item_collection_data.setClickable(true);
         }
 
+        if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+            if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
+                tv_price.setVisibility(View.VISIBLE);
+                tv_desc.setVisibility(View.GONE);
+                rl_spec.setVisibility(View.VISIBLE);
+                rl_price.setVisibility(View.GONE);
+            }else {
+                rl_price.setVisibility(View.VISIBLE);
+                rl_spec.setVisibility(View.GONE);
+                tv_price.setVisibility(View.GONE);
+                tv_desc.setVisibility(View.VISIBLE);
+            }
+        }else {
+            tv_price.setVisibility(View.VISIBLE);
+            tv_desc.setVisibility(View.GONE);
+        }
 
         if (item.getFlag()==0){
             Glide.with(mContext).load(item.getTypeUrl()).into(iv_sold_out);
@@ -121,6 +143,14 @@ public class MyCollectionAdapter extends BaseQuickAdapter<ProductNormalModel.Dat
             }
         });
 
+        rl_price.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+                    onclick.getPrice();
+                }
+            }
+        });
         ((FrameLayout) helper.getView(R.id.fl_item_collection_check)).setOnClickListener(new NoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View view) {
