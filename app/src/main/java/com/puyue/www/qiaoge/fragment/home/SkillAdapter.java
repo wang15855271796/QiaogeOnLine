@@ -147,11 +147,7 @@ public class SkillAdapter extends RecyclerView.Adapter<SkillAdapter.BaseViewHold
 
     @Override
     public int getItemCount() {
-        if(flag.equals("0")) {
-            return Integer.MAX_VALUE;
-        }else {
-            return actives.size();
-        }
+        return actives.size();
     }
 
     @Override

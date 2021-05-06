@@ -307,7 +307,7 @@
 
                                                 </android.support.v7.widget.RecyclerView>
 
-                                                <com.puyue.www.qiaoge.view.AutoScrollRecyclerView
+                                                <android.support.v7.widget.RecyclerView
                                                     android:id="@+id/rv_auto_view"
                                                     android:padding="@dimen/size_8dp"
                                                     android:layout_marginBottom="@dimen/size_5dp"
@@ -316,7 +316,7 @@
                                                     android:background="@drawable/shape_white1"
                                                     android:layout_width="match_parent"
                                                     android:layout_height="122dp">
-                                                </com.puyue.www.qiaoge.view.AutoScrollRecyclerView>
+                                                </android.support.v7.widget.RecyclerView>
 
                                             </LinearLayout>
                                             <!--秒杀结束-->
@@ -371,12 +371,12 @@
                                                         android:layout_marginRight="@dimen/size_5dp"
                                                         android:layout_height="137dp">
 
-                                                        <com.puyue.www.qiaoge.view.AutoScrollRecyclerView
+                                                        <android.support.v7.widget.RecyclerView
                                                             android:id="@+id/rv_given"
                                                             android:layout_width="match_parent"
                                                             android:layout_height="wrap_content">
 
-                                                        </com.puyue.www.qiaoge.view.AutoScrollRecyclerView>
+                                                        </android.support.v7.widget.RecyclerView>
                                                     </RelativeLayout>
 
                                                 </LinearLayout>
@@ -426,12 +426,12 @@
                                                         android:layout_width="wrap_content"
                                                         android:layout_height="137dp">
 
-                                                        <com.puyue.www.qiaoge.view.AutoScrollRecyclerView
+                                                        <android.support.v7.widget.RecyclerView
                                                             android:id="@+id/rv_team"
                                                             android:layout_width="match_parent"
                                                             android:layout_height="wrap_content">
 
-                                                        </com.puyue.www.qiaoge.view.AutoScrollRecyclerView>
+                                                        </android.support.v7.widget.RecyclerView>
                                                     </RelativeLayout>
 
                                                 </LinearLayout>
@@ -482,7 +482,7 @@
 
                                                     </RelativeLayout>
 
-                                                    <com.puyue.www.qiaoge.view.AutoScrollRecyclerView
+                                                    <android.support.v7.widget.RecyclerView
                                                         android:id="@+id/rv_auto_view1"
                                                         android:layout_marginBottom="@dimen/size_5dp"
                                                         android:layout_marginLeft="@dimen/size_5dp"
@@ -492,7 +492,7 @@
                                                         android:layout_width="match_parent"
                                                         android:layout_height="wrap_content">
 
-                                                    </com.puyue.www.qiaoge.view.AutoScrollRecyclerView>
+                                                    </android.support.v7.widget.RecyclerView>
                                                 </RelativeLayout>
                                                 <!--满赠2结束-->
 
@@ -531,7 +531,7 @@
 
                                                     </RelativeLayout>
 
-                                                    <com.puyue.www.qiaoge.view.AutoScrollRecyclerView
+                                                    <android.support.v7.widget.RecyclerView
                                                         android:id="@+id/rv_auto_team"
                                                         android:layout_marginBottom="@dimen/size_5dp"
                                                         android:layout_marginLeft="@dimen/size_5dp"
@@ -541,7 +541,7 @@
                                                         android:layout_width="match_parent"
                                                         android:layout_height="wrap_content">
 
-                                                    </com.puyue.www.qiaoge.view.AutoScrollRecyclerView>
+                                                    </android.support.v7.widget.RecyclerView>
                                                 </RelativeLayout>
 
                                             </RelativeLayout>

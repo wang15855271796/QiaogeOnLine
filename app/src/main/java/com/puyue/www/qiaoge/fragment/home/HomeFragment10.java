@@ -177,7 +177,7 @@ import rx.schedulers.Schedulers;
 public class HomeFragment10 extends BaseFragment implements View.OnClickListener,BaseSliderView.OnSliderClickListener{
     Unbinder bind;
     @BindView(R.id.rv_auto_view1)
-    AutoScrollRecyclerView rv_auto_view1;
+    RecyclerView rv_auto_view1;
     @BindView(R.id.rv_coupon)
     RecyclerView rv_coupon;
     @BindView(R.id.rv_coupon1)
@@ -251,13 +251,13 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     @BindView(R.id.ll_line)
     LinearLayout ll_line;
     @BindView(R.id.rv_team)
-    AutoScrollRecyclerView rv_team;
+    RecyclerView rv_team;
     @BindView(R.id.tv_team_title)
     TextView tv_team_title;
     @BindView(R.id.tv_team_title1)
     TextView tv_team_title1;
     @BindView(R.id.rv_given)
-    AutoScrollRecyclerView rv_given;
+    RecyclerView rv_given;
 //    @BindView(R.id.v1)
 //    View v1;
 //    @BindView(R.id.v2)
@@ -313,9 +313,9 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     @BindView(R.id.ll_skill)
     LinearLayout ll_skill;
     @BindView(R.id.rv_auto_view)
-    AutoScrollRecyclerView rv_auto_view;
+    RecyclerView rv_auto_view;
     @BindView(R.id.rv_auto_team)
-    AutoScrollRecyclerView rv_auto_team;
+    RecyclerView rv_auto_team;
     @BindView(R.id.rv_hot)
     RecyclerView rv_hot;
     @BindView(R.id.rv_hot1)

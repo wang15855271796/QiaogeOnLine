@@ -147,7 +147,7 @@ public class CommonssAdapter extends  RecyclerView.Adapter<CommonssAdapter.BaseV
 
     @Override
     public int getItemCount() {
-        return Integer.MAX_VALUE;
+        return fullActive.size();
     }
 //
 //    public void cancle() {

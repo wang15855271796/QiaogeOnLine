@@ -100,7 +100,7 @@ public class Skill5Adapter extends RecyclerView.Adapter<Skill5Adapter.BaseViewHo
 
     @Override
     public int getItemCount() {
-        return Integer.MAX_VALUE;
+        return skillActive3.size();
     }
 
     public class BaseViewHolder extends RecyclerView.ViewHolder {

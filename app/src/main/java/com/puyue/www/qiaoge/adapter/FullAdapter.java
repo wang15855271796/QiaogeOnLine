@@ -160,7 +160,7 @@ public class FullAdapter extends RecyclerView.Adapter<FullAdapter.BaseViewHolder
 
     @Override
     public int getItemCount() {
-        return Integer.MAX_VALUE;
+        return fullActive.size();
     }
 
     public void cancle() {
