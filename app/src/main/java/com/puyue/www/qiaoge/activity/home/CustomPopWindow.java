@@ -33,7 +33,7 @@ public class CustomPopWindow {
     private int mSoftInputMode = -1;
     private boolean mTouchable = true;//default is ture
     private View.OnTouchListener mOnTouchListener;
-    private CustomPopWindow(Context context){
+    public CustomPopWindow(Context context){
         mContext = context;
     }
 
@@ -126,7 +126,7 @@ public class CustomPopWindow {
         if(mWidth != 0 && mHeight!=0 ){
             mPopupWindow = new PopupWindow(mContentView,mWidth,mHeight);
         }else{
-            mPopupWindow = new PopupWindow(mContentView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            mPopupWindow = new PopupWindow(mContentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         }
         if(mAnimationStyle!=-1){
             mPopupWindow.setAnimationStyle(mAnimationStyle);

@@ -2,6 +2,7 @@ package com.puyue.www.qiaoge.dialog;
 
 import android.app.Activity;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -44,7 +45,6 @@ public class ChooseCityPopWindow extends PopupWindow {
         //设置回调接口
         cascadingMenuView.setCascadingMenuViewOnSelectListener(new MCascadingMenuViewOnSelectListener());
 
-
     }
     //级联菜单选择回调接口
     class MCascadingMenuViewOnSelectListener implements CascadingMenuViewOnSelectListener{
@@ -68,6 +68,8 @@ public class ChooseCityPopWindow extends PopupWindow {
         public void cloese() {
             if(menuViewOnSelectListener!=null){
                 dismiss();
+                menuViewOnSelectListener.cloese();
+                Log.d("wfdfgfdsfs........","edtg");
             }
         }
 

@@ -55,6 +55,13 @@ public class NewAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
         iv_add = helper.getView(R.id.iv_add);
         rl_group = helper.getView(R.id.rl_group);
         tv_sale = helper.getView(R.id.tv_sale);
+        ImageView iv_send = helper.getView(R.id.iv_send);
+        if(item.getNotSend().equals("1")) {
+            iv_send.setImageResource(R.mipmap.icon_not_send);
+            iv_send.setVisibility(View.VISIBLE);
+        }else {
+            iv_send.setVisibility(View.GONE);
+        }
         Glide.with(mContext).load(item.getDefaultPic()).into(iv_pic);
         helper.setText(R.id.tv_name,item.getProductName());
         Glide.with(mContext).load(item.getSelfProd()).into(iv_operate);

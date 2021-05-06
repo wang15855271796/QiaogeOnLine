@@ -84,6 +84,7 @@ public class GetProductDetailModel {
          * detailPic : []
          * topPic : []
          */
+        String notSend;
         private int saleDone;
         private String type;
         private int productMainId;
@@ -100,6 +101,7 @@ public class GetProductDetailModel {
         private String introduction;
         private List<ProdSpecsBean> prodSpecs;
         private List<ProdPricesBean> prodPrices;
+        private List<SupProdsBean> supProds;
         private List<String> detailPic;
         private List<String> topPic;
         private List<String> fullGiftSendInfo;
@@ -135,6 +137,22 @@ public class GetProductDetailModel {
                     ", detailPic=" + detailPic +
                     ", topPic=" + topPic +
                     '}';
+        }
+
+        public String getNotSend() {
+            return notSend;
+        }
+
+        public void setNotSend(String notSend) {
+            this.notSend = notSend;
+        }
+
+        public List<SupProdsBean> getSupProds() {
+            return supProds;
+        }
+
+        public void setSupProds(List<SupProdsBean> supProds) {
+            this.supProds = supProds;
         }
 
         public String getCityName() {
@@ -502,6 +520,36 @@ public class GetProductDetailModel {
 
             public void setUnitDesc(String unitDesc) {
                 this.unitDesc = unitDesc;
+            }
+        }
+
+        public static class SupProdsBean {
+            String defaultPic;
+            int productMainId;
+            String productName;
+
+            public String getDefaultPic() {
+                return defaultPic;
+            }
+
+            public void setDefaultPic(String defaultPic) {
+                this.defaultPic = defaultPic;
+            }
+
+            public int getProductMainId() {
+                return productMainId;
+            }
+
+            public void setProductMainId(int productMainId) {
+                this.productMainId = productMainId;
+            }
+
+            public String getProductName() {
+                return productName;
+            }
+
+            public void setProductName(String productName) {
+                this.productName = productName;
             }
         }
     }

@@ -71,8 +71,6 @@ public class MenuSecondItemAdapter extends BaseAdapter {
     public void setSelectedPositionNoNotify(int pos,List<CityChangeModel.DataBean.CityNamesBean> list) {
         selectedPos = pos;
         mListData = list;
-        Log.d("wdasdasssss...",pos+"aa");
-        Log.d("wdasdasssss...",list+"bb");
         if (mListData != null && pos < mListData.size()) {
             selectedText = mListData.get(pos).getCityName();
         }
@@ -137,6 +135,9 @@ public class MenuSecondItemAdapter extends BaseAdapter {
 
     public void setOnItemClickListener(MenuItemAdapter.OnItemClickListener l) {
         mOnItemClickListener = l;
+    }
+    public void setCustText(String s) {
+        selectedText  = s;
     }
 
 //    public void setSelectsedPositionNoNotify(int pos, List<CityChangeModel.DataBean.CityNamesBean> list) {

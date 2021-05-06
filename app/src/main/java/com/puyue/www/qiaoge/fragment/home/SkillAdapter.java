@@ -80,9 +80,9 @@ public class SkillAdapter extends RecyclerView.Adapter<SkillAdapter.BaseViewHold
         holder.tv_name.setText(activesBean.getActiveName());
         Glide.with(mContext).load(activesBean.getDefaultPic()).into(holder.iv_pic);
         holder.tv_price.setText(activesBean.getPrice());
-//        holder.tv_old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-//        holder.tv_old_price.setText(activesBean.getOldPrice());
-//        holder.tv_old_price.getPaint().setAntiAlias(true);//抗锯齿
+        holder.tv_old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        holder.tv_old_price.setText(activesBean.getOldPrice());
+        holder.tv_old_price.getPaint().setAntiAlias(true);//抗锯齿
 
         if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
             if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
@@ -248,7 +248,7 @@ public class SkillAdapter extends RecyclerView.Adapter<SkillAdapter.BaseViewHold
 //        private ImageView iv_add;
         private ImageView iv_pic;
         private TextView tv_price;
-//        private TextView tv_old_price;
+        private TextView tv_old_price;
         private TextView tv_desc;
         private TextView tv_name;
         private ImageView iv_sale_done;
@@ -260,7 +260,7 @@ public class SkillAdapter extends RecyclerView.Adapter<SkillAdapter.BaseViewHold
             iv_flag = (ImageView) view.findViewById(R.id.iv_flag);
             iv_pic = (ImageView) view.findViewById(R.id.iv_pic);
             tv_price = (TextView) view.findViewById(R.id.tv_price);
-//            tv_old_price = (TextView) view.findViewById(R.id.tv_old_price);
+            tv_old_price = (TextView) view.findViewById(R.id.tv_old_price);
             tv_name = (TextView) view.findViewById(R.id.tv_name);
             tv_desc = (TextView) view.findViewById(R.id.tv_desc);
             iv_sale_done = (ImageView) view.findViewById(R.id.iv_sale_done);

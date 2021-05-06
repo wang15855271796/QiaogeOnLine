@@ -89,21 +89,19 @@ public class FullAdapter extends RecyclerView.Adapter<FullAdapter.BaseViewHolder
                 }
             });
 
-            if(activesBean.getSendGiftType().equals("赠礼")) {
-                viewHolder.iv_given.setVisibility(View.VISIBLE);
-                Glide.with(mActivity).load(activesBean.getDefaultPic()).into(viewHolder.iv_given);
-                viewHolder.tv_full_desc.setVisibility(View.VISIBLE);
-                viewHolder.tv_full_desc.setText(activesBean.getSendGiftType());
-                viewHolder.tv_fit.setVisibility(View.GONE);
-                viewHolder.tv_coupon.setVisibility(View.GONE);
-
-            }else {
-                viewHolder.tv_full_desc.setVisibility(View.GONE);
-                viewHolder.iv_given.setVisibility(View.GONE);
-                viewHolder.tv_fit.setVisibility(View.VISIBLE);
-                viewHolder.tv_fit.setText(activesBean.getRoleAmount());
+            if(activesBean.getSendGiftType().equals("赠品")) {
                 viewHolder.tv_coupon.setVisibility(View.VISIBLE);
-                viewHolder.tv_coupon.setText(activesBean.getSendGiftInfo());
+                viewHolder.tv_coupon.setText("赠送商品");
+                viewHolder.tv_shop.setVisibility(View.GONE);
+            }else if(activesBean.getSendGiftType().equals("送券")){
+                viewHolder.tv_coupon.setVisibility(View.VISIBLE);
+                viewHolder.tv_coupon.setText("赠送商品");
+                viewHolder.tv_shop.setVisibility(View.GONE);
+            }else {
+                viewHolder.tv_coupon.setVisibility(View.VISIBLE);
+                viewHolder.tv_shop.setVisibility(View.VISIBLE);
+                viewHolder.tv_shop.setText("赠送商品");
+                viewHolder.tv_coupon.setText("赠优惠券");
             }
 
 
@@ -124,23 +122,21 @@ public class FullAdapter extends RecyclerView.Adapter<FullAdapter.BaseViewHolder
                         viewHolder.tv_price.setText(fullActive.get(i).getMinMaxPrice());
                         viewHolder.tv_name.setText(fullActive.get(i).getProductName());
 
-                        if(fullActive.get(i).getSendGiftType().equals("赠礼")) {
-                            viewHolder.iv_given.setVisibility(View.VISIBLE);
-                            Glide.with(mActivity).load(fullActive.get(i).getDefaultPic()).into(viewHolder.iv_given);
-                            viewHolder.tv_full_desc.setVisibility(View.VISIBLE);
-                            viewHolder.tv_full_desc.setText(fullActive.get(i).getSendGiftType());
-                            viewHolder.tv_fit.setVisibility(View.GONE);
+                        if(fullActive.get(i).getSendGiftType().equals("赠品")) {
+                            viewHolder.rl_coupon.setVisibility(View.VISIBLE);
+                            viewHolder.tv_shop.setVisibility(View.VISIBLE);
                             viewHolder.tv_coupon.setVisibility(View.GONE);
 
-                        }else {
-                            viewHolder.tv_full_desc.setVisibility(View.GONE);
-                            viewHolder.iv_given.setVisibility(View.GONE);
-                            viewHolder.tv_fit.setVisibility(View.VISIBLE);
-                            viewHolder.tv_fit.setText(fullActive.get(i).getRoleAmount());
+                        }else if(fullActive.get(i).getSendGiftType().equals("送券")){
+                            viewHolder.rl_coupon.setVisibility(View.VISIBLE);
                             viewHolder.tv_coupon.setVisibility(View.VISIBLE);
-                            viewHolder.tv_coupon.setText(fullActive.get(i).getSendGiftInfo());
-
+                            viewHolder.tv_shop.setVisibility(View.GONE);
+                        }else {
+                            viewHolder.rl_coupon.setVisibility(View.VISIBLE);
+                            viewHolder.tv_coupon.setVisibility(View.VISIBLE);
+                            viewHolder.tv_shop.setVisibility(View.VISIBLE);
                         }
+
                         i++;
                         if(i==fullActive.size()) {
                             i = 0;
@@ -179,20 +175,18 @@ public class FullAdapter extends RecyclerView.Adapter<FullAdapter.BaseViewHolder
         RoundImageView iv_pic;
         TextView tv_name;
         TextView tv_price;
-        TextView tv_full_desc;
         TextView tv_coupon;
-        TextView tv_fit;
-        RoundImageView iv_given;
         RelativeLayout rl_group;
         TextView tv_desc;
+        RelativeLayout rl_coupon;
+        TextView tv_shop;
         public BaseViewHolder(View view) {
             super(view);
+            tv_shop = view.findViewById(R.id.tv_shop);
+            rl_coupon = (RelativeLayout) view.findViewById(R.id.rl_coupon);
             tv_desc = view.findViewById(R.id.tv_desc);
             rl_group = view.findViewById(R.id.rl_group);
             tv_coupon = (TextView) view.findViewById(R.id.tv_coupon);
-            tv_fit = (TextView) view.findViewById(R.id.tv_fit);
-            tv_full_desc = (TextView) view.findViewById(R.id.tv_full_desc);
-            iv_given = (RoundImageView) view.findViewById(R.id.iv_given);
             iv_pic = (RoundImageView) view.findViewById(R.id.iv_pic);
             tv_name = (TextView) view.findViewById(R.id.tv_name);
             tv_price = (TextView) view.findViewById(R.id.tv_price);

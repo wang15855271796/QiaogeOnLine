@@ -83,6 +83,8 @@ public class MarketGialog extends Dialog implements View.OnClickListener{
     ImageView iv_pic;
     @BindView(R.id.iv_operate)
     ImageView iv_operate;
+    @BindView(R.id.iv_send)
+    ImageView iv_send;
     private SpecAdapter specAdapter;
     MarketRightModel.DataBean.ProdClassifyBean.ListBean listBean;
     int pos = 0;
@@ -144,6 +146,13 @@ public class MarketGialog extends Dialog implements View.OnClickListener{
                                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                                 recyclerView.setAdapter(marketItemAdapter);
                                 marketItemAdapter.notifyDataSetChanged();
+
+                                if(exchangeProductModel.getData().getNotSend().equals("1")) {
+                                    iv_send.setImageResource(R.mipmap.icon_not_send);
+                                    iv_send.setVisibility(View.VISIBLE);
+                                }else {
+                                    iv_send.setVisibility(View.GONE);
+                                }
                             }
 
                         }else {

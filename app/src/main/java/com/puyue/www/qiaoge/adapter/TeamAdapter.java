@@ -7,6 +7,7 @@ import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +45,17 @@ public class TeamAdapter extends BaseQuickAdapter<CouponModel.DataBean.ActivesBe
     @Override
     protected void convert(BaseViewHolder helper, CouponModel.DataBean.ActivesBean item) {
         ImageView iv_pic = helper.getView(R.id.iv_pic);
+        TextView tv_old_price = helper.getView(R.id.tv_old_price);
+
+        if(!TextUtils.isEmpty(item.getOldPrice())) {
+            tv_old_price.setText(item.getOldPrice());
+            tv_old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            tv_old_price.getPaint().setAntiAlias(true);//抗锯齿
+            tv_old_price.setVisibility(View.VISIBLE);
+        }else {
+            tv_old_price.setVisibility(View.GONE);
+        }
+
         RelativeLayout rl_group = helper.getView(R.id.rl_group);
         rl_group.setOnClickListener(new View.OnClickListener() {
             @Override

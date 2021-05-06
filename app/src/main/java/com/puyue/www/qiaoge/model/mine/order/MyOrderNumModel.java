@@ -55,6 +55,7 @@ public class MyOrderNumModel extends BaseModel {
          *          * day : 1
          *          * giftNo : 112019061100000848
          */
+        String vipDeductAmt;
         private int point;
         private boolean vipUser;
         private String balance;
@@ -67,6 +68,14 @@ public class MyOrderNumModel extends BaseModel {
         private String phone;
         int inviteOpen;
         int subMessage;
+
+        public String getVipDeductAmt() {
+            return vipDeductAmt;
+        }
+
+        public void setVipDeductAmt(String vipDeductAmt) {
+            this.vipDeductAmt = vipDeductAmt;
+        }
 
         @Override
         public String toString() {

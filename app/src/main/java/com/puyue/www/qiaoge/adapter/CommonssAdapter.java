@@ -64,6 +64,20 @@ public class CommonssAdapter extends  RecyclerView.Adapter<CommonssAdapter.BaseV
             activesBean = fullActive.get(position % fullActive.size());
             viewHolder.tv_name.setText(activesBean.getProductName());
             Glide.with(mActivity).load(activesBean.getDefaultPic()).into(viewHolder.iv_pic);
+            if(activesBean.getSendGiftType().equals("赠品")) {
+                viewHolder.tv_coupon.setVisibility(View.VISIBLE);
+                viewHolder.tv_coupon.setText("赠送商品");
+                viewHolder.tv_shop.setVisibility(View.GONE);
+            }else if(activesBean.getSendGiftType().equals("送券")){
+                viewHolder.tv_coupon.setVisibility(View.VISIBLE);
+                viewHolder.tv_coupon.setText("赠送商品");
+                viewHolder.tv_shop.setVisibility(View.GONE);
+            }else {
+                viewHolder.tv_coupon.setVisibility(View.VISIBLE);
+                viewHolder.tv_shop.setVisibility(View.VISIBLE);
+                viewHolder.tv_shop.setText("赠送商品");
+                viewHolder.tv_coupon.setText("赠优惠券");
+            }
             if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mActivity))) {
                 if(SharedPreferencesUtil.getString(mActivity,"priceType").equals("1")) {
                     viewHolder.tv_price.setVisibility(View.VISIBLE);
@@ -87,18 +101,8 @@ public class CommonssAdapter extends  RecyclerView.Adapter<CommonssAdapter.BaseV
 
                 }
             });
-            if(activesBean.getSendGiftType().equals("赠礼")) {
-                viewHolder.rl_given.setVisibility(View.VISIBLE);
-                viewHolder.rl_coupon.setVisibility(View.GONE);
-                Glide.with(mActivity).load(activesBean.getSendGiftPic()).into(viewHolder.iv_given);
-                viewHolder.tv_descs.setText("满赠商品");
-            }else {
-                viewHolder.rl_given.setVisibility(View.GONE);
-                viewHolder.tv_descs.setText("满赠优惠券");
-                viewHolder.rl_coupon.setVisibility(View.VISIBLE);
-                viewHolder.tv_fit.setText(activesBean.getRoleAmount());
-                viewHolder.tv_coupon.setText(activesBean.getSendGiftInfo());
-            }
+
+
 
 
 //            if(countDownTimer1 == null) {
@@ -167,23 +171,17 @@ public class CommonssAdapter extends  RecyclerView.Adapter<CommonssAdapter.BaseV
         TextView tv_name;
         TextView tv_price;
         TextView tv_coupon;
-        TextView tv_fit;
-        RoundImageView iv_given;
-        RelativeLayout rl_given;
         RelativeLayout rl_coupon;
-        TextView tv_descs;
         RelativeLayout rl_group;
         TextView tv_desc;
+        TextView tv_shop;
         public BaseViewHolder(View view) {
             super(view);
+            tv_shop = view.findViewById(R.id.tv_shop);
             tv_desc = view.findViewById(R.id.tv_desc);
             rl_group = (RelativeLayout) view.findViewById(R.id.rl_group);
-            tv_descs = (TextView) view.findViewById(R.id.tv_descs);
             rl_coupon = (RelativeLayout) view.findViewById(R.id.rl_coupon);
-            rl_given = (RelativeLayout) view.findViewById(R.id.rl_given);
             tv_coupon = (TextView) view.findViewById(R.id.tv_coupon);
-            tv_fit = (TextView) view.findViewById(R.id.tv_fit);
-            iv_given = (RoundImageView) view.findViewById(R.id.iv_given);
             iv_pic = (RoundImageView) view.findViewById(R.id.iv_pic);
             tv_name = (TextView) view.findViewById(R.id.tv_name);
             tv_price = (TextView) view.findViewById(R.id.tv_price);

@@ -346,12 +346,25 @@
 
         <activity android:name=".activity.home.SearchReasultActivity"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".activity.ShopsActivity"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".activity.home.SearchStartActivity"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".activity.SearchSurpStartActivity"
+            android:screenOrientation="portrait"
+            />
+
         <activity android:name=".activity.mine.account.AddressListActivity"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".activity.SearchSurpActivity"
+            android:screenOrientation="portrait"
+            />
         <activity android:name=".activity.mine.account.AddressListsActivity"
             android:screenOrientation="portrait" />
         <activity

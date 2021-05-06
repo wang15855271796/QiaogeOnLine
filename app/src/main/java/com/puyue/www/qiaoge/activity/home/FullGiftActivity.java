@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -68,6 +69,7 @@ public class FullGiftActivity extends BaseSwipeActivity {
                 Intent intent = new Intent(mContext,CommonGoodsDetailActivity.class);
                 intent.putExtra(AppConstant.ACTIVEID, list.get(position).getProductMainId());
                 intent.putExtra("priceType", SharedPreferencesUtil.getString(mContext,"priceType"));
+                Log.d("wfsdsfdf.......",SharedPreferencesUtil.getString(mContext,"priceType")+"bb");
                 mContext.startActivity(intent);
             }
         });

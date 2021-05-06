@@ -4,8 +4,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -64,7 +66,13 @@ public class CartSpecAdapter extends BaseQuickAdapter<CartsListModel.DataBean.Va
                 testAdapter,item.getBusinessId(),businessType);
         recyclerView_price.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView_price.setAdapter(chooseCartPriceAdapter);
-
+        ImageView iv_send = helper.getView(R.id.iv_send);
+        if(item.getNotSend().equals("1")) {
+            iv_send.setImageResource(R.mipmap.icon_not_send);
+            iv_send.setVisibility(View.VISIBLE);
+        }else {
+            iv_send.setVisibility(View.GONE);
+        }
         cb_item_in.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

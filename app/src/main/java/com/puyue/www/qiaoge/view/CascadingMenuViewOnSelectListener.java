@@ -9,7 +9,7 @@ import com.puyue.www.qiaoge.model.home.CityChangeModel;
  * 下午3:21:35
  */
 public interface CascadingMenuViewOnSelectListener {
-	public void getValue(CityChangeModel.DataBean area);
+	void getValue(CityChangeModel.DataBean area);
 	void getValues(CityChangeModel.DataBean.CityNamesBean area);
 	void cloese();
 }

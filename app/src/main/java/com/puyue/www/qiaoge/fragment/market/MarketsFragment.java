@@ -22,6 +22,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -38,6 +39,7 @@ import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.TestActivity;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.activity.home.CouponDetailActivity;
+import com.puyue.www.qiaoge.activity.home.CustomPopWindow;
 import com.puyue.www.qiaoge.activity.home.HomeGoodsListActivity;
 import com.puyue.www.qiaoge.activity.home.SearchStartActivity;
 import com.puyue.www.qiaoge.activity.home.SpecialGoodDetailActivity;
@@ -210,6 +212,7 @@ public class MarketsFragment extends BaseFragment {
     private boolean isCheck = false;
     private boolean hasPage = true;
     EditText et_goods;
+    FrameLayout mask;
     LinearLayout ll_select;
     LinearLayout ll_prod;
     private ProdAdapter prodAdapter;
@@ -220,6 +223,7 @@ public class MarketsFragment extends BaseFragment {
     private AlertDialog mTypedialog;
     boolean flag = false;
     LinearLayout ll_price;
+    LinearLayout ll_all;
     public static MarketsFragment getInstance() {
         MarketsFragment fragment = new MarketsFragment();
         Bundle bundle = new Bundle();
@@ -248,6 +252,8 @@ public class MarketsFragment extends BaseFragment {
         context = getActivity();
 
         EventBus.getDefault().register(this);
+        mask = view.findViewById(R.id.mask);
+        ll_all = view.findViewById(R.id.ll_all);
         tv_select_good = view.findViewById(R.id.tv_select_good);
         iv_tip = view.findViewById(R.id.iv_tip);
         tv_price = view.findViewById(R.id.tv_price);
@@ -271,7 +277,12 @@ public class MarketsFragment extends BaseFragment {
         ll_up = view.findViewById(R.id.ll_up);
         tv_blank = view.findViewById(R.id.tv_blank);
         mllMarket = view.findViewById(R.id.ll_market);
-
+        ll_all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shopListView();
+            }
+        });
         ll_price.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -377,6 +388,7 @@ public class MarketsFragment extends BaseFragment {
                 //点击一级分类时候隐藏品牌界面
                 ll_prod.setVisibility(View.GONE);
                 ll_select.setVisibility(View.VISIBLE);
+                mCustomPopWindow.dissmiss();
             }
         });
         v_shadow.setOnClickListener(new View.OnClickListener() {
@@ -404,7 +416,6 @@ public class MarketsFragment extends BaseFragment {
                     return true;
                 }
                 return false;
-
             }
         });
 
@@ -515,6 +526,31 @@ public class MarketsFragment extends BaseFragment {
                 });
             }
         });
+    }
+
+    CustomPopWindow mCustomPopWindow;
+    private void shopListView() {
+        View contentView = LayoutInflater.from(context).inflate(R.layout.cate_list,null);
+        ImageView iv_close = contentView.findViewById(R.id.iv_close);
+        RecyclerView recyclerView = contentView.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new GridLayoutManager(mContext,5));
+        recyclerView.setAdapter(firstAdapter);
+        mask.setVisibility(View.VISIBLE);
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCustomPopWindow.dissmiss();
+                mask.setVisibility(View.GONE);
+            }
+        });
+        //当前界面没关闭，不是售罄产品才显示
+        mCustomPopWindow= new CustomPopWindow.PopupWindowBuilder(context)
+                .setFocusable(false)
+                .setOutsideTouchable(false)
+                .setView(contentView)
+                .create()
+                .showAsDropDown(mLlSearch);
+
     }
 
     /**

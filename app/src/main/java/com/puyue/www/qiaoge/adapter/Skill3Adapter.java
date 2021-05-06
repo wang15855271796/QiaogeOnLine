@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +51,15 @@ public class Skill3Adapter extends BaseQuickAdapter<CouponModel.DataBean.Actives
         LinearLayout ll_root = helper.getView(R.id.ll_root);
         Glide.with(mContext).load(item.getDefaultPic()).into(iv_pic);
         helper.setText(R.id.tv_name,item.getActiveName());
+        TextView tv_old_price = helper.getView(R.id.tv_old_price);
+        if(!TextUtils.isEmpty(item.getOldPrice())) {
+            tv_old_price.setText(item.getOldPrice());
+            tv_old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            tv_old_price.getPaint().setAntiAlias(true);//抗锯齿
+            tv_old_price.setVisibility(View.VISIBLE);
+        }else {
+            tv_old_price.setVisibility(View.GONE);
+        }
 
         if(item.getFlag()==1) {
             iv_sale_done.setVisibility(View.VISIBLE);

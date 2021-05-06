@@ -47,7 +47,9 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:textColor="#ffffff"
+            android:background="@drawable/shape_skill_red"
+            android:textColor="#ffff"
+            android:textStyle="bold"
             android:layout_gravity="center_horizontal"
             android:paddingLeft="@dimen/size_5dp"
             android:paddingRight="@dimen/size_5dp"
@@ -55,8 +57,21 @@
             android:ellipsize="end"
             android:layout_marginRight="@dimen/dp_10"
             android:id="@+id/tv_price"
-            android:background="@drawable/shape_red_orders"
-            android:layout_marginTop="@dimen/size_10dp"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:textSize="@dimen/sp_14"
+            tools:text="100.00"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:textColor="#999999"
+            android:layout_gravity="center_horizontal"
+            android:paddingLeft="@dimen/size_5dp"
+            android:paddingRight="@dimen/size_5dp"
+            android:lines="1"
+            android:ellipsize="end"
+            android:layout_marginRight="@dimen/dp_10"
+            android:id="@+id/tv_old_price"
             android:layout_marginLeft="@dimen/dp_10"
             android:textSize="@dimen/sp_12"
             tools:text="100.00"

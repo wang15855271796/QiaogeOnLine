@@ -94,6 +94,14 @@ public class SearchReasultAdapter extends BaseQuickAdapter<SearchResultsModel.Da
         tv_stock = helper.getView(R.id.tv_stock);
         tv_stock.setText(item.getInventory());
 
+        ImageView iv_send = helper.getView(R.id.iv_send);
+        if(item.getNotSend().equals("1")) {
+            iv_send.setImageResource(R.mipmap.icon_not_send);
+            iv_send.setVisibility(View.VISIBLE);
+        }else {
+            iv_send.setVisibility(View.GONE);
+        }
+
         if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
             rl_price.setVisibility(View.GONE);
             rl_spec.setVisibility(View.VISIBLE);

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="产品说明"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/size_23dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:text="适用渠道：粥铺，汤面饭，便当
+食用方法：油炸
+储存方式：-18度冷藏
+配料表：小麦粉，饮用水，包菜，胡萝卜，膨化豆制品，淀粉，大葱，植物油，白砂糖，味精，酱油，食用盐，姜，麦芽糊精，香辛料，食品添加剂（复配膨松剂（碳酸氢钠，葡萄糖酸-δ-内酯，碳酸二氢钠，柠檬酸，碳酸钙，食用玉米淀粉）单，双甘油脂肪酸酯）
+保质期：12个月
+厂名: 郑州千味央厨食品股份有限公司
+厂址: 郑州高新区红枫里西;
+        郑州市惠济区英才街15号
+厂家联系方式: 400-888-7311
+（碳酸氢钠，葡萄糖酸-δ-内酯，碳酸二氢钠，柠檬酸，碳酸钙，食用玉米淀粉）单，双甘油脂肪酸酯）
+保质期：12个月
+厂名: 郑州千味央厨食品股份有限公司
+厂址: 郑州高新区红枫里西;
+        郑州市惠济区英才街15号
+厂家联系方式: 400-888-7311"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_close"
+        android:layout_marginBottom="@dimen/size_20dp"
+        android:layout_marginTop="@dimen/size_50dp"
+        android:text="完成"
+        android:layout_marginRight="@dimen/sp_12"
+        android:layout_marginLeft="@dimen/sp_12"
+        android:padding="@dimen/size_10dp"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:background="@drawable/shape_red_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

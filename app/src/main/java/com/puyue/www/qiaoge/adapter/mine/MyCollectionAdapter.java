@@ -100,6 +100,14 @@ public class MyCollectionAdapter extends BaseQuickAdapter<ProductNormalModel.Dat
             rl_item_collection_data.setClickable(true);
         }
 
+        ImageView iv_send = helper.getView(R.id.iv_send);
+        if(item.getNotSend().equals("1")) {
+            iv_send.setImageResource(R.mipmap.icon_not_send);
+            iv_send.setVisibility(View.VISIBLE);
+        }else {
+            iv_send.setVisibility(View.GONE);
+        }
+
         if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
             if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
                 tv_price.setVisibility(View.VISIBLE);

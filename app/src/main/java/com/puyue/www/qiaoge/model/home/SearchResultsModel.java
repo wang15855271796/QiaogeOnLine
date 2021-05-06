@@ -131,7 +131,7 @@ public class SearchResultsModel {
              * prodPrices : [{"price":"￥45/箱","oldPrice":"","priceId":1324,"productUnit":530}]
              */
 
-
+            String notSend;
             private String type;
             private int productMainId;
             private String productName;
@@ -147,6 +147,14 @@ public class SearchResultsModel {
             private List<ProdPricesBean> prodPrices;
             String sendTimeTpl;
             String selfProd;
+
+            public String getNotSend() {
+                return notSend;
+            }
+
+            public void setNotSend(String notSend) {
+                this.notSend = notSend;
+            }
 
             public String getSendTimeTpl() {
                 return sendTimeTpl;
@@ -460,7 +468,7 @@ public class SearchResultsModel {
                  * inventory : 0箱
                  * prodPrices : [{"price":"￥2/箱","oldPrice":"","priceId":1182,"productUnit":475,"unitDesc":""}]
                  */
-
+                String notSend;
                 private String type;
                 private int productMainId;
                 private int productId;
@@ -477,6 +485,14 @@ public class SearchResultsModel {
                 private List<ProdPricesBean> prodPrices;
                 String sendTimeTpl;
                 String selfProd;
+
+                public String getNotSend() {
+                    return notSend;
+                }
+
+                public void setNotSend(String notSend) {
+                    this.notSend = notSend;
+                }
 
                 public String getSendTimeTpl() {
                     return sendTimeTpl;

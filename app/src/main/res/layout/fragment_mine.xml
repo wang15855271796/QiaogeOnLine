@@ -105,22 +105,18 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/size_19dp" />
 
-                <TextView
-                    android:id="@+id/tv_vip"
+                <ImageView
+                    android:id="@+id/iv_vip"
+                    android:layout_toRightOf="@+id/iv_mine_avatar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/tv_mine_phone"
-                    android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/size_8dp"
-                    android:layout_marginTop="@dimen/size_38dp"
-                    android:layout_toRightOf="@+id/tv_mine_phone"
-                    android:background="@drawable/vip_bg"
+                    android:layout_below="@+id/tv_mine_phone"
+                    android:background="@mipmap/icon_my_vip"
                     android:paddingLeft="8dp"
                     android:paddingTop="3dp"
                     android:paddingRight="8dp"
                     android:paddingBottom="3dp"
-                    tools:text="wangtao"
-                    android:textColor="@color/white"
                     android:textSize="11dp" />
 
                 <RelativeLayout
@@ -143,6 +139,7 @@
                         android:textSize="19dp" />
 
                     <TextView
+                        android:id="@+id/tv_tip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignBaseline="@id/tv_qiao_ge"

@@ -128,6 +128,7 @@
 
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/rl_cart_item_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

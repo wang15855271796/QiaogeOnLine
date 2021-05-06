@@ -29,6 +29,23 @@
                 android:layout_width="103dp"
                 android:layout_height="103dp" />
 
+            <LinearLayout
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    tools:text="原价:100"
+                    android:id="@+id/tv_old_price"
+                    android:layout_marginTop="@dimen/public_space_value_80"
+                    android:padding="@dimen/public_space_value_2"
+                    android:textColor="#ffffff"
+                    android:background="@drawable/shape_grey_alpha"
+                    android:textSize="@dimen/sp_12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
             <ImageView
                 android:layout_centerInParent="true"
                 android:id="@+id/iv_sale_done"

@@ -14,7 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,14 +46,20 @@ import com.baidu.mapapi.search.geocode.GeoCodeResult;
 import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
+import com.bumptech.glide.Glide;
 import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.BeizhuActivity;
 
+import com.puyue.www.qiaoge.activity.flow.FlowLayout;
+import com.puyue.www.qiaoge.activity.flow.TagAdapter;
+import com.puyue.www.qiaoge.activity.flow.TagsFlowLayout;
+import com.puyue.www.qiaoge.activity.home.SearchReasultActivity;
 import com.puyue.www.qiaoge.activity.mine.coupons.ChooseCouponsActivity;
 import com.puyue.www.qiaoge.activity.mine.coupons.ChooseCouponssActivity;
 import com.puyue.www.qiaoge.activity.mine.order.ConfirmNewOrderActivity;
 import com.puyue.www.qiaoge.activity.mine.order.MyConfireOrdersActivity;
+import com.puyue.www.qiaoge.adapter.TagsAdapter;
 import com.puyue.www.qiaoge.adapter.UnOperateAdapter;
 import com.puyue.www.qiaoge.adapter.mine.ChooseCouponsAdapter;
 import com.puyue.www.qiaoge.adapter.mine.ConfirmOrderNewAdapter;
@@ -79,6 +87,7 @@ import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.StatModel;
 import com.puyue.www.qiaoge.model.cart.CartBalanceModel;
+import com.puyue.www.qiaoge.model.cart.CartsListModel;
 import com.puyue.www.qiaoge.model.mine.coupons.UserChooseDeductModel;
 import com.puyue.www.qiaoge.model.mine.order.GenerateOrderModel;
 import com.puyue.www.qiaoge.model.mine.order.GetTimeOrderModel;
@@ -107,7 +116,7 @@ import rx.schedulers.Schedulers;
 public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     private Toolbar toolbar;
     private RecyclerView recyclerView;
-    RecyclerView recyclerView_un;
+    TagsFlowLayout recyclerView_un;
     private LinearLayout linearLayoutAddressHead;
     private TextView userName;
     private TextView userPhone;
@@ -228,7 +237,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     private String mHour;
     private TextView et_time;
 
-
+    RelativeLayout rl_arrow;
     TextView tv_beizhu;
     private TextView tv_phone;
     TextView tv_full_price;
@@ -245,7 +254,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
 
     @Override
     public void findViewById(View view) {
-        //  toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        rl_arrow = (RelativeLayout) view.findViewById(R.id.rl_arrow);
         rl_unOperate = (RelativeLayout) view.findViewById(R.id.rl_unOperate);
         tv_operate_title = (TextView) view.findViewById(R.id.tv_operate_title);
         tv_unOperate = (TextView) view.findViewById(R.id.tv_unOperate);
@@ -254,7 +263,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
         tv_full_price = (TextView) view.findViewById(R.id.tv_full_price);
         lav_activity_loading = (AVLoadingIndicatorView) view.findViewById(R.id.lav_activity_loading);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        recyclerView_un = (RecyclerView) view.findViewById(R.id.recyclerView_un);
+        recyclerView_un = (TagsFlowLayout) view.findViewById(R.id.recyclerView_un);
         userName = (TextView) view.findViewById(R.id.userName);
         userPhone = (TextView) view.findViewById(R.id.userPhone);
         address = (TextView) view.findViewById(R.id.address);
@@ -346,11 +355,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         recyclerView.setAdapter(adapter);
-
-        //
-        recyclerView_un.setLayoutManager(new LinearLayoutManager(mActivity));
-        recyclerView_un.setAdapter(unOperateAdapter);
-
 
         iv_time_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -760,6 +764,20 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                                     requestCount++;
                                 }
 
+                                recyclerView_un.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                                    @Override
+                                    public void onGlobalLayout() {
+                                        boolean isOverFlow = recyclerView_un.isOverFlow();
+                                        boolean isLimit = recyclerView_un.isLimit();
+                                        if (isLimit && isOverFlow) {
+                                            rl_arrow.setVisibility(View.VISIBLE);
+                                        } else {
+                                            rl_arrow.setVisibility(View.GONE);
+                                        }
+                                    }
+                                });
+
+
                                 list.clear();
                                 listUnOperate.clear();
 
@@ -785,8 +803,10 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
 
                             if(listUnOperate.size()>0) {
                                 rl_unOperate.setVisibility(View.VISIBLE);
+                                recyclerView_un.setVisibility(View.VISIBLE);
                             }else {
                                 rl_unOperate.setVisibility(View.GONE);
+                                recyclerView_un.setVisibility(View.GONE);
                             }
 
                             mCoder.geocode(new GeoCodeOption()
@@ -795,6 +815,38 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                         } else {
                             AppHelper.showMsg(mActivity, cartBalanceModel.message);
                         }
+
+
+                        TagsAdapter unAbleAdapter = new TagsAdapter<CartBalanceModel.DataBean.ProductVOListBean>(listUnOperate){
+
+                            @Override
+                            public View getView(FlowLayout parent, int position, CartBalanceModel.DataBean.ProductVOListBean productVOListBean) {
+                                View view = LayoutInflater.from(mActivity).inflate(R.layout.item_confirm_order_new,recyclerView_un, false);
+                                TextView textTitle = view.findViewById(R.id.textTitle);
+                                TextView Price = view.findViewById(R.id.Price);
+                                TextView oldPrice = view.findViewById(R.id.oldPrice);
+                                TextView textSpe = view.findViewById(R.id.textSpe);
+                                ImageView imageView = view.findViewById(R.id.imageView);
+                                Glide.with(mActivity).load(productVOListBean.getPicUrl()).into(imageView);
+                                textSpe.setText(productVOListBean.getSpec());
+                                Price.setText(productVOListBean.getPrice()+"");
+                                if(productVOListBean.getOldPrice()!=null) {
+                                    oldPrice.setText(productVOListBean.getOldPrice()+"");
+                                }
+                                textTitle.setText(productVOListBean.getName());
+                                return view;
+                            }
+                        };
+
+                        rl_arrow.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                recyclerView_un.setLimit(false);
+                                unAbleAdapter.notifyDataChanged();
+                            }
+                        });
+                        recyclerView_un.setAdapter(unAbleAdapter);
+
                     }
                 });
     }

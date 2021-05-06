@@ -52,13 +52,12 @@
             </android.support.v7.widget.RecyclerView>
 
             <RelativeLayout
-                android:id="@+id/rl_unOperate"
                 android:visibility="gone"
+                android:id="@+id/rl_unOperate"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_30dp">
 
                 <TextView
-
                     android:text="非自营商品"
                     android:textColor="#343434"
                     android:textStyle="bold"
@@ -81,27 +80,44 @@
             </RelativeLayout>
 
 
-            <!--<RelativeLayout-->
-                <!--android:background="@drawable/shape_white2"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:alpha="0.5"-->
-                <!--android:layout_marginRight="@dimen/size_8dp"-->
-                <!--android:layout_marginLeft="@dimen/size_8dp"-->
-                <!--android:layout_height="wrap_content">-->
+            <com.puyue.www.qiaoge.activity.flow.TagsFlowLayout
+                android:id="@+id/recyclerView_un"
+                android:visibility="gone"
+                android:layout_marginRight="@dimen/size_8dp"
+                android:layout_marginLeft="@dimen/size_8dp"
+                android:background="@drawable/shape_white5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                app:is_limit="true"
+                app:limit_line_count="2"
+                app:max_select="1">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerView_un"
-                    android:alpha="0.5"
-                    android:visibility="gone"
-                    android:layout_marginRight="@dimen/size_8dp"
-                    android:layout_marginLeft="@dimen/size_8dp"
-                    android:background="@drawable/shape_white2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+            </com.puyue.www.qiaoge.activity.flow.TagsFlowLayout>
 
-                </android.support.v7.widget.RecyclerView>
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/rl_arrow"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/rv_unable"
+                android:layout_marginRight="@dimen/size_8dp"
+                android:layout_marginLeft="@dimen/size_8dp"
+                android:background="@drawable/shape_white6"
+                android:layout_height="@dimen/size_30dp">
 
-            <!--</RelativeLayout>-->
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:text="展开全部"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="#F56E24"
+                    android:textSize="12sp"
+                    android:drawablePadding="@dimen/dp_10"
+                    android:drawableRight="@mipmap/icon_open"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/size_30dp" />
+            </RelativeLayout>
 
 
             <LinearLayout

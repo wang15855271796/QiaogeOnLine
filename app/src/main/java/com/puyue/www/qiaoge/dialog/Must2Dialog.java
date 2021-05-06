@@ -91,7 +91,8 @@ public class Must2Dialog extends Dialog implements View.OnClickListener{
     private MustItemAdapter mustItemAdapter;
     private List<ExchangeProductModel.DataBean.ProdSpecsBean> prodSpecs;
     private ExchangeProductModel.DataBean data;
-
+    @BindView(R.id.iv_send)
+    ImageView iv_send;
     public Must2Dialog(Context mContext, ProductNormalModel.DataBean.ListBean item) {
         super(mContext, R.style.dialog);
         this.context = mContext;
@@ -188,7 +189,15 @@ public class Must2Dialog extends Dialog implements View.OnClickListener{
                                 mustItemAdapter = new MustItemAdapter(1,prodSpecs.get(pos).getProductId(),R.layout.item_choose_content, prodPrices);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                                 recyclerView.setAdapter(mustItemAdapter);
+                                if(exchangeProductModel.getData().getNotSend().equals("1")) {
+                                    iv_send.setImageResource(R.mipmap.icon_not_send);
+                                    iv_send.setVisibility(View.VISIBLE);
+                                }else {
+                                    iv_send.setVisibility(View.GONE);
+                                }
                                 mustItemAdapter.notifyDataSetChanged();
+
+
                             }
                         }else {
                             ToastUtil.showSuccessMsg(context,exchangeProductModel.getMessage());

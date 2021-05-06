@@ -169,7 +169,7 @@ public class MineFragment extends BaseFragment {
     private String commissionUrl;
     Must2Adapter mustAdapter;
     SmartRefreshLayout refreshLayout;
-    private TextView tv_vip;
+    private ImageView iv_vip;
     private TextView tv_amount;
     private TextView tv_commission;//佣金
     private TextView tv_inviteAward;//佣金奖励
@@ -184,7 +184,7 @@ public class MineFragment extends BaseFragment {
     private TextView tv_use_deduct;//使用优惠券
     private ImageView iv_use_deduct;//使用优惠券
     RelativeLayout rl_zizhi;
-
+    TextView tv_tip;
     private int day;
     private String giftNo;
     private LinearLayout ll_amount;//余额
@@ -244,6 +244,7 @@ public class MineFragment extends BaseFragment {
 
         EventBus.getDefault().register(this);
         outScoller = (view.findViewById(R.id.sc));
+        tv_tip =  (view.findViewById(R.id.tv_tip));
         scoller = (view.findViewById(R.id.scoller));
         refreshLayout = (view.findViewById(R.id.smart));
         coordinator = (view.findViewById(R.id.coordinator));
@@ -300,7 +301,7 @@ public class MineFragment extends BaseFragment {
         //   vipDay = (view.findViewById(R.id.vipDay));
 
 
-        tv_vip = (view.findViewById(R.id.tv_vip));
+        iv_vip = (view.findViewById(R.id.iv_vip));
         tv_amount = (view.findViewById(R.id.tv_amount));
         tv_commission = (view.findViewById(R.id.tv_commission));
         tv_inviteAward = (view.findViewById(R.id.tv_inviteAward));
@@ -984,9 +985,12 @@ public class MineFragment extends BaseFragment {
                             }
 
                             if (myOrderNumModel.getData().isVipUser()) {
-                                tv_vip.setText("翘歌会员");
+                                iv_vip.setImageResource(R.mipmap.icon_my_vip);
+                                iv_vip.setVisibility(View.VISIBLE);
+                                tv_tip.setText("会员中心");
                             } else {
-                                tv_vip.setText("普通用户");
+                                iv_vip.setVisibility(View.GONE);
+                                tv_tip.setText("已省"+myOrderNumModel.getData().getVipDeductAmt());
                             }
 
                             if (myOrderNumModel.getData().getBalance() != null) {

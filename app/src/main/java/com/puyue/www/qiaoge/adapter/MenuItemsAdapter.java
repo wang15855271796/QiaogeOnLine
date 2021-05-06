@@ -135,6 +135,10 @@ public class MenuItemsAdapter extends BaseAdapter {
         mOnItemClickListener = l;
     }
 
+    public void setCustText(String s) {
+        selectedText  = s;
+    }
+
 //    public void setSelectsedPositionNoNotify(int pos, List<CityChangeModel.DataBean.CityNamesBean> list) {
 //        selectedPos = pos;
 //        mListData = list;

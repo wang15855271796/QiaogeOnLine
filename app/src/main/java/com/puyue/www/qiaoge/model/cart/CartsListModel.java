@@ -270,6 +270,7 @@ public class CartsListModel {
                  * spec : sd
                  * productDescVOList : [{"price":"20.00","priceStr":"￥20.00/组","unit":null,"highNum":1,"productNum":1,"unitDesc":"","productCombinationPriceId":null,"oldPrice":null}]
                  */
+                String notSend;
                 private List<AdditionProductVOList> additionProductVOList;
                 private int businessId;
                 private String inventory;
@@ -292,6 +293,14 @@ public class CartsListModel {
                             ", productDescVOList=" + productDescVOList +
                             ", isSelected=" + isSelected +
                             '}';
+                }
+
+                public String getNotSend() {
+                    return notSend;
+                }
+
+                public void setNotSend(String notSend) {
+                    this.notSend = notSend;
                 }
 
                 public List<AdditionVOList> getAdditionVOList() {

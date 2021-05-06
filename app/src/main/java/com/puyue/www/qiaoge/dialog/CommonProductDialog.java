@@ -94,7 +94,8 @@ public class CommonProductDialog extends Dialog implements View.OnClickListener{
     ProductNormalModel.DataBean.ListBean item;
     int pos = 0;
     private ExchangeProductModel exchangeProductModel1s;
-
+    @BindView(R.id.iv_send)
+    ImageView iv_send;
     public CommonProductDialog(Context context,int productId,ProductNormalModel.DataBean.ListBean item) {
         super(context, R.style.dialog);
         this.context = context;
@@ -186,6 +187,13 @@ public class CommonProductDialog extends Dialog implements View.OnClickListener{
                                 CommonProductItemAdapter commonProductItemAdapter = new CommonProductItemAdapter(1, productId, R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices());
                                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                                 recyclerView.setAdapter(commonProductItemAdapter);
+
+                                if(exchangeProductModel.getData().getNotSend().equals("1")) {
+                                    iv_send.setImageResource(R.mipmap.icon_not_send);
+                                    iv_send.setVisibility(View.VISIBLE);
+                                }else {
+                                    iv_send.setVisibility(View.GONE);
+                                }
                             }
                         }else {
                             ToastUtil.showSuccessMsg(context,exchangeProductModel.getMessage());

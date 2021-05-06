@@ -79,6 +79,7 @@ public class ExchangeProductModel {
          * inventory : 2包
          * prodPrices : [{"price":"￥0.6/包","oldPrice":"","priceId":1376,"productUnit":540},{"price":"￥11/箱","oldPrice":"","priceId":1377,"productUnit":539},{"price":"￥12/2包","oldPrice":"","priceId":1378,"productUnit":540},{"price":"￥13/3包","oldPrice":"","priceId":1379,"productUnit":540},{"price":"￥14/4包","oldPrice":"","priceId":1380,"productUnit":540}]
          */
+        String notSend;
         int activeId;
         int productId;
         private String type;
@@ -131,6 +132,14 @@ public class ExchangeProductModel {
                     ", inventory='" + inventory + '\'' +
                     ", prodPrices=" + prodPrices +
                     '}';
+        }
+
+        public String getNotSend() {
+            return notSend;
+        }
+
+        public void setNotSend(String notSend) {
+            this.notSend = notSend;
         }
 
         public int getProductId() {

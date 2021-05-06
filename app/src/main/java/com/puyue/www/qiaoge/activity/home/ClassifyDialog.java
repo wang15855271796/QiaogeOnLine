@@ -83,7 +83,8 @@ public class ClassifyDialog extends Dialog implements View.OnClickListener {
     MarketRightModel.DataBean.ProdClassifyBean.ListBean listBean;
     int pos = 0;
     private SelectionSpecAdapter searchSpecAdapter;
-
+    @BindView(R.id.iv_send)
+    ImageView iv_send;
     public ClassifyDialog(Context mContext, MarketRightModel.DataBean.ProdClassifyBean.ListBean item) {
         super(mContext, R.style.dialog);
         this.context = mContext;
@@ -178,6 +179,13 @@ public class ClassifyDialog extends Dialog implements View.OnClickListener {
                                 tv_desc.setText(exchangeProductModel.getData().getSpecialOffer());
                                 tv_stock.setText(exchangeProductModel.getData().getInventory());
                                 Glide.with(context).load(exchangeProductModel.getData().getDefaultPic()).into(iv_head);
+
+                                if(exchangeProductModel.getData().getNotSend().equals("1")) {
+                                    iv_send.setImageResource(R.mipmap.icon_not_send);
+                                    iv_send.setVisibility(View.VISIBLE);
+                                }else {
+                                    iv_send.setVisibility(View.GONE);
+                                }
                             }
                         }else {
                             ToastUtil.showSuccessMsg(context,exchangeProductModel.getMessage());

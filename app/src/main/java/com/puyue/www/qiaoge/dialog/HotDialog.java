@@ -76,6 +76,8 @@ public class HotDialog extends Dialog implements View.OnClickListener{
     TextView tv_stock;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.iv_send)
+    ImageView iv_send;
     @BindView(R.id.tv_num)
     TextView tv_num;
     @BindView(R.id.tv_free_desc)
@@ -185,6 +187,12 @@ public class HotDialog extends Dialog implements View.OnClickListener{
                                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                                 recyclerView.setAdapter(hotItemAdapter);
 
+                                if(exchangeProductModel.getData().getNotSend().equals("1")) {
+                                    iv_send.setImageResource(R.mipmap.icon_not_send);
+                                    iv_send.setVisibility(View.VISIBLE);
+                                }else {
+                                    iv_send.setVisibility(View.GONE);
+                                }
                             }
                         }else {
                             ToastUtil.showErroMsg(context,exchangeProductModel.getMessage());

@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +46,7 @@ public class Team3Adapter extends BaseQuickAdapter<CouponModel.DataBean.ActivesB
 
     @Override
     protected void convert(BaseViewHolder helper, CouponModel.DataBean.ActivesBean item) {
+        TextView tv_old_price = helper.getView(R.id.tv_old_price);
         ImageView iv_pic = helper.getView(R.id.iv_pic);
         Glide.with(mContext).load(data.get(0).getDefaultPic()).into(iv_pic);
         TextView tv_desc = helper.getView(R.id.tv_desc);
@@ -57,6 +59,13 @@ public class Team3Adapter extends BaseQuickAdapter<CouponModel.DataBean.ActivesB
             }
         });
 
+        if(!TextUtils.isEmpty(item.getOldPrice())) {
+            tv_old_price.setText("原价:"+item.getOldPrice());
+            tv_old_price.getPaint().setAntiAlias(true);//抗锯齿
+            tv_old_price.setVisibility(View.VISIBLE);
+        }else {
+            tv_old_price.setVisibility(View.GONE);
+        }
 
         TextView tv_price = helper.getView(R.id.tv_price);
         TextView tv_name = helper.getView(R.id.tv_name);

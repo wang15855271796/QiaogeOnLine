@@ -4,6 +4,9 @@ import android.content.Context;
 
 import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
 import com.puyue.www.qiaoge.helper.RestHelper;
+import com.puyue.www.qiaoge.model.SupplierModel;
+import com.puyue.www.qiaoge.model.SurpliListModel;
+import com.puyue.www.qiaoge.model.SurpliModel;
 import com.puyue.www.qiaoge.model.home.GuessModel;
 import com.puyue.www.qiaoge.model.home.RecommendModel;
 import com.puyue.www.qiaoge.model.home.SearchResultsModel;
@@ -82,5 +85,35 @@ public class RecommendApI {
     public static Observable<GuessModel> getLikeList(Context context, String productMainId) {
         GuessService service = RestHelper.getBaseRetrofit(context).create(GuessService.class);
         return service.getData(productMainId);
+    }
+
+    /**
+     * 供应商信息
+     */
+
+    private interface SupplierService {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Get_Business)
+        Observable<SurpliModel> getData(@Field("supplierId") String supplierId);
+    }
+
+    public static Observable<SurpliModel> getSupplier(Context context, String supplierId) {
+        SupplierService service = RestHelper.getBaseRetrofit(context).create(SupplierService.class);
+        return service.getData(supplierId);
+    }
+
+    /**
+     * 供应商列表数据
+     */
+    private interface SupplierListService {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Get_Business_List)
+        Observable<SurpliListModel> getData(@Field("supplierId") String supplierId, @Field("searchName") String searchName, @Field("pageNum") int pageNum,
+                                            @Field("pageSize") int pageSize);
+    }
+
+    public static Observable<SurpliListModel> getSupplierList(Context context, String supplierId, String searchName, int pageNum, int pageSize) {
+        SupplierListService service = RestHelper.getBaseRetrofit(context).create(SupplierListService.class);
+        return service.getData(supplierId,searchName,pageNum,pageSize);
     }
 }

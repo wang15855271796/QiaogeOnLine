@@ -190,7 +190,7 @@ public class ProductNormalModel implements Serializable {
              * inventory : 0c
              * prodPrices : [{"price":"￥11/c","oldPrice":"","priceId":1406,"productUnit":649,"unitDesc":""}]
              */
-
+            String notSend;
             String companyId;
             String deductAmount;
             private String type;
@@ -209,6 +209,14 @@ public class ProductNormalModel implements Serializable {
             private List<ProdPricesBean> prodPrices;
             String sendTimeTpl;
             String selfProd;
+
+            public String getNotSend() {
+                return notSend;
+            }
+
+            public void setNotSend(String notSend) {
+                this.notSend = notSend;
+            }
 
             public String getCompanyId() {
                 return companyId;

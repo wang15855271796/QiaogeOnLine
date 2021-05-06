@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.baidu.location.BDAbstractLocationListener;
@@ -110,9 +111,22 @@ public class ChooseViews extends LinearLayout {
         lav_activity_loading = findViewById(R.id.lav_activity_loading);
         TextView tv_area = findViewById(R.id.tv_area);
         TextView tv_reset = findViewById(R.id.tv_reset);
+        LinearLayout ll_all = findViewById(R.id.ll_all);
         String city = UserInfoHelper.getCity(context);
         tv_area.setText(city);
 
+        ll_all.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnSelectListener != null) {
+                    mOnSelectListener.cloese();
+                    firstMenuListViewAdapter.setCustText("");
+                    firstMenuListViewAdapter.notifyDataSetChanged();
+                    secondMenuListViewAdapter.setCustText("");
+                    secondMenuListViewAdapter.notifyDataSetChanged();
+                }
+            }
+        });
         tv_reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,6 +137,9 @@ public class ChooseViews extends LinearLayout {
         });
         firstMenuListView = (ListView) findViewById(R.id.listView);
         secondMenuListView = (ListView) findViewById(R.id.listView2);
+        View view = inflater.inflate(R.layout.footer_area,this,false);
+//        firstMenuListView.addHeaderView(view);
+//        secondMenuListView.addHeaderView(view);
         // setBackgroundDrawable(getResources().getDrawable(
         // R.drawable.choosearea_bg_left));
         // 初始化一级主菜单
@@ -136,7 +153,7 @@ public class ChooseViews extends LinearLayout {
             @Override
             public void onItemClick(View view, int position) {
                 secondItem = menuItem.get(position).getCityNames();
-//                        Log.d("wdasasdasd........",menuItem.toString());
+
                 // 通知适配器刷新
                 secondMenuListViewAdapter.notifyDataSetChanged();
                 secondMenuListViewAdapter.setSelectedPositionNoNotify(0, secondItem);

@@ -42,6 +42,14 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/iv_send"
+                    android:layout_centerHorizontal="true"
+                    android:src="@mipmap/icon_not_send2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
 
                     android:id="@+id/iv_item_my_collection_img"
                     android:layout_width="88dp"

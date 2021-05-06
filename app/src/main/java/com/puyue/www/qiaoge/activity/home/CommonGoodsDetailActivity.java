@@ -38,10 +38,12 @@ import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.CartActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.IntelliGencyInfoActivity;
+import com.puyue.www.qiaoge.activity.ShopsActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.activity.mine.login.RegisterActivity;
 import com.puyue.www.qiaoge.activity.mine.login.RegisterMessageActivity;
 import com.puyue.www.qiaoge.adapter.FullActivitesAdapter;
+import com.puyue.www.qiaoge.adapter.SupplierAdapter;
 import com.puyue.www.qiaoge.adapter.cart.ChooseSpecAdapter;
 import com.puyue.www.qiaoge.adapter.cart.ImageViewAdapter;
 import com.puyue.www.qiaoge.adapter.home.RegisterShopAdapterTwo;
@@ -66,6 +68,7 @@ import com.puyue.www.qiaoge.dialog.AuthDialog;
 import com.puyue.www.qiaoge.dialog.ChooseDialog;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
 import com.puyue.www.qiaoge.dialog.FullDialog;
+import com.puyue.www.qiaoge.dialog.ProductDescDialog;
 import com.puyue.www.qiaoge.dialog.PromoteDialog;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.fragment.cart.NumEvent;
@@ -81,6 +84,7 @@ import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.listener.OnItemClickListener;
 import com.puyue.www.qiaoge.model.OrderModel;
+import com.puyue.www.qiaoge.model.SupplierModel;
 import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
 import com.puyue.www.qiaoge.model.home.ChoiceSpecModel;
 import com.puyue.www.qiaoge.model.home.ClickCollectionModel;
@@ -140,8 +144,6 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
     private TextView mTvAmount;
     private TextView mTvFee;
     private TextView mTvAddCar;
-    private RelativeLayout linearLayoutCollection;
-    private RelativeLayout linearLayoutShare;
     private List<String> images = new ArrayList<>();
     private int productId;
     private int pageNum = 1;
@@ -158,7 +160,6 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
     private TextView goodsEvaluationReply;
     private StarBarView sbv_star_bar;
     private TextView tv_status;
-    ImageView iv_vip;
     //推荐
     private RecyclerView recyclerViewRecommend;
     private GoodsRecommendAdapter adapterRecommend;
@@ -171,14 +172,20 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
     private String mShareUrl;
     private LinearLayout linearLayoutOnclick;
     ChooseDialog chooseDialog;
+    @BindView(R.id.ll_surp)
+    LinearLayout ll_surp;
+    @BindView(R.id.ImageViewShare)
+    ImageView ImageViewShare;
+    @BindView(R.id.tv_come)
+    TextView tv_come;
     @BindView(R.id.tv_sale)
     TextView tv_sale;
     @BindView(R.id.fl_container)
     FlowLayout fl_container;
     @BindView(R.id.tv_address)
     TextView tv_address;
-    @BindView(R.id.rl_gongying)
-    RelativeLayout rl_gongying;
+    @BindView(R.id.rv_supplier)
+    RecyclerView rv_supplier;
     @BindView(R.id.tv_desc)
     TextView tv_desc;
     @BindView(R.id.recyclerViewImage)
@@ -193,6 +200,8 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
     RelativeLayout rl_coupon;
     @BindView(R.id.tv_detail)
     TextView tv_detail;
+    @BindView(R.id.iv_send)
+    ImageView iv_send;
     @BindView(R.id.rl_operate)
     RelativeLayout rl_operate;
     @BindView(R.id.rl_unOperate)
@@ -205,6 +214,8 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
     TextView tv_full_desc;
     @BindView(R.id.iv3)
     ImageView iv3;
+    @BindView(R.id.iv_operate)
+    ImageView iv_operate;
     @BindView(R.id.iv2)
     ImageView iv2;
     @BindView(R.id.tv_send_area)
@@ -213,6 +224,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
     LinearLayout ll_service;
     TextView tv_price;
     public List<GetProductDetailModel.DataBean.ProdSpecsBean> prodSpecs;
+    List<GetProductDetailModel.DataBean.SupProdsBean> surplierList = new ArrayList();
     GuessModel searchResultsModel;
     //猜你喜欢集合
     private List<GuessModel.DataBean> searchList = new ArrayList<>();
@@ -240,7 +252,6 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
             if(bundle.getString("priceType")!=null) {
                 priceType = bundle.getString("priceType");
             }
-
             productId = bundle.getInt(AppConstant.ACTIVEID);
         }
         return false;
@@ -262,7 +273,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
         tv_price =  FVHelper.fv(this, R.id.tv_price);
         ll_service = FVHelper.fv(this, R.id.ll_service);
         tv_city = FVHelper.fv(this, R.id.tv_city);
-        mIvBack = FVHelper.fv(this, R.id.iv_activity_back);
+        mIvBack = FVHelper.fv(this, R.id.iv_back);
         mBanner = FVHelper.fv(this, R.id.banner_activity_common);
         mTvTitle = FVHelper.fv(this, R.id.tv_activity_common_title);
         mTvPrice = FVHelper.fv(this, R.id.tv_activity_common_price);
@@ -275,8 +286,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
         mTvAmount = FVHelper.fv(this, R.id.tv_include_common_amount);
         mTvFee = FVHelper.fv(this, R.id.tv_include_common_fee);
         mTvAddCar = FVHelper.fv(this, R.id.tv_add_car);
-        linearLayoutCollection = FVHelper.fv(this, R.id.linearLayout_collection);
-        linearLayoutShare = FVHelper.fv(this, R.id.linearLayout_share);
+
         userEvaluationNum = (TextView) findViewById(R.id.userEvaluationNum);
         goodsEvaluationNumber = (TextView) findViewById(R.id.goodsEvaluationNumber);
         goodsEvaluationTime = (TextView) findViewById(R.id.goodsEvaluationTime);
@@ -288,12 +298,11 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
         linearLayoutOnclick = (LinearLayout) findViewById(R.id.linearLayoutOnclick);
         sbv_star_bar = findViewById(R.id.sbv_star_bar);
         tv_status = findViewById(R.id.tv_status);
-        iv_vip = findViewById(R.id.iv_vip);
         if(city!=null) {
             tv_city.setText("该商品为"+city+"地区商品，请切换到该地区购买");
         }
     }
-
+    SupplierAdapter supplierAdapter;
     @Override
     public void setViewData() {
         ButterKnife.bind(this);
@@ -301,7 +310,6 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         //获取数据
-        Log.d("qwfsdfsf.....",num+"asdfds");
         if(num!=null) {
             if(num.equals("-1")) {
                 mTvAddCar.setEnabled(false);
@@ -332,6 +340,10 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
         LinearLayoutManager linearLayoutManagerCoupons = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerViewRecommend.setLayoutManager(linearLayoutManagerCoupons);
         recyclerViewRecommend.setAdapter(adapterRecommend);
+
+        supplierAdapter = new SupplierAdapter(R.layout.item_goods_recommend,surplierList);
+        rv_supplier.setLayoutManager(new LinearLayoutManager(mActivity,LinearLayoutManager.HORIZONTAL,false));
+        rv_supplier.setAdapter(supplierAdapter);
         mTypedialog = new AlertDialog.Builder(mActivity, R.style.DialogStyle).create();
         mTypedialog.setCancelable(false);
 
@@ -349,7 +361,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
             hasCollectState(productId, businessType);
             getCartNum();
         } else {
-            mIvCollection.setImageResource(R.mipmap.icon_collection_null);
+            mIvCollection.setImageResource(R.mipmap.ic_love);
         }
 
         getCustomerPhone();
@@ -358,14 +370,13 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
 
     @Override
     public void setClickEvent() {
-
+        ImageViewShare.setOnClickListener(noDoubleClickListener);
+        mIvCollection.setOnClickListener(noDoubleClickListener);
         mIvBack.setOnClickListener(noDoubleClickListener);
-        linearLayoutCollection.setOnClickListener(noDoubleClickListener);
         mTvAddCar.setOnClickListener(noDoubleClickListener);
         mLlCar.setOnClickListener(noDoubleClickListener);
         mLlCustomer.setOnClickListener(noDoubleClickListener);
         linearLayoutOnclick.setOnClickListener(noDoubleClickListener);
-        linearLayoutShare.setOnClickListener(noDoubleClickListener);
         tv_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -395,16 +406,8 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
             }
         });
 
-        iv_vip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mActivity, NewWebViewActivity.class);
-                intent.putExtra("URL", models.getData().getBannerDetailUrl());
-                intent.putExtra("TYPE", 1);
-                intent.putExtra("name", "");
-                startActivity(intent);
-            }
-        });
+
+
     }
 
     private NoDoubleClickListener noDoubleClickListener = new NoDoubleClickListener() {
@@ -413,7 +416,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
             if (view == mIvBack) {
                 EventBus.getDefault().post(new NumEvent());
                 finish();
-            } else if (view == linearLayoutCollection) {
+            } else if (view == mIvCollection) {
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     if (UserInfoHelper.getUserType(mContext).equals(AppConstant.USER_TYPE_RETAIL)) {
                         //这个用户是零售用户
@@ -431,7 +434,8 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                             });
                         }
 
-                    } else {
+                    }
+                    else {
                         if (isCollection) {
                             //取消收藏
                             clickCollection(productId1, businessType, (byte)2);
@@ -444,7 +448,8 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                 } else {
                     initDialog();
                 }
-            } else if (view == mTvAddCar) {
+            }
+            else if (view == mTvAddCar) {
                 if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     if(priceType.equals("1")) {
                         if(chooseDialog==null) {
@@ -495,7 +500,8 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                 intent.putExtra("businessType", businessType);
                 startActivity(intent);
 
-            } else if (view == linearLayoutShare) {
+            }
+            else if (view == ImageViewShare) {
                 requestGoodsList();
             }
         }
@@ -561,7 +567,6 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                             detailList.addAll(model.getData().getDetailPic());
                             imageViewAdapter.notifyDataSetChanged();
                             models = model;
-
                             productId1 = model.getData().getProductId();
                             productName = model.getData().getProductName();
                             mTvTitle.setText(productName);
@@ -575,14 +580,25 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                                 tv_date.setVisibility(View.VISIBLE);
                             }
 
+                            if(model.getData().getSelfProd()!=null) {
+                                Glide.with(mContext).load(model.getData().getSelfProd()).into(iv_operate);
+                            }
+
+                            tv_come.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(mContext,ShopsActivity.class);
+                                    intent.putExtra("surplieId",model.getData().getSupplierId());
+                                    startActivity(intent);
+                                }
+                            });
+
                             Glide.with(mContext).load(models.getData().getSelfProd()).into(iv3);
                             Glide.with(mContext).load(models.getData().getSelfProd()).into(iv2);
-                            if("自营商品".equals(model.getData().getCompanyName())) {
-                                rl_gongying.setVisibility(View.GONE);
-                                tv_date.setText(model.getData().getSendTimeStr());
 
+                            if("自营商品".equals(model.getData().getCompanyName())) {
+                                tv_date.setText(model.getData().getSendTimeStr());
                             }else {
-                                rl_gongying.setVisibility(View.VISIBLE);
                                 tv_address.setText(model.getData().getCompanyName());
                                 tv_date.setText(model.getData().getSendTimeStr());
                             }
@@ -593,14 +609,19 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                                 rl_coupon.setVisibility(View.GONE);
                             }
 
-
+                            //单点不送
+                            if(models.getData().getNotSend().equals("1")) {
+                                iv_send.setImageResource(R.mipmap.icon_not_send);
+                                iv_send.setVisibility(View.VISIBLE);
+                            }else {
+                                iv_send.setVisibility(View.GONE);
+                            }
                             if(models.getData().getAddress().equals("")) {
                                 tv_send_area.setText("杭州西湖区 >");
                             }else {
                                 tv_send_area.setText(models.getData().getAddress()+" >");
 
                             }
-
                             tv_send_area.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -616,6 +637,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                                 mTvPrice.setText(model.getData().getMinMaxPrice());
                                 mTvPrice.setVisibility(View.VISIBLE);
                                 tv_price.setVisibility(View.GONE);
+
                             }else {
                                 mTvPrice.setVisibility(View.GONE);
                                 tv_price.setVisibility(View.VISIBLE);
@@ -625,7 +647,6 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                                 @Override
                                 public void onClick(View v) {
                                     AppHelper.ShowAuthDialog(mActivity,cell);
-//                                    ShowAuthDialog();
 
                                 }
                             });
@@ -635,10 +656,18 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                                 iv_flag.setVisibility(View.VISIBLE);
                                 Glide.with(mContext).load(model.getData().getTypeUrl()).into(iv_flag);
                             }
+                            //单点不送
 
                             tv_sale.setText(model.getData().getSalesVolume());
                             prodSpecs = model.getData().getProdSpecs();
                             tv_desc.setText(model.getData().getIntroduction());
+                            tv_desc.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    ProductDescDialog productDescDialog = new ProductDescDialog(mActivity,model.getData().getIntroduction());
+                                    productDescDialog.show();
+                                }
+                            });
                             chooseSpecAdapter = new ChooseSpecAdapter(mContext,prodSpecs, new ChooseSpecAdapter.Onclick() {
                                 @Override
                                 public void addDialog(int position) {
@@ -691,6 +720,17 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                             mTvAddCar.setEnabled(true);
                             //填充详情
                             mListDetailImage.clear();
+
+                            if(model.getData().getSupProds()!=null) {
+                                ll_surp.setVisibility(View.VISIBLE);
+                            }else  {
+                                ll_surp.setVisibility(View.GONE);
+                            }
+
+                            surplierList.clear();
+                            surplierList.addAll(model.getData().getSupProds());
+                            supplierAdapter.notifyDataSetChanged();
+
                         } else {
                             ToastUtil.showErroMsg(mActivity,model.getMessage());
                         }
@@ -836,7 +876,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
 
                                 goodsEvaluationTime.setText(model.data.list.get(0).commentDate + "");
                                 goodsEvaluationNumber.setText(model.data.list.get(0).customerPhone);
-                                userEvaluationNum.setText("用户评论(" + model.data.total + ")");
+                                userEvaluationNum.setText("商品评价(" + model.data.total + ")");
                                 if (model.data.list.get(0).level != null && StringHelper.notEmptyAndNull(model.data.list.get(0).level)) {
                                     sbv_star_bar.setVisibility(View.VISIBLE);
                                     if (model.data.list.get(0).level.equals("5")) {
@@ -943,6 +983,42 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                 });
     }
 
+    /**
+     * 供应商商品
+     */
+
+    /**
+     * 推荐
+     **/
+
+//    private void getSupplier(String id) {
+//        RecommendApI.getSupplierList(mContext,id,"",1,10)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<SupplierModel>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(SupplierModel supplierModel) {
+//                        if (supplierModel.isSuccess()) {
+//                            surplierList.clear();
+//                            List<SupplierModel.DataBean.ListBean> list = supplierModel.getData().getList();
+//                            surplierList.addAll(list);
+//                        } else {
+//                            ToastUtil.showSuccessMsg(mContext, supplierModel.getMessage());
+//                        }
+//                    }
+//                });
+//    }
+
 
     /**
      * 获取收藏状态
@@ -957,7 +1033,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                         //已收藏
                         mIvCollection.setImageResource(R.mipmap.icon_collection_fill);
                     } else {
-                        mIvCollection.setImageResource(R.mipmap.icon_collection_null);
+                        mIvCollection.setImageResource(R.mipmap.ic_love);
                     }
                 } else {
                     ToastUtil.showSuccessMsg(mContext, hasCollectModel.message);
@@ -998,7 +1074,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                                 mTvCollection.setText("已收藏");
                             } else {
                                 isCollection = false;
-                                mIvCollection.setImageResource(R.mipmap.icon_collection_null);
+                                mIvCollection.setImageResource(R.mipmap.ic_love);
                                 mTvCollection.setText("收藏");
                             }
                         } else {

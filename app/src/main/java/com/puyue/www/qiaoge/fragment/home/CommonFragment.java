@@ -109,6 +109,8 @@ public class CommonFragment extends BaseFragment {
         commonListAdapter.setEmptyView(emptyView);
         recyclerView.setLayoutManager(new GridLayoutManager(mActivity,2));
         recyclerView.setAdapter(commonListAdapter);
+
+
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {

@@ -362,6 +362,7 @@ public class InfoFragment extends BaseFragment {
         public void getValue(CityChangeModel.DataBean area) {
             provinceName = area.getProvinceName();
             provinceCode = area.getProvinceCode();
+
         }
 
         @Override
@@ -394,6 +395,9 @@ public class InfoFragment extends BaseFragment {
         @Override
         public void cloese() {
             mask.setVisibility(View.GONE);
+            getCityList("","","");
+            tv_address.setText("全部");
+            Log.d("wasfsdfd......","weqeq");
         }
 
     }

@@ -87,7 +87,8 @@ public class CollectionDialog extends Dialog implements View.OnClickListener {
     ProductNormalModel.DataBean.ListBean listBean;
     int pos = 0;
     private CouponSearchSpecsAdapter searchSpecAdapter;
-
+    @BindView(R.id.iv_send)
+    ImageView iv_send;
     public CollectionDialog(Context context, ProductNormalModel.DataBean.ListBean item) {
         super(context, R.style.dialog);
         this.context = context;
@@ -184,6 +185,13 @@ public class CollectionDialog extends Dialog implements View.OnClickListener {
                                 Glide.with(context).load(exchangeProductModel.getData().getDefaultPic()).into(iv_head);
                                 Glide.with(context).load(exchangeProductModel.getData().getSendTimeTpl()).into(iv_pic);
                                 Glide.with(context).load(exchangeProductModel.getData().getSelfProd()).into(iv_operate);
+
+                                if(exchangeProductModel.getData().getNotSend().equals("1")) {
+                                    iv_send.setImageResource(R.mipmap.icon_not_send);
+                                    iv_send.setVisibility(View.VISIBLE);
+                                }else {
+                                    iv_send.setVisibility(View.GONE);
+                                }
                             }
                         }else {
                             ToastUtil.showSuccessMsg(context,exchangeProductModel.getMessage());

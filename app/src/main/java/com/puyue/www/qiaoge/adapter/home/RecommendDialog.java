@@ -84,7 +84,8 @@ public class RecommendDialog extends Dialog implements View.OnClickListener {
     ImageView iv_operate;
     SearchResultsModel.DataBean.RecommendProdBean listBean;
     int pos = 0;
-
+    @BindView(R.id.iv_send)
+    ImageView iv_send;
     private SearchSpecxAdapter searchSpecAdapter;
 
     public RecommendDialog(Context context, SearchResultsModel.DataBean.RecommendProdBean listBean) {
@@ -181,6 +182,13 @@ public class RecommendDialog extends Dialog implements View.OnClickListener {
                                 Glide.with(context).load(exchangeProductModel.getData().getDefaultPic()).into(iv_head);
                                 Glide.with(context).load(exchangeProductModel.getData().getSendTimeTpl()).into(iv_pic);
                                 Glide.with(context).load(exchangeProductModel.getData().getSelfProd()).into(iv_operate);
+
+                                if(exchangeProductModel.getData().getNotSend().equals("1")) {
+                                    iv_send.setImageResource(R.mipmap.icon_not_send);
+                                    iv_send.setVisibility(View.VISIBLE);
+                                }else {
+                                    iv_send.setVisibility(View.GONE);
+                                }
                             }
                         }else {
                             ToastUtil.showSuccessMsg(context,exchangeProductModel.getMessage());

@@ -2,10 +2,12 @@ package com.puyue.www.qiaoge.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +58,15 @@ public class Skill5Adapter extends RecyclerView.Adapter<Skill5Adapter.BaseViewHo
             activesBean = skillActive3.get(position % skillActive3.size());
             viewHolder.tv_name.setText(activesBean.getActiveName());
             Glide.with(context).load(activesBean.getDefaultPic()).into(viewHolder.iv_pic);
+            Log.d("wfsffef........",activesBean.getOldPrice()+"as");
+            if(!TextUtils.isEmpty(activesBean.getOldPrice())) {
+                viewHolder.tv_old_price.setText(activesBean.getOldPrice());
+                viewHolder.tv_old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                viewHolder.tv_old_price.getPaint().setAntiAlias(true);//抗锯齿
+                viewHolder.tv_old_price.setVisibility(View.VISIBLE);
+            }else {
+                viewHolder.tv_old_price.setVisibility(View.GONE);
+            }
 
             if(activesBean.getFlag()==1) {
                 viewHolder.iv_sale_done.setVisibility(View.VISIBLE);
@@ -69,6 +80,7 @@ public class Skill5Adapter extends RecyclerView.Adapter<Skill5Adapter.BaseViewHo
                     viewHolder.tv_price.setVisibility(View.VISIBLE);
                     viewHolder.tv_desc.setVisibility(View.GONE);
                     viewHolder.tv_price.setText(activesBean.getPrice());
+
                 }else {
                     viewHolder.tv_price.setVisibility(View.GONE);
                     viewHolder.tv_desc.setVisibility(View.VISIBLE);
@@ -110,8 +122,10 @@ public class Skill5Adapter extends RecyclerView.Adapter<Skill5Adapter.BaseViewHo
         LinearLayout ll_root;
         ImageView iv_sale_done;
         TextView tv_desc;
+        TextView tv_old_price;
         public BaseViewHolder(View view) {
             super(view);
+            tv_old_price = (TextView) view.findViewById(R.id.tv_old_price);
             iv_sale_done = (ImageView) view.findViewById(R.id.iv_sale_done);
             iv_pic = (ImageView) view.findViewById(R.id.iv_pic);
             tv_name = (TextView) view.findViewById(R.id.tv_name);

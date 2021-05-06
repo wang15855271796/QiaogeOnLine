@@ -132,6 +132,7 @@ public class CommonsAdapter extends RecyclerView.Adapter<CommonsAdapter.BaseView
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
                 intent.putExtra(AppConstant.ACTIVEID,activesBean.getProductMainId());
                 intent.putExtra("priceType",SharedPreferencesUtil.getString(mContext,"priceType"));
+                Log.d("wfsdsfdf.......",SharedPreferencesUtil.getString(mContext,"priceType")+"aa");
                 mContext.startActivity(intent);
 //                if(style.equals("2")) {
 //                    Intent intent = new Intent(mContext,SeckillGoodActivity.class);
