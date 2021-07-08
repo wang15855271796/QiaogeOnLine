@@ -224,11 +224,13 @@
                     android:id="@+id/ll"
                     android:layout_marginLeft="@dimen/size_23dp"
                     android:layout_toRightOf="@+id/tv_amount"
-                    android:layout_width="180dp"
+                    android:layout_width="170dp"
                     android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/tv_style"
+                        android:lines="1"
+                        android:ellipsize="end"
                         android:layout_marginTop="@dimen/size_15dp"
                         tools:text="积分兑换积分兑换积分兑换积分兑换积分兑换"
                         android:textStyle="bold"

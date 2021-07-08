@@ -462,175 +462,175 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         }
     }
 
-    private void getSpikeList(int type) {
-        IndexHomeAPI.getCouponList(mActivity, type + "")
-                .subscribeOn(Schedulers.io())
-                .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<CouponModel>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(CouponModel couponModel) {
-                        if (couponModel.isSuccess()) {
-                            actives.clear();
-                            if (type == 2) {
-                                data1 = couponModel.getData();
-                                if (data1 != null) {
-                                    tv_skill_title.setText(data1.getTitle());
-                                    currentTime = couponModel.getData().getCurrentTime();
-                                    startTime = couponModel.getData().getStartTime();
-
-                                    if (data1.getActives().size() == 1) {
-                                        skillActive1.clear();
-                                        skillActive1.addAll(data1.getActives());
-                                        skillAdapter = new SkillAdapter(mActivity, R.layout.item_skill_lists, skillActive1, "1");
-                                        rv_skill.setAdapter(skillAdapter);
-                                        rv_skill.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-                                        rv_skill.setVisibility(View.VISIBLE);
-                                        skillAdapter.notifyDataSetChanged();
-                                    } else if (data1.getActives().size() == 2) {
-                                        skillActive2.clear();
-                                        skillActive2.addAll(data1.getActives());
-                                        skill2Adapter = new Skill2Adapter(mActivity, R.layout.item_skill_lists, skillActive2, "0");
-                                        rv_skill.setAdapter(skill2Adapter);
-//                                        recyclerView.setVisibility(View.GONE);
-                                        rv_skill.setVisibility(View.VISIBLE);
-                                        skill2Adapter.notifyDataSetChanged();
-                                        initRecycle();
-
-                                    } else if (data1.getActives().size() == 3) {
-                                        skillActive3.clear();
-                                        skillActive3.addAll(data1.getActives());
-                                        skill3Adapter = new Skill3Adapter(R.layout.item_skill_list, skillActive3);
-                                        rv_skill.setAdapter(skill3Adapter);
-                                        rv_skill.setLayoutManager(new GridLayoutManager(mActivity, 3));
-                                        rv_skill.setVisibility(View.VISIBLE);
-                                        skill3Adapter.notifyDataSetChanged();
-                                    } else if (data1.getActives().size() == 4) {
-                                        skillActive3.clear();
-                                        skillActive3.addAll(data1.getActives());
-                                        skill3Adapter = new Skill3Adapter(R.layout.item_skill_list4, skillActive3);
-                                        rv_skill.setAdapter(skill3Adapter);
-                                        rv_skill.setLayoutManager(new GridLayoutManager(mActivity, 4));
-                                        rv_skill.setVisibility(View.VISIBLE);
-                                        skill3Adapter.notifyDataSetChanged();
-                                    } else {
-                                        skillActive3.clear();
-                                        rv_skill.setVisibility(View.GONE);
-                                        skillActive3.addAll(data1.getActives());
-                                        skill5Adapter.notifyDataSetChanged();
-                                        rv_auto_view.setVisibility(View.VISIBLE);
-                                    }
-
-
-                                    endTime = couponModel.getData().getEndTime();
-                                    String current = DateUtils.formatDate(currentTime, "MM月dd日HH时mm分ss秒");
-                                    String start = DateUtils.formatDate(startTime, "MM月dd日HH时mm分ss秒");
-                                    try {
-                                        currents = Utils.stringToDate(current, "MM月dd日HH时mm分ss秒");
-                                        starts = Utils.stringToDate(start, "MM月dd日HH时mm分ss秒");
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
-                                    }
-
-
-                                    if (currentTime > startTime) {
-                                        //秒杀开始
-                                        if (startTime != 0 && endTime != 0) {
-                                            snap.setVisibility(View.VISIBLE);
-                                            snap.setTime(true, currentTime, startTime, endTime);
-                                            snap.changeBackGround(ContextCompat.getColor(mActivity, R.color.white));
-                                            snap.changeTypeColor(ContextCompat.getColor(mActivity, R.color.color_F6551A));
-
-                                            snap.start();
-                                        } else {
-
-                                            snap.setVisibility(View.GONE);
-                                        }
-                                    } else {
-                                        //未开始
-                                        boolean exceed2 = DateUtils.isExceed2(currents, starts);
-                                        if (exceed2) {
-                                            //大于2
-
-                                            snap.setVisibility(View.GONE);
-                                        } else {
-                                            //小于2
-                                            if (startTime != 0 && endTime != 0) {
-                                                snap.setVisibility(View.VISIBLE);
-                                                snap.setTime(true, currentTime, startTime, endTime);
-                                                snap.changeBackGround(ContextCompat.getColor(mActivity, R.color.white));
-                                                snap.changeTypeColor(ContextCompat.getColor(mActivity, R.color.color_F6551A));
-
-                                                snap.start();
-                                            } else {
-
-                                                snap.setVisibility(View.GONE);
-                                            }
-                                        }
-                                    }
-
-                                }
-
-                            } else if (type == 11) {
-                                data1 = couponModel.getData();
-                                if (data1 != null) {
-                                    if (data1.getActives().size() == 1) {
-                                        couponActive1.clear();
-                                        couponActive1.addAll(data1.getActives());
-                                        commonAdapter = new CommonAdapter(R.layout.item_common_lists, couponActive1);
-//                                        recyclerView.setLayoutManager(new LinearLayoutManager(mActivity,LinearLayoutManager.HORIZONTAL, false));
-                                        rv_coupon.setAdapter(commonAdapter);
-                                        commonAdapter.notifyDataSetChanged();
-
-                                    } else if (data1.getActives().size() == 2) {
-                                        couponActive2.clear();
-                                        couponActive2.addAll(data1.getActives());
-                                        commonCouponAdapter = new CommonCouponAdapter(mActivity, 11 + "", R.layout.item_coupon_lists, couponActive2);
-                                        rv_coupon.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-                                        rv_coupon.setAdapter(commonCouponAdapter);
-                                        commonCouponAdapter.notifyDataSetChanged();
-
-                                    } else {
-                                        couponActive3.clear();
-                                        couponActive3.addAll(data1.getActives());
-                                        commonAdapter = new CommonAdapter(R.layout.item_coupon_listss, couponActive3);
-                                        rv_coupon1.setLayoutManager(new LinearLayoutManager(mActivity, RecyclerView.HORIZONTAL, false));
-                                        rv_coupon1.setAdapter(commonAdapter);
-                                        commonAdapter.notifyDataSetChanged();
-                                    }
-                                }
-                            } else if (type == 3) {
-                                data1 = couponModel.getData();
-                                if (data1 != null) {
-                                    teamActive1.clear();
-                                    teamActive1.addAll(data1.getActives());
-                                    teamAdapter.notifyDataSetChanged();
-                                    team3Adapter.notifyDataSetChanged();
-                                }
-                            } else if (type == 12) {
-                                data1 = couponModel.getData();
-                                if (data1 != null) {
-                                    fullActive1.clear();
-                                    fullActive1.addAll(data1.getActives());
-                                    commonssAdapter.notifyDataSetChanged();
-                                    fullAdapter.notifyDataSetChanged();
-                                }
-                            }
-                            commonAdapter.notifyDataSetChanged();
-                        }
-                    }
-                });
-    }
+//    private void getSpikeList(int type) {
+//        IndexHomeAPI.getCouponList(mActivity)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<CouponModel>() {
+//
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(CouponModel couponModel) {
+//                        if (couponModel.isSuccess()) {
+//                            actives.clear();
+//                            if (type == 2) {
+//                                data1 = couponModel.getData();
+//                                if (data1 != null) {
+//                                    tv_skill_title.setText(data1.getTitle());
+//                                    currentTime = couponModel.getData().getCurrentTime();
+//                                    startTime = couponModel.getData().getStartTime();
+//
+//                                    if (data1.getActives().size() == 1) {
+//                                        skillActive1.clear();
+//                                        skillActive1.addAll(data1.getActives());
+//                                        skillAdapter = new SkillAdapter(mActivity, R.layout.item_skill_lists, skillActive1, "1");
+//                                        rv_skill.setAdapter(skillAdapter);
+//                                        rv_skill.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
+//                                        rv_skill.setVisibility(View.VISIBLE);
+//                                        skillAdapter.notifyDataSetChanged();
+//                                    } else if (data1.getActives().size() == 2) {
+//                                        skillActive2.clear();
+//                                        skillActive2.addAll(data1.getActives());
+//                                        skill2Adapter = new Skill2Adapter(mActivity, R.layout.item_skill_lists, skillActive2, "0");
+//                                        rv_skill.setAdapter(skill2Adapter);
+////                                        recyclerView.setVisibility(View.GONE);
+//                                        rv_skill.setVisibility(View.VISIBLE);
+//                                        skill2Adapter.notifyDataSetChanged();
+//                                        initRecycle();
+//
+//                                    } else if (data1.getActives().size() == 3) {
+//                                        skillActive3.clear();
+//                                        skillActive3.addAll(data1.getActives());
+//                                        skill3Adapter = new Skill3Adapter(R.layout.item_skill_list, skillActive3);
+//                                        rv_skill.setAdapter(skill3Adapter);
+//                                        rv_skill.setLayoutManager(new GridLayoutManager(mActivity, 3));
+//                                        rv_skill.setVisibility(View.VISIBLE);
+//                                        skill3Adapter.notifyDataSetChanged();
+//                                    } else if (data1.getActives().size() == 4) {
+//                                        skillActive3.clear();
+//                                        skillActive3.addAll(data1.getActives());
+//                                        skill3Adapter = new Skill3Adapter(R.layout.item_skill_list4, skillActive3);
+//                                        rv_skill.setAdapter(skill3Adapter);
+//                                        rv_skill.setLayoutManager(new GridLayoutManager(mActivity, 4));
+//                                        rv_skill.setVisibility(View.VISIBLE);
+//                                        skill3Adapter.notifyDataSetChanged();
+//                                    } else {
+//                                        skillActive3.clear();
+//                                        rv_skill.setVisibility(View.GONE);
+//                                        skillActive3.addAll(data1.getActives());
+//                                        skill5Adapter.notifyDataSetChanged();
+//                                        rv_auto_view.setVisibility(View.VISIBLE);
+//                                    }
+//
+//
+//                                    endTime = couponModel.getData().getEndTime();
+//                                    String current = DateUtils.formatDate(currentTime, "MM月dd日HH时mm分ss秒");
+//                                    String start = DateUtils.formatDate(startTime, "MM月dd日HH时mm分ss秒");
+//                                    try {
+//                                        currents = Utils.stringToDate(current, "MM月dd日HH时mm分ss秒");
+//                                        starts = Utils.stringToDate(start, "MM月dd日HH时mm分ss秒");
+//                                    } catch (ParseException e) {
+//                                        e.printStackTrace();
+//                                    }
+//
+//
+//                                    if (currentTime > startTime) {
+//                                        //秒杀开始
+//                                        if (startTime != 0 && endTime != 0) {
+//                                            snap.setVisibility(View.VISIBLE);
+//                                            snap.setTime(true, currentTime, startTime, endTime);
+//                                            snap.changeBackGround(ContextCompat.getColor(mActivity, R.color.white));
+//                                            snap.changeTypeColor(ContextCompat.getColor(mActivity, R.color.color_F6551A));
+//
+//                                            snap.start();
+//                                        } else {
+//
+//                                            snap.setVisibility(View.GONE);
+//                                        }
+//                                    } else {
+//                                        //未开始
+//                                        boolean exceed2 = DateUtils.isExceed2(currents, starts);
+//                                        if (exceed2) {
+//                                            //大于2
+//
+//                                            snap.setVisibility(View.GONE);
+//                                        } else {
+//                                            //小于2
+//                                            if (startTime != 0 && endTime != 0) {
+//                                                snap.setVisibility(View.VISIBLE);
+//                                                snap.setTime(true, currentTime, startTime, endTime);
+//                                                snap.changeBackGround(ContextCompat.getColor(mActivity, R.color.white));
+//                                                snap.changeTypeColor(ContextCompat.getColor(mActivity, R.color.color_F6551A));
+//
+//                                                snap.start();
+//                                            } else {
+//
+//                                                snap.setVisibility(View.GONE);
+//                                            }
+//                                        }
+//                                    }
+//
+//                                }
+//
+//                            } else if (type == 11) {
+//                                data1 = couponModel.getData();
+//                                if (data1 != null) {
+//                                    if (data1.getActives().size() == 1) {
+//                                        couponActive1.clear();
+//                                        couponActive1.addAll(data1.getActives());
+//                                        commonAdapter = new CommonAdapter(R.layout.item_common_lists, couponActive1);
+////                                        recyclerView.setLayoutManager(new LinearLayoutManager(mActivity,LinearLayoutManager.HORIZONTAL, false));
+//                                        rv_coupon.setAdapter(commonAdapter);
+//                                        commonAdapter.notifyDataSetChanged();
+//
+//                                    } else if (data1.getActives().size() == 2) {
+//                                        couponActive2.clear();
+//                                        couponActive2.addAll(data1.getActives());
+//                                        commonCouponAdapter = new CommonCouponAdapter(mActivity, 11 + "", R.layout.item_coupon_lists, couponActive2);
+//                                        rv_coupon.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
+//                                        rv_coupon.setAdapter(commonCouponAdapter);
+//                                        commonCouponAdapter.notifyDataSetChanged();
+//
+//                                    } else {
+//                                        couponActive3.clear();
+//                                        couponActive3.addAll(data1.getActives());
+//                                        commonAdapter = new CommonAdapter(R.layout.item_coupon_listss, couponActive3);
+//                                        rv_coupon1.setLayoutManager(new LinearLayoutManager(mActivity, RecyclerView.HORIZONTAL, false));
+//                                        rv_coupon1.setAdapter(commonAdapter);
+//                                        commonAdapter.notifyDataSetChanged();
+//                                    }
+//                                }
+//                            } else if (type == 3) {
+//                                data1 = couponModel.getData();
+//                                if (data1 != null) {
+//                                    teamActive1.clear();
+//                                    teamActive1.addAll(data1.getActives());
+//                                    teamAdapter.notifyDataSetChanged();
+//                                    team3Adapter.notifyDataSetChanged();
+//                                }
+//                            } else if (type == 12) {
+//                                data1 = couponModel.getData();
+//                                if (data1 != null) {
+//                                    fullActive1.clear();
+//                                    fullActive1.addAll(data1.getActives());
+//                                    commonssAdapter.notifyDataSetChanged();
+//                                    fullAdapter.notifyDataSetChanged();
+//                                }
+//                            }
+//                            commonAdapter.notifyDataSetChanged();
+//                        }
+//                    }
+//                });
+//    }
 
     /**
      * 热卖集合
@@ -1068,12 +1068,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
                         if (privacyModel.isSuccess()) {
                             String content = privacyModel.getData().getContent();
-                            privacyDialog = new PrivacyDialog(mActivity, content);
+//                            privacyDialog = new PrivacyDialog(mActivity, content);
                             if (privacyModel.getData().getOpen().equals("1")) {
                                 privacyDialog.show();
                             } else {
                                 privacyDialog.dismiss();
-                                getCouponList();
+//                                getCouponList();
                             }
 
                         } else {
@@ -1221,31 +1221,31 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             }
         });
         //秒杀短
-        skill5Adapter = new Skill5Adapter(mActivity, skillActive3);
-        rv_auto_view.setAdapter(skill5Adapter);
-        rv_auto_view.setLayoutManager(new GridLayoutManager(mActivity, 4));
-
-        //满赠1
-        PagerSnapHelper snapFull = new PagerSnapHelper();
-        commonssAdapter = new CommonssAdapter(mActivity, fullActive1);
-        rv_auto_view1.setAdapter(commonssAdapter);
-        snapFull.attachToRecyclerView(rv_auto_view1);
-        initRecycles();
-
-        //满赠2
-        fullAdapter = new FullAdapter(mActivity, fullActive1);
-        rv_given.setAdapter(fullAdapter);
-        rv_given.setLayoutManager(new GridLayoutManager(mActivity, 1));
-
-        //组合
-        teamAdapter = new TeamAdapter(R.layout.item_team_lists, teamActive1);
-        rv_team.setLayoutManager(new GridLayoutManager(mActivity, 1));
-        rv_team.setAdapter(teamAdapter);
-
-        //组合2
-        team3Adapter = new Team3Adapter(R.layout.item_teams_list, teamActive1);
-        rv_team.setLayoutManager(new GridLayoutManager(mActivity, 1));
-        rv_team.setAdapter(team3Adapter);
+//        skill5Adapter = new Skill5Adapter(mActivity, skillActive3);
+//        rv_auto_view.setAdapter(skill5Adapter);
+//        rv_auto_view.setLayoutManager(new GridLayoutManager(mActivity, 4));
+//
+//        //满赠1
+//        PagerSnapHelper snapFull = new PagerSnapHelper();
+//        commonssAdapter = new CommonssAdapter(mActivity, fullActive1);
+//        rv_auto_view1.setAdapter(commonssAdapter);
+//        snapFull.attachToRecyclerView(rv_auto_view1);
+//        initRecycles();
+//
+//        //满赠2
+//        fullAdapter = new FullAdapter(mActivity, fullActive1);
+//        rv_given.setAdapter(fullAdapter);
+//        rv_given.setLayoutManager(new GridLayoutManager(mActivity, 1));
+//
+//        //组合
+//        teamAdapter = new TeamAdapter(R.layout.item_team_lists, teamActive1);
+//        rv_team.setLayoutManager(new GridLayoutManager(mActivity, 1));
+//        rv_team.setAdapter(teamAdapter);
+//
+//        //组合2
+//        team3Adapter = new Team3Adapter(R.layout.item_teams_list, teamActive1);
+//        rv_team.setLayoutManager(new GridLayoutManager(mActivity, 1));
+//        rv_team.setAdapter(team3Adapter);
 
 
         rl_more.setOnClickListener(this);
@@ -1430,7 +1430,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
                         if (privacyModel.isSuccess()) {
                             String content = privacyModel.getData().getContent();
-                            privacyDialog = new PrivacyDialog(mActivity, content);
+//                            privacyDialog = new PrivacyDialog(mActivity, content);
                             if (!SharedPreferencesUtil.getString(mActivity, "once").equals("0")) {
                                 privacyDialog.show();
                             } else {
@@ -1453,7 +1453,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     public void onResume() {
         super.onResume();
         startAuto();
-        fullAdapter.start();
+//        fullAdapter.start();
         teamAdapter.start();
         team3Adapter.start();
 //        commonssAdapter.start();
@@ -1559,82 +1559,82 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     /**
      * 优惠券列表弹窗
      */
-    private void getCouponList() {
-        IndexHomeAPI.getCouponLists(mActivity)
-                .subscribeOn(Schedulers.io())
-                .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<CouponListModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(CouponListModel couponListModel) {
-                        if (couponListModel.isSuccess()) {
-                            if (couponListModel.getData() != null) {
-                                couponListModels = couponListModel;
-                                lists = couponListModel.getData().getGifts();
-                                couponListAdapter.notifyDataSetChanged();
-                                couponListDialog = new CouponListDialog(mActivity, couponListModel, lists);
-
-                                if (lists.size() > 0) {
-                                    couponListDialog.show();
-                                } else {
-                                    couponListDialog.dismiss();
-                                    QueryHomePropup();
-                                }
-
-                            } else {
-                                AppHelper.showMsg(context, couponListModel.getMessage());
-                            }
-                        }
-                    }
-                });
-    }
+//    private void getCouponList() {
+//        IndexHomeAPI.getCouponLists(mActivity)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<CouponListModel>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(CouponListModel couponListModel) {
+//                        if (couponListModel.isSuccess()) {
+//                            if (couponListModel.getData() != null) {
+//                                couponListModels = couponListModel;
+//                                lists = couponListModel.getData().getGifts();
+//                                couponListAdapter.notifyDataSetChanged();
+//                                couponListDialog = new CouponListDialog(mActivity, couponListModel, lists);
+//
+//                                if (lists.size() > 0) {
+//                                    couponListDialog.show();
+//                                } else {
+//                                    couponListDialog.dismiss();
+//                                    QueryHomePropup();
+//                                }
+//
+//                            } else {
+//                                AppHelper.showMsg(context, couponListModel.getMessage());
+//                            }
+//                        }
+//                    }
+//                });
+//    }
 
     /**
      * 首页活动弹窗
      */
-    private void QueryHomePropup() {
-        QueryHomePropupAPI.requestQueryHomePropup(mActivity)
-                .subscribeOn(Schedulers.io())
-                .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<QueryHomePropupModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(QueryHomePropupModel queryHomePropupModel) {
-                        if (queryHomePropupModel.isSuccess()) {
-                            if (queryHomePropupModel.getData().getHomePropup() != null) {
-                                QueryHomePropupModel.DataBean.HomePropupBean homePropup = queryHomePropupModel.getData().getHomePropup();
-                                homeActivityDialog = new HomeActivityDialog(mActivity, homePropup);
-                                if (queryHomePropupModel.getData().isPropup()) {
-                                    homeActivityDialog.show();
-                                } else {
-                                    homeActivityDialog.dismiss();
-                                }
-                            }
-
-                        } else {
-                            AppHelper.showMsg(mActivity, queryHomePropupModel.getMessage());
-                        }
-                    }
-                });
-    }
+//    private void QueryHomePropup() {
+//        QueryHomePropupAPI.requestQueryHomePropup(mActivity)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<QueryHomePropupModel>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(QueryHomePropupModel queryHomePropupModel) {
+//                        if (queryHomePropupModel.isSuccess()) {
+//                            if (queryHomePropupModel.getData().getHomePropup() != null) {
+//                                QueryHomePropupModel.DataBean.HomePropupBean homePropup = queryHomePropupModel.getData().getHomePropup();
+//                                homeActivityDialog = new HomeActivityDialog(mActivity, homePropup);
+//                                if (queryHomePropupModel.getData().isPropup()) {
+//                                    homeActivityDialog.show();
+//                                } else {
+//                                    homeActivityDialog.dismiss();
+//                                }
+//                            }
+//
+//                        } else {
+//                            AppHelper.showMsg(mActivity, queryHomePropupModel.getMessage());
+//                        }
+//                    }
+//                });
+//    }
 
     /**
      * 转盘数据
@@ -1893,10 +1893,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                             }
 
 
-                            getSpikeList(12);
-                            getSpikeList(3);
-                            getSpikeList(2);
-                            getSpikeList(11);
+//                            getSpikeList(12);
+//                            getSpikeList(3);
+//                            getSpikeList(2);
+//                            getSpikeList(11);
                             rvIconAdapter.notifyDataSetChanged();
                             questUrl = indexInfoModel.getData().getQuestUrl();
 
@@ -2379,13 +2379,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void cityEvent(CityEvent event) {
-        refreshLayout.autoRefresh();
-        chooseAddressDialog.dismiss();
-//        rootview.setTranslationY(0);
-
-    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void cityEvent(CityEvent event) {
+//        refreshLayout.autoRefresh();
+//        chooseAddressDialog.dismiss();
+////        rootview.setTranslationY(0);
+//
+//    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void topEvent(TopEvent event) {

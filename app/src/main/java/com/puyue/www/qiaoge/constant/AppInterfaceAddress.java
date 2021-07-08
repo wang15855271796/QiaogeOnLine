@@ -16,6 +16,10 @@ public class AppInterfaceAddress {
 //    queryReturnProdIsContainFullGift
 
     /**
+     *数据埋点
+     */
+    public static final String Data_Burial = "user/dataPoint";
+    /**
      *
      * 供应商商品列表
      */
@@ -287,12 +291,14 @@ public class AppInterfaceAddress {
     /**
      * 首页其他信息
      */
-    public static final String INDEXINFO = "common/getAreaHomeBasicInfo";
+    public static final String INDEXINFO = "common/getAppHomeBasicData";
     /**
-     * 首页其他信息
+     * 其他信息
      */
     public static final String COUPONINFO = "common/getAreaHomeActiveInfo";
 
+//    首页其他信息新
+    public static final String COUPONHOMEINFO = "common/getAllActiveList";
     /**
      * 首页优惠券弹窗列表
      */
@@ -596,7 +602,7 @@ public class AppInterfaceAddress {
     /**
      *判断库存
      */
-    public static final String ADDCARTJUDGE = "cart/judgeCartProductInvent";
+    public static final String ADDCARTJUDGE = "cart/userChangeCartGoodsNum";
 
     /**
      *购物车列表加减接口

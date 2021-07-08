@@ -81,7 +81,7 @@ private static final String CITYNAME="city_name";
      *登录地址
      */
 private static final String LOCATIONADRESS= "location_address";
-
+    public static final  String PROVINCENAME= "ProvinceName";
 private static final String ISREGISTER ="is_register";
 
     public static void saveIsRegister(Context context, String is_register) {
@@ -121,6 +121,27 @@ private static final String ISREGISTER ="is_register";
         } else {
             try {
                 return EncryptHelper.decrypt(AppConstant.APP_SHA_256, PreferenceHelper.getData(context, USER_INFO, LOCATIONADRESS));
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "";
+            }
+        }
+    }
+
+    public static void saveProvince(Context context, String provinceName) {
+        try {
+            PreferenceHelper.saveData(context, USER_INFO, PROVINCENAME, EncryptHelper.encrypt(AppConstant.APP_SHA_256, provinceName));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String getProvince(Context context) {
+        if ((StringUtils.isBlank(PreferenceHelper.getData(context, USER_INFO, PROVINCENAME)))) {
+            return "";
+        } else {
+            try {
+                return EncryptHelper.decrypt(AppConstant.APP_SHA_256, PreferenceHelper.getData(context, USER_INFO, PROVINCENAME));
             } catch (Exception e) {
                 e.printStackTrace();
                 return "";

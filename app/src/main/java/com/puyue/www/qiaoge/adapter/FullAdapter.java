@@ -26,6 +26,7 @@ import com.puyue.www.qiaoge.activity.home.FullGiftActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.model.CouponModels;
 import com.puyue.www.qiaoge.model.home.CouponModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
@@ -37,11 +38,11 @@ import java.util.List;
 public class FullAdapter extends RecyclerView.Adapter<FullAdapter.BaseViewHolder> {
     private CountDownTimer countDownTimer1;
 
-    List<CouponModel.DataBean.ActivesBean> fullActive;
+    List<CouponModels.DataBean.FullGiftBean.ActivesBeanXX> fullActive;
     Context mActivity;
-    CouponModel.DataBean.ActivesBean activesBean;
+    CouponModels.DataBean.FullGiftBean.ActivesBeanXX activesBean;
     int pos = 0;
-    public FullAdapter(FragmentActivity mActivity, List<CouponModel.DataBean.ActivesBean> fullActive) {
+    public FullAdapter(FragmentActivity mActivity, List<CouponModels.DataBean.FullGiftBean.ActivesBeanXX> fullActive) {
         this.mActivity = mActivity;
         this.fullActive = fullActive;
     }
@@ -63,7 +64,7 @@ public class FullAdapter extends RecyclerView.Adapter<FullAdapter.BaseViewHolder
             viewHolder.tv_name.setText(activesBean.getProductName());
             Glide.with(mActivity).load(activesBean.getDefaultPic()).into(viewHolder.iv_pic);
             viewHolder.tv_price.setText(activesBean.getMinMaxPrice());
-
+            Log.d("wfswdsfds.....",activesBean.getMinMaxPrice());
             if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mActivity))) {
                 if(SharedPreferencesUtil.getString(mActivity,"priceType").equals("1")) {
                     viewHolder.tv_price.setVisibility(View.VISIBLE);
@@ -89,13 +90,14 @@ public class FullAdapter extends RecyclerView.Adapter<FullAdapter.BaseViewHolder
                 }
             });
 
+
             if(activesBean.getSendGiftType().equals("赠品")) {
-                viewHolder.tv_coupon.setVisibility(View.VISIBLE);
-                viewHolder.tv_coupon.setText("赠送商品");
-                viewHolder.tv_shop.setVisibility(View.GONE);
+                viewHolder.tv_coupon.setVisibility(View.GONE);
+                viewHolder.tv_shop.setText("赠送商品");
+                viewHolder.tv_shop.setVisibility(View.VISIBLE);
             }else if(activesBean.getSendGiftType().equals("送券")){
                 viewHolder.tv_coupon.setVisibility(View.VISIBLE);
-                viewHolder.tv_coupon.setText("赠送商品");
+                viewHolder.tv_coupon.setText("赠优惠券");
                 viewHolder.tv_shop.setVisibility(View.GONE);
             }else {
                 viewHolder.tv_coupon.setVisibility(View.VISIBLE);

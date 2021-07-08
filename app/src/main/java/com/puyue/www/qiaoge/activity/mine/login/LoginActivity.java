@@ -43,19 +43,25 @@ import com.puyue.www.qiaoge.activity.ConfigUtils;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.WebDriverActivity;
 import com.puyue.www.qiaoge.activity.mine.account.EditAccountInputPhoneActivity;
+import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.CityChangeAPI;
 import com.puyue.www.qiaoge.api.home.GetCustomerPhoneAPI;
 import com.puyue.www.qiaoge.api.home.OneRegisterModel;
 import com.puyue.www.qiaoge.api.mine.login.LoginAPI;
+import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
+import com.puyue.www.qiaoge.event.LogoutEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.IsShowModel;
+import com.puyue.www.qiaoge.model.SurpliListModel;
 import com.puyue.www.qiaoge.model.mine.login.LoginModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.Time;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
@@ -106,7 +112,7 @@ public class LoginActivity extends BaseSwipeActivity {
 //    public LocationClient mLocationClient = null;
 //    private MyLocationListener myListener = new MyLocationListener();
 
-    private String city = "";
+//    private String city = "";
 
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
@@ -376,6 +382,43 @@ public class LoginActivity extends BaseSwipeActivity {
             }
         });
     }
+    long start;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        start = System.currentTimeMillis();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        long end = (System.currentTimeMillis()-start)/1000;
+        long time = Time.getTime(end);
+        getDatas(time);
+
+    }
+
+    private void getDatas(long end) {
+        RecommendApI.getDatas(mContext,2,end)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+
+                    }
+                });
+    }
 
     private void checks(String result) {
         GetCustomerPhoneAPI.getData(mContext,result)
@@ -497,7 +540,8 @@ public class LoginActivity extends BaseSwipeActivity {
         UserInfoHelper.saveUserId(mContext, mModelLogin.data.token);
         UserInfoHelper.saveUserCell(mContext, mModelLogin.data.userBaseInfoVO.phone);
         UserInfoHelper.saveUserType(mContext, String.valueOf(mModelLogin.data.userBaseInfoVO.type));
-        UserInfoHelper.saveCity(mContext, city);
+        SharedPreferencesUtil.saveString(mActivity,"index1","7");
+//        UserInfoHelper.saveCity(mContext, UserInfoHelper.getCity(mContext));
         SharedPreferencesUtil.saveString(mContext,"userId",mModelLogin.data.userBaseInfoVO.id);
         isShow();
         //登录成功,登录状态有变化,需要让
@@ -506,13 +550,8 @@ public class LoginActivity extends BaseSwipeActivity {
         Intent intent = new Intent(mContext,HomeActivity.class);
         startActivity(intent);
         EventBus.getDefault().post(new LogoutsEvent());
+        EventBus.getDefault().post(new LogoutEvent());
         finish();
-//        UserInfoHelper.saveUserHomeRefresh(mContext, "");
-//        UserInfoHelper.saveUserMarketRefresh(mContext, "");
-//        startActivity(new Intent(mContext, HomeActivity.class));
-//        EventBus.getDefault().post(new LogoutsEvent());
-//
-//        finish();
     }
 
     /**
@@ -761,4 +800,6 @@ public class LoginActivity extends BaseSwipeActivity {
         Log.i("wwb", "getMacAddress: " + mac);
         return mac;
     }
+
+
 }

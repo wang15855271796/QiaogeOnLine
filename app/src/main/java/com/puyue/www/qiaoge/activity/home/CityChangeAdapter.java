@@ -2,6 +2,7 @@ package com.puyue.www.qiaoge.activity.home;
 
 import android.app.Activity;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 

@@ -14,6 +14,8 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.api.cart.AddCartAPI;
+import com.puyue.www.qiaoge.api.cart.RecommendApI;
+import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
@@ -152,6 +154,7 @@ public class TeamInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.Data
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     int activeId = item.getActiveId();
                     addCar(activeId, "", 2, "1");
+                    getDatas(1);
                 } else {
                     AppHelper.showMsg(mContext, "请先登录");
                     mContext.startActivity(LoginActivity.getIntent(mContext, LoginActivity.class));
@@ -160,6 +163,27 @@ public class TeamInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.Data
         });
     }
 
+    private void getDatas(long end) {
+        RecommendApI.getDatas(mContext,16,end)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+
+                    }
+                });
+    }
     private void addCar(int businessId, String productCombinationPriceVOList, int businessType, String totalNum) {
         AddCartAPI.requestData(mContext, businessId, productCombinationPriceVOList, businessType, String.valueOf(totalNum))
                 .subscribeOn(Schedulers.io())

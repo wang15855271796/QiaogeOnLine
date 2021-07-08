@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.amap.api.maps.offlinemap.City;
 import com.bumptech.glide.Glide;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
@@ -41,6 +42,7 @@ import com.puyue.www.qiaoge.adapter.cart.CartUnableAdapter;
 import com.puyue.www.qiaoge.api.cart.CartBalanceAPI;
 import com.puyue.www.qiaoge.api.cart.CartListAPI;
 import com.puyue.www.qiaoge.api.cart.DeleteCartAPI;
+import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.api.mine.order.CartGetReductDescAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
@@ -51,6 +53,7 @@ import com.puyue.www.qiaoge.event.BackEvent;
 import com.puyue.www.qiaoge.event.GoToMarketEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.event.UpDateNumEvent1;
+import com.puyue.www.qiaoge.fragment.home.CityEvent;
 import com.puyue.www.qiaoge.fragment.home.MustAdapter;
 import com.puyue.www.qiaoge.fragment.market.Test2Adapter;
 import com.puyue.www.qiaoge.fragment.market.TestAdapter;
@@ -68,6 +71,8 @@ import com.puyue.www.qiaoge.model.home.GetCustomerPhoneModel;
 import com.puyue.www.qiaoge.model.home.MustModel;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 import com.puyue.www.qiaoge.model.mine.order.CartGetReductModel;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.Time;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.Arith;
 import com.puyue.www.qiaoge.view.SlideRecyclerView;
@@ -276,6 +281,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
 
                     @Override
                     public void onNext(CartGetReductModel cartGetReductModel) {
+                        Log.d("fdsfdsfeff..........","sds1");
                         if (cartGetReductModel.isSuccess()) {
                             if (!TextUtils.isEmpty(cartGetReductModel.getData())) {
                                 marqueeTextView.setText(cartGetReductModel.getData());
@@ -295,6 +301,39 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
 
     }
 
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(SharedPreferencesUtil.getString(mActivity,"index").equals("3")) {
+            long end = (System.currentTimeMillis()-start)/1000;
+            long time = Time.getTime(end);
+            getDatas(time);
+        }
+
+    }
+
+    private void getDatas(long end) {
+        RecommendApI.getDatas(mActivity,10,end)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+
+                    }
+                });
+    }
 
 
     @Override
@@ -806,10 +845,8 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
 
     @Override
     public void setViewData() {
-//        requestCartList();
-        getCustomerPhone();
         getProductsList();
-
+        requestCartList();
     }
 
     private void getAllPrice(List<CartsListModel.DataBean.ValidListBean> validList) {
@@ -856,8 +893,15 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         btn_sure.setEnabled(false);
-        if (!hidden) {
+
+        if (hidden&&SharedPreferencesUtil.getString(mActivity,"index1").equals("1")) {
+            long end = (System.currentTimeMillis()-start)/1000;
+            long time = Time.getTime(end);
+            getDatas(time);
+        }else {
+            start = System.currentTimeMillis();
             requestCartList();
+            Log.d("fdsfdsfeff..........","sds4");
         }
     }
 
@@ -904,7 +948,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
                                     mListUnOperate.add(validList.get(i));
                                 }
                             }
-                            Log.d("ddfdsfsdsdasdf...","ssssss");
+
                             testAdapter = new TestAdapter(R.layout.item_carts, mListOperate,mListCart,CartFragment.this, new TestAdapter.Onclick() {
                                 @Override
                                 public void deteItem(int pos,CartsListModel.DataBean.ValidListBean validListBean) {
@@ -978,11 +1022,10 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
                                 tv_delete.setVisibility(View.VISIBLE);
                                 ll_NoData.setVisibility(View.GONE);
                                 ll.setVisibility(View.VISIBLE);
-
                                 getAllPrice(validList);
 
                             }
-
+                            Log.d("wfsfgsfrfef....","4567");
                             if(mListCart.size()==0 && unList.size()!=0) {
                                 ll_service.setVisibility(View.GONE);
                                 ll.setVisibility(View.GONE);
@@ -1025,7 +1068,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
                                 }
                             };
 
-
+                            Log.d("wfsfgsfrfef....","45678");
                             tv_arrow.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -1036,20 +1079,10 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
                             rv_unable.setAdapter(unAbleAdapter);
                             testAdapter.notifyDataSetChanged();
                             test2Adapter.notifyDataSetChanged();
-                            Log.d("wdasaassssssssss......","sssss");
                             test2Adapter.setResfreshListener(new Test2Adapter.OnResfreshListener() {
                                 @Override
                                 public void onResfresh(boolean isSelect) {
                                     mSelect = isSelect;
-//                                    if(isSelect){
-//                                        cb_select_all.setChecked(true);
-////                                        cb_select_operate.setChecked(true);
-////                                        cb_select_unOperate.setChecked(true);
-//                                    }else {
-//                                        cb_select_all.setChecked(false);
-////                                        cb_select_operate.setChecked(false);
-////                                        cb_select_unOperate.setChecked(false);
-//                                    }
                                 }
                             });
 
@@ -1057,31 +1090,18 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
                                 @Override
                                 public void onResfresh(boolean isSelect) {
                                     mSelect = isSelect;
-                                    Log.d("wadasdssssss....","777");
-//                                    if(isSelect){
-//                                        cb_select_all.setChecked(true);
-////                                        cb_select_operate.setChecked(true);
-////                                        cb_select_unOperate.setChecked(true);
-//                                    }else {
-//                                        cb_select_all.setChecked(false);
-////                                        cb_select_operate.setChecked(false);
-////                                        cb_select_unOperate.setChecked(false);
-//                                    }
-
-
                                 }
                             });
 
                             lav_activity_loading.hide();
                             lav_activity_loading.setVisibility(View.GONE);
                             btn_sure.setEnabled(true);
+
                         }else {
                             lav_activity_loading.hide();
                             lav_activity_loading.setVisibility(View.GONE);
                             btn_sure.setEnabled(false);
                         }
-
-
                     }
                 });
     }
@@ -1116,7 +1136,6 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
                             productModels = getCommonProductModel;
                             if(getCommonProductModel.getData()!=null) {
                                 tv.setVisibility(View.VISIBLE);
-
                             }else {
                                 tv.setVisibility(View.GONE);
                             }
@@ -1131,8 +1150,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
 
                                     @Override
                                     public void tipClick() {
-//                                        showPhoneDialog(cell);
-                                        AppHelper.ShowAuthDialog(mActivity,cell);
+                                        AppHelper.ShowAuthDialog(mActivity,SharedPreferencesUtil.getString(mActivity,"mobile"));
                                     }
                                 });
 
@@ -1150,22 +1168,6 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
                 });
     }
 
-    private void getCustomerPhone() {
-        PublicRequestHelper.getCustomerPhone(mActivity, new OnHttpCallBack<GetCustomerPhoneModel>() {
-            @Override
-            public void onSuccessful(GetCustomerPhoneModel getCustomerPhoneModel) {
-                if (getCustomerPhoneModel.isSuccess()) {
-                    cell = getCustomerPhoneModel.getData();
-                } else {
-                    AppHelper.showMsg(mActivity, getCustomerPhoneModel.getMessage());
-                }
-            }
-
-            @Override
-            public void onFaild(String errorMsg) {
-            }
-        });
-    }
 
     /**
      * 弹出电话号码
@@ -1208,19 +1210,21 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
         lav_activity_loading.show();
         requestCartList();
         getCartNum();
-        getProductsList();
-        getCustomerPhone();
+        //新改
+//        getProductsList();
 
     }
 
+
+
+    long start;
     @Override
     public void onResume() {
         super.onResume();
         cb_select_all.setChecked(true);
         cb_select_operate.setChecked(true);
         cb_select_unOperate.setChecked(true);
-        requestCartList();
-        getCartNum();
+        start = System.currentTimeMillis();
     }
 
 
@@ -1228,6 +1232,13 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
     public void getTotals(UpDateNumEvent1 upDateNumEvent) {
         requestCartList();
         getProductsList();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getMust(CityEvent event) {
+        getProductsList();
+        requestCartList();
+        Log.d("aegffgdfdfd....","1222");
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -1245,7 +1256,6 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
         //刷新UI
         requestCartList();
         getProductsList();
-        getCustomerPhone();
     }
 
     //这里用了eventBus来进行实时价格的UI更改。

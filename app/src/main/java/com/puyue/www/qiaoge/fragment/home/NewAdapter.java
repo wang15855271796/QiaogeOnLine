@@ -12,7 +12,6 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.activity.Test1Activity;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.NewDialog;
@@ -56,12 +55,15 @@ public class NewAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
         rl_group = helper.getView(R.id.rl_group);
         tv_sale = helper.getView(R.id.tv_sale);
         ImageView iv_send = helper.getView(R.id.iv_send);
-        if(item.getNotSend().equals("1")) {
-            iv_send.setImageResource(R.mipmap.icon_not_send);
-            iv_send.setVisibility(View.VISIBLE);
-        }else {
-            iv_send.setVisibility(View.GONE);
+        if(item.getNotSend()!=null) {
+            if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
+                iv_send.setImageResource(R.mipmap.icon_not_send2);
+                iv_send.setVisibility(View.VISIBLE);
+            }else {
+                iv_send.setVisibility(View.GONE);
+            }
         }
+
         Glide.with(mContext).load(item.getDefaultPic()).into(iv_pic);
         helper.setText(R.id.tv_name,item.getProductName());
         Glide.with(mContext).load(item.getSelfProd()).into(iv_operate);

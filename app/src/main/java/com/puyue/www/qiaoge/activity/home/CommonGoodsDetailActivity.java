@@ -99,6 +99,8 @@ import com.puyue.www.qiaoge.model.home.UpdateUserInvitationModel;
 import com.puyue.www.qiaoge.model.market.GoodsDetailModel;
 import com.puyue.www.qiaoge.model.mine.GetShareInfoModle;
 import com.puyue.www.qiaoge.utils.LoginUtil;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.Time;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.FlowLayout;
 import com.puyue.www.qiaoge.view.StarBarView;
@@ -237,6 +239,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
     String city;
     String priceType;
     private GetProductDetailModel models;
+    RelativeLayout ll_desc;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         if (getIntent() != null && getIntent().getExtras() != null) {
@@ -270,6 +273,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
+        ll_desc = FVHelper.fv(this, R.id.ll_desc);
         tv_price =  FVHelper.fv(this, R.id.tv_price);
         ll_service = FVHelper.fv(this, R.id.ll_service);
         tv_city = FVHelper.fv(this, R.id.tv_city);
@@ -332,8 +336,6 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
             mTvAddCar.setBackgroundResource(R.drawable.app_car_orange);
         }
 
-
-        getCustomerPhone();
         getAllCommentList(pageNum, pageSize, productId, businessType);
 
         adapterRecommend = new GoodsRecommendAdapter(R.layout.item_goods_recommend, searchList);
@@ -353,20 +355,39 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
 
     }
 
+    long start;
     @Override
     protected void onResume() {
         super.onResume();
-
+        start = System.currentTimeMillis();
         if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-            hasCollectState(productId, businessType);
             getCartNum();
         } else {
             mIvCollection.setImageResource(R.mipmap.ic_love);
         }
-
-        getCustomerPhone();
     }
 
+    private void getDatas(long end) {
+        RecommendApI.getDatas(mContext,14,end)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+
+                    }
+                });
+    }
 
     @Override
     public void setClickEvent() {
@@ -410,6 +431,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
 
     }
 
+
     private NoDoubleClickListener noDoubleClickListener = new NoDoubleClickListener() {
         @Override
         public void onNoDoubleClick(View view) {
@@ -433,9 +455,15 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                                 }
                             });
                         }
-
                     }
                     else {
+//                        if (models.getData().isHasCollect()) {
+//                            //已收藏
+//                            mIvCollection.setImageResource(R.mipmap.ic_love);
+//                        } else {
+//                            mIvCollection.setImageResource(R.mipmap.icon_collection_fill);
+//                        }
+                        boolean isCollection = SharedPreferencesUtil.getBoolean(mContext, "isCollection");
                         if (isCollection) {
                             //取消收藏
                             clickCollection(productId1, businessType, (byte)2);
@@ -567,9 +595,12 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                             detailList.addAll(model.getData().getDetailPic());
                             imageViewAdapter.notifyDataSetChanged();
                             models = model;
+                            boolean hasCollect = models.getData().isHasCollect();
+                            SharedPreferencesUtil.saveBoolean(mContext,"isCollection",hasCollect);
                             productId1 = model.getData().getProductId();
                             productName = model.getData().getProductName();
                             mTvTitle.setText(productName);
+                            cell = model.getData().getCustomerPhone();
                             if(model.getData().getFullGiftSendInfo()!=null&&model.getData().getFullGiftSendInfo().size()>0) {
                                 tv_full_desc.setText(model.getData().getFullGiftSendInfo().get(0));
                             }
@@ -578,6 +609,13 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                             }else {
                                 tv_date.setText(models.getData().getSendTimeStr());
                                 tv_date.setVisibility(View.VISIBLE);
+                            }
+
+                            if (model.getData().isHasCollect()) {
+                                //已收藏
+                                mIvCollection.setImageResource(R.mipmap.icon_collection_fill);
+                            } else {
+                                mIvCollection.setImageResource(R.mipmap.ic_love);
                             }
 
                             if(model.getData().getSelfProd()!=null) {
@@ -595,9 +633,9 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
 
                             Glide.with(mContext).load(models.getData().getSelfProd()).into(iv3);
                             Glide.with(mContext).load(models.getData().getSelfProd()).into(iv2);
-
                             if("自营商品".equals(model.getData().getCompanyName())) {
                                 tv_date.setText(model.getData().getSendTimeStr());
+                                tv_address.setText(model.getData().getCompanyName()+"");
                             }else {
                                 tv_address.setText(model.getData().getCompanyName());
                                 tv_date.setText(model.getData().getSendTimeStr());
@@ -610,12 +648,15 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                             }
 
                             //单点不送
-                            if(models.getData().getNotSend().equals("1")) {
-                                iv_send.setImageResource(R.mipmap.icon_not_send);
-                                iv_send.setVisibility(View.VISIBLE);
-                            }else {
-                                iv_send.setVisibility(View.GONE);
+                            if(models.getData().getNotSend()!=null) {
+                                if(models.getData().getNotSend().equals("1")||models.getData().getNotSend().equals("1.0")) {
+                                    iv_send.setImageResource(R.mipmap.icon_not_send_big);
+                                    iv_send.setVisibility(View.VISIBLE);
+                                }else {
+                                    iv_send.setVisibility(View.GONE);
+                                }
                             }
+
                             if(models.getData().getAddress().equals("")) {
                                 tv_send_area.setText("杭州西湖区 >");
                             }else {
@@ -650,6 +691,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
 
                                 }
                             });
+
                             if(model.getData().getTypeUrl()==null||model.getData().getTypeUrl().equals("")) {
                                 iv_flag.setVisibility(View.GONE);
                             }else {
@@ -657,10 +699,14 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                                 Glide.with(mContext).load(model.getData().getTypeUrl()).into(iv_flag);
                             }
                             //单点不送
-
                             tv_sale.setText(model.getData().getSalesVolume());
                             prodSpecs = model.getData().getProdSpecs();
-                            tv_desc.setText(model.getData().getIntroduction());
+                            if(model.getData().getIntroduction()==null||model.getData().getIntroduction().equals("")) {
+                                ll_desc.setVisibility(View.GONE);
+                            }else {
+                                tv_desc.setText(model.getData().getIntroduction());
+                                ll_desc.setVisibility(View.VISIBLE);
+                            }
                             tv_desc.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -701,7 +747,12 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                             images.clear();
                             mBanner.setBannerStyle(BannerConfig.NUM_INDICATOR);
                             mBanner.setImageLoader(new GlideImageLoader());
-                            images.addAll(model.getData().getTopPic());
+                            if(model.getData().getTopPic()==null) {
+                                images.addAll(model.getData().getTopPic());
+                            }else {
+                                images.add(model.getData().getDefaultPic());
+                            }
+
                             mBanner.setImages(images);
                             mBanner.setBannerAnimation(Transformer.DepthPage);
                             mBanner.isAutoPlay(true);
@@ -721,7 +772,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                             //填充详情
                             mListDetailImage.clear();
 
-                            if(model.getData().getSupProds()!=null) {
+                            if(model.getData().getSupplierId()!=null) {
                                 ll_surp.setVisibility(View.VISIBLE);
                             }else  {
                                 ll_surp.setVisibility(View.GONE);
@@ -733,79 +784,6 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
 
                         } else {
                             ToastUtil.showErroMsg(mActivity,model.getMessage());
-                        }
-                    }
-                });
-    }
-
-    TextView tv_sure;
-    TextView tv_cancel;
-    TextView tv_get;
-    EditText et_authprize;
-//    private void ShowAuthDialog() {
-//        mDialog = new AlertDialog.Builder(mContext).create();
-//        mDialog.show();
-//        Window window = mDialog.getWindow();
-//        window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-//        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
-//                | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-//
-//        mDialog.getWindow().setContentView(R.layout.dialog_authorize);
-//        tv_sure = mDialog.getWindow().findViewById(R.id.tv_sure);
-//        tv_cancel = mDialog.getWindow().findViewById(R.id.tv_cancel);
-//        tv_get = mDialog.getWindow().findViewById(R.id.tv_get);
-//        et_authprize = mDialog.getWindow().findViewById(R.id.et_authprize);
-//        mDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-//        tv_get.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showPhoneDialog(cell);
-//            }
-//        });
-//
-//        tv_cancel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
-//
-//        tv_sure.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                getCode(et_authprize.getText().toString());
-//            }
-//        });
-//    }
-
-
-    /**
-     * 获取授权码
-     */
-    private void getCode(String code) {
-        IndexHomeAPI.getCode(mActivity,code)
-                .subscribeOn(Schedulers.io())
-                .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BaseModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(BaseModel indexInfoModel) {
-                        if (indexInfoModel.success) {
-                            ToastUtil.showSuccessMsg(mContext,indexInfoModel.message);
-                            Intent intent = new Intent(mContext,HomeActivity.class);//跳回首页
-                            startActivity(intent);
-                            EventBus.getDefault().post(new CityEvent());
-                        }else {
-                            ToastUtil.showSuccessMsg(mContext,indexInfoModel.message);
                         }
                     }
                 });
@@ -983,69 +961,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                 });
     }
 
-    /**
-     * 供应商商品
-     */
 
-    /**
-     * 推荐
-     **/
-
-//    private void getSupplier(String id) {
-//        RecommendApI.getSupplierList(mContext,id,"",1,10)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Subscriber<SupplierModel>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(SupplierModel supplierModel) {
-//                        if (supplierModel.isSuccess()) {
-//                            surplierList.clear();
-//                            List<SupplierModel.DataBean.ListBean> list = supplierModel.getData().getList();
-//                            surplierList.addAll(list);
-//                        } else {
-//                            ToastUtil.showSuccessMsg(mContext, supplierModel.getMessage());
-//                        }
-//                    }
-//                });
-//    }
-
-
-    /**
-     * 获取收藏状态
-     */
-    private void hasCollectState(int businessId, byte businessType) {
-        PublicRequestHelper.hasCollectState(mContext, businessId, businessType, new OnHttpCallBack<HasCollectModel>() {
-            @Override
-            public void onSuccessful(HasCollectModel hasCollectModel) {
-                if (hasCollectModel.success) {
-                    isCollection = hasCollectModel.data;
-                    if (isCollection) {
-                        //已收藏
-                        mIvCollection.setImageResource(R.mipmap.icon_collection_fill);
-                    } else {
-                        mIvCollection.setImageResource(R.mipmap.ic_love);
-                    }
-                } else {
-                    ToastUtil.showSuccessMsg(mContext, hasCollectModel.message);
-                }
-            }
-
-            @Override
-            public void onFaild(String errorMsg) {
-
-            }
-        });
-    }
 
     /**
      * 点击收藏
@@ -1068,14 +984,15 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                     @Override
                     public void onNext(ClickCollectionModel clickCollectionModel) {
                         if (clickCollectionModel.success) {
-                            if (!isCollection) {
-                                isCollection = true;
+                            boolean isCollection = SharedPreferencesUtil.getBoolean(mContext, "isCollection");
+                            if (isCollection) {
+                                mIvCollection.setImageResource(R.mipmap.ic_love);
+                                mTvCollection.setText("取消收藏");
+                               SharedPreferencesUtil.saveBoolean(mContext, "isCollection",!isCollection);
+                            } else {
                                 mIvCollection.setImageResource(R.mipmap.icon_collection_fill);
                                 mTvCollection.setText("已收藏");
-                            } else {
-                                isCollection = false;
-                                mIvCollection.setImageResource(R.mipmap.ic_love);
-                                mTvCollection.setText("收藏");
+                                SharedPreferencesUtil.saveBoolean(mContext, "isCollection",!isCollection);
                             }
                         } else {
                             AppHelper.showMsg(mContext, clickCollectionModel.message);
@@ -1208,7 +1125,9 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
         super.onStop();
         //结束轮播
         mBanner.stopAutoPlay();
-
+        long end = (System.currentTimeMillis()-start)/1000;
+        long time = Time.getTime(end);
+        getDatas(time);
     }
 
     @Override
@@ -1248,27 +1167,6 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
             @Override
             public void onFaild(String errorMsg) {
 
-            }
-        });
-    }
-
-
-    /**
-     * 获取客服电话
-     */
-    private void getCustomerPhone() {
-        PublicRequestHelper.getCustomerPhone(mContext, new OnHttpCallBack<GetCustomerPhoneModel>() {
-            @Override
-            public void onSuccessful(GetCustomerPhoneModel getCustomerPhoneModel) {
-                if (getCustomerPhoneModel.isSuccess()) {
-                    cell = getCustomerPhoneModel.getData();
-                } else {
-                    ToastUtil.showSuccessMsg(mContext, getCustomerPhoneModel.getMessage());
-                }
-            }
-
-            @Override
-            public void onFaild(String errorMsg) {
             }
         });
     }

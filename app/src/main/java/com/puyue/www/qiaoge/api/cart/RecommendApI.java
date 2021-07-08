@@ -2,6 +2,7 @@ package com.puyue.www.qiaoge.api.cart;
 
 import android.content.Context;
 
+import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
 import com.puyue.www.qiaoge.helper.RestHelper;
 import com.puyue.www.qiaoge.model.SupplierModel;
@@ -115,5 +116,19 @@ public class RecommendApI {
     public static Observable<SurpliListModel> getSupplierList(Context context, String supplierId, String searchName, int pageNum, int pageSize) {
         SupplierListService service = RestHelper.getBaseRetrofit(context).create(SupplierListService.class);
         return service.getData(supplierId,searchName,pageNum,pageSize);
+    }
+
+    /**
+     * 数据埋点
+     */
+    private interface DataPointService {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Data_Burial)
+        Observable<BaseModel> getData(@Field("pageType") int pageType, @Field("num") long num);
+    }
+
+    public static Observable<BaseModel> getDatas(Context context, int pageType,long num) {
+        DataPointService service = RestHelper.getBaseRetrofit(context).create(DataPointService.class);
+        return service.getData(pageType,num);
     }
 }

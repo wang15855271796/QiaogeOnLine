@@ -1,5 +1,6 @@
 package com.puyue.www.qiaoge.activity.home;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -9,6 +10,7 @@ import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.PopupWindow;
 
 /**
@@ -16,7 +18,7 @@ import android.widget.PopupWindow;
  */
 
 public class CustomPopWindow {
-    private Context mContext;
+    private Activity mContext;
     private int mWidth;
     private int mHeight;
     private boolean mIsFocusable = true;
@@ -33,7 +35,7 @@ public class CustomPopWindow {
     private int mSoftInputMode = -1;
     private boolean mTouchable = true;//default is ture
     private View.OnTouchListener mOnTouchListener;
-    public CustomPopWindow(Context context){
+    public CustomPopWindow(Activity context){
         mContext = context;
     }
 
@@ -137,7 +139,13 @@ public class CustomPopWindow {
         mPopupWindow.setFocusable(mIsFocusable);
         mPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mPopupWindow.setOutsideTouchable(mIsOutside);
-
+        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+//                bgAlpha(1);
+            }
+        });
+//        bgAlpha(0.5f);
         if(mWidth == 0 || mHeight == 0){
             mPopupWindow.getContentView().measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
             //如果外面没有设置宽高的情况下，计算宽高并赋值
@@ -148,6 +156,13 @@ public class CustomPopWindow {
         mPopupWindow.update();
 
         return mPopupWindow;
+    }
+
+    private void bgAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = mContext.getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        mContext.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        mContext.getWindow().setAttributes(lp);
     }
 
     /**
@@ -163,7 +178,7 @@ public class CustomPopWindow {
     public static class PopupWindowBuilder{
         private CustomPopWindow mCustomPopWindow;
 
-        public PopupWindowBuilder(Context context){
+        public PopupWindowBuilder(Activity context){
             mCustomPopWindow = new CustomPopWindow(context);
         }
         public PopupWindowBuilder size(int width,int height){

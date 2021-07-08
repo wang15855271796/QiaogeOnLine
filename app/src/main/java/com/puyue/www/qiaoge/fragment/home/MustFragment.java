@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -30,6 +31,7 @@ import com.puyue.www.qiaoge.model.home.GetCustomerPhoneModel;
 import com.puyue.www.qiaoge.model.home.MustModel;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 import com.puyue.www.qiaoge.utils.LoginUtil;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -85,7 +87,6 @@ public class MustFragment extends BaseFragment {
         if(!EventBus.getDefault().isRegistered(this)) {//加上判断
             EventBus.getDefault().register(this);
         }
-        getProductsList(pageNum,pageSize);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -124,7 +125,7 @@ public class MustFragment extends BaseFragment {
     @Override
     public void findViewById(View view) {
         bind = ButterKnife.bind(this, view);
-        getCustomerPhone();
+//        getCustomerPhone();
         emptyView = View.inflate(mActivity, R.layout.layout_empty, null);
         mustAdapter = new Must2Adapter(R.layout.item_team_list, list, new Must2Adapter.Onclick() {
             @Override
@@ -140,7 +141,7 @@ public class MustFragment extends BaseFragment {
             @Override
             public void tipClick() {
 //                showPhoneDialog(cell);
-                AppHelper.ShowAuthDialog(mActivity,cell);
+                AppHelper.ShowAuthDialog(mActivity,SharedPreferencesUtil.getString(mActivity,"mobile"));
             }
         });
         recyclerView.setLayoutManager(new GridLayoutManager(mActivity,2));
@@ -205,7 +206,7 @@ public class MustFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void messageEventBus(BackEvent event) {
-        getCustomerPhone();
+//        getCustomerPhone();
         refreshLayout.autoRefresh();
     }
 
@@ -227,6 +228,7 @@ public class MustFragment extends BaseFragment {
 
                     @Override
                     public void onNext(ProductNormalModel getCommonProductModel) {
+                        Log.d("wfdrffewfwffdfd.......","123456");
                         if (getCommonProductModel.isSuccess()) {
                             productModels = getCommonProductModel;
                             mustAdapter.notifyDataSetChanged();
@@ -242,27 +244,20 @@ public class MustFragment extends BaseFragment {
     }
 
 
-    /**
-     * 接收地址切换时的授权处理
-     * @param event
-     */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getPriceType(CityEvent event) {
-        getCustomerPhone();
-        getProductsList(pageNum,pageSize);
-    }
+//    /**
+//     * 接收地址切换时的授权处理
+//     * @param event
+//     */
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void getPriceType(CityEvent event) {
+////        getCustomerPhone();
+//        getProductsList(pageNum,pageSize);
+//    }
 
 
     @Override
     public void setViewData() {
 
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getMust(BackEvent event) {
-        //刷新UI
-        getProductsList(pageNum,pageSize);
-        getCustomerPhone();
     }
 
     @Override

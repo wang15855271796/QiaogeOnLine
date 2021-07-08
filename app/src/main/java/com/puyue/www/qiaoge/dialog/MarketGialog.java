@@ -147,12 +147,15 @@ public class MarketGialog extends Dialog implements View.OnClickListener{
                                 recyclerView.setAdapter(marketItemAdapter);
                                 marketItemAdapter.notifyDataSetChanged();
 
-                                if(exchangeProductModel.getData().getNotSend().equals("1")) {
-                                    iv_send.setImageResource(R.mipmap.icon_not_send);
-                                    iv_send.setVisibility(View.VISIBLE);
-                                }else {
-                                    iv_send.setVisibility(View.GONE);
+                                if(exchangeProductModel.getData().getNotSend()!=null) {
+                                    if(exchangeProductModel.getData().getNotSend().equals("1")||exchangeProductModel.getData().getNotSend().equals("1.0")) {
+                                        iv_send.setImageResource(R.mipmap.icon_not_send);
+                                        iv_send.setVisibility(View.VISIBLE);
+                                    }else {
+                                        iv_send.setVisibility(View.GONE);
+                                    }
                                 }
+
                             }
 
                         }else {

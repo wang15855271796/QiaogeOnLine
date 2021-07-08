@@ -57,6 +57,16 @@
                             android:layout_height="325dp"
                             app:layout_collapseMode="parallax" />
 
+                        <ImageView
+                            android:id="@+id/iv_send"
+                            android:visibility="gone"
+                            android:layout_marginRight="@dimen/size_15dp"
+                            android:layout_marginBottom="@dimen/size_30dp"
+                            android:layout_gravity="bottom|right"
+                            android:src="@mipmap/icon_not_send"
+                            android:layout_width="152dp"
+                            android:layout_height="@dimen/size_44dp" />
+
                     </FrameLayout>
 
 
@@ -117,8 +127,12 @@
                                 android:layout_toRightOf="@+id/tv_name"
                                 android:id="@+id/tv_limit_num"
                                 tools:text="限购20"
-                                android:textColor="#ffffff"
+                                android:textColor="#FF1D29"
                                 android:textSize="12sp"
+                                android:paddingTop="@dimen/size_1dp"
+                                android:paddingBottom="@dimen/size_1dp"
+                                android:paddingLeft="@dimen/size_5dp"
+                                android:paddingRight="@dimen/size_5dp"
                                 android:layout_alignBaseline="@+id/tv_name"
                                 android:layout_marginLeft="@dimen/size_15dp"
                                 android:layout_width="wrap_content"
@@ -129,16 +143,16 @@
                                 tools:text="12月12日12:12:59开抢 "
                                 android:layout_marginRight="@dimen/size_10dp"
                                 android:textColor="#FF1D29"
-                                android:textSize="13sp"
+                                android:textSize="12sp"
                                 android:layout_alignBaseline="@+id/tv_name"
                                 android:layout_alignParentRight="true"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
-                            <com.puyue.www.qiaoge.view.SnapUpCountDownTimerView
+                            <com.puyue.www.qiaoge.view.SnapUpCountDownTimerView1
                                 android:visibility="gone"
                                 android:layout_alignParentRight="true"
-                                android:layout_marginRight="@dimen/size_15dp"
+                                android:layout_marginRight="@dimen/size_5dp"
                                 android:id="@+id/tv_cut_down"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

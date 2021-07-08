@@ -17,6 +17,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.api.cart.AddMountChangeTwoAPI;
+import com.puyue.www.qiaoge.api.cart.RecommendApI;
+import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.event.UpDateNumEvent;
 import com.puyue.www.qiaoge.event.UpDateNumEvent2;
 import com.puyue.www.qiaoge.helper.StringHelper;
@@ -88,6 +90,7 @@ public class CommonItemAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
                 int num = Integer.parseInt(tv_num.getText().toString());
                 num++;
                 addCart(num,item.getPriceId(),productId,businessType,tv_num,item.getCartNum());
+                getDatas(1);
             }
         });
 
@@ -129,6 +132,7 @@ public class CommonItemAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
                 tv_ok.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        getDatas(1);
                         if (et_num.getText().toString() != null && StringHelper.notEmptyAndNull(et_num.getText().toString())) {
                             //判断库存
                             AddMountChangeTwoAPI.AddMountChangeService(mContext, businessType, productId, Integer.parseInt(et_num.getText().toString()), item.getPriceId())
@@ -176,6 +180,28 @@ public class CommonItemAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
 
     public void setOnItemClickListener(com.puyue.www.qiaoge.listener.OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
+    }
+
+    private void getDatas(long end) {
+        RecommendApI.getDatas(mContext,16,end)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+
+                    }
+                });
     }
 
     /**

@@ -22,8 +22,10 @@ import com.puyue.www.qiaoge.activity.CartActivity;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.adapter.mine.MyCollectionAdapter;
 import com.puyue.www.qiaoge.api.cart.GetCartNumAPI;
+import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.mine.collection.DeleteCollectionAPI;
 import com.puyue.www.qiaoge.api.mine.collection.MyCollectionListAPI;
+import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.event.AddressEvent;
@@ -39,6 +41,7 @@ import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 import com.puyue.www.qiaoge.model.mine.collection.CollectionListModel;
 import com.puyue.www.qiaoge.model.mine.collection.DeleteCollectionModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.Time;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
@@ -134,6 +137,44 @@ public class MyCollectionActivity extends BaseSwipeActivity implements View.OnCl
             public void onFaild(String errorMsg) {
             }
         });
+    }
+
+    long start;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        start = System.currentTimeMillis();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        long end = (System.currentTimeMillis()-start)/1000;
+        long time = Time.getTime(end);
+        getDatas(time);
+
+    }
+
+    private void getDatas(long end) {
+        RecommendApI.getDatas(mContext,13,end)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+
+                    }
+                });
     }
 
     @Override

@@ -12,8 +12,10 @@ import android.widget.LinearLayout;
 
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.adapter.mine.ViewPagerAdapter;
+import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.mine.coupon.MyCouponsAPI;
 import com.puyue.www.qiaoge.api.mine.order.MyOrderNumAPI;
+import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 
 import com.puyue.www.qiaoge.fragment.mine.coupons.CouponsOverdueFragment;
@@ -23,6 +25,7 @@ import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.mine.coupons.queryUserDeductByStateModel;
 import com.puyue.www.qiaoge.model.mine.order.MyOrderNumModel;
+import com.puyue.www.qiaoge.utils.Time;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,11 +71,45 @@ public class MyCouponsActivity extends BaseSwipeActivity {
     public void setViewData() {
 //        String couponNum = getIntent().getStringExtra("couponsNum");
         requestOrderNum();
+    }
 
+    long start;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        start = System.currentTimeMillis();
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        long end = (System.currentTimeMillis()-start)/1000;
+        long time = Time.getTime(end);
+        getDatas(time);
 
     }
 
+    private void getDatas(long end) {
+        RecommendApI.getDatas(mContext,15,end)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+
+                    }
+                });
+    }
 
     private void requestOrderNum() {
         MyOrderNumAPI.requestOrderNum(mContext)

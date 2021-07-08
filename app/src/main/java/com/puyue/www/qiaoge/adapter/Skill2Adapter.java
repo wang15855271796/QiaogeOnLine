@@ -20,6 +20,7 @@ import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.fragment.home.SkillAdapter;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.model.CouponModels;
 import com.puyue.www.qiaoge.model.home.CouponModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
@@ -42,9 +43,9 @@ public class Skill2Adapter extends RecyclerView.Adapter<Skill2Adapter.BaseViewHo
     Context mContext;
     int layoutResId;
     int pos;
-    CouponModel.DataBean.ActivesBean activesBean;
-    List<CouponModel.DataBean.ActivesBean> actives;
-    public Skill2Adapter(Context context,int layoutResId, List<CouponModel.DataBean.ActivesBean> actives, String flag) {
+    CouponModels.DataBean.SpikeBean.ActivesBean activesBean;
+    List<CouponModels.DataBean.SpikeBean.ActivesBean> actives;
+    public Skill2Adapter(Context context, int layoutResId, List<CouponModels.DataBean.SpikeBean.ActivesBean> actives, String flag) {
         this.mContext = context;
         this.layoutResId = layoutResId;
         this.actives = actives;
@@ -78,11 +79,11 @@ public class Skill2Adapter extends RecyclerView.Adapter<Skill2Adapter.BaseViewHo
         if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
             if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
                 holder.tv_desc.setVisibility(View.GONE);
-//                holder.tv_old_price.setVisibility(View.VISIBLE);
+                holder.tv_old_price.setVisibility(View.VISIBLE);
                 holder.tv_price.setVisibility(View.VISIBLE);
             }else {
                 holder.tv_desc.setVisibility(View.VISIBLE);
-//                holder.tv_old_price.setVisibility(View.GONE);
+                holder.tv_old_price.setVisibility(View.GONE);
                 holder.tv_price.setVisibility(View.GONE);
             }
         }else {

@@ -65,6 +65,7 @@ public class NewFragment extends BaseFragment {
     View emptyView;
     CouponDialog couponDialog;
     String cell;
+    NewFragment fragment;
     //新品集合
     private List<ProductNormalModel.DataBean.ListBean> list = new ArrayList<>();
     private NewAdapter newAdapter;
@@ -103,7 +104,7 @@ public class NewFragment extends BaseFragment {
             @Override
             public void tipClick() {
 //                showPhoneDialog(cell);
-                AppHelper.ShowAuthDialog(mActivity,cell);
+                AppHelper.ShowAuthDialog(mActivity,SharedPreferencesUtil.getString(mActivity,"mobile"));
             }
         });
         newAdapter.setEmptyView(emptyView);
@@ -218,7 +219,7 @@ public class NewFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void messageEventBusss(BackEvent event) {
-        getCustomerPhone();
+//        getCustomerPhone();
         refreshLayout.autoRefresh();
     }
 
@@ -247,7 +248,7 @@ public class NewFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getPriceType(CityEvent event) {
         refreshLayout.autoRefresh();
-        getCustomerPhone();
+//        getCustomerPhone();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -256,7 +257,7 @@ public class NewFragment extends BaseFragment {
     }
     @Override
     public void setViewData() {
-        getCustomerPhone();
+//        getCustomerPhone();
     }
 
     @Override

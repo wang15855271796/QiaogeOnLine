@@ -26,6 +26,7 @@ import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.model.CouponModels;
 import com.puyue.www.qiaoge.model.home.CouponModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
@@ -34,16 +35,16 @@ import java.util.List;
 /**
  * Created by ${王涛} on 2020/9/19
  */
-public class TeamAdapter extends BaseQuickAdapter<CouponModel.DataBean.ActivesBean,BaseViewHolder> {
+public class TeamAdapter extends BaseQuickAdapter<CouponModels.DataBean.TeamBean.ActivesBeanX,BaseViewHolder> {
     private CountDownTimer countDownTimer1;
-    List<CouponModel.DataBean.ActivesBean> data;
-    public TeamAdapter(int layoutResId, @Nullable List<CouponModel.DataBean.ActivesBean> data) {
+    List<CouponModels.DataBean.TeamBean.ActivesBeanX> data;
+    public TeamAdapter(int layoutResId, @Nullable List<CouponModels.DataBean.TeamBean.ActivesBeanX> data) {
         super(layoutResId, data);
         this.data = data;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, CouponModel.DataBean.ActivesBean item) {
+    protected void convert(BaseViewHolder helper, CouponModels.DataBean.TeamBean.ActivesBeanX item) {
         ImageView iv_pic = helper.getView(R.id.iv_pic);
         TextView tv_old_price = helper.getView(R.id.tv_old_price);
 
@@ -75,10 +76,12 @@ public class TeamAdapter extends BaseQuickAdapter<CouponModel.DataBean.ActivesBe
             if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
                 tv_price.setVisibility(View.VISIBLE);
                 tv_desc.setVisibility(View.GONE);
+                tv_old_price.setVisibility(View.VISIBLE);
                 tv_price.setText(item.getPrice());
             }else {
                 tv_price.setVisibility(View.GONE);
                 tv_desc.setVisibility(View.VISIBLE);
+                tv_old_price.setVisibility(View.GONE);
             }
         }else {
             tv_price.setText(item.getPrice());
@@ -86,12 +89,12 @@ public class TeamAdapter extends BaseQuickAdapter<CouponModel.DataBean.ActivesBe
             tv_desc.setVisibility(View.GONE);
         }
 
-        if(item.getFlag()==1) {
-            iv_sale_done.setVisibility(View.VISIBLE);
-            Glide.with(mContext).load(item.getSoldOutPic()).into(iv_sale_done);
-        }else {
-            iv_sale_done.setVisibility(View.GONE);
-        }
+//        if(item.getFlag()==1) {
+//            iv_sale_done.setVisibility(View.VISIBLE);
+//            Glide.with(mContext).load(item.getSoldOutPic()).into(iv_sale_done);
+//        }else {
+//            iv_sale_done.setVisibility(View.GONE);
+//        }
 
         if(countDownTimer1 == null) {
             countDownTimer1 = new CountDownTimer(5000,1000) {
@@ -107,10 +110,18 @@ public class TeamAdapter extends BaseQuickAdapter<CouponModel.DataBean.ActivesBe
                         Glide.with(mContext).load(data.get(i).getDefaultPic()).into(iv_pic);
                         tv_name.setText(data.get(i).getActiveName());
                         tv_price.setText(data.get(i).getPrice());
+                        tv_old_price.setText(data.get(i).getOldPrice());
+                        if(data.get(i).getFlag()==1) {
+                            iv_sale_done.setVisibility(View.VISIBLE);
+                            Glide.with(mContext).load(data.get(i).getSoldOutPic()).into(iv_sale_done);
+                        }else {
+                            iv_sale_done.setVisibility(View.GONE);
+                        }
                         i++;
                         if(i==data.size()) {
                             i = 0;
                         }
+
                     }catch (Exception e) {
 
                     }

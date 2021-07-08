@@ -85,6 +85,7 @@ public class SpecialGoodModel {
          * cartNum :
          * saleDone : 1
          */
+        String notSend;
         int warnMe;
         private int activityType;
         private String actTypeName;
@@ -110,6 +111,15 @@ public class SpecialGoodModel {
         private List<String> detailPics;
         String bannerDetailUrl;
         String bannerUrl;
+
+        public String getNotSend() {
+            return notSend;
+        }
+
+        public void setNotSend(String notSend) {
+            this.notSend = notSend;
+        }
+
         public String getBannerDetailUrl() {
             return bannerDetailUrl;
         }

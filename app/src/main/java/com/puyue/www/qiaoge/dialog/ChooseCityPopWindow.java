@@ -69,7 +69,6 @@ public class ChooseCityPopWindow extends PopupWindow {
             if(menuViewOnSelectListener!=null){
                 dismiss();
                 menuViewOnSelectListener.cloese();
-                Log.d("wfdfgfdsfs........","edtg");
             }
         }
 

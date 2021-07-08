@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.CommonH5Activity;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
+import com.puyue.www.qiaoge.api.home.IndexInfoModel;
 import com.puyue.www.qiaoge.api.home.QueryHomePropupAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.event.CouponListModel;
@@ -54,16 +56,19 @@ public class PrivacyDialog extends Dialog {
     CheckBox checkbox;
     LinearLayout ll_sure;
     private List<CouponListModel.DataBean.GiftsBean> lists;
-
-    public PrivacyDialog(@NonNull Context context, String content) {
+    IndexInfoModel.DataBean indexInfoModel;
+    public PrivacyDialog(@NonNull Context context, String content, IndexInfoModel.DataBean userPopup) {
         super(context, R.style.promptDialog);
         setContentView(R.layout.dialog_privacy);
         mContext = context;
+        this.indexInfoModel = userPopup;
         this.content = content;
         initView();
         initAction();
         handleCountDown();
     }
+
+
 
     private void handleCountDown() {
         countDownTimer = new CountDownTimer(5000, 1000) {
@@ -178,7 +183,20 @@ public class PrivacyDialog extends Dialog {
                         if(baseModel.success) {
                             dismiss();
                             SharedPreferencesUtil.saveString(mContext,"once","0");
-                            getCouponList();
+
+                            if(indexInfoModel.getUserPopup().getGifts().size()>0) {
+                                couponListDialog = new CouponListDialog(mContext,indexInfoModel);
+                                couponListDialog.show();
+                            }else {
+                                if (indexInfoModel.getHomePopup()!=null) {
+                                    homeActivityDialog.show();
+                                }else {
+                                    homeActivityDialog.dismiss();
+                                }
+//                                QueryHomePropup();
+                            }
+
+//                            getCouponList();
                         }else {
                             AppHelper.showMsg(mContext,baseModel.message);
                         }
@@ -187,77 +205,78 @@ public class PrivacyDialog extends Dialog {
     }
 
     CouponListDialog couponListDialog;
-    private void getCouponList() {
-        IndexHomeAPI.getCouponLists(mContext)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<CouponListModel>() {
-                    @Override
-                    public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(CouponListModel couponListModel) {
-                        if(couponListModel.isSuccess()) {
-                            lists = couponListModel.getData().getGifts();
-                            if(lists.size()>0) {
-                                couponListDialog = new CouponListDialog(mContext,couponListModel, lists);
-                                couponListDialog.show();
-                            }else {
-                                QueryHomePropup();
-                            }
-
-                        }else {
-                            AppHelper.showMsg(mContext,couponListModel.getMessage());
-                        }
-                    }
-                });
-    }
+//    private void getCouponList() {
+//        IndexHomeAPI.getCouponLists(mContext)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<CouponListModel>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(CouponListModel couponListModel) {
+//                        if(couponListModel.isSuccess()) {
+//                            lists = couponListModel.getData().getGifts();
+//                            if(lists.size()>0) {
+//                                couponListDialog = new CouponListDialog(mContext,couponListModel, lists);
+//                                couponListDialog.show();
+//                            }else {
+//                                QueryHomePropup();
+//                            }
+//
+//                        }else {
+//                            AppHelper.showMsg(mContext,couponListModel.getMessage());
+//                        }
+//                    }
+//                });
+//    }
 
     /**
      *
      * 首页活动弹窗
      */
     HomeActivityDialog homeActivityDialog;
-    private void QueryHomePropup() {
-        QueryHomePropupAPI.requestQueryHomePropup(mContext)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<QueryHomePropupModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(QueryHomePropupModel queryHomePropupModel) {
-                        if (queryHomePropupModel.isSuccess()) {
-                            if(queryHomePropupModel.getData().getHomePropup()!=null) {
-                                QueryHomePropupModel.DataBean.HomePropupBean homePropup = queryHomePropupModel.getData().getHomePropup();
-                                homeActivityDialog = new HomeActivityDialog(mContext,homePropup);
-                                if (queryHomePropupModel.getData().isPropup()) {
-                                    homeActivityDialog.show();
-                                }else {
-                                    homeActivityDialog.dismiss();
-                                }
-                            }
-
-                        } else {
-                            AppHelper.showMsg(mContext, queryHomePropupModel.getMessage());
-                        }
-                    }
-                });
-    }
+//    private void QueryHomePropup() {
+//        QueryHomePropupAPI.requestQueryHomePropup(mContext)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<QueryHomePropupModel>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(QueryHomePropupModel queryHomePropupModel) {
+//                        if (queryHomePropupModel.isSuccess()) {
+//                            if(queryHomePropupModel.getData().getHomePropup()!=null) {
+//                                QueryHomePropupModel.DataBean.HomePropupBean homePropup = queryHomePropupModel.getData().getHomePropup();
+//                                homeActivityDialog = new HomeActivityDialog(mContext,homePropup);
+//                                if (queryHomePropupModel.getData().isPropup()) {
+//                                    homeActivityDialog.show();
+//                                }else {
+//                                    homeActivityDialog.dismiss();
+//                                }
+//                            }
+//
+//                        } else {
+//                            AppHelper.showMsg(mContext, queryHomePropupModel.getMessage());
+//                        }
+//                    }
+//                });
+//    }
 
 }

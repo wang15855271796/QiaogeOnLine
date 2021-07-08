@@ -4,6 +4,7 @@ package com.puyue.www.qiaoge.fragment.order;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
@@ -64,10 +65,12 @@ import com.puyue.www.qiaoge.adapter.UnOperateAdapter;
 import com.puyue.www.qiaoge.adapter.mine.ChooseCouponsAdapter;
 import com.puyue.www.qiaoge.adapter.mine.ConfirmOrderNewAdapter;
 import com.puyue.www.qiaoge.api.cart.CartBalanceAPI;
+import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.mine.coupon.userChooseDeductAPI;
 import com.puyue.www.qiaoge.api.mine.order.GenerateOrderAPI;
 import com.puyue.www.qiaoge.api.mine.order.GetOrderDeliverTimeAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
+import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.OperateDialog;
 import com.puyue.www.qiaoge.event.AddressEvent;
@@ -542,6 +545,27 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
         return d * Math.PI / 180.0;
     }
 
+    private void getDatas(long end) {
+        RecommendApI.getDatas(mActivity,17,end)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+
+                    }
+                });
+    }
 
     @Override
     public void onPause() {
@@ -679,7 +703,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
 
                     break;
                 case R.id.buttonPay:// 去支付
-
+                    getDatas(1);
                     if (LinearLayoutAddress.getVisibility() == View.VISIBLE) { // 没有地址
                         AppHelper.showMsg(mActivity, "请填写地址");
                     } else {
@@ -827,9 +851,11 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                                 TextView oldPrice = view.findViewById(R.id.oldPrice);
                                 TextView textSpe = view.findViewById(R.id.textSpe);
                                 ImageView imageView = view.findViewById(R.id.imageView);
+                                oldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                                oldPrice.getPaint().setAntiAlias(true);//抗锯齿
                                 Glide.with(mActivity).load(productVOListBean.getPicUrl()).into(imageView);
                                 textSpe.setText(productVOListBean.getSpec());
-                                Price.setText(productVOListBean.getPrice()+"");
+                                Price.setText(productVOListBean.getAmount()+"");
                                 if(productVOListBean.getOldPrice()!=null) {
                                     oldPrice.setText(productVOListBean.getOldPrice()+"");
                                 }

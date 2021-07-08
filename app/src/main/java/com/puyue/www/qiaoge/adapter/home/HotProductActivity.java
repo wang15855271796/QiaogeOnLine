@@ -27,9 +27,11 @@ import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.adapter.HotAdapter;
 import com.puyue.www.qiaoge.adapter.HotListAdapter;
 import com.puyue.www.qiaoge.api.cart.GetCartNumAPI;
+import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.GetRegisterShopAPI;
 import com.puyue.www.qiaoge.api.home.ProductListAPI;
 import com.puyue.www.qiaoge.api.home.UpdateUserInvitationAPI;
+import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
@@ -51,6 +53,7 @@ import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 import com.puyue.www.qiaoge.model.home.UpdateUserInvitationModel;
 import com.puyue.www.qiaoge.utils.LoginUtil;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.Time;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -107,6 +110,43 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
         setContentView(R.layout.activity_hot_list);
     }
 
+    long start;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        start = System.currentTimeMillis();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        long end = (System.currentTimeMillis()-start)/1000;
+        long time = Time.getTime(end);
+        getDatas(time);
+
+    }
+
+    private void getDatas(long end) {
+        RecommendApI.getDatas(mContext,8,end)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+
+                    }
+                });
+    }
 
     @Override
     public void findViewById() {
@@ -148,8 +188,6 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
                     AppHelper.showMsg(mActivity, "请先登录");
                     startActivity(LoginActivity.getIntent(mActivity, LoginActivity.class));
                 }
-
-
             }
         });
 
@@ -288,23 +326,6 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
                                     hotAdapter.notifyDataSetChanged();
                                 }
                             }
-//                            if (getCommonProductModel.getData().getList().size() > 0) {
-//                                list.addAll(getCommonProductModel.getData().getList());
-//                                hotAdapter.notifyDataSetChanged();
-//                                List<ProductNormalModel.DataBean.ListBean> list = getCommonProductModel.getData().getList();
-//                                if (pageNum == 1) {
-//                                    hotAdapter.setNewData(list);
-//                                } else {
-//                                    hotAdapter.addData(list);
-//                                }
-//
-//                            }
-//                            //判断是否有下一页
-//                            if (!getCommonProductModel.getData().isHasNextPage()) {
-//                                hotAdapter.loadMoreEnd(false);
-//                            } else {
-//                                hotAdapter.loadMoreComplete();
-//                            }
                             refreshLayout.setEnableLoadMore(true);
                         } else {
                             AppHelper.showMsg(mActivity, getCommonProductModel.getMessage());
@@ -325,7 +346,7 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getCartNum(NumEvent event) {
+    public void getCartNums(NumEvent event) {
         getCartNum();
         Log.d("dwdfffffff....","111");
     }
@@ -333,7 +354,6 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
     @Override
     public void setViewData() {
         refreshLayout.autoRefresh();
-
         getCartNum();
         mTypedialog = new AlertDialog.Builder(mActivity, R.style.DialogStyle).create();
         mTypedialog.setCancelable(false);

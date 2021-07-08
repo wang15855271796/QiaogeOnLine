@@ -40,6 +40,18 @@ public class GoodsRecommendAdapter extends BaseQuickAdapter<GuessModel.DataBean,
         if (StringHelper.notEmptyAndNull(model.getImgUrl())) {
             GlideModel.disPlayError(mContext,model.getImgUrl(),helper.getView(R.id.iv_item_goods_recommend));
         }
+        ImageView iv_send = helper.getView(R.id.iv_send);
+
+        if(model.getNotSend()!=null) {
+            if(model.getNotSend().equals("1")||model.getNotSend().equals("1.0")) {
+                iv_send.setImageResource(R.mipmap.icon_not_send2);
+                iv_send.setVisibility(View.VISIBLE);
+            }else {
+                iv_send.setVisibility(View.GONE);
+            }
+        }
+
+
         helper.setText(R.id.tv_item_goods_recommend_name, model.getProductName());
 //        helper.setText(R.id.tv_item_goods_recommend_price, model.getMinMaxPrice());
 //        helper.setText(R.id.tv_item_goods_recommend_pin, model.getSalesVolume());

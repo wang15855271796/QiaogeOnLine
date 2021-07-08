@@ -74,6 +74,15 @@ public class GuessModel {
         private int productId;
         private String productName;
         private String imgUrl;
+        String notSend;
+
+        public String getNotSend() {
+            return notSend;
+        }
+
+        public void setNotSend(String notSend) {
+            this.notSend = notSend;
+        }
 
         public int getProductMainId() {
             return productMainId;

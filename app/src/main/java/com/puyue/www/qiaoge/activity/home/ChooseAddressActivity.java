@@ -19,6 +19,7 @@ import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.HomeActivity;
+import com.puyue.www.qiaoge.activity.HomeFragmentEvent;
 import com.puyue.www.qiaoge.activity.mine.account.AddressListActivity;
 import com.puyue.www.qiaoge.activity.mine.account.EditAddressActivity;
 import com.puyue.www.qiaoge.adapter.mine.SuggestAdressAdapter;
@@ -30,6 +31,10 @@ import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.BackEvent;
+import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
+import com.puyue.www.qiaoge.event.GoToMarketEvent;
+import com.puyue.www.qiaoge.event.setFragmentEvent;
+import com.puyue.www.qiaoge.event.setFragmentsEvent;
 import com.puyue.www.qiaoge.fragment.home.CityEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
@@ -97,7 +102,7 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
     private String city;
     private String areaName1;
     private int isDefault;
-
+    String fromPage;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -121,6 +126,7 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
         addressListAdapter = new AddressListAdapter(R.layout.item_address_list,list);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setAdapter(addressListAdapter);
+        fromPage = getIntent().getStringExtra("fromPage");
         addressListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -155,37 +161,6 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
 
     }
 
-    private void isShow() {
-        CityChangeAPI.isShow(mActivity)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<IsShowModel>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(IsShowModel isShowModel) {
-                        if(isShowModel.isSuccess()) {
-                            if(isShowModel.data!=null) {
-                                EventBus.getDefault().post(new AddressEvent());
-                                SharedPreferencesUtil.saveString(mActivity,"priceType",isShowModel.getData().enjoyProduct);
-                                finish();
-                            }
-                        }else {
-                            AppHelper.showMsg(mActivity,isShowModel.getMessage());
-                        }
-                    }
-                });
-    }
-
     private void requestEditDefaultAddress(int id, String ids, int position) {
         DefaultAddressAPI.requestEditDefaultAddress(mContext, id, ids)
                 .subscribeOn(Schedulers.io())
@@ -208,21 +183,39 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
                             UserInfoHelper.saveCity(mActivity,list.get(position).getCityName());
                             UserInfoHelper.saveAreaName(mActivity,list.get(position).getAreaName());
                             UserInfoHelper.saveChangeFlag(mActivity,"0");
-                            isShow();
 
-                            if(areaName.equals(list.get(position).getAreaName())) {
-                                finish();
-                            }else {
-                                SharedPreferencesUtil.saveInt(mContext,"isClick",1);
-                                UserInfoHelper.saveChangeFlag(mContext,1+"");
-                                Intent intent = new Intent(mContext,HomeActivity.class);//跳回首页
-                                mActivity.setResult(104,intent);
-                                EventBus.getDefault().post(new CityEvent());
-                                mContext.startActivity(intent);
-                                finish();
-                            }
+//                            if(fromPage.equals("0")) {
+//                                if(areaName.equals(list.get(position).getAreaName())) {
+//                                    finish();
+//                                }else {
+//                                    SharedPreferencesUtil.saveInt(mContext,"isClick",1);
+//                                    UserInfoHelper.saveChangeFlag(mContext,1+"");
+                                    //接口新改
+//                                Intent intent = new Intent(mContext,HomeActivity.class);//跳回首页
+//                                mActivity.setResult(104,intent);
+//                                mContext.startActivity(intent);
+//                                EventBus.getDefault().post(new setFragmentEvent());
+//                                    EventBus.getDefault().post(new setFragmentsEvent());
+//                                    finish();
+//                                    EventBus.getDefault().post(new CityEvent());
+//                                }
+//                            }else {
+                                if(areaName.equals(list.get(position).getAreaName())) {
+                                    finish();
+                                }else {
+                                    SharedPreferencesUtil.saveInt(mContext,"isClick",1);
+                                    UserInfoHelper.saveChangeFlag(mContext,1+"");
+                                    //接口新改
+                                    Intent intent = new Intent(mContext,HomeActivity.class);//跳回首页
+                                    mContext.startActivity(intent);
+//                                    EventBus.getDefault().post(new setFragmentEvent());
+                                    EventBus.getDefault().post(new CityEvent());
+                                    finish();
+                                }
+//                            }
 
-                            EventBus.getDefault().post(new CityEvent());
+
+
                         } else {
                             AppHelper.showMsg(mContext, baseModel.message);
                         }

@@ -101,11 +101,14 @@ public class MyCollectionAdapter extends BaseQuickAdapter<ProductNormalModel.Dat
         }
 
         ImageView iv_send = helper.getView(R.id.iv_send);
-        if(item.getNotSend().equals("1")) {
-            iv_send.setImageResource(R.mipmap.icon_not_send);
-            iv_send.setVisibility(View.VISIBLE);
-        }else {
-            iv_send.setVisibility(View.GONE);
+
+        if(item.getNotSend()!=null) {
+            if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
+                iv_send.setImageResource(R.mipmap.icon_not_send2);
+                iv_send.setVisibility(View.VISIBLE);
+            }else {
+                iv_send.setVisibility(View.GONE);
+            }
         }
 
         if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {

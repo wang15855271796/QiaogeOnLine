@@ -17,6 +17,8 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.adapter.HotAdapter;
 import com.puyue.www.qiaoge.api.cart.AddCartAPI;
+import com.puyue.www.qiaoge.api.cart.RecommendApI;
+import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
@@ -143,7 +145,7 @@ public class SpikeActiveQueryAdapter extends BaseQuickAdapter<SeckillListModel.D
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     int activeId = item.activeId;
                     addCar(activeId, "", 2, "1");
-
+                    getDatas(1);
                 } else {
                     AppHelper.showMsg(mContext, "请先登录");
                     mContext.startActivity(LoginActivity.getIntent(mContext, LoginActivity.class));
@@ -193,7 +195,27 @@ public class SpikeActiveQueryAdapter extends BaseQuickAdapter<SeckillListModel.D
         }
     }
 
+    private void getDatas(long end) {
+        RecommendApI.getDatas(mContext,16,end)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+
+                    }
+                });
+    }
     private void addCar(int businessId, String productCombinationPriceVOList, int businessType, String totalNum) {
         AddCartAPI.requestData(mContext, businessId, productCombinationPriceVOList, businessType, String.valueOf(totalNum))
                 .subscribeOn(Schedulers.io())

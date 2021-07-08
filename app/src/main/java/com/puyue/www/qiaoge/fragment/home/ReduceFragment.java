@@ -105,7 +105,7 @@ public class ReduceFragment extends BaseFragment {
             @Override
             public void tipClick() {
 //                showPhoneDialog(cell);
-                AppHelper.ShowAuthDialog(mActivity,cell);
+                AppHelper.ShowAuthDialog(mActivity,SharedPreferencesUtil.getString(mActivity,"mobile"));
             }
         });
         rv_reduce.setAdapter(reduceAdapter);
@@ -148,7 +148,7 @@ public class ReduceFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void messageEventBus(BackEvent event) {
-        getCustomerPhone();
+//        getCustomerPhone();
         refreshLayout.autoRefresh();
     }
     String cell;

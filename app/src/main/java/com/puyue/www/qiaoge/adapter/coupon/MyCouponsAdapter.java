@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -14,11 +15,14 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.HomeActivity;
+import com.puyue.www.qiaoge.activity.home.ChooseAddressActivity;
 import com.puyue.www.qiaoge.activity.mine.login.CouponSearchActivity;
 import com.puyue.www.qiaoge.api.mine.coupon.userChooseDeductAPI;
+import com.puyue.www.qiaoge.dialog.CouponChangeDialog;
 import com.puyue.www.qiaoge.dialog.CouponProdDialog;
 import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.event.GoToMarketEvent;
+import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.QueryProdModel;
 import com.puyue.www.qiaoge.model.mine.coupons.queryUserDeductByStateModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
@@ -35,7 +39,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by ${daff} on 2018/9/20
  */
-public class MyCouponsAdapter  extends  BaseQuickAdapter <queryUserDeductByStateModel.DataBean.ListBean,BaseViewHolder> {
+public class MyCouponsAdapter  extends BaseQuickAdapter <queryUserDeductByStateModel.DataBean.ListBean,BaseViewHolder> {
     private TextView tv_style;
     private  TextView tv_user_factor;
     private  TextView tv_time;
@@ -92,13 +96,27 @@ public class MyCouponsAdapter  extends  BaseQuickAdapter <queryUserDeductByState
                     //分类
                     context.startActivity(new Intent(context, HomeActivity.class));
                     EventBus.getDefault().post(new GoToMarketEvent());
-                    EventBus.getDefault().unregister(this);
                 }else {
                     //可用列表
-
                     if(item.getJumpFlag().equals("0")) {
                         //不可跳
-                        ToastUtil.showSuccessMsg(mContext,"当前区域不可查看");
+                        CouponChangeDialog couponChangeDialog = new CouponChangeDialog(mContext,item.getGiftArea()) {
+                            @Override
+                            public void confirmNo() {
+                                Intent intent = new Intent(mContext,ChooseAddressActivity.class);
+                                intent.putExtra("cityName",UserInfoHelper.getCity(context));
+                                intent.putExtra("areaName",UserInfoHelper.getAreaName(context));
+                                intent.putExtra("fromPage","0");
+                                mContext.startActivity(intent);
+                                dismiss();
+                            }
+
+                            @Override
+                            public void confirmYes() {
+                                dismiss();
+                            }
+                        };
+                        couponChangeDialog.show();
                     }else {
                         //可跳
                         Intent intent = new Intent(mContext,CouponSearchActivity.class);

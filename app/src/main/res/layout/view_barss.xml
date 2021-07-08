@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -134,7 +134,7 @@
                 android:textColor="#999999"
                 android:textSize="13dp"
                 android:layout_marginTop="@dimen/size_35dp"
-                android:text="最高降99元"
+                tools:text="最高降99元"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"

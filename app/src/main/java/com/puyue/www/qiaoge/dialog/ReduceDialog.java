@@ -187,12 +187,15 @@ public class ReduceDialog extends Dialog implements View.OnClickListener{
                                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                                 recyclerView.setAdapter(reduceItemAdapter);
 
-                                if(exchangeProductModel.getData().getNotSend().equals("1")) {
-                                    iv_send.setImageResource(R.mipmap.icon_not_send);
-                                    iv_send.setVisibility(View.VISIBLE);
-                                }else {
-                                    iv_send.setVisibility(View.GONE);
+                                if(exchangeProductModel.getData().getNotSend()!=null) {
+                                    if(exchangeProductModel.getData().getNotSend().equals("1")||exchangeProductModel.getData().getNotSend().equals("1.0")) {
+                                        iv_send.setImageResource(R.mipmap.icon_not_send);
+                                        iv_send.setVisibility(View.VISIBLE);
+                                    }else {
+                                        iv_send.setVisibility(View.GONE);
+                                    }
                                 }
+
                             }
                         }else {
                             ToastUtil.showErroMsg(context,exchangeProductModel.getMessage());

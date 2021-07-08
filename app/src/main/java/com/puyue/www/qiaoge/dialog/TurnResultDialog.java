@@ -65,8 +65,8 @@ public class TurnResultDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 dismiss();
-                PrivacyDialog privacyDialog = new PrivacyDialog(mContext,content);
-                privacyDialog.show();
+//                PrivacyDialog privacyDialog = new PrivacyDialog(mContext,content);
+//                privacyDialog.show();
                 EventBus.getDefault().post(new CouponEvent());
             }
         });
@@ -77,8 +77,8 @@ public class TurnResultDialog extends Dialog {
                 EventBus.getDefault().post(new GoToMarketEvent());
                 EventBus.getDefault().post(new CouponEvent());
                 dismiss();
-                PrivacyDialog privacyDialog = new PrivacyDialog(mContext,content);
-                privacyDialog.show();
+//                PrivacyDialog privacyDialog = new PrivacyDialog(mContext,content);
+//                privacyDialog.show();
 
             }
         });

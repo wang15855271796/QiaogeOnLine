@@ -48,6 +48,7 @@ import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.adapter.cart.ImageViewAdapter;
 import com.puyue.www.qiaoge.adapter.market.GoodsRecommendAdapter;
 import com.puyue.www.qiaoge.api.cart.AddCartAPI;
+import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.ClickCollectionAPI;
 import com.puyue.www.qiaoge.api.home.GetAllCommentListByPageAPI;
 import com.puyue.www.qiaoge.api.home.GetRegisterShopAPI;
@@ -89,9 +90,11 @@ import com.puyue.www.qiaoge.model.mine.GetShareInfoModle;
 import com.puyue.www.qiaoge.utils.DateUtils;
 import com.puyue.www.qiaoge.utils.LoginUtil;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.Time;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.utils.Utils;
 import com.puyue.www.qiaoge.view.SnapUpCountDownTimerView;
+import com.puyue.www.qiaoge.view.SnapUpCountDownTimerView1;
 import com.puyue.www.qiaoge.view.StarBarView;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
@@ -138,7 +141,7 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
     private TextView tvOldPrice;
     private TextView tv_old_price;
     private List<String> images = new ArrayList<>();
-    SnapUpCountDownTimerView tv_cut_down;
+    SnapUpCountDownTimerView1 tv_cut_down;
     private int productId;
     ProgressBar pb;
     private int pageNum = 1;
@@ -206,6 +209,7 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
     TextView tv_city;
     TextView tv_desc_price;
     String priceType;
+    ImageView iv_send;
     class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
@@ -240,6 +244,51 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
 
 
     }
+    long start;
+
+
+    private void getDatas(long end) {
+        RecommendApI.getDatas(mContext,14,end)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+
+                    }
+                });
+    }
+    private void getDatass(long end) {
+        RecommendApI.getDatas(mContext,16,end)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+
+                    }
+                });
+    }
 
     @Override
     public void setContentView() {
@@ -249,6 +298,7 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
+        iv_send =  FVHelper.fv(this, R.id.iv_send);
         rl_price = FVHelper.fv(this, R.id.rl_price);
         tv_desc_price = FVHelper.fv(this, R.id.tv_desc_price);
         tv_city = FVHelper.fv(this, R.id.tv_city);
@@ -369,6 +419,7 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
             mIvCollection.setImageResource(R.mipmap.icon_collection_null);
         }
         getCustomerPhone();
+        start = System.currentTimeMillis();
     }
 
 
@@ -483,6 +534,7 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
                                     AppHelper.showMsg(mContext, "请选择数量");
                                 } else {
                                     addCart();
+                                    getDatass(1);
                                 }
                             }
                         } else if (UserInfoHelper.getUserType(mContext).equals
@@ -493,6 +545,7 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
                                 AppHelper.showMsg(mContext, "请选择数量");
                             } else {
                                 addCart();
+                                getDatass(1);
                             }
                         }
                     } else {
@@ -593,9 +646,23 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
                                 tv_old_price.setVisibility(View.VISIBLE);
                             }
 
+                            //单点不送
+                            if(model.getData().getNotSend()!=null) {
+                                if(model.getData().getNotSend().equals("1")||model.getData().getNotSend().equals("1.0")) {
+                                    iv_send.setImageResource(R.mipmap.icon_not_send_big);
+                                    iv_send.setVisibility(View.GONE);
+                                }else {
+                                    iv_send.setVisibility(View.GONE);
+                                }
+                            }
 
                             tv_num.setText(model.getData().getCartNum());
-                            tv_limit_num.setText(model.getData().getLimitNum());
+                            if(model.getData().getLimitNum()!=null&&!model.getData().getLimitNum().equals("")) {
+                                tv_limit_num.setText(model.getData().getLimitNum());
+                                tv_limit_num.setBackgroundResource(R.drawable.shape_white);
+                            }else {
+                                tv_limit_num.setBackgroundResource(R.drawable.shape_red2);
+                            }
                             tv_sale.setText(model.getData().getSaleVolume());
                             productName =model.getData().getActiveName();
                             tv_price.setText(model.getData().getShowPrice());
@@ -665,8 +732,8 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
                                     //小于24
                                     if(startTime !=0&& endTime !=0) {
                                         tv_cut_down.setTime(true, currentTime, startTime, endTime);
-                                        tv_cut_down.changeBackGrounds(ContextCompat.getColor(mContext, R.color.color333333));
-                                        tv_cut_down.changeTypeColor(Color.WHITE);
+//                                        tv_cut_down.changeBackGrounds(ContextCompat.getColor(mContext, R.color.color333333));
+                                        tv_cut_down.changeTypeColor(Color.parseColor("#FF1D29"));
                                         tv_time.setVisibility(View.INVISIBLE);
                                         tv_cut_down.start();
                                         tv_cut_down.setVisibility(View.VISIBLE);
@@ -1273,6 +1340,9 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
         super.onStop();
         //结束轮播
         mBanner.stopAutoPlay();
+        long end = (System.currentTimeMillis()-start)/1000;
+        long time = Time.getTime(end);
+        getDatas(time);
     }
 
     /**

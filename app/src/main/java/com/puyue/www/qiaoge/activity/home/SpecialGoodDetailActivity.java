@@ -26,6 +26,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TimeUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +52,7 @@ import com.puyue.www.qiaoge.adapter.home.RegisterShopAdapterTwo;
 import com.puyue.www.qiaoge.adapter.market.GoodsDetailAdapter;
 import com.puyue.www.qiaoge.adapter.market.GoodsRecommendAdapter;
 import com.puyue.www.qiaoge.api.cart.AddCartAPI;
+import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.ClickCollectionAPI;
 import com.puyue.www.qiaoge.api.home.GetAllCommentListByPageAPI;
 import com.puyue.www.qiaoge.api.home.GetRegisterShopAPI;
@@ -62,6 +64,7 @@ import com.puyue.www.qiaoge.banner.BannerConfig;
 import com.puyue.www.qiaoge.banner.GlideImageLoader;
 import com.puyue.www.qiaoge.banner.Transformer;
 import com.puyue.www.qiaoge.banner.listener.OnBannerListener;
+import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
@@ -89,8 +92,10 @@ import com.puyue.www.qiaoge.model.home.UpdateUserInvitationModel;
 import com.puyue.www.qiaoge.model.mine.GetShareInfoModle;
 import com.puyue.www.qiaoge.utils.DateUtils;
 import com.puyue.www.qiaoge.utils.LoginUtil;
+import com.puyue.www.qiaoge.utils.Time;
 import com.puyue.www.qiaoge.utils.Utils;
 import com.puyue.www.qiaoge.view.SnapUpCountDownTimerView;
+import com.puyue.www.qiaoge.view.SnapUpCountDownTimerView1;
 import com.puyue.www.qiaoge.view.StarBarView;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
@@ -107,6 +112,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import butterknife.BindView;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -134,7 +140,7 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
     private TextView tvOldPrice;
     private TextView tv_old_price;
     private List<String> images = new ArrayList<>();
-    SnapUpCountDownTimerView tv_cut_down;
+    SnapUpCountDownTimerView1 tv_cut_down;
     private int productId;
     private int pageNum = 1;
     private int pageSize = 10;
@@ -211,6 +217,7 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
     TextView tv_city;
     RelativeLayout rl_price;
     ImageView iv_pic;
+    ImageView iv_send;
     class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
@@ -258,6 +265,7 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
+        iv_send = FVHelper.fv(this, R.id.iv_send);
         iv_pic = FVHelper.fv(this, R.id.iv_vip);
         rl_price = FVHelper.fv(this, R.id.rl_price);
         tv_desc_price = FVHelper.fv(this, R.id.tv_desc_price);
@@ -355,7 +363,7 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
             mTvAddCar.setText("加入购物车");
             mTvAddCar.setBackgroundResource(R.drawable.app_car_orange);
         }
-        getCustomerPhone();
+
         getAllCommentList(pageNum, pageSize, productId, businessType);
         imageViewAdapter = new ImageViewAdapter(R.layout.item_imageview,detailList);
         recyclerViewImage.setLayoutManager(new LinearLayoutManager(mContext));
@@ -372,7 +380,8 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
         } else {
             mIvCollection.setImageResource(R.mipmap.icon_collection_null);
         }
-        getCustomerPhone();
+
+        start = System.currentTimeMillis();
     }
 
 
@@ -481,6 +490,7 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
                                 AppHelper.showMsg(mContext, "请选择数量");
                             } else {
                                 addCart();
+                                getDatass(1);
                             }
                         }
                     } else if (UserInfoHelper.getUserType(mContext).equals(AppConstant.USER_TYPE_WHOLESALE)) {
@@ -490,6 +500,7 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
                             AppHelper.showMsg(mContext, "请选择数量");
                         } else {
                             addCart();
+                            getDatass(1);
                         }
                     }
                 } else {
@@ -566,7 +577,13 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
                             detailList.addAll(model.getData().getDetailPics());
                             imageViewAdapter.notifyDataSetChanged();
                             tv_num.setText(model.getData().getCartNum());
-                            tv_limit_num.setText(model.getData().getLimitNum());
+                            if(model.getData().getLimitNum()!=null&&!model.getData().getLimitNum().equals("")) {
+                                tv_limit_num.setText(model.getData().getLimitNum());
+                                tv_limit_num.setBackgroundResource(R.drawable.shape_white);
+                            }else {
+                                tv_limit_num.setBackgroundResource(R.drawable.shape_red2);
+                            }
+
                             tv_sale.setText(model.getData().getSaleVolume());
                             productName =model.getData().getActiveName();
                             models = model;
@@ -592,6 +609,16 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
                             tv_price.setText(model.getData().getShowPrice());
                             int progress = Integer.parseInt(model.getData().getProgress());
                             pb.setProgress(progress);
+
+                            //单点不送
+                            if(model.getData().getNotSend()!=null) {
+                                if(models.getData().getNotSend().equals("1")||models.getData().getNotSend().equals("1.0")) {
+                                    iv_send.setImageResource(R.mipmap.icon_not_send_big);
+                                    iv_send.setVisibility(View.GONE);
+                                }else {
+                                    iv_send.setVisibility(View.GONE);
+                                }
+                            }
 
                             tv_old_price.setText(model.getData().getOldPrice());
                             tv_old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
@@ -670,7 +697,7 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
                                             }
                                         }else {
                                             tv_cut_down.setTime(true,currentTime,startTime,endTime);
-                                            tv_cut_down.changeBackGrounds(ContextCompat.getColor(mContext, R.color.color333333));
+//                                            tv_cut_down.changeBackGrounds(ContextCompat.getColor(mContext, R.color.color333333));
                                             tv_cut_down.changeTypeColor(Color.WHITE);
                                             tv_time.setVisibility(View.INVISIBLE);
                                             tv_cut_down.start();
@@ -799,6 +826,52 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
                     }
                 });
 
+    }
+
+    long start;
+
+
+    private void getDatas(long end) {
+        RecommendApI.getDatas(mContext,14,end)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+
+                    }
+                });
+    }
+    private void getDatass(long end) {
+        RecommendApI.getDatas(mContext,16,end)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+
+                    }
+                });
     }
     CouponDialog couponDialog;
     private void initDialog() {
@@ -1252,6 +1325,9 @@ private float star;
         super.onStop();
         //结束轮播
         mBanner.stopAutoPlay();
+        long end = (System.currentTimeMillis()-start)/1000;
+        long time = Time.getTime(end);
+        getDatas(time);
     }
 
     /**
@@ -1289,25 +1365,7 @@ private float star;
         });
     }
 
-    /**
-     * 获取客服电话
-     */
-    private void getCustomerPhone() {
-        PublicRequestHelper.getCustomerPhone(mContext, new OnHttpCallBack<GetCustomerPhoneModel>() {
-            @Override
-            public void onSuccessful(GetCustomerPhoneModel getCustomerPhoneModel) {
-                if (getCustomerPhoneModel.isSuccess()) {
-                    cell = getCustomerPhoneModel.getData();
-                } else {
-                    AppHelper.showMsg(mContext, getCustomerPhoneModel.getMessage());
-                }
-            }
 
-            @Override
-            public void onFaild(String errorMsg) {
-            }
-        });
-    }
     private void showDialog() {
 
         GetRegisterShopAPI.requestData(mActivity, AppHelper.getAuthorizationCode())

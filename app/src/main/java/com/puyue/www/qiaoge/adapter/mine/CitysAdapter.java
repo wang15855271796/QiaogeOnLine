@@ -111,19 +111,19 @@ public class CitysAdapter extends BaseAdapter {
     }
 
 
-    private void showsDialog() {
-        View contentView = LayoutInflater.from(context).inflate(R.layout.popwindow_area,null);
-
-        //当前界面没关闭，不是售罄产品才显示
-        if (mCustomPopWindow == null){
-            mCustomPopWindow= new CustomPopWindow.PopupWindowBuilder(context)
-                    .setFocusable(false)
-                    .setOutsideTouchable(false)
-                    .setView(contentView)
-                    .create()
-                    .showAsDropDown(holder.tv_city);
-        }
-    }
+//    private void showsDialog() {
+//        View contentView = LayoutInflater.from(context).inflate(R.layout.popwindow_area,null);
+//
+//        //当前界面没关闭，不是售罄产品才显示
+//        if (mCustomPopWindow == null){
+//            mCustomPopWindow= new CustomPopWindow.PopupWindowBuilder(context)
+//                    .setFocusable(false)
+//                    .setOutsideTouchable(false)
+//                    .setView(contentView)
+//                    .create()
+//                    .showAsDropDown(holder.tv_city);
+//        }
+//    }
 
     class Holder {
         public TextView tv_city;

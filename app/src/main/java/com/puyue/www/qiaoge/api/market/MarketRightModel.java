@@ -272,7 +272,7 @@ public class MarketRightModel {
                          * inventory : null
                          * prodPrices : null
                          */
-
+                        String notSend;
                         private String type;
                         private int activeId;
                         private int productMainId;
@@ -290,6 +290,14 @@ public class MarketRightModel {
                         private Object prodPrices;
                         String sendTimeTpl;
                         String selfProd;
+
+                        public String getNotSend() {
+                            return notSend;
+                        }
+
+                        public void setNotSend(String notSend) {
+                            this.notSend = notSend;
+                        }
 
                         public String getSendTimeTpl() {
                             return sendTimeTpl;
@@ -587,6 +595,15 @@ public class MarketRightModel {
                 private List<ProdSpecsBean> prodSpecs;
                 String sendTimeTpl;
                 String selfProd;
+                String notSend;
+
+                public String getNotSend() {
+                    return notSend;
+                }
+
+                public void setNotSend(String notSend) {
+                    this.notSend = notSend;
+                }
 
                 public String getBuyFlag() {
                     return buyFlag;

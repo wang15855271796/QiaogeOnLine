@@ -798,7 +798,6 @@ public class CartActivity extends BaseSwipeActivity implements View.OnClickListe
 
     @Override
     public void setViewData() {
-//        requestCartList();
         getCustomerPhone();
         getProductsList();
 

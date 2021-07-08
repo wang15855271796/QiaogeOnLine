@@ -39,6 +39,7 @@ public class SurplierAdapter extends BaseQuickAdapter<SurpliListModel.DataBean.L
     private TextView tv_price_desc;
     ImageView iv_operate;
     ImageView iv_next;
+    ImageView iv_send;
     public SurplierAdapter(int layoutResId, @Nullable List<SurpliListModel.DataBean.ListBean> data) {
         super(layoutResId, data);
     }
@@ -46,12 +47,22 @@ public class SurplierAdapter extends BaseQuickAdapter<SurpliListModel.DataBean.L
     @Override
     protected void convert(BaseViewHolder helper, SurpliListModel.DataBean.ListBean item) {
         iv_next = helper.getView(R.id.iv_next);
+        iv_send = helper.getView(R.id.iv_send);
         iv_operate = helper.getView(R.id.iv_operate);
         ImageView iv_no_data = helper.getView(R.id.iv_no_data);
         tv_price_desc = helper.getView(R.id.tv_price_desc);
         iv_type = helper.getView(R.id.iv_type);
         Glide.with(mContext).load(item.getSelfProd()).into(iv_operate);
         Glide.with(mContext).load(item.getSendTimeTpl()).into(iv_next);
+        if(item.getNotSend()!=null) {
+            if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
+                iv_send.setImageResource(R.mipmap.icon_not_send2);
+                iv_send.setVisibility(View.VISIBLE);
+            }else {
+                iv_send.setVisibility(View.GONE);
+            }
+        }
+
         if(item.getFlag()==0) {
             Glide.with(mContext).load(item.getTypeUrl()).into(iv_no_data);
             iv_no_data.setVisibility(View.VISIBLE);

@@ -36,7 +36,7 @@
             android:textStyle="bold"
             android:layout_marginLeft="@dimen/dp_10"
             android:textSize="@dimen/sp_16"
-            tools:text="华清源腿排腿排华排..."
+            android:text="华清源腿排腿排华排..."
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -63,6 +63,21 @@
                 android:textSize="@dimen/size_16dp"
                 android:layout_width="90dp"
                 android:layout_height="wrap_content" />
+
+            <!--<TextView-->
+                <!--tools:text="15.0"-->
+                <!--android:lines="1"-->
+                <!--android:layout_toRightOf="@+id/tv_price"-->
+                <!--android:ellipsize="end"-->
+                <!--android:textColor="#b5b5b5"-->
+                <!--android:id="@+id/tv_old_price"-->
+                <!--android:paddingTop="1dp"-->
+                <!--android:gravity="center_horizontal"-->
+                <!--android:paddingBottom="1dp"-->
+                <!--android:layout_marginTop="@dimen/size_46dp"-->
+                <!--android:textSize="@dimen/size_12dp"-->
+                <!--android:layout_width="90dp"-->
+                <!--android:layout_height="wrap_content" />-->
 
             <TextView
                 android:visibility="gone"

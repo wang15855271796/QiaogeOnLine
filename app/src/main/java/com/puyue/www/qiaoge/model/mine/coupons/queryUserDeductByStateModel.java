@@ -83,6 +83,20 @@ public class queryUserDeductByStateModel{
         private boolean hasNextPage;
         private List<ListBean> list;
 
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "pageNum=" + pageNum +
+                    ", pageSize=" + pageSize +
+                    ", startRow=" + startRow +
+                    ", pages=" + pages +
+                    ", total=" + total +
+                    ", hasPrePage=" + hasPrePage +
+                    ", hasNextPage=" + hasNextPage +
+                    ", list=" + list +
+                    '}';
+        }
+
         public int getPageNum() {
             return pageNum;
         }
@@ -164,6 +178,7 @@ public class queryUserDeductByStateModel{
              * state : ENABLED
              * giftDetailNo : 112018092000000015
              */
+            String giftArea;
             String jumpFlag;
             String useInfo;
             private String giftName;
@@ -182,6 +197,39 @@ public class queryUserDeductByStateModel{
             private List<String> role;
             private String giftProdUseType;
             private String giftFlag;
+
+            @Override
+            public String toString() {
+                return "ListBean{" +
+                        "giftArea='" + giftArea + '\'' +
+                        ", jumpFlag='" + jumpFlag + '\'' +
+                        ", useInfo='" + useInfo + '\'' +
+                        ", giftName='" + giftName + '\'' +
+                        ", giftType='" + giftType + '\'' +
+                        ", amount='" + amount + '\'' +
+                        ", amountStr='" + amountStr + '\'' +
+                        ", limitAmtStr='" + limitAmtStr + '\'' +
+                        ", limitAmt=" + limitAmt +
+                        ", applyFrom='" + applyFrom + '\'' +
+                        ", dateTime='" + dateTime + '\'' +
+                        ", overTimePic='" + overTimePic + '\'' +
+                        ", usedPic='" + usedPic + '\'' +
+                        ", unAblePic='" + unAblePic + '\'' +
+                        ", state='" + state + '\'' +
+                        ", giftDetailNo='" + giftDetailNo + '\'' +
+                        ", role=" + role +
+                        ", giftProdUseType='" + giftProdUseType + '\'' +
+                        ", giftFlag='" + giftFlag + '\'' +
+                        '}';
+            }
+
+            public String getGiftArea() {
+                return giftArea;
+            }
+
+            public void setGiftArea(String giftArea) {
+                this.giftArea = giftArea;
+            }
 
             public String getJumpFlag() {
                 return jumpFlag;

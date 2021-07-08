@@ -41,6 +41,7 @@ public class HotAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
     TextView tv_discount;
     TextView tv_desc;
     Onclick onclick;
+    ImageView iv_send;
     public HotAdapter(int layoutResId, @Nullable List<ProductNormalModel.DataBean.ListBean> activeList,Onclick onclick) {
         super(layoutResId, activeList);
         this.activesBean = activeList;
@@ -49,6 +50,7 @@ public class HotAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
 
     @Override
     protected void convert(BaseViewHolder helper, ProductNormalModel.DataBean.ListBean item) {
+        iv_send = helper.getView(R.id.iv_send);
         tv_desc = helper.getView(R.id.tv_desc);
         rl_group = helper.getView(R.id.rl_group);
         ll_more = helper.getView(R.id.ll_more);
@@ -63,6 +65,15 @@ public class HotAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
             ll_more.setVisibility(View.VISIBLE);
         }else {
             ll_more.setVisibility(View.GONE);
+        }
+
+        if(item.getNotSend()!=null) {
+            if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
+                iv_send.setImageResource(R.mipmap.icon_not_send2);
+                iv_send.setVisibility(View.VISIBLE);
+            }else {
+                iv_send.setVisibility(View.GONE);
+            }
         }
 
         tv_discount.setVisibility(View.GONE);

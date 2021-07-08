@@ -27,6 +27,7 @@ public class MarketsAdapter extends BaseQuickAdapter<InfoListModel.DataBean.List
 
     @Override
     protected void convert(BaseViewHolder helper, InfoListModel.DataBean.ListBean item) {
+        helper.setIsRecyclable(false);
         if(item.getPictureList()!=null&&item.getPictureList().size()>0) {
             RoundImageView iv_pic = helper.getView(R.id.iv_pic);
             Glide.with(mContext).load(item.getPictureList().get(0)).into(iv_pic);

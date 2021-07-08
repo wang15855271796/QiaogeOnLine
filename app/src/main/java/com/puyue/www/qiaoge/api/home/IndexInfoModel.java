@@ -1,6 +1,8 @@
 package com.puyue.www.qiaoge.api.home;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.puyue.www.qiaoge.event.CouponListModel;
+import com.puyue.www.qiaoge.model.home.QueryHomePropupModel;
 
 import java.util.List;
 
@@ -100,9 +102,54 @@ public class IndexInfoModel {
         String sendAmount;
         int fullGiftNum;
         String returnAmountTime;
+        boolean addressIsInArea;
         private List<BannersBean> banners;
         private List<IconsBean> icons;
         private List<ClassifyListBean> classifyList;
+        private List<String> hotKey;
+        String giftReceiveBtn;
+        private UserPopup userPopup;
+        private HomePopup homePopup;
+
+        public HomePopup getHomePopup() {
+            return homePopup;
+        }
+
+        public void setHomePopup(HomePopup homePopup) {
+            this.homePopup = homePopup;
+        }
+
+        public UserPopup getUserPopup() {
+            return userPopup;
+        }
+
+        public void setUserPopup(UserPopup userPopup) {
+            this.userPopup = userPopup;
+        }
+
+        public String getGiftReceiveBtn() {
+            return giftReceiveBtn;
+        }
+
+        public void setGiftReceiveBtn(String giftReceiveBtn) {
+            this.giftReceiveBtn = giftReceiveBtn;
+        }
+
+        public List<String> getHotKey() {
+            return hotKey;
+        }
+
+        public void setHotKey(List<String> hotKey) {
+            this.hotKey = hotKey;
+        }
+
+        public boolean isAddressIsInArea() {
+            return addressIsInArea;
+        }
+
+        public void setAddressIsInArea(boolean addressIsInArea) {
+            this.addressIsInArea = addressIsInArea;
+        }
 
         public String getSendTime() {
             return sendTime;
@@ -282,6 +329,402 @@ public class IndexInfoModel {
 
         public void setClassifyList(List<ClassifyListBean> classifyList) {
             this.classifyList = classifyList;
+        }
+
+//        private boolean propup;
+//        private HomePropupBean homePropup;
+//
+//        public boolean isPropup() {
+//            return propup;
+//        }
+//
+//        public void setPropup(boolean propup) {
+//            this.propup = propup;
+//        }
+//
+//        public HomePropupBean getHomePropup() {
+//            return homePropup;
+//        }
+//
+//        public void setHomePropup(HomePropupBean homePropup) {
+//            this.homePropup = homePropup;
+//        }
+
+        public static class HomePopup {
+            /**
+             * id : 7
+             * title : 首页弹窗
+             * effectStartTime : 1539248067000
+             * effectEndTime : 1540448505000
+             * showUrl : https://barbecue-img.oss-cn-hangzhou.aliyuncs.com/image/9aa521923a6c4d528fa5d08cc6d2e940.png
+             * toPage : self
+             * detailUrl : null
+             * pageUrl : http://116.62.67.230:8082/apph5/html/purchaseRecord.html
+             * deleteFlag : false
+             * gmtCreate : 1540275972000
+             * gmtModify : 1540275971000
+             * createUserId : 1
+             * updateUserId : null
+             * memo : null
+             */
+
+            private int id;
+            private String title;
+            private long effectStartTime;
+            private long effectEndTime;
+            private String showUrl;
+            private String toPage;
+            private Object detailUrl;
+            private String pageUrl;
+            private boolean deleteFlag;
+            private long gmtCreate;
+            private long gmtModify;
+            private int createUserId;
+            private Object updateUserId;
+            private Object memo;
+            boolean isPropup;
+
+            public boolean isPropup() {
+                return isPropup;
+            }
+
+            public void setPropup(boolean propup) {
+                isPropup = propup;
+            }
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
+
+            public long getEffectStartTime() {
+                return effectStartTime;
+            }
+
+            public void setEffectStartTime(long effectStartTime) {
+                this.effectStartTime = effectStartTime;
+            }
+
+            public long getEffectEndTime() {
+                return effectEndTime;
+            }
+
+            public void setEffectEndTime(long effectEndTime) {
+                this.effectEndTime = effectEndTime;
+            }
+
+            public String getShowUrl() {
+                return showUrl;
+            }
+
+            public void setShowUrl(String showUrl) {
+                this.showUrl = showUrl;
+            }
+
+            public String getToPage() {
+                return toPage;
+            }
+
+            public void setToPage(String toPage) {
+                this.toPage = toPage;
+            }
+
+            public Object getDetailUrl() {
+                return detailUrl;
+            }
+
+            public void setDetailUrl(Object detailUrl) {
+                this.detailUrl = detailUrl;
+            }
+
+            public String getPageUrl() {
+                return pageUrl;
+            }
+
+            public void setPageUrl(String pageUrl) {
+                this.pageUrl = pageUrl;
+            }
+
+            public boolean isDeleteFlag() {
+                return deleteFlag;
+            }
+
+            public void setDeleteFlag(boolean deleteFlag) {
+                this.deleteFlag = deleteFlag;
+            }
+
+            public long getGmtCreate() {
+                return gmtCreate;
+            }
+
+            public void setGmtCreate(long gmtCreate) {
+                this.gmtCreate = gmtCreate;
+            }
+
+            public long getGmtModify() {
+                return gmtModify;
+            }
+
+            public void setGmtModify(long gmtModify) {
+                this.gmtModify = gmtModify;
+            }
+
+            public int getCreateUserId() {
+                return createUserId;
+            }
+
+            public void setCreateUserId(int createUserId) {
+                this.createUserId = createUserId;
+            }
+
+            public Object getUpdateUserId() {
+                return updateUserId;
+            }
+
+            public void setUpdateUserId(Object updateUserId) {
+                this.updateUserId = updateUserId;
+            }
+
+            public Object getMemo() {
+                return memo;
+            }
+
+            public void setMemo(Object memo) {
+                this.memo = memo;
+            }
+        }
+
+        public static class UserPopup {
+            /**
+             * id : 1
+             * title : 恭喜您获得翘歌优惠券
+             * content : 优惠券到账通知
+             * gifts : [{"giftName":"6元无门槛消费券","giftType":null,"amount":null,"amountStr":"6","limitAmtStr":"满0元可用","limitAmt":null,"applyFrom":null,"dateTime":"有效期至2020-10-15","role":["全场通用"],"overTimePic":null,"usedPic":null,"unAblePic":null,"state":null,"giftDetailNo":null,"orderId":null}]
+             * jumpType : 0
+             * jumpUrl : null
+             */
+
+            private int id;
+            private String title;
+            private String content;
+            private int jumpType;
+            private Object jumpUrl;
+            private List<CouponListModel.DataBean.GiftsBean> gifts;
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
+
+            public String getContent() {
+                return content;
+            }
+
+            public void setContent(String content) {
+                this.content = content;
+            }
+
+            public int getJumpType() {
+                return jumpType;
+            }
+
+            public void setJumpType(int jumpType) {
+                this.jumpType = jumpType;
+            }
+
+            public Object getJumpUrl() {
+                return jumpUrl;
+            }
+
+            public void setJumpUrl(Object jumpUrl) {
+                this.jumpUrl = jumpUrl;
+            }
+
+            public List<CouponListModel.DataBean.GiftsBean> getGifts() {
+                return gifts;
+            }
+
+            public void setGifts(List<CouponListModel.DataBean.GiftsBean> gifts) {
+                this.gifts = gifts;
+            }
+
+            public static class GiftsBean {
+                /**
+                 * giftName : 6元无门槛消费券
+                 * giftType : null
+                 * amount : null
+                 * amountStr : 6
+                 * limitAmtStr : 满0元可用
+                 * limitAmt : null
+                 * applyFrom : null
+                 * dateTime : 有效期至2020-10-15
+                 * role : ["全场通用"]
+                 * overTimePic : null
+                 * usedPic : null
+                 * unAblePic : null
+                 * state : null
+                 * giftDetailNo : null
+                 * orderId : null
+                 */
+
+                private String giftName;
+                private Object giftType;
+                private Object amount;
+                private String amountStr;
+                private String limitAmtStr;
+                private Object limitAmt;
+                private Object applyFrom;
+                private String dateTime;
+                private Object overTimePic;
+                private Object usedPic;
+                private Object unAblePic;
+                private Object state;
+                private Object giftDetailNo;
+                private String orderId;
+                private List<String> role;
+
+                public String getGiftName() {
+                    return giftName;
+                }
+
+                public void setGiftName(String giftName) {
+                    this.giftName = giftName;
+                }
+
+                public Object getGiftType() {
+                    return giftType;
+                }
+
+                public void setGiftType(Object giftType) {
+                    this.giftType = giftType;
+                }
+
+                public Object getAmount() {
+                    return amount;
+                }
+
+                public void setAmount(Object amount) {
+                    this.amount = amount;
+                }
+
+                public String getAmountStr() {
+                    return amountStr;
+                }
+
+                public void setAmountStr(String amountStr) {
+                    this.amountStr = amountStr;
+                }
+
+                public String getLimitAmtStr() {
+                    return limitAmtStr;
+                }
+
+                public void setLimitAmtStr(String limitAmtStr) {
+                    this.limitAmtStr = limitAmtStr;
+                }
+
+                public Object getLimitAmt() {
+                    return limitAmt;
+                }
+
+                public void setLimitAmt(Object limitAmt) {
+                    this.limitAmt = limitAmt;
+                }
+
+                public Object getApplyFrom() {
+                    return applyFrom;
+                }
+
+                public void setApplyFrom(Object applyFrom) {
+                    this.applyFrom = applyFrom;
+                }
+
+                public String getDateTime() {
+                    return dateTime;
+                }
+
+                public void setDateTime(String dateTime) {
+                    this.dateTime = dateTime;
+                }
+
+                public Object getOverTimePic() {
+                    return overTimePic;
+                }
+
+                public void setOverTimePic(Object overTimePic) {
+                    this.overTimePic = overTimePic;
+                }
+
+                public Object getUsedPic() {
+                    return usedPic;
+                }
+
+                public void setUsedPic(Object usedPic) {
+                    this.usedPic = usedPic;
+                }
+
+                public Object getUnAblePic() {
+                    return unAblePic;
+                }
+
+                public void setUnAblePic(Object unAblePic) {
+                    this.unAblePic = unAblePic;
+                }
+
+                public Object getState() {
+                    return state;
+                }
+
+                public void setState(Object state) {
+                    this.state = state;
+                }
+
+                public Object getGiftDetailNo() {
+                    return giftDetailNo;
+                }
+
+                public void setGiftDetailNo(Object giftDetailNo) {
+                    this.giftDetailNo = giftDetailNo;
+                }
+
+                public String getOrderId() {
+                    return orderId;
+                }
+
+                public void setOrderId(String orderId) {
+                    this.orderId = orderId;
+                }
+
+                public List<String> getRole() {
+                    return role;
+                }
+
+                public void setRole(List<String> role) {
+                    this.role = role;
+                }
+            }
         }
 
         public static class BannersBean {

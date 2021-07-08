@@ -116,6 +116,8 @@ public class GetProductDetailModel {
         String selfProd;
         String cityName;
         String areaName;
+        String customerPhone;
+        boolean hasCollect;
         @Override
         public String toString() {
             return "DataBean{" +
@@ -137,6 +139,22 @@ public class GetProductDetailModel {
                     ", detailPic=" + detailPic +
                     ", topPic=" + topPic +
                     '}';
+        }
+
+        public boolean isHasCollect() {
+            return hasCollect;
+        }
+
+        public void setHasCollect(boolean hasCollect) {
+            this.hasCollect = hasCollect;
+        }
+
+        public String getCustomerPhone() {
+            return customerPhone;
+        }
+
+        public void setCustomerPhone(String customerPhone) {
+            this.customerPhone = customerPhone;
         }
 
         public String getNotSend() {
@@ -527,6 +545,15 @@ public class GetProductDetailModel {
             String defaultPic;
             int productMainId;
             String productName;
+            String notSend;
+
+            public String getNotSend() {
+                return notSend;
+            }
+
+            public void setNotSend(String notSend) {
+                this.notSend = notSend;
+            }
 
             public String getDefaultPic() {
                 return defaultPic;

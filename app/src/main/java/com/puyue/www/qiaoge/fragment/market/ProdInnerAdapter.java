@@ -36,6 +36,16 @@ class ProdInnerAdapter extends BaseQuickAdapter<MarketRightModel.DataBean.BrandP
         TextView tv_price = helper.getView(R.id.tv_price);
         TextView tv_desc = helper.getView(R.id.tv_desc);
         ImageView iv_pic = helper.getView(R.id.iv_pic);
+        ImageView iv_send = helper.getView(R.id.iv_send);
+
+        if(item.getNotSend()!=null) {
+            if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
+                iv_send.setImageResource(R.mipmap.icon_not_send2);
+                iv_send.setVisibility(View.VISIBLE);
+            }else {
+                iv_send.setVisibility(View.GONE);
+            }
+        }
 
         iv_pic.setOnClickListener(new View.OnClickListener() {
             @Override

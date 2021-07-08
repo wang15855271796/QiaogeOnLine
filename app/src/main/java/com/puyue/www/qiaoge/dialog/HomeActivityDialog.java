@@ -18,6 +18,7 @@ import com.puyue.www.qiaoge.activity.home.HomeGoodsListActivity;
 import com.puyue.www.qiaoge.activity.home.TeamDetailActivity;
 import com.puyue.www.qiaoge.activity.mine.coupons.MyCouponsActivity;
 import com.puyue.www.qiaoge.adapter.home.ReductionProductActivity;
+import com.puyue.www.qiaoge.api.home.IndexInfoModel;
 import com.puyue.www.qiaoge.api.home.PopupViewHomeAPI;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
@@ -36,9 +37,9 @@ public class HomeActivityDialog extends Dialog {
     Context context;
     ImageView popImageView;
     ImageView buttonDelete;
-    QueryHomePropupModel.DataBean.HomePropupBean homePropup;
+    IndexInfoModel.DataBean.HomePopup homePropup;
 
-    public HomeActivityDialog(@NonNull Context mContext, QueryHomePropupModel.DataBean.HomePropupBean homePropup) {
+    public HomeActivityDialog(@NonNull Context mContext, IndexInfoModel.DataBean.HomePopup homePropup) {
         super(mContext, R.style.promptDialog);
         setContentView(R.layout.popwindow_home_dialog);
         this.context = mContext;

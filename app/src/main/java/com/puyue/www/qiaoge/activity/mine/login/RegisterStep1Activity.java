@@ -28,6 +28,7 @@ import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.CommonH5Activity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.adapter.home.RegisterShopAdapterTwo;
+import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.CityChangeAPI;
 import com.puyue.www.qiaoge.api.home.GetCustomerPhoneAPI;
 import com.puyue.www.qiaoge.api.home.GetRegisterShopAPI;
@@ -127,6 +128,42 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
 
         EventBus.getDefault().unregister(this);
 
+    }
+
+    long start;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        start = System.currentTimeMillis();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        long end = (System.currentTimeMillis()-start)/1000;
+        getDatas(end);
+    }
+
+    private void getDatas(long end) {
+        RecommendApI.getDatas(mContext,1,end)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+
+                    }
+                });
     }
 
     @Override
@@ -641,6 +678,7 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
         UserInfoHelper.saveUserHomeRefresh(mContext, "");
         UserInfoHelper.saveUserMarketRefresh(mContext, "");
         startActivity(HomeActivity.getIntent(mContext, HomeActivity.class));
+        SharedPreferencesUtil.saveString(mActivity,"index1","6");
         EventBus.getDefault().post(new GoToMineEvent());
         EventBus.getDefault().post(new AddressEvent());
         finish();

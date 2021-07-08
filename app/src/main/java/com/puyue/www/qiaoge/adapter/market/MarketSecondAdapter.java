@@ -67,10 +67,10 @@ public class MarketSecondAdapter extends BaseQuickAdapter<ClassIfyModel.DataBean
             rl_bg.setBackgroundColor(Color.parseColor("#ffffff"));
         }else {
             tv_name.setBackground(null);
-            iv_point.setBackgroundColor(Color.parseColor("#F8F8F8"));
+            iv_point.setBackgroundColor(Color.parseColor("#f3f3f3"));
             tv_name.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
             tv_name.setTextColor(Color.parseColor("#333333"));
-            rl_bg.setBackgroundColor(Color.parseColor("#f8f8f8"));
+            rl_bg.setBackgroundColor(Color.parseColor("#f3f3f3"));
         }
 //        RecyclerView recyclerView = helper.getView(R.id.recyclerViews);
 //        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));

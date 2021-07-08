@@ -29,6 +29,7 @@ import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.home.GetCustomerPhoneModel;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 import com.puyue.www.qiaoge.utils.LoginUtil;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -86,7 +87,7 @@ public class CommonFragment extends BaseFragment {
         if(!EventBus.getDefault().isRegistered(this)) {//加上判断
             EventBus.getDefault().register(this);
         }
-        getCustomerPhone();
+//        getCustomerPhone();
         bind = ButterKnife.bind(this, view);
         refreshLayout.setEnableLoadMore(false);
         commonListAdapter = new CommonListAdapter(R.layout.item_team_list, list, new CommonListAdapter.Onclick() {
@@ -102,7 +103,7 @@ public class CommonFragment extends BaseFragment {
 
             @Override
             public void tipClick() {
-                AppHelper.ShowAuthDialog(mActivity,cell);
+                AppHelper.ShowAuthDialog(mActivity,SharedPreferencesUtil.getString(mActivity,"mobile"));
             }
         });
         emptyView = View.inflate(mActivity, R.layout.layout_empty, null);
@@ -235,7 +236,7 @@ public class CommonFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getCommon(BackEvent event) {
         refreshLayout.autoRefresh();
-        getCustomerPhone();
+//        getCustomerPhone();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

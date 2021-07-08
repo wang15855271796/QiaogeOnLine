@@ -120,7 +120,7 @@ public class SpikeFragment extends BaseFragment {
      *
      */
     private void getSpikeList() {
-        IndexHomeAPI.getCouponList(mActivity,2+"")
+        IndexHomeAPI.getCouponList(mActivity,"2")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<CouponModel>() {

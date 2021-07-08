@@ -59,7 +59,6 @@ public class Coupon1Adapter extends BaseQuickAdapter<TeamActiveQueryModel.DataBe
         Coupon1InnerAdapter couponsInnerAdapter = new Coupon1InnerAdapter(R.layout.coupon_inner,item.getActives(), new Onclick() {
             @Override
             public void addDialog() {
-                Log.d("wfsdffd.......","qwdad");
                 onclick.addDialog();
             }
         });

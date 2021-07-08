@@ -28,6 +28,7 @@ import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.MustDialog;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.model.CouponModels;
 import com.puyue.www.qiaoge.model.home.CouponModel;
 import com.puyue.www.qiaoge.model.mine.order.HomeBaseModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
@@ -51,8 +52,8 @@ public class SkillAdapter extends RecyclerView.Adapter<SkillAdapter.BaseViewHold
     int layoutResId;
     int pos;
 //    CouponModel.DataBean.ActivesBean activesBean;
-    List<CouponModel.DataBean.ActivesBean> actives;
-    public SkillAdapter(Context context,int layoutResId, List<CouponModel.DataBean.ActivesBean> actives, String flag) {
+    List<CouponModels.DataBean.SpikeBean.ActivesBean> actives;
+    public SkillAdapter(Context context, int layoutResId, List<CouponModels.DataBean.SpikeBean.ActivesBean> actives, String flag) {
         this.mContext = context;
         this.layoutResId = layoutResId;
         this.actives = actives;
@@ -76,7 +77,7 @@ public class SkillAdapter extends RecyclerView.Adapter<SkillAdapter.BaseViewHold
 //
 //        }
 
-        CouponModel.DataBean.ActivesBean activesBean = actives.get(position);
+        CouponModels.DataBean.SpikeBean.ActivesBean activesBean = actives.get(position);
         holder.tv_name.setText(activesBean.getActiveName());
         Glide.with(mContext).load(activesBean.getDefaultPic()).into(holder.iv_pic);
         holder.tv_price.setText(activesBean.getPrice());
@@ -87,11 +88,11 @@ public class SkillAdapter extends RecyclerView.Adapter<SkillAdapter.BaseViewHold
         if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
             if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
                 holder.tv_desc.setVisibility(View.GONE);
-//                holder.tv_old_price.setVisibility(View.VISIBLE);
+                holder.tv_old_price.setVisibility(View.VISIBLE);
                 holder.tv_price.setVisibility(View.VISIBLE);
             }else {
                 holder.tv_desc.setVisibility(View.VISIBLE);
-//                holder.tv_old_price.setVisibility(View.GONE);
+                holder.tv_old_price.setVisibility(View.GONE);
                 holder.tv_price.setVisibility(View.GONE);
             }
         }else {

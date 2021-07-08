@@ -3,6 +3,7 @@ package com.puyue.www.qiaoge.activity.mine.coupons;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -12,8 +13,14 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.adapter.coupon.MyCouponsAdapter;
 import com.puyue.www.qiaoge.api.mine.coupon.MyCouponsAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
+import com.puyue.www.qiaoge.event.BackEvent;
+import com.puyue.www.qiaoge.fragment.home.CityEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.model.mine.coupons.queryUserDeductByStateModel;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +58,14 @@ public class CouponsNotUseFragment extends BaseFragment {
     }
 
     @Override
-    public void findViewById(View view) {
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
+    @Override
+    public void findViewById(View view) {
+        EventBus.getDefault().register(this);
         tv_desc = view.findViewById(R.id.tv_desc);
         recyclerView=view.findViewById(R.id.recyclerView);
         data= view .findViewById(R.id.data);
@@ -60,6 +73,12 @@ public class CouponsNotUseFragment extends BaseFragment {
         ptrClassicFrameLayout=view.findViewById(R.id.ptrClassicFrameLayout);
 
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+//        ptrClassicFrameLayout.autoRefresh();
     }
 
     @Override
@@ -75,7 +94,9 @@ public class CouponsNotUseFragment extends BaseFragment {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 pageNum = 1;
+                lists.clear();
                 requestMyCoupons();
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -131,7 +152,6 @@ public class CouponsNotUseFragment extends BaseFragment {
                     @Override
                     public void onNext(queryUserDeductByStateModel info) {
                         ptrClassicFrameLayout.refreshComplete();
-
                         if (info.isSuccess()) {
                             updateNoticeList(info);
                         } else {
@@ -149,7 +169,6 @@ public class CouponsNotUseFragment extends BaseFragment {
             if (info.getData() != null && info.getData().getList().size() > 0) {
                 data.setVisibility(View.VISIBLE);
                 noData.setVisibility(View.GONE);
-                lists.clear();
                 lists.addAll(info.getData().getList());
                 adapter.notifyDataSetChanged();
             } else {
@@ -169,6 +188,13 @@ public class CouponsNotUseFragment extends BaseFragment {
             //没有下一页数据了
             adapter.loadMoreEnd();
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getList(CityEvent cityEvent) {
+        Log.d("wfsdfdfdsf.......","qwwe");
+//        requestMyCoupons();
+        ptrClassicFrameLayout.autoRefresh();
     }
 
 }

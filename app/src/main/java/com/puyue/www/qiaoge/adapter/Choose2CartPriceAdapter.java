@@ -15,6 +15,8 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.api.cart.AddMountChangeTwoAPI;
 import com.puyue.www.qiaoge.api.cart.CartPostChangeOrderDetailAPI;
+import com.puyue.www.qiaoge.api.cart.RecommendApI;
+import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.fragment.cart.UpdateEvent;
 import com.puyue.www.qiaoge.fragment.market.Test2Adapter;
@@ -75,6 +77,7 @@ public class Choose2CartPriceAdapter extends BaseQuickAdapter<CartsListModel.Dat
                 num++;
                 adapterPosition = helper.getAdapterPosition();
                 addCart(item,num,item.getProductCombinationPriceId(),businessId,businessType,tv_num,item.getCartNum());
+                getDatas(1);
             }
         });
 
@@ -162,7 +165,7 @@ public class Choose2CartPriceAdapter extends BaseQuickAdapter<CartsListModel.Dat
                 tv_ok.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        getDatas(1);
                         if (et_num.getText().toString() != null && StringHelper.notEmptyAndNull(et_num.getText().toString())) {
 
                             AddMountChangeTwoAPI.AddMountChangeServices(mContext, businessType, businessId, Integer.parseInt(et_num.getText().toString()), item.getProductCombinationPriceId())
@@ -214,7 +217,27 @@ public class Choose2CartPriceAdapter extends BaseQuickAdapter<CartsListModel.Dat
         });
 
     }
+    private void getDatas(long end) {
+        RecommendApI.getDatas(mContext,16,end)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+
+                    }
+                });
+    }
     /**
      * 添加购物车
      */

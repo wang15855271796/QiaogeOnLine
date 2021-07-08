@@ -41,11 +41,13 @@ import com.puyue.www.qiaoge.adapter.mine.ChooseCouponsAdapter;
 import com.puyue.www.qiaoge.adapter.mine.ConfirmOrderNewAdapter;
 import com.puyue.www.qiaoge.api.cart.CartBalanceAPI;
 import com.puyue.www.qiaoge.api.cart.OrderPayAPI;
+import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.GetDeliverTimeAPI;
 import com.puyue.www.qiaoge.api.mine.GetWalletAmountAPI;
 import com.puyue.www.qiaoge.api.mine.coupon.userChooseDeductAPI;
 import com.puyue.www.qiaoge.api.mine.order.GenerateOrderAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
+import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.ChooseAddressDialog;
 import com.puyue.www.qiaoge.dialog.ListViewDialog;
@@ -326,6 +328,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                     break;
                 case R.id.buttonPay:// 去支付
                     buttonPay.setEnabled(false);
+                    getDatas(1);
                     lav_activity_loading.show();
                     lav_activity_loading.setVisibility(View.VISIBLE);
                     if (LinearLayoutAddress.getVisibility() == View.VISIBLE) { // 没有地址
@@ -444,6 +447,28 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
             }
         }
     };
+
+    private void getDatas(long end) {
+        RecommendApI.getDatas(mActivity,17,end)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+
+                    }
+                });
+    }
 
     /**
      * 获取账户余额

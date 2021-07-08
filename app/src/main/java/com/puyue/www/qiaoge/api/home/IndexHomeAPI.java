@@ -10,6 +10,7 @@ import com.puyue.www.qiaoge.event.PrivacyModel;
 import com.puyue.www.qiaoge.event.TurnModel;
 import com.puyue.www.qiaoge.event.TurnReceiveModel;
 import com.puyue.www.qiaoge.helper.RestHelper;
+import com.puyue.www.qiaoge.model.CouponModels;
 import com.puyue.www.qiaoge.model.OrderModel;
 import com.puyue.www.qiaoge.model.SendModel;
 import com.puyue.www.qiaoge.model.home.CouponModel;
@@ -111,16 +112,16 @@ public class IndexHomeAPI {
     }
 
     /**
-     * 首页司机信息
+     * 首页其他信息
      */
-    private interface DriverService {
-        @POST(AppInterfaceAddress.DISTRIBUTE)
-        Observable<DriverInfo> getData();
+    private interface CouponHomeService {
+        @POST(AppInterfaceAddress.COUPONHOMEINFO)
+        Observable<CouponModels> getData();
 
     }
 
-    public static Observable<DriverInfo> getDriverInfo(Context context) {
-        DriverService spikeActiveQueryService = RestHelper.getBaseRetrofit(context).create(DriverService.class);
+    public static Observable<CouponModels> getHomeCouponList(Context context) {
+        CouponHomeService spikeActiveQueryService = RestHelper.getBaseRetrofit(context).create(CouponHomeService.class);
         return spikeActiveQueryService.getData();
     }
 

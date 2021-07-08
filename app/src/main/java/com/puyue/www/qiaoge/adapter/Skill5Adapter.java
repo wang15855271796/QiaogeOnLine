@@ -26,6 +26,7 @@ import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.model.CouponModels;
 import com.puyue.www.qiaoge.model.home.CouponModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
@@ -36,17 +37,18 @@ import java.util.List;
  */
 public class Skill5Adapter extends RecyclerView.Adapter<Skill5Adapter.BaseViewHolder> {
     Context context;
-    List<CouponModel.DataBean.ActivesBean> skillActive3;
-    CouponModel.DataBean.ActivesBean activesBean;
-    public Skill5Adapter(FragmentActivity mActivity, List<CouponModel.DataBean.ActivesBean> skillActive3) {
+    List<CouponModels.DataBean.SpikeBean.ActivesBean> skillActive3;
+    CouponModels.DataBean.SpikeBean.ActivesBean activesBean;
+    public Skill5Adapter(FragmentActivity mActivity, List<CouponModels.DataBean.SpikeBean.ActivesBean> skillActive3) {
         this.context = mActivity;
         this.skillActive3 = skillActive3;
     }
 
+    //item_skill_list_4
     @NonNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_skill_list4, viewGroup, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_skill_lists, viewGroup, false);
         BaseViewHolder holder = new BaseViewHolder(view);
         return holder;
     }
@@ -58,7 +60,6 @@ public class Skill5Adapter extends RecyclerView.Adapter<Skill5Adapter.BaseViewHo
             activesBean = skillActive3.get(position % skillActive3.size());
             viewHolder.tv_name.setText(activesBean.getActiveName());
             Glide.with(context).load(activesBean.getDefaultPic()).into(viewHolder.iv_pic);
-            Log.d("wfsffef........",activesBean.getOldPrice()+"as");
             if(!TextUtils.isEmpty(activesBean.getOldPrice())) {
                 viewHolder.tv_old_price.setText(activesBean.getOldPrice());
                 viewHolder.tv_old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
@@ -79,10 +80,12 @@ public class Skill5Adapter extends RecyclerView.Adapter<Skill5Adapter.BaseViewHo
                 if(SharedPreferencesUtil.getString(context,"priceType").equals("1")) {
                     viewHolder.tv_price.setVisibility(View.VISIBLE);
                     viewHolder.tv_desc.setVisibility(View.GONE);
+                    viewHolder.tv_old_price.setVisibility(View.VISIBLE);
                     viewHolder.tv_price.setText(activesBean.getPrice());
 
                 }else {
                     viewHolder.tv_price.setVisibility(View.GONE);
+                    viewHolder.tv_old_price.setVisibility(View.GONE);
                     viewHolder.tv_desc.setVisibility(View.VISIBLE);
                 }
             }else {
@@ -105,8 +108,6 @@ public class Skill5Adapter extends RecyclerView.Adapter<Skill5Adapter.BaseViewHo
         }catch (Exception e) {
 
         }
-
-
 
     }
 

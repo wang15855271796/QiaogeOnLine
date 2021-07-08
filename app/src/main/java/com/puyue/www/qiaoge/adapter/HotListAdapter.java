@@ -36,7 +36,7 @@ public class HotListAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean
 
     @Override
     protected void convert(BaseViewHolder helper, ProductNormalModel.DataBean.ListBean item) {
-        ImageView iv_sale_done = helper.getView(R.id.iv_sale_done);
+        ImageView iv_send = helper.getView(R.id.iv_send);
         ImageView iv_type = helper.getView(R.id.iv_type);
         RoundImageView iv_pic = helper.getView(R.id.iv_pic);
         ImageView iv_add = helper.getView(R.id.iv_add);
@@ -54,6 +54,14 @@ public class HotListAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean
         Glide.with(mContext).load(item.getDefaultPic()).into(iv_pic);
         Glide.with(mContext).load(item.getSelfProd()).into(iv_style);
 
+        if(item.getNotSend()!=null) {
+            if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
+                iv_send.setImageResource(R.mipmap.icon_not_send2);
+                iv_send.setVisibility(View.VISIBLE);
+            }else {
+                iv_send.setVisibility(View.GONE);
+            }
+        }
 
         if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
             if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {

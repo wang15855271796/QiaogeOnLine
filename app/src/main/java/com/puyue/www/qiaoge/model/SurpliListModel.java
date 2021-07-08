@@ -196,7 +196,7 @@ public class SurpliListModel {
             private String selfProd;
             private String sendTimeTpl;
             private int companyId;
-            private int notSend;
+            private String notSend;
             private String unitName;
             private Object amount;
             private Object saleNum;
@@ -362,11 +362,11 @@ public class SurpliListModel {
                 this.companyId = companyId;
             }
 
-            public int getNotSend() {
+            public String getNotSend() {
                 return notSend;
             }
 
-            public void setNotSend(int notSend) {
+            public void setNotSend(String notSend) {
                 this.notSend = notSend;
             }
 

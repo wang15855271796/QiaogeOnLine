@@ -39,20 +39,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv_send"
+                android:layout_centerHorizontal="true"
+                android:src="@mipmap/icon_not_send2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
         </RelativeLayout>
-
-
-        <TextView
-            tools:text="销量1000"
-            android:paddingLeft="5dp"
-            android:id="@+id/tv_sale"
-            android:layout_marginTop="@dimen/dp_10"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:paddingRight="@dimen/size_5dp"
-            android:textColor="#ffffff"
-            android:textSize="@dimen/dp_10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
         <ImageView
             android:id="@+id/iv_flag"
@@ -115,14 +110,15 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:text="15.0"
+            tools:text="15.0"
             android:visibility="gone"
+            android:layout_marginLeft="@dimen/size_15dp"
+            android:layout_below="@+id/tv_name"
+            android:layout_marginTop="@dimen/size_43dp"
             android:textColor="#969696"
-            android:layout_toRightOf="@+id/rl_pic"
+            android:layout_toRightOf="@+id/tv_price"
             android:id="@+id/tv_old_price"
-            android:layout_marginTop="@dimen/size_8dp"
             android:textSize="@dimen/size_12dp"
-            android:layout_below="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

@@ -29,6 +29,7 @@ import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.model.CouponModels;
 import com.puyue.www.qiaoge.model.home.CouponModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
@@ -38,13 +39,12 @@ import java.util.List;
 /**
  * Created by ${王涛} on 2020/8/29(满赠)
  */
-public class CommonssAdapter extends  RecyclerView.Adapter<CommonssAdapter.BaseViewHolder> {
-    private CountDownTimer countDownTimer1;
+public class CommonssAdapter extends RecyclerView.Adapter<CommonssAdapter.BaseViewHolder>{
 
-    List<CouponModel.DataBean.ActivesBean> fullActive;
+    List<CouponModels.DataBean.FullGiftBean.ActivesBeanXX> fullActive;
     Context mActivity;
-    CouponModel.DataBean.ActivesBean activesBean;
-    public CommonssAdapter(FragmentActivity mActivity, List<CouponModel.DataBean.ActivesBean> fullActive) {
+    CouponModels.DataBean.FullGiftBean.ActivesBeanXX activesBean;
+    public CommonssAdapter(FragmentActivity mActivity, List<CouponModels.DataBean.FullGiftBean.ActivesBeanXX> fullActive) {
         this.mActivity = mActivity;
         this.fullActive = fullActive;
     }
@@ -70,7 +70,7 @@ public class CommonssAdapter extends  RecyclerView.Adapter<CommonssAdapter.BaseV
                 viewHolder.tv_shop.setVisibility(View.GONE);
             }else if(activesBean.getSendGiftType().equals("送券")){
                 viewHolder.tv_coupon.setVisibility(View.VISIBLE);
-                viewHolder.tv_coupon.setText("赠送商品");
+                viewHolder.tv_coupon.setText("赠优惠券");
                 viewHolder.tv_shop.setVisibility(View.GONE);
             }else {
                 viewHolder.tv_coupon.setVisibility(View.VISIBLE);
@@ -83,9 +83,12 @@ public class CommonssAdapter extends  RecyclerView.Adapter<CommonssAdapter.BaseV
                     viewHolder.tv_price.setVisibility(View.VISIBLE);
                     viewHolder.tv_desc.setVisibility(View.GONE);
                     viewHolder.tv_price.setText(activesBean.getMinMaxPrice());
+//                    viewHolder.tv_old_price.setText(activesBean.getOldPrice());
+//                    viewHolder.tv_old_price.setVisibility(View.VISIBLE);
                 }else {
                     viewHolder.tv_price.setVisibility(View.GONE);
                     viewHolder.tv_desc.setVisibility(View.VISIBLE);
+//                    viewHolder.tv_old_price.setVisibility(View.GONE);
                 }
             }else {
                 viewHolder.tv_price.setText(activesBean.getMinMaxPrice());
@@ -101,48 +104,6 @@ public class CommonssAdapter extends  RecyclerView.Adapter<CommonssAdapter.BaseV
 
                 }
             });
-
-
-
-
-//            if(countDownTimer1 == null) {
-//                countDownTimer1 = new CountDownTimer(5000,4000) {
-//                    int i = 0;
-//                    @Override
-//                    public void onTick(long millisUntilFinished) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onFinish() {
-//                        try {
-//                            Glide.with(mActivity).load(fullActive.get(i).getDefaultPic()).into(viewHolder.iv_pic);
-//                            viewHolder.tv_price.setText(fullActive.get(i).getPrice());
-//                            viewHolder.tv_name.setText(fullActive.get(i).getProductName());
-//                            if(fullActive.get(i).getSendGiftType().equals("赠礼")) {
-//                                viewHolder.tv_descs.setText("满赠商品");
-//                                viewHolder.rl_given.setVisibility(View.VISIBLE);
-//                                viewHolder.rl_coupon.setVisibility(View.GONE);
-//                                Glide.with(mActivity).load(fullActive.get(i).getDefaultPic()).into(viewHolder.iv_given);
-//
-//                            }else {
-//                                viewHolder.rl_given.setVisibility(View.GONE);
-//                                viewHolder.tv_descs.setText("满赠优惠券");
-//                                viewHolder.rl_coupon.setVisibility(View.VISIBLE);
-//                                viewHolder.tv_fit.setText(fullActive.get(i).getRoleAmount());
-//                                viewHolder.tv_coupon.setText(fullActive.get(i).getSendGiftInfo());
-//                            }
-//                            i++;
-//                            if(i==fullActive.size()) {
-//                                i = 0;
-//                            }
-//                        }catch (Exception e) {
-//
-//                        }
-//                        start();
-//                    }
-//                }.start();
-//            }
         }catch (Exception e) {
 
         }
@@ -153,18 +114,6 @@ public class CommonssAdapter extends  RecyclerView.Adapter<CommonssAdapter.BaseV
     public int getItemCount() {
         return Integer.MAX_VALUE;
     }
-//
-//    public void cancle() {
-//        if (countDownTimer1 != null) {
-//            countDownTimer1.cancel();
-//        }
-//    }
-//
-//    public void start() {
-//        if(countDownTimer1!=null) {
-//            countDownTimer1.start();
-//        }
-//    }
 
     public class BaseViewHolder extends RecyclerView.ViewHolder {
         RoundImageView iv_pic;
@@ -175,8 +124,10 @@ public class CommonssAdapter extends  RecyclerView.Adapter<CommonssAdapter.BaseV
         RelativeLayout rl_group;
         TextView tv_desc;
         TextView tv_shop;
+//        TextView tv_old_price;
         public BaseViewHolder(View view) {
             super(view);
+//            tv_old_price = view.findViewById(R.id.tv_old_price);
             tv_shop = view.findViewById(R.id.tv_shop);
             tv_desc = view.findViewById(R.id.tv_desc);
             rl_group = (RelativeLayout) view.findViewById(R.id.rl_group);

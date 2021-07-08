@@ -17,6 +17,8 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.api.cart.AddCartAPI;
+import com.puyue.www.qiaoge.api.cart.RecommendApI;
+import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
@@ -163,10 +165,32 @@ public class CouponsInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.D
                     AppHelper.showMsg(mContext, "请先登录");
                     mContext.startActivity(LoginActivity.getIntent(mContext, LoginActivity.class));
                 }
+
+                getDatas(1);
             }
         });
     }
+    private void getDatas(long end) {
+        RecommendApI.getDatas(mContext,16,end)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+
+                    }
+                });
+    }
     private void addCar(int businessId, String productCombinationPriceVOList, int businessType, String totalNum) {
         AddCartAPI.requestData(mContext, businessId, productCombinationPriceVOList, businessType, String.valueOf(totalNum))
                 .subscribeOn(Schedulers.io())

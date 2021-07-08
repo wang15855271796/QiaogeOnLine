@@ -2,6 +2,7 @@ package com.puyue.www.qiaoge.adapter;
 
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -66,12 +67,16 @@ public class Must2Adapter extends BaseQuickAdapter<ProductNormalModel.DataBean.L
         tv_sale.setVisibility(View.GONE);
         iv_flag.setVisibility(View.GONE);
         ImageView iv_send = helper.getView(R.id.iv_send);
-        if(item.getNotSend().equals("1")) {
-            iv_send.setImageResource(R.mipmap.icon_not_send);
-            iv_send.setVisibility(View.VISIBLE);
-        }else {
-            iv_send.setVisibility(View.GONE);
+        if(item.getNotSend()!=null) {
+            if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
+                iv_send.setImageResource(R.mipmap.icon_not_send2);
+                iv_send.setVisibility(View.VISIBLE);
+            }else {
+                iv_send.setVisibility(View.GONE);
+//            iv_send.setImageResource(R.mipmap.icon_not_send2);
+            }
         }
+
         rl_group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

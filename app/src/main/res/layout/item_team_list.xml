@@ -14,13 +14,6 @@
         android:paddingBottom="@dimen/size_15dp"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:visibility="gone"
-            android:id="@+id/iv_send"
-            android:layout_centerHorizontal="true"
-            android:src="@mipmap/icon_not_send2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
         <RelativeLayout
             android:id="@+id/rl_pic"
@@ -150,5 +143,13 @@
             android:layout_width="@dimen/size_32dp"
             android:layout_height="@dimen/size_32dp" />
 
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/iv_send"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/icon_not_send2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 </LinearLayout>

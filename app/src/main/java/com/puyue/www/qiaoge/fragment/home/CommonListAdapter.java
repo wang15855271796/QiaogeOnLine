@@ -60,12 +60,15 @@ public class CommonListAdapter extends BaseQuickAdapter<ProductNormalModel.DataB
         Glide.with(mContext).load(item.getSelfProd()).into(iv_operate);
         Glide.with(mContext).load(item.getSendTimeTpl()).into(iv_next);
         ImageView iv_send = helper.getView(R.id.iv_send);
-        if(item.getNotSend().equals("1")) {
-            iv_send.setImageResource(R.mipmap.icon_not_send);
-            iv_send.setVisibility(View.VISIBLE);
-        }else {
-            iv_send.setVisibility(View.GONE);
+        if(item.getNotSend()!=null) {
+            if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
+                iv_send.setImageResource(R.mipmap.icon_not_send2);
+                iv_send.setVisibility(View.VISIBLE);
+            }else {
+                iv_send.setVisibility(View.GONE);
+            }
         }
+
         tv_desc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

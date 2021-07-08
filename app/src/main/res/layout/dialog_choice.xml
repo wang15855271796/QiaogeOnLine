@@ -200,6 +200,7 @@
                         android:src="@mipmap/icon_not_send"
                         android:layout_width="50dp"
                         android:layout_height="@dimen/size_20dp" />
+
                 </RelativeLayout>
 
                 <LinearLayout

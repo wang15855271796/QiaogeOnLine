@@ -22,6 +22,8 @@ import com.puyue.www.qiaoge.api.mine.address.DeleteAddressAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.event.AddressEvent;
+import com.puyue.www.qiaoge.event.setFragmentEvent;
+import com.puyue.www.qiaoge.event.setFragmentsEvent;
 import com.puyue.www.qiaoge.fragment.home.CityEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
@@ -377,10 +379,7 @@ public class AddressListActivity extends BaseSwipeActivity {
                         intent.putExtra("orderId", orderId);
                         AddressListActivity.this.setResult(39, intent);
                     }
-
                 }
-
-
                 finish();
             }
         }
@@ -406,7 +405,7 @@ public class AddressListActivity extends BaseSwipeActivity {
                     @Override
                     public void onNext(IsShowModel isShowModel) {
                         if(isShowModel.isSuccess()) {
-                            EventBus.getDefault().post(new AddressEvent());
+//                            EventBus.getDefault().post(new AddressEvent());
                             if(isShowModel.data!=null) {
                                 SharedPreferencesUtil.saveString(mActivity,"priceType",isShowModel.getData().enjoyProduct);
 
@@ -521,13 +520,13 @@ public class AddressListActivity extends BaseSwipeActivity {
                             UserInfoHelper.saveChangeFlag(mActivity,"0");
                             UserInfoHelper.saveCity(mActivity,cityName);
                             UserInfoHelper.saveAreaName(mActivity,areaName);
-
                             isShow();
+//                            EventBus.getDefault().post(new setFragmentsEvent());
+                            finish();
                             EventBus.getDefault().post(new CityEvent());
                         } else {
                             AppHelper.showMsg(mContext, mModelEditDefaultAddress.message);
                         }
-
                     }
                 });
     }

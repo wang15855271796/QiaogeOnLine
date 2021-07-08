@@ -42,6 +42,7 @@ import com.puyue.www.qiaoge.adapter.PayListAdapter;
 import com.puyue.www.qiaoge.api.cart.CheckPayPwdAPI;
 import com.puyue.www.qiaoge.api.cart.GetPayResultAPI;
 import com.puyue.www.qiaoge.api.cart.OrderPayAPI;
+import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.mine.AccountCenterAPI;
 import com.puyue.www.qiaoge.api.mine.login.LoginAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
@@ -188,14 +189,34 @@ public class PaymentFragments extends DialogFragment {
                     lav_activity_loading.show();
                     //调支付接口
                     orderPays(orderId, payChannel, Double.parseDouble(payAmount), remark);
-
+                    getDatas(1);
                     break;
                 default:
                     break;
             }
         }
     };
+    private void getDatas(long end) {
+        RecommendApI.getDatas(getActivity(),18,end)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+
+                    }
+                });
+    }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

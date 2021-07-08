@@ -112,7 +112,7 @@ public class CouponsFragment extends BaseFragment {
      *折扣数据
      */
     private void getSpikeList() {
-        IndexHomeAPI.getCouponList(mActivity,11+"")
+        IndexHomeAPI.getCouponList(mActivity,"11")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<CouponModel>() {

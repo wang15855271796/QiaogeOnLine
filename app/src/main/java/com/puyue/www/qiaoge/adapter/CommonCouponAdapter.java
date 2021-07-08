@@ -22,6 +22,7 @@ import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.model.CouponModels;
 import com.puyue.www.qiaoge.model.home.CouponModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
@@ -45,11 +46,11 @@ public class CommonCouponAdapter extends RecyclerView.Adapter<CommonCouponAdapte
     TextView tv_price;
     TextView tv_desc;
     int layoutResId;
-    List<CouponModel.DataBean.ActivesBean> actives;
+    List<CouponModels.DataBean.SpecialBean.ActivesBeanX> actives;
     private int pos;
-    private CouponModel.DataBean.ActivesBean activesBean;
+    private CouponModels.DataBean.SpecialBean.ActivesBeanX activesBean;
 
-    public CommonCouponAdapter(Context context,String style, int layoutResId, List<CouponModel.DataBean.ActivesBean> actives) {
+    public CommonCouponAdapter(Context context,String style, int layoutResId, List<CouponModels.DataBean.SpecialBean.ActivesBeanX> actives) {
         this.mContext = context;
         this.style = style;
         this.layoutResId = layoutResId;
@@ -76,13 +77,26 @@ public class CommonCouponAdapter extends RecyclerView.Adapter<CommonCouponAdapte
             Glide.with(mContext).load(activesBean.getDefaultPic()).into(holder.iv_pic);
             holder.tv_name.setText(activesBean.getActiveName());
             holder.tv_price.setText(activesBean.getPrice());
+
+
+            holder.tv_old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.tv_old_price.getPaint().setAntiAlias(true);//抗锯齿
+            if(!activesBean.getOldPrice().equals("")||activesBean.getOldPrice()!=null) {
+                holder.tv_old_price.setVisibility(View.VISIBLE);
+                holder.tv_old_price.setText(activesBean.getOldPrice());
+            }else {
+                holder.tv_old_price.setVisibility(View.VISIBLE);
+            }
+
             if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                 if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
                     holder.tv_desc.setVisibility(View.GONE);
                     holder.tv_price.setVisibility(View.VISIBLE);
+                    holder.tv_old_price.setVisibility(View.VISIBLE);
                 }else {
                     holder.tv_desc.setVisibility(View.VISIBLE);
                     holder.tv_price.setVisibility(View.GONE);
+                    holder.tv_old_price.setVisibility(View.GONE);
                 }
             }else {
                 holder.tv_desc.setVisibility(View.GONE);
@@ -178,10 +192,12 @@ public class CommonCouponAdapter extends RecyclerView.Adapter<CommonCouponAdapte
         private TextView tv_name;
         private ImageView iv_sale_done;
         private ImageView iv_flag;
+        TextView tv_old_price;
         TextView tv_discount;
         private TextView tv_coupon;
         public BaseViewHolder(View view) {
             super(view);
+            tv_old_price = (TextView) view.findViewById(R.id.tv_old_price);
             tv_discount = (TextView) view.findViewById(R.id.tv_discount);
             rl_group = (RelativeLayout) view.findViewById(R.id.rl_group);
             rl_coupon = (RelativeLayout) view.findViewById(R.id.rl_coupon);

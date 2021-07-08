@@ -24,6 +24,7 @@ import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
 import com.puyue.www.qiaoge.adapter.home.SpikeActiveNewAdapter;
 import com.puyue.www.qiaoge.adapter.home.SpikeActiveQueryAdapter;
 import com.puyue.www.qiaoge.api.cart.GetCartNumAPI;
+import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.SecKillMoreListAPI;
 import com.puyue.www.qiaoge.api.home.SpikeActiveQueryAPI;
 import com.puyue.www.qiaoge.api.home.SpikeNewActiveQueryAPI;
@@ -46,6 +47,7 @@ import com.puyue.www.qiaoge.model.home.GetCustomerPhoneModel;
 import com.puyue.www.qiaoge.model.home.SeckillListModel;
 import com.puyue.www.qiaoge.model.home.SpikeNewQueryModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.Time;
 import com.weavey.loading.lib.LoadingLayout;
 
 import org.greenrobot.eventbus.EventBus;
@@ -102,6 +104,40 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
     protected void onCreate(Bundle savedInstanceState) {
         handleExtra(savedInstanceState);
         super.onCreate(savedInstanceState);
+    }
+
+
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        long end = (System.currentTimeMillis()-start)/1000;
+        long time = Time.getTime(end);
+        getDatas(time);
+
+    }
+
+    private void getDatas(long end) {
+        RecommendApI.getDatas(mContext,4,end)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+
+                    }
+                });
     }
 
     @Override
@@ -548,11 +584,12 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
         EventBus.getDefault().unregister(this);
 
     }
-
+    long start;
     @Override
     protected void onResume() {
         super.onResume();
 //        isFirst = false;
+        start = System.currentTimeMillis();
         getCustomerPhone();
     }
 

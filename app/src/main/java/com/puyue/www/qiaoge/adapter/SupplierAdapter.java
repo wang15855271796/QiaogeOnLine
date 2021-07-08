@@ -31,8 +31,17 @@ public class SupplierAdapter extends BaseQuickAdapter<GetProductDetailModel.Data
     @Override
     protected void convert(BaseViewHolder helper, GetProductDetailModel.DataBean.SupProdsBean item) {
         ImageView iv_pic = helper.getView(R.id.iv_item_goods_recommend);
+        ImageView iv_send = helper.getView(R.id.iv_send);
         Glide.with(mContext).load(item.getDefaultPic()).into(iv_pic);
         helper.setText(R.id.tv_item_goods_recommend_name,item.getProductName());
+        if(item.getNotSend()!=null) {
+            if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
+                iv_send.setImageResource(R.mipmap.icon_not_send2);
+                iv_send.setVisibility(View.VISIBLE);
+            }else {
+                iv_send.setVisibility(View.GONE);
+            }
+        }
 
         LinearLayout ll_root = helper.getView(R.id.ll_item_goods_detail_recommend);
 

@@ -49,6 +49,7 @@ import com.puyue.www.qiaoge.activity.mine.wallet.MyWalletDetailActivity;
 import com.puyue.www.qiaoge.activity.mine.wallet.MyWalletNewActivity;
 import com.puyue.www.qiaoge.adapter.Must2Adapter;
 import com.puyue.www.qiaoge.adapter.MyAdapter;
+import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.GetCustomerPhoneAPI;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.api.mine.AccountCenterAPI;
@@ -57,6 +58,7 @@ import com.puyue.www.qiaoge.api.mine.order.MyOrderListAPI;
 import com.puyue.www.qiaoge.api.mine.order.MyOrderNumAPI;
 import com.puyue.www.qiaoge.api.mine.subaccount.MineAccountAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
+import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.CouponEvent;
@@ -80,6 +82,8 @@ import com.puyue.www.qiaoge.model.mine.UpdateModel;
 import com.puyue.www.qiaoge.model.mine.order.CommonModel;
 import com.puyue.www.qiaoge.model.mine.order.MineCenterModel;
 import com.puyue.www.qiaoge.model.mine.order.MyOrderNumModel;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.Time;
 import com.puyue.www.qiaoge.view.OutScollerview;
 import com.puyue.www.qiaoge.view.ScrollViewListeners;
 import com.puyue.www.qiaoge.view.SuperTextView;
@@ -232,6 +236,40 @@ public class MineFragment extends BaseFragment {
 
     }
 
+    long start;
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(SharedPreferencesUtil.getString(mActivity,"index").equals("5")) {
+            long end = (System.currentTimeMillis()-start)/1000;
+            long time = Time.getTime(end);
+            getDatas(time);
+        }
+    }
+
+    private void getDatas(long end) {
+        RecommendApI.getDatas(mActivity,12,end)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+
+                    }
+                });
+    }
 
     @Override
     public void onDestroy() {
@@ -420,15 +458,13 @@ public class MineFragment extends BaseFragment {
             @Override
             public void tipClick() {
 //                showPhoneDialog(cell);
-                AppHelper.ShowAuthDialog(mActivity,cell);
+                AppHelper.ShowAuthDialog(mActivity,SharedPreferencesUtil.getString(mActivity,"mobile"));
             }
         });
 
         rv1.setLayoutManager(new GridLayoutManager(mActivity,2));
         rv1.setAdapter(mustAdapter);
         requestUpdate();
-        getCustomerPhone();
-        getOrderNum();
         getProductsList();
 //        appBarLayout.addOnOffsetChangedListener(this);
     }
@@ -894,9 +930,22 @@ public class MineFragment extends BaseFragment {
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(hidden&&SharedPreferencesUtil.getString(mActivity,"index1").equals("1")) {
+            long end = (System.currentTimeMillis()-start)/1000;
+            long time = Time.getTime(end);
+            getDatas(time);
+        }else {
+            start = System.currentTimeMillis();
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         getOrderNum();
+        start = System.currentTimeMillis();
     }
 
     private void requestUpdate() {
@@ -987,10 +1036,10 @@ public class MineFragment extends BaseFragment {
                             if (myOrderNumModel.getData().isVipUser()) {
                                 iv_vip.setImageResource(R.mipmap.icon_my_vip);
                                 iv_vip.setVisibility(View.VISIBLE);
-                                tv_tip.setText("会员中心");
+                                tv_tip.setText("已省"+myOrderNumModel.getData().getVipDeductAmt());
                             } else {
                                 iv_vip.setVisibility(View.GONE);
-                                tv_tip.setText("已省"+myOrderNumModel.getData().getVipDeductAmt());
+                                tv_tip.setText("会员中心");
                             }
 
                             if (myOrderNumModel.getData().getBalance() != null) {
@@ -1193,7 +1242,6 @@ public class MineFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void message(MessageEvent messageEvent) {
         tv_number.setVisibility(View.GONE);
-        getCustomerPhone();
         requestOrderNum();
     }
 
@@ -1203,7 +1251,6 @@ public class MineFragment extends BaseFragment {
         requestUserInfo();
         useAccount();
         requestUpdate();
-        getCustomerPhone();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -1212,7 +1259,7 @@ public class MineFragment extends BaseFragment {
         requestUserInfo();
         useAccount();
         requestUpdate();
-        getCustomerPhone();
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -1221,7 +1268,6 @@ public class MineFragment extends BaseFragment {
         requestUserInfo();
         useAccount();
         requestUpdate();
-        getCustomerPhone();
 
     }
 
@@ -1254,6 +1300,7 @@ public class MineFragment extends BaseFragment {
                             productModels = getCommonProductModel;
                             mustAdapter.notifyDataSetChanged();
                             if(getCommonProductModel.getData().getList().size()>0) {
+                                list.clear();
                                 list.addAll(getCommonProductModel.getData().getList());
                                 mustAdapter.notifyDataSetChanged();
                             }
@@ -1265,70 +1312,23 @@ public class MineFragment extends BaseFragment {
                 });
     }
 
+    //新改
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void changes(CityEvent cityEvent) {
-        requestOrderNum();
-        requestUserInfo();
-        useAccount();
-        requestUpdate();
-        getCustomerPhone();
+//        requestOrderNum();
+//        requestUserInfo();
+//        useAccount();
+//        requestUpdate();
+        getProductsList();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void changess(AddressEvent event) {
         requestOrderNum();
+        //新改
         requestUserInfo();
         useAccount();
         requestUpdate();
-        getCustomerPhone();
     }
-    String cell;
-    private void getCustomerPhone() {
-        GetCustomerPhoneAPI.requestData(mActivity)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<GetCustomerPhoneModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(GetCustomerPhoneModel getCustomerPhoneModel) {
-                        if (getCustomerPhoneModel.isSuccess()) {
-                            cell = getCustomerPhoneModel.getData();
-                        } else {
-                            AppHelper.showMsg(mActivity, getCustomerPhoneModel.getMessage());
-                        }
-                    }
-                });
-    }
-
-//    private int mMaxScrollSize;
-//    @Override
-//    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-//        if (mMaxScrollSize == 0){
-//            mMaxScrollSize = appBarLayout.getTotalScrollRange();
-//        }
-//        int currentScrollPercentage = (Math.abs(verticalOffset)) * 100
-//                / mMaxScrollSize;
-//        float alpha=(float) (1 - currentScrollPercentage/100.0);
-//        float alphas = (1 - alpha);
-//
-//        if(verticalOffset==0) {
-//            rl_bg.setVisibility(View.GONE);
-//        }else {
-//            rl_bg.setVisibility(View.VISIBLE);
-//
-//        }
-
-
-//    }
-
 
 }

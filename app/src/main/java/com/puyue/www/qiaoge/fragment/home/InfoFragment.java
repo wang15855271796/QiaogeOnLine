@@ -15,10 +15,12 @@ import android.widget.TextView;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.ShopStartActivity;
 import com.puyue.www.qiaoge.activity.mine.IssueActivity;
+import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.CityChangeAPI;
 import com.puyue.www.qiaoge.api.home.InfoListAPI;
 import com.puyue.www.qiaoge.api.home.InfoListModel;
 import com.puyue.www.qiaoge.base.BaseFragment;
+import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.dialog.CatePopWindow;
 import com.puyue.www.qiaoge.dialog.ChooseCityPopWindow;
 import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
@@ -27,6 +29,7 @@ import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.PopWindowListener;
 import com.puyue.www.qiaoge.model.home.CityChangeModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.Time;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.CascadingMenuViewOnSelectListener;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -413,7 +416,10 @@ public class InfoFragment extends BaseFragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
 
-        if(hidden) {
+        if(hidden&&SharedPreferencesUtil.getString(mActivity,"index1").equals("1")) {
+            long end = (System.currentTimeMillis()-start)/1000;
+            long time = Time.getTime(end);
+            getDatas(time);
             if(cascadingMenuPopWindow!=null) {
                 cascadingMenuPopWindow.dismiss();
                 mask.setVisibility(View.GONE);
@@ -422,7 +428,8 @@ public class InfoFragment extends BaseFragment {
                 catePopWindow.dismiss();
                 mask.setVisibility(View.GONE);
             }
-
+        }else {
+            start = System.currentTimeMillis();
         }
     }
 
@@ -441,5 +448,44 @@ public class InfoFragment extends BaseFragment {
         EventBus.getDefault().unregister(this);
     }
 
+    long start;
+    @Override
+    public void onResume() {
+        super.onResume();
+        start = System.currentTimeMillis();
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(SharedPreferencesUtil.getString(mActivity,"index").equals("4")) {
+            long end = (System.currentTimeMillis()-start)/1000;
+            long time = Time.getTime(end);
+            getDatas(time);
+        }
+
+    }
+
+
+    private void getDatas(long end) {
+        RecommendApI.getDatas(mActivity,11,end)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+
+                    }
+                });
+    }
 }

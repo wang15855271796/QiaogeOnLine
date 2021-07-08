@@ -27,6 +27,7 @@ import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.fragment.home.SkillAdapter;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.model.CouponModels;
 import com.puyue.www.qiaoge.model.home.CouponModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
@@ -35,15 +36,15 @@ import java.util.List;
 /**
  * Created by ${王涛} on 2020/9/3
  */
-public class Skill3Adapter extends BaseQuickAdapter<CouponModel.DataBean.ActivesBean,BaseViewHolder> {
+public class Skill3Adapter extends BaseQuickAdapter<CouponModels.DataBean.SpikeBean.ActivesBean,BaseViewHolder> {
 
-    List<CouponModel.DataBean.ActivesBean> actives;
-    public Skill3Adapter(int layoutResId, @Nullable List<CouponModel.DataBean.ActivesBean> data) {
+    List<CouponModels.DataBean.SpikeBean.ActivesBean> actives;
+    public Skill3Adapter(int layoutResId, @Nullable List<CouponModels.DataBean.SpikeBean.ActivesBean> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, CouponModel.DataBean.ActivesBean item) {
+    protected void convert(BaseViewHolder helper, CouponModels.DataBean.SpikeBean.ActivesBean item) {
         RoundImageView iv_pic = helper.getView(R.id.iv_pic);
         TextView tv_price = helper.getView(R.id.tv_price);
         TextView tv_desc = helper.getView(R.id.tv_desc);
@@ -73,9 +74,11 @@ public class Skill3Adapter extends BaseQuickAdapter<CouponModel.DataBean.Actives
                 tv_price.setVisibility(View.VISIBLE);
                 tv_desc.setVisibility(View.GONE);
                 tv_price.setText(item.getPrice());
+                tv_old_price.setVisibility(View.VISIBLE);
             }else {
                 tv_price.setVisibility(View.GONE);
                 tv_desc.setVisibility(View.VISIBLE);
+                tv_old_price.setVisibility(View.GONE);
             }
         }else {
             tv_price.setText(item.getPrice());
