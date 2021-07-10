@@ -71,7 +71,7 @@
 
         </RelativeLayout>
 
-        <com.puyue.www.qiaoge.AutoPollRecyclerView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_skill"
             android:padding="@dimen/dp_10"
             android:background="@drawable/shape_white1"
@@ -82,7 +82,7 @@
             android:layout_height="wrap_content">
 
 
-        </com.puyue.www.qiaoge.AutoPollRecyclerView>
+        </android.support.v7.widget.RecyclerView>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_auto_view"
@@ -114,7 +114,7 @@
             android:id="@+id/ll1"
             android:layout_marginLeft="@dimen/size_11dp"
             android:orientation="vertical"
-            android:layout_width="210dp"
+            android:layout_width="219dp"
             android:background="@drawable/shape_green_bg"
             android:layout_height="175dp">
 
@@ -144,7 +144,7 @@
 
             </RelativeLayout>
 
-            <com.puyue.www.qiaoge.AutoPollRecyclerView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_given"
                 android:layout_marginLeft="@dimen/size_5dp"
                 android:layout_marginRight="@dimen/size_5dp"
@@ -152,19 +152,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="137dp">
 
-            </com.puyue.www.qiaoge.AutoPollRecyclerView>
+            </android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
         <!--满赠结束-->
 
         <!--拼团开始-->
         <LinearLayout
-            android:layout_marginRight="@dimen/size_10dp"
+            android:layout_marginRight="@dimen/size_11dp"
             android:id="@+id/ll2"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="@dimen/size_12dp"
             android:layout_toRightOf="@+id/ll1"
             android:orientation="vertical"
-            android:layout_width="150dp"
+            android:layout_width="135dp"
             android:background="@drawable/shape_team_yellow"
             android:layout_height="175dp">
 
@@ -194,7 +194,7 @@
 
             </RelativeLayout>
 
-            <com.puyue.www.qiaoge.AutoPollRecyclerView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_team"
                 android:layout_marginRight="@dimen/size_5dp"
                 android:layout_marginLeft="@dimen/size_5dp"
@@ -202,7 +202,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="137dp">
 
-            </com.puyue.www.qiaoge.AutoPollRecyclerView>
+            </android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
         <!--拼团开始-->
@@ -213,7 +213,7 @@
     <!--拼团和满赠2-->
     <RelativeLayout
         android:id="@+id/rl2"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_marginTop="@dimen/dp_10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -303,7 +303,7 @@
 
             </RelativeLayout>
 
-            <com.puyue.www.qiaoge.AutoPollRecyclerView
+            <com.puyue.www.qiaoge.view.AutoScrollRecyclerView
                 android:id="@+id/rv_auto_team"
                 android:layout_marginBottom="@dimen/size_5dp"
                 android:layout_marginLeft="@dimen/size_5dp"
@@ -313,7 +313,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            </com.puyue.www.qiaoge.AutoPollRecyclerView>
+            </com.puyue.www.qiaoge.view.AutoScrollRecyclerView>
         </RelativeLayout>
 
     </RelativeLayout>

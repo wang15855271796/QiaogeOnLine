@@ -658,14 +658,14 @@ public class HomeFragment4  extends BaseFragment implements View.OnClickListener
 //        rv_given.setLayoutManager(new GridLayoutManager(mActivity, 1));
 
         //组合
-        teamAdapter = new TeamAdapter(R.layout.item_team_lists, teamActive1);
-        rv_auto_team.setLayoutManager(new GridLayoutManager(mActivity, 1));
-        rv_auto_team.setAdapter(teamAdapter);
+//        teamAdapter = new TeamAdapter(R.layout.item_team_lists, teamActive1);
+//        rv_auto_team.setLayoutManager(new GridLayoutManager(mActivity, 1));
+//        rv_auto_team.setAdapter(teamAdapter);
 
         //组合2
-        team3Adapter = new Team3Adapter(R.layout.item_teams_list, teamActive1);
-        rv_team.setLayoutManager(new GridLayoutManager(mActivity, 1));
-        rv_team.setAdapter(team3Adapter);
+//        team3Adapter = new Team3Adapter(R.layout.item_teams_list, teamActive1);
+//        rv_team.setLayoutManager(new GridLayoutManager(mActivity, 1));
+//        rv_team.setAdapter(team3Adapter);
 
         //顶部推荐
         indexRecommendAdapter = new IndexRecommendAdapter(R.layout.item_index_recommend, recommendList);
@@ -1201,8 +1201,8 @@ public class HomeFragment4  extends BaseFragment implements View.OnClickListener
         super.onResume();
         startAuto();
 //        fullAdapter.start();
-        teamAdapter.start();
-        team3Adapter.start();
+//        teamAdapter.start();
+//        team3Adapter.start();
         start = System.currentTimeMillis();
     }
 
@@ -1229,8 +1229,8 @@ public class HomeFragment4  extends BaseFragment implements View.OnClickListener
         super.onStop();
         banner.stopAutoPlay();
         stopAuto();
-        fullAdapter.cancle();
-        team3Adapter.cancle();
+//        fullAdapter.cancle();
+//        team3Adapter.cancle();
         if(SharedPreferencesUtil.getString(mActivity,"index").equals("1")) {
             long end = (System.currentTimeMillis()-start)/1000;
             long time = Time.getTime(end);

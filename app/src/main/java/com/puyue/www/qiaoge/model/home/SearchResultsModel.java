@@ -486,6 +486,29 @@ public class SearchResultsModel {
                 String sendTimeTpl;
                 String selfProd;
 
+                @Override
+                public String toString() {
+                    return "ListBean{" +
+                            "notSend='" + notSend + '\'' +
+                            ", type='" + type + '\'' +
+                            ", productMainId=" + productMainId +
+                            ", productId=" + productId +
+                            ", productName='" + productName + '\'' +
+                            ", defaultPic='" + defaultPic + '\'' +
+                            ", flag=" + flag +
+                            ", typeUrl='" + typeUrl + '\'' +
+                            ", spec='" + spec + '\'' +
+                            ", salesVolume='" + salesVolume + '\'' +
+                            ", minMaxPrice='" + minMaxPrice + '\'' +
+                            ", specialOffer='" + specialOffer + '\'' +
+                            ", inventory='" + inventory + '\'' +
+                            ", prodSpecs=" + prodSpecs +
+                            ", prodPrices=" + prodPrices +
+                            ", sendTimeTpl='" + sendTimeTpl + '\'' +
+                            ", selfProd='" + selfProd + '\'' +
+                            '}';
+                }
+
                 public String getNotSend() {
                     return notSend;
                 }

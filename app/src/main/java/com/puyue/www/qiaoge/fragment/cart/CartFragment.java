@@ -1141,6 +1141,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
                             }
                             if(getCommonProductModel.getData().getList().size()>0) {
                                 List<ProductNormalModel.DataBean.ListBean> lists = getCommonProductModel.getData().getList();
+                                list.clear();
                                 list.addAll(lists);
                                 mustAdapter = new Must2Adapter(R.layout.item_team_list, list, new Must2Adapter.Onclick() {
                                     @Override

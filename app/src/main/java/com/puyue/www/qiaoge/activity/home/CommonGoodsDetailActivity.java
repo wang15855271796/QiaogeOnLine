@@ -747,7 +747,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                             images.clear();
                             mBanner.setBannerStyle(BannerConfig.NUM_INDICATOR);
                             mBanner.setImageLoader(new GlideImageLoader());
-                            if(model.getData().getTopPic()==null) {
+                            if(model.getData().getTopPic()!=null) {
                                 images.addAll(model.getData().getTopPic());
                             }else {
                                 images.add(model.getData().getDefaultPic());

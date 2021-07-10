@@ -1,5 +1,6 @@
 package com.puyue.www.qiaoge.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -35,259 +36,171 @@ import java.util.List;
 /**
  * Created by ${王涛} on 2020/9/19
  */
-public class TeamAdapter extends BaseQuickAdapter<CouponModels.DataBean.TeamBean.ActivesBeanX,BaseViewHolder> {
-    private CountDownTimer countDownTimer1;
+public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.BaseViewHolder> {
     List<CouponModels.DataBean.TeamBean.ActivesBeanX> data;
-    public TeamAdapter(int layoutResId, @Nullable List<CouponModels.DataBean.TeamBean.ActivesBeanX> data) {
-        super(layoutResId, data);
-        this.data = data;
-    }
-
-    @Override
-    protected void convert(BaseViewHolder helper, CouponModels.DataBean.TeamBean.ActivesBeanX item) {
-        ImageView iv_pic = helper.getView(R.id.iv_pic);
-        TextView tv_old_price = helper.getView(R.id.tv_old_price);
-
-        if(!TextUtils.isEmpty(item.getOldPrice())) {
-            tv_old_price.setText(item.getOldPrice());
-            tv_old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            tv_old_price.getPaint().setAntiAlias(true);//抗锯齿
-            tv_old_price.setVisibility(View.VISIBLE);
-        }else {
-            tv_old_price.setVisibility(View.GONE);
-        }
-
-        RelativeLayout rl_group = helper.getView(R.id.rl_group);
-        rl_group.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent teamIntent = new Intent(mContext, TeamDetailActivity.class);
-                mContext.startActivity(teamIntent);
-            }
-        });
-        ImageView iv_sale_done = helper.getView(R.id.iv_sale_done);
-        TextView tv_price = helper.getView(R.id.tv_price);
-        TextView tv_name = helper.getView(R.id.tv_name);
-        TextView tv_desc = helper.getView(R.id.tv_desc);
-        tv_name.setText(data.get(0).getActiveName());
-        Glide.with(mContext).load(data.get(0).getDefaultPic()).into(iv_pic);
-
-        if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-            if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
-                tv_price.setVisibility(View.VISIBLE);
-                tv_desc.setVisibility(View.GONE);
-                tv_old_price.setVisibility(View.VISIBLE);
-                tv_price.setText(item.getPrice());
-            }else {
-                tv_price.setVisibility(View.GONE);
-                tv_desc.setVisibility(View.VISIBLE);
-                tv_old_price.setVisibility(View.GONE);
-            }
-        }else {
-            tv_price.setText(item.getPrice());
-            tv_price.setVisibility(View.VISIBLE);
-            tv_desc.setVisibility(View.GONE);
-        }
-
+//    public TeamAdapter(int layoutResId, @Nullable List<CouponModels.DataBean.TeamBean.ActivesBeanX> data) {
+//        super(layoutResId, data);
+//        this.data = data;
+//    }
+//
+//    @Override
+//    protected void convert(BaseViewHolder helper, CouponModels.DataBean.TeamBean.ActivesBeanX item) {
+//        ImageView iv_pic = helper.getView(R.id.iv_pic);
+//        TextView tv_old_price = helper.getView(R.id.tv_old_price);
+//
+//        if(!TextUtils.isEmpty(item.getOldPrice())) {
+//            tv_old_price.setText(item.getOldPrice());
+//            tv_old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+//            tv_old_price.getPaint().setAntiAlias(true);//抗锯齿
+//            tv_old_price.setVisibility(View.VISIBLE);
+//        }else {
+//            tv_old_price.setVisibility(View.GONE);
+//        }
+//
+//        RelativeLayout rl_group = helper.getView(R.id.rl_group);
+//        rl_group.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent teamIntent = new Intent(mContext, TeamDetailActivity.class);
+//                mContext.startActivity(teamIntent);
+//            }
+//        });
+//        ImageView iv_sale_done = helper.getView(R.id.iv_sale_done);
+//        TextView tv_price = helper.getView(R.id.tv_price);
+//        TextView tv_name = helper.getView(R.id.tv_name);
+//        TextView tv_desc = helper.getView(R.id.tv_desc);
+//        tv_name.setText(data.get(0).getActiveName());
+//        Glide.with(mContext).load(data.get(0).getDefaultPic()).into(iv_pic);
+//
+//        if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+//            if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
+//                tv_price.setVisibility(View.VISIBLE);
+//                tv_desc.setVisibility(View.GONE);
+//                tv_old_price.setVisibility(View.VISIBLE);
+//                tv_price.setText(item.getPrice());
+//            }else {
+//                tv_price.setVisibility(View.GONE);
+//                tv_desc.setVisibility(View.VISIBLE);
+//                tv_old_price.setVisibility(View.GONE);
+//            }
+//        }else {
+//            tv_price.setText(item.getPrice());
+//            tv_price.setVisibility(View.VISIBLE);
+//            tv_desc.setVisibility(View.GONE);
+//        }
+//
 //        if(item.getFlag()==1) {
 //            iv_sale_done.setVisibility(View.VISIBLE);
 //            Glide.with(mContext).load(item.getSoldOutPic()).into(iv_sale_done);
 //        }else {
 //            iv_sale_done.setVisibility(View.GONE);
 //        }
-
-        if(countDownTimer1 == null) {
-            countDownTimer1 = new CountDownTimer(5000,1000) {
-                int i = 0;
-                @Override
-                public void onTick(long millisUntilFinished) {
-
-                }
-
-                @Override
-                public void onFinish() {
-                    try {
-                        Glide.with(mContext).load(data.get(i).getDefaultPic()).into(iv_pic);
-                        tv_name.setText(data.get(i).getActiveName());
-                        tv_price.setText(data.get(i).getPrice());
-                        tv_old_price.setText(data.get(i).getOldPrice());
-                        if(data.get(i).getFlag()==1) {
-                            iv_sale_done.setVisibility(View.VISIBLE);
-                            Glide.with(mContext).load(data.get(i).getSoldOutPic()).into(iv_sale_done);
-                        }else {
-                            iv_sale_done.setVisibility(View.GONE);
-                        }
-                        i++;
-                        if(i==data.size()) {
-                            i = 0;
-                        }
-
-                    }catch (Exception e) {
-
-                    }
-                    start();
-                }
-            }.start();
-        }
-    }
-
-    public void cancle() {
-        if(countDownTimer1!=null) {
-            countDownTimer1.cancel();
-        }
-
-//        if(countDownTimer2!=null) {
-//            countDownTimer2.cancel();
-//        }
-//        if(countDownTimer3!=null) {
-//            countDownTimer3.cancel();
-//        }
-//        if(countDownTimer4!=null) {
-//            countDownTimer4.cancel();
-//        }
-//        if(countDownTimer5!=null) {
-//            countDownTimer5.cancel();
-//        }
-    }
+//    }
 
 
-    public void start() {
-        if(countDownTimer1!=null) {
-            countDownTimer1.start();
-        }
-
-//        if(countDownTimer2!=null) {
-//            countDownTimer2.start();
-//        }
-//        if(countDownTimer3!=null) {
-//            countDownTimer3.start();
-//        }
-//        if(countDownTimer4!=null) {
-//            countDownTimer4.start();
-//        }
-//        if(countDownTimer5!=null) {
-//            countDownTimer5.start();
-//        }
-    }
 
 //    //根据flag 判断返回集合大小还是最大值 0返回最大值 1，返回集合大小
-//    String flag;
-//    Context mContext;
-//    int layoutResId;
-//    List<CouponModel.DataBean.ActivesBean> actives;
-//
-//    public TeamAdapter(Context context, int layoutResId, List<CouponModel.DataBean.ActivesBean> actives) {
-//        this.mContext = context;
-//        this.layoutResId = layoutResId;
-//        this.actives = actives;
-//    }
-//
-//
-//    @NonNull
-//    @Override
-//    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        View view = LayoutInflater.from(mContext).inflate(layoutResId, parent, false);
-//        BaseViewHolder holder = new BaseViewHolder(view);
-//        return holder;
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
-//        CouponModel.DataBean.ActivesBean activesBean = actives.get(position);
-//        Glide.with(mContext).load(activesBean.getDefaultPic()).into(holder.iv_pic);
-//        holder.tv_name.setText(activesBean.getActiveName());
-//        holder.tv_price.setText(activesBean.getPrice());
-//        holder.tv_old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-//        holder.tv_old_price.setText(activesBean.getOldPrice());
-//        holder.tv_old_price.getPaint().setAntiAlias(true);//抗锯齿
-//
-//        if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-//            if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
-//                holder.tv_desc.setVisibility(View.GONE);
-//                holder.tv_old_price.setVisibility(View.VISIBLE);
-//                holder.tv_price.setVisibility(View.VISIBLE);
-//            }else {
-//                holder.tv_desc.setVisibility(View.VISIBLE);
-//                holder.tv_old_price.setVisibility(View.GONE);
-//                holder.tv_price.setVisibility(View.GONE);
-//            }
-//        }else {
-//            holder.tv_desc.setVisibility(View.GONE);
-//            holder.tv_old_price.setVisibility(View.VISIBLE);
-//            holder.tv_price.setVisibility(View.VISIBLE);
-//        }
-//
-//        if(activesBean.getDiscount()!=null) {
-//            holder.tv_coupon.setText(activesBean.getDiscount());
-//            holder.rl_coupon.setVisibility(View.VISIBLE);
-//        }else {
-//            holder.rl_coupon.setVisibility(View.GONE);
-//        }
-//
-//        if(activesBean.getFlag()==1) {
-//            Glide.with(mContext).load(activesBean.getSoldOutPic()).into(holder.iv_sale_done);
-//            holder.iv_sale_done.setVisibility(View.VISIBLE);
-//        }else {
-//            holder.iv_sale_done.setVisibility(View.GONE);
-//        }
-//
-////        holder.rl_group.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View v) {
-////                if(style.equals("2")) {
-////                    Intent intent = new Intent(mContext,SeckillGoodActivity.class);
-////                    intent.putExtra(AppConstant.ACTIVEID, activesBean.getActiveId());
-////                    intent.putExtra("priceType",SharedPreferencesUtil.getString(mContext,"priceType"));
-////                    intent.putExtra("num","-1");
-////                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
-////                    mContext.startActivity(intent);
-////                }else {
-////                    Intent intent = new Intent(mContext,SpecialGoodDetailActivity.class);
-////                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
-////                    intent.putExtra(AppConstant.ACTIVEID, activesBean.getActiveId());
-////                    intent.putExtra("priceType",SharedPreferencesUtil.getString(mContext,"priceType"));
-////                    mContext.startActivity(intent);
-////                }
-////            }
-////        });
-//
-//    }
-//
-//    @Override
-//    public int getItemCount() {
-//        return Integer.MAX_VALUE;
-//    }
-//
-//
-//
-//
-//    public class BaseViewHolder extends RecyclerView.ViewHolder {
-//        private RelativeLayout rl_group;
-//        private RelativeLayout rl_coupon;
-//        private ImageView iv_add;
-//        private ImageView iv_pic;
-//        private TextView tv_price;
-//        private TextView tv_old_price;
-//        private TextView tv_desc;
-//        private TextView tv_name;
-//        private ImageView iv_sale_done;
-//        private ImageView iv_flag;
-//        private TextView tv_coupon;
-//        public BaseViewHolder(View view) {
-//            super(view);
-//            rl_group = (RelativeLayout) view.findViewById(R.id.rl_group);
-//            rl_coupon = (RelativeLayout) view.findViewById(R.id.rl_coupon);
-//            tv_coupon = (TextView) view.findViewById(R.id.tv_coupon);
-//            iv_add = (ImageView) view.findViewById(R.id.iv_add);
-//            iv_flag = (ImageView) view.findViewById(R.id.iv_flag);
-//            iv_pic = (ImageView) view.findViewById(R.id.iv_pic);
-//            tv_price = (TextView) view.findViewById(R.id.tv_price);
-//            tv_old_price = (TextView) view.findViewById(R.id.tv_old_price);
-//            tv_name = (TextView) view.findViewById(R.id.tv_name);
-//            tv_desc = (TextView) view.findViewById(R.id.tv_desc);
-//            iv_sale_done = (ImageView) view.findViewById(R.id.iv_sale_done);
-//        }
-//    }
+    Activity mContext;
+    int layoutResId;
+    List<CouponModels.DataBean.TeamBean.ActivesBeanX> actives;
+    CouponModels.DataBean.TeamBean.ActivesBeanX activesBean;
+    public TeamAdapter(Activity context, int layoutResId, List<CouponModels.DataBean.TeamBean.ActivesBeanX> actives) {
+        this.mContext = context;
+        this.layoutResId = layoutResId;
+        this.actives = actives;
+    }
+
+
+    @NonNull
+    @Override
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext).inflate(layoutResId, parent, false);
+        BaseViewHolder holder = new BaseViewHolder(view);
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+        try {
+            activesBean = actives.get(position%actives.size());
+            Glide.with(mContext).load(activesBean.getDefaultPic()).into(holder.iv_pic);
+            holder.tv_name.setText(activesBean.getActiveName());
+            holder.tv_price.setText(activesBean.getPrice());
+
+            if(!TextUtils.isEmpty(activesBean.getOldPrice())) {
+                holder.tv_old_price.setText(activesBean.getOldPrice());
+                holder.tv_old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                holder.tv_old_price.getPaint().setAntiAlias(true);//抗锯齿
+                holder.tv_old_price.setVisibility(View.VISIBLE);
+            }else {
+                holder.tv_old_price.setVisibility(View.GONE);
+            }
+
+            if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+                if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
+                    holder.tv_price.setVisibility(View.VISIBLE);
+                    holder.tv_desc.setVisibility(View.GONE);
+                    holder.tv_old_price.setVisibility(View.VISIBLE);
+                    holder.tv_price.setText(activesBean.getPrice());
+                }else {
+                    holder.tv_price.setVisibility(View.GONE);
+                    holder.tv_desc.setVisibility(View.VISIBLE);
+                    holder.tv_old_price.setVisibility(View.GONE);
+                }
+            }else {
+                holder.tv_price.setText(activesBean.getPrice());
+                holder.tv_price.setVisibility(View.VISIBLE);
+                holder.tv_desc.setVisibility(View.GONE);
+            }
+
+            if(activesBean.getFlag()==1) {
+                Glide.with(mContext).load(activesBean.getSoldOutPic()).into(holder.iv_sale_done);
+                holder.iv_sale_done.setVisibility(View.VISIBLE);
+            }else {
+                holder.iv_sale_done.setVisibility(View.GONE);
+            }
+
+            holder.rl_group.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent teamIntent = new Intent(mContext, TeamDetailActivity.class);
+                    mContext.startActivity(teamIntent);
+                }
+            });
+        }catch (Exception e) {
+
+        }
+
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return Integer.MAX_VALUE;
+    }
+
+
+
+
+    public class BaseViewHolder extends RecyclerView.ViewHolder {
+        private RelativeLayout rl_group;
+        private ImageView iv_pic;
+        private TextView tv_price;
+        private TextView tv_old_price;
+        private TextView tv_desc;
+        private TextView tv_name;
+        private ImageView iv_sale_done;
+        public BaseViewHolder(View view) {
+            super(view);
+            rl_group = (RelativeLayout) view.findViewById(R.id.rl_group);
+            iv_pic = (ImageView) view.findViewById(R.id.iv_pic);
+            tv_price = (TextView) view.findViewById(R.id.tv_price);
+            tv_old_price = (TextView) view.findViewById(R.id.tv_old_price);
+            tv_name = (TextView) view.findViewById(R.id.tv_name);
+            tv_desc = (TextView) view.findViewById(R.id.tv_desc);
+            iv_sale_done = (ImageView) view.findViewById(R.id.iv_sale_done);
+        }
+    }
 
 
 }

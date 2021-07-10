@@ -1454,8 +1454,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         super.onResume();
         startAuto();
 //        fullAdapter.start();
-        teamAdapter.start();
-        team3Adapter.start();
+//        teamAdapter.start();
+//        team3Adapter.start();
 //        commonssAdapter.start();
     }
 
@@ -1464,8 +1464,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         super.onStop();
         banner.stopAutoPlay();
         stopAuto();
-        fullAdapter.cancle();
-        team3Adapter.cancle();
+//        fullAdapter.cancle();
+//        team3Adapter.cancle();
 //        commonssAdapter.cancle();
     }
 
