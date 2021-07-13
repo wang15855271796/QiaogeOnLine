@@ -81,7 +81,7 @@ private static final String CITYNAME="city_name";
      *登录地址
      */
 private static final String LOCATIONADRESS= "location_address";
-    public static final  String PROVINCENAME= "ProvinceName";
+    public static final  String PROVINCENAME= "provinceName";
 private static final String ISREGISTER ="is_register";
 
     public static void saveIsRegister(Context context, String is_register) {
