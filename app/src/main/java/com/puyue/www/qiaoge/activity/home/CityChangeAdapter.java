@@ -54,6 +54,7 @@ public class CityChangeAdapter extends BaseQuickAdapter<CityChangeModel.DataBean
             public void onEventClick(int position, View view) {
                 citysAdapter.selectPosition(position);
                 SharedPreferencesUtil.saveString(mActivity,"provinceName",item.getProvinceName());
+                UserInfoHelper.saveProvince(mActivity,item.getProvinceName());
                 areaNames = item.getCityNames().get(position).getAreaNames();
                 UserInfoHelper.saveCity(mContext, item.getCityNames().get(position).getCityName());
                 cityDialog = new CityDialog(flag,mActivity,item.getCityNames().get(position).getAreaNames()) {

@@ -632,6 +632,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
             }
         });
 
+
         commonssAdapter = new CommonssAdapter(mActivity,fullActive1);
         rv_auto_view1.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
         rv_auto_view1.setAdapter(commonssAdapter);
@@ -1173,6 +1174,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     /**
      * 获取权限
      */
+    IndexInfoModel.DataBean.HomePopup homePropup;
     private void getPrivacy(IndexInfoModel indexInfoModel) {
         IndexHomeAPI.getPrivacy(mActivity)
                 .subscribeOn(Schedulers.io())
@@ -1191,34 +1193,43 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
 
                     @Override
                     public void onNext(PrivacyModel privacyModel) {
-
                         if (privacyModel.isSuccess()) {
                             String content = privacyModel.getData().getContent();
                             privacyDialog = new PrivacyDialog(mActivity, content,indexInfoModel.getData());
-                            if (privacyModel.getData().getOpen().equals("1")) {
-                                privacyDialog.show();
-                            } else {
+                            if(privacyModel.getData().getOpen().equals("0")) {
                                 privacyDialog.dismiss();
-                                couponListModels = indexInfoModel.getData();
-                                lists = couponListModels.getUserPopup().getGifts();
-                                couponListAdapter.notifyDataSetChanged();
-                                couponListDialog = new CouponListDialog(mActivity, couponListModels);
+                            }else {
+                                privacyDialog.show();
+                            }
 
-                                if (lists.size() > 0) {
-                                    couponListDialog.show();
-                                } else {
-                                    couponListDialog.dismiss();
-                                    IndexInfoModel.DataBean.HomePopup homePropup = indexInfoModel.getData().getHomePopup();
-                                    homeActivityDialog = new HomeActivityDialog(mActivity,homePropup);
-                                    if (homePropup!=null) {
-                                        homeActivityDialog.show();
+                            couponListModels = indexInfoModel.getData();
+                            if(couponListModels.getUserPopup()!=null) {
+                                if(couponListModels.getUserPopup().getGifts()!=null) {
+                                    lists = couponListModels.getUserPopup().getGifts();
+                                    couponListDialog = new CouponListDialog(mActivity, couponListModels);
+                                    if (lists.size() > 0) {
+                                        couponListDialog.show();
                                     } else {
-                                        homeActivityDialog.dismiss();
+                                        couponListDialog.dismiss();
                                     }
-
-//                                    QueryHomePropup();
                                 }
                             }
+
+                            if(indexInfoModel.getData().getHomePopup()!=null) {
+                                homePropup = indexInfoModel.getData().getHomePopup();
+                                homeActivityDialog = new HomeActivityDialog(mActivity,homePropup);
+                                homeActivityDialog.show();
+
+                            }else {
+                                homeActivityDialog.dismiss();
+                            }
+//
+//                            if (privacyModel.getData().getOpen().equals("1")) {
+//                                privacyDialog.show();
+//                            } else {
+//                                privacyDialog.dismiss();
+//                                couponListAdapter.notifyDataSetChanged();
+//                            }
 
                         } else {
                             AppHelper.showMsg(mActivity, privacyModel.getMessage());
@@ -1462,8 +1473,11 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                     public void onNext(IndexInfoModel indexInfoModel) {
                         if (indexInfoModel.isSuccess()) {
                             data = indexInfoModel.getData();
+
                             UserInfoHelper.saveAreaName(mActivity, data.getAreaName());
                             UserInfoHelper.saveCity(mActivity, data.getCityName());
+                            UserInfoHelper.saveProvince(mActivity, data.getProvinceName());
+
                             iconList.clear();
 
                             getSpikeList();
@@ -1471,7 +1485,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                             getCustomerPhone();
                             isShow();
                             getOrder();
-                            getRecommendList(1,10);
 
                             if(indexInfoModel.getData().getIcons()!=null) {
                                 iconList.addAll(data.getIcons());
@@ -1486,6 +1499,10 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                 getPrivacy(indexInfoModel);
                             }else {
                                 getTurn();
+                            }
+
+                            if(!SharedPreferencesUtil.getString(mActivity,"once").equals("0")) {
+                                getPrivacys(indexInfoModel);
                             }
 
                             tv_times.setText(indexInfoModel.getData().getReturnAmountTime() + "小时快速退款");
@@ -1503,6 +1520,8 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                             tv_city.setText(data.getAddress());
                             list.clear();
                             list1.clear();
+
+//                            indexInfoModel.getData().getHomePopup()
                             for (int i = 0; i < indexInfoModel.getData().getBanners().size(); i++) {
                                 list.add(data.getBanners().get(i).getDefaultPic());
 
@@ -1608,7 +1627,40 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                     }
                 });
     }
+    private void getPrivacys(IndexInfoModel indexInfoModel) {
+        IndexHomeAPI.getPrivacy(mActivity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<PrivacyModel>() {
 
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(PrivacyModel privacyModel) {
+
+                        if (privacyModel.isSuccess()) {
+                            String content = privacyModel.getData().getContent();
+                            privacyDialog = new PrivacyDialog(mActivity,content, indexInfoModel.getData());
+                            if (!SharedPreferencesUtil.getString(mActivity, "once").equals("0")) {
+                                privacyDialog.show();
+                            } else {
+                                privacyDialog.dismiss();
+                            }
+
+                        } else {
+                            AppHelper.showMsg(mActivity, privacyModel.getMessage());
+                        }
+                    }
+                });
+    }
     private void ClickBanner(List<IndexInfoModel.DataBean.BannersBean> banners) {
         banner.setOnBannerListener(new OnBannerListener() {
             @Override

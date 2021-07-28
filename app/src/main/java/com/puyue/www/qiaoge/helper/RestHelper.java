@@ -126,7 +126,7 @@ public class RestHelper {
                         .addQueryParameter(AppConstant.changeFlag, UserInfoHelper.getChangeFlag(context))
                         .addQueryParameter(AppConstant.AreaName, UserInfoHelper.getAreaName(context))
                         .addQueryParameter(AppConstant.LOCATIONADDRESS, UserInfoHelper.getLocationadress(context))
-                        .addQueryParameter(AppConstant.PROVINCENAME,UserInfoHelper.getLocationadress(context))
+                        .addQueryParameter(AppConstant.PROVINCENAME,UserInfoHelper.getProvince(context))
 
                         .build();
                 Request commonRequest = originalRequest.newBuilder().url(commonUrl).build();

@@ -72,7 +72,7 @@ public class AddressListsActivity extends BaseSwipeActivity {
     private String mineToAddress;
     private String areaName;
     private String cityName;
-
+    private String provinceName;
 
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
@@ -138,8 +138,7 @@ public class AddressListsActivity extends BaseSwipeActivity {
                                 changeAddress = mListData.get(i).provinceName + mListData.get(i).cityName + mListData.get(i).areaName + mListData.get(i).detailAddress;
                                 areaName = mListData.get(position).getAreaName();
                                 cityName = mListData.get(position).getCityName();
-                                Log.d("dwssss.....",areaName);
-
+                                provinceName = mListData.get(position).getProvinceName();
                             }
                         } else {
                             mListData.get(i).isDefault = 0;
@@ -516,6 +515,7 @@ public class AddressListsActivity extends BaseSwipeActivity {
                             UserInfoHelper.saveChangeFlag(mActivity,"0");
                             UserInfoHelper.saveCity(mActivity,cityName);
                             UserInfoHelper.saveAreaName(mActivity,areaName);
+                            UserInfoHelper.saveProvince(mActivity,provinceName);
                             isShow();
                         } else {
                             AppHelper.showMsg(mContext, mModelEditDefaultAddress.message);

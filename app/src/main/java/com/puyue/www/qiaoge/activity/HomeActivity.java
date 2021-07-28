@@ -137,7 +137,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     @Override
     public void onAttachFragment(Fragment fragment) {
         //重新让新的Fragment指向了原本未被销毁的fragment，它就是onAttach方法对应的Fragment对象
-        if (mTabHome == null && fragment instanceof HomeFragment4)
+        if (mTabHome == null && fragment instanceof HomeFragment10)
             mTabHome = fragment;
         if (mTabMarket == null && fragment instanceof MarketsFragment)
             mTabMarket = fragment;
@@ -430,7 +430,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                 mLlMine.setSelected(false);
                 mTvHome.setVisibility(View.GONE);
                 if (mTabHome == null || isGet) {
-                    mTabHome = new HomeFragment4();
+                    mTabHome = new HomeFragment10();
                     mFragmentTransaction.add(R.id.layout_home_container, mTabHome);
                     isGet = false;
                 } else {
@@ -807,6 +807,7 @@ public class MyLocationListener extends BDAbstractLocationListener {
         district = location.getDistrict();
         city = location.getCity();
         String province = location.getProvince();
+        UserInfoHelper.saveProvince(mContext, province);
         SharedPreferencesUtil.saveString(mActivity,"provinceName",province);
         UserInfoHelper.saveAreaName(mContext, district);
         UserInfoHelper.saveLocation(mContext,location.getAddrStr());

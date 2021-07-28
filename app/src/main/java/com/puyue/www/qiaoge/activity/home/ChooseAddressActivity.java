@@ -180,6 +180,7 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
                     public void onNext(BaseModel baseModel) {
                         if (baseModel.success) {
                             SharedPreferencesUtil.saveString(mActivity,"provinceName",list.get(position).getProvinceName());
+                            UserInfoHelper.saveProvince(mActivity,list.get(position).getProvinceName());
                             UserInfoHelper.saveCity(mActivity,list.get(position).getCityName());
                             UserInfoHelper.saveAreaName(mActivity,list.get(position).getAreaName());
                             UserInfoHelper.saveChangeFlag(mActivity,"0");

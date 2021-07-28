@@ -242,6 +242,7 @@ public class Skill2Adapter extends RecyclerView.Adapter<Skill2Adapter.BaseViewHo
         void tipClick();
         void addDialog();
     }
+
     public class BaseViewHolder extends RecyclerView.ViewHolder {
         private RelativeLayout rl_group;
 //        private RelativeLayout rl_coupon;

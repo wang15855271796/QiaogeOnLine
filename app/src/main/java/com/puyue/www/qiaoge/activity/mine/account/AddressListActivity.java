@@ -74,6 +74,7 @@ public class AddressListActivity extends BaseSwipeActivity {
     private String userAddress;
     private String areaName;
     private String cityName;
+    private String provinceName;
     private String mineToAddress;
 
 
@@ -143,6 +144,7 @@ public class AddressListActivity extends BaseSwipeActivity {
                                 changeAddress = mListData.get(i).provinceName + mListData.get(i).cityName + mListData.get(i).areaName + mListData.get(i).detailAddress;
                                 areaName = mListData.get(position).getAreaName();
                                 cityName = mListData.get(position).getCityName();
+                                provinceName = mListData.get(i).provinceName;
                                 SharedPreferencesUtil.saveString(mActivity,"provinceName",mListData.get(i).provinceName);
                             }
                         } else {
@@ -520,6 +522,7 @@ public class AddressListActivity extends BaseSwipeActivity {
                             UserInfoHelper.saveChangeFlag(mActivity,"0");
                             UserInfoHelper.saveCity(mActivity,cityName);
                             UserInfoHelper.saveAreaName(mActivity,areaName);
+                            UserInfoHelper.saveProvince(mActivity,provinceName);
                             isShow();
 //                            EventBus.getDefault().post(new setFragmentsEvent());
                             finish();

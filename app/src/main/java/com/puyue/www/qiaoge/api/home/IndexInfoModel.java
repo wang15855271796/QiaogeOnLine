@@ -96,6 +96,7 @@ public class IndexInfoModel {
         String questUrl;
         String areaName;
         String cityName;
+        String provinceName;
         String deductAmountStr;
         String offerStr;
         String sendTime;
@@ -110,6 +111,49 @@ public class IndexInfoModel {
         String giftReceiveBtn;
         private UserPopup userPopup;
         private HomePopup homePopup;
+
+        public String getProvinceName() {
+            return provinceName;
+        }
+
+        public void setProvinceName(String provinceName) {
+            this.provinceName = provinceName;
+        }
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "homeBackPic='" + homeBackPic + '\'' +
+                    ", address='" + address + '\'' +
+                    ", noticeNum=" + noticeNum +
+                    ", spikeNum=" + spikeNum +
+                    ", teamNum=" + teamNum +
+                    ", specialNum=" + specialNum +
+                    ", classifyTitle='" + classifyTitle + '\'' +
+                    ", classifyDesc='" + classifyDesc + '\'' +
+                    ", otherInfo='" + otherInfo + '\'' +
+                    ", addAddress=" + addAddress +
+                    ", userIsBuy=" + userIsBuy +
+                    ", questUrl='" + questUrl + '\'' +
+                    ", areaName='" + areaName + '\'' +
+                    ", cityName='" + cityName + '\'' +
+                    ", provinceName='" + provinceName + '\'' +
+                    ", deductAmountStr='" + deductAmountStr + '\'' +
+                    ", offerStr='" + offerStr + '\'' +
+                    ", sendTime='" + sendTime + '\'' +
+                    ", sendAmount='" + sendAmount + '\'' +
+                    ", fullGiftNum=" + fullGiftNum +
+                    ", returnAmountTime='" + returnAmountTime + '\'' +
+                    ", addressIsInArea=" + addressIsInArea +
+                    ", banners=" + banners +
+                    ", icons=" + icons +
+                    ", classifyList=" + classifyList +
+                    ", hotKey=" + hotKey +
+                    ", giftReceiveBtn='" + giftReceiveBtn + '\'' +
+                    ", userPopup=" + userPopup +
+                    ", homePopup=" + homePopup +
+                    '}';
+        }
 
         public HomePopup getHomePopup() {
             return homePopup;

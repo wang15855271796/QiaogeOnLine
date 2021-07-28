@@ -97,7 +97,7 @@ public class AppConstant {
     public static final  String changeFlag= "changeFlag";
     public static final  String AreaName= "areaName";
     public static final  String LOCATIONADDRESS= "loginAddress";
-    public static final  String PROVINCENAME= "ProvinceName";
+    public static final  String PROVINCENAME= "provinceName";
 
 //    NEW_PROD("", "新品上市", "newProd"),
 //    KILL_PROD("", "秒杀专区", "killProd"),
