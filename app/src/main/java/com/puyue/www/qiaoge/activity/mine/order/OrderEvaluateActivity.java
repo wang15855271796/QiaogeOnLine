@@ -217,8 +217,6 @@ public class OrderEvaluateActivity extends BaseSwipeActivity implements OrderEva
                 public void saveEdit(int position, String string) {
                     mMapEvaluate.put(position, string);
                 }
-
-
             });
             mAdapterOrderEvaluate.setOnStatusListener(this);
             mRv.setAdapter(mAdapterOrderEvaluate);
@@ -511,8 +509,8 @@ mListReturn.clear();
             tv_content.setText("非常差");
             star = "1";
         }
-
     }
+
 private List<String> mListReturn = new ArrayList<>();
     private void requestOrderEvaluate() {
         mListId.clear();

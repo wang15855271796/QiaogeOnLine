@@ -305,7 +305,6 @@
                         android:layout_margin="20dp"
                         android:background="@drawable/app_sub_account_button"
                         android:gravity="center"
-
                         android:text="保存地址"
                         android:textColor="@color/app_color_white"
                         android:textSize="18dp" />
@@ -333,8 +332,5 @@
 
 
     </RelativeLayout>
-
-
-
 
 </LinearLayout>

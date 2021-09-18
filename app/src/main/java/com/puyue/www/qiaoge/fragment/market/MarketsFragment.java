@@ -421,6 +421,7 @@ public class MarketsFragment extends BaseFragment {
                 dialog.show();
                 pageNum = 1;
                 requestGoodsList(mList.get(position).getFirstId());
+                Log.d("wdfdasfdsfsfs....","2");
                 //点击一级分类时候隐藏品牌界面
                 ll_prod.setVisibility(View.GONE);
                 ll_select.setVisibility(View.VISIBLE);
@@ -850,7 +851,6 @@ public class MarketsFragment extends BaseFragment {
                     public void onNext(MarketSelectGoodModel marketSelectGoodModel) {
 
                         if (marketSelectGoodModel.isSuccess()) {
-
                             mListBrand.clear();
                             for (int i = 0;i<marketSelectGoodModel.getData().size();i++){
                                 MarketBeanModel bean = new MarketBeanModel(marketSelectGoodModel.getData().get(i));

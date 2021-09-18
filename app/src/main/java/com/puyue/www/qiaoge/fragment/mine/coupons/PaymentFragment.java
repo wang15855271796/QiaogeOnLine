@@ -424,6 +424,8 @@ public class PaymentFragment extends DialogFragment {
         intent.putExtra(AppConstant.ORDERID, orderId);
         intent.putExtra(AppConstant.ORDERDELIVERYTYPE, orderDeliveryType+"");
         startActivity(intent);
+
+        Log.d("swfdsfdfs....","sdsd");
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.puyue.www.qiaoge.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -79,6 +80,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import cn.jpush.android.api.JPushInterface;
+import pub.devrel.easypermissions.EasyPermissions;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -155,12 +157,18 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         return false;
     }
 
-
+    String[] params = { Manifest.permission.ACCESS_COARSE_LOCATION};
         @Override
     public void setContentView() {
         //showSystemParameter();
         //在使用SDK各组件之前初始化context信息，传入ApplicationContext
 
+//            if (EasyPermissions.hasPermissions(this,params)) {//检查是否获取该权限
+//                //全部允许
+//            } else {//第二次请求
+//                //存在不允许的权限  对话框为什么一会出来一会不出来
+//                EasyPermissions.requestPermissions(this, "需要加载必要的权限。", 1, params);
+//            }
 
         //自4.3.0起，百度地图SDK所有接口均支持百度坐标和国测局坐标，用此方法设置您使用的坐标类型.
         //包括BD09LL和GCJ02两种坐标，默认是BD09LL坐标。
@@ -383,7 +391,6 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     }
 
     private void switchTab(String tab) {
-
         mLocationClient.stop();
         //开始事务
         mFragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -437,7 +444,6 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                     mFragmentTransaction.show(mTabHome);
                 }
 
-
                 if(isScroll) {
                     EventBus.getDefault().postSticky(new TopEvent(true));
                     mIvHome.setImageResource(R.mipmap.icon_go_top);
@@ -446,6 +452,14 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                 }
 
                 mTvHome.setTextColor(getResources().getColor(R.color.app_tab_selected));
+
+                if (EasyPermissions.hasPermissions(this,params)) {//检查是否获取该权限
+                    //全部允许
+                } else {//第二次请求
+                    //存在不允许的权限  对话框为什么一会出来一会不出来
+                    EasyPermissions.requestPermissions(this, "需要加载必要的权限。", 1, params);
+                }
+
                 break;
 
             case TAB_MARKET:
@@ -572,6 +586,8 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                 tv_info.setTextColor(getResources().getColor(R.color.app_tab_selected));
                 getCartPoductNum();
                 break;
+
+
         }
         //提交事务
         mFragmentTransaction.commitAllowingStateLoss();

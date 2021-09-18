@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -83,6 +84,7 @@ public class ReturnNumChangeAdapter extends BaseQuickAdapter<ReturnOrderDetailMo
             et_num.removeTextChangedListener((TextWatcher) et_num.getTag());
         }
 //et_num.getTag() != null ||
+
 
         et_num.setText(item.getNum()+"");
         total_price.setText(item.getTotalPrice());

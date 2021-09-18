@@ -188,7 +188,6 @@ public class ChooseAddressDialog extends Dialog {
                                 addressAdapters.notifyDataSetChanged();
 
 
-
                                 addressAdapterss = new ChooseAddressssAdapter(R.layout.item_dialog_address,data1);
                                 if(data1.size()==0) {
                                     tv1.setVisibility(View.GONE);

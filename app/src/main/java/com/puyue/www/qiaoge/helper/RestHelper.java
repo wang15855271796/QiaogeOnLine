@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.File;
 import java.io.IOException;
@@ -122,7 +123,6 @@ public class RestHelper {
                         .addQueryParameter(AppConstant.SYSETEMMODEL, AppHelper.getSystemModel())
                         .addQueryParameter(AppConstant.ANDROIDMODEL, AppHelper.getSystemVersion())
                         .addQueryParameter(AppConstant.PHONEIP, UserInfoHelper.getPhoneip(context))
-                        .addQueryParameter(AppConstant.MACIP, UserInfoHelper.getMac(context))
                         .addQueryParameter(AppConstant.changeFlag, UserInfoHelper.getChangeFlag(context))
                         .addQueryParameter(AppConstant.AreaName, UserInfoHelper.getAreaName(context))
                         .addQueryParameter(AppConstant.LOCATIONADDRESS, UserInfoHelper.getLocationadress(context))

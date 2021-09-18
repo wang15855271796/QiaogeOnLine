@@ -595,7 +595,6 @@ public class EditAndAddActivity extends BaseSwipeActivity  implements OnGetSugge
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 //返回的分别是三个级别的选中位置
-
                 proviceCode = options1Items.get(options1).getCode();
                 cityCode = options2Items.get(options1).get(options2).getCode();
                 areaCode = options3Items.get(options1).get(options2).get(options3).getCode();

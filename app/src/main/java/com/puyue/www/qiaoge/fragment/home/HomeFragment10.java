@@ -98,6 +98,7 @@ import com.puyue.www.qiaoge.dialog.CouponDialog;
 import com.puyue.www.qiaoge.dialog.CouponListDialog;
 import com.puyue.www.qiaoge.dialog.HomeActivityDialog;
 import com.puyue.www.qiaoge.dialog.PrivacyDialog;
+import com.puyue.www.qiaoge.dialog.PrivacysDialog;
 import com.puyue.www.qiaoge.dialog.TurnTableDialog;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.BackEvent;
@@ -383,7 +384,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     TeamAdapter teamAdapter;
     Team3Adapter team3Adapter;
     private String cell; // 客服电话
-    private PrivacyDialog privacyDialog;
+    private PrivacysDialog privacyDialog;
     ChooseHomeDialog chooseAddressDialog;
     List<String> recommendData;
     //    AnimationDrawable drawable;
@@ -1195,34 +1196,34 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                     public void onNext(PrivacyModel privacyModel) {
                         if (privacyModel.isSuccess()) {
                             String content = privacyModel.getData().getContent();
-                            privacyDialog = new PrivacyDialog(mActivity, content,indexInfoModel.getData());
+                            privacyDialog = new PrivacysDialog(mActivity, content);
                             if(privacyModel.getData().getOpen().equals("0")) {
                                 privacyDialog.dismiss();
                             }else {
                                 privacyDialog.show();
                             }
 
-                            couponListModels = indexInfoModel.getData();
-                            if(couponListModels.getUserPopup()!=null) {
-                                if(couponListModels.getUserPopup().getGifts()!=null) {
-                                    lists = couponListModels.getUserPopup().getGifts();
-                                    couponListDialog = new CouponListDialog(mActivity, couponListModels);
-                                    if (lists.size() > 0) {
-                                        couponListDialog.show();
-                                    } else {
-                                        couponListDialog.dismiss();
-                                    }
-                                }
-                            }
-
-                            if(indexInfoModel.getData().getHomePopup()!=null) {
-                                homePropup = indexInfoModel.getData().getHomePopup();
-                                homeActivityDialog = new HomeActivityDialog(mActivity,homePropup);
-                                homeActivityDialog.show();
-
-                            }else {
-                                homeActivityDialog.dismiss();
-                            }
+//                            couponListModels = indexInfoModel.getData();
+//                            if(couponListModels.getUserPopup()!=null) {
+//                                if(couponListModels.getUserPopup().getGifts()!=null) {
+//                                    lists = couponListModels.getUserPopup().getGifts();
+//                                    couponListDialog = new CouponListDialog(mActivity, couponListModels);
+//                                    if (lists.size() > 0) {
+//                                        couponListDialog.show();
+//                                    } else {
+//                                        couponListDialog.dismiss();
+//                                    }
+//                                }
+//                            }
+//
+//                            if(indexInfoModel.getData().getHomePopup()!=null) {
+//                                homePropup = indexInfoModel.getData().getHomePopup();
+//                                homeActivityDialog = new HomeActivityDialog(mActivity,homePropup);
+//                                homeActivityDialog.show();
+//
+//                            }else {
+//                                homeActivityDialog.dismiss();
+//                            }
 //
 //                            if (privacyModel.getData().getOpen().equals("1")) {
 //                                privacyDialog.show();
@@ -1406,6 +1407,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                     ll_driver.setVisibility(View.VISIBLE);
                                     verticalBanner.setAdapter(verticalBannerAdapter);
                                     verticalBanner.start();
+
                                 } else {
                                     ll_driver.setVisibility(View.GONE);
                                 }
@@ -1489,20 +1491,20 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                             if(indexInfoModel.getData().getIcons()!=null) {
                                 iconList.addAll(data.getIcons());
                             }
-
-                            indexInfoModel.getData().getHomePopup();
+                            couponListModels = indexInfoModel.getData();
                             if (data.getDeductAmountStr() != null) {
                                 deductAmountStr = data.getDeductAmountStr();
                             }
-
                             if(indexInfoModel.getData().getGiftReceiveBtn().equals("0")) {
                                 getPrivacy(indexInfoModel);
+                                getDialog(indexInfoModel);
                             }else {
                                 getTurn();
                             }
 
                             if(!SharedPreferencesUtil.getString(mActivity,"once").equals("0")) {
-                                getPrivacys(indexInfoModel);
+//                                getPrivacys(indexInfoModel);
+                                getDialog(indexInfoModel);
                             }
 
                             tv_times.setText(indexInfoModel.getData().getReturnAmountTime() + "小时快速退款");
@@ -1518,6 +1520,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
 
                             questUrl = indexInfoModel.getData().getQuestUrl();
                             tv_city.setText(data.getAddress());
+                            Log.d("wfsfew.....","222");
                             list.clear();
                             list1.clear();
 
@@ -1627,40 +1630,30 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                     }
                 });
     }
-    private void getPrivacys(IndexInfoModel indexInfoModel) {
-        IndexHomeAPI.getPrivacy(mActivity)
-                .subscribeOn(Schedulers.io())
-                .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<PrivacyModel>() {
 
-                    @Override
-                    public void onCompleted() {
 
-                    }
+    private void getDialog(IndexInfoModel indexInfoModel) {
+        couponListModels = indexInfoModel.getData();
+        if(couponListModels.getUserPopup()!=null) {
+            if(couponListModels.getUserPopup().getGifts()!=null) {
+                lists = couponListModels.getUserPopup().getGifts();
+                couponListDialog = new CouponListDialog(mActivity, couponListModels);
+                if (lists.size() > 0) {
+                    couponListDialog.show();
+                } else {
+                    couponListDialog.dismiss();
+                }
+            }
+        }
 
-                    @Override
-                    public void onError(Throwable e) {
 
-                    }
-
-                    @Override
-                    public void onNext(PrivacyModel privacyModel) {
-
-                        if (privacyModel.isSuccess()) {
-                            String content = privacyModel.getData().getContent();
-                            privacyDialog = new PrivacyDialog(mActivity,content, indexInfoModel.getData());
-                            if (!SharedPreferencesUtil.getString(mActivity, "once").equals("0")) {
-                                privacyDialog.show();
-                            } else {
-                                privacyDialog.dismiss();
-                            }
-
-                        } else {
-                            AppHelper.showMsg(mActivity, privacyModel.getMessage());
-                        }
-                    }
-                });
+        if(indexInfoModel.getData().getHomePopup()!=null) {
+            homePropup = indexInfoModel.getData().getHomePopup();
+            homeActivityDialog = new HomeActivityDialog(mActivity,homePropup);
+            homeActivityDialog.show();
+        }
     }
+
     private void ClickBanner(List<IndexInfoModel.DataBean.BannersBean> banners) {
         banner.setOnBannerListener(new OnBannerListener() {
             @Override

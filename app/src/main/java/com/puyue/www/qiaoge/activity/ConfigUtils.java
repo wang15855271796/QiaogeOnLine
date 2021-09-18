@@ -105,7 +105,7 @@ public class ConfigUtils {
                 .setAppPrivacyTwo("闪验隐私政策", "https://api.253.com/api_doc/yin-si-zheng-ce/ge-ren-xin-xi-bao-hu-sheng-ming.html")  //设置开发者隐私条款2名称和URL(名称，url)
                 .setAppPrivacyColor(0xff797894, 0xffFD641B)   //	设置隐私条款名称颜色(基础文字颜色，协议文字颜色)
                 .setPrivacyOffsetBottomY(20)//设置隐私条款相对于屏幕下边缘y偏
-                .setPrivacyState(true)
+                .setPrivacyState(false)
                 .setPrivacyOffsetX(24)
 
                 // 添加自定义控件:

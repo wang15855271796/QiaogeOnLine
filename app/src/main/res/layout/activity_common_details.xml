@@ -327,7 +327,6 @@
                                         android:layout_height="wrap_content" />
 
                                     <com.puyue.www.qiaoge.view.FlowLayout
-
                                         android:id="@+id/fl_container"
                                         android:layout_marginLeft="@dimen/size_47dp"
                                         android:layout_below="@+id/tv"

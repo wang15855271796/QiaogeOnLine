@@ -135,9 +135,7 @@ public class SearchReasultAdapter extends BaseQuickAdapter<SearchResultsModel.Da
                 }
 
                 if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-
                     searchDialog = new SearchDialog(mContext,item);
-
                     searchDialog.show();
                 }
             }

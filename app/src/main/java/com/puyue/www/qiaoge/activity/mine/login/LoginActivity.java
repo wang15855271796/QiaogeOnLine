@@ -147,7 +147,7 @@ public class LoginActivity extends BaseSwipeActivity {
 
     @Override
     public void setViewData() {
-        UserInfoHelper.saveMac(mContext, getMacAddress(mContext));
+//        UserInfoHelper.saveMac(mContext, getMacAddress(mContext));
         UserInfoHelper.savePhoneIp(mContext, getLocalIpAddress(mContext));
 //        mLocationClient = new LocationClient(getApplicationContext());
 //        //声明LocationClient类

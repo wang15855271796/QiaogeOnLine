@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
 import com.puyue.www.qiaoge.helper.RestHelper;
+import com.puyue.www.qiaoge.model.home.ResetPwdModel;
 import com.puyue.www.qiaoge.model.mine.login.CheckPasswordCodeModel;
 
 import retrofit2.http.Field;
@@ -21,13 +22,13 @@ public class CheckCommonCodeAPI {
     public interface CheckCommonCodeService {
         @FormUrlEncoded
         @POST(AppInterfaceAddress.CHECK_COMMON_CODE)
-        Observable<CheckPasswordCodeModel> setParams(@Field("phone") String phone,
+        Observable<ResetPwdModel> setParams(@Field("phone") String phone,
                                                      @Field("verifyCode") String verifyCode,
                                                      @Field("type") int type);
     }
 
-    public static Observable<CheckPasswordCodeModel> requestCodeRight(Context context, String phone, String verifyCode, int type) {
-        Observable<CheckPasswordCodeModel> checkPasswordCodeModelObservable = RestHelper.getBaseRetrofit(context).create(CheckCommonCodeService.class).setParams(phone, verifyCode, type);
+    public static Observable<ResetPwdModel> requestCodeRight(Context context, String phone, String verifyCode, int type) {
+        Observable<ResetPwdModel> checkPasswordCodeModelObservable = RestHelper.getBaseRetrofit(context).create(CheckCommonCodeService.class).setParams(phone, verifyCode, type);
         return checkPasswordCodeModelObservable;
     }
 }

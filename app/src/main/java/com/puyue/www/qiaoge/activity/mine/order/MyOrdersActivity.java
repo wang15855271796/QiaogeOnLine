@@ -138,8 +138,6 @@ public class MyOrdersActivity extends BaseActivity {
 
         mListType.addAll(Arrays.asList(AppConstant.ALL, AppConstant.PAYMENT, AppConstant.DELIVERY, AppConstant.RECEIVED, AppConstant.EVALUATED, AppConstant.RETURN));
 
-
-
         mListFragment.add(new AllOrderFragment());
         mListFragment.add(new PaymentOrderFragment());
         mListFragment.add(new DeliveryOrderFragment());

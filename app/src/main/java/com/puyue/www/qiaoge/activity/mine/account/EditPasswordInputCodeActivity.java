@@ -31,6 +31,7 @@ import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
+import com.puyue.www.qiaoge.model.home.ResetPwdModel;
 import com.puyue.www.qiaoge.model.mine.login.ChangeLoginPhoneModel;
 import com.puyue.www.qiaoge.model.mine.login.CheckPasswordCodeModel;
 import com.puyue.www.qiaoge.utils.EnCodeUtil;
@@ -163,7 +164,7 @@ public class EditPasswordInputCodeActivity extends BaseSwipeActivity implements 
         CheckCommonCodeAPI.requestCodeRight(mContext,phones,et_yzms,3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BaseModel>() {
+                .subscribe(new Subscriber<ResetPwdModel>() {
                     @Override
                     public void onCompleted() {
 
@@ -175,16 +176,22 @@ public class EditPasswordInputCodeActivity extends BaseSwipeActivity implements 
                     }
 
                     @Override
-                    public void onNext(BaseModel baseModel) {
-                        if (baseModel.success) {
-                            Intent intent = new Intent(mContext,SetLoginSecret1Activity.class);
-                            intent.putExtra("phone",mTel);
-                            intent.putExtra("verifyCode",et_yzms);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            ToastUtil.showSuccessMsg(mContext, baseModel.message);
+                    public void onNext(ResetPwdModel baseModel) {
+                        if(baseModel.getCode()==1) {
+                            if(baseModel.isData()) {
+                                Intent intent = new Intent(mContext,SetLoginSecret1Activity.class);
+                                intent.putExtra("phone",mTel);
+                                intent.putExtra("verifyCode",et_yzms);
+                                startActivity(intent);
+                                ToastUtil.showSuccessMsg(mContext, "验证成功");
+                                finish();
+                            }else {
+                                ToastUtil.showSuccessMsg(mContext, "验证失败");
+                            }
+                        }else {
+                            ToastUtil.showSuccessMsg(mContext, baseModel.getMessage());
                         }
+
                     }
                 });
     }

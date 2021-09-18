@@ -20,6 +20,7 @@ import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
+import com.puyue.www.qiaoge.model.home.ResetPwdModel;
 import com.puyue.www.qiaoge.utils.EnCodeUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 
@@ -96,8 +97,6 @@ public class PayActivity extends BaseSwipeActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
-
                 }
 
             }else if(view == tv_yzm) {
@@ -126,7 +125,7 @@ public class PayActivity extends BaseSwipeActivity {
         CheckCommonCodeAPI.requestCodeRight(mContext,phones,et_yzms,6)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BaseModel>() {
+                .subscribe(new Subscriber<ResetPwdModel>() {
                     @Override
                     public void onCompleted() {
 
@@ -138,14 +137,19 @@ public class PayActivity extends BaseSwipeActivity {
                     }
 
                     @Override
-                    public void onNext(BaseModel baseModel) {
-                        if (baseModel.success) {
-                            Intent intent = new Intent(mContext,SetPayActivity.class);
-                            intent.putExtra("phone",phone);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            ToastUtil.showSuccessMsg(mContext, baseModel.message);
+                    public void onNext(ResetPwdModel baseModel) {
+                        if(baseModel.getCode()==1) {
+                            if(baseModel.isData()) {
+                                Intent intent = new Intent(mContext,SetPayActivity.class);
+                                intent.putExtra("phone",phone);
+                                startActivity(intent);
+                                finish();
+                                ToastUtil.showSuccessMsg(mContext, "验证成功");
+                            }else {
+                                ToastUtil.showSuccessMsg(mContext, "验证失败");
+                            }
+                        }else {
+                            ToastUtil.showSuccessMsg(mContext, baseModel.getMessage());
                         }
                     }
                 });
