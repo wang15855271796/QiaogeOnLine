@@ -873,9 +873,7 @@ public class MarketsFragment extends BaseFragment {
         mAdapterBrand.setOnItemClickListener(new MarketGoodBrandAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(List<MarketBeanModel> list) {
-
                 selectBrandName = "";
-
                 if (list.size() > 0) {
                     if(list.size()>1) {
                         for (int i = 0; i < list.size(); i++) {
@@ -1020,7 +1018,6 @@ public class MarketsFragment extends BaseFragment {
                     pageNum = 1;
                     hasPage  = true;
                     getData();
-
                 }
             }
 

@@ -3,6 +3,7 @@ package com.puyue.www.qiaoge.fragment.mine.order;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -72,6 +73,7 @@ public class EvaluatedOrderFragment extends BaseFragment {
 
     @Override
     public void setViewData() {
+        Log.d("fesfdsf.....","33");
         mListResult.clear();
         mListEvaluate.clear();
 //        requestOrdersList(5);

@@ -71,6 +71,15 @@ public class ReturnOrderDetailModel {
         private List<ProductsBean> products;
         String allReturn;
 
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "offerAmount='" + offerAmount + '\'' +
+                    ", products=" + products +
+                    ", allReturn='" + allReturn + '\'' +
+                    ", returnChannel=" + returnChannel +
+                    '}';
+        }
 
         public String getAllReturn() {
             return allReturn;
@@ -136,6 +145,20 @@ public class ReturnOrderDetailModel {
             private String returnNum;
             private List<DetailsBean> details;
 
+            @Override
+            public String toString() {
+                return "ProductsBean{" +
+                        "defaultPic='" + defaultPic + '\'' +
+                        ", additionFlag=" + additionFlag +
+                        ", productName='" + productName + '\'' +
+                        ", spec='" + spec + '\'' +
+                        ", flagUrl=" + flagUrl +
+                        ", businessType=" + businessType +
+                        ", businessId=" + businessId +
+                        ", returnNum='" + returnNum + '\'' +
+                        ", details=" + details +
+                        '}';
+            }
 
             public String getProductName() {
                 return productName;
@@ -216,6 +239,26 @@ public class ReturnOrderDetailModel {
                 private int itemNum;
                 private int itemUnitId;
                 String afterPrice;
+
+                @Override
+                public String toString() {
+                    return "DetailsBean{" +
+                            "businessType=" + businessType +
+                            ", businessId=" + businessId +
+                            ", price='" + price + '\'' +
+                            ", num=" + num +
+                            ", totalPrice='" + totalPrice + '\'' +
+                            ", itemPrice=" + itemPrice +
+                            ", unitId=" + unitId +
+                            ", desc='" + desc + '\'' +
+                            ", returnUnits=" + returnUnits +
+                            ", priceId=" + priceId +
+                            ", itemNum=" + itemNum +
+                            ", itemUnitId=" + itemUnitId +
+                            ", afterPrice='" + afterPrice + '\'' +
+                            ", deductPrice='" + deductPrice + '\'' +
+                            '}';
+                }
 
                 public String getAfterPrice() {
                     return afterPrice;

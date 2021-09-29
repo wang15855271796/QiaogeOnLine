@@ -43,6 +43,7 @@ public class ReturnGoodDetailTwoAdapter extends RecyclerView.Adapter<ReturnGoodD
 
     public void setListener(OnReturnClickListener listener) {
         this.listener = listener;
+
     }
 
     public interface OnReturnClickListener {
@@ -54,6 +55,7 @@ public class ReturnGoodDetailTwoAdapter extends RecyclerView.Adapter<ReturnGoodD
         this.mListProduct = mListProduct;
         this.context = context;
         this.allReturn = allReturn;
+
         for (int i = 0; i < mListProduct.size(); i++) {
             for (int j = 0; j < mListProduct.get(i).getDetails().size(); j++) {
                 mListProduct.get(i).getDetails().get(j).setBusinessId(mListProduct.get(i).getBusinessId());
@@ -100,6 +102,7 @@ public class ReturnGoodDetailTwoAdapter extends RecyclerView.Adapter<ReturnGoodD
             @Override
             public void onEventClick() {
                 listener.onClick();
+                Log.d("awesfdfds......","3333");
             }
         });
 

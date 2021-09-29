@@ -1160,8 +1160,6 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
                                 rv_recommend.setAdapter(mustAdapter);
                             }
 
-
-
                         } else {
                             AppHelper.showMsg(mActivity, getCommonProductModel.getMessage());
                         }

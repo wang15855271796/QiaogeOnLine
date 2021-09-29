@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by ${王文博} on 2019/5/23
+ * Created by ${王文博} on 2019/5/23(整体的大的列表item结构)
  */
 public class ReturnGoodDetailChangeAdapter extends RecyclerView.Adapter<ReturnGoodDetailChangeAdapter.ReturnOrderViewHolder> {
 
@@ -79,6 +79,7 @@ public class ReturnGoodDetailChangeAdapter extends RecyclerView.Adapter<ReturnGo
         if(allReturn.equals("1")) {
 
         }else {
+            //选择单位 数量的adapter
             mReturnNumAdapter = new ReturnNumChangeAdapter(R.layout.return_order_num, mListReturnNum,mListProduct.get(position).additionFlag);
             mReturnNumAdapter.setListener(new ReturnNumChangeAdapter.OnReturnClickListener() {
                 @Override
@@ -96,6 +97,7 @@ public class ReturnGoodDetailChangeAdapter extends RecyclerView.Adapter<ReturnGo
         mListSpec.clear();
         mListSpec.addAll(mListProduct.get(position).getDetails());
         holder.mRySpec.setLayoutManager(new LinearLayoutManager(context));
+        //商品下规格列表item
         mSpecAdaPter = new ReturnSpecAdapter(R.layout.retrun_order_spec, mListSpec,allReturn);
         orderId = UserInfoHelper.getOrderId(context);
 

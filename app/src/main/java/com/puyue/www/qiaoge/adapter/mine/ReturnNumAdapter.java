@@ -151,6 +151,7 @@ public class ReturnNumAdapter extends BaseQuickAdapter<ReturnOrderDetailModel.Da
                         if (listener != null) {
                             listener.onEventClick();
                         }
+                        Log.d("awesfdfds......","2222");
                     }
                 };
         et_num.addTextChangedListener(watcher);
@@ -200,11 +201,9 @@ public class ReturnNumAdapter extends BaseQuickAdapter<ReturnOrderDetailModel.Da
                 String orderId = UserInfoHelper.getOrderId(mContext);
                 int businessId = item.getBusinessId();
 
-
                 item.setItemUnitId(item.getReturnUnits().get(position).getUnitId());
                 int businessType = item.getBusinessType();
                 tv_spec_num.setText(item.getReturnUnits().get(position).getUnitName());
-                // if (unitNum >)
                 GetReturnGoodNumAPI.requestSpec(mContext, orderId, businessId, businessType, 1, unitId, priceId, additionFlag)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())

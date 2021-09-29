@@ -94,6 +94,7 @@ public class PaymentOrderFragment extends BaseFragment {
 
     @Override
     public void setViewData() {
+        Log.d("fesfdsf.....","11");
         mListResult.clear();
 //        requestOrdersList(1);
         if (UserInfoHelper.getDeliverType(mActivity) != null && StringHelper.notEmptyAndNull(UserInfoHelper.getDeliverType(mActivity))) {

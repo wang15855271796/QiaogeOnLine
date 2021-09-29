@@ -218,8 +218,7 @@ public class CartAdapter extends BaseQuickAdapter<CartListModel.DataBean.ListBea
                 Intent intent =new Intent(mContext,CommonGoodsDetailActivity.class);
                 intent.putExtra(AppConstant.ACTIVEID, item.additionProductVOList.get(0).productId);
                 intent.putExtra("type", 1);
-              mContext.startActivity(intent);
-
+                mContext.startActivity(intent);
 
             }
         });
