@@ -364,6 +364,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                                 unAbleAdapter.notifyDataChanged();
                                 //判断是否展示空数据界面
                                 Log.d("Csdfdsfsd.....",prods.size()+"---"+inProdss.size());
+                                
                                 if(prods.size()==0&&inProdss.size()==0) {
                                     ll_NoData.setVisibility(View.VISIBLE);
                                     tv_delete.setVisibility(View.GONE);
