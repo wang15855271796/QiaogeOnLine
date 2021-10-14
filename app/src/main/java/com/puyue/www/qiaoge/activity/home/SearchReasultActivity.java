@@ -29,6 +29,7 @@ import com.android.tu.loadingdialog.LoadingDailog;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.CartActivity;
+import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.adapter.home.RegisterShopAdapterTwo;
 import com.puyue.www.qiaoge.adapter.home.SearchReasultAdapter;
@@ -42,6 +43,7 @@ import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
+import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.event.UpDateNumEvent7;
 import com.puyue.www.qiaoge.event.UpDateNumEvent8;
@@ -147,7 +149,9 @@ public class SearchReasultActivity extends BaseSwipeActivity {
             @Override
             public void onClick(View v) {
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mActivity))) {
-                    startActivity(new Intent(mContext, CartActivity.class));
+//                    startActivity(new Intent(mContext, CartActivity.class));
+                    startActivity(new Intent(mContext, HomeActivity.class));
+                    EventBus.getDefault().post(new GoToCartFragmentEvent());
                 } else {
                     AppHelper.showMsg(mActivity, "请先登录");
                     startActivity(LoginActivity.getIntent(mActivity, LoginActivity.class));

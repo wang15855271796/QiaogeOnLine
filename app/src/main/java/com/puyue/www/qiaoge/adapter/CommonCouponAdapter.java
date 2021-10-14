@@ -121,6 +121,13 @@ public class CommonCouponAdapter extends RecyclerView.Adapter<CommonCouponAdapte
                 holder.iv_sale_done.setVisibility(View.GONE);
             }
 
+            if(activesBean.getNotSend()==1) {
+                holder.iv_send.setVisibility(View.VISIBLE);
+            }else {
+                holder.iv_send.setVisibility(View.GONE);
+            }
+
+
             holder.rl_group.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -192,6 +199,7 @@ public class CommonCouponAdapter extends RecyclerView.Adapter<CommonCouponAdapte
         private TextView tv_name;
         private ImageView iv_sale_done;
         private ImageView iv_flag;
+        private ImageView iv_send;
         TextView tv_old_price;
         TextView tv_discount;
         private TextView tv_coupon;
@@ -203,6 +211,7 @@ public class CommonCouponAdapter extends RecyclerView.Adapter<CommonCouponAdapte
             rl_coupon = (RelativeLayout) view.findViewById(R.id.rl_coupon);
             tv_coupon = (TextView) view.findViewById(R.id.tv_coupon);
             iv_add = (ImageView) view.findViewById(R.id.iv_add);
+            iv_send = (ImageView) view.findViewById(R.id.iv_send);
             iv_flag = (ImageView) view.findViewById(R.id.iv_flag);
             iv_pic = (ImageView) view.findViewById(R.id.iv_pic);
             tv_price = (TextView) view.findViewById(R.id.tv_price);

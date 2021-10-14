@@ -127,6 +127,11 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.BaseViewHolder
             holder.tv_name.setText(activesBean.getActiveName());
             holder.tv_price.setText(activesBean.getPrice());
 
+            if(activesBean.getNotSend()==1) {
+                holder.iv_send.setVisibility(View.VISIBLE);
+            }else {
+                holder.iv_send.setVisibility(View.GONE);
+            }
             if(!TextUtils.isEmpty(activesBean.getOldPrice())) {
                 holder.tv_old_price.setText(activesBean.getOldPrice());
                 holder.tv_old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
@@ -190,8 +195,10 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.BaseViewHolder
         private TextView tv_desc;
         private TextView tv_name;
         private ImageView iv_sale_done;
+        private ImageView iv_send;
         public BaseViewHolder(View view) {
             super(view);
+            iv_send = (ImageView) view.findViewById(R.id.iv_send);
             rl_group = (RelativeLayout) view.findViewById(R.id.rl_group);
             iv_pic = (ImageView) view.findViewById(R.id.iv_pic);
             tv_price = (TextView) view.findViewById(R.id.tv_price);

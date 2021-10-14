@@ -52,7 +52,8 @@
                     <ImageView
                         android:id="@+id/iv_send"
                         android:visibility="gone"
-                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginLeft="@dimen/dp_10"
                         android:src="@mipmap/icon_not_send2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />

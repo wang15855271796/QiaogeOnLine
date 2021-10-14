@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/ll_root"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.puyue.www.qiaoge.RoundImageView
+        android:id="@+id/iv_pic"
+        tools:src="@mipmap/icon_baidu"
+        android:scaleType="centerCrop"
+        android:layout_width="76dp"
+        android:layout_height="76dp" />
+</LinearLayout>

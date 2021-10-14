@@ -49,6 +49,7 @@ public class Skill3Adapter extends BaseQuickAdapter<CouponModels.DataBean.SpikeB
         TextView tv_price = helper.getView(R.id.tv_price);
         TextView tv_desc = helper.getView(R.id.tv_desc);
         ImageView iv_sale_done = helper.getView(R.id.iv_sale_done);
+        ImageView iv_not_send = helper.getView(R.id.iv_not_send);
         LinearLayout ll_root = helper.getView(R.id.ll_root);
         Glide.with(mContext).load(item.getDefaultPic()).into(iv_pic);
         helper.setText(R.id.tv_name,item.getActiveName());
@@ -62,6 +63,11 @@ public class Skill3Adapter extends BaseQuickAdapter<CouponModels.DataBean.SpikeB
             tv_old_price.setVisibility(View.GONE);
         }
 
+        if(item.getNotSend()==1) {
+            iv_not_send.setVisibility(View.VISIBLE);
+        }else {
+            iv_not_send.setVisibility(View.GONE);
+        }
         if(item.getFlag()==1) {
             iv_sale_done.setVisibility(View.VISIBLE);
             Glide.with(mContext).load(item.getSoldOutPic()).into(iv_sale_done);

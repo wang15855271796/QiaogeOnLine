@@ -89,6 +89,7 @@ public class CartSpecAdapter extends BaseQuickAdapter<CartsListModel.DataBean.Va
                         noSelect = true;
                     }
                 }
+
                 if (!noSelect) {
                     items.setSelected(!noSelect);
                     testAdapter.notifyDataSetChanged();

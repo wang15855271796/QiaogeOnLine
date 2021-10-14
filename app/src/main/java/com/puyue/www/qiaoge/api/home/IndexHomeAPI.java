@@ -5,12 +5,15 @@ import android.content.Context;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
 import com.puyue.www.qiaoge.event.CouponListModel;
+import com.puyue.www.qiaoge.event.FullListModel;
 import com.puyue.www.qiaoge.event.IsTurnModel;
 import com.puyue.www.qiaoge.event.PrivacyModel;
 import com.puyue.www.qiaoge.event.TurnModel;
 import com.puyue.www.qiaoge.event.TurnReceiveModel;
 import com.puyue.www.qiaoge.helper.RestHelper;
 import com.puyue.www.qiaoge.model.CouponModels;
+import com.puyue.www.qiaoge.model.FullCouponListModel;
+import com.puyue.www.qiaoge.model.FullDetailModel;
 import com.puyue.www.qiaoge.model.OrderModel;
 import com.puyue.www.qiaoge.model.SendModel;
 import com.puyue.www.qiaoge.model.home.CouponModel;
@@ -312,5 +315,49 @@ public class IndexHomeAPI {
     public static Observable<BaseModel> getCode(Context context,String authCode) {
         GetAuthorizeService spikeActiveQueryService = RestHelper.getBaseRetrofit(context).create(GetAuthorizeService.class);
         return spikeActiveQueryService.getData(authCode);
+    }
+
+    /**
+     * 满赠活动详情
+     */
+
+    private interface FullActiveService {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Full_Detail)
+        Observable<FullDetailModel> getData(@Field("fullId") int fullId);
+    }
+
+    public static Observable<FullDetailModel> getFullDetail(Context context,int fullId) {
+        FullActiveService spikeActiveQueryService = RestHelper.getBaseRetrofit(context).create(FullActiveService.class);
+        return spikeActiveQueryService.getData(fullId);
+    }
+
+    /**
+     * 满赠活动列表
+     */
+
+    private interface FullListActiveService {
+        @POST(AppInterfaceAddress.Full_List)
+        Observable<FullListModel> getData();
+    }
+
+    public static Observable<FullListModel> getFullList(Context context) {
+        FullListActiveService spikeActiveQueryService = RestHelper.getBaseRetrofit(context).create(FullListActiveService.class);
+        return spikeActiveQueryService.getData();
+    }
+
+    /**
+     * 满赠优惠券
+     */
+
+    private interface FullCouponListActiveService {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Full_List_Coupon)
+        Observable<FullCouponListModel> getData(@Field("poolNo") String poolNo);
+    }
+
+    public static Observable<FullCouponListModel> getFullCouponList(Context context,String poolo) {
+        FullCouponListActiveService spikeActiveQueryService = RestHelper.getBaseRetrofit(context).create(FullCouponListActiveService.class);
+        return spikeActiveQueryService.getData(poolo);
     }
 }

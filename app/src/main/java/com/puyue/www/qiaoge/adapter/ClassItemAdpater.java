@@ -19,8 +19,11 @@ import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.event.UpDateNumEvent;
 import com.puyue.www.qiaoge.event.UpDateNumEvent9;
+import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.model.cart.AddCartGoodModel;
+import com.puyue.www.qiaoge.model.cart.CartAddModel;
+import com.puyue.www.qiaoge.model.cart.CartTestModel;
 import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 
@@ -68,7 +71,7 @@ public class ClassItemAdpater extends BaseQuickAdapter<ExchangeProductModel.Data
             public void onClick(View v) {
                 int num = Integer.parseInt(tv_num.getText().toString());
                 num++;
-                addCart(num,item.getPriceId(),productId,businessType,tv_num,item.getCartNum());
+                changeCartNum(num,item.getPriceId(),tv_num);
                 getDatas(1);
             }
         });
@@ -79,7 +82,8 @@ public class ClassItemAdpater extends BaseQuickAdapter<ExchangeProductModel.Data
                 int num = Integer.parseInt(tv_num.getText().toString());
                 if (num > 0) {
                     num--;
-                    addCarts(num,item.getPriceId(),productId,businessType,tv_num,item.getCartNum());
+                    changeCartNum(num,item.getPriceId(),tv_num);
+//                    addCarts(num,item.getPriceId(),productId,businessType,tv_num,item.getCartNum());
                 }
             }
         });
@@ -116,7 +120,6 @@ public class ClassItemAdpater extends BaseQuickAdapter<ExchangeProductModel.Data
                     public void onClick(View v) {
                         getDatas(1);
                         if (et_num.getText().toString() != null && StringHelper.notEmptyAndNull(et_num.getText().toString())) {
-
                             AddMountChangeTwoAPI.AddMountChangeService(mContext, businessType, productId, Integer.parseInt(et_num.getText().toString()), item.getPriceId())
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
@@ -131,10 +134,8 @@ public class ClassItemAdpater extends BaseQuickAdapter<ExchangeProductModel.Data
 
                                         }
 
-
                                         @Override
                                         public void onNext(AddCartGoodModel addMountReduceModel) {
-
                                             if (addMountReduceModel.isSuccess()) {
                                                 tv_num.setText(et_num.getText().toString());
                                                 alertDialog.dismiss();
@@ -158,6 +159,103 @@ public class ClassItemAdpater extends BaseQuickAdapter<ExchangeProductModel.Data
 
         });
     }
+
+    /**
+     * 修改购物车数量
+     * @param
+     * @param num
+     */
+    private void changeCartNum(int num, int priceId, TextView textView) {
+        AddMountChangeTwoAPI.changeCartNum(mContext,businessType,productId,num,priceId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<CartAddModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(CartAddModel cartAddModel) {
+                        if (cartAddModel.getCode()==1) {
+                            if(cartAddModel.getData()!=null) {
+                                if(cartAddModel.getData().getAddFlag()==0) {
+                                    //正常
+                                    EventBus.getDefault().post(new UpDateNumEvent9());
+                                    ToastUtil.showSuccessMsg(mContext,cartAddModel.getMessage());
+                                    textView.setText(num+"");
+                                }else {
+                                    textView.setText(cartAddModel.getData().getNum()+"");
+                                    EventBus.getDefault().post(new UpDateNumEvent9());
+                                    ToastUtil.showSuccessMsg(mContext,cartAddModel.getData().getMessage());
+                                }
+                            }
+                        } else {
+                            ToastUtil.showSuccessMsg(mContext,cartAddModel.getMessage());
+                        }
+                    }
+                });
+    }
+//    private void addCart(int num, int id, int businessId, int productType, TextView tv_num,int cartNum) {
+//        AddMountChangeTwoAPI.AddMountChangeService(mContext,productType,businessId,num,id)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<AddCartGoodModel>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(AddCartGoodModel addMountReduceModel) {
+//                        if (addMountReduceModel.isSuccess()) {
+//                            tv_num.setText(num+"");
+//                            ToastUtil.showSuccessMsg(mContext,"添加购物车成功");
+//                            EventBus.getDefault().post(new UpDateNumEvent9());
+//                        } else {
+//                            ToastUtil.showSuccessMsg(mContext,addMountReduceModel.getMessage());
+//                        }
+//                    }
+//                });
+//    }
+//
+//    private void addCarts(int num, int id, int businessId, int productType, TextView tv_num,int cartNum) {
+//        AddMountChangeTwoAPI.AddMountChangeService(mContext,productType,businessId,num,id)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<AddCartGoodModel>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(AddCartGoodModel addMountReduceModel) {
+//                        if (addMountReduceModel.isSuccess()) {
+//                            tv_num.setText(num+"");
+//                            EventBus.getDefault().post(new UpDateNumEvent9());
+//                        } else {
+//                            ToastUtil.showSuccessMsg(mContext,addMountReduceModel.getMessage());
+//                        }
+//                    }
+//                });
+//    }
+
     private void getDatas(long end) {
         RecommendApI.getDatas(mContext,16,end)
                 .subscribeOn(Schedulers.io())
@@ -179,61 +277,5 @@ public class ClassItemAdpater extends BaseQuickAdapter<ExchangeProductModel.Data
                     }
                 });
     }
-    /**
-     * 添加购物车
-     */
-    private void addCart(int num, int id, int businessId, int productType, TextView tv_num,int cartNum) {
-        AddMountChangeTwoAPI.AddMountChangeService(mContext,productType,businessId,num,id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<AddCartGoodModel>() {
-                    @Override
-                    public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(AddCartGoodModel addMountReduceModel) {
-                        if (addMountReduceModel.isSuccess()) {
-                            tv_num.setText(num+"");
-                            ToastUtil.showSuccessMsg(mContext,"添加购物车成功");
-                            EventBus.getDefault().post(new UpDateNumEvent9());
-                        } else {
-                            ToastUtil.showSuccessMsg(mContext,addMountReduceModel.getMessage());
-                        }
-                    }
-                });
-    }
-
-    private void addCarts(int num, int id, int businessId, int productType, TextView tv_num,int cartNum) {
-        AddMountChangeTwoAPI.AddMountChangeService(mContext,productType,businessId,num,id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<AddCartGoodModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(AddCartGoodModel addMountReduceModel) {
-                        if (addMountReduceModel.isSuccess()) {
-                            tv_num.setText(num+"");
-                            EventBus.getDefault().post(new UpDateNumEvent9());
-                        } else {
-                            ToastUtil.showSuccessMsg(mContext,addMountReduceModel.getMessage());
-                        }
-                    }
-                });
-    }
 }

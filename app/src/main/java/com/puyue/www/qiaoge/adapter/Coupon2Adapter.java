@@ -74,8 +74,8 @@ public class Coupon2Adapter extends RecyclerView.Adapter<Coupon2Adapter.BaseView
             holder.tv_name.setText(activesBean.getActiveName());
             holder.tv_price.setText(activesBean.getPrice());
             holder.tv_old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            holder.tv_old_price.setText(activesBean.getOldPrice());
             holder.tv_old_price.getPaint().setAntiAlias(true);//抗锯齿
+            holder.tv_old_price.setText(activesBean.getOldPrice());
 
             if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                 if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {

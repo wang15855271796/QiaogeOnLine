@@ -15,6 +15,8 @@ public class AppInterfaceAddress {
     //http://192.168.101.41:8088/
 //    queryReturnProdIsContainFullGift
 
+
+
     /**
      *数据埋点
      */
@@ -159,7 +161,6 @@ public class AppInterfaceAddress {
      */
     public static final String Query_Prod = "gift/queryGiftUseInProds";
 
-
     /**
      *退货判断是否有满赠商品
      */
@@ -292,6 +293,22 @@ public class AppInterfaceAddress {
      * 首页其他信息
      */
     public static final String INDEXINFO = "common/getAppHomeBasicData";
+
+    /**
+     *活动满赠详情
+     */
+    public static final String Full_Detail = "common/getAppFullActiveDetailV3";
+
+    /**
+     *满赠活动列表
+     */
+    public static final String Full_List = "common/getAppFullActiveV3";
+
+    /**
+     *满赠优惠券
+     */
+
+    public static final String Full_List_Coupon = "common/getAppFullActiveGiftDetailV3";
     /**
      * 其他信息
      */
@@ -399,7 +416,11 @@ public class AppInterfaceAddress {
     public static final String GETALLCOMMENTLISTBYPAGE = "common/getCommentListByPage?";
     public static final String HASCOLLECT = "commonCollect/hasCollect?";
     public static final String CLICKCOLLECTION = "commonCollect/collectOrCancel?";
-    public static final String ADDCART = "cart/addCart?";
+
+    /**
+     * 活动商品加入购物车
+     */
+    public static final String ADDCART = "cart/accumulateCartProdNumV3";
 
     /**
      * 获取订单详情
@@ -511,6 +532,8 @@ public class AppInterfaceAddress {
     public static final String GETUSERADDRESS = "auth/getUserAddress";
 
     public static final String GET_CART_LISTS = "cart/queryUserCartList";
+    //
+    public static final String GET_CART_LIST = "cart/getAppUserCartListV3";
     /**
      * 获取退货订单信息
      */
@@ -608,6 +631,11 @@ public class AppInterfaceAddress {
      *购物车列表加减接口
      */
     public static final String ADDCARTJUDGES = "cart/userChangeCartGoodsNum";
+
+    /**
+     *购物车列表加减接口
+     */
+    public static final String Cart_Add = "cart/addCartProdNumV3";
 
     /**
      * 本机认证

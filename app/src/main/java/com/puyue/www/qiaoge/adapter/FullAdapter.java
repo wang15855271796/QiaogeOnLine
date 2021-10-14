@@ -91,6 +91,12 @@ public class FullAdapter extends RecyclerView.Adapter<FullAdapter.BaseViewHolder
             });
 
 
+            if(activesBean.getNotSend() ==1) {
+                viewHolder.iv_send.setVisibility(View.VISIBLE);
+            }else {
+                viewHolder.iv_send.setVisibility(View.GONE);
+            }
+
             if(activesBean.getSendGiftType().equals("赠品")) {
                 viewHolder.tv_coupon.setVisibility(View.GONE);
                 viewHolder.tv_shop.setText("赠送商品");
@@ -105,51 +111,6 @@ public class FullAdapter extends RecyclerView.Adapter<FullAdapter.BaseViewHolder
                 viewHolder.tv_shop.setText("赠送商品");
                 viewHolder.tv_coupon.setText("赠优惠券");
             }
-
-
-//            if(countDownTimer1 == null) {
-//            countDownTimer1 = new CountDownTimer(5000,1000) {
-//                int i = 0;
-//                @Override
-//                public void onTick(long millisUntilFinished) {
-//
-//                }
-//
-//                @Override
-//                public void onFinish() {
-//                    try {
-//
-//                        Glide.with(mActivity).load(fullActive.get(i).getDefaultPic()).into(viewHolder.iv_pic);
-//
-//                        viewHolder.tv_price.setText(fullActive.get(i).getMinMaxPrice());
-//                        viewHolder.tv_name.setText(fullActive.get(i).getProductName());
-//
-//                        if(fullActive.get(i).getSendGiftType().equals("赠品")) {
-//                            viewHolder.rl_coupon.setVisibility(View.VISIBLE);
-//                            viewHolder.tv_shop.setVisibility(View.VISIBLE);
-//                            viewHolder.tv_coupon.setVisibility(View.GONE);
-//
-//                        }else if(fullActive.get(i).getSendGiftType().equals("送券")){
-//                            viewHolder.rl_coupon.setVisibility(View.VISIBLE);
-//                            viewHolder.tv_coupon.setVisibility(View.VISIBLE);
-//                            viewHolder.tv_shop.setVisibility(View.GONE);
-//                        }else {
-//                            viewHolder.rl_coupon.setVisibility(View.VISIBLE);
-//                            viewHolder.tv_coupon.setVisibility(View.VISIBLE);
-//                            viewHolder.tv_shop.setVisibility(View.VISIBLE);
-//                        }
-//
-//                        i++;
-//                        if(i==fullActive.size()) {
-//                            i = 0;
-//                        }
-//                    }catch (Exception e) {
-//
-//                    }
-//                    start();
-//                }
-//            }.start();
-//        }
         }catch (Exception e) {
 //
         }
@@ -161,18 +122,6 @@ public class FullAdapter extends RecyclerView.Adapter<FullAdapter.BaseViewHolder
         return Integer.MAX_VALUE;
     }
 
-    public void cancle() {
-//        if (countDownTimer1 != null) {
-//            countDownTimer1.cancel();
-//        }
-    }
-
-    public void start() {
-//        if(countDownTimer1!=null) {
-//            countDownTimer1.start();
-//        }
-    }
-
     public class BaseViewHolder extends RecyclerView.ViewHolder {
         RoundImageView iv_pic;
         TextView tv_name;
@@ -182,8 +131,10 @@ public class FullAdapter extends RecyclerView.Adapter<FullAdapter.BaseViewHolder
         TextView tv_desc;
         RelativeLayout rl_coupon;
         TextView tv_shop;
+        ImageView iv_send;
         public BaseViewHolder(View view) {
             super(view);
+            iv_send = view.findViewById(R.id.iv_send);
             tv_shop = view.findViewById(R.id.tv_shop);
             rl_coupon = (RelativeLayout) view.findViewById(R.id.rl_coupon);
             tv_desc = view.findViewById(R.id.tv_desc);

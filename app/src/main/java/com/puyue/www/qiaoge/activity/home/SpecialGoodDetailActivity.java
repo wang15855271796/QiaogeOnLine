@@ -46,6 +46,7 @@ import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.CartActivity;
+import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.adapter.cart.ImageViewAdapter;
 import com.puyue.www.qiaoge.adapter.home.RegisterShopAdapterTwo;
@@ -68,6 +69,7 @@ import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
+import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.CollapsingToolbarLayoutStateHelper;
@@ -102,6 +104,8 @@ import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -526,11 +530,16 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
                                 });
                             }
                         } else {
-                            startActivityForResult(new Intent(mContext, CartActivity.class), 21);
+//                            startActivityForResult(new Intent(mContext, CartActivity.class), 21);
+                            startActivity(new Intent(mContext, HomeActivity.class));
+                            EventBus.getDefault().post(new GoToCartFragmentEvent());
                         }
                     } else if (UserInfoHelper.getUserType(mContext).equals(AppConstant.USER_TYPE_WHOLESALE)) {
                         //这个用户是批发用户
-                        startActivityForResult(new Intent(mContext, CartActivity.class), 21);
+//                        startActivityForResult(new Intent(mContext, CartActivity.class), 21);
+                        startActivity(new Intent(mContext, HomeActivity.class));
+                        EventBus.getDefault().post(new GoToCartFragmentEvent());
+
                     }
                 } else {
                     AppHelper.showMsg(mContext, "请先登录");
@@ -613,7 +622,7 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
                             //单点不送
                             if(model.getData().getNotSend()!=null) {
                                 if(models.getData().getNotSend().equals("1")||models.getData().getNotSend().equals("1.0")) {
-                                    iv_send.setImageResource(R.mipmap.icon_not_send_big);
+                                    iv_send.setImageResource(R.mipmap.icon_not_send2);
                                     iv_send.setVisibility(View.GONE);
                                 }else {
                                     iv_send.setVisibility(View.GONE);
@@ -1105,8 +1114,8 @@ private float star;
      * 加入购物车
      */
     private void addCart() {
-
-        AddCartAPI.requestData(mContext, productId, null, businessType, String.valueOf(amount))
+        AddCartAPI.requestData(mContext,businessType,productId,amount)
+//        AddCartAPI.requestData(mContext, productId, null, businessType, String.valueOf(amount))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<AddCartModel>() {

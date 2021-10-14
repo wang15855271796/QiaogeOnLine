@@ -78,6 +78,12 @@ public class CommonssAdapter extends RecyclerView.Adapter<CommonssAdapter.BaseVi
                 viewHolder.tv_shop.setText("赠送商品");
                 viewHolder.tv_coupon.setText("赠优惠券");
             }
+
+            if(activesBean.getNotSend() == 1) {
+                viewHolder.iv_send.setVisibility(View.VISIBLE);
+            }else {
+                viewHolder.iv_send.setVisibility(View.GONE);
+            }
             if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mActivity))) {
                 if(SharedPreferencesUtil.getString(mActivity,"priceType").equals("1")) {
                     viewHolder.tv_price.setVisibility(View.VISIBLE);
@@ -124,10 +130,12 @@ public class CommonssAdapter extends RecyclerView.Adapter<CommonssAdapter.BaseVi
         RelativeLayout rl_group;
         TextView tv_desc;
         TextView tv_shop;
+        ImageView iv_send;
 //        TextView tv_old_price;
         public BaseViewHolder(View view) {
             super(view);
 //            tv_old_price = view.findViewById(R.id.tv_old_price);
+            iv_send = view.findViewById(R.id.iv_send);
             tv_shop = view.findViewById(R.id.tv_shop);
             tv_desc = view.findViewById(R.id.tv_desc);
             rl_group = (RelativeLayout) view.findViewById(R.id.rl_group);

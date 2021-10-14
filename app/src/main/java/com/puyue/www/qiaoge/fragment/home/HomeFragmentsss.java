@@ -729,33 +729,33 @@ public class HomeFragmentsss extends BaseFragment implements View.OnClickListene
         couponDialog.show();
     }
 
-    private void addCar(int businessId, String productCombinationPriceVOList, int businessType, String totalNum) {
-        AddCartAPI.requestData(mActivity, businessId, productCombinationPriceVOList, businessType, String.valueOf(totalNum))
-                .subscribeOn(Schedulers.io())
-                .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<AddCartModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(AddCartModel addCartModel) {
-                        if (addCartModel.success) {
-                            AppHelper.showMsg(mActivity, "成功加入购物车");
-                            getCartNum();
-                        } else {
-                            AppHelper.showMsg(mActivity, addCartModel.message);
-                        }
-
-                    }
-                });
-    }
+//    private void addCar(int businessId, String productCombinationPriceVOList, int businessType, String totalNum) {
+//        AddCartAPI.requestData(mActivity, businessId, productCombinationPriceVOList, businessType, String.valueOf(totalNum))
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<AddCartModel>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(AddCartModel addCartModel) {
+//                        if (addCartModel.success) {
+//                            AppHelper.showMsg(mActivity, "成功加入购物车");
+//                            getCartNum();
+//                        } else {
+//                            AppHelper.showMsg(mActivity, addCartModel.message);
+//                        }
+//
+//                    }
+//                });
+//    }
 
 
     @Override

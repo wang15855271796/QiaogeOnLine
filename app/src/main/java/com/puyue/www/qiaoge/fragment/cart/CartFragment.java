@@ -1025,7 +1025,6 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
                                 getAllPrice(validList);
 
                             }
-                            Log.d("wfsfgsfrfef....","4567");
                             if(mListCart.size()==0 && unList.size()!=0) {
                                 ll_service.setVisibility(View.GONE);
                                 ll.setVisibility(View.GONE);
@@ -1068,7 +1067,6 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
                                 }
                             };
 
-                            Log.d("wfsfgsfrfef....","45678");
                             tv_arrow.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {

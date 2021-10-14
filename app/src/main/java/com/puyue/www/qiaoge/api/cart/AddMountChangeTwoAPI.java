@@ -6,6 +6,7 @@ import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
 import com.puyue.www.qiaoge.helper.RestHelper;
 import com.puyue.www.qiaoge.model.cart.AddCartGoodModel;
 import com.puyue.www.qiaoge.model.cart.AddMountReduceModel;
+import com.puyue.www.qiaoge.model.cart.CartAddModel;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -41,6 +42,21 @@ public class AddMountChangeTwoAPI {
 
     public static Observable<AddCartGoodModel> AddMountChangeServices(Context context, int businessType, int businessId, int num, int productCombinationPriceId) {
         Observable<AddCartGoodModel> stringObservable = RestHelper.getBaseRetrofit(context).create(AddMountChangeServices.class).setParams(businessType, businessId, num, productCombinationPriceId);
+        return stringObservable;
+    }
+
+    //购物车加减
+    public interface CartAddServices {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Cart_Add)
+        Observable<CartAddModel> setParams(@Field("businessType") int businessType,
+                                           @Field("businessId") int businessId,
+                                           @Field("num") int num,
+                                           @Field("priceId") int priceId);
+    }
+
+    public static Observable<CartAddModel> changeCartNum(Context context, int businessType, int businessId, int num, int priceId) {
+        Observable<CartAddModel> stringObservable = RestHelper.getBaseRetrofit(context).create(CartAddServices.class).setParams(businessType, businessId, num, priceId);
         return stringObservable;
     }
 }

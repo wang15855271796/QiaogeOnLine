@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="#f6f6f6"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:background="@drawable/cart_tool_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_marginTop="@dimen/size_45dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="7dp"
+                android:padding="10dp"
+                android:src="@mipmap/ic_back_arrow_two" />
+
+            <TextView
+                android:text="参加满赠活动商品列表"
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:textColor="@color/ffffff"
+                android:textSize="18sp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_num"
+                android:layout_alignParentRight="true"
+                android:layout_width="@dimen/size_60dp"
+                android:layout_height="@dimen/size_48dp">
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/iv_carts"
+                    android:padding="5dp"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_home_good_cart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_num"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/iv_carts"
+                    android:visibility="gone"
+                    android:background="@drawable/shape_car_num"
+                    android:gravity="center"
+                    tools:text="9"
+                    android:textColor="@color/white"
+                    android:textSize="7dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_good_cart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/size_10dp">
+
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/iv_cart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_home_good_cart" />
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/tv_activity_goods_title_screen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:text="筛选"
+
+                android:textColor="@color/app_front_black"
+                android:textSize="15dp"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

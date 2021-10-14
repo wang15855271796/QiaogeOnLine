@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.XLinearLayoutManager;
 import com.puyue.www.qiaoge.activity.CartActivity;
+import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.adapter.mine.MyCollectionAdapter;
 import com.puyue.www.qiaoge.api.cart.GetCartNumAPI;
@@ -29,6 +30,7 @@ import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.event.AddressEvent;
+import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.event.MessageEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.event.UpDateNumEvent7;
@@ -254,9 +256,10 @@ public class MyCollectionActivity extends BaseSwipeActivity implements View.OnCl
                     tv_manger.setText("管理");
                 }
 
-
-                Intent intent = new Intent(mContext,CartActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(mContext, HomeActivity.class));
+                EventBus.getDefault().post(new GoToCartFragmentEvent());
+//                Intent intent = new Intent(mContext,CartActivity.class);
+//                startActivity(intent);
             }
         });
     }

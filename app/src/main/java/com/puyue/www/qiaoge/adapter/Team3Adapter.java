@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.media.Image;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -170,6 +171,12 @@ public class Team3Adapter extends RecyclerView.Adapter<Team3Adapter.BaseViewHold
                 holder.iv_sale_done.setVisibility(View.GONE);
             }
 
+            if(activesBean.getNotSend()==1) {
+                holder.iv_send.setVisibility(View.VISIBLE);
+            }else {
+                holder.iv_send.setVisibility(View.GONE);
+            }
+
             holder.rl_group.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -220,8 +227,10 @@ public class Team3Adapter extends RecyclerView.Adapter<Team3Adapter.BaseViewHold
         private TextView tv_desc;
         private TextView tv_name;
         private ImageView iv_sale_done;
+        private ImageView iv_send;
         public BaseViewHolder(View view) {
             super(view);
+            iv_send = (ImageView) view.findViewById(R.id.iv_send);
             rl_group = (RelativeLayout) view.findViewById(R.id.rl_group);
             iv_pic = (RoundImageView) view.findViewById(R.id.iv_pic);
             tv_price = (TextView) view.findViewById(R.id.tv_price);

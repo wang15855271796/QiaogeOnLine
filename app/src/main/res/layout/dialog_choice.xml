@@ -23,7 +23,6 @@
 
 
             <RelativeLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 >
@@ -36,6 +35,15 @@
                     android:layout_marginLeft="15dp"
                     android:scaleType="fitXY"
                     />
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/iv_send"
+                    android:layout_marginTop="@dimen/size_20dp"
+                    android:layout_marginLeft="@dimen/size_15dp"
+                    android:src="@mipmap/icon_not_send2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/size_20dp" />
 
                 <TextView
                     android:id="@+id/tv_name"
@@ -192,14 +200,7 @@
                         android:layout_height="wrap_content" />
 
 
-                    <ImageView
-                        android:visibility="gone"
-                        android:layout_toRightOf="@+id/tv_stock"
-                        android:id="@+id/iv_send"
-                        android:layout_marginLeft="@dimen/size_15dp"
-                        android:src="@mipmap/icon_not_send"
-                        android:layout_width="50dp"
-                        android:layout_height="@dimen/size_20dp" />
+
 
                 </RelativeLayout>
 

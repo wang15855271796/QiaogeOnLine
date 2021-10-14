@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.CartActivity;
+import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 
 
@@ -18,6 +19,7 @@ import com.puyue.www.qiaoge.api.cart.GetCartNumAPI;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
+import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
@@ -136,7 +138,9 @@ public class CouponDetailActivity extends BaseSwipeActivity {
             @Override
             public void onClick(View v) {
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mActivity))) {
-                    startActivity(new Intent(mContext, CartActivity.class));
+//                    startActivity(new Intent(mContext, CartActivity.class));
+                    startActivity(new Intent(mContext, HomeActivity.class));
+                    EventBus.getDefault().post(new GoToCartFragmentEvent());
                 } else {
                     AppHelper.showMsg(mActivity, "请先登录");
                     startActivity(LoginActivity.getIntent(mActivity, LoginActivity.class));

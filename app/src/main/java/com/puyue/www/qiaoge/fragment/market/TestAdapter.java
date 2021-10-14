@@ -231,7 +231,6 @@ public class TestAdapter extends BaseQuickAdapter<CartsListModel.DataBean.ValidL
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(buttonView.isPressed()) {
                     item.setSelected(isChecked);
-                    Log.d("wfdsfssds......",item.isSelected()+"a");
                     for (CartsListModel.DataBean.ValidListBean.SpecProductListBean specProductList: item.getSpecProductList()) {
                         specProductList.setSelected(isChecked);
                         notifyDataSetChanged();
@@ -280,8 +279,7 @@ public class TestAdapter extends BaseQuickAdapter<CartsListModel.DataBean.ValidL
      * 设置全选和全不选
      * @param b
      */
-    public void setAllselect(boolean b){
-
+    public void setAllselect(boolean b) {
         for(int i=0;i<data.size();i++){
             data.get(i).setSelected(b);
             for (CartsListModel.DataBean.ValidListBean.SpecProductListBean specProductList : data.get(i).getSpecProductList()){

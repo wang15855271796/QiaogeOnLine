@@ -375,8 +375,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     private RelativeLayout.LayoutParams layoutParams;
     int scrollLength;
     HotAdapter hotAdapter;
-    Skill5Adapter skill5Adapter;
-    ProductNormalModel productNormalModel;
     private NewAdapter newAdapter;
     IndexRecommendAdapter indexRecommendAdapter;
     CouponDialog couponDialog;
@@ -387,7 +385,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     private PrivacysDialog privacyDialog;
     ChooseHomeDialog chooseAddressDialog;
     List<String> recommendData;
-    //    AnimationDrawable drawable;
     List<ProductNormalModel.DataBean.ListBean> listss = new ArrayList<>();
     //司机信息
     List<OrderModel.DataBean> driverList = new ArrayList<>();
@@ -408,22 +405,18 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     private RvIconAdapter rvIconAdapter;
     Context context;
     int PageNum = 1;
-    private MyOrderNumModel mModelMyOrderNum;
-    private String token;
     private UpdateModel mModelUpdate;
     private boolean update;
     private boolean forceUpdate;
     private String content;
     private String url;//更新所用的url
     private AlertDialog mTypedialog;
-    boolean flag;
     List<String> list1 = new ArrayList<>();
     private IndexInfoModel.DataBean data;
     //分类列表
     private List<IndexInfoModel.DataBean.ClassifyListBean> classifyList = new ArrayList<>();
     NewFragment newFragment;
     MustFragment mustFragment;
-    InfoFragment infoFragment;
     CommonFragment commonFragment;
     private String questUrl;
     private CouponModels.DataBean data1;
@@ -660,29 +653,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
         rv_skill.setAdapter(skill2Adapter);
         rv_skill.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
         rv_skill.start();
-
-        //满赠1
-//        PagerSnapHelper snapFull = new PagerSnapHelper();
-//        commonssAdapter = new CommonssAdapter(mActivity,fullActive1);
-//        rv_auto_view1.setAdapter(commonssAdapter);
-//        snapFull.attachToRecyclerView(rv_auto_view1);
-//        initRecycles();
-
-        //满赠2
-//        fullAdapter = new FullAdapter(mActivity, fullActive1);
-//        rv_given.setAdapter(fullAdapter);
-//        snapFull.attachToRecyclerView(rv_given);
-//        initRecycleGiven();
-//        //组合
-//        teamAdapter = new TeamAdapter(R.layout.item_team_lists, teamActive1);
-//        rv_auto_team.setLayoutManager(new GridLayoutManager(mActivity, 1));
-//        rv_auto_team.setAdapter(teamAdapter);
-//
-//        //组合2
-//        team3Adapter = new Team3Adapter(R.layout.item_teams_list, teamActive1);
-//        rv_team.setLayoutManager(new GridLayoutManager(mActivity, 1));
-//        rv_team.setAdapter(team3Adapter);
-
 
         //顶部推荐
         indexRecommendAdapter = new IndexRecommendAdapter(R.layout.item_index_recommend, recommendList);
@@ -1520,7 +1490,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
 
                             questUrl = indexInfoModel.getData().getQuestUrl();
                             tv_city.setText(data.getAddress());
-                            Log.d("wfsfew.....","222");
                             list.clear();
                             list1.clear();
 

@@ -270,6 +270,15 @@ public class ExchangeProductModel {
              */
             private int productId;
             private String spec;
+            private int prodDeduct;
+
+            public int getProdDeduct() {
+                return prodDeduct;
+            }
+
+            public void setProdDeduct(int prodDeduct) {
+                this.prodDeduct = prodDeduct;
+            }
 
             public int getProductId() {
                 return productId;

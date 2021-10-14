@@ -282,6 +282,15 @@ public class CouponModels {
                 private int flag;
                 private String soldOutPic;
                 private String discount;
+                int notSend;
+
+                public int getNotSend() {
+                    return notSend;
+                }
+
+                public void setNotSend(int notSend) {
+                    this.notSend = notSend;
+                }
 
                 public Object getProductMainId() {
                     return productMainId;
@@ -554,7 +563,15 @@ public class CouponModels {
                 private int flag;
                 private String soldOutPic;
                 private String discount;
+                int notSend;
 
+                public int getNotSend() {
+                    return notSend;
+                }
+
+                public void setNotSend(int notSend) {
+                    this.notSend = notSend;
+                }
                 public Object getProductMainId() {
                     return productMainId;
                 }
@@ -839,7 +856,15 @@ public class CouponModels {
                 private int flag;
                 private String soldOutPic;
                 private Object discount;
+                int notSend;
 
+                public int getNotSend() {
+                    return notSend;
+                }
+
+                public void setNotSend(int notSend) {
+                    this.notSend = notSend;
+                }
                 @Override
                 public String toString() {
                     return "ActivesBeanXX{" +
@@ -1149,7 +1174,15 @@ public class CouponModels {
                 private int flag;
                 private String soldOutPic;
                 private String discount;
+                int notSend;
 
+                public int getNotSend() {
+                    return notSend;
+                }
+
+                public void setNotSend(int notSend) {
+                    this.notSend = notSend;
+                }
                 public Object getProductMainId() {
                     return productMainId;
                 }

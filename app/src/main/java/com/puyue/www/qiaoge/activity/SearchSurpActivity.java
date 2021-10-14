@@ -17,6 +17,7 @@ import com.puyue.www.qiaoge.api.cart.GetCartNumAPI;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
+import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.event.UpDateNumEvent7;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.model.SurpliListModel;
@@ -77,8 +78,10 @@ public class SearchSurpActivity extends BaseActivity {
         iv_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mActivity,CartActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(mContext, HomeActivity.class));
+                EventBus.getDefault().post(new GoToCartFragmentEvent());
+//                Intent intent = new Intent(mActivity,CartActivity.class);
+//                startActivity(intent);
             }
         });
 

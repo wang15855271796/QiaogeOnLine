@@ -99,6 +99,12 @@ public class Skill2Adapter extends RecyclerView.Adapter<Skill2Adapter.BaseViewHo
 //            holder.rl_coupon.setVisibility(View.GONE);
         }
 
+        if(activesBean.getNotSend()==1) {
+            holder.iv_not_send.setVisibility(View.VISIBLE);
+        }else {
+            holder.iv_not_send.setVisibility(View.GONE);
+        }
+
         if(activesBean.getFlag()==1) {
             holder.iv_sale_done.setVisibility(View.VISIBLE);
             Glide.with(mContext).load(activesBean.getSoldOutPic()).into(holder.iv_sale_done);
@@ -158,84 +164,6 @@ public class Skill2Adapter extends RecyclerView.Adapter<Skill2Adapter.BaseViewHo
 
     }
 
-//    @Override
-//    protected void convert(BaseViewHolder helper, CouponModel.DataBean.ActivesBean item) {
-//
-//        iv_pic = helper.getView(R.id.iv_pic);
-//        tv_desc = helper.getView(R.id.tv_desc);
-//        iv_sale_done = helper.getView(R.id.iv_sale_done);
-//        iv_flag = helper.getView(R.id.iv_flag);
-//        iv_add = helper.getView(R.id.iv_add);
-//        tv_coupon = helper.getView(R.id.tv_coupon);
-//        rl_coupon = helper.getView(R.id.rl_coupon);
-//        rl_group = helper.getView(R.id.rl_group);
-//        Glide.with(mContext).load(item.getDefaultPic()).into(iv_pic);
-//        helper.setText(R.id.tv_name,item.getActiveName());
-//        TextView tv_price = helper.getView(R.id.tv_price);
-//        tv_old_price = helper.getView(R.id.tv_old_price);
-//        tv_old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-//        helper.setText(R.id.tv_old_price,item.getOldPrice());
-//        tv_price.setText(item.getPrice());
-//        tv_old_price.getPaint().setAntiAlias(true);//抗锯齿
-//        if(item.getDiscount()!=null) {
-//            tv_coupon.setText(item.getDiscount());
-//            rl_coupon.setVisibility(View.VISIBLE);
-//        }else {
-//            rl_coupon.setVisibility(View.GONE);
-//        }
-//
-//        if(item.getFlag()==1) {
-//            iv_sale_done.setVisibility(View.VISIBLE);
-//            Glide.with(mContext).load(item.getSoldOutPic()).into(iv_sale_done);
-//        }else {
-//            iv_sale_done.setVisibility(View.GONE);
-//        }
-//
-//        if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-//            if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
-//                tv_desc.setVisibility(View.GONE);
-//                tv_old_price.setVisibility(View.VISIBLE);
-//                tv_price.setVisibility(View.VISIBLE);
-//            }else {
-//                tv_desc.setVisibility(View.VISIBLE);
-//                tv_old_price.setVisibility(View.GONE);
-//                tv_price.setVisibility(View.GONE);
-//            }
-//        }else {
-//            tv_desc.setVisibility(View.GONE);
-//            tv_old_price.setVisibility(View.VISIBLE);
-//            tv_price.setVisibility(View.VISIBLE);
-//        }
-//
-//        rl_group.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(mContext,SeckillGoodActivity.class);
-//                intent.putExtra(AppConstant.ACTIVEID,item.getActiveId());
-//                intent.putExtra("priceType",SharedPreferencesUtil.getString(mContext,"priceType"));
-//                intent.putExtra("num","-1");
-//                mContext.startActivity(intent);
-//
-//            }
-//        });
-//
-//        iv_add.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(onClick!=null) {
-//                    if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-//                        if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
-//                            onClick.shoppingCartOnClick(helper.getAdapterPosition());
-//                        }else {
-//                            onClick.tipClick();
-//                        }
-//                    }else {
-//                        onClick.addDialog();
-//                    }
-//                }
-//            }
-//        });
-//    }
 
     public interface OnClick {
         void shoppingCartOnClick(int position);
@@ -245,8 +173,7 @@ public class Skill2Adapter extends RecyclerView.Adapter<Skill2Adapter.BaseViewHo
 
     public class BaseViewHolder extends RecyclerView.ViewHolder {
         private RelativeLayout rl_group;
-//        private RelativeLayout rl_coupon;
-//        private ImageView iv_add;
+        private ImageView iv_not_send;
         private ImageView iv_pic;
         private TextView tv_price;
         private TextView tv_old_price;
@@ -260,7 +187,7 @@ public class Skill2Adapter extends RecyclerView.Adapter<Skill2Adapter.BaseViewHo
             rl_group = (RelativeLayout) view.findViewById(R.id.rl_group);
 //            rl_coupon = (RelativeLayout) view.findViewById(R.id.rl_coupon);
             tv_coupon = (TextView) view.findViewById(R.id.tv_coupon);
-//            iv_add = (ImageView) view.findViewById(R.id.iv_add);
+            iv_not_send = (ImageView) view.findViewById(R.id.iv_not_send);
             iv_flag = (ImageView) view.findViewById(R.id.iv_flag);
             iv_pic = (ImageView) view.findViewById(R.id.iv_pic);
             tv_price = (TextView) view.findViewById(R.id.tv_price);

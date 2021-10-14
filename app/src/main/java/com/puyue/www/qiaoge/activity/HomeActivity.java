@@ -51,6 +51,7 @@ import com.puyue.www.qiaoge.event.changeEvent;
 import com.puyue.www.qiaoge.event.setFragmentEvent;
 import com.puyue.www.qiaoge.event.setFragmentsEvent;
 import com.puyue.www.qiaoge.fragment.cart.CartFragment;
+import com.puyue.www.qiaoge.fragment.cart.CartFragments;
 import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.fragment.home.CityEvent;
 import com.puyue.www.qiaoge.fragment.home.HomeFragment;
@@ -119,10 +120,6 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     private long mExitTime = 0;
     private TextView mTvCarNum;
     // 弹窗
-    private HomePopuWindow popuWindow;
-    private String popuWindowImage;
-    private String popuWindowUrlIntent;
-    private int popuWindowId;
     private LinearLayout rootview;
     public LocationClient mLocationClient = null;
     private MyLocationListener myListener = new MyLocationListener();
@@ -143,7 +140,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
             mTabHome = fragment;
         if (mTabMarket == null && fragment instanceof MarketsFragment)
             mTabMarket = fragment;
-        if (mTabCart == null && fragment instanceof CartFragment)
+        if (mTabCart == null && fragment instanceof CartFragments)
             mTabCart = fragment;
         if (mTabInfo == null && fragment instanceof InfoFragment)
             mTabInfo = fragment;
@@ -228,7 +225,6 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
 
     @Override
     public void setViewData() {
-
         StatusBarUtil.setStatusBarLightMode(mActivity);
         EventBus.getDefault().register(this);
         if (getIntent() != null) {
@@ -506,7 +502,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                 mTvHome.setVisibility(View.VISIBLE);
 
                 if (mTabCart == null) {
-                    mTabCart = new CartFragment();
+                    mTabCart = new CartFragments();
                     mFragmentTransaction.add(R.id.layout_home_container, mTabCart);
                 } else {
                     mFragmentTransaction.show(mTabCart);
@@ -671,6 +667,8 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     protected void onResume() {
         super.onResume();
 
+        getCartNum();
+
         if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
             sendRegistionId();
             if (!isSend) {
@@ -683,9 +681,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
             mTvCarNum.setVisibility(View.GONE);
         }
         if (token != null) {
-
             sendLocation();
-
         }
     }
 

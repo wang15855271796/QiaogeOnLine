@@ -45,6 +45,7 @@ public class CommonAdapter extends BaseQuickAdapter<CouponModels.DataBean.Specia
     protected void convert(BaseViewHolder helper, CouponModels.DataBean.SpecialBean.ActivesBeanX item) {
         LinearLayout rl_more = helper.getView(R.id.ll_more);
         TextView tv_desc = helper.getView(R.id.tv_desc);
+        ImageView iv_send = helper.getView(R.id.iv_send);
         RelativeLayout rl_group = helper.getView(R.id.rl_group);
         RoundImageView iv_pic = helper.getView(R.id.iv_pic);
         TextView tv_price = helper.getView(R.id.tv_price);
@@ -72,6 +73,11 @@ public class CommonAdapter extends BaseQuickAdapter<CouponModels.DataBean.Specia
             tv_old_price.setVisibility(View.GONE);
         }
 
+        if(item.getNotSend()==1) {
+            iv_send.setVisibility(View.VISIBLE);
+        }else {
+            iv_send.setVisibility(View.GONE);
+        }
         if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
             if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
                 tv_price.setVisibility(View.VISIBLE);

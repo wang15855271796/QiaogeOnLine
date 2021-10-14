@@ -385,6 +385,13 @@
         <activity android:name=".activity.home.FullGiftActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".activity.FullActiveActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.FullListActivity"
+            android:screenOrientation="portrait"
+            />
 
         <activity android:name=".activity.cart.CompetActivity"
             android:screenOrientation="portrait"

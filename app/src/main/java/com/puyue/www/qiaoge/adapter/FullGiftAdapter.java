@@ -36,12 +36,12 @@ public class FullGiftAdapter extends BaseQuickAdapter<CartsListModel.DataBean.Va
         }else {
             rl_root.setVisibility(View.VISIBLE);
         }
+
         TextView tv_name = helper.getView(R.id.tv_name);
         tv_name.setText(item.getName());
 
         TextView tv_num = helper.getView(R.id.tv_num);
         tv_num.setText("*"+item.getSendNum());
-
 
         if(item.getAdditionFlag().equals("2")) {
             iv_head.setImageResource(R.mipmap.icon_grey_head);

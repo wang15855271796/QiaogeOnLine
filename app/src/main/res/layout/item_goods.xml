@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/ll_root"
+    android:layout_marginTop="@dimen/dp_10"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <CheckBox
+            android:id="@+id/cb_item_out"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:background="@drawable/app_equipment_all_select"
+            android:button="@null" />
+
+        <com.puyue.www.qiaoge.RoundImageView
+            android:id="@+id/iv_head"
+            android:src="@mipmap/ic_launcher"
+            android:layout_toRightOf="@+id/cb_item_cart"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="44dp"
+            android:layout_marginTop="15dp"
+            android:scaleType="fitXY" />
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_marginLeft="44dp"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:textSize="14sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/iv_head"
+            android:textColor="#333333"
+            android:ellipsize="end"
+            android:layout_marginRight="@dimen/sp_12"
+            android:text="【妙可蓝多】精致马苏里里苏里里苏奶马苏里奶"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/iv_operate"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/iv_head"
+            android:layout_below="@+id/tv_title"
+            tools:src="@mipmap/icon_operate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_35dp">
+
+        <CheckBox
+            android:id="@+id/cb_spec"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="@dimen/size_7dp"
+            android:background="@drawable/app_equipment_all_select"
+            android:button="@null" />
+
+        <TextView
+            android:text="规格s"
+            android:lines="1"
+            android:ellipsize="end"
+            android:id="@+id/tv_spec"
+            android:textColor="#333333"
+            android:textSize="@dimen/sp_14"
+            android:layout_marginTop="@dimen/size_7dp"
+            android:layout_marginLeft="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_price"
+        android:layout_marginLeft="@dimen/size_30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

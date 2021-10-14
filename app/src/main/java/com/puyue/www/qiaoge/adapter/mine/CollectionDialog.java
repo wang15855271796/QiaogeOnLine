@@ -188,7 +188,7 @@ public class CollectionDialog extends Dialog implements View.OnClickListener {
 
                                 if(exchangeProductModel.getData().getNotSend()!=null) {
                                     if(exchangeProductModel.getData().getNotSend().equals("1")||exchangeProductModel.getData().getNotSend().equals("1.0")) {
-                                        iv_send.setImageResource(R.mipmap.icon_not_send);
+                                        iv_send.setImageResource(R.mipmap.icon_not_send2);
                                         iv_send.setVisibility(View.VISIBLE);
                                     }else {
                                         iv_send.setVisibility(View.GONE);

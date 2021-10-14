@@ -70,6 +70,7 @@ import com.puyue.www.qiaoge.dialog.CouponDialog;
 import com.puyue.www.qiaoge.dialog.FullDialog;
 import com.puyue.www.qiaoge.dialog.ProductDescDialog;
 import com.puyue.www.qiaoge.dialog.PromoteDialog;
+import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.fragment.cart.NumEvent;
 import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
@@ -222,6 +223,10 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
     ImageView iv2;
     @BindView(R.id.tv_send_area)
     TextView tv_send_area;
+    @BindView(R.id.tv_coupon_desc)
+    TextView tv_coupon_desc;
+    @BindView(R.id.ll_coupon)
+    LinearLayout ll_coupon;
     private AlertDialog mTypedialog;
     LinearLayout ll_service;
     TextView tv_price;
@@ -507,11 +512,12 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                                 }
                             });
                         }
-                    }
-                    else if (UserInfoHelper.getUserType(mContext).equals(AppConstant.USER_TYPE_WHOLESALE)) {
+                    } else if (UserInfoHelper.getUserType(mContext).equals(AppConstant.USER_TYPE_WHOLESALE)) {
                         //这个用户是批发用户
                         // startActivity(new Intent(mContext,HomeActivity.class));
-                        startActivityForResult(new Intent(mContext, CartActivity.class), 21);
+//                        startActivityForResult(new Intent(mContext, CartActivity.class), 21);
+                        startActivity(new Intent(mContext, HomeActivity.class));
+                        EventBus.getDefault().post(new GoToCartFragmentEvent());
                     }
                 } else {
                     initDialog();
@@ -601,6 +607,13 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                             productName = model.getData().getProductName();
                             mTvTitle.setText(productName);
                             cell = model.getData().getCustomerPhone();
+                            if(models.getData().getDivFullGiftSendInfo()!=null) {
+                                ll_coupon.setVisibility(View.VISIBLE);
+                                tv_coupon_desc.setText(models.getData().getDivFullGiftSendInfo());
+                            }else {
+                                ll_coupon.setVisibility(View.GONE);
+                            }
+
                             if(model.getData().getFullGiftSendInfo()!=null&&model.getData().getFullGiftSendInfo().size()>0) {
                                 tv_full_desc.setText(model.getData().getFullGiftSendInfo().get(0));
                             }
@@ -650,7 +663,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                             //单点不送
                             if(models.getData().getNotSend()!=null) {
                                 if(models.getData().getNotSend().equals("1")||models.getData().getNotSend().equals("1.0")) {
-                                    iv_send.setImageResource(R.mipmap.icon_not_send_big);
+                                    iv_send.setImageResource(R.mipmap.icon_not_send2);
                                     iv_send.setVisibility(View.VISIBLE);
                                 }else {
                                     iv_send.setVisibility(View.GONE);

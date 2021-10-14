@@ -56,6 +56,7 @@ import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.BeizhuActivity;
 import com.puyue.www.qiaoge.activity.CartActivity;
+import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.mine.account.AddressListActivity;
 import com.puyue.www.qiaoge.adapter.OrderFullAdapter;
 import com.puyue.www.qiaoge.adapter.mine.NewOrderDetailAdapter;
@@ -73,6 +74,7 @@ import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.BackEvent;
 import com.puyue.www.qiaoge.event.BeizhuEvent;
+import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragments;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.MapHelper;
@@ -1345,7 +1347,9 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
                         if (copyToCartModel.success) {
                             //将订单内的商品加入购物车
                             AppHelper.showMsg(mContext, copyToCartModel.message);
-                            startActivity(CartActivity.getIntent(mContext, CartActivity.class));
+//                            startActivity(CartActivity.getIntent(mContext, CartActivity.class));
+                            startActivity(new Intent(mContext, HomeActivity.class));
+                            EventBus.getDefault().post(new GoToCartFragmentEvent());
 
                         } else {
                             AppHelper.showMsg(mContext, copyToCartModel.message);

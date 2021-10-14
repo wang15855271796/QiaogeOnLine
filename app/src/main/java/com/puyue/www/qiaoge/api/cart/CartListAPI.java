@@ -5,6 +5,7 @@ import android.content.Context;
 import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
 import com.puyue.www.qiaoge.helper.RestHelper;
 import com.puyue.www.qiaoge.model.cart.CartListModel;
+import com.puyue.www.qiaoge.model.cart.CartTestModel;
 import com.puyue.www.qiaoge.model.cart.CartsListModel;
 
 import retrofit2.http.Field;
@@ -36,6 +37,17 @@ public class CartListAPI {
 
     public static Observable<CartsListModel> requestCartLists(Context context) {
         CartListServices service = RestHelper.getBaseRetrofit(context).create(CartListServices.class);
+        return service.getData();
+    }
+
+    //最新购物车列表
+    public interface CartListsServices {
+        @POST(AppInterfaceAddress.GET_CART_LIST)
+        Observable<CartTestModel> getData();
+    }
+
+    public static Observable<CartTestModel> getCartsList(Context context) {
+        CartListsServices service = RestHelper.getBaseRetrofit(context).create(CartListsServices.class);
         return service.getData();
     }
 }

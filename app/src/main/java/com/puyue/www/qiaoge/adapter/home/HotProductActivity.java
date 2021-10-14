@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.CartActivity;
+import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.home.SearchStartActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.adapter.HotAdapter;
@@ -35,6 +36,7 @@ import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
+import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.event.UpDateNumEvent;
 import com.puyue.www.qiaoge.event.UpDateNumEvent6;
@@ -96,7 +98,6 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
     ProductNormalModel productNormalModel;
     private AlertDialog mTypedialog;
     String cell;
-    private String enjoyProduct;
     //热销集合
     private List<ProductNormalModel.DataBean.ListBean> list = new ArrayList<>();
 
@@ -155,7 +156,6 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
         getCustomerPhone();
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//        enjoyProduct = SharedPreferencesUtil.getString(mActivity, "priceType");
         refreshLayout.setEnableLoadMore(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         hotAdapter = new HotListAdapter(R.layout.item_hot_list,list, new HotListAdapter.Onclick() {
@@ -183,7 +183,9 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
             @Override
             public void onClick(View v) {
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mActivity))) {
-                    startActivity(new Intent(mContext, CartActivity.class));
+//                    startActivity(new Intent(mContext, CartActivity.class));
+                    startActivity(new Intent(mContext, HomeActivity.class));
+                    EventBus.getDefault().post(new GoToCartFragmentEvent());
                 } else {
                     AppHelper.showMsg(mActivity, "请先登录");
                     startActivity(LoginActivity.getIntent(mActivity, LoginActivity.class));

@@ -144,7 +144,7 @@ public class SpikeActiveQueryAdapter extends BaseQuickAdapter<SeckillListModel.D
             public void onClick(View v) {
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     int activeId = item.activeId;
-                    addCar(activeId, "", 2, "1");
+                    addCar(activeId,2, 1);
                     getDatas(1);
                 } else {
                     AppHelper.showMsg(mContext, "请先登录");
@@ -216,8 +216,8 @@ public class SpikeActiveQueryAdapter extends BaseQuickAdapter<SeckillListModel.D
                     }
                 });
     }
-    private void addCar(int businessId, String productCombinationPriceVOList, int businessType, String totalNum) {
-        AddCartAPI.requestData(mContext, businessId, productCombinationPriceVOList, businessType, String.valueOf(totalNum))
+    private void addCar(int businessId,int businessType, int totalNum) {
+        AddCartAPI.requestData(mContext,businessType, businessId, totalNum)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<AddCartModel>() {

@@ -6,7 +6,6 @@
     android:layout_height="wrap_content">
 
     <RelativeLayout
-
         android:background="@drawable/cart_item_good_bg"
         android:id="@+id/rl_cart_item_add"
         android:layout_width="match_parent"
@@ -103,7 +102,7 @@
                 android:id="@+id/tv_stock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="库存"
+                tools:text="库存"
                 android:textColor="@color/color_9B9B9B"
                 android:textSize="10dp" />
 
@@ -117,7 +116,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="赠:"
+                    tools:text="赠:"
                     android:textColor="#FFF6551A"
                     android:textSize="14dp" />
 

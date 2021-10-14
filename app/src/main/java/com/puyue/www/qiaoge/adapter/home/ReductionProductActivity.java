@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.CartActivity;
+import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.adapter.ReduceAdapter;
 import com.puyue.www.qiaoge.api.cart.GetCartNumAPI;
@@ -29,6 +30,7 @@ import com.puyue.www.qiaoge.api.home.ProductListAPI;
 import com.puyue.www.qiaoge.api.home.UpdateUserInvitationAPI;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
+import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.event.UpDateNumEvent;
 import com.puyue.www.qiaoge.event.UpDateNumEvent5;
@@ -153,7 +155,9 @@ public class ReductionProductActivity extends BaseSwipeActivity implements View.
             @Override
             public void onClick(View v) {
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mActivity))) {
-                    startActivity(new Intent(mContext, CartActivity.class));
+//                    startActivity(new Intent(mContext, CartActivity.class));
+                    startActivity(new Intent(mContext, HomeActivity.class));
+                    EventBus.getDefault().post(new GoToCartFragmentEvent());
                 } else {
                     AppHelper.showMsg(mActivity, "请先登录");
                     startActivity(LoginActivity.getIntent(mActivity, LoginActivity.class));
@@ -163,8 +167,11 @@ public class ReductionProductActivity extends BaseSwipeActivity implements View.
         rl_num.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mActivity,CartActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(mContext, HomeActivity.class));
+                EventBus.getDefault().post(new GoToCartFragmentEvent());
+
+//                Intent intent = new Intent(mActivity,CartActivity.class);
+//                startActivity(intent);
             }
         });
         getCartNum();

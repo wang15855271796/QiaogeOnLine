@@ -43,6 +43,7 @@ import android.widget.Toast;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.CartActivity;
+import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.home.ChangeCityActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.adapter.cart.ImageViewAdapter;
@@ -65,6 +66,7 @@ import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
+import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.fragment.cart.ChangeStatEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
@@ -533,7 +535,7 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
                                     //未选择数量
                                     AppHelper.showMsg(mContext, "请选择数量");
                                 } else {
-                                    addCart();
+                                    addCar();
                                     getDatass(1);
                                 }
                             }
@@ -544,7 +546,7 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
                                 //未选择数量
                                 AppHelper.showMsg(mContext, "请选择数量");
                             } else {
-                                addCart();
+                                addCar();
                                 getDatass(1);
                             }
                         }
@@ -577,11 +579,15 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
                                 });
                             }
                         } else {
-                            startActivityForResult(new Intent(mContext, CartActivity.class), 21);
+//                            startActivityForResult(new Intent(mContext, CartActivity.class), 21);
+                            startActivity(new Intent(mContext, HomeActivity.class));
+                            EventBus.getDefault().post(new GoToCartFragmentEvent());
                         }
                     } else if (UserInfoHelper.getUserType(mContext).equals(AppConstant.USER_TYPE_WHOLESALE)) {
                         //这个用户是批发用户
-                        startActivityForResult(new Intent(mContext, CartActivity.class), 21);
+//                        startActivityForResult(new Intent(mContext, CartActivity.class), 21);
+                        startActivity(new Intent(mContext, HomeActivity.class));
+                        EventBus.getDefault().post(new GoToCartFragmentEvent());
                     }
                 } else {
                     AppHelper.showMsg(mContext, "请先登录");
@@ -649,7 +655,7 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
                             //单点不送
                             if(model.getData().getNotSend()!=null) {
                                 if(model.getData().getNotSend().equals("1")||model.getData().getNotSend().equals("1.0")) {
-                                    iv_send.setImageResource(R.mipmap.icon_not_send_big);
+                                    iv_send.setImageResource(R.mipmap.icon_not_send2);
                                     iv_send.setVisibility(View.GONE);
                                 }else {
                                     iv_send.setVisibility(View.GONE);
@@ -1103,9 +1109,8 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
     /**
      * 加入购物车
      */
-    private void addCart() {
-
-        AddCartAPI.requestData(mContext, productId, null, businessType, String.valueOf(amount))
+    private void addCar() {
+            AddCartAPI.requestData(mContext,businessType,productId,amount)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<AddCartModel>() {
