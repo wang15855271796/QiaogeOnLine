@@ -21,15 +21,19 @@ import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
+import com.puyue.www.qiaoge.event.UpDateNumEvent0;
+import com.puyue.www.qiaoge.event.UpDateNumEvent2;
 import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.PublicRequestHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.cart.AddCartModel;
+import com.puyue.www.qiaoge.model.cart.CartAddModel;
 import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
 import com.puyue.www.qiaoge.model.home.TeamActiveQueryModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -197,7 +201,7 @@ public class CouponsInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.D
         AddCartAPI.requestData(mContext,businessType,businessId,totalNum)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<AddCartModel>() {
+                .subscribe(new Subscriber<CartAddModel>() {
                     @Override
                     public void onCompleted() {
 
@@ -209,14 +213,21 @@ public class CouponsInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.D
                     }
 
                     @Override
-                    public void onNext(AddCartModel addCartModel) {
-                        if (addCartModel.success) {
-                            AppHelper.showMsg(mContext, "成功加入购物车");
-                            EventBus.getDefault().post(new ReduceNumEvent());
+                    public void onNext(CartAddModel cartAddModel) {
+                        if (cartAddModel.getCode()==1) {
+                            if(cartAddModel.getData()!=null) {
+                                if(cartAddModel.getData().getAddFlag()==0) {
+                                    //正常
+                                    EventBus.getDefault().post(new ReduceNumEvent());
+                                    ToastUtil.showSuccessMsg(mContext,cartAddModel.getMessage());
+                                }else {
+                                    EventBus.getDefault().post(new ReduceNumEvent());
+                                    ToastUtil.showSuccessMsg(mContext,cartAddModel.getData().getMessage());
+                                }
+                            }
                         } else {
-                            AppHelper.showMsg(mContext, addCartModel.message);
+                            ToastUtil.showSuccessMsg(mContext,cartAddModel.getMessage());
                         }
-
                     }
                 });
     }

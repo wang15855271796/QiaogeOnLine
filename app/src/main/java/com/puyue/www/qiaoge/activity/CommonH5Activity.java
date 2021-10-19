@@ -224,40 +224,6 @@ public class CommonH5Activity extends BaseSwipeActivity {
     }
 
 
-    /**
-     * 通过cookie添加公共入参（js去获取cookie）
-     */
-    private void setCookie() {
-
-//        //后期修改
-//        UserModel userModel = (UserModel) CommonMethod.getObject(CommonH5Activity.this, UserModel.class, Const.USERMODEL);
-//        String userId = null;
-//        if (userModel != null) {
-//            userId = userModel.getUserId();
-//        }
-        String stime = AppSafeHelper.getSTime();
-        CookieSyncManager.createInstance(this);
-        CookieManager cookieManager = CookieManager.getInstance();
-        cookieManager.setAcceptCookie(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            cookieManager.setAcceptThirdPartyCookies(mWv, true);
-        }
-        cookieManager.setCookie(mUrl, "userId=" + UserInfoHelper.getUserId(CommonH5Activity.this));
-        cookieManager.setCookie(mUrl, "stime=" + stime);
-        cookieManager.setCookie(mUrl, "sign=" + AppSafeHelper.sign(stime));
-        cookieManager.setCookie(mUrl, "version=" + AppHelper.getVersion(CommonH5Activity.this));
-        cookieManager.setCookie(mUrl, "token=" + DeviceHelper.getDeviceId(CommonH5Activity.this));
-        cookieManager.setCookie(mUrl, "appType=" + AppConstant.APP_TYPE);
-        cookieManager.setCookie(mUrl, "platformCode=" + "YOUMI");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mWv.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
-        }
-        if (Build.VERSION.SDK_INT < 21) {
-            CookieSyncManager.getInstance().sync();
-        } else {
-            CookieManager.getInstance().flush();
-        }
-    }
 
 
 }

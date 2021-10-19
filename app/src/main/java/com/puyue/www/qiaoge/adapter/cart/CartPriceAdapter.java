@@ -52,7 +52,7 @@ public class CartPriceAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
         ImageView iv_add = helper.getView(R.id.iv_add);
         ImageView iv_cut = helper.getView(R.id.iv_cut);
         TextView tv_num = helper.getView(R.id.tv_num);
-        tv_price.setText(item.getPrice());
+        tv_price.setText(item.getPriceStr());
         tv_unit.setText(item.getUnitDesc());
 
         tv_num.setText(item.getProductNum()+"");

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.FullListActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.home.CouponDetailActivity;
 import com.puyue.www.qiaoge.activity.home.FullGiftActivity;
@@ -127,7 +128,7 @@ public class HomeActivityDialog extends Dialog {
                         if (popupViewHomeModel.success) {
                             switch (homePropup.getToPage()) {
                                 case "fullGiftSend"://满赠界面
-                                    context.startActivity(MyCouponsActivity.getIntent(context, FullGiftActivity.class));
+                                    context.startActivity(MyCouponsActivity.getIntent(context, FullListActivity.class));
                                     break;
                                 case "deduct": // 优惠券页面
                                     context.startActivity(MyCouponsActivity.getIntent(context, MyCouponsActivity.class));

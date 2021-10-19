@@ -71,11 +71,6 @@ private static final String CITYNAME="city_name";
      */
     private static final String PHONEIP= "phone_ip";
 
-    /**
-     *mac地址
-     */
-
-    private static final String MACLOCATION= "mac_login";
 
     /**
      *登录地址
@@ -149,27 +144,6 @@ private static final String ISREGISTER ="is_register";
         }
     }
 
-    public static void saveMac(Context context, String mac_login) {
-        try {
-            PreferenceHelper.saveData(context, USER_INFO, MACLOCATION, EncryptHelper.encrypt(AppConstant.APP_SHA_256, mac_login));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public static String getMac(Context context) {
-        if ((StringUtils.isBlank(PreferenceHelper.getData(context, USER_INFO, MACLOCATION)))) {
-            return "";
-        } else {
-            try {
-                return EncryptHelper.decrypt(AppConstant.APP_SHA_256, PreferenceHelper.getData(context, USER_INFO, MACLOCATION));
-            } catch (Exception e) {
-                e.printStackTrace();
-                return "";
-            }
-        }
-    }
 
 
 

@@ -9,8 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.renderscript.Allocation;
@@ -18,7 +16,6 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -41,8 +38,6 @@ import com.chuanglan.shanyan_sdk.listener.OpenLoginAuthListener;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.ConfigUtils;
 import com.puyue.www.qiaoge.activity.HomeActivity;
-import com.puyue.www.qiaoge.activity.WebDriverActivity;
-import com.puyue.www.qiaoge.activity.mine.account.EditAccountInputPhoneActivity;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.CityChangeAPI;
 import com.puyue.www.qiaoge.api.home.GetCustomerPhoneAPI;
@@ -57,32 +52,17 @@ import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.IsShowModel;
-import com.puyue.www.qiaoge.model.SurpliListModel;
 import com.puyue.www.qiaoge.model.mine.login.LoginModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.Time;
-import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.UnknownHostException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-import static cn.com.chinatelecom.account.api.CtAuth.mContext;
 
 /**
  * Created by Administrator on 2018/4/3.
@@ -147,8 +127,7 @@ public class LoginActivity extends BaseSwipeActivity {
 
     @Override
     public void setViewData() {
-//        UserInfoHelper.saveMac(mContext, getMacAddress(mContext));
-        UserInfoHelper.savePhoneIp(mContext, getLocalIpAddress(mContext));
+
 //        mLocationClient = new LocationClient(getApplicationContext());
 //        //声明LocationClient类
 //        mLocationClient.registerLocationListener(myListener);
@@ -311,12 +290,12 @@ public class LoginActivity extends BaseSwipeActivity {
                         //http://120.55.55.99:8082/apph5/html/OrderList.html
                         String url = "https://shaokao.qoger.com/apph5/html/OrderList.html";
 
-                        Intent intent = new Intent(mContext, WebDriverActivity.class);
-                        intent.putExtra("URL", url);
+//                        Intent intent = new Intent(mContext, WebDriverActivity.class);
+//                        intent.putExtra("URL", url);
                         if (!NetWorkHelper.isNetworkAvailable(mContext)) {
                             AppHelper.showMsg(mContext, "网络不给力!");
                         } else {
-                            startActivity(intent);
+//                            startActivity(intent);
                         }
 
                         alertDialog.dismiss();
@@ -678,127 +657,6 @@ public class LoginActivity extends BaseSwipeActivity {
     public void onPause() {
         super.onPause();
         hintKbTwo();
-    }
-
-
-    // /获取本机IP地址
-
-    public static String getLocalIpAddress(Context ctx) {
-        WifiManager wifiManager = (WifiManager) ctx
-                .getSystemService(Context.WIFI_SERVICE);
-        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        int ipAddress = wifiInfo.getIpAddress();
-        try {
-            return InetAddress.getByName(
-                    String.format("%d.%d.%d.%d", (ipAddress & 0xff),
-                            (ipAddress >> 8 & 0xff), (ipAddress >> 16 & 0xff),
-                            (ipAddress >> 24 & 0xff))).toString();
-        } catch (UnknownHostException e) {
-            return null;
-        }
-
-    }
-
-
-    /**
-     * Android  6.0 之前（不包括6.0）
-     * 必须的权限  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-     *
-     * @param context
-     * @return
-     */
-    private static String getMacDefault(Context context) {
-        String mac = "02:00:00:00:00:00";
-        if (context == null) {
-            return mac;
-        }
-
-        WifiManager wifi = (WifiManager) context.getApplicationContext()
-                .getSystemService(Context.WIFI_SERVICE);
-        if (wifi == null) {
-            return mac;
-        }
-        WifiInfo info = null;
-        try {
-            info = wifi.getConnectionInfo();
-        } catch (Exception e) {
-        }
-        if (info == null) {
-            return null;
-        }
-        mac = info.getMacAddress();
-        if (!TextUtils.isEmpty(mac)) {
-            mac = mac.toUpperCase(Locale.ENGLISH);
-        }
-        return mac;
-    }
-
-    /**
-     * Android 6.0（包括） - Android 7.0（不包括）
-     *
-     * @return
-     */
-    private static String getMacAddress() {
-        String WifiAddress = "02:00:00:00:00:00";
-        try {
-            WifiAddress = new BufferedReader(new FileReader(new File("/sys/class/net/wlan0/address"))).readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return WifiAddress;
-    }
-
-    /**
-     * 遍历循环所有的网络接口，找到接口是 wlan0
-     * 必须的权限 <uses-permission android:name="android.permission.INTERNET" />
-     *
-     * @return
-     */
-    private static String getMacFromHardware() {
-        try {
-            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
-            for (NetworkInterface nif : all) {
-                if (!nif.getName().equalsIgnoreCase("wlan0")) continue;
-
-                byte[] macBytes = nif.getHardwareAddress();
-                if (macBytes == null) {
-                    return "";
-                }
-
-                StringBuilder res1 = new StringBuilder();
-                for (byte b : macBytes) {
-                    res1.append(String.format("%02X:", b));
-                }
-
-                if (res1.length() > 0) {
-                    res1.deleteCharAt(res1.length() - 1);
-                }
-                return res1.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "02:00:00:00:00:00";
-    }
-
-
-    /**
-     * 获取MAC地址
-     *
-     * @param context
-     * @return
-     */
-    public static String getMacAddress(Context context) {
-        String mac = "02:00:00:00:00:00";
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            mac = getMacDefault(context);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            mac = getMacAddress();
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            mac = getMacFromHardware();
-        }
-        Log.i("wwb", "getMacAddress: " + mac);
-        return mac;
     }
 
 

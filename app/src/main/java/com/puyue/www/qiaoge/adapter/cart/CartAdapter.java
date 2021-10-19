@@ -101,7 +101,8 @@ public class CartAdapter extends BaseQuickAdapter<CartTestModel.DataBean.ProdsBe
         rl_tip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext,FullListActivity.class);
+                Intent intent = new Intent(mContext,FullActiveActivity.class);
+                intent.putExtra("fullId",item.getFullId());
                 mContext.startActivity(intent);
             }
         });

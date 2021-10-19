@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,6 +17,7 @@ import com.puyue.www.qiaoge.adapter.FullActiveAdapter;
 import com.puyue.www.qiaoge.adapter.FullGivenAdapter;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
+import com.puyue.www.qiaoge.dialog.CouponFullListDialog;
 import com.puyue.www.qiaoge.event.FullListModel;
 import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.event.UpDateNumEvent11;
@@ -91,6 +93,23 @@ public class FullActiveActivity extends BaseSwipeActivity implements View.OnClic
         rv_full_given.setAdapter(fullGivenAdapter);
         getOrder();
 
+
+        fullGivenAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+                if(sendGifts.get(position).getType()==0) {
+                    Intent intent = new Intent(mContext,CommonGoodsDetailActivity.class);
+                    intent.putExtra("activeId",sendGifts.get(position).getProductMainId());
+                    intent.putExtra("priceType", SharedPreferencesUtil.getString(mActivity, "priceType"));
+                    startActivity(intent);
+                }else {
+                    CouponFullListDialog couponFullListDialog = new CouponFullListDialog(mContext,sendGifts.get(position).getPoolNo());
+                    couponFullListDialog.show();
+                }
+            }
+        });
+
         fullActiveAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -131,6 +150,8 @@ public class FullActiveActivity extends BaseSwipeActivity implements View.OnClic
                     @Override
                     public void onNext(FullDetailModel fullDetailModel) {
                         if(fullDetailModel.getCode()==1) {
+                            sendGifts.clear();
+                            list.clear();
                             if(fullDetailModel.getData()!=null) {
                                 FullDetailModel.DataBean data = fullDetailModel.getData();
                                 tv_roll.setText(data.getRoleDesc());

@@ -421,13 +421,11 @@ public class MarketsFragment extends BaseFragment {
                 dialog.show();
                 pageNum = 1;
                 requestGoodsList(mList.get(position).getFirstId());
-                Log.d("wdfdasfdsfsfs....","2");
                 //点击一级分类时候隐藏品牌界面
                 ll_prod.setVisibility(View.GONE);
                 ll_select.setVisibility(View.VISIBLE);
                 if(mCustomPopWindow!=null) {
                     mCustomPopWindow.dissmiss();
-                    Log.d("wdsaas........","111");
                 }
 
             }

@@ -22,6 +22,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.RoundImageView;
+import com.puyue.www.qiaoge.activity.FullListActivity;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.activity.home.FullGiftActivity;
 import com.puyue.www.qiaoge.activity.home.SpecialGoodDetailActivity;
@@ -105,7 +106,7 @@ public class CommonssAdapter extends RecyclerView.Adapter<CommonssAdapter.BaseVi
             viewHolder.rl_group.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent1 = new Intent(mActivity,FullGiftActivity.class);
+                    Intent intent1 = new Intent(mActivity,FullListActivity.class);
                     mActivity.startActivity(intent1);
 
                 }

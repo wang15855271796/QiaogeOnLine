@@ -132,7 +132,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     private String type;
     private String district;
     CouponDialog couponDialog;
-
+    String[] params = { Manifest.permission.ACCESS_COARSE_LOCATION};
     @Override
     public void onAttachFragment(Fragment fragment) {
         //重新让新的Fragment指向了原本未被销毁的fragment，它就是onAttach方法对应的Fragment对象
@@ -154,7 +154,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         return false;
     }
 
-    String[] params = { Manifest.permission.ACCESS_COARSE_LOCATION};
+
         @Override
     public void setContentView() {
         //showSystemParameter();
@@ -694,13 +694,6 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(LogoutsEvent mainEvent) {
-//        if (city != null) {
-//            UserInfoHelper.saveCity(mContext, city);
-//            UserInfoHelper.saveAreaName(mContext,district);
-//        } else {
-//            UserInfoHelper.saveCity(mContext, UserInfoHelper.getCity(mContext));
-//            Log.d("wfrerteerfe......",UserInfoHelper.getCity(mContext)+"s1");
-//        }
         switchTab(TAB_HOME);
     }
 
@@ -824,16 +817,17 @@ public class MyLocationListener extends BDAbstractLocationListener {
         UserInfoHelper.saveAreaName(mContext, district);
         UserInfoHelper.saveLocation(mContext,location.getAddrStr());
         isGet = true;
-        if (type.equals("goHome")) {
+//        if (type.equals("goHome")) {
             if (city != null) {
                 UserInfoHelper.saveCity(mContext, city);
             } else {
                 UserInfoHelper.saveCity(mContext, "");
             }
-        }
+//        }
         type = "";
         locationMessage = location.getAddrStr();    //获取详细地址信息
         switchTab(TAB_HOME);
+        Log.d("sdsdfdsfsfs.......",city+"ss");
     }
 }
 }

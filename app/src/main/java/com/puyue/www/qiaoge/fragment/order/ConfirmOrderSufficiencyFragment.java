@@ -633,7 +633,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                                 tv_year.setVisibility(View.VISIBLE);
                                 mYear = listYear.get(position1);
 
-
                                 tv_year.setText(mYear);
                                 deliverTimeStart = dataBean.getData().get(position1).getDetailTime().get(position2).getStartTime();
                                 deliverTimeEnd = dataBean.getData().get(position1).getDetailTime().get(position2).getEndTime();

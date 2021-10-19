@@ -435,6 +435,7 @@ public class CartTestModel {
                 private int selfOrNot;
                 private boolean valid;
                 boolean isSelected = true;
+                String notSend;
 
                 @Override
                 public String toString() {
@@ -452,6 +453,14 @@ public class CartTestModel {
                             ", isSelected=" + isSelected +
                             ", productDescVOList=" + productDescVOList +
                             '}';
+                }
+
+                public String getNotSend() {
+                    return notSend;
+                }
+
+                public void setNotSend(String notSend) {
+                    this.notSend = notSend;
                 }
 
                 private List<ProductDescVOListBean> productDescVOList;

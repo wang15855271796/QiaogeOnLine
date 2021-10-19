@@ -59,11 +59,11 @@
                             android:id="@+id/iv_send"
                             android:visibility="gone"
                             android:layout_marginRight="@dimen/size_15dp"
-                            android:layout_marginBottom="@dimen/size_30dp"
+                            android:layout_marginBottom="@dimen/size_35dp"
                             android:layout_gravity="bottom|right"
                             android:src="@mipmap/icon_not_send2"
-                            android:layout_width="152dp"
-                            android:layout_height="@dimen/size_44dp" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
                     </FrameLayout>
 
                     <RelativeLayout
@@ -378,8 +378,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content" />
 
-                                    <LinearLayout
-                                        android:id="@+id/ll_coupon"
+                                    <RelativeLayout
+                                        android:id="@+id/rl_coupons"
                                         android:layout_below="@+id/tv_date"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content">
@@ -397,15 +397,21 @@
                                         <TextView
                                             tools:text="规格分类"
                                             android:id="@+id/tv_coupon_desc"
-                                            android:layout_below="@+id/tv_date"
                                             android:layout_marginLeft="@dimen/size_20dp"
                                             android:layout_toRightOf="@+id/tv1"
-                                            android:textColor="#333333"
+                                            android:textColor="#FF2925"
                                             android:textSize="14sp"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content" />
 
-                                    </LinearLayout>
+                                        <ImageView
+                                            android:src="@mipmap/rightarrow"
+                                            android:layout_marginRight="@dimen/size_13dp"
+                                            android:layout_alignParentRight="true"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content" />
+
+                                    </RelativeLayout>
                                 </RelativeLayout>
 
                             </RelativeLayout>

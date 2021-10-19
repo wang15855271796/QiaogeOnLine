@@ -133,6 +133,7 @@ public class MineFragment extends BaseFragment {
     private TextView mViewVersionPoint;
     private AccountCenterModel mModelAccountCenter;
     private String mUserCell;
+    String onlineTime;
     private int mStateCode;
     TextView tv_phone;
     ImageView iv_back;
@@ -547,16 +548,6 @@ public class MineFragment extends BaseFragment {
         });
     }
 
-
-    private void updateOrderNum() {
-        //消息中心
-        if (mModelMyOrderNum.getData().getNotice() > 0) {
-            mViewMessageNum.setVisibility(View.VISIBLE);
-            mViewMessageNum.setText("  " + mModelMyOrderNum.getData().getNotice() + "  ");
-        } else {
-            mViewMessageNum.setVisibility(View.GONE);
-        }
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -1185,6 +1176,7 @@ public class MineFragment extends BaseFragment {
 
     private void updateAccountCenter() {
         mUserCell = mModelAccountCenter.data.phone;
+        onlineTime = mModelAccountCenter.data.onlineTime;
         mCustomerPhone = mModelAccountCenter.data.customerPhone;
     }
 
@@ -1198,6 +1190,7 @@ public class MineFragment extends BaseFragment {
         mDialog.getWindow().setContentView(R.layout.dialog_call_phone);
         tv_phone = mDialog.getWindow().findViewById(R.id.tv_phone);
         tv_time = mDialog.getWindow().findViewById(R.id.tv_time);
+        tv_time.setText("在线客服"+ "("+onlineTime+")");
         tv_phone.setText("客服热线 ("+cell+")");
         tv_phone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1215,28 +1208,6 @@ public class MineFragment extends BaseFragment {
                 mDialog.dismiss();
             }
         });
-//        mDialog.getWindow().findViewById(R.id.tv_dialog_call_phone_cancel).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mDialog.dismiss();
-//            }
-//        });
-
-//        mDialog.getWindow().findViewById(R.id.tv_dialog_call_phone_sure).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                UnicornManager.inToUnicorn(getContext());
-////                if (isTablet(getActivity())) {
-////                    AppHelper.showMsg(getActivity(), "当前设备不具备拨号功能");
-////                } else {
-////                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + cell));
-////                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-////                    startActivity(intent);
-////                }
-//                mDialog.dismiss();
-//            }
-//        });
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

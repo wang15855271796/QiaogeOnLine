@@ -281,7 +281,6 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
 
                     @Override
                     public void onNext(CartGetReductModel cartGetReductModel) {
-                        Log.d("fdsfdsfeff..........","sds1");
                         if (cartGetReductModel.isSuccess()) {
                             if (!TextUtils.isEmpty(cartGetReductModel.getData())) {
                                 marqueeTextView.setText(cartGetReductModel.getData());

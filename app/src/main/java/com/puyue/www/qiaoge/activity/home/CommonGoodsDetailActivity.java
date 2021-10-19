@@ -36,6 +36,7 @@ import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.CartActivity;
+import com.puyue.www.qiaoge.activity.FullListActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.IntelliGencyInfoActivity;
 import com.puyue.www.qiaoge.activity.ShopsActivity;
@@ -225,8 +226,8 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
     TextView tv_send_area;
     @BindView(R.id.tv_coupon_desc)
     TextView tv_coupon_desc;
-    @BindView(R.id.ll_coupon)
-    LinearLayout ll_coupon;
+    @BindView(R.id.rl_coupons)
+    RelativeLayout rl_coupons;
     private AlertDialog mTypedialog;
     LinearLayout ll_service;
     TextView tv_price;
@@ -403,6 +404,14 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
         mLlCar.setOnClickListener(noDoubleClickListener);
         mLlCustomer.setOnClickListener(noDoubleClickListener);
         linearLayoutOnclick.setOnClickListener(noDoubleClickListener);
+        rl_coupons.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext,FullListActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         tv_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -608,10 +617,10 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                             mTvTitle.setText(productName);
                             cell = model.getData().getCustomerPhone();
                             if(models.getData().getDivFullGiftSendInfo()!=null) {
-                                ll_coupon.setVisibility(View.VISIBLE);
+                                rl_coupons.setVisibility(View.VISIBLE);
                                 tv_coupon_desc.setText(models.getData().getDivFullGiftSendInfo());
                             }else {
-                                ll_coupon.setVisibility(View.GONE);
+                                rl_coupons.setVisibility(View.GONE);
                             }
 
                             if(model.getData().getFullGiftSendInfo()!=null&&model.getData().getFullGiftSendInfo().size()>0) {

@@ -1,5 +1,6 @@
 package com.puyue.www.qiaoge.fragment.home;
 
+import android.Manifest;
 import android.animation.IntEvaluator;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -40,6 +41,7 @@ import com.puyue.www.qiaoge.AutoPollRecyclerView;
 import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
+import com.puyue.www.qiaoge.activity.FullListActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.TestActivity;
 import com.puyue.www.qiaoge.activity.TopEvent;
@@ -97,6 +99,7 @@ import com.puyue.www.qiaoge.dialog.ChooseHomeDialog;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
 import com.puyue.www.qiaoge.dialog.CouponListDialog;
 import com.puyue.www.qiaoge.dialog.HomeActivityDialog;
+import com.puyue.www.qiaoge.dialog.Privacy4Dialog;
 import com.puyue.www.qiaoge.dialog.PrivacyDialog;
 import com.puyue.www.qiaoge.dialog.PrivacysDialog;
 import com.puyue.www.qiaoge.dialog.TurnTableDialog;
@@ -171,6 +174,7 @@ import butterknife.Unbinder;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import pub.devrel.easypermissions.EasyPermissions;
 import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -453,6 +457,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     private HomeActivityDialog homeActivityDialog;
     CommonssAdapter commonssAdapter;
     int topHeight;
+//    String[] params = { Manifest.permission.ACCESS_COARSE_LOCATION};
     @Override
     public int setLayoutId() {
         return R.layout.test10;
@@ -460,7 +465,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
 
     @Override
     public void initViews(View view) {
-
     }
 
 
@@ -1166,11 +1170,13 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                     public void onNext(PrivacyModel privacyModel) {
                         if (privacyModel.isSuccess()) {
                             String content = privacyModel.getData().getContent();
-                            privacyDialog = new PrivacysDialog(mActivity, content);
+//                            privacyDialog = new PrivacysDialog(mActivity);
+                            Privacy4Dialog privacysDialog = new Privacy4Dialog(mActivity);
+                            privacysDialog.show();
                             if(privacyModel.getData().getOpen().equals("0")) {
-                                privacyDialog.dismiss();
+                                privacysDialog.dismiss();
                             }else {
-                                privacyDialog.show();
+                                privacysDialog.show();
                             }
 
 //                            couponListModels = indexInfoModel.getData();
@@ -1900,7 +1906,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.rl_more4:
                 //满赠
-                Intent fullIntent = new Intent(getActivity(), FullGiftActivity.class);
+                Intent fullIntent = new Intent(getActivity(), FullListActivity.class);
                 startActivity(fullIntent);
                 break;
 
@@ -1915,12 +1921,12 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                 break;
 
             case R.id.iv_full2_right:
-                Intent intent1 = new Intent(mActivity,FullGiftActivity.class);
+                Intent intent1 = new Intent(mActivity,FullListActivity.class);
                 startActivity(intent1);
                 break;
 
             case R.id.iv_full_right:
-                Intent intent7 = new Intent(mActivity,FullGiftActivity.class);
+                Intent intent7 = new Intent(mActivity,FullListActivity.class);
                 startActivity(intent7);
                 break;
 
@@ -1945,7 +1951,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                 break;
 
             case R.id.rl_more5:
-                Intent intent8 = new Intent(mActivity,FullGiftActivity.class);
+                Intent intent8 = new Intent(mActivity,FullListActivity.class);
                 startActivity(intent8);
                 break;
         }

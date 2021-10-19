@@ -656,8 +656,6 @@
             android:screenOrientation="portrait" />
         <activity android:name=".fragment.home.NewWebViewsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.WebDriverActivity"
-            android:screenOrientation="portrait" />
         <activity android:name=".activity.mine.wallet.MinerIntegralActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.home.EvaluationActivity"

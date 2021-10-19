@@ -24,8 +24,10 @@ import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.cart.AddCartModel;
+import com.puyue.www.qiaoge.model.cart.CartAddModel;
 import com.puyue.www.qiaoge.model.home.SeckillListModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.GlideModel;
 
 import org.greenrobot.eventbus.EventBus;
@@ -216,11 +218,39 @@ public class SpikeActiveQueryAdapter extends BaseQuickAdapter<SeckillListModel.D
                     }
                 });
     }
+//    private void addCar(int businessId,int businessType, int totalNum) {
+//        AddCartAPI.requestData(mContext,businessType, businessId, totalNum)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<AddCartModel>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(AddCartModel addCartModel) {
+//                        if (addCartModel.success) {
+//                            AppHelper.showMsg(mContext, "成功加入购物车");
+//                            EventBus.getDefault().post(new ReduceNumEvent());
+//                        } else {
+//                            AppHelper.showMsg(mContext, addCartModel.message);
+//                        }
+//
+//                    }
+//                });
+//    }
+
     private void addCar(int businessId,int businessType, int totalNum) {
         AddCartAPI.requestData(mContext,businessType, businessId, totalNum)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<AddCartModel>() {
+                .subscribe(new Subscriber<CartAddModel>() {
                     @Override
                     public void onCompleted() {
 
@@ -232,14 +262,21 @@ public class SpikeActiveQueryAdapter extends BaseQuickAdapter<SeckillListModel.D
                     }
 
                     @Override
-                    public void onNext(AddCartModel addCartModel) {
-                        if (addCartModel.success) {
-                            AppHelper.showMsg(mContext, "成功加入购物车");
-                            EventBus.getDefault().post(new ReduceNumEvent());
+                    public void onNext(CartAddModel cartAddModel) {
+                        if (cartAddModel.getCode()==1) {
+                            if(cartAddModel.getData()!=null) {
+                                if(cartAddModel.getData().getAddFlag()==0) {
+                                    //正常
+                                    EventBus.getDefault().post(new ReduceNumEvent());
+                                    ToastUtil.showSuccessMsg(mContext,cartAddModel.getMessage());
+                                }else {
+                                    EventBus.getDefault().post(new ReduceNumEvent());
+                                    ToastUtil.showSuccessMsg(mContext,cartAddModel.getData().getMessage());
+                                }
+                            }
                         } else {
-                            AppHelper.showMsg(mContext, addCartModel.message);
+                            ToastUtil.showSuccessMsg(mContext,cartAddModel.getMessage());
                         }
-
                     }
                 });
     }

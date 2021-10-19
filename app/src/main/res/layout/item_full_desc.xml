@@ -25,4 +25,5 @@
         android:text="购买以下商品满2箱，赠 （可叠加5次）："
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
 </LinearLayout>

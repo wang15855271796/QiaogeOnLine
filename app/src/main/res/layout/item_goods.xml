@@ -63,7 +63,7 @@
 
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_35dp">
@@ -78,7 +78,8 @@
             android:button="@null" />
 
         <TextView
-            android:text="规格s"
+            android:layout_toRightOf="@+id/cb_spec"
+            android:text="规格"
             android:lines="1"
             android:ellipsize="end"
             android:id="@+id/tv_spec"
@@ -89,7 +90,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/iv_send"
+            android:visibility="gone"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginTop="@dimen/size_7dp"
+            android:src="@mipmap/icon_not_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_price"

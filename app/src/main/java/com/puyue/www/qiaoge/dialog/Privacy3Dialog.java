@@ -13,15 +13,15 @@ import com.puyue.www.qiaoge.R;
  */
 public class Privacy3Dialog extends Dialog {
     Activity mContext;
-    String content;
     TextView tv_content;
     TextView tv_look;
     TextView tv_logout;
-    public Privacy3Dialog(@NonNull Activity context, String content) {
+    String content = "https://shaokao.qoger.com/apph5/html/yszc2.html";
+    String register = "http://staff.qoger.com/h5/enter.html";
+    public Privacy3Dialog(@NonNull Activity context) {
         super(context, R.style.promptDialog);
         setContentView(R.layout.dialog_privacy3);
         mContext = context;
-        this.content = content;
         initView();
     }
 
@@ -41,7 +41,7 @@ public class Privacy3Dialog extends Dialog {
         tv_look.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PrivacysDialog privacysDialog = new PrivacysDialog(mContext,content);
+                PrivacysDialog privacysDialog = new PrivacysDialog(mContext);
                 privacysDialog.show();
                 dismiss();
             }

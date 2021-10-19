@@ -19,7 +19,9 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
+import com.puyue.www.qiaoge.activity.home.SpecialGoodDetailActivity;
 import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
+import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.event.CartGoodsEvent;
 import com.puyue.www.qiaoge.fragment.cart.UpdateEvent;
 import com.puyue.www.qiaoge.model.cart.CartTestModel;
@@ -50,6 +52,8 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
 
     @Override
     protected void convert(BaseViewHolder helper, CartTestModel.DataBean.ProdsBeanX.ProdsBean item) {
+        ImageView iv_send = helper.getView(R.id.iv_send);
+        ImageView iv_icon = helper.getView(R.id.iv_icon);
         LinearLayout ll_root = helper.getView(R.id.ll_root);
         ImageView iv_operate = helper.getView(R.id.iv_operate);
         RoundImageView iv_head = helper.getView(R.id.iv_head);
@@ -59,6 +63,17 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
         CheckBox cb_spec = helper.getView(R.id.cb_spec);
         tv_spec.setText(item.getSpec());
 
+        if(item.getNotSend()!=null) {
+            if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
+                iv_send.setImageResource(R.mipmap.icon_not_send);
+                iv_send.setVisibility(View.VISIBLE);
+            }else {
+                iv_send.setVisibility(View.GONE);
+            }
+        }
+        if(item.getFlagUrl()!=null&&item.getFlagUrl()!="") {
+            Glide.with(mContext).load(item.getFlagUrl()).into(iv_icon);
+        }
         if(item.getSelfOrNot()==0) {
             iv_operate.setImageResource(R.mipmap.icon_operate);
         }else {
@@ -118,10 +133,12 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
                 }else if(item.getBusinessType()==2){
                     Intent intent = new Intent(mContext,SeckillGoodActivity.class);
                     intent.putExtra("activeId",item.getBusinessId());
+                    intent.putExtra("num","-1");
                     intent.putExtra("priceType", SharedPreferencesUtil.getString(mContext,"priceType"));
                     mContext.startActivity(intent);
+
                 }else {
-                    Intent intent = new Intent(mContext,SeckillGoodActivity.class);
+                    Intent intent = new Intent(mContext,SpecialGoodDetailActivity.class);
                     intent.putExtra("activeId",item.getBusinessId());
                     intent.putExtra("priceType", SharedPreferencesUtil.getString(mContext,"priceType"));
                     mContext.startActivity(intent);

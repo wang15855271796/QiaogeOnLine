@@ -7,87 +7,9 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="485dp"
-        android:background="@drawable/app_my_wallet_bg"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/title"
-            android:textStyle="bold"
-            android:layout_marginBottom="@dimen/size_15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="@dimen/size_15dp"
-            android:layout_marginRight="@dimen/size_15dp"
-            android:gravity="center_horizontal"
-            android:text="翘歌隐私政策"
-            android:textColor="#333333"
-            android:textSize="18sp" />
-
-        <WebView
-            android:id="@+id/webView"
-            android:layout_marginLeft="@dimen/size_15dp"
-            android:scrollbars="none"
-            android:layout_marginBottom="@dimen/size_5dp"
-            android:layout_marginRight="@dimen/size_15dp"
-            android:layout_width="match_parent"
-            android:layout_height="265dp">
-
-        </WebView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/size_30dp"
-            android:layout_marginRight="@dimen/size_15dp"
-            android:layout_marginLeft="@dimen/size_15dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/checkbox"
-                android:button="@null"
-                android:background="@drawable/select_checkbox"
-                android:layout_width="@dimen/size_16dp"
-                android:layout_height="@dimen/size_16dp" />
-
-            <TextView
-                android:layout_marginLeft="@dimen/size_5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="我已经阅读"
-                android:textColor="#ff858585"
-                android:textSize="@dimen/size_12dp" />
-
-            <TextView
-                android:id="@+id/tv_account"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="《翘歌隐私政策》"
-                android:textColor="#F56D23"
-                android:textSize="@dimen/size_12dp" />
-
-            <TextView
-                android:id="@+id/tv_second"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                tools:text="(5s)"
-                android:textColor="#F56D23"
-                android:textSize="14dp" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-
         android:background="@drawable/shape_white1"
         android:padding="8dp"
-        android:layout_margin="@dimen/size_20dp"
+        android:layout_margin="@dimen/size_10dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -105,18 +27,45 @@
             android:lineSpacingExtra="5dp"
             android:textSize="@dimen/sp_14"
             android:layout_marginTop="@dimen/size_10dp"
-            android:text="感谢您对翘歌一直以来的信任！"
+            android:text="感谢您对翘歌一直以来的信任，我们依据最新的监管要求更新了"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/tv_content"
-            android:textSize="@dimen/sp_14"
-            android:text="我们依据最新的监管要求更新了《翘歌隐私权政策》，特向您说明如下"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <!--《货易链隐私权政策》与《用户协议》，特向您说明如下-->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
+            <TextView
+                android:id="@+id/tv_content1"
+                android:textSize="@dimen/sp_14"
+                android:text="《翘歌隐私权政策》与"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_content2"
+                android:textSize="@dimen/sp_14"
+                android:text="《用户协议》,特向您说明"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <!--<TextView-->
+        <!--android:id="@+id/tv_content"-->
+        <!--android:textSize="@dimen/sp_14"-->
+        <!--android:text="我们依据最新的监管要求更新了《货易链隐私权政策》与《用户协议》，特向您说明如下"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
+
+        <!--<TextView-->
+        <!--android:textSize="@dimen/sp_14"-->
+        <!--android:text="我们依据最新的监管要求更新了《货易链隐私权政策》与《用户协议》，特向您说明如下"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
         <TextView
+            android:layout_marginTop="@dimen/size_5dp"
             android:textSize="@dimen/sp_14"
             android:text="1、为向您提供交易相关基本功能，我们会收集、使用必要的信息；"
             android:layout_width="wrap_content"

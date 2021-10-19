@@ -121,6 +121,7 @@ public class FullDetailModel {
             private String buyNum;
             private String buyAmt;
 
+
             public int getRoleType() {
                 return roleType;
             }
@@ -166,7 +167,15 @@ public class FullDetailModel {
             private String sendNum;
             private int type;
             private String poolNo;
+            int productMainId;
 
+            public int getProductMainId() {
+                return productMainId;
+            }
+
+            public void setProductMainId(int productMainId) {
+                this.productMainId = productMainId;
+            }
             public String getGiftName() {
                 return giftName;
             }

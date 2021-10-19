@@ -19,10 +19,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.CartActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
+import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.activity.home.SearchStartActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.adapter.HotAdapter;
@@ -167,6 +169,15 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
             @Override
             public void login() {
                 initDialog();
+            }
+        });
+
+        hotAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(mContext,CommonGoodsDetailActivity.class);
+                intent.putExtra("activeId",list.get(position).getProductMainId());
+                intent.putExtra("priceType",SharedPreferencesUtil.getString(mContext,"priceType"));
             }
         });
         recyclerView.setAdapter(hotAdapter);

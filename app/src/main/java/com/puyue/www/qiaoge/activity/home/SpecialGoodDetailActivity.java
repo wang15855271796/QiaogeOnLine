@@ -71,6 +71,7 @@ import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
 import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
+import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.CollapsingToolbarLayoutStateHelper;
 import com.puyue.www.qiaoge.helper.FVHelper;
@@ -80,6 +81,7 @@ import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.listener.OnItemClickListener;
 import com.puyue.www.qiaoge.model.cart.AddCartModel;
+import com.puyue.www.qiaoge.model.cart.CartAddModel;
 import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
 import com.puyue.www.qiaoge.model.home.ChoiceSpecModel;
 import com.puyue.www.qiaoge.model.home.ClickCollectionModel;
@@ -95,6 +97,7 @@ import com.puyue.www.qiaoge.model.mine.GetShareInfoModle;
 import com.puyue.www.qiaoge.utils.DateUtils;
 import com.puyue.www.qiaoge.utils.LoginUtil;
 import com.puyue.www.qiaoge.utils.Time;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.utils.Utils;
 import com.puyue.www.qiaoge.view.SnapUpCountDownTimerView;
 import com.puyue.www.qiaoge.view.SnapUpCountDownTimerView1;
@@ -247,10 +250,7 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
             if(bundle.getString("priceType")!=null) {
                 priceType = bundle.getString("priceType");
             }
-
-
         }
-
         return false;
     }
 
@@ -259,8 +259,6 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
         handleExtra(savedInstanceState);
         super.onCreate(savedInstanceState);
     }
-
-
 
     @Override
     public void setContentView() {
@@ -623,7 +621,7 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
                             if(model.getData().getNotSend()!=null) {
                                 if(models.getData().getNotSend().equals("1")||models.getData().getNotSend().equals("1.0")) {
                                     iv_send.setImageResource(R.mipmap.icon_not_send2);
-                                    iv_send.setVisibility(View.GONE);
+                                    iv_send.setVisibility(View.VISIBLE);
                                 }else {
                                     iv_send.setVisibility(View.GONE);
                                 }
@@ -1115,10 +1113,9 @@ private float star;
      */
     private void addCart() {
         AddCartAPI.requestData(mContext,businessType,productId,amount)
-//        AddCartAPI.requestData(mContext, productId, null, businessType, String.valueOf(amount))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<AddCartModel>() {
+                .subscribe(new Subscriber<CartAddModel>() {
                     @Override
                     public void onCompleted() {
 
@@ -1130,19 +1127,57 @@ private float star;
                     }
 
                     @Override
-                    public void onNext(AddCartModel addCartModel) {
-                        if (addCartModel.success) {
-                            AppHelper.showMsg(mContext, "成功加入购物车");
-                            getCartNum();
-                            setAnim(mTvAddCar);
-                        } else {
-                            AppHelper.showMsg(mContext, addCartModel.message);
-                        }
+                    public void onNext(CartAddModel cartAddModel) {
+                        if (cartAddModel.getCode()==1) {
+                            if(cartAddModel.getData()!=null) {
+                                if(cartAddModel.getData().getAddFlag()==0) {
+                                    //正常
+                                    EventBus.getDefault().post(new ReduceNumEvent());
+                                    ToastUtil.showSuccessMsg(mContext,cartAddModel.getMessage());
+                                }else {
+                                    EventBus.getDefault().post(new ReduceNumEvent());
+                                    ToastUtil.showSuccessMsg(mContext,cartAddModel.getData().getMessage());
+                                }
+                                getCartNum();
+                                setAnim(mTvAddCar);
 
+                            }
+                        } else {
+                            ToastUtil.showSuccessMsg(mContext,cartAddModel.getMessage());
+                        }
                     }
                 });
-
     }
+//    private void addCart() {
+//        AddCartAPI.requestData(mContext,businessType,productId,amount)
+////        AddCartAPI.requestData(mContext, productId, null, businessType, String.valueOf(amount))
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<AddCartModel>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(AddCartModel addCartModel) {
+//                        if (addCartModel.success) {
+//                            AppHelper.showMsg(mContext, "成功加入购物车");
+//                            getCartNum();
+//                            setAnim(mTvAddCar);
+//                        } else {
+//                            AppHelper.showMsg(mContext, addCartModel.message);
+//                        }
+//
+//                    }
+//                });
+//
+//    }
 
 
     public void returnBitMap(String src) {

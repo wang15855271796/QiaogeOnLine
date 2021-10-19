@@ -62,8 +62,8 @@ public class CouponFullListDialog extends Dialog implements View.OnClickListener
 
     @BindView(R.id.iv_close)
     ImageView iv_close;
-//    @BindView(R.id.recyclerView)
-//    RecyclerView recyclerView;
+    @BindView(R.id.tv_user_factor)
+    TextView tv_user_factor;
     @BindView(R.id.tv_title)
     TextView tv_title;
     @BindView(R.id.tv_amount)
@@ -137,6 +137,7 @@ public class CouponFullListDialog extends Dialog implements View.OnClickListener
                                 tv_time.setText(data.getDateTime());
                                 tv_amount.setText(data.getAmountStr());
                                 tv_role.setText(data.getRole().get(0));
+                                tv_user_factor.setText(data.getUseInfo());
                             }
                         }else {
                             ToastUtil.showSuccessMsg(getContext(),fullCouponListModel.getMessage());
