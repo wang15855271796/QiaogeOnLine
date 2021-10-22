@@ -65,6 +65,7 @@ public class SeckillListModel {
             public String sales;
             public String progress;
             public String flagUrl;
+            public String notSend;
         }
     }
 }

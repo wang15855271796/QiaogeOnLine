@@ -72,6 +72,7 @@ public class CouponsInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.D
 
     @Override
     protected void convert(BaseViewHolder helper, TeamActiveQueryModel.DataBean.ActivesBean item) {
+        ImageView iv_send = helper.getView(R.id.iv_send);
         rl_price = helper.getView(R.id.rl_price);
         tv_price = helper.getView(R.id.tv_price);
         tv_old_price = helper.getView(R.id.tv_old_price);
@@ -82,6 +83,16 @@ public class CouponsInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.D
         tv_total = helper.getView(R.id.tv_total);
         pb = helper.getView(R.id.pb);
         rl_coupon = helper.getView(R.id.rl_coupon);
+
+        if(item.getNotSend()!=null) {
+            if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
+                iv_send.setImageResource(R.mipmap.icon_not_send2);
+                iv_send.setVisibility(View.VISIBLE);
+            }else {
+                iv_send.setVisibility(View.GONE);
+            }
+        }
+
 
         Glide.with(mContext).load(item.getDefaultPic()).into(iv_pic);
         helper.setText(R.id.tv_name,item.getActiveName());
@@ -164,16 +175,16 @@ public class CouponsInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.D
             public void onClick(View v) {
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     int activeId = item.getActiveId();
-                    addCar(activeId, 2, 1);
+                    addCar(activeId, 11, 1);
                 } else {
                     AppHelper.showMsg(mContext, "请先登录");
                     mContext.startActivity(LoginActivity.getIntent(mContext, LoginActivity.class));
                 }
-
                 getDatas(1);
             }
         });
     }
+
     private void getDatas(long end) {
         RecommendApI.getDatas(mContext,16,end)
                 .subscribeOn(Schedulers.io())

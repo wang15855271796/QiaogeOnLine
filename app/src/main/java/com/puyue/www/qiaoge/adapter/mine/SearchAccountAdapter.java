@@ -47,13 +47,10 @@ public class SearchAccountAdapter extends BaseQuickAdapter<SearchListModel.DataB
             mTvContent.setTextColor(Color.parseColor("#ff333333"));
             iv_select.setVisibility(View.GONE);
         }
-
     }
-
 
     public void selectPosition(int position) {
         this.selectPosition = position;
-
         notifyDataSetChanged();
     }
 }

@@ -152,14 +152,11 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
     private int pageNum = 1;
     private int pageSize = 10;
     private byte businessType = 11;
-    private byte productType = 1;
     private boolean isCollection = false;
-    private int inventory = 0;
     private int amount = 0;
     private Date currents;
     private Date starts;
     private Date ends;
-    GuessModel searchResultsModel;
     //猜你喜欢集合
     private List<ChoiceSpecModel> account = new ArrayList<>();
     private String totalMoney = "0";
@@ -562,6 +559,7 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
      * 获取详情
      */
     SpecialGoodModel models;
+    int activityType;
     private void getProductDetail(final int productId,String num) {
         GetSpecialDetailAPI.requestData(mContext, productId,num)
                 .subscribeOn(Schedulers.io())
@@ -591,6 +589,7 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
                                 tv_limit_num.setBackgroundResource(R.drawable.shape_red2);
                             }
 
+                            activityType = model.getData().getActivityType();
                             tv_sale.setText(model.getData().getSaleVolume());
                             productName =model.getData().getActiveName();
                             models = model;
@@ -1112,7 +1111,7 @@ private float star;
      * 加入购物车
      */
     private void addCart() {
-        AddCartAPI.requestData(mContext,businessType,productId,amount)
+        AddCartAPI.requestData(mContext,activityType,productId,amount)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<CartAddModel>() {

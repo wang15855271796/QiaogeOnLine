@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.xrecyclerview.DensityUtil;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.adapter.ChooseFullSpecAdapters;
@@ -127,7 +128,9 @@ public class FullDetailDialog extends Dialog implements View.OnClickListener {
 
     public void init() {
         view = View.inflate(context, R.layout.dialog_choice, null);
-        view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,DensityUtil.px2dip(514,getContext()));
+        view.setLayoutParams(layoutParams);
+//        view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,100));
         binder = ButterKnife.bind(this, view);
         setContentView(view);
         getWindow().setGravity(Gravity.BOTTOM);
@@ -186,8 +189,11 @@ public class FullDetailDialog extends Dialog implements View.OnClickListener {
                                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                                 recyclerView.setAdapter(hotItemAdapter);
 
-                                chooseSpecAdapter = new ChooseFullSpecAdapters(context,exchangeProductModel1s.getData().getProdSpecs());
-                                fl_container.setAdapter(chooseSpecAdapter);
+                                if(chooseSpecAdapter==null) {
+                                    chooseSpecAdapter = new ChooseFullSpecAdapters(context,exchangeProductModel1s.getData().getProdSpecs());
+                                    fl_container.setAdapter(chooseSpecAdapter);
+                                }
+
 
                                 if(exchangeProductModel.getData().getNotSend()!=null) {
                                     if(exchangeProductModel.getData().getNotSend().equals("1")||exchangeProductModel.getData().getNotSend().equals("1.0")) {

@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
@@ -67,6 +68,7 @@ public class SpikeActiveQueryAdapter extends BaseQuickAdapter<SeckillListModel.D
 
     @Override
     protected void convert(BaseViewHolder helper, SeckillListModel.DataBean.KillsBean item) {
+        ImageView iv_send = helper.getView(R.id.iv_send);
         ll_root = helper.getView(R.id.ll_root);
         rl_price = helper.getView(R.id.rl_price);
         tv_add_remind = helper.getView(R.id.tv_add_remind);
@@ -92,6 +94,14 @@ public class SpikeActiveQueryAdapter extends BaseQuickAdapter<SeckillListModel.D
         String spikeFlag = UserInfoHelper.getSpikePosition(mContext);
         GlideModel.disPlayError(mContext,item.pic,ivSpike);
 
+        if(item.notSend!=null) {
+            if(item.notSend.equals("1")||item.notSend.equals("1.0")) {
+                iv_send.setImageResource(R.mipmap.icon_not_send2);
+                iv_send.setVisibility(View.VISIBLE);
+            }else {
+                iv_send.setVisibility(View.GONE);
+            }
+        }
         if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
             if(Integer.parseInt(spikeFlag)==0) {
                 //未开始

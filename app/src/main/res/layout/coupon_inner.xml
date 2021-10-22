@@ -21,6 +21,14 @@
             android:layout_width="105dp"
             android:layout_height="105dp" />
 
+        <ImageView
+            android:id="@+id/iv_send"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/size_20dp"
+            android:layout_marginLeft="@dimen/size_17dp"
+            android:src="@mipmap/icon_not_send2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <TextView
             tools:text="标题"
             android:maxLines="1"

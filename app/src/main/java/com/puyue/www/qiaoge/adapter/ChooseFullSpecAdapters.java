@@ -67,7 +67,6 @@ public class ChooseFullSpecAdapters extends BaseAdapter {
         holder.tv_spec.setText(prodSpecs.get(position).getSpec());
 
         if(selectPosition==position) {
-
             holder.tv_spec.setTextColor(Color.parseColor("#FF680A"));
             holder.tv_spec.setBackgroundColor(Color.parseColor("#FEF5EF"));
         }else {

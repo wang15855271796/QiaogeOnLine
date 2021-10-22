@@ -15,8 +15,8 @@
 
         <RelativeLayout
             android:id="@+id/rl_pic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="@dimen/size_100dp"
+            android:layout_height="@dimen/size_100dp">
 
             <ImageView
                 android:visibility="gone"
@@ -41,9 +41,10 @@
 
             <ImageView
                 android:visibility="gone"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/size_15dp"
                 android:id="@+id/iv_send"
                 android:layout_marginTop="@dimen/dp_10"
-                android:layout_marginLeft="@dimen/dp_10"
                 android:src="@mipmap/icon_not_send2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

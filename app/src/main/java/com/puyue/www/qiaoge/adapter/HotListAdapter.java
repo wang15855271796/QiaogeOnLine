@@ -59,7 +59,7 @@ public class HotListAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean
                 iv_send.setImageResource(R.mipmap.icon_not_send2);
                 iv_send.setVisibility(View.VISIBLE);
             }else {
-                iv_send.setVisibility(View.VISIBLE);
+                iv_send.setVisibility(View.GONE);
             }
         }
 

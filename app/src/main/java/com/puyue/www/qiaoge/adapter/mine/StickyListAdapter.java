@@ -103,7 +103,7 @@ public class StickyListAdapter extends BaseAdapter implements StickyListHeadersA
 
 	@Override
 	public long getHeaderId(int position) {
-		Log.d("wdsssssssss....",position+"bb");
+
 		long time=0;
 		try {
 			time=DateUtils.getMonthTime(list.get(position).getDateTime(),

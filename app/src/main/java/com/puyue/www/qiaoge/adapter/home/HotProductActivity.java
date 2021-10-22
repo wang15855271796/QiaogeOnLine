@@ -178,6 +178,7 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
                 Intent intent = new Intent(mContext,CommonGoodsDetailActivity.class);
                 intent.putExtra("activeId",list.get(position).getProductMainId());
                 intent.putExtra("priceType",SharedPreferencesUtil.getString(mContext,"priceType"));
+                startActivity(intent);
             }
         });
         recyclerView.setAdapter(hotAdapter);

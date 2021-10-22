@@ -48,6 +48,7 @@ public class Team1InnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.Dat
 
     @Override
     protected void convert(BaseViewHolder helper, TeamActiveQueryModel.DataBean.ActivesBean item) {
+        ImageView iv_send = helper.getView(R.id.iv_send);
         tv_old_price = helper.getView(R.id.tv_old_price);
         tv_coupon = helper.getView(R.id.tv_coupon);
         tv_price = helper.getView(R.id.tv_price);
@@ -61,6 +62,15 @@ public class Team1InnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.Dat
         helper.setText(R.id.tv_spec,item.getSpec());
 //        helper.setText(R.id.tv_price,item.getPrice());
 //        helper.setText(R.id.tv_old_price,item.getOldPrice());
+        if(item.getNotSend()!=null) {
+            if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
+                iv_send.setImageResource(R.mipmap.icon_not_send2);
+                iv_send.setVisibility(View.VISIBLE);
+            }else {
+                iv_send.setVisibility(View.GONE);
+            }
+        }
+
     if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
         if (SharedPreferencesUtil.getString(mContext, "priceType").equals("1")) {
             rl_price.setVisibility(View.GONE);

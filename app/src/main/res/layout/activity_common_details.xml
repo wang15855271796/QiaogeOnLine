@@ -328,7 +328,6 @@
 
                                     <com.puyue.www.qiaoge.view.FlowLayout
                                         android:id="@+id/fl_container"
-                                        android:visibility="gone"
                                         android:layout_marginLeft="@dimen/size_47dp"
                                         android:layout_below="@+id/tv"
                                         android:layout_marginBottom="@dimen/dp_10"
@@ -395,11 +394,14 @@
                                             android:layout_height="wrap_content" />
 
                                         <TextView
-                                            tools:text="规格分类"
+                                            tools:text="规格分类规格分类规格分类规格分类规格分类规格分类规格分类规格分类"
+                                            android:lines="1"
+                                            android:ellipsize="end"
                                             android:id="@+id/tv_coupon_desc"
                                             android:layout_marginLeft="@dimen/size_20dp"
                                             android:layout_toRightOf="@+id/tv1"
                                             android:textColor="#FF2925"
+                                            android:layout_marginRight="@dimen/size_25dp"
                                             android:textSize="14sp"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content" />

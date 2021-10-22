@@ -152,7 +152,7 @@ public class TeamActiveQueryModel {
             private String progress;
             private String remainNum;
             String discount;
-
+            String notSend;
             @Override
             public String toString() {
                 return "ActivesBean{" +
@@ -168,6 +168,14 @@ public class TeamActiveQueryModel {
                         ", remainNum='" + remainNum + '\'' +
                         ", discount='" + discount + '\'' +
                         '}';
+            }
+
+            public String getNotSend() {
+                return notSend;
+            }
+
+            public void setNotSend(String notSend) {
+                this.notSend = notSend;
             }
 
             public String getDiscount() {

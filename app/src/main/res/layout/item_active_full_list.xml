@@ -27,6 +27,7 @@
             android:layout_centerVertical="true"
             tools:src="@mipmap/icon_baidu"
             android:layout_width="104dp"
+            android:scaleType="fitXY"
             android:layout_height="104dp" />
 
         <ImageView

@@ -1,16 +1,22 @@
 package com.puyue.www.qiaoge.adapter.cart;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
+import com.puyue.www.qiaoge.activity.home.SpecialGoodDetailActivity;
+import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
 import com.puyue.www.qiaoge.model.cart.CartTestModel;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
 import java.util.List;
 
@@ -25,6 +31,7 @@ public class CartGivenAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
 
     @Override
     protected void convert(BaseViewHolder helper, CartTestModel.DataBean.ProdsBeanX.AdditionsBean item) {
+        LinearLayout ll_root =  helper.getView(R.id.ll_root);
         ImageView iv_icon = helper.getView(R.id.iv_icon);
         TextView tv_title = helper.getView(R.id.tv_title);
         TextView tv_spec = helper.getView(R.id.tv_spec);
@@ -59,5 +66,15 @@ public class CartGivenAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
             tv_bg.setVisibility(View.GONE);
         }
 
+
+        ll_root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext,CommonGoodsDetailActivity.class);
+                intent.putExtra("activeId",item.getProductMainId());
+                intent.putExtra("priceType", SharedPreferencesUtil.getString(mContext,"priceType"));
+                mContext.startActivity(intent);
+            }
+        });
     }
 }
