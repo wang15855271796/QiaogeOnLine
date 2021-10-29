@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
@@ -16,6 +18,7 @@ import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.event.FullListModel;
 import com.puyue.www.qiaoge.model.FullDetailModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
+import com.puyue.www.qiaoge.view.selectmenu.MyScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +38,14 @@ public class FullListActivity extends BaseSwipeActivity {
     RecyclerView recyclerView;
     @BindView(R.id.iv_back)
     ImageView iv_back;
+    @BindView(R.id.scrollView)
+    MyScrollView scrollView;
+    @BindView(R.id.ll_title)
+    LinearLayout ll_title;
     FullListAdapter fullListAdapter;
+
+    private int fadingHeight = 600;
+
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -60,6 +70,22 @@ public class FullListActivity extends BaseSwipeActivity {
 
         getFullList();
 
+        scrollView.setScrollChangeListener(new MyScrollView.ScrollChangedListener() {
+            @Override
+            public void onScrollChangedListener(int x, int y, int oldX, int oldY) {
+                if (y > fadingHeight) {
+                    y = fadingHeight; // 当滑动到指定位置之后设置颜色为纯色，之前的话要渐变---实现下面的公式即可
+
+//                relativela_id.setBackgroundColor(Color.WHITE);
+                } else if (y < 0) {
+                    y = 0;
+                } else {
+                }
+
+                float scale = (float) y / 255;
+                ll_title.setAlpha(scale);
+            }
+        });
     }
 
     @Override

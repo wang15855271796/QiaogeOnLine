@@ -328,6 +328,7 @@
 
                                     <com.puyue.www.qiaoge.view.FlowLayout
                                         android:id="@+id/fl_container"
+                                        android:visibility="gone"
                                         android:layout_marginLeft="@dimen/size_47dp"
                                         android:layout_below="@+id/tv"
                                         android:layout_marginBottom="@dimen/dp_10"
@@ -378,6 +379,7 @@
                                         android:layout_height="wrap_content" />
 
                                     <RelativeLayout
+                                        android:visibility="gone"
                                         android:id="@+id/rl_coupons"
                                         android:layout_below="@+id/tv_date"
                                         android:layout_width="match_parent"

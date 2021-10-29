@@ -238,7 +238,6 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
         month = i + "";
         year = mCalendar.get(Calendar.YEAR) + "";
 
-
         LoadingDailog.Builder loadBuilder = new LoadingDailog.Builder(mContext)
                 .setMessage("获取数据中")
                 .setCancelable(false)

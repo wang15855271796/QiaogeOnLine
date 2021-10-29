@@ -46,7 +46,6 @@ public class SearchResultAdapter extends BaseQuickAdapter<SearchResultsModel.Dat
     public SearchResultAdapter(int layoutResId, @Nullable List<SearchResultsModel.DataBean.RecommendProdBean> data, Onclick onclick) {
         super(layoutResId, data);
         this.onclick = onclick;
-
     }
 
     @Override

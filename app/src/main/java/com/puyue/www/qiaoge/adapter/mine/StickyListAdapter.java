@@ -100,7 +100,6 @@ public class StickyListAdapter extends BaseAdapter implements StickyListHeadersA
 		return headView;
 	}
 
-
 	@Override
 	public long getHeaderId(int position) {
 

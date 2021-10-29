@@ -118,6 +118,7 @@ public class GetProductDetailModel {
         String areaName;
         String customerPhone;
         boolean hasCollect;
+        int fullId;
         @Override
         public String toString() {
             return "DataBean{" +
@@ -139,6 +140,14 @@ public class GetProductDetailModel {
                     ", detailPic=" + detailPic +
                     ", topPic=" + topPic +
                     '}';
+        }
+
+        public int getFullId() {
+            return fullId;
+        }
+
+        public void setFullId(int fullId) {
+            this.fullId = fullId;
         }
 
         public boolean isHasCollect() {

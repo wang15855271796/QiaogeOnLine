@@ -44,6 +44,7 @@ import com.puyue.www.qiaoge.event.FromIndexEvent;
 import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.event.GoToMarketEvent;
 import com.puyue.www.qiaoge.event.GoToMineEvent;
+import com.puyue.www.qiaoge.event.InitEvent;
 import com.puyue.www.qiaoge.event.LogoutEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.event.change1Event;
@@ -236,7 +237,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         //声明LocationClient类
         mLocationClient.registerLocationListener(myListener);
 
-
+        EventBus.getDefault().post(new InitEvent());
         //注册监听函数
         LocationClientOption option = new LocationClientOption();
 

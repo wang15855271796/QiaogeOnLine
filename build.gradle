@@ -3,10 +3,15 @@
 buildscript {
 
     repositories {
+//        jcenter()
+//        google()
+        maven { url'https://esri.jfrog.io/artifactory/arcgis' }
         google()
-        maven { url'http://maven.aliyun.com/nexus/content/repositories/releases/' }
-        maven { url 'https://maven.google.com' }
 
+//        maven { url 'https://maven.aliyun.com/repository/google' }
+//        maven { url'http://maven.aliyun.com/nexus/content/repositories/releases/' }
+//        maven { url 'https://maven.google.com' }
+        maven { url "https://jitpack.io" }
         jcenter()
 
     }
@@ -26,10 +31,14 @@ allprojects {
 //        flatDir {
 //            dirs 'libs'
 //        }
+//        jcenter()
+//        google()
+        maven { url'https://esri.jfrog.io/artifactory/arcgis' }
         google()
-        maven { url'http://maven.aliyun.com/nexus/content/repositories/releases/' }
-        maven { url 'https://dl.bintray.com/umsdk/release' }
-        maven { url 'https://maven.google.com' }
+//        maven { url 'https://maven.aliyun.com/repository/google' }
+//        maven { url'http://maven.aliyun.com/nexus/content/repositories/releases/' }
+//        maven { url 'https://dl.bintray.com/umsdk/release' }
+//        maven { url 'https://maven.google.com' }
         maven { url "https://jitpack.io" }
 
         jcenter()

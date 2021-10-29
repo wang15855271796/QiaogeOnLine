@@ -36,6 +36,7 @@ import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.CartActivity;
+import com.puyue.www.qiaoge.activity.FullActiveActivity;
 import com.puyue.www.qiaoge.activity.FullListActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.IntelliGencyInfoActivity;
@@ -407,9 +408,9 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
         rl_coupons.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext,FullListActivity.class);
+                Intent intent = new Intent(mContext,FullActiveActivity.class);
+                intent.putExtra("fullId",models.getData().getFullId());
                 startActivity(intent);
-                finish();
             }
         });
         tv_address.setOnClickListener(new View.OnClickListener() {
@@ -616,7 +617,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                             productName = model.getData().getProductName();
                             mTvTitle.setText(productName);
                             cell = model.getData().getCustomerPhone();
-                            if(models.getData().getDivFullGiftSendInfo()!=null) {
+                            if(models.getData().getDivFullGiftSendInfo()!=null&&!models.getData().getDivFullGiftSendInfo().equals("")) {
                                 rl_coupons.setVisibility(View.VISIBLE);
                                 tv_coupon_desc.setText(models.getData().getDivFullGiftSendInfo());
                             }else {

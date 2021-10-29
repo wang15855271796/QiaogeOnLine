@@ -1,1 +1,1 @@
-include ':app', ':xrecyclerview', ':library', ':wheelview', ':pickerview', ':StickyListHeaders_lib'
+include ':app', ':xrecyclerview', ':library', ':wheelview', ':pickerview', ':StickyListHeaders_lib', ':MarqueeViewLib'

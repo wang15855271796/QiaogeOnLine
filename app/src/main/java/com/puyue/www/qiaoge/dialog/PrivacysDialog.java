@@ -37,6 +37,7 @@ import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.api.home.IndexInfoModel;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.event.CouponListModel;
+import com.puyue.www.qiaoge.event.InitEvent;
 import com.puyue.www.qiaoge.event.PrivacyModel;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringSpecialHelper;
@@ -55,6 +56,8 @@ import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
 import com.umeng.socialize.PlatformConfig;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -90,7 +93,8 @@ public class PrivacysDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 SharedPreferencesUtil.saveString(mContext,"once","0");
-                initSdk();
+                EventBus.getDefault().post(new InitEvent());
+//                initSdk();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -163,7 +167,6 @@ public class PrivacysDialog extends Dialog {
             }
             @Override
             public void onFailure(String s, String s1) {
-                Log.d("wsassssssss......",s1);
             }
         });
 
