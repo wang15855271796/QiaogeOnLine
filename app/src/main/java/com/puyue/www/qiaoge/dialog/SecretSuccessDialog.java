@@ -2,13 +2,11 @@ package com.puyue.www.qiaoge.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
-
-import java.util.logging.Handler;
 
 /**
  * Created by ${王涛} on 2020/11/17

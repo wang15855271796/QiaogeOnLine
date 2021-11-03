@@ -3,8 +3,8 @@ package com.puyue.www.qiaoge.dialog;
 import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
+import androidx.annotation.NonNull;
+
 import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.LinearLayout;

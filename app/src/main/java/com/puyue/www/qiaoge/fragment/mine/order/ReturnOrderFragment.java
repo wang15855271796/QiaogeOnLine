@@ -1,22 +1,18 @@
 package com.puyue.www.qiaoge.fragment.mine.order;
 
-import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 
-import com.puyue.www.qiaoge.activity.mine.order.ReturnGoodActivity;
-import com.puyue.www.qiaoge.adapter.ReturnOrdersItemAdapter;
 import com.puyue.www.qiaoge.adapter.mine.MyOrdersItemAdapter;
 import com.puyue.www.qiaoge.api.mine.order.CopyToCartAPI;
 import com.puyue.www.qiaoge.api.mine.order.MyOrderListAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
-import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;

@@ -3,14 +3,13 @@ package com.puyue.www.qiaoge.activity.mine.wallet;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,7 +19,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -28,7 +26,6 @@ import com.android.tu.loadingdialog.LoadingDailog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.emilsjolander.components.stickylistheaders.StickyListHeadersListView;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.activity.view.NormalDecoration;
 import com.puyue.www.qiaoge.adapter.mine.AccountSelectAdapter;
 
 import com.puyue.www.qiaoge.adapter.mine.SearchAccountAdapter;
@@ -39,7 +36,6 @@ import com.puyue.www.qiaoge.api.mine.subaccount.SearchAccountAPI;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.DividerItemDecoration;
-import com.puyue.www.qiaoge.helper.DividerItemDecorationTwo;
 import com.puyue.www.qiaoge.helper.FVHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.home.GetSumPriceModel;
@@ -61,10 +57,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import in.srain.cube.views.ptr.PtrClassicFrameLayout;
-import in.srain.cube.views.ptr.PtrDefaultHandler;
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;

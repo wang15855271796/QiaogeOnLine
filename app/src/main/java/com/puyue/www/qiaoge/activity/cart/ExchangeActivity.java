@@ -1,11 +1,10 @@
 package com.puyue.www.qiaoge.activity.cart;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -16,19 +15,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.activity.home.CouponsAdapter;
-import com.puyue.www.qiaoge.adapter.CouponListsAdapter;
 import com.puyue.www.qiaoge.adapter.CouponListssAdapter;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
-import com.puyue.www.qiaoge.dialog.ExCouponDialog;
 import com.puyue.www.qiaoge.helper.BigDecimalUtils;
-import com.puyue.www.qiaoge.model.cart.CartCommonGoodsModel;
 import com.puyue.www.qiaoge.model.cart.ExChangeModel;
 import com.puyue.www.qiaoge.model.cart.ItemModel;
-import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.utils.Utils;
-import com.puyue.www.qiaoge.view.KeyboardChangeListener;
 
 import java.util.ArrayList;
 import java.util.List;

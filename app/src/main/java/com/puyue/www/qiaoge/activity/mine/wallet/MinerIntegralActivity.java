@@ -2,28 +2,23 @@ package com.puyue.www.qiaoge.activity.mine.wallet;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
 
 
-import com.puyue.www.qiaoge.activity.mine.order.MyConfireOrdersActivity;
 import com.puyue.www.qiaoge.adapter.mine.MinerIntegralAdapter;
 import com.puyue.www.qiaoge.api.mine.PointApI;
-import com.puyue.www.qiaoge.api.mine.order.GenerateOrderAPI;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.helper.AppHelper;
-import com.puyue.www.qiaoge.helper.GlideRoundTransform;
-import com.puyue.www.qiaoge.model.mine.order.GenerateOrderModel;
 import com.puyue.www.qiaoge.model.mine.wallet.MinerIntegralModel;
 
 import java.util.ArrayList;

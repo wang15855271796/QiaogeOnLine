@@ -1,8 +1,8 @@
 package com.puyue.www.qiaoge.adapter.cart;
 
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -13,8 +13,6 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.activity.CartActivity;
-import com.puyue.www.qiaoge.helper.GlideRoundTransform;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.model.cart.CartListModel;
 import com.puyue.www.qiaoge.view.GlideModel;

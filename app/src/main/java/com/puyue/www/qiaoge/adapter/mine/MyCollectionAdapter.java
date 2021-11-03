@@ -1,31 +1,23 @@
 package com.puyue.www.qiaoge.adapter.mine;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.support.annotation.Nullable;
-import android.util.Log;
+import androidx.annotation.Nullable;
+
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.adapter.market.MarketGoodsAdapter;
 import com.puyue.www.qiaoge.dialog.CollectionDialog;
-import com.puyue.www.qiaoge.dialog.CouponSearchDialog;
-import com.puyue.www.qiaoge.dialog.HotDialog;
-import com.puyue.www.qiaoge.helper.GlideRoundTransform;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
-import com.puyue.www.qiaoge.model.mine.collection.CollectionListModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.view.GlideModel;
 

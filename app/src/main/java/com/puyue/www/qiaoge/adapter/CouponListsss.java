@@ -1,12 +1,10 @@
 package com.puyue.www.qiaoge.adapter;
 
 import android.app.Activity;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,17 +13,13 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.MoneyInputFilter;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.dialog.ExCouponDialog;
 import com.puyue.www.qiaoge.dialog.ExCouponsDialog;
 import com.puyue.www.qiaoge.helper.BigDecimalUtils;
-import com.puyue.www.qiaoge.model.cart.CartsListModel;
 import com.puyue.www.qiaoge.model.cart.ItemModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
 
 /**
  * Created by ${王涛} on 2020/8/10

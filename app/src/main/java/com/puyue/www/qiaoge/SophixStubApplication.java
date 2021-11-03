@@ -1,27 +1,9 @@
 package com.puyue.www.qiaoge;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.support.annotation.Keep;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.multidex.MultiDex;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
-import com.puyue.www.qiaoge.model.User;
-import com.qiyukf.unicorn.api.ImageLoaderListener;
-import com.qiyukf.unicorn.api.OnBotEventListener;
-import com.qiyukf.unicorn.api.StatusBarNotificationConfig;
-import com.qiyukf.unicorn.api.Unicorn;
-import com.qiyukf.unicorn.api.UnicornImageLoader;
-import com.qiyukf.unicorn.api.YSFOptions;
+import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.multidex.MultiDex;
 
 public class SophixStubApplication {
 //    private final String TAG = "SophixStubApplication";

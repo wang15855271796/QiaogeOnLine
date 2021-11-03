@@ -2,20 +2,17 @@ package com.puyue.www.qiaoge.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.SwitchCompat;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.activity.mine.SetAmountEvent;
 import com.puyue.www.qiaoge.event.SetAmountMaxEvent;
 import com.puyue.www.qiaoge.event.SetAmountMaxsEvent;
-import com.puyue.www.qiaoge.event.SetAmountsEvent;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 

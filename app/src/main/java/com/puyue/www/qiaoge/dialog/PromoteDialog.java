@@ -3,8 +3,7 @@ package com.puyue.www.qiaoge.dialog;
 import android.app.Dialog;
 import android.content.Context;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,19 +15,12 @@ import android.widget.LinearLayout;
 
 import com.puyue.www.qiaoge.R;
 
-import com.puyue.www.qiaoge.adapter.FullActivitesAdapter;
-
 import com.puyue.www.qiaoge.utils.Utils;
 
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by ${王涛} on 2020/9/22

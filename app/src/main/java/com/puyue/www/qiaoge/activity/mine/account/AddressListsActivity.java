@@ -2,9 +2,9 @@ package com.puyue.www.qiaoge.activity.mine.account;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.adapter.mine.AddressAdapter;
 import com.puyue.www.qiaoge.api.home.CityChangeAPI;
 import com.puyue.www.qiaoge.api.mine.address.AddressListAPI;
 import com.puyue.www.qiaoge.api.mine.address.DefaultAddressAPI;

@@ -1,22 +1,19 @@
 package com.puyue.www.qiaoge.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.adapter.CouDanAdapter;
 import com.puyue.www.qiaoge.adapter.CouDanUnAdapter;
-import com.puyue.www.qiaoge.api.mine.coupon.MyCouponsAPI;
 import com.puyue.www.qiaoge.api.mine.coupon.userChooseDeductAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
-import com.puyue.www.qiaoge.fragment.mine.coupons.MyCouponsUsedAdapter;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.model.mine.coupons.UserChooseDeductModel;
 import com.puyue.www.qiaoge.model.mine.coupons.queryUserDeductByStateModel;
@@ -24,10 +21,6 @@ import com.puyue.www.qiaoge.model.mine.coupons.queryUserDeductByStateModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import in.srain.cube.views.ptr.PtrClassicFrameLayout;
-import in.srain.cube.views.ptr.PtrDefaultHandler;
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;

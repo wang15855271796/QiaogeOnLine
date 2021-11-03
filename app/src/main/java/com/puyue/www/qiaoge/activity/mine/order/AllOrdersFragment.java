@@ -1,20 +1,18 @@
 package com.puyue.www.qiaoge.activity.mine.order;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.adapter.mine.MyOrdersItemAdapter;
 import com.puyue.www.qiaoge.adapter.mine.MySubOrdersItemAdapter;
 import com.puyue.www.qiaoge.api.cart.CancelOrderAPI;
 import com.puyue.www.qiaoge.api.cart.DeleteOrderAPI;
@@ -24,7 +22,6 @@ import com.puyue.www.qiaoge.api.mine.order.CopyToCartAPI;
 import com.puyue.www.qiaoge.api.mine.order.MyOrderListAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.base.BaseModel;
-import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragment;
 import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragments;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
@@ -34,7 +31,6 @@ import com.puyue.www.qiaoge.model.cart.CancelOrderModel;
 import com.puyue.www.qiaoge.model.mine.order.CommonModel;
 import com.puyue.www.qiaoge.model.mine.order.ConfirmGetGoodsModel;
 import com.puyue.www.qiaoge.model.mine.order.CopyToCartModel;
-import com.puyue.www.qiaoge.model.mine.order.MyOrdersModel;
 import com.puyue.www.qiaoge.model.mine.order.OrderEvaluateListModel;
 
 import java.io.Serializable;

@@ -1,9 +1,9 @@
 package com.puyue.www.qiaoge.fragment.home;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -23,7 +23,6 @@ import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.dialog.CatePopWindow;
 import com.puyue.www.qiaoge.dialog.ChooseCityPopWindow;
-import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.PopWindowListener;

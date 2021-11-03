@@ -2,20 +2,13 @@ package com.puyue.www.qiaoge.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.text.SpannableStringBuilder;
+
+import androidx.annotation.NonNull;
+
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.activity.CommonH5Activity;
-import com.puyue.www.qiaoge.activity.HomeActivity;
-import com.puyue.www.qiaoge.helper.StringSpecialHelper;
-import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
 /**
  * Created by ${王涛} on 2021/9/8

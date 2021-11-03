@@ -1,8 +1,7 @@
 package com.puyue.www.qiaoge.adapter.mine;
 
-import android.graphics.Color;
-import android.support.annotation.Nullable;
-import android.util.Log;
+import androidx.annotation.Nullable;
+
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.mine.address.AddressModel;
 

@@ -1,43 +1,28 @@
 package com.puyue.www.qiaoge.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.method.KeyListener;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.MoneyInputFilter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.dialog.ExCouponDialog;
-import com.puyue.www.qiaoge.helper.BigDecimalUtils;
-import com.puyue.www.qiaoge.model.cart.AmountItemModel;
 import com.puyue.www.qiaoge.model.cart.ExChangeModel;
 import com.puyue.www.qiaoge.model.cart.ItemModel;
-import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.Arith;
-import com.puyue.www.qiaoge.view.KeyboardChangeListener;
-import com.puyue.www.qiaoge.view.flowtaglayout.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

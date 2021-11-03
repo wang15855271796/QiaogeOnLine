@@ -2,31 +2,25 @@ package com.puyue.www.qiaoge.activity.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.adapter.FullGiftAdapter;
 import com.puyue.www.qiaoge.adapter.FullGiftsAdapter;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
-import com.puyue.www.qiaoge.api.home.TeamActiveQueryAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.model.home.CouponModel;
-import com.puyue.www.qiaoge.model.home.TeamActiveQueryModel;
-import com.puyue.www.qiaoge.utils.DateUtils;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.Time;
-import com.puyue.www.qiaoge.utils.Utils;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -2,10 +2,9 @@ package com.puyue.www.qiaoge.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
+import androidx.annotation.Nullable;
+
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -17,7 +16,6 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.mine.login.CouponSearchActivity;
 import com.puyue.www.qiaoge.event.GoToMarketEvent;
-import com.puyue.www.qiaoge.fragment.mine.coupons.MyCouponsUsedAdapter;
 import com.puyue.www.qiaoge.model.mine.coupons.UserChooseDeductModel;
 import com.puyue.www.qiaoge.model.mine.coupons.queryUserDeductByStateModel;
 

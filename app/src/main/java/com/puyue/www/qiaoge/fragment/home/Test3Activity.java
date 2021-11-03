@@ -1,8 +1,7 @@
 package com.puyue.www.qiaoge.fragment.home;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.puyue.www.qiaoge.AutoPollRecyclerView;
 import com.puyue.www.qiaoge.R;

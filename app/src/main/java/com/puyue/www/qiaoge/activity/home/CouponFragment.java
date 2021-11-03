@@ -3,33 +3,21 @@ package com.puyue.www.qiaoge.activity.home;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
-import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
-import com.puyue.www.qiaoge.adapter.home.RegisterShopAdapterTwo;
-import com.puyue.www.qiaoge.api.home.GetRegisterShopAPI;
 import com.puyue.www.qiaoge.api.home.TeamActiveQueryAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
-import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.PublicRequestHelper;
-import com.puyue.www.qiaoge.helper.StringHelper;
-import com.puyue.www.qiaoge.helper.UserInfoHelper;
-import com.puyue.www.qiaoge.listener.OnItemClickListener;
 import com.puyue.www.qiaoge.model.home.GetCustomerPhoneModel;
-import com.puyue.www.qiaoge.model.home.GetRegisterShopModel;
 import com.puyue.www.qiaoge.model.home.TeamActiveQueryModel;
 
 import java.util.ArrayList;

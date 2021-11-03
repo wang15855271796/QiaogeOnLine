@@ -2,8 +2,8 @@ package com.puyue.www.qiaoge.activity.home;
 
 import android.content.Intent;
 import android.graphics.Paint;
-import android.support.annotation.Nullable;
-import android.util.Log;
+import androidx.annotation.Nullable;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;

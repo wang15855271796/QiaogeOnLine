@@ -1,8 +1,7 @@
 package com.puyue.www.qiaoge.adapter.cart;
 
-import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,8 +12,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
-import com.puyue.www.qiaoge.activity.home.SpecialGoodDetailActivity;
-import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
 import com.puyue.www.qiaoge.model.cart.CartTestModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 

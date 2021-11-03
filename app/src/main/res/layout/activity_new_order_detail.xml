@@ -33,7 +33,7 @@
 
     </com.puyue.www.qiaoge.view.CompatToolbar>
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:background="@color/color_F6F6F6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -245,14 +245,14 @@
 
                     </RelativeLayout>
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                     />
 
                     <!--自营赠品-->
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:layout_below="@+id/recyclerView"
                         android:id="@+id/rv_full"
                         android:layout_marginTop="@dimen/dp_10"
@@ -280,7 +280,7 @@
                 />
         </RelativeLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
 

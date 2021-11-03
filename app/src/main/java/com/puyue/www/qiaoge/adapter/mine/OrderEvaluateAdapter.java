@@ -1,9 +1,9 @@
 package com.puyue.www.qiaoge.adapter.mine;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -14,23 +14,15 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.luck.picture.lib.PictureSelector;
-import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.activity.mine.order.ReturnGoodActivity;
-import com.puyue.www.qiaoge.event.ImageAdapterEvent;
 import com.puyue.www.qiaoge.model.mine.order.OrderEvaluateListModel;
-import com.puyue.www.qiaoge.model.mine.order.OrderEvaluateModel;
 import com.puyue.www.qiaoge.pictureselectordemo.FullyGridLayoutManager;
-import com.puyue.www.qiaoge.pictureselectordemo.GridImageAdapter;
 import com.puyue.www.qiaoge.view.StarBarView;
 import com.puyue.www.qiaoge.view.flowtaglayout.FlowTagLayout;
 import com.puyue.www.qiaoge.view.flowtaglayout.MemberEntityImpl;
 import com.puyue.www.qiaoge.view.flowtaglayout.OnTagSelectListener;
 import com.puyue.www.qiaoge.view.flowtaglayout.TagAdapter;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;

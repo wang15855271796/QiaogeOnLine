@@ -2,13 +2,12 @@ package com.puyue.www.qiaoge.activity.mine.login;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.api.home.GetScenicSpotDetailByIdAndDateAPI;
@@ -16,7 +15,6 @@ import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.model.home.AddressBean;
 import com.puyue.www.qiaoge.utils.ToastUtil;
-import com.puyue.www.qiaoge.view.CascadingMenuView;
 
 import org.greenrobot.eventbus.EventBus;
 

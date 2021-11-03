@@ -4,11 +4,10 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,23 +19,17 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.home.ChangeCityActivity;
-import com.puyue.www.qiaoge.activity.mine.account.AddressAdapters;
 import com.puyue.www.qiaoge.activity.mine.account.AddressListActivity;
 import com.puyue.www.qiaoge.activity.mine.account.AddressListsActivity;
-import com.puyue.www.qiaoge.activity.mine.account.EditAddressActivity;
 import com.puyue.www.qiaoge.activity.mine.account.EditAndAddActivity;
 
 import com.puyue.www.qiaoge.adapter.ChooseAddresssAdapter;
 import com.puyue.www.qiaoge.adapter.ChooseAddressssAdapter;
-import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.api.mine.address.AddressListAPI;
 import com.puyue.www.qiaoge.api.mine.address.DefaultAddressAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.event.AddressEvent;
-import com.puyue.www.qiaoge.event.GoToMarketEvent;
-import com.puyue.www.qiaoge.event.TurnReceiveModel;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.model.mine.address.AddressModel;
 import com.puyue.www.qiaoge.utils.Utils;
@@ -46,7 +39,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;

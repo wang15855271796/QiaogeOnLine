@@ -145,12 +145,12 @@
 
             </RelativeLayout>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            </android.support.v7.widget.RecyclerView>
+            </androidx.recyclerview.widget.RecyclerView>
 
             <View
                 android:background="#F2F3F6"
@@ -178,15 +178,15 @@
                 android:layout_height="wrap_content" />
 
             <!--商品赠品-->
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_given"
                 android:layout_marginLeft="@dimen/size_44dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            </android.support.v7.widget.RecyclerView>
+            </androidx.recyclerview.widget.RecyclerView>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_full"
                 android:layout_marginTop="@dimen/size_15dp"
                 android:layout_marginLeft="@dimen/size_44dp"
@@ -194,7 +194,7 @@
                 android:layout_height="wrap_content">
 
 
-            </android.support.v7.widget.RecyclerView>
+            </androidx.recyclerview.widget.RecyclerView>
 
         </LinearLayout>
 

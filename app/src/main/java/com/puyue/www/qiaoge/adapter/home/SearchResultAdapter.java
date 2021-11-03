@@ -2,8 +2,8 @@ package com.puyue.www.qiaoge.adapter.home;
 
 
 import android.content.Intent;
-import android.support.annotation.Nullable;
-import android.util.Log;
+import androidx.annotation.Nullable;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,7 +21,6 @@ import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.home.SearchResultsModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
-import com.puyue.www.qiaoge.view.FlowLayout;
 
 import java.util.List;
 

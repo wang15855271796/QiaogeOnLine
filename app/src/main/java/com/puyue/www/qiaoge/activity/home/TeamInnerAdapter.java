@@ -2,7 +2,7 @@ package com.puyue.www.qiaoge.activity.home;
 
 import android.content.Intent;
 import android.graphics.Paint;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -21,7 +21,6 @@ import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
-import com.puyue.www.qiaoge.model.cart.AddCartModel;
 import com.puyue.www.qiaoge.model.cart.CartAddModel;
 import com.puyue.www.qiaoge.model.home.TeamActiveQueryModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;

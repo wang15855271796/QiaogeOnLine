@@ -1,8 +1,8 @@
 package com.puyue.www.qiaoge.activity.mine.order;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,7 +15,6 @@ import com.puyue.www.qiaoge.api.mine.order.GetEvaDetailAPI;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.DividerItemDecoration;
-import com.puyue.www.qiaoge.helper.DividerItemDecorationTwo;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.model.mine.order.GetEvaDetailModel;
 import com.puyue.www.qiaoge.view.StarBarView;

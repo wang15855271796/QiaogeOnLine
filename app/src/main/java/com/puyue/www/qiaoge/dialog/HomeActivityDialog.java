@@ -3,8 +3,8 @@ package com.puyue.www.qiaoge.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.util.Log;
+import androidx.annotation.NonNull;
+
 import android.view.View;
 import android.widget.ImageView;
 
@@ -14,7 +14,6 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.FullListActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.home.CouponDetailActivity;
-import com.puyue.www.qiaoge.activity.home.FullGiftActivity;
 import com.puyue.www.qiaoge.activity.home.HomeGoodsListActivity;
 import com.puyue.www.qiaoge.activity.home.TeamDetailActivity;
 import com.puyue.www.qiaoge.activity.mine.coupons.MyCouponsActivity;
@@ -24,7 +23,6 @@ import com.puyue.www.qiaoge.api.home.PopupViewHomeAPI;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.home.PopupViewHomeModel;
-import com.puyue.www.qiaoge.model.home.QueryHomePropupModel;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;

@@ -5,30 +5,18 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.util.Log;
-import android.view.View;
-import android.webkit.WebView;
-import android.widget.CheckBox;
+
+import androidx.annotation.NonNull;
+
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.WheelSurfView;
-import com.puyue.www.qiaoge.activity.CommonH5Activity;
-import com.puyue.www.qiaoge.fragment.cart.NumEvent;
 import com.puyue.www.qiaoge.listener.RotateListener;
-import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.LuckPan;
-import com.puyue.www.qiaoge.view.LuckPanAnimEndCallBack;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by ${王涛} on 2020/4/21

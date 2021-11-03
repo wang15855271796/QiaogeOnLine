@@ -189,13 +189,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="?attr/actionBarSize"/>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_marginRight="@dimen/dp_10"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            </android.support.v7.widget.RecyclerView>
+            </androidx.recyclerview.widget.RecyclerView>
             <com.scwang.smartrefresh.layout.footer.ClassicsFooter
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

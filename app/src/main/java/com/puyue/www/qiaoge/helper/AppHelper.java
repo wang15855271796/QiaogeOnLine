@@ -1,6 +1,5 @@
 package com.puyue.www.qiaoge.helper;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -14,13 +13,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.net.Uri;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Build;
-import android.support.v4.view.ViewPager;
-import android.telephony.TelephonyManager;
+import androidx.viewpager.widget.ViewPager;
+
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -37,32 +33,20 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.adapter.market.PhotoViewAdapter;
-import com.puyue.www.qiaoge.api.home.CityChangeAPI;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.event.LogoutEvent;
 import com.puyue.www.qiaoge.fragment.home.CityEvent;
-import com.puyue.www.qiaoge.model.IsShowModel;
-import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.PhotoViewPager;
 import com.puyue.www.qiaoge.view.datepicker.FingerFrameLayout;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.UnknownHostException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 //import com.airbnb.lottie.LottieAnimationView;

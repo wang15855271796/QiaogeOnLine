@@ -1,29 +1,22 @@
 package com.puyue.www.qiaoge.activity.mine;
 
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.adapter.cart.ImageViewAdapter;
 import com.puyue.www.qiaoge.api.home.InfoDetailModel;
 import com.puyue.www.qiaoge.api.home.InfoListAPI;
-import com.puyue.www.qiaoge.api.home.InfoListModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.helper.AppHelper;
 
-import java.util.List;
-
-import butterknife.BindInt;
 import butterknife.BindView;
-import butterknife.BindViews;
 import butterknife.ButterKnife;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;

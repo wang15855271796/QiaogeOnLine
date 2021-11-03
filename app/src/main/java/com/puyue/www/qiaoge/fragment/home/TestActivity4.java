@@ -1,44 +1,7 @@
 package com.puyue.www.qiaoge.fragment.home;
 
-import android.animation.IntEvaluator;
-import android.content.Context;
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
-
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
-import com.example.xrecyclerview.DensityUtil;
-import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.activity.TestActivity;
-import com.puyue.www.qiaoge.adapter.MyAdapter;
-import com.puyue.www.qiaoge.adapter.MyTestAdapter;
-import com.puyue.www.qiaoge.base.BaseSwipeActivity;
-import com.puyue.www.qiaoge.view.selectmenu.MyScrollView;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Created by ${王涛} on 2021/1/8

@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
-import android.support.v4.view.ViewPager;
-import android.util.Log;
+import androidx.viewpager.widget.ViewPager;
+
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,11 +25,9 @@ import com.puyue.www.qiaoge.fragment.mine.order.EvaluatedOrderFragment;
 import com.puyue.www.qiaoge.fragment.mine.order.PaymentOrderFragment;
 import com.puyue.www.qiaoge.fragment.mine.order.ReceivedOrderFragment;
 import com.puyue.www.qiaoge.fragment.mine.order.ReturnOrderFragment;
-import com.puyue.www.qiaoge.fragment.mine.order.TestFragment;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
-import com.yanzhenjie.sofia.Sofia;
 
 import android.widget.TextView;
 

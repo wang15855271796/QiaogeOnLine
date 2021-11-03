@@ -1,10 +1,10 @@
 package com.puyue.www.qiaoge.adapter.mine;
 
 import android.content.Intent;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,7 +22,6 @@ import com.puyue.www.qiaoge.api.home.GetAllCommentListByPageAPI;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
-import com.puyue.www.qiaoge.model.cart.GetOrderDetailModel;
 import com.puyue.www.qiaoge.model.home.JumpModel;
 import com.puyue.www.qiaoge.model.mine.order.NewReturnOrderModel;
 

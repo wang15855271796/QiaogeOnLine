@@ -3,9 +3,9 @@ package com.puyue.www.qiaoge.fragment.home;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
@@ -18,7 +18,6 @@ import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.event.BackEvent;
 import com.puyue.www.qiaoge.model.home.CouponModel;
-import com.puyue.www.qiaoge.view.Snap;
 import com.puyue.www.qiaoge.view.SnapUpCountDownTimerView;
 import com.puyue.www.qiaoge.view.StatusBarUtil;
 

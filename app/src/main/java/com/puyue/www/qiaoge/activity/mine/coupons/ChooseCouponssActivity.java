@@ -1,43 +1,24 @@
 package com.puyue.www.qiaoge.activity.mine.coupons;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import com.google.android.material.tabs.TabLayout;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.widget.Toolbar;
+
 import android.view.View;
-import android.widget.ImageView;
 
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.adapter.ChooseCouponssAdapter;
 import com.puyue.www.qiaoge.adapter.ChooseSelfCouponsAdapter;
-import com.puyue.www.qiaoge.adapter.mine.ChooseCouponsAdapter;
 import com.puyue.www.qiaoge.adapter.mine.ViewPagerAdapter;
-import com.puyue.www.qiaoge.api.mine.coupon.userChooseDeductAPI;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
-import com.puyue.www.qiaoge.event.ChooseCoupon1Event;
-import com.puyue.www.qiaoge.event.ChooseCoupon2Event;
-import com.puyue.www.qiaoge.event.ChooseCouponEvent;
-import com.puyue.www.qiaoge.event.ChooseCouponsEvent;
-import com.puyue.www.qiaoge.fragment.ChooseCouponFragment;
 import com.puyue.www.qiaoge.fragment.ChooseSelfCouponFragment;
 import com.puyue.www.qiaoge.fragment.CouponsSelfUnUseFragment;
-import com.puyue.www.qiaoge.fragment.CouponsUnUseFragment;
-import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.mine.coupons.UserChooseDeductModel;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by ${王涛} on 2020/9/9

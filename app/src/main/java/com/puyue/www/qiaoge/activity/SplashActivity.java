@@ -1,30 +1,17 @@
 package com.puyue.www.qiaoge.activity;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.util.Log;
+import androidx.annotation.NonNull;
 
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
-import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
-import com.puyue.www.qiaoge.api.home.IndexInfoModel;
 import com.puyue.www.qiaoge.base.BaseActivity;
-import com.puyue.www.qiaoge.dialog.PrivacyDialog;
 import com.puyue.www.qiaoge.dialog.PrivacysDialog;
-import com.puyue.www.qiaoge.event.PrivacyModel;
-import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
-
-import java.util.List;
-
-import pub.devrel.easypermissions.EasyPermissions;
-import rx.Subscriber;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2018/5/21.

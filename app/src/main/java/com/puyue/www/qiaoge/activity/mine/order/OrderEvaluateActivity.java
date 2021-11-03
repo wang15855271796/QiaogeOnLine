@@ -1,32 +1,22 @@
 package com.puyue.www.qiaoge.activity.mine.order;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.compress.Luban;
 import com.luck.picture.lib.config.PictureConfig;
@@ -35,7 +25,6 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.puyue.www.qiaoge.R;
 
 import com.puyue.www.qiaoge.adapter.mine.OrderEvaluateAdapter;
-import com.puyue.www.qiaoge.api.home.GetWalletDetailAPI;
 import com.puyue.www.qiaoge.api.mine.order.GetEvaDetailAPI;
 import com.puyue.www.qiaoge.api.mine.order.OrderEvaluateAPI;
 import com.puyue.www.qiaoge.api.mine.order.SendImageAPI;
@@ -47,19 +36,14 @@ import com.puyue.www.qiaoge.model.mine.order.GetEvaDetailModel;
 import com.puyue.www.qiaoge.model.mine.order.OrderEvaluateListModel;
 import com.puyue.www.qiaoge.model.mine.order.OrderEvaluateModel;
 import com.puyue.www.qiaoge.model.mine.order.SendImageModel;
-import com.puyue.www.qiaoge.pictureselectordemo.FullyGridLayoutManager;
 import com.puyue.www.qiaoge.pictureselectordemo.GridImageAdapter;
 import com.puyue.www.qiaoge.view.StarBarView;
 import com.puyue.www.qiaoge.view.flowtaglayout.MemberEntityImpl;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -705,7 +689,7 @@ private List<String> mListReturn = new ArrayList<>();
     }
 
     private void showBackDialog() {
-        final android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(mContext, R.style.CommonDialogStyle).create();
+        final androidx.appcompat.app.AlertDialog alertDialog = new androidx.appcompat.app.AlertDialog.Builder(mContext, R.style.CommonDialogStyle).create();
         alertDialog.setCanceledOnTouchOutside(true);
         alertDialog.show();
         Window window = alertDialog.getWindow();

@@ -1,41 +1,28 @@
 package com.puyue.www.qiaoge.fragment.home;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.UnicornManager;
-import com.puyue.www.qiaoge.activity.home.SpecialGoodDetailActivity;
-import com.puyue.www.qiaoge.adapter.home.CommonAdapter;
 import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
-import com.puyue.www.qiaoge.dialog.MustDialog;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.CouponModels;
-import com.puyue.www.qiaoge.model.home.CouponModel;
-import com.puyue.www.qiaoge.model.mine.order.HomeBaseModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
 import java.util.List;
-
-import static cn.com.chinatelecom.account.api.CtAuth.mContext;
 
 public class SkillAdapter extends RecyclerView.Adapter<SkillAdapter.BaseViewHolder> {
 

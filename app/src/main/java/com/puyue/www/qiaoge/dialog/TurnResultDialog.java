@@ -3,10 +3,9 @@ package com.puyue.www.qiaoge.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
-import android.support.annotation.NonNull;
-import android.text.TextUtils;
-import android.util.Log;
+
+import androidx.annotation.NonNull;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,28 +13,17 @@ import android.widget.TextView;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
-import com.puyue.www.qiaoge.api.mine.order.MyOrderNumAPI;
 import com.puyue.www.qiaoge.event.CouponEvent;
 import com.puyue.www.qiaoge.event.GoToMarketEvent;
 import com.puyue.www.qiaoge.event.PrivacyModel;
-import com.puyue.www.qiaoge.event.TurnModel;
 import com.puyue.www.qiaoge.event.TurnReceiveModel;
 import com.puyue.www.qiaoge.helper.AppHelper;
-import com.puyue.www.qiaoge.helper.StringHelper;
-import com.puyue.www.qiaoge.model.mine.order.MyOrderNumModel;
-import com.puyue.www.qiaoge.view.LuckPan;
-import com.puyue.www.qiaoge.view.LuckPanAnimEndCallBack;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-import static cn.com.chinatelecom.account.api.CtAuth.mContext;
 
 /**
  * Created by ${王涛} on 2020/4/21

@@ -1,17 +1,11 @@
 package com.puyue.www.qiaoge.dialog;
 
 import android.app.Activity;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
-import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.home.CityChangeModel;
-import com.puyue.www.qiaoge.view.CascadingMenuPopWindow;
 import com.puyue.www.qiaoge.view.CascadingMenuViewOnSelectListener;
-import com.puyue.www.qiaoge.view.CascadingMenuViews;
 
 import java.util.ArrayList;
 

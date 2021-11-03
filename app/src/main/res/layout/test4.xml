@@ -25,13 +25,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.design.widget.CoordinatorLayout
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:id="@+id/coordinator"
                 android:fitsSystemWindows="false"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <android.support.design.widget.AppBarLayout
+                <com.google.android.material.appbar.AppBarLayout
                     android:id="@+id/appbar"
                     android:fitsSystemWindows="false"
                     boy:elevation="0dp"
@@ -90,12 +90,12 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content">
                                     <!--顶部的六种推荐-->
-                                    <android.support.v7.widget.RecyclerView
+                                    <androidx.recyclerview.widget.RecyclerView
                                         android:id="@+id/rv_recommend"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content">
 
-                                    </android.support.v7.widget.RecyclerView>
+                                    </androidx.recyclerview.widget.RecyclerView>
 
                                     <com.puyue.www.qiaoge.banner.Banner
                                         android:id="@+id/banner"
@@ -127,12 +127,12 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content">
 
-                                        <android.support.v7.widget.RecyclerView
+                                        <androidx.recyclerview.widget.RecyclerView
                                             android:id="@+id/rv_icon"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content">
 
-                                        </android.support.v7.widget.RecyclerView>
+                                        </androidx.recyclerview.widget.RecyclerView>
 
                                         <com.puyue.www.qiaoge.view.HIndicators
                                             android:id="@+id/indicator"
@@ -183,7 +183,7 @@
                     <include layout="@layout/view_barss"/>
 
 
-                </android.support.design.widget.AppBarLayout>
+                </com.google.android.material.appbar.AppBarLayout>
 
                 <!--<LinearLayout-->
                 <!--boy:layout_behavior="@string/appbar_scrolling_view_behavior"-->
@@ -202,7 +202,7 @@
 
                 </FrameLayout>
 
-            </android.support.design.widget.CoordinatorLayout>
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
             <LinearLayout
                 android:orientation="vertical"

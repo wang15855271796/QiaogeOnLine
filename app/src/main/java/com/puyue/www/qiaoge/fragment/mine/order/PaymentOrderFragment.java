@@ -1,33 +1,24 @@
 package com.puyue.www.qiaoge.fragment.mine.order;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.activity.mine.order.MyConfireOrdersActivity;
-import com.puyue.www.qiaoge.activity.mine.order.NewOrderDetailActivity;
 
 import com.puyue.www.qiaoge.adapter.mine.MyOrdersItemAdapter;
 import com.puyue.www.qiaoge.adapter.mine.NewOrderDetailAdapter;
 import com.puyue.www.qiaoge.api.cart.CancelOrderAPI;
 import com.puyue.www.qiaoge.api.cart.DeleteOrderAPI;
-import com.puyue.www.qiaoge.api.home.GetOrderDetailAPI;
 import com.puyue.www.qiaoge.api.mine.order.MyOrderListAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
-import com.puyue.www.qiaoge.constant.AppConstant;
-import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragment;
 import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragments;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;

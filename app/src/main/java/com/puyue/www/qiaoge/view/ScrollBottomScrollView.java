@@ -1,10 +1,9 @@
 package com.puyue.www.qiaoge.view;
 
 import android.content.Context;
-import android.support.v4.widget.NestedScrollView;
+import androidx.core.widget.NestedScrollView;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ScrollView;
 
 /**
  * Created by Administrator on 2018/7/10.

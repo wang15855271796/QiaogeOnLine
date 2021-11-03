@@ -84,7 +84,7 @@
 
         </com.puyue.www.qiaoge.AutoPollRecyclerView>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_auto_view"
             android:padding="@dimen/size_8dp"
             android:visibility="gone"
@@ -95,7 +95,7 @@
             android:layout_width="match_parent"
             android:layout_height="138dp">
 
-        </android.support.v7.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
     <!--秒杀结束-->
@@ -389,7 +389,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_coupon"
                     android:visibility="gone"
                     android:layout_marginRight="@dimen/size_12dp"
@@ -399,9 +399,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/size_100dp">
 
-                </android.support.v7.widget.RecyclerView>
+                </androidx.recyclerview.widget.RecyclerView>
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_coupon1"
                     android:visibility="gone"
                     android:layout_marginRight="@dimen/size_12dp"
@@ -411,7 +411,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="165dp">
 
-                </android.support.v7.widget.RecyclerView>
+                </androidx.recyclerview.widget.RecyclerView>
 
             </RelativeLayout>
         </RelativeLayout>
@@ -488,7 +488,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_hot"
                     android:visibility="gone"
                     android:layout_marginRight="@dimen/size_12dp"
@@ -498,9 +498,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/size_100dp">
 
-                </android.support.v7.widget.RecyclerView>
+                </androidx.recyclerview.widget.RecyclerView>
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_hot1"
                     android:visibility="gone"
                     android:layout_marginRight="@dimen/size_12dp"
@@ -510,7 +510,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="155dp">
 
-                </android.support.v7.widget.RecyclerView>
+                </androidx.recyclerview.widget.RecyclerView>
 
             </RelativeLayout>
 

@@ -1,17 +1,13 @@
 package com.puyue.www.qiaoge.adapter.market;
 
 import android.content.Context;
-import android.support.v4.view.PagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
 import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.puyue.www.qiaoge.adapter.cart.CartAdapter;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 

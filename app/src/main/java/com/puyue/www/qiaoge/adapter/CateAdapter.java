@@ -1,7 +1,7 @@
 package com.puyue.www.qiaoge.adapter;
 
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
+import androidx.annotation.Nullable;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;

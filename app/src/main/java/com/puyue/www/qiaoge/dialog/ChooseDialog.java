@@ -3,11 +3,10 @@ package com.puyue.www.qiaoge.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +21,9 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.adapter.cart.ItemChooseAdapter;
 import com.puyue.www.qiaoge.adapter.cart.SearchSpecAdapter;
-import com.puyue.www.qiaoge.adapter.home.SearchSpecsAdapter;
 import com.puyue.www.qiaoge.api.cart.GetCartNumAPI;
 import com.puyue.www.qiaoge.api.home.GetProductDetailAPI;
 import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
-import com.puyue.www.qiaoge.event.LogoutEvent;
-import com.puyue.www.qiaoge.event.UpDateNumEvent;
 import com.puyue.www.qiaoge.event.UpDateNumEvent10;
 import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;

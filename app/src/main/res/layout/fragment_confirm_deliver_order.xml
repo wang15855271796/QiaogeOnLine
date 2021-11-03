@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.v4.widget.NestedScrollView
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_marginLeft="@dimen/size_8dp"
                 android:layout_marginRight="@dimen/size_8dp"
@@ -77,13 +77,13 @@
 
                         </RelativeLayout>
 
-                        <android.support.v7.widget.RecyclerView
+                        <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerView"
                             android:layout_marginTop="@dimen/size_10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                        </android.support.v7.widget.RecyclerView>
+                        </androidx.recyclerview.widget.RecyclerView>
 
 
                     </LinearLayout>
@@ -135,13 +135,13 @@
 
                         </RelativeLayout>
 
-                        <android.support.v7.widget.RecyclerView
+                        <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerView1"
                             android:layout_marginTop="@dimen/size_10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                        </android.support.v7.widget.RecyclerView>
+                        </androidx.recyclerview.widget.RecyclerView>
 
                     </LinearLayout>
 
@@ -382,7 +382,7 @@
 
 
 
-            </android.support.v4.widget.NestedScrollView>
+            </androidx.core.widget.NestedScrollView>
 
             <LinearLayout
                 android:id="@+id/ll_collect_bills"

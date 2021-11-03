@@ -6,13 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.KeyEvent;
 
-import com.githang.statusbar.StatusBarCompat;
 import com.gyf.barlibrary.ImmersionBar;
 import com.puyue.www.qiaoge.helper.AppHelper;
 

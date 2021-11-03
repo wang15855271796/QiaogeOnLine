@@ -1,15 +1,13 @@
 package com.puyue.www.qiaoge.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
-import android.os.CountDownTimer;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,17 +16,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.activity.home.SpecialGoodDetailActivity;
 import com.puyue.www.qiaoge.activity.home.TeamDetailActivity;
-import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
-import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.CouponModels;
-import com.puyue.www.qiaoge.model.home.CouponModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
 import java.util.List;

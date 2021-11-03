@@ -1,7 +1,7 @@
 package com.puyue.www.qiaoge.adapter.cart;
 
 import android.graphics.Color;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;

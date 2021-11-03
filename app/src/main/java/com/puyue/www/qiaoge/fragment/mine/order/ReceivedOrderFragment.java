@@ -1,36 +1,27 @@
 package com.puyue.www.qiaoge.fragment.mine.order;
 
-import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 
-import com.puyue.www.qiaoge.activity.mine.order.PaymentOrdersFragment;
 import com.puyue.www.qiaoge.adapter.mine.MyOrdersItemAdapter;
 import com.puyue.www.qiaoge.api.mine.order.ConfirmGetGoodsAPI;
-import com.puyue.www.qiaoge.api.mine.order.ConfirmOrderSelfAPI;
 import com.puyue.www.qiaoge.api.mine.order.CopyToCartAPI;
 import com.puyue.www.qiaoge.api.mine.order.MyOrderListAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
-import com.puyue.www.qiaoge.base.BaseModel;
-import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.OrdersModel;
 import com.puyue.www.qiaoge.model.mine.order.ConfirmGetGoodsModel;
 import com.puyue.www.qiaoge.model.mine.order.CopyToCartModel;
-import com.puyue.www.qiaoge.model.mine.order.MyOrdersModel;
 
 import java.util.ArrayList;
 import java.util.List;

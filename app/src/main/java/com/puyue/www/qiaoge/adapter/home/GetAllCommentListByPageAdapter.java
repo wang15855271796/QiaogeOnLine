@@ -1,7 +1,7 @@
 package com.puyue.www.qiaoge.adapter.home;
 
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,7 +12,6 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.model.home.GetAllCommentListByPageModel;
-import com.puyue.www.qiaoge.model.home.GetPlaceCommentListByPageModel;
 import com.puyue.www.qiaoge.view.StarBarView;
 
 import java.util.Arrays;

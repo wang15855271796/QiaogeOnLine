@@ -22,7 +22,7 @@
             android:layout_height="match_parent">
 
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_marginTop="@dimen/public_space_value_120"
                 android:background="@drawable/app_my_wallet_bg"
@@ -30,7 +30,7 @@
                 android:layout_height="match_parent">
 
 
-            </android.support.v7.widget.RecyclerView>
+            </androidx.recyclerview.widget.RecyclerView>
 
 
 

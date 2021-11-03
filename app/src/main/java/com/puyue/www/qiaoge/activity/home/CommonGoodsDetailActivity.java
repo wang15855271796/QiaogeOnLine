@@ -9,13 +9,11 @@ import android.graphics.Color;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +21,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -31,74 +28,50 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
-import com.puyue.www.qiaoge.activity.CartActivity;
 import com.puyue.www.qiaoge.activity.FullActiveActivity;
-import com.puyue.www.qiaoge.activity.FullListActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.IntelliGencyInfoActivity;
 import com.puyue.www.qiaoge.activity.ShopsActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.activity.mine.login.RegisterActivity;
 import com.puyue.www.qiaoge.activity.mine.login.RegisterMessageActivity;
-import com.puyue.www.qiaoge.adapter.FullActivitesAdapter;
+import com.puyue.www.qiaoge.activity.view.VideoHolder;
+import com.puyue.www.qiaoge.adapter.PicVideoAdapter;
 import com.puyue.www.qiaoge.adapter.SupplierAdapter;
 import com.puyue.www.qiaoge.adapter.cart.ChooseSpecAdapter;
 import com.puyue.www.qiaoge.adapter.cart.ImageViewAdapter;
-import com.puyue.www.qiaoge.adapter.home.RegisterShopAdapterTwo;
 import com.puyue.www.qiaoge.adapter.market.GoodsRecommendAdapter;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.ClickCollectionAPI;
 import com.puyue.www.qiaoge.api.home.GetAllCommentListByPageAPI;
 import com.puyue.www.qiaoge.api.home.GetProductDetailAPI;
-import com.puyue.www.qiaoge.api.home.GetRegisterShopAPI;
-import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
-import com.puyue.www.qiaoge.api.home.UpdateUserInvitationAPI;
 import com.puyue.www.qiaoge.api.mine.GetShareInfoAPI;
-import com.puyue.www.qiaoge.banner.Banner;
-import com.puyue.www.qiaoge.banner.BannerConfig;
-import com.puyue.www.qiaoge.banner.GlideImageLoader;
-import com.puyue.www.qiaoge.banner.Transformer;
-import com.puyue.www.qiaoge.banner.listener.OnBannerListener;
+import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.base.BaseModel;
-import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
-import com.puyue.www.qiaoge.dialog.AuthDialog;
 import com.puyue.www.qiaoge.dialog.ChooseDialog;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
-import com.puyue.www.qiaoge.dialog.FullDialog;
 import com.puyue.www.qiaoge.dialog.ProductDescDialog;
 import com.puyue.www.qiaoge.dialog.PromoteDialog;
 import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.fragment.cart.NumEvent;
 import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
-import com.puyue.www.qiaoge.fragment.home.CityEvent;
-import com.puyue.www.qiaoge.fragment.mine.IntelliGencyActivity;
 import com.puyue.www.qiaoge.helper.AppHelper;
-import com.puyue.www.qiaoge.helper.CollapsingToolbarLayoutStateHelper;
 import com.puyue.www.qiaoge.helper.FVHelper;
 import com.puyue.www.qiaoge.helper.PublicRequestHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
-import com.puyue.www.qiaoge.listener.OnItemClickListener;
-import com.puyue.www.qiaoge.model.OrderModel;
-import com.puyue.www.qiaoge.model.SupplierModel;
+import com.puyue.www.qiaoge.model.PicVideoModel;
 import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
 import com.puyue.www.qiaoge.model.home.ChoiceSpecModel;
 import com.puyue.www.qiaoge.model.home.ClickCollectionModel;
 import com.puyue.www.qiaoge.model.home.GetAllCommentListByPageModel;
-import com.puyue.www.qiaoge.model.home.GetCustomerPhoneModel;
 import com.puyue.www.qiaoge.model.home.GetProductDetailModel;
-import com.puyue.www.qiaoge.model.home.GetProductListModel;
-import com.puyue.www.qiaoge.model.home.GetRegisterShopModel;
 import com.puyue.www.qiaoge.model.home.GuessModel;
-import com.puyue.www.qiaoge.model.home.HasCollectModel;
-import com.puyue.www.qiaoge.model.home.UpdateUserInvitationModel;
 import com.puyue.www.qiaoge.model.market.GoodsDetailModel;
 import com.puyue.www.qiaoge.model.mine.GetShareInfoModle;
 import com.puyue.www.qiaoge.utils.LoginUtil;
@@ -106,13 +79,20 @@ import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.Time;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.FlowLayout;
+import com.puyue.www.qiaoge.view.NumIndicator;
 import com.puyue.www.qiaoge.view.StarBarView;
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
+import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
+import com.youth.banner.Banner;
+import com.youth.banner.config.IndicatorConfig;
+import com.youth.banner.listener.OnBannerListener;
+import com.youth.banner.listener.OnPageChangeListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -133,7 +113,7 @@ import rx.schedulers.Schedulers;
  * 普通商品详情
  */
 
-public class CommonGoodsDetailActivity extends BaseSwipeActivity {
+public class CommonGoodsDetailActivity extends BaseActivity {
     private ImageView mIvBack;
     private Banner mBanner;
     private TextView mTvTitle;
@@ -150,6 +130,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
     private TextView mTvFee;
     private TextView mTvAddCar;
     private List<String> images = new ArrayList<>();
+    private List<PicVideoModel.DatasBean> picVideo = new ArrayList<>();
     private int productId;
     private int pageNum = 1;
     private int pageSize = 10;
@@ -320,17 +301,18 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
         EventBus.getDefault().register(this);
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
         //获取数据
         if(num!=null) {
             if(num.equals("-1")) {
                 mTvAddCar.setEnabled(false);
-                getProductDetail(productId,num);
+                getProductDetail(productId,num, this);
                 ll_service.setVisibility(View.GONE);
                 mTvAddCar.setText("加入购物车");
                 mTvAddCar.setBackgroundResource(R.drawable.app_car_orange);
 
             }else {
-                getProductDetail(productId,num);
+                getProductDetail(productId,num, this);
                 ll_service.setVisibility(View.VISIBLE);
                 mTvAddCar.setEnabled(false);
                 mTvAddCar.setBackgroundResource(R.drawable.app_car);
@@ -338,7 +320,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
             }
         }else {
             mTvAddCar.setEnabled(false);
-            getProductDetail(productId,num);
+            getProductDetail(productId,num,this);
             mTvAddCar.setText("加入购物车");
             mTvAddCar.setBackgroundResource(R.drawable.app_car_orange);
         }
@@ -372,6 +354,9 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
         } else {
             mIvCollection.setImageResource(R.mipmap.ic_love);
         }
+
+        if (player != null)
+            player.onVideoResume();
     }
 
     private void getDatas(long end) {
@@ -589,7 +574,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
      * 获取详情
      */
 
-    private void getProductDetail(final int productId,String num) {
+    private void getProductDetail(final int productId, String num, CommonGoodsDetailActivity commonGoodsDetailActivity) {
         GetProductDetailAPI.requestData(mContext,productId,num)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -768,24 +753,64 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
 
                             //填充banner
                             images.clear();
-                            mBanner.setBannerStyle(BannerConfig.NUM_INDICATOR);
-                            mBanner.setImageLoader(new GlideImageLoader());
+//                            mBanner.setBannerStyle(BannerConfig.NUM_INDICATOR);
+//                            mBanner.setImageLoader(new GlideImageLoader());
                             if(model.getData().getTopPic()!=null) {
                                 images.addAll(model.getData().getTopPic());
                             }else {
                                 images.add(model.getData().getDefaultPic());
                             }
 
-                            mBanner.setImages(images);
-                            mBanner.setBannerAnimation(Transformer.DepthPage);
-                            mBanner.isAutoPlay(true);
-                            mBanner.setDelayTime(3000);
-                            mBanner.setIndicatorGravity(BannerConfig.RIGHT);
-                            mBanner.start();
+                            if(model.getData().getProdVideoUrl()!=null&&!model.getData().getProdVideoUrl().equals("")) {
+                                images.add(0,model.getData().getProdVideoUrl());
+                            }
+
+                            for (int i = 0; i < images.size(); i++) {
+                                if(model.getData().getProdVideoUrl()!=null&&!model.getData().getProdVideoUrl().equals("")) {
+                                    if(i==0) {
+                                        picVideo.add(new PicVideoModel.DatasBean(images.get(0),2));
+                                    }else {
+                                        picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
+                                    }
+                                }else {
+                                    picVideo.add(new PicVideoModel.DatasBean(images.get(0),1));
+                                }
+                            }
+
+
+                            mBanner.addBannerLifecycleObserver(commonGoodsDetailActivity)
+                                    .setAdapter(new PicVideoAdapter(mContext, picVideo))
+                                    .setIndicator(new NumIndicator(mContext))
+                                    .setIndicatorGravity(IndicatorConfig.Direction.RIGHT)
+                                    .addOnPageChangeListener(new OnPageChangeListener() {
+                                        @Override
+                                        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                                            stopVideo(position);
+                                        }
+
+                                        @Override
+                                        public void onPageSelected(int position) {
+                                            stopVideo(position);
+                                        }
+
+                                        @Override
+                                        public void onPageScrollStateChanged(int state) {
+
+                                        }
+                                    });
+
+
+//                            mBanner.
+//                            mBanner.setImages(picVideo);
+//                            mBanner.setBannerAnimation(Transformer.DepthPage);
+//                            mBanner.isAutoPlay(true);
+//                            mBanner.setDelayTime(3000);
+//                            mBanner.setIndicatorGravity(BannerConfig.RIGHT);
+//                            mBanner.start();
                             //banner设置点击监听
                             mBanner.setOnBannerListener(new OnBannerListener() {
                                 @Override
-                                public void OnBannerClick(int position) {
+                                public void OnBannerClick(Object data, int position) {
                                     AppHelper.showPhotoDetailDialog(mContext, images, position);
                                 }
                             });
@@ -810,6 +835,23 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
                         }
                     }
                 });
+    }
+    StandardGSYVideoPlayer player;
+    private void stopVideo(int position) {
+        if (player == null) {
+            RecyclerView.ViewHolder viewHolder = mBanner.getAdapter().getViewHolder();
+            if (viewHolder instanceof VideoHolder) {
+                VideoHolder holder = (VideoHolder) viewHolder;
+                player = holder.player;
+                if (position != 0) {
+                    player.onVideoPause();
+                }
+            }
+        }else {
+            if (position != 0) {
+                player.onVideoPause();
+            }
+        }
     }
 
     private void initDialog() {
@@ -1140,23 +1182,36 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity {
     protected void onStart() {
         super.onStart();
         //开始轮播
-        mBanner.startAutoPlay();
+//        mBanner.startAutoPlay();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         //结束轮播
-        mBanner.stopAutoPlay();
+//        mBanner.stopAutoPlay();
         long end = (System.currentTimeMillis()-start)/1000;
         long time = Time.getTime(end);
         getDatas(time);
+
+        if (player != null)
+            player.onVideoPause();
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        GSYVideoManager.releaseAllVideos();
+    }
+
+    @Override
+    public void onBackPressed() {
+        //释放所有
+        if (player != null)
+            player.setVideoAllCallBack(null);
+        super.onBackPressed();
     }
 
     /**

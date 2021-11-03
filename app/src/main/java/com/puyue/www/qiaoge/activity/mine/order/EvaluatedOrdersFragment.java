@@ -2,9 +2,9 @@ package com.puyue.www.qiaoge.activity.mine.order;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -20,7 +20,6 @@ import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.OrdersModel;
 import com.puyue.www.qiaoge.model.mine.order.CommonModel;
 import com.puyue.www.qiaoge.model.mine.order.CopyToCartModel;
-import com.puyue.www.qiaoge.model.mine.order.MyOrdersModel;
 import com.puyue.www.qiaoge.model.mine.order.OrderEvaluateListModel;
 
 import java.io.Serializable;

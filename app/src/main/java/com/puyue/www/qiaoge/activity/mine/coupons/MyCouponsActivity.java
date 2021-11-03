@@ -1,19 +1,17 @@
 package com.puyue.www.qiaoge.activity.mine.coupons;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
-import android.util.Log;
+import com.google.android.material.tabs.TabLayout;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.widget.Toolbar;
+
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.adapter.mine.ViewPagerAdapter;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
-import com.puyue.www.qiaoge.api.mine.coupon.MyCouponsAPI;
 import com.puyue.www.qiaoge.api.mine.order.MyOrderNumAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
@@ -21,7 +19,6 @@ import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.fragment.mine.coupons.CouponsOverdueFragment;
 import com.puyue.www.qiaoge.fragment.mine.coupons.CouponsUseFragment;
 import com.puyue.www.qiaoge.helper.AppHelper;
-import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.mine.coupons.queryUserDeductByStateModel;
 import com.puyue.www.qiaoge.model.mine.order.MyOrderNumModel;

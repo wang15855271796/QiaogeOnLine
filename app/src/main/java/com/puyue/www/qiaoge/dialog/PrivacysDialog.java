@@ -8,18 +8,11 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.CountDownTimer;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.text.SpannableStringBuilder;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -33,17 +26,10 @@ import com.puyue.www.qiaoge.QiaoGeApplication;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.CommonH5Activity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
-import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
-import com.puyue.www.qiaoge.api.home.IndexInfoModel;
-import com.puyue.www.qiaoge.base.BaseModel;
-import com.puyue.www.qiaoge.event.CouponListModel;
 import com.puyue.www.qiaoge.event.InitEvent;
-import com.puyue.www.qiaoge.event.PrivacyModel;
-import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringSpecialHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
-import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.qiyukf.unicorn.api.ImageLoaderListener;
 import com.qiyukf.unicorn.api.OnBotEventListener;
 import com.qiyukf.unicorn.api.StatusBarNotificationConfig;
@@ -59,12 +45,7 @@ import com.umeng.socialize.PlatformConfig;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.List;
-
 import cn.jpush.android.api.JPushInterface;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by ${王涛} on 2021/8/30
@@ -147,102 +128,102 @@ public class PrivacysDialog extends Dialog {
 
     }
 
-    private void initSdk() {
-        SharedPreferencesUtil.saveString(QiaoGeApplication.getContext(),"pays","-1");
-        SDKInitializer.initialize(QiaoGeApplication.getContext());
-        //注册监听函数
-        LocationClientOption option = new LocationClientOption();
-        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-        option.setIsNeedAddress(true);
-//        友盟
-        UMConfigure.init(QiaoGeApplication.getContext(), "5facd45320657917050f92a0", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "9bde9b69caaff881a14239cb326241b8");
-        PushAgent mPushAgent = PushAgent.getInstance(QiaoGeApplication.getContext());
-        mPushAgent.setResourcePackageName(R.class.getPackage().getName());
-        //注册推送服务，每次调用register方法都会回调该接口
-        mPushAgent.register(new IUmengRegisterCallback() {
-            @Override
-            public void onSuccess(String deviceToken) {
-                //注册成功会返回deviceToken
+//    private void initSdk() {
+//        SharedPreferencesUtil.saveString(QiaoGeApplication.getContext(),"pays","-1");
+//        SDKInitializer.initialize(QiaoGeApplication.getContext());
+//        //注册监听函数
+//        LocationClientOption option = new LocationClientOption();
+//        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+//        option.setIsNeedAddress(true);
+////        友盟
+//        UMConfigure.init(QiaoGeApplication.getContext(), "5facd45320657917050f92a0", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "9bde9b69caaff881a14239cb326241b8");
+//        PushAgent mPushAgent = PushAgent.getInstance(QiaoGeApplication.getContext());
+//        mPushAgent.setResourcePackageName(R.class.getPackage().getName());
+//        //注册推送服务，每次调用register方法都会回调该接口
+//        mPushAgent.register(new IUmengRegisterCallback() {
+//            @Override
+//            public void onSuccess(String deviceToken) {
+//                //注册成功会返回deviceToken
+//
+//            }
+//            @Override
+//            public void onFailure(String s, String s1) {
+//            }
+//        });
+//
+//        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
+//        UserInfoHelper.saveDate(QiaoGeApplication.getContext(), 0+"");
+//        api = WXAPIFactory.createWXAPI(QiaoGeApplication.getContext(), "wxbc18d7b8fee86977");
+//        api.registerApp("wxbc18d7b8fee86977");
+//        JPushInterface.setDebugMode(false);
+//        JPushInterface.init(QiaoGeApplication.getContext());
+//
+//        {
+//
+//            PlatformConfig.setWeixin("wxbc18d7b8fee86977", "710d1b08a6fd655ca8b3e4404fd937cd");
+//            PlatformConfig.setQQZone("1106452431", "vgywMsj2j66nW35l");
+//        }
+//        UMConfigure.init(QiaoGeApplication.getContext(), "5bcef11ab465f52b9d000094"
+//                , "umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
+//
+//        Unicorn.init(QiaoGeApplication.getContext(), "32e2c3d171b7d70287c22876a5622022", options(), new UnicornImageLoader() {
+//            @Nullable
+//            @Override
+//            public Bitmap loadImageSync(String uri, int width, int height) {
+//                return null;
+//            }
+//
+//            @Override
+//            public void loadImage(String uri, int width, int height, ImageLoaderListener listener) {
+//                RequestOptions options = new RequestOptions()
+//                        .centerCrop();
+//                if (width <= 0 || height <= 0) {
+//                    width = height = Integer.MIN_VALUE;
+//                }
+//
+//                Glide.with(QiaoGeApplication.getContext()).asBitmap().load(uri).apply(options)
+//                        .into(new SimpleTarget<Bitmap>(width, height) {
+//                            @Override
+//                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+//                                if (listener != null) {
+//                                    listener.onLoadComplete(resource);
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onLoadFailed(@Nullable Drawable errorDrawable) {
+//                                super.onLoadFailed(errorDrawable);
+//                                Throwable t = new Throwable("加载异常");
+//                                listener.onLoadFailed(t);
+//                            }
+//                        });
+//            }
+//        });
+//    }
 
-            }
-            @Override
-            public void onFailure(String s, String s1) {
-            }
-        });
-
-        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
-        UserInfoHelper.saveDate(QiaoGeApplication.getContext(), 0+"");
-        api = WXAPIFactory.createWXAPI(QiaoGeApplication.getContext(), "wxbc18d7b8fee86977");
-        api.registerApp("wxbc18d7b8fee86977");
-        JPushInterface.setDebugMode(false);
-        JPushInterface.init(QiaoGeApplication.getContext());
-
-        {
-
-            PlatformConfig.setWeixin("wxbc18d7b8fee86977", "710d1b08a6fd655ca8b3e4404fd937cd");
-            PlatformConfig.setQQZone("1106452431", "vgywMsj2j66nW35l");
-        }
-        UMConfigure.init(QiaoGeApplication.getContext(), "5bcef11ab465f52b9d000094"
-                , "umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
-
-        Unicorn.init(QiaoGeApplication.getContext(), "32e2c3d171b7d70287c22876a5622022", options(), new UnicornImageLoader() {
-            @Nullable
-            @Override
-            public Bitmap loadImageSync(String uri, int width, int height) {
-                return null;
-            }
-
-            @Override
-            public void loadImage(String uri, int width, int height, ImageLoaderListener listener) {
-                RequestOptions options = new RequestOptions()
-                        .centerCrop();
-                if (width <= 0 || height <= 0) {
-                    width = height = Integer.MIN_VALUE;
-                }
-
-                Glide.with(QiaoGeApplication.getContext()).asBitmap().load(uri).apply(options)
-                        .into(new SimpleTarget<Bitmap>(width, height) {
-                            @Override
-                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                if (listener != null) {
-                                    listener.onLoadComplete(resource);
-                                }
-                            }
-
-                            @Override
-                            public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                                super.onLoadFailed(errorDrawable);
-                                Throwable t = new Throwable("加载异常");
-                                listener.onLoadFailed(t);
-                            }
-                        });
-            }
-        });
-    }
-
-    public static YSFOptions ysfOptions;
+//    public static YSFOptions ysfOptions;
     /**
      //     * 网易七鱼客服
      //     *
      //     * @return
      //     */
-    private YSFOptions options() {
-        YSFOptions options = new YSFOptions();
-        /**
-         * 客服消息通知
-         */
-        options.statusBarNotificationConfig = new StatusBarNotificationConfig();
-        options.statusBarNotificationConfig.notificationSmallIconId = R.mipmap.ic_launcher;
-        options.onBotEventListener = new OnBotEventListener() {
-            @Override
-            public boolean onUrlClick(Context context, String url) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                context.startActivity(intent);
-                return true;
-            }
-        };
-
-        ysfOptions = options;
-        return options;
-    }
+//    private YSFOptions options() {
+//        YSFOptions options = new YSFOptions();
+//        /**
+//         * 客服消息通知
+//         */
+//        options.statusBarNotificationConfig = new StatusBarNotificationConfig();
+//        options.statusBarNotificationConfig.notificationSmallIconId = R.mipmap.ic_launcher;
+//        options.onBotEventListener = new OnBotEventListener() {
+//            @Override
+//            public boolean onUrlClick(Context context, String url) {
+//                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//                context.startActivity(intent);
+//                return true;
+//            }
+//        };
+//
+//        ysfOptions = options;
+//        return options;
+//    }
 }

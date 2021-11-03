@@ -72,7 +72,7 @@
                 android:layout_height="@dimen/size_1dp"/>
 
 
-            <android.support.v7.widget.SwitchCompat
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/swipe"
                 android:layout_below="@+id/tv0"
                 android:layout_alignParentRight="true"

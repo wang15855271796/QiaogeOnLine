@@ -1,10 +1,8 @@
 package com.puyue.www.qiaoge.adapter;
 
-import android.support.annotation.Nullable;
-import android.view.View;
-import android.widget.CheckBox;
+import androidx.annotation.Nullable;
+
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;

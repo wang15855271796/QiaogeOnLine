@@ -1,6 +1,6 @@
 package com.puyue.www.qiaoge.adapter;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,8 +11,6 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.dialog.FullDetailDialog;
-import com.puyue.www.qiaoge.dialog.FullDialog;
-import com.puyue.www.qiaoge.event.FullListModel;
 import com.puyue.www.qiaoge.model.FullDetailModel;
 
 import java.util.List;

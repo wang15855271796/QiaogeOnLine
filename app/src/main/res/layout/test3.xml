@@ -37,13 +37,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="?attr/actionBarSize"/>
 
-                    <android.support.design.widget.CoordinatorLayout
+                    <androidx.coordinatorlayout.widget.CoordinatorLayout
                         android:id="@+id/coordinator"
                         android:fitsSystemWindows="false"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
-                        <android.support.design.widget.AppBarLayout
+                        <com.google.android.material.appbar.AppBarLayout
                             android:id="@+id/appbar"
                             android:fitsSystemWindows="false"
                             boy:elevation="0dp"
@@ -52,7 +52,7 @@
                             android:layout_height="wrap_content"
                             android:background="#f9f9f9">
 
-                            <android.support.design.widget.CollapsingToolbarLayout
+                            <com.google.android.material.appbar.CollapsingToolbarLayout
                                 android:id="@+id/AppFragment_CollapsingToolbarLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -218,7 +218,7 @@
                                                 android:layout_width="match_parent"
                                                 android:layout_height="@dimen/size_30dp" />
                                             <!--<include layout="@layout/home_tip_iv"/>-->
-                                            <android.support.v7.widget.RecyclerView
+                                            <androidx.recyclerview.widget.RecyclerView
                                                 android:id="@+id/rv_icon"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
@@ -507,7 +507,7 @@
                                                         android:layout_width="wrap_content"
                                                         android:layout_height="wrap_content" />
                                                 </RelativeLayout>
-                                                <android.support.v7.widget.RecyclerView
+                                                <androidx.recyclerview.widget.RecyclerView
                                                     android:id="@+id/recyclerViewTest"
                                                     android:layout_marginTop="@dimen/size_15dp"
                                                     android:layout_marginBottom="@dimen/dp_10"
@@ -516,8 +516,8 @@
                                                     android:layout_height="wrap_content">
 
 
-                                                </android.support.v7.widget.RecyclerView>
-                                                <android.support.v7.widget.RecyclerView
+                                                </androidx.recyclerview.widget.RecyclerView>
+                                                <androidx.recyclerview.widget.RecyclerView
                                                     android:id="@+id/recyclerView"
                                                     android:visibility="gone"
                                                     android:layout_marginTop="@dimen/size_15dp"
@@ -526,7 +526,7 @@
                                                     android:layout_height="wrap_content">
 
 
-                                                </android.support.v7.widget.RecyclerView>
+                                                </androidx.recyclerview.widget.RecyclerView>
 
 
 
@@ -540,7 +540,7 @@
 
                                             </LinearLayout>
 
-                                            <android.support.v7.widget.RecyclerView
+                                            <androidx.recyclerview.widget.RecyclerView
                                                 android:id="@+id/rv_type"
                                                 android:visibility="gone"
                                                 android:layout_marginBottom="@dimen/size_12dp"
@@ -556,7 +556,7 @@
 
                                 </LinearLayout>
 
-                                <android.support.v7.widget.Toolbar
+                                <androidx.appcompat.widget.Toolbar
                                     android:id="@+id/toolbar1"
                                     app:layout_collapseMode="pin"
                                     android:background="#ffffff"
@@ -592,14 +592,14 @@
 
                                     </LinearLayout>
 
-                                </android.support.v7.widget.Toolbar>
+                                </androidx.appcompat.widget.Toolbar>
 
-                            </android.support.design.widget.CollapsingToolbarLayout>
+                            </com.google.android.material.appbar.CollapsingToolbarLayout>
 
                             <include layout="@layout/view_bar"/>
 
 
-                        </android.support.design.widget.AppBarLayout>
+                        </com.google.android.material.appbar.AppBarLayout>
 
 
 
@@ -613,7 +613,7 @@
                         </FrameLayout>
 
 
-                    </android.support.design.widget.CoordinatorLayout>
+                    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
                 </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 

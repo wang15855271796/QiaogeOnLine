@@ -1,15 +1,12 @@
 package com.puyue.www.qiaoge.adapter.mine;
 
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.model.mine.wallet.OrderReturnSelectReasonModel;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 

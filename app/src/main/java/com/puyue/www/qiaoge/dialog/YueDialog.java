@@ -3,16 +3,13 @@ package com.puyue.www.qiaoge.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.view.KeyboardShortcutGroup;
-import android.view.Menu;
+import androidx.annotation.NonNull;
+
 import android.view.View;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.cart.ExchangeActivity;
-
-import java.util.List;
 
 /**
  * Created by ${王涛} on 2020/7/23

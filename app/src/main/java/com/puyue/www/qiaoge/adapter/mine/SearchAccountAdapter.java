@@ -1,7 +1,7 @@
 package com.puyue.www.qiaoge.adapter.mine;
 
 import android.graphics.Color;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,8 +10,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.model.home.SearchListModel;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 

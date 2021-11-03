@@ -95,12 +95,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_spike_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-        </android.support.v7.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
 
         <RelativeLayout
             android:visibility="gone"
@@ -129,7 +129,7 @@
         android:layout_height="match_parent"
         >
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_marginBottom="@dimen/size_60dp"
             android:id="@+id/rv_activity_goods_list"
             android:layout_width="match_parent"

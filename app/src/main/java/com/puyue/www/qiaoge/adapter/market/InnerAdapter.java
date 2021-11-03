@@ -1,11 +1,9 @@
 package com.puyue.www.qiaoge.adapter.market;
 
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;

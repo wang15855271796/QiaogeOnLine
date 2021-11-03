@@ -3,7 +3,7 @@ package com.puyue.www.qiaoge.activity.home;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.BottomSheetDialog;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;

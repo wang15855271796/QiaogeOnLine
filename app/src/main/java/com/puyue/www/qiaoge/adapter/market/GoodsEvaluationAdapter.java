@@ -1,22 +1,16 @@
 package com.puyue.www.qiaoge.adapter.market;
 
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.model.home.CommentOrderQueryModel;
-import com.puyue.www.qiaoge.model.market.GoodsEvaluationModel;
-import com.puyue.www.qiaoge.model.mine.MineWalletModel;
 
 import java.util.List;
 

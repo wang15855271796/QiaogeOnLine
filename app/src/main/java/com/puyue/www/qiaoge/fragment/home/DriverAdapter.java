@@ -3,8 +3,8 @@ package com.puyue.www.qiaoge.fragment.home;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.support.annotation.Nullable;
-import android.text.SpannableString;
+import androidx.annotation.Nullable;
+
 import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.ImageView;

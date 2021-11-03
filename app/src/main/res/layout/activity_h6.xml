@@ -41,7 +41,7 @@
         android:max="100"
         android:progressDrawable="@drawable/app_h5_progressbar" />
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -57,5 +57,5 @@
         </com.puyue.www.qiaoge.wxapi.MyWebView>
 
     </FrameLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

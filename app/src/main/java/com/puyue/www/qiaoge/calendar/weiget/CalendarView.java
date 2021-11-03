@@ -1,23 +1,19 @@
 package com.puyue.www.qiaoge.calendar.weiget;
 
 import android.content.Context;
-import android.support.v4.view.ViewPager;
+import androidx.viewpager.widget.ViewPager;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 
 
 import com.puyue.www.qiaoge.calendar.bean.AttrsBean;
-import com.puyue.www.qiaoge.calendar.bean.DateBean;
 import com.puyue.www.qiaoge.calendar.listener.CalendarViewAdapter;
 import com.puyue.www.qiaoge.calendar.listener.OnPagerChangeListener;
 import com.puyue.www.qiaoge.calendar.listener.OnSingleChooseListener;
 import com.puyue.www.qiaoge.calendar.utils.CalendarUtil;
-import com.puyue.www.qiaoge.calendar.utils.SolarUtil;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class CalendarView extends ViewPager {

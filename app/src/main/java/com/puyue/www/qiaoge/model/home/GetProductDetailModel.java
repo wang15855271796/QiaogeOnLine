@@ -119,6 +119,7 @@ public class GetProductDetailModel {
         String customerPhone;
         boolean hasCollect;
         int fullId;
+        String prodVideoUrl;
         @Override
         public String toString() {
             return "DataBean{" +
@@ -140,6 +141,14 @@ public class GetProductDetailModel {
                     ", detailPic=" + detailPic +
                     ", topPic=" + topPic +
                     '}';
+        }
+
+        public String getProdVideoUrl() {
+            return prodVideoUrl;
+        }
+
+        public void setProdVideoUrl(String prodVideoUrl) {
+            this.prodVideoUrl = prodVideoUrl;
         }
 
         public int getFullId() {

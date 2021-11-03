@@ -1,8 +1,8 @@
 package com.puyue.www.qiaoge.activity.mine.login;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import com.puyue.www.qiaoge.model.home.AddressBean;
 import com.puyue.www.qiaoge.view.CascadingMenuView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -155,13 +155,13 @@
                             android:layout_height="wrap_content">
 
                             <!--顶部的六种推荐-->
-                            <android.support.v7.widget.RecyclerView
+                            <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/rv_recommend"
                                 android:layout_marginRight="@dimen/size_12dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                            </android.support.v7.widget.RecyclerView>
+                            </androidx.recyclerview.widget.RecyclerView>
 
                             <com.puyue.www.qiaoge.banner.Banner
                                 android:id="@+id/banner"
@@ -205,12 +205,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <android.support.v7.widget.RecyclerView
+                            <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/rv_icon"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                            </android.support.v7.widget.RecyclerView>
+                            </androidx.recyclerview.widget.RecyclerView>
 
                             <com.puyue.www.qiaoge.view.HIndicators
                                 android:id="@+id/indicator"
@@ -297,7 +297,7 @@
 
                             </RelativeLayout>
 
-                            <android.support.v7.widget.RecyclerView
+                            <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/rv_skill"
                                 android:padding="@dimen/dp_10"
                                 android:background="@drawable/shape_white1"
@@ -308,7 +308,7 @@
                                 android:layout_height="wrap_content">
 
 
-                            </android.support.v7.widget.RecyclerView>
+                            </androidx.recyclerview.widget.RecyclerView>
 
                             <com.puyue.www.qiaoge.view.AutoScrollRecyclerView
                                 android:id="@+id/rv_auto_view"
@@ -613,7 +613,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content">
 
-                                    <android.support.v7.widget.RecyclerView
+                                    <androidx.recyclerview.widget.RecyclerView
                                         android:id="@+id/rv_coupon"
                                         android:layout_marginRight="@dimen/size_12dp"
                                         android:layout_marginTop="@dimen/size_12dp"
@@ -622,9 +622,9 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content">
 
-                                    </android.support.v7.widget.RecyclerView>
+                                    </androidx.recyclerview.widget.RecyclerView>
 
-                                    <android.support.v7.widget.RecyclerView
+                                    <androidx.recyclerview.widget.RecyclerView
                                         android:id="@+id/rv_coupon1"
                                         android:layout_marginRight="@dimen/size_12dp"
                                         android:layout_marginTop="@dimen/size_12dp"
@@ -633,7 +633,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content">
 
-                                    </android.support.v7.widget.RecyclerView>
+                                    </androidx.recyclerview.widget.RecyclerView>
 
                                 </RelativeLayout>
 
@@ -644,7 +644,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content">
 
-                                    <android.support.v7.widget.RecyclerView
+                                    <androidx.recyclerview.widget.RecyclerView
                                         android:layout_marginRight="@dimen/size_12dp"
                                         android:layout_marginTop="@dimen/size_12dp"
                                         android:layout_marginBottom="@dimen/size_12dp"
@@ -652,7 +652,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content">
 
-                                    </android.support.v7.widget.RecyclerView>
+                                    </androidx.recyclerview.widget.RecyclerView>
 
 
                                 </RelativeLayout>
@@ -728,7 +728,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content">
 
-                                    <android.support.v7.widget.RecyclerView
+                                    <androidx.recyclerview.widget.RecyclerView
                                         android:id="@+id/rv_hot"
                                         android:layout_marginRight="@dimen/size_12dp"
                                         android:layout_marginTop="@dimen/size_12dp"
@@ -737,9 +737,9 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content">
 
-                                    </android.support.v7.widget.RecyclerView>
+                                    </androidx.recyclerview.widget.RecyclerView>
 
-                                    <android.support.v7.widget.RecyclerView
+                                    <androidx.recyclerview.widget.RecyclerView
                                         android:id="@+id/rv_hot1"
                                         android:layout_marginRight="@dimen/size_12dp"
                                         android:layout_marginTop="@dimen/size_12dp"
@@ -748,7 +748,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content">
 
-                                    </android.support.v7.widget.RecyclerView>
+                                    </androidx.recyclerview.widget.RecyclerView>
 
                                 </RelativeLayout>
 
@@ -918,7 +918,7 @@
                                     android:layout_height="wrap_content" />
                             </RelativeLayout>
 
-                            <android.support.v7.widget.RecyclerView
+                            <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/recyclerViewTest"
                                 android:layout_marginTop="@dimen/size_15dp"
                                 android:layout_marginBottom="@dimen/dp_10"
@@ -926,16 +926,16 @@
                                 android:layout_height="wrap_content">
 
 
-                            </android.support.v7.widget.RecyclerView>
+                            </androidx.recyclerview.widget.RecyclerView>
 
-                            <android.support.v7.widget.RecyclerView
+                            <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/recyclerView"
                                 android:layout_marginTop="@dimen/size_15dp"
                                 android:layout_marginBottom="@dimen/dp_10"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                            </android.support.v7.widget.RecyclerView>
+                            </androidx.recyclerview.widget.RecyclerView>
 
                         </LinearLayout>
 
@@ -1011,7 +1011,7 @@
 
 
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar1"
         android:visibility="gone"
         app:layout_collapseMode="pin"
@@ -1048,7 +1048,7 @@
 
         </LinearLayout>
 
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
     <!--1111111111111111111111111111111111111111111111111111111-->
     <RelativeLayout
         android:visibility="gone"
@@ -1061,7 +1061,7 @@
             android:layout_height="wrap_content">
 
 
-            <android.support.design.widget.AppBarLayout
+            <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appbar"
                 android:fitsSystemWindows="false"
                 boy:elevation="0dp"
@@ -1072,7 +1072,7 @@
 
 
 
-            </android.support.design.widget.AppBarLayout>
+            </com.google.android.material.appbar.AppBarLayout>
 
         </RelativeLayout>
 

@@ -1,35 +1,21 @@
 package com.puyue.www.qiaoge;
 
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
 import android.app.Dialog;
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.puyue.www.qiaoge.adapter.TimeAdapter;
-import com.puyue.www.qiaoge.utils.Utils;
-
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import butterknife.ButterKnife;
 
 
 public class CustomDatePicker {

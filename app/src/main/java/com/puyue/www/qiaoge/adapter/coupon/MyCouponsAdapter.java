@@ -3,9 +3,8 @@ package com.puyue.www.qiaoge.adapter.coupon;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -17,24 +16,15 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.home.ChooseAddressActivity;
 import com.puyue.www.qiaoge.activity.mine.login.CouponSearchActivity;
-import com.puyue.www.qiaoge.api.mine.coupon.userChooseDeductAPI;
 import com.puyue.www.qiaoge.dialog.CouponChangeDialog;
-import com.puyue.www.qiaoge.dialog.CouponProdDialog;
-import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.event.GoToMarketEvent;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
-import com.puyue.www.qiaoge.model.QueryProdModel;
 import com.puyue.www.qiaoge.model.mine.coupons.queryUserDeductByStateModel;
-import com.puyue.www.qiaoge.utils.ToastUtil;
 
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
-
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by ${daff} on 2018/9/20

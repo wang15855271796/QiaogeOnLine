@@ -3,10 +3,10 @@ package com.puyue.www.qiaoge.activity.mine.order;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.widget.Toolbar;
+
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
-import com.puyue.www.qiaoge.event.LogoutEvent;
 import com.puyue.www.qiaoge.event.RefreshEvent;
 import com.puyue.www.qiaoge.fragment.order.ConfirmOrderDeliverFragment;
 import com.puyue.www.qiaoge.fragment.order.ConfirmOrderSufficiencyFragment;

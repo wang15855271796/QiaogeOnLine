@@ -1,22 +1,19 @@
 package com.puyue.www.qiaoge.fragment;
 
-import android.media.Image;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.ImageView;
 
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.adapter.ChooseCouonsAdapter;
 import com.puyue.www.qiaoge.adapter.mine.ChooseCouponsAdapter;
 import com.puyue.www.qiaoge.api.mine.coupon.userChooseDeductAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.event.ChooseCoupon1Event;
 import com.puyue.www.qiaoge.event.ChooseCouponEvent;
-import com.puyue.www.qiaoge.fragment.mine.order.AllOrderFragment;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.model.mine.coupons.UserChooseDeductModel;
 

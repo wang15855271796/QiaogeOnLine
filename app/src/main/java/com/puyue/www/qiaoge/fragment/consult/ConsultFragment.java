@@ -1,11 +1,9 @@
 package com.puyue.www.qiaoge.fragment.consult;
 
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
+import androidx.fragment.app.Fragment;
+
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.puyue.www.qiaoge.base.BaseFragment;
 

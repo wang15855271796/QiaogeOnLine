@@ -2,10 +2,8 @@ package com.puyue.www.qiaoge.adapter.market;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.annotation.Nullable;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;

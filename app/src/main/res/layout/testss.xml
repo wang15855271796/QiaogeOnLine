@@ -41,13 +41,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="?attr/actionBarSize"/>
 
-                    <android.support.design.widget.CoordinatorLayout
+                    <androidx.coordinatorlayout.widget.CoordinatorLayout
                         android:id="@+id/coordinator"
                         android:fitsSystemWindows="false"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
-                        <android.support.design.widget.AppBarLayout
+                        <com.google.android.material.appbar.AppBarLayout
                             android:id="@+id/appbar"
                             android:fitsSystemWindows="false"
                             boy:elevation="0dp"
@@ -134,12 +134,12 @@
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content">
                                                 <!--顶部的六种推荐-->
-                                                <android.support.v7.widget.RecyclerView
+                                                <androidx.recyclerview.widget.RecyclerView
                                                     android:id="@+id/rv_recommend"
                                                     android:layout_width="match_parent"
                                                     android:layout_height="wrap_content">
 
-                                                </android.support.v7.widget.RecyclerView>
+                                                </androidx.recyclerview.widget.RecyclerView>
 
                                                 <com.puyue.www.qiaoge.banner.Banner
                                                     android:id="@+id/banner"
@@ -186,12 +186,12 @@
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content">
 
-                                                <android.support.v7.widget.RecyclerView
+                                                <androidx.recyclerview.widget.RecyclerView
                                                     android:id="@+id/rv_icon"
                                                     android:layout_width="match_parent"
                                                     android:layout_height="wrap_content">
 
-                                                </android.support.v7.widget.RecyclerView>
+                                                </androidx.recyclerview.widget.RecyclerView>
 
                                                 <com.puyue.www.qiaoge.view.HIndicators
                                                     android:id="@+id/indicator"
@@ -277,7 +277,7 @@
 
                                                 </RelativeLayout>
 
-                                                <android.support.v7.widget.RecyclerView
+                                                <androidx.recyclerview.widget.RecyclerView
                                                     android:id="@+id/rv_skill"
                                                     android:padding="@dimen/dp_10"
                                                     android:background="@drawable/shape_white1"
@@ -288,7 +288,7 @@
                                                     android:layout_height="wrap_content">
 
 
-                                                </android.support.v7.widget.RecyclerView>
+                                                </androidx.recyclerview.widget.RecyclerView>
 
                                                 <com.puyue.www.qiaoge.view.AutoScrollRecyclerView
                                                     android:id="@+id/rv_auto_view"
@@ -601,7 +601,7 @@
                                                         android:layout_width="match_parent"
                                                         android:layout_height="wrap_content">
 
-                                                        <android.support.v7.widget.RecyclerView
+                                                        <androidx.recyclerview.widget.RecyclerView
                                                             android:id="@+id/rv_coupon"
                                                             android:visibility="gone"
                                                             android:layout_marginRight="@dimen/size_12dp"
@@ -611,9 +611,9 @@
                                                             android:layout_width="match_parent"
                                                             android:layout_height="@dimen/size_100dp">
 
-                                                        </android.support.v7.widget.RecyclerView>
+                                                        </androidx.recyclerview.widget.RecyclerView>
 
-                                                        <android.support.v7.widget.RecyclerView
+                                                        <androidx.recyclerview.widget.RecyclerView
                                                             android:id="@+id/rv_coupon1"
                                                             android:visibility="gone"
                                                             android:layout_marginRight="@dimen/size_12dp"
@@ -623,7 +623,7 @@
                                                             android:layout_width="match_parent"
                                                             android:layout_height="155dp">
 
-                                                        </android.support.v7.widget.RecyclerView>
+                                                        </androidx.recyclerview.widget.RecyclerView>
 
                                                     </RelativeLayout>
                                                 </RelativeLayout>
@@ -700,7 +700,7 @@
                                                         android:layout_width="match_parent"
                                                         android:layout_height="wrap_content">
 
-                                                        <android.support.v7.widget.RecyclerView
+                                                        <androidx.recyclerview.widget.RecyclerView
                                                             android:id="@+id/rv_hot"
                                                             android:visibility="gone"
                                                             android:layout_marginRight="@dimen/size_12dp"
@@ -710,9 +710,9 @@
                                                             android:layout_width="match_parent"
                                                             android:layout_height="@dimen/size_100dp">
 
-                                                        </android.support.v7.widget.RecyclerView>
+                                                        </androidx.recyclerview.widget.RecyclerView>
 
-                                                        <android.support.v7.widget.RecyclerView
+                                                        <androidx.recyclerview.widget.RecyclerView
                                                             android:id="@+id/rv_hot1"
                                                             android:visibility="gone"
                                                             android:layout_marginRight="@dimen/size_12dp"
@@ -722,7 +722,7 @@
                                                             android:layout_width="match_parent"
                                                             android:layout_height="155dp">
 
-                                                        </android.support.v7.widget.RecyclerView>
+                                                        </androidx.recyclerview.widget.RecyclerView>
 
                                                     </RelativeLayout>
 
@@ -744,7 +744,7 @@
                             <include layout="@layout/view_barss"/>
 
 
-                        </android.support.design.widget.AppBarLayout>
+                        </com.google.android.material.appbar.AppBarLayout>
 
 
 
@@ -758,7 +758,7 @@
                         </FrameLayout>
 
 
-                    </android.support.design.widget.CoordinatorLayout>
+                    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
                 </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 

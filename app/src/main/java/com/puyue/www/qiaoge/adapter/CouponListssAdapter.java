@@ -1,12 +1,11 @@
 package com.puyue.www.qiaoge.adapter;
 
 import android.app.Activity;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,7 +19,6 @@ import com.puyue.www.qiaoge.dialog.ExCouponDialog;
 import com.puyue.www.qiaoge.model.cart.ExChangeModel;
 import com.puyue.www.qiaoge.model.cart.ItemModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
-import com.puyue.www.qiaoge.view.Arith;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

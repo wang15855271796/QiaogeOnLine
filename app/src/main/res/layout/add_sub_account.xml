@@ -299,7 +299,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
-                            <android.support.v7.widget.SwitchCompat
+                            <androidx.appcompat.widget.SwitchCompat
                                 android:id="@+id/swipe"
                                 android:layout_alignParentRight="true"
                                 android:layout_marginRight="@dimen/size_30dp"
@@ -324,7 +324,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
-                            <android.support.v7.widget.SwitchCompat
+                            <androidx.appcompat.widget.SwitchCompat
                                 android:id="@+id/swipe1"
                                 android:layout_alignParentRight="true"
                                 android:layout_marginRight="@dimen/size_30dp"
@@ -349,7 +349,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
-                            <android.support.v7.widget.SwitchCompat
+                            <androidx.appcompat.widget.SwitchCompat
                                 android:id="@+id/swipe2"
                                 android:layout_alignParentRight="true"
                                 android:layout_marginRight="@dimen/size_30dp"
@@ -464,7 +464,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/size_25dp" />
 
-                        <android.support.v7.widget.SwitchCompat
+                        <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/swipe3"
                             android:layout_below="@+id/tv6"
                             android:layout_alignParentRight="true"

@@ -2,8 +2,8 @@ package com.puyue.www.qiaoge.adapter.cart;
 
 import android.app.AlertDialog;
 import android.graphics.Paint;
-import android.support.annotation.Nullable;
-import android.util.Log;
+import androidx.annotation.Nullable;
+
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -11,7 +11,6 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -21,11 +20,8 @@ import com.puyue.www.qiaoge.api.cart.AddMountChangeTwoAPI;
 
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.base.BaseModel;
-import com.puyue.www.qiaoge.event.UpDateNumEvent;
 import com.puyue.www.qiaoge.event.UpDateNumEvent10;
-import com.puyue.www.qiaoge.event.UpDateNumEvent2;
 import com.puyue.www.qiaoge.helper.StringHelper;
-import com.puyue.www.qiaoge.model.cart.AddCartGoodModel;
 import com.puyue.www.qiaoge.model.cart.CartAddModel;
 import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;

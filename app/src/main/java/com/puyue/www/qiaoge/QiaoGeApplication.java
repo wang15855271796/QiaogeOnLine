@@ -6,9 +6,9 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.multidex.MultiDexApplication;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.baidu.location.LocationClientOption;
@@ -18,7 +18,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.puyue.www.qiaoge.event.InitEvent;
-import com.puyue.www.qiaoge.event.LogoutEvent;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
@@ -46,8 +45,6 @@ import java.lang.reflect.Method;
 
 import cn.jpush.android.api.JPushInterface;
 
-import static com.qiyukf.nimlib.sdk.msg.constant.SystemMessageStatus.init;
-
 
 /**
  * Created by Administrator on 2018/3/21.
@@ -61,6 +58,7 @@ public class QiaoGeApplication extends MultiDexApplication {
         super.onCreate();
         EventBus.getDefault().register(this);
         context = getApplicationContext();
+//        Glide.with(context);
 //        SharedPreferencesUtil.saveString(this,"pays","-1");
 //        SDKInitializer.initialize(getApplicationContext());
 //        //注册监听函数

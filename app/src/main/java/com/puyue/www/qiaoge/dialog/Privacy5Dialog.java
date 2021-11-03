@@ -2,7 +2,7 @@ package com.puyue.www.qiaoge.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 

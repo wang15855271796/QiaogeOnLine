@@ -1,48 +1,27 @@
 package com.puyue.www.qiaoge.adapter.cart;
 
 import android.content.Intent;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.activity.FullActiveActivity;
-import com.puyue.www.qiaoge.activity.FullListActivity;
-import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
-import com.puyue.www.qiaoge.activity.home.SpecialGoodDetailActivity;
-import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
-import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.fragment.cart.UpdateEvent;
-import com.puyue.www.qiaoge.fragment.market.Test2Adapter;
-import com.puyue.www.qiaoge.fragment.market.TestAdapter;
-import com.puyue.www.qiaoge.helper.StringHelper;
-import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
-import com.puyue.www.qiaoge.model.cart.CartListModel;
 import com.puyue.www.qiaoge.model.cart.CartTestModel;
-import com.puyue.www.qiaoge.model.cart.CartsListModel;
-import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.view.Arith;
-import com.puyue.www.qiaoge.view.GlideModel;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Administrator on 2018/4/17.

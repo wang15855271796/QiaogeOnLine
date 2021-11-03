@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,9 +21,7 @@ import com.puyue.www.qiaoge.activity.mine.order.SelfSufficiencyOrderDetailActivi
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.OrdersModel;
-import com.puyue.www.qiaoge.model.mine.order.MyOrdersModel;
 import com.puyue.www.qiaoge.view.GlideModel;
-import com.puyue.www.qiaoge.view.GradientColorTextView;
 
 import java.util.List;
 

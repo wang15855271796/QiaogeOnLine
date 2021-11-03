@@ -45,7 +45,7 @@
             </com.puyue.www.qiaoge.view.CompatToolbar>
 
 
-            <android.support.v4.widget.NestedScrollView
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:scrollbars="none"
@@ -242,7 +242,7 @@
                             android:layout_marginLeft="20dp"
                             android:text="附近目的地" />
 
-                        <android.support.v7.widget.RecyclerView
+                        <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/ry_suggest"
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
@@ -251,7 +251,7 @@
                             android:visibility="gone"
                             android:layout_marginRight="20dp">
 
-                        </android.support.v7.widget.RecyclerView>
+                        </androidx.recyclerview.widget.RecyclerView>
 
                         <View
                             android:layout_width="match_parent"
@@ -309,7 +309,7 @@
                         android:textColor="@color/app_color_white"
                         android:textSize="18dp" />
                 </LinearLayout>
-            </android.support.v4.widget.NestedScrollView>
+            </androidx.core.widget.NestedScrollView>
 
 
 

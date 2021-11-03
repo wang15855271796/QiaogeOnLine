@@ -2,18 +2,15 @@ package com.puyue.www.qiaoge.activity.mine.order;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.BottomSheetDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
@@ -43,7 +40,6 @@ import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
-import com.baidu.mapapi.map.Text;
 import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
@@ -54,8 +50,6 @@ import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.activity.BeizhuActivity;
-import com.puyue.www.qiaoge.activity.CartActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.mine.account.AddressListActivity;
 import com.puyue.www.qiaoge.adapter.OrderFullAdapter;
@@ -73,7 +67,6 @@ import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.BackEvent;
-import com.puyue.www.qiaoge.event.BeizhuEvent;
 import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragments;
 import com.puyue.www.qiaoge.helper.AppHelper;
@@ -94,7 +87,6 @@ import com.puyue.www.qiaoge.view.SnapUpCountDownTimerView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.Serializable;
 import java.net.URISyntaxException;
@@ -1260,7 +1252,7 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
 
     //不能退货弹窗
     private void showCannotReturnDialog() {
-        final android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(mContext, R.style.CommonDialogStyle).create();
+        final androidx.appcompat.app.AlertDialog alertDialog = new androidx.appcompat.app.AlertDialog.Builder(mContext, R.style.CommonDialogStyle).create();
         alertDialog.setCanceledOnTouchOutside(true);
         alertDialog.show();
         Window window = alertDialog.getWindow();

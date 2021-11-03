@@ -2,22 +2,12 @@ package com.puyue.www.qiaoge.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.activity.home.ChangeCityActivity;
-import com.puyue.www.qiaoge.activity.mine.SetAmountEvent;
-import com.puyue.www.qiaoge.event.SetAmountsEvent;
-import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
-import com.puyue.www.qiaoge.utils.ToastUtil;
-
-import org.greenrobot.eventbus.EventBus;
-
 
 
 /**

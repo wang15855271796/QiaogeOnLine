@@ -2,18 +2,14 @@ package com.puyue.www.qiaoge.activity.mine.order;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -25,14 +21,10 @@ import android.widget.TextView;
 
 import com.android.tu.loadingdialog.LoadingDailog;
 
-import com.bumptech.glide.Glide;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.BeizhuActivity;
-import com.puyue.www.qiaoge.activity.CartActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
-import com.puyue.www.qiaoge.activity.mine.account.AddressListActivity;
 import com.puyue.www.qiaoge.activity.mine.account.AddressListsActivity;
-import com.puyue.www.qiaoge.adapter.NewOrderUnOperateAdapter;
 import com.puyue.www.qiaoge.adapter.OrderFullAdapter;
 
 import com.puyue.www.qiaoge.adapter.mine.NewOrderDetailAdapter;
@@ -47,11 +39,8 @@ import com.puyue.www.qiaoge.api.mine.order.NotifyDeliverTimeOrderAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
-import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.BackEvent;
-import com.puyue.www.qiaoge.event.BeizhuEvent;
 import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
-import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragment;
 import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragments;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
@@ -68,8 +57,6 @@ import com.puyue.www.qiaoge.view.SnapUpCountDownTimerView;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -818,7 +805,7 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
 
     //不能退货弹窗
     private void showCannotReturnDialog() {
-        final android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(mContext, R.style.CommonDialogStyle).create();
+        final androidx.appcompat.app.AlertDialog alertDialog = new androidx.appcompat.app.AlertDialog.Builder(mContext, R.style.CommonDialogStyle).create();
         alertDialog.setCanceledOnTouchOutside(true);
         alertDialog.show();
         Window window = alertDialog.getWindow();

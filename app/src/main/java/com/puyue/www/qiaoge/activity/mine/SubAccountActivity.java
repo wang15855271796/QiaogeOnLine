@@ -1,26 +1,20 @@
 package com.puyue.www.qiaoge.activity.mine;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.InputType;
-import android.util.Log;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.adapter.mine.SubAccountAdapter;
-import com.puyue.www.qiaoge.api.mine.login.SendCodeAPI;
 import com.puyue.www.qiaoge.api.mine.subaccount.SubAccountAddAPI;
 import com.puyue.www.qiaoge.api.mine.subaccount.SubAccountDeleteAPI;
 
@@ -29,16 +23,11 @@ import com.puyue.www.qiaoge.api.mine.subaccount.SubAccountListAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.event.BackEvent;
-import com.puyue.www.qiaoge.event.GoToMineEvent;
 import com.puyue.www.qiaoge.event.MessageEvent;
-import com.puyue.www.qiaoge.event.SubAccountListModel;
 import com.puyue.www.qiaoge.helper.AppHelper;
-import com.puyue.www.qiaoge.helper.NetWorkHelper;
-import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.mine.MessageModel;
 import com.puyue.www.qiaoge.model.mine.SubAccountModel;
-import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

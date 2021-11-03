@@ -3,11 +3,11 @@ package com.puyue.www.qiaoge.activity.mine;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
@@ -17,8 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.XLinearLayoutManager;
-import com.puyue.www.qiaoge.activity.CartActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.adapter.mine.MyCollectionAdapter;
@@ -29,7 +27,6 @@ import com.puyue.www.qiaoge.api.mine.collection.MyCollectionListAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
-import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.event.MessageEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
@@ -40,7 +37,6 @@ import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
 import com.puyue.www.qiaoge.model.home.GetCustomerPhoneModel;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
-import com.puyue.www.qiaoge.model.mine.collection.CollectionListModel;
 import com.puyue.www.qiaoge.model.mine.collection.DeleteCollectionModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.Time;
@@ -60,16 +56,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import in.srain.cube.views.ptr.PtrClassicFrameLayout;
-import in.srain.cube.views.ptr.PtrDefaultHandler;
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-import static com.scwang.smartrefresh.layout.constant.RefreshState.Loading;
-import static com.scwang.smartrefresh.layout.constant.RefreshState.Refreshing;
 
 /**
  * Created by Administrator on 2018/4/10.

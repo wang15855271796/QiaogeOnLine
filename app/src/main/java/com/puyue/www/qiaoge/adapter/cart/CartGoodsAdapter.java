@@ -1,11 +1,11 @@
 package com.puyue.www.qiaoge.adapter.cart;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -21,8 +21,6 @@ import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.activity.home.SpecialGoodDetailActivity;
 import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
-import com.puyue.www.qiaoge.constant.AppConstant;
-import com.puyue.www.qiaoge.event.CartGoodsEvent;
 import com.puyue.www.qiaoge.fragment.cart.UpdateEvent;
 import com.puyue.www.qiaoge.model.cart.CartTestModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;

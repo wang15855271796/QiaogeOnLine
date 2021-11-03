@@ -1,36 +1,24 @@
 package com.puyue.www.qiaoge.activity.mine;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.activity.mine.order.MySubOrderActivity;
-import com.puyue.www.qiaoge.activity.mine.order.NewOrderDetailActivity;
-import com.puyue.www.qiaoge.activity.mine.order.ReturnGoodDetailActivity;
-import com.puyue.www.qiaoge.activity.mine.order.SelfSufficiencyOrderDetailActivity;
 import com.puyue.www.qiaoge.adapter.SubAccountListAdapter;
 import com.puyue.www.qiaoge.api.mine.subaccount.SubAccountAddAPI;
-import com.puyue.www.qiaoge.api.mine.subaccount.SubAccountListAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
-import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.MessageDialog;
 import com.puyue.www.qiaoge.event.BackEvent;
 import com.puyue.www.qiaoge.event.MessageEvent;
 import com.puyue.www.qiaoge.event.SubAccountListModel;
 import com.puyue.www.qiaoge.helper.AppHelper;
-import com.puyue.www.qiaoge.helper.UserInfoHelper;
-import com.puyue.www.qiaoge.model.AccountDetailModel;
-import com.puyue.www.qiaoge.model.mine.MessageModel;
-import com.puyue.www.qiaoge.model.mine.SubAccountModel;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;

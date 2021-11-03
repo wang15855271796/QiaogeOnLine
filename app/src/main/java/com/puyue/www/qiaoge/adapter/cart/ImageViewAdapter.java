@@ -1,11 +1,8 @@
 package com.puyue.www.qiaoge.adapter.cart;
 
-import android.content.Context;
-import android.support.annotation.Nullable;
-import android.util.Log;
+import androidx.annotation.Nullable;
+
 import android.view.View;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -13,8 +10,6 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.helper.AppHelper;
-import com.puyue.www.qiaoge.view.GlideModel;
-import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
 import java.util.List;

@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_auto_view"
         android:padding="@dimen/size_8dp"
         android:layout_marginBottom="@dimen/size_5dp"
@@ -14,5 +14,5 @@
         android:layout_width="match_parent"
         android:layout_height="138dp">
 
-    </android.support.v7.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 </LinearLayout>

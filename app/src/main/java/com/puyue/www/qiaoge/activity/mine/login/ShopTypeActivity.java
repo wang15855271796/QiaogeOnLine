@@ -1,21 +1,16 @@
 package com.puyue.www.qiaoge.activity.mine.login;
 
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.adapter.home.RegisterShopAdapterTwo;
 import com.puyue.www.qiaoge.api.home.GetRegisterShopAPI;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.helper.AppHelper;
-import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.OnItemClickListener;
 import com.puyue.www.qiaoge.model.home.GetRegisterShopModel;
 

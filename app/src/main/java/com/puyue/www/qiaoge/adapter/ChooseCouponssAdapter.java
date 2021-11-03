@@ -2,7 +2,7 @@ package com.puyue.www.qiaoge.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.adapter.mine.ChooseCouponsAdapter;
 import com.puyue.www.qiaoge.api.mine.coupon.userChooseDeductAPI;
 import com.puyue.www.qiaoge.dialog.CouponProdDialog;
 import com.puyue.www.qiaoge.model.QueryProdModel;

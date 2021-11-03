@@ -1,10 +1,9 @@
 package com.puyue.www.qiaoge.activity.mine.login;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,9 +13,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.adapter.HisAddressAdapter;
 import com.puyue.www.qiaoge.api.mine.login.LoginAPI;
-import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
-import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.model.AddressMessageModel;
 import com.puyue.www.qiaoge.model.HisModel;
 import com.puyue.www.qiaoge.utils.EnCodeUtil;

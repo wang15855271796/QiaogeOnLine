@@ -1,19 +1,17 @@
 package com.puyue.www.qiaoge.adapter;
 
 import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.model.cart.CartBalanceModel;
-import com.puyue.www.qiaoge.model.cart.CartsListModel;
 
 import java.util.List;
 

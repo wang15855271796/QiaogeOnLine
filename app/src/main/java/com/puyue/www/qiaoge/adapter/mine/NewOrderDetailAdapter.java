@@ -4,17 +4,13 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.util.Log;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,30 +18,10 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
-import com.puyue.www.qiaoge.activity.home.SpecialGoodDetailActivity;
-import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
-import com.puyue.www.qiaoge.adapter.market.MarketGoodBrandAdapter;
-import com.puyue.www.qiaoge.api.home.GetAllCommentListByPageAPI;
-import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.helper.AppHelper;
-import com.puyue.www.qiaoge.helper.GlideRoundTransform;
-import com.puyue.www.qiaoge.helper.StringHelper;
-import com.puyue.www.qiaoge.model.cart.CartBalanceModel;
 import com.puyue.www.qiaoge.model.cart.GetOrderDetailModel;
-import com.puyue.www.qiaoge.model.home.GetAllCommentListByPageModel;
-import com.puyue.www.qiaoge.model.home.JumpModel;
-import com.puyue.www.qiaoge.model.mine.order.NewOrderDetailModel;
-import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
-import com.puyue.www.qiaoge.utils.ToastUtil;
-import com.puyue.www.qiaoge.view.GlideModel;
-import com.puyue.www.qiaoge.view.LineBreakLayout;
 
 import java.util.List;
-
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by ${daff}

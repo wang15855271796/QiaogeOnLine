@@ -3,17 +3,15 @@ package com.puyue.www.qiaoge.activity.mine.order;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.autonavi.amap.mapcore.interfaces.IAMap;
-import com.lljjcoder.style.citylist.Toast.AlarmDailog;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.adapter.mine.ReturnDetailOrderAdapter;
 import com.puyue.www.qiaoge.api.mine.order.CancelReturnAPI;

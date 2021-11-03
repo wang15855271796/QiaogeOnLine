@@ -39,7 +39,7 @@
                 android:textSize="16dp" />
         </com.puyue.www.qiaoge.view.CompatToolbar>
 
-        <android.support.v4.widget.NestedScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FBFBFB">
@@ -124,7 +124,7 @@
                             android:textSize="14dp" />
                     </LinearLayout>
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerview_return_good"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -332,7 +332,7 @@
                                      android:layout_height="110dp"
                                      android:scaleType="fitXY" />
                              </FrameLayout>-->
-                            <android.support.v7.widget.RecyclerView
+                            <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/recycler"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -389,7 +389,7 @@
                     android:textColor="@color/white"
                     android:textSize="18dp" />
             </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 
 

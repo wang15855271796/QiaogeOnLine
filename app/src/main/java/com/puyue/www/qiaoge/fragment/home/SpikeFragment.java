@@ -3,10 +3,10 @@ package com.puyue.www.qiaoge.fragment.home;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;

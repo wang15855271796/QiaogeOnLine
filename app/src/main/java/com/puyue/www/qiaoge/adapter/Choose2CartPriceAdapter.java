@@ -1,7 +1,7 @@
 package com.puyue.www.qiaoge.adapter;
 
 import android.app.AlertDialog;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -20,7 +20,6 @@ import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.fragment.cart.UpdateEvent;
 import com.puyue.www.qiaoge.fragment.market.Test2Adapter;
-import com.puyue.www.qiaoge.fragment.market.TestAdapter;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.model.cart.AddCartGoodModel;
 import com.puyue.www.qiaoge.model.cart.CartAddReduceModel;
@@ -86,7 +85,7 @@ public class Choose2CartPriceAdapter extends BaseQuickAdapter<CartsListModel.Dat
             public void onClick(View v) {
                 num = Integer.parseInt(tv_num.getText().toString());
                 if(num ==1) {
-                    final android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(mContext, R.style.DialogStyle).create();
+                    final androidx.appcompat.app.AlertDialog alertDialog = new androidx.appcompat.app.AlertDialog.Builder(mContext, R.style.DialogStyle).create();
                     alertDialog.setCanceledOnTouchOutside(true);
                     alertDialog.show();
                     Window window = alertDialog.getWindow();

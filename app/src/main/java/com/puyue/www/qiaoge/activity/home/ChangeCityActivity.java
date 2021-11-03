@@ -1,36 +1,17 @@
 package com.puyue.www.qiaoge.activity.home;
 
-import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.puyue.www.qiaoge.NewWebViewActivity;
+import android.view.View;
+import android.widget.ImageView;
+
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.api.home.CityChangeAPI;
 import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.helper.AppHelper;
-import com.puyue.www.qiaoge.helper.StringHelper;
-import com.puyue.www.qiaoge.helper.UserInfoHelper;
-import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.home.CityChangeModel;
-import com.puyue.www.qiaoge.view.FlowLayout;
-import com.umeng.socialize.ShareAction;
-import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.media.UMWeb;
 
 import java.util.ArrayList;
 import java.util.List;

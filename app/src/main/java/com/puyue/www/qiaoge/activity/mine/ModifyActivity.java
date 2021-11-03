@@ -1,11 +1,10 @@
 package com.puyue.www.qiaoge.activity.mine;
 
 import android.os.Bundle;
-import android.support.v7.widget.SwitchCompat;
-import android.util.Log;
+import androidx.appcompat.widget.SwitchCompat;
+
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 

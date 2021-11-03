@@ -1,35 +1,18 @@
 package com.puyue.www.qiaoge.activity;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
+import androidx.core.content.ContextCompat;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.api.home.GetSpecialDetailAPI;
-import com.puyue.www.qiaoge.banner.BannerConfig;
-import com.puyue.www.qiaoge.banner.GlideImageLoader;
-import com.puyue.www.qiaoge.banner.Transformer;
-import com.puyue.www.qiaoge.banner.listener.OnBannerListener;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.helper.AppHelper;
-import com.puyue.www.qiaoge.helper.StringHelper;
-import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.IntelliModel;
-import com.puyue.www.qiaoge.model.home.SpecialGoodModel;
-import com.puyue.www.qiaoge.utils.DateUtils;
-import com.puyue.www.qiaoge.utils.Utils;
-
-import java.text.ParseException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -2,42 +2,20 @@ package com.puyue.www.qiaoge.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.activity.HomeActivity;
-import com.puyue.www.qiaoge.adapter.HotItemAdapter;
 import com.puyue.www.qiaoge.adapter.TimeAdapter;
-import com.puyue.www.qiaoge.api.cart.GetCartNumAPI;
-import com.puyue.www.qiaoge.api.home.GetProductDetailAPI;
-import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
-import com.puyue.www.qiaoge.event.UpDateNumEvent6;
-import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
-import com.puyue.www.qiaoge.helper.AppHelper;
-import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
-import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
-import com.puyue.www.qiaoge.model.home.GetProductDetailModel;
-import com.puyue.www.qiaoge.model.home.ProductNormalModel;
-import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.utils.Utils;
-import com.puyue.www.qiaoge.view.FlowLayout;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,9 +23,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by ${王涛} on 2020/6/12

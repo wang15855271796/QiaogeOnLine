@@ -1,11 +1,10 @@
 package com.puyue.www.qiaoge.adapter.mine;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.model.mine.wallet.MinerIntegralModel;
 
 import java.util.List;

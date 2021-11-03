@@ -1,7 +1,7 @@
 package com.puyue.www.qiaoge.fragment.mine.coupons;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -9,8 +9,6 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.mine.coupons.MyCouponsOverAdapter;
-import com.puyue.www.qiaoge.activity.mine.coupons.UseOrNotUseActivity;
-import com.puyue.www.qiaoge.adapter.coupon.MyCouponsAdapter;
 import com.puyue.www.qiaoge.api.mine.coupon.MyCouponsAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.helper.AppHelper;

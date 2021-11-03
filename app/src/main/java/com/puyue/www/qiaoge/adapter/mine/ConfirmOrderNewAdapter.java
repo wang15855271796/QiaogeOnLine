@@ -1,14 +1,11 @@
 package com.puyue.www.qiaoge.adapter.mine;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,12 +15,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.adapter.FullConfirmAdapter;
-import com.puyue.www.qiaoge.adapter.FullGiftAdapter;
 import com.puyue.www.qiaoge.adapter.FullGivenConfirmAdapter;
-import com.puyue.www.qiaoge.helper.GlideRoundTransform;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.model.cart.CartBalanceModel;
-import com.puyue.www.qiaoge.model.cart.CartsListModel;
 import com.puyue.www.qiaoge.view.GlideModel;
 import com.puyue.www.qiaoge.view.LineBreakLayout;
 

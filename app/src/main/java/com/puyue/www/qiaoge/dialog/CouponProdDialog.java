@@ -2,26 +2,12 @@ package com.puyue.www.qiaoge.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.View;
 import android.webkit.WebView;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.activity.CommonH5Activity;
-import com.puyue.www.qiaoge.api.mine.coupon.userChooseDeductAPI;
-import com.puyue.www.qiaoge.fragment.cart.NumEvent;
-import com.puyue.www.qiaoge.helper.AppHelper;
-import com.puyue.www.qiaoge.model.QueryProdModel;
-import com.puyue.www.qiaoge.model.mine.coupons.UserChooseDeductModel;
-import com.puyue.www.qiaoge.utils.ToastUtil;
-
-import org.greenrobot.eventbus.EventBus;
-
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by ${王涛} on 2020/9/5

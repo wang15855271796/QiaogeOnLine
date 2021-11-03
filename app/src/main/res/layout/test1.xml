@@ -37,13 +37,13 @@
                         android:layout_marginTop="?attr/actionBarSize"/>
 
 
-                    <android.support.design.widget.CoordinatorLayout
+                    <androidx.coordinatorlayout.widget.CoordinatorLayout
                         android:id="@+id/coordinator"
                         android:fitsSystemWindows="false"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
-                        <android.support.design.widget.AppBarLayout
+                        <com.google.android.material.appbar.AppBarLayout
                             android:id="@+id/appbar"
                             android:fitsSystemWindows="false"
                             boy:elevation="0dp"
@@ -52,7 +52,7 @@
                             android:layout_height="wrap_content"
                             android:background="#f9f9f9">
 
-                            <android.support.design.widget.CollapsingToolbarLayout
+                            <com.google.android.material.appbar.CollapsingToolbarLayout
                                 android:id="@+id/AppFragment_CollapsingToolbarLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -198,13 +198,13 @@
                                                 android:layout_height="wrap_content">
 
                                                 <!--顶部的六种推荐-->
-                                                <android.support.v7.widget.RecyclerView
+                                                <androidx.recyclerview.widget.RecyclerView
                                                     android:id="@+id/rv_recommend"
                                                     android:layout_marginRight="@dimen/size_12dp"
                                                     android:layout_width="match_parent"
                                                     android:layout_height="wrap_content">
 
-                                                </android.support.v7.widget.RecyclerView>
+                                                </androidx.recyclerview.widget.RecyclerView>
 
                                                 <com.puyue.www.qiaoge.banner.Banner
                                                     android:id="@+id/banner"
@@ -248,12 +248,12 @@
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content">
 
-                                                <android.support.v7.widget.RecyclerView
+                                                <androidx.recyclerview.widget.RecyclerView
                                                     android:id="@+id/rv_icon"
                                                     android:layout_width="match_parent"
                                                     android:layout_height="wrap_content">
 
-                                                </android.support.v7.widget.RecyclerView>
+                                                </androidx.recyclerview.widget.RecyclerView>
 
                                                 <com.puyue.www.qiaoge.view.HIndicators
                                                     android:id="@+id/indicator"
@@ -341,7 +341,7 @@
 
                                                 </RelativeLayout>
 
-                                                <android.support.v7.widget.RecyclerView
+                                                <androidx.recyclerview.widget.RecyclerView
                                                     android:id="@+id/rv_skill"
                                                     android:padding="@dimen/dp_10"
                                                     android:background="@drawable/shape_white1"
@@ -352,7 +352,7 @@
                                                     android:layout_height="wrap_content">
 
 
-                                                </android.support.v7.widget.RecyclerView>
+                                                </androidx.recyclerview.widget.RecyclerView>
 
                                                 <com.puyue.www.qiaoge.view.AutoScrollRecyclerView
                                                     android:id="@+id/rv_auto_view"
@@ -662,7 +662,7 @@
                                                         android:layout_width="match_parent"
                                                         android:layout_height="wrap_content">
 
-                                                        <android.support.v7.widget.RecyclerView
+                                                        <androidx.recyclerview.widget.RecyclerView
                                                             android:id="@+id/rv_coupon"
                                                             android:layout_marginRight="@dimen/size_12dp"
                                                             android:layout_marginTop="@dimen/size_12dp"
@@ -671,9 +671,9 @@
                                                             android:layout_width="match_parent"
                                                             android:layout_height="wrap_content">
 
-                                                        </android.support.v7.widget.RecyclerView>
+                                                        </androidx.recyclerview.widget.RecyclerView>
 
-                                                        <android.support.v7.widget.RecyclerView
+                                                        <androidx.recyclerview.widget.RecyclerView
                                                             android:id="@+id/rv_coupon1"
                                                             android:layout_marginRight="@dimen/size_12dp"
                                                             android:layout_marginTop="@dimen/size_12dp"
@@ -682,7 +682,7 @@
                                                             android:layout_width="match_parent"
                                                             android:layout_height="wrap_content">
 
-                                                        </android.support.v7.widget.RecyclerView>
+                                                        </androidx.recyclerview.widget.RecyclerView>
 
                                                     </RelativeLayout>
 
@@ -693,7 +693,7 @@
                                                         android:layout_width="match_parent"
                                                         android:layout_height="wrap_content">
 
-                                                        <android.support.v7.widget.RecyclerView
+                                                        <androidx.recyclerview.widget.RecyclerView
                                                             android:layout_marginRight="@dimen/size_12dp"
                                                             android:layout_marginTop="@dimen/size_12dp"
                                                             android:layout_marginBottom="@dimen/size_12dp"
@@ -701,7 +701,7 @@
                                                             android:layout_width="match_parent"
                                                             android:layout_height="wrap_content">
 
-                                                        </android.support.v7.widget.RecyclerView>
+                                                        </androidx.recyclerview.widget.RecyclerView>
 
 
                                                     </RelativeLayout>
@@ -777,7 +777,7 @@
                                                         android:layout_width="match_parent"
                                                         android:layout_height="wrap_content">
 
-                                                        <android.support.v7.widget.RecyclerView
+                                                        <androidx.recyclerview.widget.RecyclerView
                                                             android:id="@+id/rv_hot"
                                                             android:layout_marginRight="@dimen/size_12dp"
                                                             android:layout_marginTop="@dimen/size_12dp"
@@ -786,9 +786,9 @@
                                                             android:layout_width="match_parent"
                                                             android:layout_height="wrap_content">
 
-                                                        </android.support.v7.widget.RecyclerView>
+                                                        </androidx.recyclerview.widget.RecyclerView>
 
-                                                        <android.support.v7.widget.RecyclerView
+                                                        <androidx.recyclerview.widget.RecyclerView
                                                             android:id="@+id/rv_hot1"
                                                             android:layout_marginRight="@dimen/size_12dp"
                                                             android:layout_marginTop="@dimen/size_12dp"
@@ -797,7 +797,7 @@
                                                             android:layout_width="match_parent"
                                                             android:layout_height="wrap_content">
 
-                                                        </android.support.v7.widget.RecyclerView>
+                                                        </androidx.recyclerview.widget.RecyclerView>
 
                                                     </RelativeLayout>
 
@@ -968,7 +968,7 @@
                                                         android:layout_height="wrap_content" />
                                                 </RelativeLayout>
 
-                                                <android.support.v7.widget.RecyclerView
+                                                <androidx.recyclerview.widget.RecyclerView
                                                     android:id="@+id/recyclerViewTest"
                                                     android:layout_marginTop="@dimen/size_15dp"
                                                     android:layout_marginBottom="@dimen/dp_10"
@@ -976,16 +976,16 @@
                                                     android:layout_height="wrap_content">
 
 
-                                                </android.support.v7.widget.RecyclerView>
+                                                </androidx.recyclerview.widget.RecyclerView>
 
-                                                <android.support.v7.widget.RecyclerView
+                                                <androidx.recyclerview.widget.RecyclerView
                                                     android:id="@+id/recyclerView"
                                                     android:layout_marginTop="@dimen/size_15dp"
                                                     android:layout_marginBottom="@dimen/dp_10"
                                                     android:layout_width="match_parent"
                                                     android:layout_height="wrap_content">
 
-                                                </android.support.v7.widget.RecyclerView>
+                                                </androidx.recyclerview.widget.RecyclerView>
 
                                             </LinearLayout>
 
@@ -996,7 +996,7 @@
 
                                 </LinearLayout>
 
-                                <android.support.v7.widget.Toolbar
+                                <androidx.appcompat.widget.Toolbar
                                     android:id="@+id/toolbar1"
                                     android:visibility="gone"
                                     app:layout_collapseMode="pin"
@@ -1033,16 +1033,16 @@
 
                                     </LinearLayout>
 
-                                </android.support.v7.widget.Toolbar>
+                                </androidx.appcompat.widget.Toolbar>
 
-                            </android.support.design.widget.CollapsingToolbarLayout>
+                            </com.google.android.material.appbar.CollapsingToolbarLayout>
 
                             <include layout="@layout/view_bar"/>
 
 
-                        </android.support.design.widget.AppBarLayout>
+                        </com.google.android.material.appbar.AppBarLayout>
 
-                        <android.support.v4.widget.NestedScrollView
+                        <androidx.core.widget.NestedScrollView
                             android:layout_width="match_parent"
                             android:id="@+id/nestedScrollView"
                             boy:layout_scrollFlags="scroll"
@@ -1054,14 +1054,14 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                                <android.support.v7.widget.RecyclerView
+                                <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/rv_test"
                                     android:visibility="gone"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content">
 
 
-                                </android.support.v7.widget.RecyclerView>
+                                </androidx.recyclerview.widget.RecyclerView>
 
                                 <FrameLayout
                                     android:id="@+id/content"
@@ -1072,12 +1072,12 @@
                             </LinearLayout>
 
 
-                        </android.support.v4.widget.NestedScrollView>
+                        </androidx.core.widget.NestedScrollView>
 
 
 
 
-                    </android.support.design.widget.CoordinatorLayout>
+                    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
                 </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 

@@ -1,24 +1,18 @@
 package com.puyue.www.qiaoge.adapter.mine;
 
-import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
@@ -27,21 +21,11 @@ import com.puyue.www.qiaoge.activity.mine.order.NewOrderDetailActivity;
 import com.puyue.www.qiaoge.activity.mine.order.ReturnGoodDetailActivity;
 import com.puyue.www.qiaoge.activity.mine.order.SelfSufficiencyOrderDetailActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
-import com.puyue.www.qiaoge.helper.AppHelper;
-import com.puyue.www.qiaoge.helper.GlideRoundTransform;
-import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
-import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.OrdersModel;
-import com.puyue.www.qiaoge.model.mine.order.MyOrdersModel;
 import com.puyue.www.qiaoge.view.GlideModel;
-import com.puyue.www.qiaoge.view.GradientColorTextView;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
-
-import static com.umeng.socialize.utils.ContextUtil.getContext;
 
 /**
  * Created by Administrator on 2018/4/10.

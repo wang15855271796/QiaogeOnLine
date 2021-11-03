@@ -1,19 +1,16 @@
 package com.puyue.www.qiaoge.adapter;
 
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.adapter.home.ChooseCartPriceAdapter;
 import com.puyue.www.qiaoge.fragment.cart.UpdateEvent;
-import com.puyue.www.qiaoge.fragment.market.CartSpecAdapter;
 import com.puyue.www.qiaoge.fragment.market.Test2Adapter;
-import com.puyue.www.qiaoge.fragment.market.TestAdapter;
 import com.puyue.www.qiaoge.model.cart.CartsListModel;
 
 import org.greenrobot.eventbus.EventBus;

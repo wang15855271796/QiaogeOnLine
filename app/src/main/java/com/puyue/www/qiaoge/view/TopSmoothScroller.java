@@ -1,7 +1,7 @@
 package com.puyue.www.qiaoge.view;
 
 import android.content.Context;
-import android.support.v7.widget.LinearSmoothScroller;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 
 /**
  * Created by ${王文博} on 2019/4/4

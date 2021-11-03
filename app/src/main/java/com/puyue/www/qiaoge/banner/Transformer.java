@@ -1,6 +1,6 @@
 package com.puyue.www.qiaoge.banner;
 
-import android.support.v4.view.ViewPager.PageTransformer;
+import androidx.viewpager.widget.ViewPager.PageTransformer;
 
 import com.puyue.www.qiaoge.banner.transformer.AccordionTransformer;
 import com.puyue.www.qiaoge.banner.transformer.BackgroundToForegroundTransformer;
