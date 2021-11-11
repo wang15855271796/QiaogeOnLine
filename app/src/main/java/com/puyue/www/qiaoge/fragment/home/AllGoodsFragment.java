@@ -169,8 +169,6 @@ public class AllGoodsFragment extends BaseFragment {
 
 
     private void getRecommendList(int pageNum,int pageSize) {
-
-
         RecommendApI.requestData(mActivity,searchWord,pageNum,pageSize,0)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -189,7 +187,6 @@ public class AllGoodsFragment extends BaseFragment {
                         if (recommendModel.isSuccess()) {
                             searchProd = recommendModel.getData().getSearchProd();
                             list = recommendModel.getData().getSearchProd().getList();
-                            Log.d("wdwdddd.......",list+"aa");
                             if(pageNum==1) {
                                 lists.clear();
                                 lists.addAll(list);

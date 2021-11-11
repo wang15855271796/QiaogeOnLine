@@ -18,13 +18,12 @@ import rx.Observable;
  */
 public class CartGetReductDescAPI  {
     public interface CartGetReductDescService {
-        @FormUrlEncoded
         @POST(AppInterfaceAddress.CARTGETREDUCTDESC)
-        Observable<CartGetReductModel> setParams(@Field("amount") double amount);
+        Observable<CartGetReductModel> setParams();
     }
 
-    public static Observable<CartGetReductModel> requestCartGetReductDesc(Context context, double amount) {
-        Observable<CartGetReductModel> changeOrderAddressModelObservable = RestHelper.getBaseRetrofit(context).create(CartGetReductDescService.class).setParams(amount);
+    public static Observable<CartGetReductModel> requestCartGetReductDesc(Context context) {
+        Observable<CartGetReductModel> changeOrderAddressModelObservable = RestHelper.getBaseRetrofit(context).create(CartGetReductDescService.class).setParams();
         return changeOrderAddressModelObservable;
     }
 }

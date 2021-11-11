@@ -255,10 +255,11 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
     /**
      * 获取滚动数据
      *
-     * @param amount
+     * @param
      */
-    private void getScrollData(double amount) {
-        CartGetReductDescAPI.requestCartGetReductDesc(mActivity, amount)
+    List<CartGetReductModel.DataBean> scrollList = new ArrayList<>();
+    private void getScrollData() {
+        CartGetReductDescAPI.requestCartGetReductDesc(mActivity)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<CartGetReductModel>() {
@@ -273,15 +274,10 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
 
                     @Override
                     public void onNext(CartGetReductModel cartGetReductModel) {
-                        if (cartGetReductModel.isSuccess()) {
-                            if (!TextUtils.isEmpty(cartGetReductModel.getData())) {
-                                marqueeTextView.setText(cartGetReductModel.getData());
-                                fl.setVisibility(View.VISIBLE);
-                            } else {
-                                fl.setVisibility(View.GONE);
-
+                        if(cartGetReductModel.getCode()==1) {
+                            if(cartGetReductModel.getData()!=null&&cartGetReductModel.getData().size()>0) {
+                                scrollList = cartGetReductModel.getData();
                             }
-
                         }
                     }
                 });
@@ -859,7 +855,6 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
             }
         }
         double allprices = allprice.doubleValue();
-        getScrollData(allprices);
         tv_total_price.setText("￥"+allprice);
 
         if(sendAmount> allprices) {
@@ -1008,7 +1003,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
                                 tv_delete.setVisibility(View.GONE);
 
                                 ll_service.setVisibility(View.GONE);
-                                getScrollData(0);
+                                getScrollData();
                             }else {
                                 tv_delete.setVisibility(View.VISIBLE);
                                 ll_NoData.setVisibility(View.GONE);
@@ -1253,7 +1248,6 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
         discribe = Double.parseDouble(event.getDiscribe());
 
         tv_total_price.setText("￥"+discribe);
-        getScrollData(discribe);
 
         if(sendAmount> discribe) {
             double diff = sendAmount - discribe;

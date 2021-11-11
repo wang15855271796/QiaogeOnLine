@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -67,6 +68,8 @@ public class ReturnGoodDetailActivity extends BaseActivity {
     private TextView tv_amount_spec;
     private String returnContent;
     RecyclerView rv_full;
+    TextView tv_tip;
+    LinearLayout ll_tip;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -79,6 +82,8 @@ public class ReturnGoodDetailActivity extends BaseActivity {
 
     @Override
     public void findViewById() {
+        ll_tip = findViewById(R.id.ll_tip);
+        tv_tip = findViewById(R.id.tv_tip);
         rv_full = findViewById(R.id.rv_full);
         tvOrderTitle = findViewById(R.id.tvOrderTitle);
         tv_return_success = findViewById(R.id.tv_return_success);
@@ -268,6 +273,12 @@ public class ReturnGoodDetailActivity extends BaseActivity {
                                 tv_amount_spec.setVisibility(View.VISIBLE);
                             }
 
+                            if(newReturnOrderModel.getData().getTips()!=null&&!newReturnOrderModel.getData().getTips().equals("")) {
+                                ll_tip.setVisibility(View.VISIBLE);
+                                tv_tip.setText(newReturnOrderModel.getData().getTips());
+                            }else {
+                                ll_tip.setVisibility(View.GONE);
+                            }
                             if (newReturnOrderModel.getData().getReturnState() == 1 || newReturnOrderModel.getData().getReturnState() == 2) {
                                 rl_accept.setVisibility(View.VISIBLE);
                                 tv_accept_time.setText(newReturnOrderModel.getData().getCheckDate());

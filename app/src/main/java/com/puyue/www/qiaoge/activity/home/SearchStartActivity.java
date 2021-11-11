@@ -156,15 +156,16 @@ public class SearchStartActivity extends BaseSwipeActivity implements View.OnFoc
         searchWord = UserInfoHelper.getUserSearchContent(mContext);
         etGoods.setOnFocusChangeListener(this);
         searchView.setSearchViewListener(this);
-//        String history = UserInfoHelper.getUserSearchHistory(mContext);
-//        if (StringHelper.notEmptyAndNull(history)) {
-//            for (Object o : history.split(",")) {
-//                mListHistory.add((String) o);
-//            }
-//            iv_clear.setVisibility(View.VISIBLE);
-//        } else {
-//            iv_clear.setVisibility(View.GONE);
-//        }
+
+        String history = UserInfoHelper.getUserSearchHistory(mContext);
+        if (StringHelper.notEmptyAndNull(history)) {
+            for (Object o : history.split(",")) {
+                mListHistory.add((String) o);
+            }
+            iv_clear.setVisibility(View.VISIBLE);
+        } else {
+            iv_clear.setVisibility(View.GONE);
+        }
 
         mRecordsAdapter = new TagAdapter<String>(mListHistory) {
 
@@ -472,6 +473,7 @@ public class SearchStartActivity extends BaseSwipeActivity implements View.OnFoc
                                     @Override
                                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                         Intent intent = new Intent(mContext,SearchReasultActivity.class);
+                                        UserInfoHelper.saveUserHistory(mContext, data.get(position).getKeyBegin()+data.get(position).getKey()+data.get(position).getKeyEnd());
                                         intent.putExtra(AppConstant.SEARCHWORD,data.get(position).getKey()+data.get(position).getKeyBegin()+data.get(position).getKeyEnd());
                                         mContext.startActivity(intent);
                                         finish();

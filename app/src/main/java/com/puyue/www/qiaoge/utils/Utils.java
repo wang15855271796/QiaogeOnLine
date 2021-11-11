@@ -1,20 +1,68 @@
 package com.puyue.www.qiaoge.utils;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.media.MediaMetadataRetriever;
+import android.media.ThumbnailUtils;
+import android.os.Build;
+import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.google.android.exoplayer2.util.Util;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Created by Administrator on 2017/8/1 0001.
  */
 
 public class Utils {
+
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    public static Bitmap createVideoThumbnail(String url, int width, int height) {
+        Bitmap bitmap = null;
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        int kind = MediaStore.Video.Thumbnails.MINI_KIND;
+        try {
+            if (Build.VERSION.SDK_INT >= 14) {
+                retriever.setDataSource(url, new HashMap<String, String>());
+            } else {
+                retriever.setDataSource(url);
+            }
+            bitmap = retriever.getFrameAtTime();
+        } catch (IllegalArgumentException ex) {
+            // Assume this is a corrupt video file
+        } catch (RuntimeException ex) {
+            // Assume this is a corrupt video file.
+        } finally {
+            try {
+                retriever.release();
+            } catch (RuntimeException ex) {
+                // Ignore failures while cleaning up.
+            }
+        }
+        if (kind == MediaStore.Images.Thumbnails.MICRO_KIND && bitmap != null) {
+            bitmap = ThumbnailUtils.extractThumbnail(bitmap, width, height,
+                    ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
+        }
+        return bitmap;
+    }
+
+    public static Drawable bitmap2Drawable(final Bitmap bitmap) {
+        return bitmap == null ? null : new BitmapDrawable(anet.channel.util.Utils.getAppContext().getResources(), bitmap);
+    }
+
+
+
     public static int getScreenWidth(Context context) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         return displayMetrics.widthPixels;

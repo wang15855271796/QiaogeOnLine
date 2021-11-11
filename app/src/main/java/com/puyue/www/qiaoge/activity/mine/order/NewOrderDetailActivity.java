@@ -214,6 +214,10 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
     private String subId;
     OrderFullAdapter orderFullAdapter;
     TextView tv_amount;
+    ImageView iv_order;
+    ImageView iv_pay;
+    TextView tv_sale_name;
+    TextView tv_sale_name1;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -226,6 +230,10 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
+        tv_sale_name = (TextView) findViewById(R.id.tv_sale_name);
+        tv_sale_name1 = (TextView) findViewById(R.id.tv_sale_name1);
+        iv_order = (ImageView) findViewById(R.id.iv_order);
+        iv_pay = (ImageView) findViewById(R.id.iv_pay);
         ll_full_activies = (LinearLayout) findViewById(R.id.ll_full_activies);
         tv_full_price =  (TextView) findViewById(R.id.tv_full_price);
         tv_full_desc =  (TextView) findViewById(R.id.tv_full_desc);
@@ -586,6 +594,20 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
             ll_payWay.setVisibility(View.GONE);
         }else {
             ll_payWay.setVisibility(View.VISIBLE);
+        }
+
+        if(getOrderDetailModel.saleSettle==1) {
+            tv_sale_name.setText(getOrderDetailModel.saleName);
+            iv_order.setVisibility(View.VISIBLE);
+        }else {
+            iv_order.setVisibility(View.GONE);
+        }
+
+        if(getOrderDetailModel.salePay==1) {
+            tv_sale_name1.setText(getOrderDetailModel.saleName);
+            iv_pay.setVisibility(View.VISIBLE);
+        }else {
+            iv_pay.setVisibility(View.GONE);
         }
 
         //倒计时设置

@@ -73,6 +73,8 @@ public class OrdersModel {
             public String returnOrderStatus;
             public String returnOrderStatusStr;
             public String returnProductMainId;
+            public int saleSettle;
+            public int salePay;
         }
     }
 }

@@ -436,7 +436,7 @@ public class CartTestModel {
                 private boolean valid;
                 boolean isSelected = true;
                 String notSend;
-
+                String selfProd;
                 @Override
                 public String toString() {
                     return "ProdsBean{" +
@@ -453,6 +453,14 @@ public class CartTestModel {
                             ", isSelected=" + isSelected +
                             ", productDescVOList=" + productDescVOList +
                             '}';
+                }
+
+                public String getSelfProd() {
+                    return selfProd;
+                }
+
+                public void setSelfProd(String selfProd) {
+                    this.selfProd = selfProd;
                 }
 
                 public String getNotSend() {

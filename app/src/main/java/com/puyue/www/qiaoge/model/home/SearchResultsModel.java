@@ -285,6 +285,16 @@ public class SearchResultsModel {
 
                 private int productId;
                 private String spec;
+                int prodDeduct;
+
+                public int getProdDeduct() {
+                    return prodDeduct;
+                }
+
+                public void setProdDeduct(int prodDeduct) {
+                    this.prodDeduct = prodDeduct;
+                }
+
                 public int getProductId() {
                     return productId;
                 }
@@ -651,6 +661,15 @@ public class SearchResultsModel {
 
                     private int productId;
                     private String spec;
+                    int prodDeduct;
+
+                    public int getProdDeduct() {
+                        return prodDeduct;
+                    }
+
+                    public void setProdDeduct(int prodDeduct) {
+                        this.prodDeduct = prodDeduct;
+                    }
 
                     public int getProductId() {
                         return productId;

@@ -14,6 +14,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.text.Editable;
@@ -32,11 +35,14 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.HomeActivity;
+import com.puyue.www.qiaoge.adapter.FullDescDialog;
 import com.puyue.www.qiaoge.adapter.market.PhotoViewAdapter;
+import com.puyue.www.qiaoge.api.cart.CartListAPI;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.event.LogoutEvent;
 import com.puyue.www.qiaoge.fragment.home.CityEvent;
+import com.puyue.www.qiaoge.model.CartFullModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.PhotoViewPager;
 import com.puyue.www.qiaoge.view.datepicker.FingerFrameLayout;
@@ -47,6 +53,7 @@ import java.util.List;
 import java.util.Locale;
 
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 //import com.airbnb.lottie.LottieAnimationView;
@@ -257,23 +264,6 @@ public class AppHelper {
             }
         });
 
-
-//        TextView mTvCell = (TextView) mDialog.getWindow().findViewById(R.id.tv_phone);
-//        mTvCell.setText(cell);
-//        mDialog.getWindow().findViewById(R.id.tv_dialog_call_phone_cancel).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mDialog.dismiss();
-//            }
-//        });
-//        mDialog.getWindow().findViewById(R.id.tv_dialog_call_phone_sure).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                UnicornManager.inToUnicorn(context);
-//
-//                mDialog.dismiss();
-//            }
-//        });
     }
     public static String AuthorizationCode;
     public static AlertDialog mDialogAuth;
@@ -330,7 +320,53 @@ public class AppHelper {
         mDialogAuth.getWindow().findViewById(R.id.tv_dialog_sure).setOnClickListener(onClickListener);
     }
 
+    //显示满减弹窗
+    public static void showFullDialog(final Activity context) {
+        getFullDetail(context);
+    }
 
+    private static void getFullDetail(Context context) {
+        CartListAPI.getFullDetail(context,0)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<CartFullModel>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(CartFullModel cartFullModel) {
+                        if(cartFullModel.getCode()==1) {
+                            if(cartFullModel.getData()!=null&&cartFullModel.getData().size()>0) {
+                                mDialogAuth = new AlertDialog.Builder(context).create();
+                                mDialogAuth.show();
+                                mDialogAuth.getWindow().setContentView(R.layout.dialog_cart_full);
+                                mDialogAuth.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                                mDialogAuth.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+                                RecyclerView recyclerView = mDialogAuth.getWindow().findViewById(R.id.recycleView);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                                FullDescDialog fullDescDialog = new FullDescDialog(R.layout.item_full_cart,cartFullModel.getData());
+                                recyclerView.setAdapter(fullDescDialog);
+                                fullDescDialog.notifyDataSetChanged();
+                                mDialogAuth.getWindow().findViewById(R.id.tv_ok).setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        mDialogAuth.dismiss();
+                                    }
+                                });
+                            }
+                        }else {
+                            ToastUtil.showSuccessMsg(context,cartFullModel.getMessage());
+                        }
+
+                    }
+                });
+    }
 
     public static void hideAuthorizationDialog() {
         mDialogAuth.dismiss();

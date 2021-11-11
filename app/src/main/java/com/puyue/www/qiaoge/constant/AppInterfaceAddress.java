@@ -496,7 +496,7 @@ public class AppInterfaceAddress {
     public static final String AUTHPOPVIEW = "auth/popupView";
     public static final String VIPPAY = "vip/pay";
     public static final String VIPPAYRESULT = "vip/payResult";
-    public static final String CARTGETREDUCTDESC = "cart/getReductDesc";
+    public static final String CARTGETREDUCTDESC = "cart/getCityDeductInfo";
     public static final String CARTPOSTCHANGEORDERDETAIL = "cart/cartNumChange";
 
     /**
@@ -532,8 +532,10 @@ public class AppInterfaceAddress {
     public static final String GETUSERADDRESS = "auth/getUserAddress";
 
     public static final String GET_CART_LISTS = "cart/queryUserCartList";
-    //
+    //购物车列表
     public static final String GET_CART_LIST = "cart/getAppUserCartListV3";
+    //满减详情
+    public static final String Full_Cart_Detail = "cart/getCityDeductInfoDetail";
     /**
      * 获取退货订单信息
      */

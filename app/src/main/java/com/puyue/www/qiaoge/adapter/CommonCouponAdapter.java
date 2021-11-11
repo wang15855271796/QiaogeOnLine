@@ -119,7 +119,7 @@ public class CommonCouponAdapter extends RecyclerView.Adapter<CommonCouponAdapte
             }
 
             if(activesBean.getNotSend()==1) {
-                holder.iv_send.setVisibility(View.VISIBLE);
+                holder.iv_send.setVisibility(View.GONE);
             }else {
                 holder.iv_send.setVisibility(View.GONE);
             }

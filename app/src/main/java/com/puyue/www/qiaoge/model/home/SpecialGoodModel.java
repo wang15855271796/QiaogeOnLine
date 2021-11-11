@@ -87,6 +87,7 @@ public class SpecialGoodModel {
          */
         String notSend;
         int warnMe;
+        String selfOrNot;
         private int activityType;
         private String actTypeName;
         private int activeId;
@@ -111,6 +112,14 @@ public class SpecialGoodModel {
         private List<String> detailPics;
         String bannerDetailUrl;
         String bannerUrl;
+
+        public String getSelfOrNot() {
+            return selfOrNot;
+        }
+
+        public void setSelfOrNot(String selfOrNot) {
+            this.selfOrNot = selfOrNot;
+        }
 
         public String getNotSend() {
             return notSend;

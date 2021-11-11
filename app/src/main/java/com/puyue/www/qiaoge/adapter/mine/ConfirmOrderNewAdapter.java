@@ -134,17 +134,16 @@ public class ConfirmOrderNewAdapter extends BaseQuickAdapter<CartBalanceModel.Da
         if (!TextUtils.isEmpty(item.getName())) {
             helper.setText(R.id.textTitle, item.getName());
         }
-        if (StringHelper.notEmptyAndNull(item.getProdTypeUrl())) {
-            GlideModel.disPlayError(mContext, item.getProdTypeUrl(), imageIcon);
 
-           /* Glide.with(mContext).load(item.getProdTypeUrl()).
-                    transform(new GlideRoundTransform(mContext, 3)).into(imageIcon);*/
+        if (StringHelper.notEmptyAndNull(item.getProdTypeUrl())) {
+            imageIcon.setVisibility(View.VISIBLE);
+            GlideModel.disPlayError(mContext, item.getProdTypeUrl(), imageIcon);
+        }else {
+            imageIcon.setVisibility(View.GONE);
         }
 
         if (StringHelper.notEmptyAndNull(item.getPicUrl())) {
             GlideModel.disPlayError(mContext, item.getPicUrl(), imageView);
-          /*  Glide.with(mContext).load(item.getPicUrl()).crossFade().transform(new GlideRoundTransform(mContext, 3)).
-                    error(R.mipmap.icon_default_rec).into(imageView);*/
         }
 
         if (!TextUtils.isEmpty(item.getSpec())) {

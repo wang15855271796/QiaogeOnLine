@@ -413,8 +413,6 @@ public class MarketsFragment extends BaseFragment {
                         hasPage = false;
                         getDataThree();
                     }
-
-
                     return true;
                 }
                 return false;

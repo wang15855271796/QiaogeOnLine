@@ -65,6 +65,7 @@ public class CouponsInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.D
 
     @Override
     protected void convert(BaseViewHolder helper, TeamActiveQueryModel.DataBean.ActivesBean item) {
+        ImageView iv_flag = helper.getView(R.id.iv_flag);
         ImageView iv_send = helper.getView(R.id.iv_send);
         rl_price = helper.getView(R.id.rl_price);
         tv_price = helper.getView(R.id.tv_price);
@@ -76,6 +77,7 @@ public class CouponsInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.D
         tv_total = helper.getView(R.id.tv_total);
         pb = helper.getView(R.id.pb);
         rl_coupon = helper.getView(R.id.rl_coupon);
+
 
         if(item.getNotSend()!=null) {
             if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
@@ -90,8 +92,7 @@ public class CouponsInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.D
         Glide.with(mContext).load(item.getDefaultPic()).into(iv_pic);
         helper.setText(R.id.tv_name,item.getActiveName());
         helper.setText(R.id.tv_spec,item.getSpec());
-//        helper.setText(R.id.tv_price,item.getPrice());
-//        helper.setText(R.id.tv_old_price,item.getOldPrice());
+        Glide.with(mContext).load(item.getSelfOrNot()).into(iv_flag);
         pb.setProgress(Integer.parseInt(item.getProgress()));
         tv_total.setText(item.getRemainNum());
         rl_root.setOnClickListener(new View.OnClickListener() {

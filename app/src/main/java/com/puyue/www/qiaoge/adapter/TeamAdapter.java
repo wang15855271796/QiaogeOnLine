@@ -29,69 +29,7 @@ import java.util.List;
  * Created by ${王涛} on 2020/9/19
  */
 public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.BaseViewHolder> {
-    List<CouponModels.DataBean.TeamBean.ActivesBeanX> data;
-//    public TeamAdapter(int layoutResId, @Nullable List<CouponModels.DataBean.TeamBean.ActivesBeanX> data) {
-//        super(layoutResId, data);
-//        this.data = data;
-//    }
-//
-//    @Override
-//    protected void convert(BaseViewHolder helper, CouponModels.DataBean.TeamBean.ActivesBeanX item) {
-//        ImageView iv_pic = helper.getView(R.id.iv_pic);
-//        TextView tv_old_price = helper.getView(R.id.tv_old_price);
-//
-//        if(!TextUtils.isEmpty(item.getOldPrice())) {
-//            tv_old_price.setText(item.getOldPrice());
-//            tv_old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-//            tv_old_price.getPaint().setAntiAlias(true);//抗锯齿
-//            tv_old_price.setVisibility(View.VISIBLE);
-//        }else {
-//            tv_old_price.setVisibility(View.GONE);
-//        }
-//
-//        RelativeLayout rl_group = helper.getView(R.id.rl_group);
-//        rl_group.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent teamIntent = new Intent(mContext, TeamDetailActivity.class);
-//                mContext.startActivity(teamIntent);
-//            }
-//        });
-//        ImageView iv_sale_done = helper.getView(R.id.iv_sale_done);
-//        TextView tv_price = helper.getView(R.id.tv_price);
-//        TextView tv_name = helper.getView(R.id.tv_name);
-//        TextView tv_desc = helper.getView(R.id.tv_desc);
-//        tv_name.setText(data.get(0).getActiveName());
-//        Glide.with(mContext).load(data.get(0).getDefaultPic()).into(iv_pic);
-//
-//        if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-//            if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
-//                tv_price.setVisibility(View.VISIBLE);
-//                tv_desc.setVisibility(View.GONE);
-//                tv_old_price.setVisibility(View.VISIBLE);
-//                tv_price.setText(item.getPrice());
-//            }else {
-//                tv_price.setVisibility(View.GONE);
-//                tv_desc.setVisibility(View.VISIBLE);
-//                tv_old_price.setVisibility(View.GONE);
-//            }
-//        }else {
-//            tv_price.setText(item.getPrice());
-//            tv_price.setVisibility(View.VISIBLE);
-//            tv_desc.setVisibility(View.GONE);
-//        }
-//
-//        if(item.getFlag()==1) {
-//            iv_sale_done.setVisibility(View.VISIBLE);
-//            Glide.with(mContext).load(item.getSoldOutPic()).into(iv_sale_done);
-//        }else {
-//            iv_sale_done.setVisibility(View.GONE);
-//        }
-//    }
 
-
-
-//    //根据flag 判断返回集合大小还是最大值 0返回最大值 1，返回集合大小
     Activity mContext;
     int layoutResId;
     List<CouponModels.DataBean.TeamBean.ActivesBeanX> actives;
@@ -120,7 +58,7 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.BaseViewHolder
             holder.tv_price.setText(activesBean.getPrice());
 
             if(activesBean.getNotSend()==1) {
-                holder.iv_send.setVisibility(View.VISIBLE);
+                holder.iv_send.setVisibility(View.GONE);
             }else {
                 holder.iv_send.setVisibility(View.GONE);
             }

@@ -14,14 +14,56 @@
         android:layout_marginLeft="@dimen/size_8dp"
         android:layout_marginRight="@dimen/size_8dp"
         android:layout_marginBottom="@dimen/dp_10"
-        android:background="@drawable/shape_white1"
-    >
+        android:background="@drawable/shape_white1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/size_10dp">
+
+            <ImageView
+                android:id="@+id/iv_order"
+                android:src="@mipmap/icon_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/size_15dp" />
+
+            <TextView
+                android:id="@+id/tv_sale_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                tools:text="3"
+                android:textColor="@color/app_black"
+                android:textSize="@dimen/size_11dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/size_10dp">
+
+            <ImageView
+                android:id="@+id/iv_pay"
+                android:src="@mipmap/icon_pay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/size_15dp" />
+
+            <TextView
+                android:id="@+id/tv_sale_name1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                tools:text="3"
+                android:textColor="@color/app_black"
+                android:textSize="@dimen/size_11dp" />
+        </LinearLayout>
 
         <!--商品数量-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/size_15dp"
             android:padding="@dimen/size_10dp">
 
             <TextView

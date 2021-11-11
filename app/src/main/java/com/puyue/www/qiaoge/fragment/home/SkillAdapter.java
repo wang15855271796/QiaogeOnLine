@@ -79,7 +79,7 @@ public class SkillAdapter extends RecyclerView.Adapter<SkillAdapter.BaseViewHold
         }
 
         if(activesBean.getNotSend()==1) {
-            holder.iv_not_send.setVisibility(View.VISIBLE);
+            holder.iv_not_send.setVisibility(View.GONE);
         }else {
             holder.iv_not_send.setVisibility(View.GONE);
         }

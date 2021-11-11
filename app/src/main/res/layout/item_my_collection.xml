@@ -55,8 +55,8 @@
                     android:visibility="gone"
                     android:layout_centerInParent="true"
                     android:id="@+id/iv_sold_out"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/size_45dp"
+                    android:layout_height="@dimen/size_20dp"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="20dp" />
 
@@ -204,14 +204,12 @@
                 android:id="@+id/iv_operate"
                 android:src="@mipmap/icon_next"
                 android:layout_marginTop="@dimen/size_2dp"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/size_32dp"
                 android:layout_below="@+id/ll_line"
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="@dimen/dp_10"
                 android:layout_toRightOf="@id/ll_pic"
-                android:layout_height="wrap_content" />
-
-
+                android:layout_height="@dimen/size_12dp" />
 
         </RelativeLayout>
     </LinearLayout>

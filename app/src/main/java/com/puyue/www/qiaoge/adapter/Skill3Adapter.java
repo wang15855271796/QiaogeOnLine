@@ -56,7 +56,7 @@ public class Skill3Adapter extends BaseQuickAdapter<CouponModels.DataBean.SpikeB
         }
 
         if(item.getNotSend()==1) {
-            iv_not_send.setVisibility(View.VISIBLE);
+            iv_not_send.setVisibility(View.GONE);
         }else {
             iv_not_send.setVisibility(View.GONE);
         }

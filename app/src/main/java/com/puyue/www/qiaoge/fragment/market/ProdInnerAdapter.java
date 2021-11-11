@@ -34,7 +34,6 @@ class ProdInnerAdapter extends BaseQuickAdapter<MarketRightModel.DataBean.BrandP
         helper.setText(R.id.tv_name,item.getProductName());
         helper.setText(R.id.tv_sale,item.getSalesVolume());
         TextView tv_price = helper.getView(R.id.tv_price);
-        TextView tv_desc = helper.getView(R.id.tv_desc);
         ImageView iv_pic = helper.getView(R.id.iv_pic);
         ImageView iv_send = helper.getView(R.id.iv_send);
 
@@ -59,17 +58,12 @@ class ProdInnerAdapter extends BaseQuickAdapter<MarketRightModel.DataBean.BrandP
 
         if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
             if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
-                tv_price.setVisibility(View.VISIBLE);
-                tv_desc.setVisibility(View.GONE);
                 tv_price.setText(item.getMinMaxPrice());
             }else {
-                tv_price.setVisibility(View.GONE);
-                tv_desc.setVisibility(View.VISIBLE);
+                tv_price.setText("价格授权后可见");
             }
         }else {
             tv_price.setText(item.getMinMaxPrice());
-            tv_price.setVisibility(View.VISIBLE);
-            tv_desc.setVisibility(View.GONE);
         }
 
         Glide.with(mContext)

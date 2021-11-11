@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
@@ -45,18 +46,21 @@ public class NewItemAdapter extends BaseQuickAdapter<ExchangeProductModel.DataBe
     TextView tv_coupon_desc;
     List<ExchangeProductModel.DataBean.ProdPricesBean> data;
     com.puyue.www.qiaoge.listener.OnItemClickListener onItemClickListener;
-    private TextView tv_reduce;
     LinearLayout rl_desc;
     AlertDialog alertDialog;
-    public NewItemAdapter(int businessType,int productId,int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data) {
+    String typeUrl;
+    ImageView iv_reduce;
+    public NewItemAdapter(int businessType,int productId,int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data,String typeUrl) {
         super(layoutResId, data);
         this.productId = productId;
         this.businessType = businessType;
         this.data = data;
+        this.typeUrl = typeUrl;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, ExchangeProductModel.DataBean.ProdPricesBean item) {
+        iv_reduce = helper.getView(R.id.iv_reduce);
         tv_coupon_desc = helper.getView(R.id.tv_coupon_desc);
         rl_desc = helper.getView(R.id.rl_desc);
         if(item.getSpecialOffer().equals("")) {
@@ -68,19 +72,14 @@ public class NewItemAdapter extends BaseQuickAdapter<ExchangeProductModel.DataBe
 
         tv_price = helper.getView(R.id.tv_price);
         tv_price.setText(item.getPrice());
-        tv_reduce = helper.getView(R.id.tv_reduce);
         helper.setText(R.id.tv_unit, item.getUnitDesc());
         TextView tv_old_price = helper.getView(R.id.tv_old_price);
         tv_old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         helper.setText(R.id.tv_old_price,item.getOldPrice());
         TextView tv_num = helper.getView(R.id.tv_num);
-        if(item.getOldPrice().equals("")) {
-            tv_reduce.setVisibility(View.GONE);
-        }else {
-            tv_reduce.setBackgroundResource(R.drawable.shape_orange);
-            tv_reduce.setVisibility(View.VISIBLE);
+        if(!item.getOldPrice().equals("")&&item.getOldPrice()!=null) {
+            Glide.with(mContext).load(typeUrl).into(iv_reduce);
         }
-
         tv_num.setText(item.getCartNum()+"");
         iv_cut = helper.getView(R.id.iv_cut);
         iv_add = helper.getView(R.id.iv_add);

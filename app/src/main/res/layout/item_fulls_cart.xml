@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:anroid="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#f2f2f2"
+    android:id="@+id/ll_root"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+        android:layout_marginTop="@dimen/dp_10"
+        android:id="@+id/rl_group"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical"
+        android:background="@drawable/shape_white1"
+        android:layout_width="match_parent"
+        android:layout_height="114dp">
+
+        <com.puyue.www.qiaoge.RoundImageView
+            android:id="@+id/iv_pic"
+            android:scaleType="fitXY"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_baidu"
+            android:layout_width="@dimen/size_92dp"
+            android:layout_height="@dimen/size_92dp" />
+
+
+        <TextView
+            android:textColor="#333333"
+            android:maxLines="1"
+            android:layout_toRightOf="@+id/iv_pic"
+            android:layout_marginRight="@dimen/dp_10"
+            android:id="@+id/tv_name"
+            android:layout_marginTop="@dimen/size_10dp"
+            android:layout_below="@+id/rl_pic"
+            android:ellipsize="end"
+            android:textStyle="bold"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:textSize="@dimen/sp_16"
+            android:text="华清源腿排腿排华排..."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_spec"
+            tools:text="规格"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_below="@+id/tv_name"
+            android:layout_toRightOf="@+id/iv_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="数量:"
+            android:layout_marginRight="@dimen/size_45dp"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_num"
+            tools:text="数量:"
+            android:textSize="@dimen/sp_16"
+            android:textColor="#F6551A"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+</LinearLayout>

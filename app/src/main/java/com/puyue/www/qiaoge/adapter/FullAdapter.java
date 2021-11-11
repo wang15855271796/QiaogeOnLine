@@ -86,7 +86,7 @@ public class FullAdapter extends RecyclerView.Adapter<FullAdapter.BaseViewHolder
 
 
             if(activesBean.getNotSend() ==1) {
-                viewHolder.iv_send.setVisibility(View.VISIBLE);
+                viewHolder.iv_send.setVisibility(View.GONE);
             }else {
                 viewHolder.iv_send.setVisibility(View.GONE);
             }

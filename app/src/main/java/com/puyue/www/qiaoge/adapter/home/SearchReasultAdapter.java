@@ -31,14 +31,12 @@ import java.util.List;
 public class SearchReasultAdapter extends BaseQuickAdapter<SearchResultsModel.DataBean.SearchProdBean.ListBean, BaseViewHolder> {
 
     private ImageView iv_head;
-    private TextView tv_stock;
     private LinearLayout ll_group;
     private ImageView iv_type;
     Onclick onclick;
     SearchDialog searchDialog;
     private TextView tv_price_desc;
     ImageView iv_operate;
-    ImageView iv_next;
     public SearchReasultAdapter( int layoutResId, @Nullable List<SearchResultsModel.DataBean.SearchProdBean.ListBean> data, Onclick onclick) {
         super(layoutResId, data);
         this.onclick = onclick;
@@ -46,13 +44,11 @@ public class SearchReasultAdapter extends BaseQuickAdapter<SearchResultsModel.Da
 
     @Override
     protected void convert(BaseViewHolder helper, SearchResultsModel.DataBean.SearchProdBean.ListBean item) {
-        iv_next = helper.getView(R.id.iv_next);
         iv_operate = helper.getView(R.id.iv_operate);
         ImageView iv_no_data = helper.getView(R.id.iv_no_data);
         tv_price_desc = helper.getView(R.id.tv_price_desc);
         iv_type = helper.getView(R.id.iv_type);
         Glide.with(mContext).load(item.getSelfProd()).into(iv_operate);
-        Glide.with(mContext).load(item.getSendTimeTpl()).into(iv_next);
         if(item.getFlag()==0) {
             Glide.with(mContext).load(item.getTypeUrl()).into(iv_no_data);
             iv_no_data.setVisibility(View.VISIBLE);
@@ -79,9 +75,6 @@ public class SearchReasultAdapter extends BaseQuickAdapter<SearchResultsModel.Da
         helper.setText(R.id.tv_name,item.getProductName());
         helper.setText(R.id.tv_stock_total,item.getInventory());
         helper.setText(R.id.tv_sale,item.getSalesVolume());
-        helper.setText(R.id.tv_desc,item.getSpecialOffer());
-        tv_stock = helper.getView(R.id.tv_stock);
-        tv_stock.setText(item.getInventory());
 
         ImageView iv_send = helper.getView(R.id.iv_send);
         if(item.getNotSend()!=null) {

@@ -7,6 +7,7 @@ import android.content.Intent;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,11 +97,12 @@ public class ChooseDialog extends Dialog implements View.OnClickListener {
     ExchangeProductModel exchangeProductModels;
     GetProductDetailModel model;
     public List<GetProductDetailModel.DataBean.ProdSpecsBean> prodSpecs;
-    public ChooseDialog(Context context,int productId,GetProductDetailModel model) {
+    public ChooseDialog(Context context,int productId,GetProductDetailModel model,int pos) {
         super(context, R.style.dialog);
         this.context = context;
         this.productId = productId;
         this.model = model;
+        this.pos = pos;
         exchangeList(productId);
         getCartNum();
         init();
@@ -112,7 +114,6 @@ public class ChooseDialog extends Dialog implements View.OnClickListener {
         if(!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
-
     }
     @Override
     public void cancel() {
@@ -145,7 +146,7 @@ public class ChooseDialog extends Dialog implements View.OnClickListener {
                         if(exchangeProductModel.isSuccess()) {
                             if(exchangeProductModel.getData()!=null) {
                                 exchangeProductModels = exchangeProductModel;
-                                ItemChooseAdapter itemChooseAdapter = new ItemChooseAdapter(1, productId, R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices());
+                                ItemChooseAdapter itemChooseAdapter = new ItemChooseAdapter(1, productId, R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices(),exchangeProductModel.getData().getTypeUrl());
                                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                                 recyclerView.setAdapter(itemChooseAdapter);
                                 tv_sale.setText(exchangeProductModel.getData().getSalesVolume());
@@ -154,7 +155,7 @@ public class ChooseDialog extends Dialog implements View.OnClickListener {
                                 tv_stock.setText(exchangeProductModel.getData().getInventory());
                                 tv_name.setText(exchangeProductModel.getData().getProductName());
                                 Glide.with(context).load(exchangeProductModel.getData().getDefaultPic()).into(iv_head);
-                                Glide.with(context).load(exchangeProductModel.getData().getSendTimeTpl()).into(iv_pic);
+//                                Glide.with(context).load(exchangeProductModel.getData().getTypeUrl()).into(iv_pic);
                                 Glide.with(context).load(exchangeProductModel.getData().getSelfProd()).into(iv_operate);
 
                                 if(exchangeProductModel.getData().getNotSend()!=null) {
@@ -190,7 +191,6 @@ public class ChooseDialog extends Dialog implements View.OnClickListener {
         fl_container.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                pos = position;
                 searchSpecAdapter.selectPosition(position);
                 int productId = exchangeProductModels.getData().getProdSpecs().get(position).getProductId();
                 exchangeList(productId);
@@ -199,6 +199,7 @@ public class ChooseDialog extends Dialog implements View.OnClickListener {
         if(model!=null) {
             searchSpecAdapter = new SearchSpecAdapter(context,model.getData().getProdSpecs());
             fl_container.setAdapter(searchSpecAdapter);
+//            searchSpecAdapter.selectPosition(pos);
         }
 
     }

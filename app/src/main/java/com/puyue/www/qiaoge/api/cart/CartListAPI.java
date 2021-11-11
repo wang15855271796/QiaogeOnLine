@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
 import com.puyue.www.qiaoge.helper.RestHelper;
+import com.puyue.www.qiaoge.model.CartFullModel;
 import com.puyue.www.qiaoge.model.cart.CartListModel;
 import com.puyue.www.qiaoge.model.cart.CartTestModel;
 import com.puyue.www.qiaoge.model.cart.CartsListModel;
@@ -20,15 +21,6 @@ import rx.Observable;
 public class CartListAPI {
 
 
-//    public interface CartListService {
-//        @POST(AppInterfaceAddress.GET_CART_LIST)
-//        Observable<CartListModel> getData();
-//    }
-//
-//    public static Observable<CartListModel> requestCartList(Context context) {
-//        CartListService service = RestHelper.getBaseRetrofit(context).create(CartListService.class);
-//        return service.getData();
-//    }
 
     public interface CartListServices {
         @POST(AppInterfaceAddress.GET_CART_LISTS)
@@ -50,4 +42,17 @@ public class CartListAPI {
         CartListsServices service = RestHelper.getBaseRetrofit(context).create(CartListsServices.class);
         return service.getData();
     }
+
+    //满减详情
+    public interface CartFullDetailServices {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Full_Cart_Detail)
+        Observable<CartFullModel> getData(@Field("type") int type);
+    }
+
+    public static Observable<CartFullModel> getFullDetail(Context context, int type) {
+        CartFullDetailServices service = RestHelper.getBaseRetrofit(context).create(CartFullDetailServices.class);
+        return service.getData(type);
+    }
+
 }

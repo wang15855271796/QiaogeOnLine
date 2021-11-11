@@ -59,7 +59,7 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
         TextView tv_spec = helper.getView(R.id.tv_spec);
         CheckBox cb_item_out = helper.getView(R.id.cb_item_out);
         CheckBox cb_spec = helper.getView(R.id.cb_spec);
-        tv_spec.setText(item.getSpec());
+        tv_spec.setText("规格:"+item.getSpec());
 
         if(item.getNotSend()!=null) {
             if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
@@ -72,10 +72,14 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
         if(item.getFlagUrl()!=null&&item.getFlagUrl()!="") {
             Glide.with(mContext).load(item.getFlagUrl()).into(iv_icon);
         }
-        if(item.getSelfOrNot()==0) {
-            iv_operate.setImageResource(R.mipmap.icon_operate);
-        }else {
-            iv_operate.setImageResource(R.mipmap.icon_unoperate);
+//        if(item.getSelfOrNot()==0) {
+//            iv_operate.setImageResource(R.mipmap.icon_operate);
+//        }else {
+//            iv_operate.setImageResource(R.mipmap.icon_unoperate);
+//        }
+
+        if(item.getSelfProd()!=null&&!item.getSelfProd().equals("")) {
+            Glide.with(mContext).load(item.getSelfProd()).into(iv_operate);
         }
 
         tv_title.setText(item.getProductName());

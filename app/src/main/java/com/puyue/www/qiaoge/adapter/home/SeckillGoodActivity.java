@@ -18,6 +18,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+
+import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.AppBarLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -208,6 +210,7 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
     TextView tv_desc_price;
     String priceType;
     ImageView iv_send;
+    ImageView iv_operate;
     class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
@@ -296,6 +299,7 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
+        iv_operate = FVHelper.fv(this, R.id.iv_operate);
         iv_send =  FVHelper.fv(this, R.id.iv_send);
         rl_price = FVHelper.fv(this, R.id.rl_price);
         tv_desc_price = FVHelper.fv(this, R.id.tv_desc_price);
@@ -597,8 +601,6 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
                 }
             }  else if (view == rl_share) {
                 requestGoodsList();
-
-
             }
         }
     };
@@ -658,12 +660,16 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
                                 }
                             }
 
+                            if(model.getData().getNotSend()!=null&&!model.getData().getNotSend().equals("")) {
+                                Glide.with(mContext).load(model.getData().getSelfOrNot()).into(iv_operate);
+                            }
                             tv_num.setText(model.getData().getCartNum());
                             if(model.getData().getLimitNum()!=null&&!model.getData().getLimitNum().equals("")) {
                                 tv_limit_num.setText(model.getData().getLimitNum());
                                 tv_limit_num.setBackgroundResource(R.drawable.shape_white);
                             }else {
-                                tv_limit_num.setBackgroundResource(R.drawable.shape_red2);
+                                tv_limit_num.setVisibility(View.GONE);
+//                                tv_limit_num.setBackgroundResource(R.drawable.shape_fff6d2);
                             }
                             tv_sale.setText(model.getData().getSaleVolume());
                             productName =model.getData().getActiveName();

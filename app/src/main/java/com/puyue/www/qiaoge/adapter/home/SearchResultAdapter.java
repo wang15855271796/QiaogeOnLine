@@ -34,13 +34,11 @@ public class SearchResultAdapter extends BaseQuickAdapter<SearchResultsModel.Dat
 
     private TextView tv_price_desc;
     private ImageView iv_head;
-    private TextView tv_stock;
     private LinearLayout ll_group;
     private ImageView iv_type;
     Onclick onclick;
     RecommendDialog recommendDialog;
     ImageView iv_operate;
-    ImageView iv_next;
 
     public SearchResultAdapter(int layoutResId, @Nullable List<SearchResultsModel.DataBean.RecommendProdBean> data, Onclick onclick) {
         super(layoutResId, data);
@@ -49,7 +47,6 @@ public class SearchResultAdapter extends BaseQuickAdapter<SearchResultsModel.Dat
 
     @Override
     protected void convert(BaseViewHolder helper, SearchResultsModel.DataBean.RecommendProdBean item) {
-        iv_next = helper.getView(R.id.iv_next);
         iv_operate = helper.getView(R.id.iv_operate);
         ImageView iv_no_data = helper.getView(R.id.iv_no_data);
         tv_price_desc = helper.getView(R.id.tv_price_desc);
@@ -88,16 +85,12 @@ public class SearchResultAdapter extends BaseQuickAdapter<SearchResultsModel.Dat
         }
 
         Glide.with(mContext).load(item.getSelfProd()).into(iv_operate);
-        Glide.with(mContext).load(item.getSendTimeTpl()).into(iv_next);
         RelativeLayout rl_price = helper.getView(R.id.rl_price);
         TextView tv_price = helper.getView(R.id.tv_price);
         helper.setText(R.id.tv_name,item.getProductName());
         helper.setText(R.id.tv_stock_total,item.getInventory());
         helper.setText(R.id.tv_sale,item.getSalesVolume());
         helper.setText(R.id.tv_price,item.getMinMaxPrice());
-        helper.setText(R.id.tv_desc,item.getSpecialOffer());
-        tv_stock = helper.getView(R.id.tv_stock);
-        tv_stock.setText(item.getInventory());
 
         if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
             rl_price.setVisibility(View.GONE);

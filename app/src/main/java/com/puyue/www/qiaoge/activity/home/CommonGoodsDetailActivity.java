@@ -4,16 +4,19 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -198,8 +201,6 @@ public class CommonGoodsDetailActivity extends BaseActivity {
     TextView tv_operate_date;
     @BindView(R.id.tv_full_desc)
     TextView tv_full_desc;
-    @BindView(R.id.iv3)
-    ImageView iv3;
     @BindView(R.id.iv_operate)
     ImageView iv_operate;
     @BindView(R.id.iv2)
@@ -210,6 +211,8 @@ public class CommonGoodsDetailActivity extends BaseActivity {
     TextView tv_coupon_desc;
     @BindView(R.id.rl_coupons)
     RelativeLayout rl_coupons;
+    @BindView(R.id.iv_sound)
+    ImageView iv_sound;
     private AlertDialog mTypedialog;
     LinearLayout ll_service;
     TextView tv_price;
@@ -398,6 +401,25 @@ public class CommonGoodsDetailActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+
+
+        iv_sound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+                boolean muteFlag = false;//获取当前音乐多媒体是否静音
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                    muteFlag = audioManager.isStreamMute(AudioManager.STREAM_MUSIC);
+                }
+                if(muteFlag){
+                    iv_sound.setImageResource(R.mipmap.icon_opens);
+                    audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC,AudioManager.ADJUST_UNMUTE, 0);//取消静音
+                }else{
+                    iv_sound.setImageResource(R.mipmap.icon_close);
+                    audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE , 0);//设为静音
+                }
+            }
+        });
         tv_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -481,7 +503,7 @@ public class CommonGoodsDetailActivity extends BaseActivity {
                 if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     if(priceType.equals("1")) {
                         if(chooseDialog==null) {
-                            chooseDialog = new ChooseDialog(mContext,productId1,models);
+                            chooseDialog = new ChooseDialog(mContext,productId1,models,0);
                         }
                         chooseDialog.show();
                     }else {
@@ -608,7 +630,6 @@ public class CommonGoodsDetailActivity extends BaseActivity {
                             }else {
                                 rl_coupons.setVisibility(View.GONE);
                             }
-
                             if(model.getData().getFullGiftSendInfo()!=null&&model.getData().getFullGiftSendInfo().size()>0) {
                                 tv_full_desc.setText(model.getData().getFullGiftSendInfo().get(0));
                             }
@@ -625,7 +646,6 @@ public class CommonGoodsDetailActivity extends BaseActivity {
                             } else {
                                 mIvCollection.setImageResource(R.mipmap.ic_love);
                             }
-
                             if(model.getData().getSelfProd()!=null) {
                                 Glide.with(mContext).load(model.getData().getSelfProd()).into(iv_operate);
                             }
@@ -639,7 +659,6 @@ public class CommonGoodsDetailActivity extends BaseActivity {
                                 }
                             });
 
-                            Glide.with(mContext).load(models.getData().getSelfProd()).into(iv3);
                             Glide.with(mContext).load(models.getData().getSelfProd()).into(iv2);
                             if("自营商品".equals(model.getData().getCompanyName())) {
                                 tv_date.setText(model.getData().getSendTimeStr());
@@ -732,7 +751,7 @@ public class CommonGoodsDetailActivity extends BaseActivity {
                                             }else {
                                                 chooseSpecAdapter.selectPosition(position);
                                                 if(chooseDialog==null){
-                                                    chooseDialog = new ChooseDialog(mContext, productId1,models);
+                                                    chooseDialog = new ChooseDialog(mContext, productId1,models,position);
 
                                                 }
                                                 chooseDialog.show();
@@ -755,7 +774,7 @@ public class CommonGoodsDetailActivity extends BaseActivity {
                             images.clear();
 //                            mBanner.setBannerStyle(BannerConfig.NUM_INDICATOR);
 //                            mBanner.setImageLoader(new GlideImageLoader());
-                            if(model.getData().getTopPic()!=null) {
+                            if(model.getData().getTopPic()!=null&&model.getData().getTopPic().size()>0) {
                                 images.addAll(model.getData().getTopPic());
                             }else {
                                 images.add(model.getData().getDefaultPic());
@@ -763,21 +782,30 @@ public class CommonGoodsDetailActivity extends BaseActivity {
 
                             if(model.getData().getProdVideoUrl()!=null&&!model.getData().getProdVideoUrl().equals("")) {
                                 images.add(0,model.getData().getProdVideoUrl());
+                                iv_sound.setVisibility(View.VISIBLE);
+                            }else {
+                                iv_sound.setVisibility(View.GONE);
                             }
 
-                            for (int i = 0; i < images.size(); i++) {
-                                if(model.getData().getProdVideoUrl()!=null&&!model.getData().getProdVideoUrl().equals("")) {
-                                    if(i==0) {
-                                        picVideo.add(new PicVideoModel.DatasBean(images.get(0),2));
+                            if(model.getData().getTopPic()!=null&&model.getData().getTopPic().size()>0) {
+                                for (int i = 0; i < images.size(); i++) {
+                                    if(model.getData().getProdVideoUrl()!=null&&!model.getData().getProdVideoUrl().equals("")) {
+                                        if(i==0) {
+                                            picVideo.add(new PicVideoModel.DatasBean(images.get(0),2));
+                                        }else {
+                                            picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
+                                        }
                                     }else {
-                                        picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
+                                        picVideo.add(new PicVideoModel.DatasBean(images.get(0),1));
                                     }
-                                }else {
-                                    picVideo.add(new PicVideoModel.DatasBean(images.get(0),1));
+                                }
+                            }else {
+                                Log.d("dsgffdfg......",images.size()+"sfsdfs");
+                                for (int i = 0; i < images.size(); i++) {
+                                    picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
+
                                 }
                             }
-
-
                             mBanner.addBannerLifecycleObserver(commonGoodsDetailActivity)
                                     .setAdapter(new PicVideoAdapter(mContext, picVideo))
                                     .setIndicator(new NumIndicator(mContext))

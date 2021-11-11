@@ -3,9 +3,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+
+
+
+    <com.puyue.www.qiaoge.activity.view.MyControllView
         android:id="@+id/player"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/rl_sound"
+        android:layout_marginBottom="@dimen/size_60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="@dimen/size_24dp"
+        android:background="@drawable/shape_grey"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/video_volume_icon" />
+    </RelativeLayout>
 
 </FrameLayout>

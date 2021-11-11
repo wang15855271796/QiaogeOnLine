@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -16,14 +17,19 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.frankfancode.marqueeview.MarqueeView;
+import com.puyue.www.qiaoge.AutoPollRecyclerView;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.flow.FlowLayout;
 import com.puyue.www.qiaoge.activity.flow.TagAdapter;
 import com.puyue.www.qiaoge.activity.flow.TagFlowLayout;
 import com.puyue.www.qiaoge.activity.home.SearchReasultActivity;
 import com.puyue.www.qiaoge.activity.mine.order.ConfirmNewOrderActivity;
+import com.puyue.www.qiaoge.adapter.MarqueeAdapter;
 import com.puyue.www.qiaoge.adapter.Must2Adapter;
 import com.puyue.www.qiaoge.adapter.cart.CartAdapter;
 import com.puyue.www.qiaoge.api.cart.CartBalanceAPI;
@@ -35,15 +41,16 @@ import com.puyue.www.qiaoge.api.mine.order.CartGetReductDescAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.constant.AppConstant;
+import com.puyue.www.qiaoge.dialog.FullDialog;
 import com.puyue.www.qiaoge.event.CartGoodsEvent;
 import com.puyue.www.qiaoge.event.GoToMarketEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.fragment.home.CityEvent;
-import com.puyue.www.qiaoge.helper.AlwaysMarqueeTextViewHelper;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.BigDecimalUtils;
 import com.puyue.www.qiaoge.helper.PublicRequestHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
+import com.puyue.www.qiaoge.model.CartFullModel;
 import com.puyue.www.qiaoge.model.cart.CartActivityGoodsModel;
 import com.puyue.www.qiaoge.model.cart.CartBalanceModel;
 import com.puyue.www.qiaoge.model.cart.CartCommonGoodsModel;
@@ -55,6 +62,8 @@ import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.Time;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.Arith;
+import com.puyue.www.qiaoge.view.AutosRecycleView;
+import com.puyue.www.qiaoge.view.ScrollRecycleView;
 import com.puyue.www.qiaoge.view.SlideRecyclerView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -98,12 +107,6 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     TextView tv_price_desc;
     @BindView(R.id.ll_service)
     LinearLayout ll_service;
-    @BindView(R.id.marqueeTextView)
-    AlwaysMarqueeTextViewHelper marqueeTextView;
-    @BindView(R.id.fl_search)
-    FrameLayout fl_search;
-    @BindView(R.id.iv_clear)
-    ImageView iv_clear;
     @BindView(R.id.iv_back)
     ImageView iv_back;
     @BindView(R.id.rv_invalid)
@@ -128,6 +131,18 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     RecyclerView rv_recommend;
     @BindView(R.id.iv_recommend)
     ImageView iv_recommend;
+
+    @BindView(R.id.marquee)
+    MarqueeView marquee;
+
+    @BindView(R.id.tv_reduce)
+    TextView tv_reduce;
+    @BindView(R.id.tv_given)
+    TextView tv_given;
+    @BindView(R.id.rl_reduce)
+    RelativeLayout rl_reduce;
+    @BindView(R.id.rl_given)
+    RelativeLayout rl_given;
     CartAdapter cartAdapter;
     private double sendAmount;
     boolean mSelect;
@@ -153,6 +168,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         getCartLists();
+
     }
 
     @Override
@@ -165,7 +181,6 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
         cb_select_all.setOnClickListener(this);
         iv_buy.setOnClickListener(this);
         ll_go_market.setOnClickListener(this);
-        iv_clear.setOnClickListener(this);
         tv_delete.setOnClickListener(this);
         tv_clear.setOnClickListener(this);
         btn_sure.setOnClickListener(this);
@@ -195,6 +210,9 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                 refreshLayout.finishLoadMore();
             }
         });
+
+        //获取滚动数据
+        getScrollData();
     }
 
     long start;
@@ -202,6 +220,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     public void onResume() {
         super.onResume();
         start = System.currentTimeMillis();
+        marquee.startScroll();
     }
 
     @Override
@@ -406,8 +425,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
         }
 
         double allPrices = allPrice.doubleValue();
-        //获取滚动数据
-        getScrollData(allPrices);
+
         //去凑单显示与否
         if(allPrices>sendAmount) {
             ll_service.setVisibility(View.GONE);
@@ -420,6 +438,8 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
 
         tv_total_price.setText(allPrice+"");
     }
+
+
 
     /**
      * 必买列表(王涛)
@@ -485,10 +505,11 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
 
     /**
      * 获取滚动数据
-     * @param amount
+     *
+     * @param
      */
-    private void getScrollData(double amount) {
-        CartGetReductDescAPI.requestCartGetReductDesc(mActivity, amount)
+    private void getScrollData() {
+        CartGetReductDescAPI.requestCartGetReductDesc(mActivity)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<CartGetReductModel>() {
@@ -503,19 +524,54 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
 
                     @Override
                     public void onNext(CartGetReductModel cartGetReductModel) {
-                        if (cartGetReductModel.isSuccess()) {
-                            if (!TextUtils.isEmpty(cartGetReductModel.getData())) {
-                                marqueeTextView.setText(cartGetReductModel.getData());
-                                fl_search.setVisibility(View.VISIBLE);
-                            } else {
-                                fl_search.setVisibility(View.GONE);
+                        if(cartGetReductModel.getCode()==1) {
+                            if(cartGetReductModel.getData()!=null&&cartGetReductModel.getData().size()>0) {
+                                List<CartGetReductModel.DataBean> data = cartGetReductModel.getData();
+                                for (int i = 0; i < data.size(); i++) {
+                                    if(data.get(i).getType()==0) {
+                                        tv_reduce.setText(data.get(i).getDeductInfo());
+                                    }else {
+                                        tv_given.setText(data.get(i).getDeductInfo());
+                                    }
 
+                                    if(data.get(i).getType()==0&&data.get(i).getType()!=1) {
+                                        rl_reduce.setVisibility(View.VISIBLE);
+                                    }
+
+                                    if(data.get(i).getType()==1&&data.get(i).getType()!=0) {
+                                        rl_given.setVisibility(View.VISIBLE);
+                                    }
+                                }
+
+                                rl_reduce.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        AppHelper.showFullDialog(mActivity);
+                                    }
+                                });
+
+                                rl_given.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        FullDialog fullDialog = new FullDialog(mActivity);
+                                        fullDialog.show();
+                                    }
+                                });
+
+//                                MarqueeAdapter marqueeAdapter = new MarqueeAdapter();
+//                                marqueeAdapter.setData(cartGetReductModel.getData(),1,getActivity());
+//                                marquee.setAdapter(marqueeAdapter);
+//                                marquee.setVisibility(View.GONE);
+//                                marquee.startScroll();
+                            }else {
+                                marquee.setVisibility(View.GONE);
                             }
-
                         }
                     }
                 });
     }
+
+
 
     @Override
     public void onClick(View v) {
@@ -538,11 +594,6 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                 EventBus.getDefault().post(new GoToMarketEvent());
                 break;
 
-            case R.id.iv_clear:
-                fl_search.setVisibility(View.GONE);
-                ll_service.setVisibility(View.GONE);
-                iv_clear.setVisibility(View.GONE);
-                break;
 
             case R.id.tv_delete:
                 for (int i = 0; i < prods.size(); i++) {

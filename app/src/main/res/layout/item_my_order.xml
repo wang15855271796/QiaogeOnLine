@@ -179,9 +179,26 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:layout_marginLeft="@dimen/dp_10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp">
+
+        <ImageView
+            android:id="@+id/iv_order"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/iv_pay"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/iv_order"
+            android:src="@mipmap/icon_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <ImageView
             android:id="@+id/iv_cancel_order"

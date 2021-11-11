@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
@@ -43,16 +44,19 @@ public class MustItemAdapter extends BaseQuickAdapter<ExchangeProductModel.DataB
     int businessType;
     List<ExchangeProductModel.DataBean.ProdPricesBean> data;
     AlertDialog alertDialog;
-    public MustItemAdapter(int businessType, int productId,int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data) {
+    String typeUrl;
+    public MustItemAdapter(int businessType, int productId,int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data,String typeUrl) {
         super(layoutResId, data);
         this.productId = productId;
         this.businessType = businessType;
         this.data = data;
+        this.typeUrl = typeUrl;
 
     }
 
     @Override
     protected void convert(BaseViewHolder helper, ExchangeProductModel.DataBean.ProdPricesBean item) {
+        ImageView iv_reduce = helper.getView(R.id.iv_reduce);
         tv_price = helper.getView(R.id.tv_price);
         tv_price.setText(item.getPrice());
         helper.setText(R.id.tv_unit, item.getUnitDesc());
@@ -64,6 +68,9 @@ public class MustItemAdapter extends BaseQuickAdapter<ExchangeProductModel.DataB
         iv_cut = helper.getView(R.id.iv_cut);
         iv_add = helper.getView(R.id.iv_add);
 
+        if(!item.getOldPrice().equals("")&&item.getOldPrice()!=null) {
+            Glide.with(mContext).load(typeUrl).into(iv_reduce);
+        }
         iv_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

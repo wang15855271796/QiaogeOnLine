@@ -68,6 +68,8 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
     protected void convert(final BaseViewHolder helper, final OrdersModel.DataBean.ListBean item) {
         helper.setIsRecyclable(false);
         rl = helper.getView(R.id.rl);
+        ImageView iv_order = helper.getView(R.id.iv_order);
+        ImageView iv_pay = helper.getView(R.id.iv_pay);
         tv_title = helper.getView(R.id.tv_title);
         tv_subUserBuy = helper.getView(R.id.tv_subUserBuy);
         tv_time = helper.getView(R.id.tv_time);
@@ -89,6 +91,19 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
 
         tv_time.setText(item.orderTime);
         tv_subUserBuy.setText(item.subBuyPhone);
+
+        if(item.saleSettle==1) {
+            iv_order.setVisibility(View.VISIBLE);
+        }else {
+            iv_order.setVisibility(View.GONE);
+        }
+
+        if(item.salePay==1) {
+            iv_pay.setVisibility(View.VISIBLE);
+        }else {
+            iv_pay.setVisibility(View.GONE);
+        }
+
         //判断自营还是非自营
         if(item.selfOrNot.equals("0")) {
             tv_title.setText("自营商品");

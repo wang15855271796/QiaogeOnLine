@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
@@ -51,6 +52,7 @@ public class SelectionSpecAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_spec, null);
             holder = new Holder();
             holder.tv_spec = convertView.findViewById(R.id.tv_spec);
+            holder.iv_reduce = convertView.findViewById(R.id.iv_reduce);
             convertView.setTag(holder);
         } else {
             holder = (Holder) convertView.getTag();
@@ -67,12 +69,20 @@ public class SelectionSpecAdapter extends BaseAdapter {
             holder.tv_spec.setBackgroundColor(Color.parseColor("#eeeeee"));
         }
 
+        if(prodSpecs.get(position).getProdDeduct()==0) {
+            holder.iv_reduce.setVisibility(View.GONE);
+        }else {
+            holder.iv_reduce.setBackgroundResource(R.mipmap.icon_reduce);
+            holder.iv_reduce.setVisibility(View.VISIBLE);
+        }
+
         return convertView;
     }
 
 
     class Holder {
         public TextView tv_spec;
+        public ImageView iv_reduce;
     }
 
     public void selectPosition(int position) {

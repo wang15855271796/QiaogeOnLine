@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
@@ -45,16 +46,19 @@ public class SearchItemAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
     TextView tv_coupon_desc;
     LinearLayout rl_desc;
     AlertDialog alertDialog;
-    public SearchItemAdapter(int businessType, int productId,int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data) {
+    String typeUrl;
+    public SearchItemAdapter(int businessType, int productId,int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data,String typeUrl) {
         super(layoutResId, data);
         this.productId = productId;
         this.businessType = businessType;
         this.data = data;
+        this.typeUrl = typeUrl;
 
     }
 
     @Override
     protected void convert(BaseViewHolder helper, ExchangeProductModel.DataBean.ProdPricesBean item) {
+        ImageView iv_reduce = helper.getView(R.id.iv_reduce);
         rl_desc = helper.getView(R.id.rl_desc);
         tv_coupon_desc = helper.getView(R.id.tv_coupon_desc);
         if(item.getSpecialOffer().equals("")) {
@@ -74,7 +78,9 @@ public class SearchItemAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
         tv_num.setText(item.getCartNum()+"");
         iv_cut = helper.getView(R.id.iv_cut);
         iv_add = helper.getView(R.id.iv_add);
-
+        if(!item.getOldPrice().equals("")&&item.getOldPrice()!=null) {
+            Glide.with(mContext).load(typeUrl).into(iv_reduce);
+        }
         iv_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

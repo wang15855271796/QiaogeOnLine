@@ -80,7 +80,7 @@ public class NewReturnOrderModel {
          * checkDate : 2019-04-04 16:51
          * titleText
          */
-
+        String tips;
         private int returnProductMainId;
         private int returnState;
         private String returnStateStr;
@@ -97,6 +97,14 @@ public class NewReturnOrderModel {
         public String titleText;
         public int getReturnProductMainId() {
             return returnProductMainId;
+        }
+
+        public String getTips() {
+            return tips;
+        }
+
+        public void setTips(String tips) {
+            this.tips = tips;
         }
 
         public void setReturnProductMainId(int returnProductMainId) {

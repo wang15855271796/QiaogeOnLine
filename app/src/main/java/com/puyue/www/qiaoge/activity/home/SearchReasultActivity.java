@@ -125,7 +125,6 @@ public class SearchReasultActivity extends BaseSwipeActivity {
             @Override
             public void onClick(View v) {
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mActivity))) {
-//                    startActivity(new Intent(mContext, CartActivity.class));
                     startActivity(new Intent(mContext, HomeActivity.class));
                     EventBus.getDefault().post(new GoToCartFragmentEvent());
                 } else {

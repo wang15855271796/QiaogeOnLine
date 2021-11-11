@@ -69,7 +69,7 @@ public class CommonAdapter extends BaseQuickAdapter<CouponModels.DataBean.Specia
         }
 
         if(item.getNotSend()==1) {
-            iv_send.setVisibility(View.VISIBLE);
+            iv_send.setVisibility(View.GONE);
         }else {
             iv_send.setVisibility(View.GONE);
         }

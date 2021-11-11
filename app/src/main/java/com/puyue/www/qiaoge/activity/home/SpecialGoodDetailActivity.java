@@ -18,6 +18,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+
+import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.AppBarLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -214,6 +216,7 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
     RelativeLayout rl_price;
     ImageView iv_pic;
     ImageView iv_send;
+    ImageView iv_operate;
     class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
@@ -256,6 +259,7 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
+        iv_operate = FVHelper.fv(this, R.id.iv_operate);
         iv_send = FVHelper.fv(this, R.id.iv_send);
         iv_pic = FVHelper.fv(this, R.id.iv_vip);
         rl_price = FVHelper.fv(this, R.id.rl_price);
@@ -578,9 +582,10 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
                                 tv_limit_num.setText(model.getData().getLimitNum());
                                 tv_limit_num.setBackgroundResource(R.drawable.shape_white);
                             }else {
-                                tv_limit_num.setBackgroundResource(R.drawable.shape_red2);
+                                tv_limit_num.setVisibility(View.GONE);
+//                                tv_limit_num.setBackgroundResource(R.drawable.shape_fff6d2);
                             }
-
+                            Glide.with(mContext).load(model.getData().getSelfOrNot()).into(iv_operate);
                             activityType = model.getData().getActivityType();
                             tv_sale.setText(model.getData().getSaleVolume());
                             productName =model.getData().getActiveName();

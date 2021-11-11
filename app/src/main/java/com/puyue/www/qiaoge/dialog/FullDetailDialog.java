@@ -178,9 +178,10 @@ public class FullDetailDialog extends Dialog implements View.OnClickListener {
                                 tv_desc.setText(exchangeProductModel.getData().getSpecialOffer());
                                 tv_stock.setText(exchangeProductModel.getData().getInventory());
                                 Glide.with(context).load(exchangeProductModel.getData().getDefaultPic()).into(iv_head);
-                                Glide.with(context).load(exchangeProductModel.getData().getSendTimeTpl()).into(iv_pic);
+//                                Glide.with(context).load(exchangeProductModel.getData().getTypeUrl()).into(iv_pic);
                                 Glide.with(context).load(exchangeProductModel.getData().getSelfProd()).into(iv_operate);
-                                HotItemAdapter hotItemAdapter = new HotItemAdapter(1, productId, R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices());
+                                HotItemAdapter hotItemAdapter = new HotItemAdapter(1, productId,
+                                        R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices(),exchangeProductModel.getData().getTypeUrl());
                                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                                 recyclerView.setAdapter(hotItemAdapter);
 

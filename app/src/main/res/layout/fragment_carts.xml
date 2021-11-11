@@ -22,7 +22,7 @@
             <RelativeLayout
                 android:id="@+id/ll_cart_order"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="130dp"
                 android:background="@drawable/cart_tool_bg"
                 android:orientation="horizontal">
 
@@ -64,33 +64,80 @@
                         android:textSize="@dimen/size_15dp" />
                 </RelativeLayout>
 
-                <FrameLayout
+
+                <LinearLayout
                     android:layout_below="@+id/rl"
-                    android:id="@+id/fl_search"
+                    android:layout_marginTop="@dimen/size_10dp"
+                    android:layout_marginRight="@dimen/size_12dp"
+                    android:layout_marginLeft="@dimen/size_12dp"
+                    android:background="@drawable/shape_white1"
                     android:layout_width="match_parent"
-                    android:layout_marginTop="@dimen/size_13dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="@dimen/dp_40">
 
-                    <com.puyue.www.qiaoge.helper.AlwaysMarqueeTextViewHelper
-                        android:id="@+id/marqueeTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:layout_marginLeft="12dp"
-                        android:layout_marginRight="12dp"
-                        android:textColor="#F6551A"
-                        android:background="@drawable/bg_cart_bar"
+                    <RelativeLayout
+                        android:id="@+id/rl_reduce"
                         android:gravity="center_vertical"
-                        android:text=""
-                        android:textSize="@dimen/size_13dp" />
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="@dimen/size_40dp">
 
-                    <ImageView
-                        android:id="@+id/iv_clear"
-                        android:layout_width="18dp"
-                        android:layout_marginRight="12dp"
-                        android:layout_height="18dp"
-                        android:layout_gravity="right"
-                        android:src="@mipmap/qg_cart_close" />
-                </FrameLayout>
+                        <TextView
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:id="@+id/tv_reduce"
+                            android:textColor="#FF6F08"
+                            android:lines="1"
+                            android:ellipsize="end"
+                            android:drawablePadding="@dimen/size_5dp"
+                            android:drawableLeft="@mipmap/icon_notice"
+                            android:drawableRight="@mipmap/fenlei_rigth_huangse"
+                            android:layout_centerVertical="true"
+                            tools:text="系统维护停服升级公告系统维护停服升级公告"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rl_given"
+                        android:gravity="center_vertical"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="@dimen/size_40dp">
+
+                        <TextView
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:id="@+id/tv_given"
+                            android:textColor="#FF6F08"
+                            android:lines="1"
+                            android:ellipsize="end"
+                            android:drawablePadding="@dimen/size_5dp"
+                            android:drawableLeft="@mipmap/icon_notice"
+                            android:drawableRight="@mipmap/fenlei_rigth_huangse"
+                            android:layout_centerVertical="true"
+                            tools:text="系统维护停服升级公告系统维护停服升级公告"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <com.frankfancode.marqueeview.MarqueeView
+                    android:id="@+id/marquee"
+                    android:visibility="gone"
+                    android:layout_marginRight="@dimen/size_12dp"
+                    android:layout_marginLeft="@dimen/size_12dp"
+                    android:layout_below="@+id/rl"
+                    android:background="@drawable/shape_white1"
+                    android:layout_marginTop="@dimen/size_10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    app:scrollItemCount="1"
+                    app:showItemCount="1"
+                    app:standDuration="2000"
+                    app:turningDuration="1000"/>
 
             </RelativeLayout>
 

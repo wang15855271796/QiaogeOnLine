@@ -141,6 +141,7 @@ public class TeamActiveQueryModel {
              * progress : 0
              * remainNum : 剩余9587箱
              */
+            String selfOrNot;
             private int saleDone;
             private int activeId;
             private int activeType;
@@ -168,6 +169,14 @@ public class TeamActiveQueryModel {
                         ", remainNum='" + remainNum + '\'' +
                         ", discount='" + discount + '\'' +
                         '}';
+            }
+
+            public String getSelfOrNot() {
+                return selfOrNot;
+            }
+
+            public void setSelfOrNot(String selfOrNot) {
+                this.selfOrNot = selfOrNot;
             }
 
             public String getNotSend() {

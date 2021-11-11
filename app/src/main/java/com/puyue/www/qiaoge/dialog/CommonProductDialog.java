@@ -179,10 +179,11 @@ public class CommonProductDialog extends Dialog implements View.OnClickListener{
                                 tv_price.setText(exchangeProductModel.getData().getMinMaxPrice()+"");
                                 tv_desc.setText(exchangeProductModel.getData().getSpecialOffer());
                                 tv_stock.setText(exchangeProductModel.getData().getInventory());
-                                Glide.with(context).load(exchangeProductModel.getData().getSendTimeTpl()).into(iv_pic);
+//                                Glide.with(context).load(exchangeProductModel.getData().getTypeUrl()).into(iv_pic);
                                 Glide.with(context).load(exchangeProductModel.getData().getSelfProd()).into(iv_operate);
                                 Glide.with(context).load(exchangeProductModel.getData().getDefaultPic()).into(iv_head);
-                                CommonProductItemAdapter commonProductItemAdapter = new CommonProductItemAdapter(1, productId, R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices());
+                                CommonProductItemAdapter commonProductItemAdapter = new CommonProductItemAdapter(1, productId,
+                                        R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices(),exchangeProductModel.getData().getTypeUrl());
                                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                                 recyclerView.setAdapter(commonProductItemAdapter);
 

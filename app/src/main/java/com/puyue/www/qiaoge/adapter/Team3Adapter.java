@@ -29,93 +29,7 @@ import java.util.List;
  * Created by ${王涛} on 2020/9/24
  */
 public class Team3Adapter extends RecyclerView.Adapter<Team3Adapter.BaseViewHolder> {
-//    private CountDownTimer countDownTimer1;
-//    List<CouponModels.DataBean.TeamBean.ActivesBeanX> data;
-//    public Team3Adapter(int layoutResId, @Nullable List<CouponModels.DataBean.TeamBean.ActivesBeanX> data) {
-//        super(layoutResId, data);
-//        this.data = data;
-//    }
-//
-//    @Override
-//    protected void convert(BaseViewHolder helper, CouponModels.DataBean.TeamBean.ActivesBeanX item) {
-//        TextView tv_old_price = helper.getView(R.id.tv_old_price);
-//        ImageView iv_pic = helper.getView(R.id.iv_pic);
-//        Glide.with(mContext).load(data.get(0).getDefaultPic()).into(iv_pic);
-//        TextView tv_desc = helper.getView(R.id.tv_desc);
-//        RelativeLayout rl_group = helper.getView(R.id.rl_group);
-//        rl_group.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent teamIntent = new Intent(mContext, TeamDetailActivity.class);
-//                mContext.startActivity(teamIntent);
-//            }
-//        });
-//
-//        if(!TextUtils.isEmpty(item.getOldPrice())) {
-//            tv_old_price.setText("原价:"+item.getOldPrice());
-//            tv_old_price.getPaint().setAntiAlias(true);//抗锯齿
-//            tv_old_price.setVisibility(View.VISIBLE);
-//        }else {
-//            tv_old_price.setVisibility(View.GONE);
-//        }
-//
-//        TextView tv_price = helper.getView(R.id.tv_price);
-//        TextView tv_name = helper.getView(R.id.tv_name);
-//        tv_name.setText(data.get(0).getActiveName());
-//        ImageView iv_sale_done = helper.getView(R.id.iv_sale_done);
-////        if(item.getFlag()==1) {
-////            iv_sale_done.setVisibility(View.VISIBLE);
-////            Glide.with(mContext).load(item.getSoldOutPic()).into(iv_sale_done);
-////        }else {
-////            iv_sale_done.setVisibility(View.GONE);
-////        }
-//
-//        if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-//            if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
-//                tv_price.setVisibility(View.VISIBLE);
-//                tv_desc.setVisibility(View.GONE);
-//                tv_price.setText(data.get(0).getPrice());
-//                tv_old_price.setVisibility(View.VISIBLE);
-//            }else {
-//                tv_price.setVisibility(View.GONE);
-//                tv_desc.setVisibility(View.VISIBLE);
-//                tv_old_price.setVisibility(View.GONE);
-//            }
-//        }else {
-//            tv_price.setText(item.getPrice());
-//            tv_price.setVisibility(View.VISIBLE);
-//            tv_desc.setVisibility(View.GONE);
-//        }
 
-
-//    }
-//
-//    public void cancle() {
-////        if(countDownTimer1!=null) {
-////            countDownTimer1.cancel();
-////        }
-//
-////        if(countDownTimer2!=null) {
-////            countDownTimer2.cancel();
-////        }
-////        if(countDownTimer3!=null) {
-////            countDownTimer3.cancel();
-////        }
-////        if(countDownTimer4!=null) {
-////            countDownTimer4.cancel();
-////        }
-////        if(countDownTimer5!=null) {
-////            countDownTimer5.cancel();
-////        }
-//    }
-//
-//
-//    public void start() {
-////        if(countDownTimer1!=null) {
-////            countDownTimer1.start();
-////        }
-//    }
-//    //根据flag 判断返回集合大小还是最大值 0返回最大值 1，返回集合大小
     Activity mActivity;
     int layoutResId;
     List<CouponModels.DataBean.TeamBean.ActivesBeanX> actives;
@@ -160,7 +74,7 @@ public class Team3Adapter extends RecyclerView.Adapter<Team3Adapter.BaseViewHold
             }
 
             if(activesBean.getNotSend()==1) {
-                holder.iv_send.setVisibility(View.VISIBLE);
+                holder.iv_send.setVisibility(View.GONE);
             }else {
                 holder.iv_send.setVisibility(View.GONE);
             }

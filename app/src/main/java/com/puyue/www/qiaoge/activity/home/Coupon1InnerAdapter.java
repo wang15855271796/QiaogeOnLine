@@ -52,6 +52,7 @@ public class Coupon1InnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.D
 
     @Override
     protected void convert(BaseViewHolder helper, TeamActiveQueryModel.DataBean.ActivesBean item) {
+        ImageView iv_flag = helper.getView(R.id.iv_flag);
         ImageView iv_send = helper.getView(R.id.iv_send);
         rl_price = helper.getView(R.id.rl_price);
         tv_old_price = helper.getView(R.id.tv_old_price);
@@ -72,6 +73,7 @@ public class Coupon1InnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.D
             }
         }
 
+        Glide.with(mContext).load(item.getSelfOrNot()).into(iv_flag);
         Glide.with(mContext).load(item.getDefaultPic()).into(iv_pic);
         helper.setText(R.id.tv_name,item.getActiveName());
         helper.setText(R.id.tv_spec,item.getSpec());

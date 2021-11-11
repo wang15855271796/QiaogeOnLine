@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 //import com.airbnb.lottie.LottieAnimationView;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.activity.CartActivity;
 import com.puyue.www.qiaoge.api.cart.GetPayResultAPI;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;

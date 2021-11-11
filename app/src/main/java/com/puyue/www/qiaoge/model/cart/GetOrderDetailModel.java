@@ -109,6 +109,9 @@ public class GetOrderDetailModel {
         public String payChannel;
         public int payChannelType;
         public String connectOrderId;
+        public String saleName;
+        public int saleSettle;
+        public int salePay;
         public List<OrderProdsBean> orderProds;
 
         public static class SendGiftInfo {

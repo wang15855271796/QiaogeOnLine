@@ -360,7 +360,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     private RelativeLayout.LayoutParams layoutParams;
     int scrollLength;
     HotAdapter hotAdapter;
-    private NewAdapter newAdapter;
     IndexRecommendAdapter indexRecommendAdapter;
     CouponDialog couponDialog;
     FullAdapter fullAdapter;
@@ -388,7 +387,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     //首页顶部推荐集合
     private List<String> recommendList = new ArrayList<>();
     private RvIconAdapter rvIconAdapter;
-    Context context;
     int PageNum = 1;
     private UpdateModel mModelUpdate;
     private boolean update;
@@ -438,7 +436,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     private HomeActivityDialog homeActivityDialog;
     CommonssAdapter commonssAdapter;
     int topHeight;
-//    String[] params = { Manifest.permission.ACCESS_COARSE_LOCATION};
     @Override
     public int setLayoutId() {
         return R.layout.test10;
@@ -622,12 +619,10 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
         rv_given.setAdapter(fullAdapter);
         rv_given.start();
 
-
         team3Adapter = new Team3Adapter(mActivity,R.layout.item_teams_list, teamActive1);
         rv_team.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
         rv_team.setAdapter(team3Adapter);
         rv_team.start();
-
 
         teamAdapter = new TeamAdapter(mActivity,R.layout.item_team_lists, teamActive1);
         rv_auto_team.setAdapter(teamAdapter);
@@ -705,11 +700,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                 skillAdvList.clear();
                 driverList.clear();
                 getBaseLists();
-//                getHot(1, 10, "hot");
-//                getCustomerPhone();
-//                isShow();
-//                getOrder();
-//                getSpikeList();
                 EventBus.getDefault().post(new BackEvent());
                 refreshLayout.finishRefresh();
             }
@@ -720,23 +710,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 indicator.bindRecyclerView(rv_icon);
-            }
-        });
-
-        newAdapter = new NewAdapter(R.layout.item_team_list, listss, new NewAdapter.Onclick() {
-            @Override
-            public void addDialog() {
-                if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mActivity))) {
-
-                } else {
-                    initDialog();
-                }
-            }
-
-            @Override
-            public void tipClick() {
-//                showPhoneDialog(cell);
-                AppHelper.ShowAuthDialog(mActivity,cell);
             }
         });
 
@@ -957,33 +930,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                 });
     }
 
-    private void getRecommendList(int pageNum,int pageSize) {
-
-
-        RecommendApI.requestData(mActivity, "去皮腿肉", 1, 10, 0)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SearchResultsModel>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(SearchResultsModel recommendModel) {
-                        if (recommendModel.isSuccess()) {
-
-                            List<SearchResultsModel.DataBean.SearchProdBean.ListBean> list = recommendModel.getData().getSearchProd().getList();
-                            Log.d("wdwdddd.......", list + "aa");
-
-                        }
-                    }
-                });
-    }
     /**
      * 热卖集合
      *
@@ -1885,6 +1831,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                 Intent teamIntents = new Intent(getActivity(), TeamDetailActivity.class);
                 startActivity(teamIntents);
                 break;
+
             case R.id.rl_more4:
                 //满赠
                 Intent fullIntent = new Intent(getActivity(), FullListActivity.class);
@@ -1975,70 +1922,8 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
         }
     }
 
-    private void initRecycle() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false);
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
-            @Override
-            public void run() {
-                rv_skill.smoothScrollToPosition(layoutManager.findFirstVisibleItemPosition()+1);
-            }
-        }, 2000, 2000, TimeUnit.MILLISECONDS);
-        rv_skill.setLayoutManager(layoutManager);
-    }
-
-    //满赠滑动
-    private void initRecycles() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false);
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
-            @Override
-            public void run() {
-                rv_auto_view1.smoothScrollToPosition(layoutManager.findFirstVisibleItemPosition() + 1);
-            }
-        }, 2000, 2000, TimeUnit.MILLISECONDS);
-        rv_auto_view1.setLayoutManager(layoutManager);
-    }
-
-    //满赠滑动2 initRecycleGiven
-    private void initRecycleGiven() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false);
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
-            @Override
-            public void run() {
-                rv_given.smoothScrollToPosition(layoutManager.findFirstVisibleItemPosition() + 1);
-            }
-        }, 2000, 2000, TimeUnit.MILLISECONDS);
-        rv_given.setLayoutManager(layoutManager);
-    }
 
 
-    //组合滑动短 initRecycleTeam
-    private void initRecycleTeam() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false);
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
-            @Override
-            public void run() {
-                rv_team.smoothScrollToPosition(layoutManager.findFirstVisibleItemPosition() + 1);
-            }
-        }, 2000, 2000, TimeUnit.MILLISECONDS);
-        rv_team.setLayoutManager(layoutManager);
-    }
-
-    //组合滑动长 initRecycleTeam
-    private void initRecycleTeam2() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false);
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
-            @Override
-            public void run() {
-                rv_auto_team.smoothScrollToPosition(layoutManager.findFirstVisibleItemPosition() + 1);
-            }
-        }, 2000, 2000, TimeUnit.MILLISECONDS);
-        rv_auto_team.setLayoutManager(layoutManager);
-    }
     @Override
     public void onSliderClick(BaseSliderView slider) {
         String banner_url = slider.getBundle().getString("banner_url");

@@ -1,7 +1,14 @@
 package com.puyue.www.qiaoge.adapter;
 
+import android.app.Service;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
+import android.media.ThumbnailUtils;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,17 +17,19 @@ import android.widget.ImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.view.VideoHolder;
 import com.puyue.www.qiaoge.model.PicVideoModel;
-import com.puyue.www.qiaoge.model.home.GetProductDetailModel;
-import com.puyue.www.qiaoge.view.GlideApp;
+import com.puyue.www.qiaoge.utils.Utils;
+import com.shuyu.gsyvideoplayer.GSYVideoADManager;
+import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.youth.banner.adapter.BannerAdapter;
 import com.youth.banner.util.BannerUtils;
 
 import java.util.List;
 
-import rx.Subscriber;
 
 public class PicVideoAdapter extends BannerAdapter<PicVideoModel.DatasBean, RecyclerView.ViewHolder> {
     private Context context;
@@ -71,9 +80,17 @@ public class PicVideoAdapter extends BannerAdapter<PicVideoModel.DatasBean, Recy
                 //增加封面
                 ImageView imageView = new ImageView(context);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//                imageView.setImageResource(R.drawable.image4);
+                Bitmap videoThumbnail = Utils.createVideoThumbnail(data.getUrl(), 500,200);
+                imageView.setImageBitmap(videoThumbnail);
+                int screenTypeFull = GSYVideoType.SCREEN_TYPE_16_9;
+                GSYVideoType.setShowType(screenTypeFull);
                 videoHolder.player.setThumbImageView(imageView);
-//                videoHolder.player.startPlayLogic();
+                videoHolder.player.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        videoHolder.player.startWindowFullscreen(context,false,false);
+                    }
+                });
                 break;
         }
     }

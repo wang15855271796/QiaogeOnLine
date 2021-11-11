@@ -80,24 +80,25 @@
                 android:textSize="16sp" />
 
             <ImageView
+                android:id="@+id/iv_operate"
                 android:layout_marginLeft="15dp"
-                android:id="@+id/iv_pic"
                 android:layout_marginTop="@dimen/size_7dp"
                 android:layout_toRightOf="@+id/iv_head"
                 android:layout_below="@+id/tv_price"
                 tools:src="@mipmap/icon_next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="@dimen/size_32dp"
+                android:layout_height="12dp" />
 
             <ImageView
-                android:layout_marginLeft="10dp"
-                android:id="@+id/iv_operate"
+                android:id="@+id/iv_pic"
                 android:layout_marginTop="@dimen/size_7dp"
-                android:layout_toRightOf="@+id/iv_pic"
+                android:layout_toRightOf="@+id/iv_operate"
                 android:layout_below="@+id/tv_price"
                 tools:src="@mipmap/icon_next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="@dimen/size_32dp"
+                android:layout_height="12dp" />
+
+
 
             <ImageView
                 android:id="@+id/iv_close"
