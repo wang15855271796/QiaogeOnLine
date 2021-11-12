@@ -165,8 +165,8 @@
                                         android:textSize="10sp"
                                         android:layout_centerVertical="true"
                                         android:padding="3dp"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content" />
+                                        android:layout_width="@dimen/size_48dp"
+                                        android:layout_height="@dimen/size_24dp" />
 
                                     <TextView
                                         tools:text="10.0"
@@ -196,8 +196,8 @@
                                         android:id="@+id/iv_operate"
                                         tools:src="@mipmap/icon_shop"
                                         android:layout_marginTop="50dp"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content" />
+                                        android:layout_width="32dp"
+                                        android:layout_height="@dimen/sp_12" />
 
                                     <TextView
                                         tools:text="销量:1000"

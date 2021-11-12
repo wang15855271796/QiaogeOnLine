@@ -108,8 +108,8 @@
             android:layout_toRightOf="@+id/iv_next"
             android:layout_marginLeft="@dimen/dp_10"
             android:layout_below="@+id/iv_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="@dimen/size_32dp"
+            android:layout_height="@dimen/size_12dp" />
 
         <ImageView
             android:visibility="gone"

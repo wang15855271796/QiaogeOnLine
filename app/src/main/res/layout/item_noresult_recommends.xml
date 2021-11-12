@@ -39,8 +39,8 @@
                         />
                     <ImageView
                         android:id="@+id/iv_type"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_width="@dimen/size_28dp"
+                        android:layout_height="@dimen/sp_12" />
 
                     <ImageView
                         android:id="@+id/iv_no_data"
@@ -218,8 +218,8 @@
                     android:layout_marginLeft="@dimen/sp_12"
                     android:layout_below="@+id/rl1"
                     tools:src="@mipmap/icon_operate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="32dp"
+                    android:layout_height="12dp" />
 
                 <TextView
                     tools:text="我买过的"
