@@ -1,5 +1,6 @@
 package com.puyue.www.qiaoge.adapter;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,13 +13,14 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.model.CartFullModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FullCartAdapter extends BaseQuickAdapter<CartFullModel.DataBean, BaseViewHolder> {
     String deductInfo;
     List<CartFullModel.DataBean> dataBeans;
-    List<CartFullModel.DataBean.SendProdsBean> sendProd1;
-    List<CartFullModel.DataBean.SendProdsBean> sendProd2;
+    List<CartFullModel.DataBean.SendProdsBean> sendProd1 = new ArrayList<>();
+    List<CartFullModel.DataBean.SendProdsBean> sendProd2 = new ArrayList<>();
     public FullCartAdapter(int layoutResId, String deductInfo, List<CartFullModel.DataBean> dataBeans) {
         super(layoutResId, dataBeans);
         this.deductInfo = deductInfo;
@@ -32,11 +34,13 @@ public class FullCartAdapter extends BaseQuickAdapter<CartFullModel.DataBean, Ba
         RecyclerView recyclerView = helper.getView(R.id.recycleView);
         tv_desc.setText(item.getDeductInfo());
 
+        sendProd1 = new ArrayList<>();
+        sendProd2 = new ArrayList<>();
         for (int i = 0; i < item.getSendProds().size(); i++) {
             if(item.getSendProds().get(i).getType()==0) {
-                sendProd1 = item.getSendProds();
+                sendProd1.add(item.getSendProds().get(i));
             }else {
-                sendProd2 = item.getSendProds();
+                sendProd2.add(item.getSendProds().get(i));
             }
         }
 

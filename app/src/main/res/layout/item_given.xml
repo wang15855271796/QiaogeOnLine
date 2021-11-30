@@ -62,9 +62,8 @@
 
                 <ImageView
                     android:id="@+id/iv_flag"
-                    android:layout_width="20dp"
+                    android:layout_width="32dp"
                     android:layout_height="18dp"
-                    android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp" />
 
                 <TextView

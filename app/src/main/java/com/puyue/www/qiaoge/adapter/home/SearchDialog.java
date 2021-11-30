@@ -172,7 +172,7 @@ public class SearchDialog extends Dialog implements View.OnClickListener {
                             if(exchangeProductModel.getData()!=null) {
                                 SearchItemAdapter searchItemAdapter = new SearchItemAdapter(1,exchangeProductModel.getData().getProdSpecs().get(pos).getProductId(),
                                         R.layout.item_choose_content,
-                                        exchangeProductModel.getData().getProdPrices(),exchangeProductModel.getData().getTypeUrl());
+                                        exchangeProductModel.getData().getProdPrices());
                                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                                 recyclerView.setAdapter(searchItemAdapter);
                                 tv_name.setText(exchangeProductModel.getData().getProductName());
@@ -181,7 +181,7 @@ public class SearchDialog extends Dialog implements View.OnClickListener {
                                 tv_desc.setText(exchangeProductModel.getData().getSpecialOffer());
                                 tv_stock.setText(exchangeProductModel.getData().getInventory());
                                 Glide.with(context).load(exchangeProductModel.getData().getDefaultPic()).into(iv_head);
-//                                Glide.with(context).load(exchangeProductModel.getData().getTypeUrl()).into(iv_pic);
+                                Glide.with(context).load(exchangeProductModel.getData().getTypeUrl()).into(iv_pic);
                                 Glide.with(context).load(exchangeProductModel.getData().getSelfProd()).into(iv_operate);
                                 if(exchangeProductModel.getData().getNotSend()!=null) {
                                     if(exchangeProductModel.getData().getNotSend().equals("1")||exchangeProductModel.getData().getNotSend().equals("1.0")) {

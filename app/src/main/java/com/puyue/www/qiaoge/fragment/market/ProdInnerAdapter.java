@@ -33,10 +33,11 @@ class ProdInnerAdapter extends BaseQuickAdapter<MarketRightModel.DataBean.BrandP
     protected void convert(BaseViewHolder helper, MarketRightModel.DataBean.BrandProdBean.ListBeanX.ProdClassifyBean.ListBean item) {
         helper.setText(R.id.tv_name,item.getProductName());
         helper.setText(R.id.tv_sale,item.getSalesVolume());
+        ImageView iv_operate = helper.getView(R.id.iv_operate);
         TextView tv_price = helper.getView(R.id.tv_price);
         ImageView iv_pic = helper.getView(R.id.iv_pic);
         ImageView iv_send = helper.getView(R.id.iv_send);
-
+        Glide.with(mContext).load(item.getSelfProd()).into(iv_operate);
         if(item.getNotSend()!=null) {
             if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
                 iv_send.setImageResource(R.mipmap.icon_not_send2);

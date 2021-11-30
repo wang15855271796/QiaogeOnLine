@@ -243,6 +243,25 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="102dp"
             android:src="@mipmap/ic_confirm_order" />
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/iv_order"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/iv_pay"
+            android:visibility="gone"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/iv_order"
+            android:src="@mipmap/icon_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
     </RelativeLayout>
 
 </LinearLayout>

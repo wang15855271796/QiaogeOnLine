@@ -54,7 +54,6 @@ public class FullDetailDialog extends Dialog implements View.OnClickListener {
 
     Context context;
     public View view;
-    String productName;
     public Unbinder binder;
     @BindView(R.id.iv_cart)
     ImageView iv_cart;
@@ -83,7 +82,6 @@ public class FullDetailDialog extends Dialog implements View.OnClickListener {
     @BindView(R.id.tv_free_desc)
     TextView tv_free_desc;
     public String salesVolume;
-    int productId;
     @BindView(R.id.tv_price_total)
     TextView tv_price_total;
     @BindView(R.id.iv_pic)
@@ -144,7 +142,6 @@ public class FullDetailDialog extends Dialog implements View.OnClickListener {
                 exchangeList(productId);
             }
         });
-
     }
 
     /**
@@ -177,11 +174,11 @@ public class FullDetailDialog extends Dialog implements View.OnClickListener {
                                 tv_price.setText(exchangeProductModel.getData().getMinMaxPrice()+"");
                                 tv_desc.setText(exchangeProductModel.getData().getSpecialOffer());
                                 tv_stock.setText(exchangeProductModel.getData().getInventory());
-                                Glide.with(context).load(exchangeProductModel.getData().getDefaultPic()).into(iv_head);
-//                                Glide.with(context).load(exchangeProductModel.getData().getTypeUrl()).into(iv_pic);
+                                Glide.with(context).load(exchangeProductModel. getData().getDefaultPic()).into(iv_head);
+                                Glide.with(context).load(exchangeProductModel.getData().getTypeUrl()).into(iv_pic);
                                 Glide.with(context).load(exchangeProductModel.getData().getSelfProd()).into(iv_operate);
                                 HotItemAdapter hotItemAdapter = new HotItemAdapter(1, productId,
-                                        R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices(),exchangeProductModel.getData().getTypeUrl());
+                                        R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices());
                                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                                 recyclerView.setAdapter(hotItemAdapter);
 

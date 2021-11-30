@@ -291,6 +291,7 @@ public class MarketRightModel {
                         String sendTimeTpl;
                         String selfProd;
 
+
                         public String getNotSend() {
                             return notSend;
                         }

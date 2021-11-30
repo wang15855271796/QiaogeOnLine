@@ -44,13 +44,11 @@ public class MustItemAdapter extends BaseQuickAdapter<ExchangeProductModel.DataB
     int businessType;
     List<ExchangeProductModel.DataBean.ProdPricesBean> data;
     AlertDialog alertDialog;
-    String typeUrl;
-    public MustItemAdapter(int businessType, int productId,int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data,String typeUrl) {
+    public MustItemAdapter(int businessType, int productId,int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data) {
         super(layoutResId, data);
         this.productId = productId;
         this.businessType = businessType;
         this.data = data;
-        this.typeUrl = typeUrl;
 
     }
 
@@ -69,7 +67,10 @@ public class MustItemAdapter extends BaseQuickAdapter<ExchangeProductModel.DataB
         iv_add = helper.getView(R.id.iv_add);
 
         if(!item.getOldPrice().equals("")&&item.getOldPrice()!=null) {
-            Glide.with(mContext).load(typeUrl).into(iv_reduce);
+            iv_reduce.setImageResource(R.mipmap.icon_jiangjia);
+            iv_reduce.setVisibility(View.VISIBLE);
+        }else {
+            iv_reduce.setVisibility(View.GONE);
         }
         iv_add.setOnClickListener(new View.OnClickListener() {
             @Override

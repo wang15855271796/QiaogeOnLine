@@ -47,14 +47,14 @@ public class ReduceItemAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
     com.puyue.www.qiaoge.listener.OnItemClickListener onItemClickListener;
     LinearLayout rl_desc;
     AlertDialog alertDialog;
-    String typeUrl;
+
     ImageView iv_reduce;
-    public ReduceItemAdapter(int businessType,int productId,int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data,String typeUrl) {
+    public ReduceItemAdapter(int businessType,int productId,int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data) {
         super(layoutResId, data);
         this.productId = productId;
         this.businessType = businessType;
         this.data = data;
-        this.typeUrl = typeUrl;
+
     }
 
     @Override
@@ -78,7 +78,10 @@ public class ReduceItemAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
         TextView tv_num = helper.getView(R.id.tv_num);
 
         if(!item.getOldPrice().equals("")&&item.getOldPrice()!=null) {
-            Glide.with(mContext).load(typeUrl).into(iv_reduce);
+            iv_reduce.setImageResource(R.mipmap.icon_jiangjia);
+            iv_reduce.setVisibility(View.VISIBLE);
+        }else {
+            iv_reduce.setVisibility(View.GONE);
         }
 
         tv_num.setText(item.getCartNum()+"");

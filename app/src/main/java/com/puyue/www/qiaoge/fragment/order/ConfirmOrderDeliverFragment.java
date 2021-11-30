@@ -30,6 +30,9 @@ import com.puyue.www.qiaoge.activity.BeizhuActivity;
 import com.puyue.www.qiaoge.activity.mine.account.AddressListActivity;
 import com.puyue.www.qiaoge.activity.mine.account.AddressListsActivity;
 import com.puyue.www.qiaoge.activity.mine.coupons.ChooseCouponsActivity;
+import com.puyue.www.qiaoge.adapter.ConfirmCouponAdapter;
+import com.puyue.www.qiaoge.adapter.ConfirmGivenAdapter;
+import com.puyue.www.qiaoge.adapter.FullGivenConfirmAdapter;
 import com.puyue.www.qiaoge.adapter.UnOperateAdapter;
 import com.puyue.www.qiaoge.adapter.mine.ChooseCouponsAdapter;
 import com.puyue.www.qiaoge.adapter.mine.ConfirmOrderNewAdapter;
@@ -156,6 +159,8 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
 
     private String deliverTimeName = "";
     List<String> mlist = new ArrayList<>();
+    List<CartBalanceModel.DataBean.SystemAdditionBean> systemList1 = new ArrayList<>();
+    List<CartBalanceModel.DataBean.SystemAdditionBean> systemList2 = new ArrayList<>();
     private LinearLayout ll_collect_bills;
     private LinearLayout ll_go_market;
     private TextView tv_amount_spec;
@@ -180,6 +185,8 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     TextView tv_operate;
     ImageView iv_operate_pic;
     ImageView iv_pic;
+    RecyclerView rv_given;
+    RecyclerView rv_coupon;
     @Override
     public int setLayoutId() {
         return R.layout.fragment_confirm_deliver_order;
@@ -192,6 +199,8 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     @Override
     public void findViewById(View view) {
         //  toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        rv_given = (RecyclerView) view.findViewById(R.id.rv_given);
+        rv_coupon = (RecyclerView) view.findViewById(R.id.rv_coupon);
         iv_operate_pic = (ImageView) view.findViewById(R.id.iv_operate_pic);
         iv_pic = (ImageView) view.findViewById(R.id.iv_pic);
         ll_operate = (LinearLayout) view.findViewById(R.id.ll_operate);
@@ -247,6 +256,8 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(getContext(),R.color.white));
         }
+
+
     }
 
     @Override
@@ -506,9 +517,35 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                     public void onNext(CartBalanceModel cartBalanceModel) {
                         if (cartBalanceModel.success) {
                             cModel = cartBalanceModel;
+                            CartBalanceModel.DataBean data = cartBalanceModel.getData();
                             toRechargeAmount = cModel.getData().getToRechargeAmount();
                             toRecharge = cModel.getData().isToRecharge();
                             totalAmount = Double.valueOf(cartBalanceModel.getData().getTotalAmount());
+                            systemList1.clear();
+                            systemList2.clear();
+                            if(data.getSystemAddition()!=null&& data.getSystemAddition().size()>0) {
+                                for (int i = 0; i < data.getSystemAddition().size(); i++) {
+                                    if(data.getSystemAddition().get(i).getType()==0) {
+                                        systemList1.add(cartBalanceModel.getData().getSystemAddition().get(i));
+                                    }else {
+                                        systemList2.add(cartBalanceModel.getData().getSystemAddition().get(i));
+                                    }
+                                }
+                            }
+
+                            if(systemList1.size()>0) {
+                                rv_given.setLayoutManager(new LinearLayoutManager(mActivity));
+                                ConfirmGivenAdapter confirmGivenAdapter = new ConfirmGivenAdapter(R.layout.item_given,systemList1);
+                                rv_given.setAdapter(confirmGivenAdapter);
+                            }
+
+                            if(systemList2.size()>0) {
+                                rv_coupon.setLayoutManager(new LinearLayoutManager(mActivity));
+                                ConfirmCouponAdapter confirmCouponAdapter = new ConfirmCouponAdapter(R.layout.item_full,systemList2);
+                                rv_coupon.setAdapter(confirmCouponAdapter);
+                            }
+
+
                             if (cartBalanceModel != null) {
                                 setText(cartBalanceModel);
                                 if (requestCount == 0) {

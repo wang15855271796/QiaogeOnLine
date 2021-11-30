@@ -74,7 +74,7 @@ public class SearchSpecAdapter extends BaseAdapter {
             holder.iv_reduce.setVisibility(View.GONE);
         }else {
             holder.iv_reduce.setBackgroundResource(R.mipmap.icon_reduce);
-            holder.iv_reduce.setVisibility(View.VISIBLE);
+            holder.iv_reduce.setVisibility(View.GONE);
         }
 
         holder.tv_spec.setText(prodSpecs.get(position).getSpec());

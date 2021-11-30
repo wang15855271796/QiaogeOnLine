@@ -173,7 +173,7 @@ public class RecommendDialog extends Dialog implements View.OnClickListener {
                             if(exchangeProductModel.getData()!=null) {
                                 SearchItem1Adapter itemChooseAdapter = new SearchItem1Adapter(1,
                                         exchangeProductModel.getData().getProdSpecs().get(pos).getProductId(),
-                                        R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices(),exchangeProductModel.getData().getTypeUrl());
+                                        R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices());
                                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                                 recyclerView.setAdapter(itemChooseAdapter);
                                 tv_name.setText(exchangeProductModel.getData().getProductName());
@@ -182,7 +182,7 @@ public class RecommendDialog extends Dialog implements View.OnClickListener {
                                 tv_desc.setText(exchangeProductModel.getData().getSpecialOffer());
                                 tv_stock.setText(exchangeProductModel.getData().getInventory());
                                 Glide.with(context).load(exchangeProductModel.getData().getDefaultPic()).into(iv_head);
-//                                Glide.with(context).load(exchangeProductModel.getData().getTypeUrl()).into(iv_pic);
+                                Glide.with(context).load(exchangeProductModel.getData().getTypeUrl()).into(iv_pic);
                                 Glide.with(context).load(exchangeProductModel.getData().getSelfProd()).into(iv_operate);
 
                                 if(exchangeProductModel.getData().getNotSend()!=null) {

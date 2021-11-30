@@ -52,7 +52,7 @@ public class SurplierAdapter extends BaseQuickAdapter<SurpliListModel.DataBean.L
         tv_price_desc = helper.getView(R.id.tv_price_desc);
         iv_type = helper.getView(R.id.iv_type);
         Glide.with(mContext).load(item.getSelfProd()).into(iv_operate);
-        Glide.with(mContext).load(item.getSendTimeTpl()).into(iv_next);
+//        Glide.with(mContext).load(item.getSendTimeTpl()).into(iv_next);
         if(item.getNotSend()!=null) {
             if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
                 iv_send.setImageResource(R.mipmap.icon_not_send2);
@@ -88,9 +88,9 @@ public class SurplierAdapter extends BaseQuickAdapter<SurpliListModel.DataBean.L
         helper.setText(R.id.tv_name,item.getProductName());
         helper.setText(R.id.tv_stock_total,item.getInventory());
         helper.setText(R.id.tv_sale,item.getSalesVolume());
-        helper.setText(R.id.tv_desc,item.getSpecialOffer());
-        tv_stock = helper.getView(R.id.tv_stock);
-        tv_stock.setText(item.getInventory());
+//        helper.setText(R.id.tv_desc,item.getSpecialOffer());
+//        tv_stock = helper.getView(R.id.tv_stock);
+//        tv_stock.setText(item.getInventory());
 
         if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
             rl_price.setVisibility(View.GONE);

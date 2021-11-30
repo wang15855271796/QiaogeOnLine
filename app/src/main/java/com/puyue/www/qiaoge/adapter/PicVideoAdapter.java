@@ -82,7 +82,7 @@ public class PicVideoAdapter extends BannerAdapter<PicVideoModel.DatasBean, Recy
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 Bitmap videoThumbnail = Utils.createVideoThumbnail(data.getUrl(), 500,200);
                 imageView.setImageBitmap(videoThumbnail);
-                int screenTypeFull = GSYVideoType.SCREEN_TYPE_16_9;
+                int screenTypeFull = GSYVideoType.SCREEN_TYPE_DEFAULT;
                 GSYVideoType.setShowType(screenTypeFull);
                 videoHolder.player.setThumbImageView(imageView);
                 videoHolder.player.getFullscreenButton().setOnClickListener(new View.OnClickListener() {

@@ -85,7 +85,17 @@
 
                         </androidx.recyclerview.widget.RecyclerView>
 
+                        <!--  系统发送的优惠券货赠品-->
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_given"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
 
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_coupon"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
                     </LinearLayout>
 
                     <LinearLayout

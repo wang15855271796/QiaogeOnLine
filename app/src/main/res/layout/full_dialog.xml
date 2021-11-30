@@ -7,22 +7,33 @@
     android:layout_height="514dp"
     android:orientation="vertical">
 
+    <View
+        android:background="@mipmap/cart_bg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_54dp"/>
 
     <LinearLayout
+        android:background="#f2f2f2"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="514dp">
-
-        <View
-            android:background="@mipmap/cart_bg"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/size_54dp"/>
+        android:layout_height="450dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycleView"
-            android:background="#f2f2f2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
+<!--        <LinearLayout-->
+<!--            android:background="#333333"-->
+<!--            android:layout_marginTop="@dimen/size_13dp"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
+<!--            -->
+<!--            -->
+<!--        </LinearLayout>-->
+
+
+
 
     </LinearLayout>
 

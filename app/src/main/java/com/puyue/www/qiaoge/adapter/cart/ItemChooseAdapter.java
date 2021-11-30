@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.graphics.Paint;
 import androidx.annotation.Nullable;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -51,13 +52,11 @@ public class ItemChooseAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
     private ImageView iv_reduce;
     LinearLayout rl_desc;
     AlertDialog alertDialog;
-    String typeUrl;
-    public ItemChooseAdapter(int businessType, int productId, int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data, String typeUrl) {
+    public ItemChooseAdapter(int businessType, int productId, int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data) {
         super(layoutResId, data);
         this.productId = productId;
         this.businessType = businessType;
         this.data = data;
-        this.typeUrl = typeUrl;
     }
 
     @Override
@@ -80,7 +79,10 @@ public class ItemChooseAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
         helper.setText(R.id.tv_old_price,item.getOldPrice());
         TextView tv_num = helper.getView(R.id.tv_num);
         if(!item.getOldPrice().equals("")&&item.getOldPrice()!=null) {
-            Glide.with(mContext).load(typeUrl).into(iv_reduce);
+            iv_reduce.setImageResource(R.mipmap.icon_jiangjia);
+            iv_reduce.setVisibility(View.VISIBLE);
+        }else {
+            iv_reduce.setVisibility(View.GONE);
         }
 
         tv_num.setText(item.getCartNum()+"");

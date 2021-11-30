@@ -61,7 +61,6 @@
                 android:textColor="#000000"
                 android:textSize="@dimen/size_11dp" />
 
-
             <com.puyue.www.qiaoge.view.LineBreakLayout
                 android:id="@+id/lineBreakLayout"
                 android:layout_width="match_parent"

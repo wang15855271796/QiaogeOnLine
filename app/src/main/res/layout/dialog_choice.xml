@@ -235,12 +235,19 @@
 
                     </LinearLayout>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                    <androidx.core.widget.NestedScrollView
                         android:layout_below="@+id/rl_desc"
-                        android:overScrollMode="never" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:overScrollMode="never" />
+
+                    </androidx.core.widget.NestedScrollView>
+
 
                 </RelativeLayout>
 

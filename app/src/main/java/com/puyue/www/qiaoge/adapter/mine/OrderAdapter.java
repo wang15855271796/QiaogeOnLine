@@ -128,8 +128,11 @@ public class OrderAdapter extends BaseQuickAdapter<GetOrderDetailModel.DataBean.
 //            imageIcon.setVisibility(View.GONE);
 //        }
 
-        if(item.prodTypeUrl!=null) {
+        if(item.prodTypeUrl!=null&&!item.prodTypeUrl.equals("")) {
+            imageIcon.setVisibility(View.VISIBLE);
             Glide.with(mContext).load(item.prodTypeUrl).into(imageIcon);
+        }else {
+            imageIcon.setVisibility(View.GONE);
         }
     }
 

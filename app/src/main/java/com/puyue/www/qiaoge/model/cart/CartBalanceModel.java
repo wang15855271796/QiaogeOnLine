@@ -344,7 +344,7 @@ public class CartBalanceModel extends BaseModel {
         private String orderOverTime;
         private String deductDesc;
         private List<ProductVOListBean> productVOList;
-
+        private List<SystemAdditionBean> systemAddition;
         public String getDeductDesc() {
             return deductDesc;
         }
@@ -354,6 +354,13 @@ public class CartBalanceModel extends BaseModel {
         }
 
 
+        public List<SystemAdditionBean> getSystemAddition() {
+            return systemAddition;
+        }
+
+        public void setSystemAddition(List<SystemAdditionBean> systemAddition) {
+            this.systemAddition = systemAddition;
+        }
 
         public String getOrderId() {
             return orderId;
@@ -1303,6 +1310,205 @@ public class CartBalanceModel extends BaseModel {
                 }
             }
 
+        }
+
+        public static class SystemAdditionBean {
+            @Override
+            public String toString() {
+                return "AdditionsBean{" +
+                        "type=" + type +
+                        ", productId=" + productId +
+                        ", productMainId=" + productMainId +
+                        ", giftPoolNo=" + giftPoolNo +
+                        ", warehouseId=" + warehouseId +
+                        ", productUnit=" + productUnit +
+                        ", name='" + name + '\'' +
+                        ", spec='" + spec + '\'' +
+                        ", picUrl='" + picUrl + '\'' +
+                        ", sendNum=" + sendNum +
+                        ", sendNumDesc='" + sendNumDesc + '\'' +
+                        ", amount=" + amount +
+                        ", additionFlag=" + additionFlag +
+                        ", triggerNum=" + triggerNum +
+                        ", flagUrl='" + flagUrl + '\'' +
+                        ", finishUrl='" + finishUrl + '\'' +
+                        ", supplierId=" + supplierId +
+                        '}';
+            }
+
+            /**
+             * type : 0
+             * productId : 9137
+             * productMainId : 8617
+             * giftPoolNo : null
+             * warehouseId : null
+             * productUnit : null
+             * name : 优惠券测试-2
+             * spec : 规格-1
+             * picUrl : https://barbecue-img.oss-cn-hangzhou.aliyuncs.com/common-img/5103acef0de94f9b967e6220cbe754bf2.png
+             * sendNum : null
+             * sendNumDesc : 5箱
+             * amount : null
+             * additionFlag : 1
+             * triggerNum : null
+             * flagUrl : https://barbecue-img.oss-cn-hangzhou.aliyuncs.com/image/229bf97481604d8db98e3e898e156016.png
+             * finishUrl : https://barbecue-img.oss-cn-hangzhou.aliyuncs.com/image/9af515c0365045d5873666237fd580ab.png
+             * supplierId : 0
+             */
+
+            private int type;
+            private int productId;
+            private int productMainId;
+            private Object giftPoolNo;
+            private Object warehouseId;
+            private Object productUnit;
+            private String name;
+            private String spec;
+            private String picUrl;
+            private Object sendNum;
+            private String sendNumDesc;
+            private Object amount;
+            private int additionFlag;
+            private Object triggerNum;
+            private String flagUrl;
+            private String finishUrl;
+            private int supplierId;
+
+            public int getType() {
+                return type;
+            }
+
+            public void setType(int type) {
+                this.type = type;
+            }
+
+            public int getProductId() {
+                return productId;
+            }
+
+            public void setProductId(int productId) {
+                this.productId = productId;
+            }
+
+            public int getProductMainId() {
+                return productMainId;
+            }
+
+            public void setProductMainId(int productMainId) {
+                this.productMainId = productMainId;
+            }
+
+            public Object getGiftPoolNo() {
+                return giftPoolNo;
+            }
+
+            public void setGiftPoolNo(Object giftPoolNo) {
+                this.giftPoolNo = giftPoolNo;
+            }
+
+            public Object getWarehouseId() {
+                return warehouseId;
+            }
+
+            public void setWarehouseId(Object warehouseId) {
+                this.warehouseId = warehouseId;
+            }
+
+            public Object getProductUnit() {
+                return productUnit;
+            }
+
+            public void setProductUnit(Object productUnit) {
+                this.productUnit = productUnit;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public String getSpec() {
+                return spec;
+            }
+
+            public void setSpec(String spec) {
+                this.spec = spec;
+            }
+
+            public String getPicUrl() {
+                return picUrl;
+            }
+
+            public void setPicUrl(String picUrl) {
+                this.picUrl = picUrl;
+            }
+
+            public Object getSendNum() {
+                return sendNum;
+            }
+
+            public void setSendNum(Object sendNum) {
+                this.sendNum = sendNum;
+            }
+
+            public String getSendNumDesc() {
+                return sendNumDesc;
+            }
+
+            public void setSendNumDesc(String sendNumDesc) {
+                this.sendNumDesc = sendNumDesc;
+            }
+
+            public Object getAmount() {
+                return amount;
+            }
+
+            public void setAmount(Object amount) {
+                this.amount = amount;
+            }
+
+            public int getAdditionFlag() {
+                return additionFlag;
+            }
+
+            public void setAdditionFlag(int additionFlag) {
+                this.additionFlag = additionFlag;
+            }
+
+            public Object getTriggerNum() {
+                return triggerNum;
+            }
+
+            public void setTriggerNum(Object triggerNum) {
+                this.triggerNum = triggerNum;
+            }
+
+            public String getFlagUrl() {
+                return flagUrl;
+            }
+
+            public void setFlagUrl(String flagUrl) {
+                this.flagUrl = flagUrl;
+            }
+
+            public String getFinishUrl() {
+                return finishUrl;
+            }
+
+            public void setFinishUrl(String finishUrl) {
+                this.finishUrl = finishUrl;
+            }
+
+            public int getSupplierId() {
+                return supplierId;
+            }
+
+            public void setSupplierId(int supplierId) {
+                this.supplierId = supplierId;
+            }
         }
 
         public static class DeductDetailBean {

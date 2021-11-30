@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 
 import androidx.annotation.NonNull;
 
+import android.view.View;
 import android.widget.ImageView;
 
 import com.puyue.www.qiaoge.R;
@@ -55,6 +56,7 @@ public class TurnTableDialog extends Dialog {
         list.toArray(array);
         //获取第三个视图
         final WheelSurfView wheelSurfView = findViewById(R.id.wheelSurfView);
+        ImageView iv_chose = findViewById(R.id.iv_chose);
         WheelSurfView.Builder build = new WheelSurfView.Builder()
                 .setmDeses(list.toArray(array))
                 .setmIcons(mListBitmap)
@@ -65,6 +67,12 @@ public class TurnTableDialog extends Dialog {
 
         wheelSurfView.setConfig(build);
 
+        iv_chose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
         //添加滚动监听
         wheelSurfView.setRotateListener(new RotateListener() {
             @Override

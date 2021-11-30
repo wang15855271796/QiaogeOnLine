@@ -836,6 +836,14 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                                 TextView Price = view.findViewById(R.id.Price);
                                 TextView oldPrice = view.findViewById(R.id.oldPrice);
                                 TextView textSpe = view.findViewById(R.id.textSpe);
+                                ImageView imageIcon = view.findViewById(R.id.imageIcon);
+                                if(listUnOperate.get(position).getProdTypeUrl()!=null&&!listUnOperate.get(position).getProdTypeUrl().equals("")) {
+                                    imageIcon.setVisibility(View.VISIBLE);
+                                    Glide.with(mActivity).load(listUnOperate.get(position).getProdTypeUrl()).into(imageIcon);
+                                }else {
+                                    imageIcon.setVisibility(View.GONE);
+                                }
+                                imageIcon.setVisibility(View.GONE);
                                 ImageView imageView = view.findViewById(R.id.imageView);
                                 oldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                                 oldPrice.getPaint().setAntiAlias(true);//抗锯齿

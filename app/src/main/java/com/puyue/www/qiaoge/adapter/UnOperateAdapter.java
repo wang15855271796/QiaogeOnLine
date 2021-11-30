@@ -135,9 +135,9 @@ public class UnOperateAdapter extends BaseQuickAdapter<CartBalanceModel.DataBean
         }
         if (StringHelper.notEmptyAndNull(item.getProdTypeUrl())) {
             GlideModel.disPlayError(mContext, item.getProdTypeUrl(), imageIcon);
-
-           /* Glide.with(mContext).load(item.getProdTypeUrl()).
-                    transform(new GlideRoundTransform(mContext, 3)).into(imageIcon);*/
+            imageIcon.setVisibility(View.VISIBLE);
+        }else {
+            imageIcon.setVisibility(View.GONE);
         }
 
         if (StringHelper.notEmptyAndNull(item.getPicUrl())) {

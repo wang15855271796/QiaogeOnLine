@@ -73,7 +73,7 @@ public class ChooseFullSpecAdapters extends BaseAdapter {
             holder.iv_reduce.setVisibility(View.GONE);
         }else {
             holder.iv_reduce.setBackgroundResource(R.mipmap.icon_reduce);
-            holder.iv_reduce.setVisibility(View.VISIBLE);
+            holder.iv_reduce.setVisibility(View.GONE);
         }
 
         return convertView;

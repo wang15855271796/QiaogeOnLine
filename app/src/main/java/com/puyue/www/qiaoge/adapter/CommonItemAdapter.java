@@ -48,13 +48,11 @@ public class CommonItemAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
     com.puyue.www.qiaoge.listener.OnItemClickListener onItemClickListener;
     LinearLayout rl_desc;
     AlertDialog alertDialog;
-    String typeUrl;
-    public CommonItemAdapter(int businessType,int productId,int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data,String typeUrl) {
+    public CommonItemAdapter(int businessType,int productId,int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data) {
         super(layoutResId, data);
         this.productId = productId;
         this.businessType = businessType;
         this.data = data;
-        this.typeUrl = typeUrl;
     }
 
     @Override
@@ -70,7 +68,10 @@ public class CommonItemAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
         }
 
         if(!item.getOldPrice().equals("")&&item.getOldPrice()!=null) {
-            Glide.with(mContext).load(typeUrl).into(iv_reduce);
+            iv_reduce.setImageResource(R.mipmap.icon_jiangjia);
+            iv_reduce.setVisibility(View.VISIBLE);
+        }else {
+            iv_reduce.setVisibility(View.GONE);
         }
 
         tv_price = helper.getView(R.id.tv_price);

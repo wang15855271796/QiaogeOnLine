@@ -787,25 +787,45 @@ public class CommonGoodsDetailActivity extends BaseActivity {
                                 iv_sound.setVisibility(View.GONE);
                             }
 
-                            if(model.getData().getTopPic()!=null&&model.getData().getTopPic().size()>0) {
+                            //banner设置点击监听
+                            mBanner.setOnBannerListener(new OnBannerListener() {
+                                @Override
+                                public void OnBannerClick(Object data, int position) {
+                                    AppHelper.showPhotoDetailDialog(mContext, images, position);
+                                }
+                            });
+
+                            getProductList();
+                            mTvAddCar.setEnabled(true);
+                            //填充详情
+                            mListDetailImage.clear();
+
+                            if(model.getData().getSupplierId()!=null) {
+                                ll_surp.setVisibility(View.VISIBLE);
+                            }else  {
+                                ll_surp.setVisibility(View.GONE);
+                            }
+
+                            if(images.size()>0) {
                                 for (int i = 0; i < images.size(); i++) {
                                     if(model.getData().getProdVideoUrl()!=null&&!model.getData().getProdVideoUrl().equals("")) {
                                         if(i==0) {
                                             picVideo.add(new PicVideoModel.DatasBean(images.get(0),2));
                                         }else {
+
                                             picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
                                         }
                                     }else {
+
                                         picVideo.add(new PicVideoModel.DatasBean(images.get(0),1));
                                     }
                                 }
                             }else {
-                                Log.d("dsgffdfg......",images.size()+"sfsdfs");
                                 for (int i = 0; i < images.size(); i++) {
                                     picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
-
                                 }
                             }
+
                             mBanner.addBannerLifecycleObserver(commonGoodsDetailActivity)
                                     .setAdapter(new PicVideoAdapter(mContext, picVideo))
                                     .setIndicator(new NumIndicator(mContext))
@@ -827,32 +847,6 @@ public class CommonGoodsDetailActivity extends BaseActivity {
                                         }
                                     });
 
-
-//                            mBanner.
-//                            mBanner.setImages(picVideo);
-//                            mBanner.setBannerAnimation(Transformer.DepthPage);
-//                            mBanner.isAutoPlay(true);
-//                            mBanner.setDelayTime(3000);
-//                            mBanner.setIndicatorGravity(BannerConfig.RIGHT);
-//                            mBanner.start();
-                            //banner设置点击监听
-                            mBanner.setOnBannerListener(new OnBannerListener() {
-                                @Override
-                                public void OnBannerClick(Object data, int position) {
-                                    AppHelper.showPhotoDetailDialog(mContext, images, position);
-                                }
-                            });
-
-                            getProductList();
-                            mTvAddCar.setEnabled(true);
-                            //填充详情
-                            mListDetailImage.clear();
-
-                            if(model.getData().getSupplierId()!=null) {
-                                ll_surp.setVisibility(View.VISIBLE);
-                            }else  {
-                                ll_surp.setVisibility(View.GONE);
-                            }
 
                             surplierList.clear();
                             surplierList.addAll(model.getData().getSupProds());

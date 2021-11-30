@@ -146,7 +146,7 @@ public class ChooseDialog extends Dialog implements View.OnClickListener {
                         if(exchangeProductModel.isSuccess()) {
                             if(exchangeProductModel.getData()!=null) {
                                 exchangeProductModels = exchangeProductModel;
-                                ItemChooseAdapter itemChooseAdapter = new ItemChooseAdapter(1, productId, R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices(),exchangeProductModel.getData().getTypeUrl());
+                                ItemChooseAdapter itemChooseAdapter = new ItemChooseAdapter(1, productId, R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices());
                                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                                 recyclerView.setAdapter(itemChooseAdapter);
                                 tv_sale.setText(exchangeProductModel.getData().getSalesVolume());
@@ -155,7 +155,7 @@ public class ChooseDialog extends Dialog implements View.OnClickListener {
                                 tv_stock.setText(exchangeProductModel.getData().getInventory());
                                 tv_name.setText(exchangeProductModel.getData().getProductName());
                                 Glide.with(context).load(exchangeProductModel.getData().getDefaultPic()).into(iv_head);
-//                                Glide.with(context).load(exchangeProductModel.getData().getTypeUrl()).into(iv_pic);
+                                Glide.with(context).load(exchangeProductModel.getData().getTypeUrl()).into(iv_pic);
                                 Glide.with(context).load(exchangeProductModel.getData().getSelfProd()).into(iv_operate);
 
                                 if(exchangeProductModel.getData().getNotSend()!=null) {
