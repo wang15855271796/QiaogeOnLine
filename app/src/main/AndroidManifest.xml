@@ -173,6 +173,9 @@
         <activity android:name=".activity.mine.login.LoginActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".activity.PrivacySetting"
+            android:screenOrientation="portrait"
+            />
         <activity android:name=".activity.mine.login.ShopTypeActivity"
             android:screenOrientation="portrait" />
 
@@ -193,6 +196,12 @@
         <activity android:name=".activity.home.TeamDetailActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".activity.CouponUseActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".activity.PriceTrendActivity"
+            android:screenOrientation="portrait"
+            />
         <activity android:name=".adapter.home.HotProductActivity"
             android:screenOrientation="portrait" />
 
@@ -631,7 +640,13 @@
         <activity
             android:name="com.barbecue.app.wxapi.WXPayEntryActivity"
             android:exported="true"
-            android:launchMode="singleInstance" />
+            android:taskAffinity="com.barbecue.app"
+            android:launchMode="singleTask" />
+
+        <activity android:name=".wxapi.WXEntryActivity"
+            android:launchMode="singleTask"
+            android:taskAffinity="com.barbecue.app"
+            />
         <!--  -->
         <activity
             android:name=".activity.mine.order.OrderEvaluateActivity"
@@ -757,11 +772,20 @@
             android:screenOrientation="portrait"
             />
 
+        <activity android:name=".activity.InfoSearchActivity"
+            android:screenOrientation="portrait"
+            />
 
+        <activity android:name=".activity.home.QuarActivity"
+            android:screenOrientation="portrait"
+            ></activity>
 
         <activity android:name=".activity.mine.order.SelfSufficiencyOrderDetailActivity"
             android:screenOrientation="portrait" ></activity>
 
+        <activity android:name=".activity.FullActivity"
+            android:screenOrientation="portrait"
+            ></activity>
         <activity android:name=".activity.home.ChangeCityActivity"
             android:screenOrientation="portrait" />
 

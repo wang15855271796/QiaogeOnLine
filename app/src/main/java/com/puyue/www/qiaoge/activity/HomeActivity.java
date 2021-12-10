@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AlertDialog;
@@ -140,7 +142,6 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
     }
-
 
         @Override
     public void setContentView() {

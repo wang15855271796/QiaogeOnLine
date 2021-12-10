@@ -28,6 +28,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
@@ -59,6 +60,8 @@ public class FullActiveActivity extends BaseSwipeActivity implements View.OnClic
     TextView tv_total_price;
     @BindView(R.id.iv_back)
     ImageView iv_back;
+    @BindView(R.id.tv_more)
+    TextView tv_more;
     int fullId;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
@@ -120,6 +123,7 @@ public class FullActiveActivity extends BaseSwipeActivity implements View.OnClic
 
         tv_buy.setOnClickListener(this);
         iv_back.setOnClickListener(this);
+        tv_more.setOnClickListener(this);
     }
 
     @Override
@@ -191,6 +195,12 @@ public class FullActiveActivity extends BaseSwipeActivity implements View.OnClic
 
             case R.id.iv_back:
                 finish();
+                break;
+
+            case R.id.tv_more:
+                Intent intent3 = new Intent(mContext,FullActivity.class);
+                intent3.putExtra("sendGifts", (Serializable) sendGifts);
+                startActivity(intent3);
                 break;
         }
     }

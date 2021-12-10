@@ -22,13 +22,13 @@ public class InfoListAPI {
     private interface InfoList {
         @FormUrlEncoded
         @POST(AppInterfaceAddress.Info_List)
-        Observable<InfoListModel> getData(@Field("type") String type,@Field("pageNum") int pageNum, @Field("pageSize") int pageSize
+        Observable<InfoListModel> getData(@Field("keyword") String keyword,@Field("type") String type,@Field("pageNum") int pageNum, @Field("pageSize") int pageSize
                 , @Field("provinceCode") String provinceCode, @Field("cityCode") String cityCode);
     }
 
-    public static Observable<InfoListModel> requestData(Context context,String type, int pageNum, int pageSize,String provinceCode,String cityCode) {
+    public static Observable<InfoListModel> requestData(Context context,String keyword,String type, int pageNum, int pageSize,String provinceCode,String cityCode) {
         InfoList service = RestHelper.getBaseRetrofit(context).create(InfoList.class);
-        return service.getData(type,pageNum, pageSize,provinceCode,cityCode);
+        return service.getData(keyword,type,pageNum, pageSize,provinceCode,cityCode);
     }
 
     private interface InfoDetail {

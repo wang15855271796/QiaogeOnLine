@@ -18,8 +18,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.HomeActivity;
+import com.puyue.www.qiaoge.activity.PriceTrendActivity;
 import com.puyue.www.qiaoge.adapter.cart.ItemChooseAdapter;
 import com.puyue.www.qiaoge.adapter.cart.SearchSpecAdapter;
 import com.puyue.www.qiaoge.api.cart.GetCartNumAPI;
@@ -28,6 +30,7 @@ import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.event.UpDateNumEvent10;
 import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.listener.OnItemClickListener;
 import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
 import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
 import com.puyue.www.qiaoge.model.home.GetProductDetailModel;
@@ -39,6 +42,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.Serializable;
 import java.util.List;
 
 import butterknife.BindView;
@@ -93,6 +97,7 @@ public class ChooseDialog extends Dialog implements View.OnClickListener {
     TextView tv_free_desc;
     @BindView(R.id.iv_cart)
     ImageView iv_cart;
+
     private SearchSpecAdapter searchSpecAdapter;
     ExchangeProductModel exchangeProductModels;
     GetProductDetailModel model;
@@ -146,7 +151,7 @@ public class ChooseDialog extends Dialog implements View.OnClickListener {
                         if(exchangeProductModel.isSuccess()) {
                             if(exchangeProductModel.getData()!=null) {
                                 exchangeProductModels = exchangeProductModel;
-                                ItemChooseAdapter itemChooseAdapter = new ItemChooseAdapter(1, productId, R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices());
+                                ItemChooseAdapter itemChooseAdapter = new ItemChooseAdapter(1, productId, R.layout.item_choose_content, exchangeProductModels,exchangeProductModel.getData().getProdPrices());
                                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                                 recyclerView.setAdapter(itemChooseAdapter);
                                 tv_sale.setText(exchangeProductModel.getData().getSalesVolume());
@@ -166,6 +171,16 @@ public class ChooseDialog extends Dialog implements View.OnClickListener {
                                         iv_send.setVisibility(View.GONE);
                                     }
                                 }
+//                                itemChooseAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+//                                    @Override
+//                                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+//                                        Intent intent = new Intent(context, PriceTrendActivity.class);
+//                                        intent.putExtra("priceId", exchangeProductModels.getData().getProdPrices().get(position).getPriceId()+"");
+//                                        intent.putExtra("productId",productId+"");
+//
+//                                        context.startActivity(intent);
+//                                    }
+//                                });
 
                             }
                         }else {

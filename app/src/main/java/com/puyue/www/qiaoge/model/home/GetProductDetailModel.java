@@ -87,6 +87,7 @@ public class GetProductDetailModel {
         String notSend;
         private int saleDone;
         private String type;
+        String priceId;
         private int productMainId;
         private int productId;
         private String productName;
@@ -120,6 +121,7 @@ public class GetProductDetailModel {
         boolean hasCollect;
         int fullId;
         String prodVideoUrl;
+        private List<String> quarterPic;
         @Override
         public String toString() {
             return "DataBean{" +
@@ -141,6 +143,22 @@ public class GetProductDetailModel {
                     ", detailPic=" + detailPic +
                     ", topPic=" + topPic +
                     '}';
+        }
+
+        public String getPriceId() {
+            return priceId;
+        }
+
+        public void setPriceId(String priceId) {
+            this.priceId = priceId;
+        }
+
+        public List<String> getQuarterPic() {
+            return quarterPic;
+        }
+
+        public void setQuarterPic(List<String> quarterPic) {
+            this.quarterPic = quarterPic;
         }
 
         public String getProdVideoUrl() {

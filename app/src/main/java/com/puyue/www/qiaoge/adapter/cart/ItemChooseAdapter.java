@@ -1,6 +1,7 @@
 package com.puyue.www.qiaoge.adapter.cart;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Paint;
 import androidx.annotation.Nullable;
 
@@ -18,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.PriceTrendActivity;
 import com.puyue.www.qiaoge.api.cart.AddMountChangeTwoAPI;
 
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
@@ -30,6 +32,7 @@ import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.Serializable;
 import java.util.List;
 
 import rx.Subscriber;
@@ -52,11 +55,14 @@ public class ItemChooseAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
     private ImageView iv_reduce;
     LinearLayout rl_desc;
     AlertDialog alertDialog;
-    public ItemChooseAdapter(int businessType, int productId, int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data) {
+    LinearLayout ll_trend;
+    ExchangeProductModel exchangeProductModels;
+    public ItemChooseAdapter(int businessType, int productId, int layoutResId, ExchangeProductModel exchangeProductModels, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data) {
         super(layoutResId, data);
         this.productId = productId;
         this.businessType = businessType;
         this.data = data;
+        this.exchangeProductModels = exchangeProductModels;
     }
 
     @Override
@@ -69,7 +75,7 @@ public class ItemChooseAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
             tv_coupon_desc.setText(item.getSpecialOffer());
             rl_desc.setVisibility(View.VISIBLE);
         }
-
+        LinearLayout ll_trend = helper.getView(R.id.ll_trend);
         tv_price = helper.getView(R.id.tv_price);
         tv_price.setText(item.getPrice());
         iv_reduce = helper.getView(R.id.iv_reduce);
@@ -109,6 +115,17 @@ public class ItemChooseAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
             }
         });
 
+
+        ll_trend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, PriceTrendActivity.class);
+                intent.putExtra("priceId", exchangeProductModels.getData().getProdPrices().get(helper.getLayoutPosition()).getPriceId()+"");
+                intent.putExtra("productId",productId+"");
+                mContext.startActivity(intent);
+            }
+        });
+
         tv_num.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,6 +142,7 @@ public class ItemChooseAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
                 EditText et_num = window.findViewById(R.id.et_num);
                 TextView tv_ok = window.findViewById(R.id.tv_ok);
                 TextView tv_cancel = window.findViewById(R.id.tv_cancel);
+
                 window.setGravity(Gravity.CENTER);
                 tv_cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -145,6 +163,9 @@ public class ItemChooseAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
                         }
                     }
                 });
+
+
+
 
             }
 

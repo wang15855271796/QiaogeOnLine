@@ -1,6 +1,7 @@
 package com.puyue.www.qiaoge.adapter;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Paint;
 import androidx.annotation.Nullable;
 import android.view.Gravity;
@@ -9,12 +10,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.PriceTrendActivity;
 import com.puyue.www.qiaoge.api.cart.AddMountChangeTwoAPI;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.base.BaseModel;
@@ -44,12 +47,13 @@ public class MustItemAdapter extends BaseQuickAdapter<ExchangeProductModel.DataB
     int businessType;
     List<ExchangeProductModel.DataBean.ProdPricesBean> data;
     AlertDialog alertDialog;
-    public MustItemAdapter(int businessType, int productId,int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data) {
+    ExchangeProductModel exchangeProductModel;
+    public MustItemAdapter(int businessType, int productId,int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data,ExchangeProductModel exchangeProductModel) {
         super(layoutResId, data);
         this.productId = productId;
         this.businessType = businessType;
         this.data = data;
-
+        this.exchangeProductModel = exchangeProductModel;
     }
 
     @Override
@@ -65,6 +69,17 @@ public class MustItemAdapter extends BaseQuickAdapter<ExchangeProductModel.DataB
         tv_num.setText(item.getCartNum()+"");
         iv_cut = helper.getView(R.id.iv_cut);
         iv_add = helper.getView(R.id.iv_add);
+
+        LinearLayout ll_trend = helper.getView(R.id.ll_trend);
+        ll_trend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, PriceTrendActivity.class);
+                intent.putExtra("priceId", exchangeProductModel.getData().getProdPrices().get(helper.getLayoutPosition()).getPriceId()+"");
+                intent.putExtra("productId",productId+"");
+                mContext.startActivity(intent);
+            }
+        });
 
         if(!item.getOldPrice().equals("")&&item.getOldPrice()!=null) {
             iv_reduce.setImageResource(R.mipmap.icon_jiangjia);

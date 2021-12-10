@@ -184,7 +184,7 @@ public class Must2Dialog extends Dialog implements View.OnClickListener{
                                 Glide.with(context).load(data.getDefaultPic()).into(iv_head);
                                 Glide.with(context).load(exchangeProductModel.getData().getTypeUrl()).into(iv_pic);
                                 Glide.with(context).load(exchangeProductModel.getData().getSelfProd()).into(iv_operate);
-                                mustItemAdapter = new MustItemAdapter(1,prodSpecs.get(pos).getProductId(),R.layout.item_choose_content, prodPrices);
+                                mustItemAdapter = new MustItemAdapter(1,prodSpecs.get(pos).getProductId(),R.layout.item_choose_content, prodPrices,exchangeProductModel);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                                 recyclerView.setAdapter(mustItemAdapter);
 

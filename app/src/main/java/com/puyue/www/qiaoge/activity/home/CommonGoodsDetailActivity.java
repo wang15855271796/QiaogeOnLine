@@ -101,6 +101,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -213,6 +214,8 @@ public class CommonGoodsDetailActivity extends BaseActivity {
     RelativeLayout rl_coupons;
     @BindView(R.id.iv_sound)
     ImageView iv_sound;
+    @BindView(R.id.rl_check)
+    RelativeLayout rl_check;
     private AlertDialog mTypedialog;
     LinearLayout ll_service;
     TextView tv_price;
@@ -393,6 +396,16 @@ public class CommonGoodsDetailActivity extends BaseActivity {
         mLlCar.setOnClickListener(noDoubleClickListener);
         mLlCustomer.setOnClickListener(noDoubleClickListener);
         linearLayoutOnclick.setOnClickListener(noDoubleClickListener);
+        rl_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext,QuarActivity.class);
+                List<String> quarterPic = models.getData().getQuarterPic();
+                intent.putExtra("quar",(Serializable) quarterPic);
+                startActivity(intent);
+
+            }
+        });
         rl_coupons.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -640,6 +653,11 @@ public class CommonGoodsDetailActivity extends BaseActivity {
                                 tv_date.setVisibility(View.VISIBLE);
                             }
 
+                            if(models.getData().getQuarterPic()!=null&&models.getData().getQuarterPic().size()>0) {
+                                rl_check.setVisibility(View.VISIBLE);
+                            }else {
+                                rl_check.setVisibility(View.GONE);
+                            }
                             if (model.getData().isHasCollect()) {
                                 //已收藏
                                 mIvCollection.setImageResource(R.mipmap.icon_collection_fill);

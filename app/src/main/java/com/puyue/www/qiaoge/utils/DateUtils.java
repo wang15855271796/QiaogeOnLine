@@ -252,7 +252,14 @@ public class DateUtils {
 		return calNow.getTime();
 	}
 
-
+	public static Long getLong(String dateStr, String formatStr) {
+		try {
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatStr);
+			return simpleDateFormat.parse(dateStr).getTime();
+		} catch (Exception e) {
+			return 0L;
+		}
+	}
 	/**
 	 * 根据指定的时间格式，格式化当前输入的时间;
 	 * DATE_FORMAT_BAR = "yyyy-MM-dd";DATE_FORMAT_MONTH = "yyyy-MM";

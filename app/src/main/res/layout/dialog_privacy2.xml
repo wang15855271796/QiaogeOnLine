@@ -4,14 +4,24 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center"
-    android:layout_margin="@dimen/size_52dp"
+    android:layout_margin="@dimen/size_25dp"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/app_my_wallet_bg"
         android:orientation="vertical">
+
+        <TextView
+            android:layout_marginTop="@dimen/size_18dp"
+            android:text="隐私政策提示"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#333333"
+            android:textSize="@dimen/size_18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/title"
@@ -22,65 +32,75 @@
             android:layout_marginTop="15dp"
             android:layout_marginLeft="@dimen/size_15dp"
             android:layout_marginRight="@dimen/size_15dp"
-            android:gravity="center_horizontal"
-            android:text="您需要同意本隐私权政策才能继续使用翘歌"
+            android:text="您需要同意翘歌隐私政策才能使用翘歌。 "
             android:textColor="#333333"
-            android:textSize="16sp" />
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/title2"
+            android:textStyle="bold"
+            android:layout_marginBottom="@dimen/size_15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="@dimen/size_15dp"
+            android:layout_marginRight="@dimen/size_15dp"
+            android:text="如您不同意，很遗憾我们无法为您提供服务。"
+            android:textColor="#333333"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:id="@+id/tv_content"
+            android:textColor="#999999"
+            android:textSize="@dimen/sp_12"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="您可通过阅读完整的《翘歌隐私政策》及《第三方信息数据共享》来了解详情信息。"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
 
         <LinearLayout
+            android:layout_marginTop="@dimen/size_13dp"
+            android:id="@+id/ll_cancel"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/size_30dp"
-            android:layout_marginRight="@dimen/size_15dp"
+            android:layout_height="40dp"
+            android:gravity="center"
             android:layout_marginLeft="@dimen/size_15dp"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="@dimen/size_15dp"
+            android:layout_marginRight="@dimen/size_15dp"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_marginLeft="@dimen/size_5dp"
+                android:id="@+id/tv_unAgree"
+                android:text="不同意并退出"
+                android:textColor="#666666"
+                android:textSize="@dimen/size_18dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="若您不同意本隐私权政策，很遗憾我们将无法为您提供服务"
-                android:textColor="#333333"
-                android:textSize="@dimen/size_12dp" />
-
-
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
-
         <LinearLayout
+            android:layout_marginTop="@dimen/size_10dp"
+            android:id="@+id/ll_sure"
+            android:layout_marginBottom="@dimen/size_18dp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/size_15dp"
+            android:layout_marginRight="@dimen/size_15dp"
+            android:background="@drawable/shape_orange"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_marginRight="@dimen/size_5dp"
-                android:background="@drawable/shape_red"
-                android:id="@+id/tv_unAgree"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="仍不同意"
-                android:textColor="#333333"
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_marginLeft="@dimen/size_5dp"
-                android:background="@drawable/shape_orange"
-                android:id="@+id/tv_look"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="查看协议"
+                android:id="@+id/tv_sure"
+                android:text="同意并使用"
                 android:textColor="#ffffff"
-                android:textSize="14sp" />
+                android:textSize="@dimen/size_18dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </LinearLayout>

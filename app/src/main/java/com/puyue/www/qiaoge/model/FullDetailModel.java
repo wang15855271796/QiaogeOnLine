@@ -2,6 +2,7 @@ package com.puyue.www.qiaoge.model;
 
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -155,7 +156,7 @@ public class FullDetailModel {
             }
         }
 
-        public static class SendGiftsBean {
+        public static class SendGiftsBean implements Serializable {
             /**
              * giftName : 优惠券测试-2规格-1
              * sendNum : 1箱
@@ -168,6 +169,78 @@ public class FullDetailModel {
             private int type;
             private String poolNo;
             int productMainId;
+            String name;
+            String spec;
+            String picture;
+            String amount;
+            String useInfo;
+            List<String> role;
+            String giftProdUseType;
+            String dateTime;
+
+            public List<String> getRole() {
+                return role;
+            }
+
+            public void setRole(List<String> role) {
+                this.role = role;
+            }
+
+            public String getUseInfo() {
+                return useInfo;
+            }
+
+            public void setUseInfo(String useInfo) {
+                this.useInfo = useInfo;
+            }
+
+            public String getDateTime() {
+                return dateTime;
+            }
+
+            public void setDateTime(String dateTime) {
+                this.dateTime = dateTime;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public String getSpec() {
+                return spec;
+            }
+
+            public void setSpec(String spec) {
+                this.spec = spec;
+            }
+
+            public String getPicture() {
+                return picture;
+            }
+
+            public void setPicture(String picture) {
+                this.picture = picture;
+            }
+
+            public String getAmount() {
+                return amount;
+            }
+
+            public void setAmount(String amount) {
+                this.amount = amount;
+            }
+
+            public String getGiftProdUseType() {
+                return giftProdUseType;
+            }
+
+            public void setGiftProdUseType(String giftProdUseType) {
+                this.giftProdUseType = giftProdUseType;
+            }
 
             public int getProductMainId() {
                 return productMainId;

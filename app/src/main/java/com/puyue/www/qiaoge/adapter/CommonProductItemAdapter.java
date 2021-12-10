@@ -1,6 +1,7 @@
 package com.puyue.www.qiaoge.adapter;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Paint;
 import androidx.annotation.Nullable;
 import android.view.Gravity;
@@ -16,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.PriceTrendActivity;
 import com.puyue.www.qiaoge.api.cart.AddMountChangeTwoAPI;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.base.BaseModel;
@@ -48,11 +50,13 @@ public class CommonProductItemAdapter extends BaseQuickAdapter<ExchangeProductMo
     LinearLayout rl_desc;
     AlertDialog alertDialog;
     ImageView iv_reduce;
-    public CommonProductItemAdapter(int businessType,int productId,int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data) {
+    ExchangeProductModel exchangeProductModel;
+    public CommonProductItemAdapter(int businessType, int productId, int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data, ExchangeProductModel exchangeProductModel) {
         super(layoutResId, data);
         this.productId = productId;
         this.businessType = businessType;
         this.data = data;
+        this.exchangeProductModel = exchangeProductModel;
     }
 
     @Override
@@ -81,6 +85,17 @@ public class CommonProductItemAdapter extends BaseQuickAdapter<ExchangeProductMo
         }else {
             iv_reduce.setVisibility(View.GONE);
         }
+
+        LinearLayout ll_trend = helper.getView(R.id.ll_trend);
+        ll_trend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, PriceTrendActivity.class);
+                intent.putExtra("priceId", exchangeProductModel.getData().getProdPrices().get(helper.getLayoutPosition()).getPriceId()+"");
+                intent.putExtra("productId",productId+"");
+                mContext.startActivity(intent);
+            }
+        });
 
         tv_num.setText(item.getCartNum()+"");
         iv_cut = helper.getView(R.id.iv_cut);

@@ -136,9 +136,9 @@ public class MarketGialog extends Dialog implements View.OnClickListener{
                                 Glide.with(context).load(exchangeProductModel.getData().getSelfProd()).into(iv_operate);
                                 Glide.with(context).load(exchangeProductModel.getData().getDefaultPic()).into(iv_head);
                                 if(businessType==11) {
-                                    marketItemAdapter = new MarketItemAdapter(businessType, exchangeProductModel.getData().getActiveId(), R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices());
+                                    marketItemAdapter = new MarketItemAdapter(businessType, exchangeProductModel.getData().getActiveId(), R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices(),exchangeProductModel);
                                 }else {
-                                    marketItemAdapter = new MarketItemAdapter(businessType, exchangeProductModel.getData().getProdSpecs().get(pos).getProductId(), R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices());
+                                    marketItemAdapter = new MarketItemAdapter(businessType, exchangeProductModel.getData().getProdSpecs().get(pos).getProductId(), R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices(),exchangeProductModel);
 
                                 }
                                 recyclerView.setLayoutManager(new LinearLayoutManager(context));

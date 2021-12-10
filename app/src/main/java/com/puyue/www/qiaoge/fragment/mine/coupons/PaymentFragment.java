@@ -63,6 +63,7 @@ import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import com.rrtx.tzpaylib.CashierManager;
 import com.rrtx.tzpaylib.PaymentCallback;
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -376,22 +377,34 @@ public class PaymentFragment extends DialogFragment {
 
     private void weChatPay(String json) {
         SharedPreferencesUtil.saveString(getContext(),"pays","0");
-        try {
-            IWXAPI api = WXAPIFactory.createWXAPI(getContext(), "wxbc18d7b8fee86977");
-            JSONObject obj = new JSONObject(json);
-            PayReq request = new PayReq();
-            request.appId = obj.optString("appId");
-            request.partnerId = obj.optString("mchID");
-            request.prepayId = obj.optString("prepayId");
-            request.packageValue = obj.optString("pkg");
-            request.nonceStr = obj.optString("nonceStr");
-            request.timeStamp = obj.optString("timeStamp");
-            request.sign = obj.optString("paySign");
-            api.sendReq(request);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        String appId = "wxbc18d7b8fee86977"; // 填移动应用(App)的 AppId，非小程序的 AppID
+        IWXAPI api = WXAPIFactory.createWXAPI(getContext(), appId);
+        String userId = UserInfoHelper.getUserId(getContext());
+        WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
+        req.userName = "gh_02750c16f80b"; // 填小程序原始id
+//        "/pagesGoods/toplay/apptoplay?token="+userId+"&oderNo="+outTradeNo
+        Log.d("dsfvfssdfsd......",userId);
+        req.path = "/pagesGoods/toplay/apptoplay?token="+userId+"&oderNo="+orderId;
+        Log.d("sggergerger......",req.path);
+        ////拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
+        req.miniprogramType =  WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW;// 可选打开 开发版，体验版和正式版
+        api.sendReq(req);
+//        try {
+//            IWXAPI api = WXAPIFactory.createWXAPI(getContext(), "wxbc18d7b8fee86977");
+//            JSONObject obj = new JSONObject(json);
+//            PayReq request = new PayReq();
+//            request.appId = obj.optString("appId");
+//            request.partnerId = obj.optString("mchID");
+//            request.prepayId = obj.optString("prepayId");
+//            request.packageValue = obj.optString("pkg");
+//            request.nonceStr = obj.optString("nonceStr");
+//            request.timeStamp = obj.optString("timeStamp");
+//            request.sign = obj.optString("paySign");
+//            api.sendReq(request);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     /**

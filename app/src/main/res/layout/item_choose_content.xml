@@ -94,6 +94,20 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/ll_trend"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_20dp">
+
+       <ImageView
+           android:src="@mipmap/icon_trend"
+           android:layout_marginLeft="@dimen/size_15dp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
         android:id="@+id/rl_desc"
         android:visibility="gone"
         android:layout_marginLeft="@dimen/size_15dp"
@@ -114,4 +128,5 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
+
 </LinearLayout>

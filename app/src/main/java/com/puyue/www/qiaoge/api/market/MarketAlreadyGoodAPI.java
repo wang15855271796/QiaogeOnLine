@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
 import com.puyue.www.qiaoge.helper.RestHelper;
+import com.puyue.www.qiaoge.model.PriceTrendModel;
 import com.puyue.www.qiaoge.model.market.MarketAlreadyGoodModel;
 import com.puyue.www.qiaoge.model.market.MarketSelectGoodModel;
 
@@ -28,6 +29,22 @@ public class MarketAlreadyGoodAPI {
 
     public static Observable<MarketAlreadyGoodModel> requestMarketAlready(Context context,  String firstId, int secondId) {
         Observable<MarketAlreadyGoodModel> marketGoodsModelObservable = RestHelper.getBaseRetrofit(context).create(MarketGoodsAlreadyService.class).setParams( firstId, secondId);
+        return marketGoodsModelObservable;
+    }
+
+    //价格走势图
+    public interface PriceTrendService {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Price_Trend)
+        Observable<PriceTrendModel> setParams(
+                @Field("priceId") String priceId,
+                @Field("productId") String productId,
+                @Field("month") int month
+        );
+    }
+
+    public static Observable<PriceTrendModel> getTrends(Context context, String priceId, String productId, int month) {
+        Observable<PriceTrendModel> marketGoodsModelObservable = RestHelper.getBaseRetrofit(context).create(PriceTrendService.class).setParams( priceId, productId,month);
         return marketGoodsModelObservable;
     }
 }

@@ -132,9 +132,6 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     @BindView(R.id.iv_recommend)
     ImageView iv_recommend;
 
-    @BindView(R.id.marquee)
-    MarqueeView marquee;
-
     @BindView(R.id.tv_reduce)
     TextView tv_reduce;
     @BindView(R.id.tv_given)
@@ -143,6 +140,8 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     RelativeLayout rl_reduce;
     @BindView(R.id.rl_given)
     RelativeLayout rl_given;
+    @BindView(R.id.ll_scroll)
+    LinearLayout ll_scroll;
     CartAdapter cartAdapter;
     private double sendAmount;
     boolean mSelect;
@@ -220,7 +219,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     public void onResume() {
         super.onResume();
         start = System.currentTimeMillis();
-        marquee.startScroll();
+
     }
 
     @Override
@@ -526,6 +525,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                     public void onNext(CartGetReductModel cartGetReductModel) {
                         if(cartGetReductModel.getCode()==1) {
                             if(cartGetReductModel.getData()!=null&&cartGetReductModel.getData().size()>0) {
+                                ll_scroll.setVisibility(View.VISIBLE);
                                 List<CartGetReductModel.DataBean> data = cartGetReductModel.getData();
                                 for (int i = 0; i < data.size(); i++) {
                                     if(data.get(i).getType()==0) {
@@ -534,13 +534,16 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                                         tv_given.setText(data.get(i).getDeductInfo());
                                     }
 
-                                    if(data.get(i).getType()==0&&data.get(i).getType()!=1) {
-                                        rl_reduce.setVisibility(View.VISIBLE);
-                                    }
+//                                    if(data.get(i).getType()!=null) {
 
-                                    if(data.get(i).getType()==1&&data.get(i).getType()!=0) {
-                                        rl_given.setVisibility(View.VISIBLE);
-                                    }
+                                        if(data.get(i).getType()==0&&data.get(i).getType()!=1) {
+                                            rl_reduce.setVisibility(View.VISIBLE);
+                                        }
+
+                                        if(data.get(i).getType()==1&&data.get(i).getType()!=0) {
+                                            rl_given.setVisibility(View.VISIBLE);
+                                        }
+//                                    }
                                 }
 
                                 rl_reduce.setOnClickListener(new View.OnClickListener() {
@@ -558,13 +561,8 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                                     }
                                 });
 
-//                                MarqueeAdapter marqueeAdapter = new MarqueeAdapter();
-//                                marqueeAdapter.setData(cartGetReductModel.getData(),1,getActivity());
-//                                marquee.setAdapter(marqueeAdapter);
-//                                marquee.setVisibility(View.GONE);
-//                                marquee.startScroll();
                             }else {
-                                marquee.setVisibility(View.GONE);
+                                ll_scroll.setVisibility(View.GONE);
                             }
                         }
                     }

@@ -20,12 +20,56 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Administrator on 2017/8/1 0001.
  */
 
 public class Utils {
+
+    public static float getPureDouble(String str) {
+        if (str == null || str.length() == 0) return 0;
+        float result = 0;
+        try {
+            Pattern compile = Pattern.compile("(\\d+\\.\\d+)|(\\d+)");//如何提取带负数d ???
+            Matcher matcher = compile.matcher(str);
+            matcher.find();
+            String string = matcher.group();//提取匹配到的结果
+            result = Float.parseFloat(string);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static void main(String[] args){
+
+        test();
+    }
+    public static void test(){
+        System.out.println(getPureDouble("12"));
+        System.out.println(getPureDouble("wew3423.36"));
+        System.out.println(getPureDouble("wewsf"));
+        System.out.println(getPureDouble("000"));
+        System.out.println(getPureDouble(null));
+    }
+
+    public static Integer toInteger(Object value) {
+        try {
+            if (value instanceof Integer) {
+                return (Integer) value;
+            } else if (value instanceof Number) {
+                return ((Number) value).intValue();
+            } else if (value instanceof CharSequence) {
+                return Integer.valueOf(value.toString());
+            }
+        } catch (Exception e) {
+            return 0;
+        }
+        return 0;
+    }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     public static Bitmap createVideoThumbnail(String url, int width, int height) {

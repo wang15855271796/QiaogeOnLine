@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,8 +61,6 @@ import rx.schedulers.Schedulers;
 public class SearchStartActivity extends BaseSwipeActivity implements View.OnFocusChangeListener ,SearchView.SearchViewListener, OnGetSuggestionResultListener {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-    @BindView(R.id.et_goods)
-    EditText etGoods;
     @BindView(R.id.fl_search)
     TagFlowLayout fl_search;
     @BindView(R.id.tv_arrow)
@@ -142,6 +141,19 @@ public class SearchStartActivity extends BaseSwipeActivity implements View.OnFoc
                             recyclerView.setLayoutManager(new GridLayoutManager(mContext,2));
                             recommendAdapter = new RecommendAdapter(R.layout.item_recommend, list);
                             recyclerView.setAdapter(recommendAdapter);
+
+                            recommendAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                    Intent intent = new Intent(mContext,SearchReasultActivity.class);
+                                    intent.putExtra(AppConstant.SEARCHWORD,list.get(position));
+                                    mContext.startActivity(intent);
+                                    UserInfoHelper.saveUserContent(mContext, list.get(position));
+                                    //输入不为空,优先输入
+                                    UserInfoHelper.saveUserHistory(mContext, list.get(position));
+                                    savaHistory(list.get(position));
+                                }
+                            });
                             recommendAdapter.notifyDataSetChanged();
                         } else {
                             AppHelper.showMsg(mContext, recommendModel.getMessage());
@@ -154,7 +166,6 @@ public class SearchStartActivity extends BaseSwipeActivity implements View.OnFoc
     @Override
     public void setViewData() {
         searchWord = UserInfoHelper.getUserSearchContent(mContext);
-        etGoods.setOnFocusChangeListener(this);
         searchView.setSearchViewListener(this);
 
         String history = UserInfoHelper.getUserSearchHistory(mContext);
@@ -168,7 +179,6 @@ public class SearchStartActivity extends BaseSwipeActivity implements View.OnFoc
         }
 
         mRecordsAdapter = new TagAdapter<String>(mListHistory) {
-
             @Override
             public View getView(FlowLayout parent, int position, String s) {
                 TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.item_search,fl_search, false);
@@ -222,7 +232,7 @@ public class SearchStartActivity extends BaseSwipeActivity implements View.OnFoc
         });
         fl_search.setAdapter(mRecordsAdapter);
 
-        editKeyBoard();
+
     }
 
     @Override
@@ -245,30 +255,7 @@ public class SearchStartActivity extends BaseSwipeActivity implements View.OnFoc
                 finish();
             }
             else if (view == mIvSearch) {
-                if (etGoods.getText().toString().isEmpty()) {
-                    //传参和输入都是空
-                    AppHelper.showMsg(mContext, "请输入商品名称");
 
-                } else if (!etGoods.getText().toString().isEmpty()) {
-                    UserInfoHelper.saveUserContent(mContext, etGoods.getText().toString());
-                    //输入不为空,优先输入
-                    UserInfoHelper.saveUserHistory(mContext, etGoods.getText().toString());
-                    Intent intent = new Intent(mContext, SearchReasultActivity.class);
-                    intent.putExtra(AppConstant.SEARCHTYPE, searchType);
-                    intent.putExtra(AppConstant.SEARCHWORD, etGoods.getText().toString());
-                    if (common!=null&&StringHelper.notEmptyAndNull(common)){
-
-                        intent.putExtra("good_buy","common");
-                    }else {
-                        intent.putExtra("good_buy","");
-                    }
-
-                    startActivity(intent);
-                    finish();
-                    savaHistory(etGoods.getText().toString());
-                    //  finish();
-                }
-                else {
                     //默认关键字
                     Intent intent = new Intent(mContext, SearchReasultActivity.class);
                     intent.putExtra(AppConstant.SEARCHTYPE, searchType);
@@ -283,7 +270,7 @@ public class SearchStartActivity extends BaseSwipeActivity implements View.OnFoc
                     startActivity(intent);
                     savaHistory(searchWord);
                     //  finish();
-                }
+
             } else if (view == iv_clear) {
                 showCleanDialog();
             }
@@ -329,55 +316,6 @@ public class SearchStartActivity extends BaseSwipeActivity implements View.OnFoc
         });
     }
 
-    // 调用键盘弹出搜索按钮键盘
-    protected void editKeyBoard() {
-        etGoods.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-
-                if (i == EditorInfo.IME_ACTION_SEARCH) {
-                    if (etGoods.getText().toString().isEmpty()) {
-                        //传参和输入都是空
-                        UserInfoHelper.saveUserHistory(mContext, etGoods.getText().toString());
-                        AppHelper.showMsg(mContext, "请输入商品名称");
-                    } else if (!etGoods.getText().toString().isEmpty()) {
-                        UserInfoHelper.saveUserContent(mContext, etGoods.getText().toString());
-                        //输入不为空,优先输入
-                        Intent intent = new Intent(mContext, SearchReasultActivity.class);
-                        intent.putExtra(AppConstant.SEARCHTYPE, searchType);
-                        intent.putExtra(AppConstant.SEARCHWORD, etGoods.getText().toString());
-                        if (common!=null&&StringHelper.notEmptyAndNull(common)){
-
-                            intent.putExtra("good_buy","common");
-                        }else {
-                            intent.putExtra("good_buy","");
-                        }
-                        startActivity(intent);
-                        finish();
-                        savaHistory(etGoods.getText().toString());
-
-                    } else {
-                        //默认关键字
-                        Intent intent = new Intent(mContext, SearchReasultActivity.class);
-                        intent.putExtra(AppConstant.SEARCHTYPE, searchType);
-                        intent.putExtra(AppConstant.SEARCHWORD, searchWord);
-                        if (common!=null&&StringHelper.notEmptyAndNull(common)){
-
-                            intent.putExtra("good_buy","common");
-                        }else {
-                            intent.putExtra("good_buy","");
-                        }
-
-                        startActivity(intent);
-                        finish();
-                        savaHistory(searchWord);
-                    }
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
 
     //此方法只是关闭软键盘
     private void hintKbTwo() {
@@ -394,11 +332,6 @@ public class SearchStartActivity extends BaseSwipeActivity implements View.OnFoc
     //    判断EditText是否市区焦点
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        if(!hasFocus) {
-            etGoods.setHint("请输入商品名称");
-        }else {
-            etGoods.setHint("");
-        }
     }
 
     @Override
@@ -473,9 +406,11 @@ public class SearchStartActivity extends BaseSwipeActivity implements View.OnFoc
                                     @Override
                                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                         Intent intent = new Intent(mContext,SearchReasultActivity.class);
+                                        UserInfoHelper.saveUserContent(mContext, data.get(position).getKeyBegin()+data.get(position).getKey()+data.get(position).getKeyEnd());
                                         UserInfoHelper.saveUserHistory(mContext, data.get(position).getKeyBegin()+data.get(position).getKey()+data.get(position).getKeyEnd());
                                         intent.putExtra(AppConstant.SEARCHWORD,data.get(position).getKey()+data.get(position).getKeyBegin()+data.get(position).getKeyEnd());
                                         mContext.startActivity(intent);
+                                        savaHistory(data.get(position).getKeyBegin()+data.get(position).getKey()+data.get(position).getKeyEnd());
                                         finish();
                                     }
                                 });

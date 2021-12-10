@@ -45,27 +45,27 @@ public class SplashActivity extends BaseActivity {
         //是否点击了隐私权限
         SharedPreferencesUtil.getString(mContext,"once").equals("-1");
         privacyDialog = new PrivacysDialog(mActivity);
-
-        if (!SharedPreferencesUtil.getString(mActivity, "once").equals("0")) {
-            privacyDialog.show();
-        } else {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    String userId = UserInfoHelper.getUserId(mContext);
-                    if(StringHelper.notEmptyAndNull(userId)) {
-                        Intent intent = new Intent(mActivity,HomeActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }else {
-                        Intent intent = new Intent(mActivity,LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                }
-            },1000);
-            privacyDialog.dismiss();
-        }
+        privacyDialog.show();
+//        if (!SharedPreferencesUtil.getString(mActivity, "once").equals("0")) {
+//            privacyDialog.show();
+//        } else {
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    String userId = UserInfoHelper.getUserId(mContext);
+//                    if(StringHelper.notEmptyAndNull(userId)) {
+//                        Intent intent = new Intent(mActivity,HomeActivity.class);
+//                        startActivity(intent);
+//                        finish();
+//                    }else {
+//                        Intent intent = new Intent(mActivity,LoginActivity.class);
+//                        startActivity(intent);
+//                        finish();
+//                    }
+//                }
+//            },1000);
+//            privacyDialog.dismiss();
+//        }
     }
 
     @Override

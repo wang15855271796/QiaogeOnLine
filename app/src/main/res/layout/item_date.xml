@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:text="一月"
+        android:background="@drawable/shape_orange4"
+        android:textSize="@dimen/sp_14"
+        android:textColor="#ffffff"
+        android:gravity="center"
+        android:layout_width="@dimen/public_space_value_80"
+        android:layout_height="@dimen/size_30dp"/>
+</LinearLayout>

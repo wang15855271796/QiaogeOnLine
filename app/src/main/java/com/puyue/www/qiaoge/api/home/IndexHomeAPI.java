@@ -11,6 +11,7 @@ import com.puyue.www.qiaoge.event.PrivacyModel;
 import com.puyue.www.qiaoge.event.TurnModel;
 import com.puyue.www.qiaoge.event.TurnReceiveModel;
 import com.puyue.www.qiaoge.helper.RestHelper;
+import com.puyue.www.qiaoge.model.CouponListsModel;
 import com.puyue.www.qiaoge.model.CouponModels;
 import com.puyue.www.qiaoge.model.FullCouponListModel;
 import com.puyue.www.qiaoge.model.FullDetailModel;
@@ -359,5 +360,19 @@ public class IndexHomeAPI {
     public static Observable<FullCouponListModel> getFullCouponList(Context context,String poolo) {
         FullCouponListActiveService spikeActiveQueryService = RestHelper.getBaseRetrofit(context).create(FullCouponListActiveService.class);
         return spikeActiveQueryService.getData(poolo);
+    }
+
+    /**
+     * 优惠券2
+     */
+    private interface CouponListActiveService {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.List_Coupon)
+        Observable<CouponListsModel> getData(@Field("poolNo") String poolNo,@Field("pageNum") int pageNum,@Field("pageSize") int pageSize);
+    }
+
+    public static Observable<CouponListsModel> getCouponsList(Context context,String poolo,int pageNum,int pageSize) {
+        CouponListActiveService spikeActiveQueryService = RestHelper.getBaseRetrofit(context).create(CouponListActiveService.class);
+        return spikeActiveQueryService.getData(poolo,pageNum,pageSize);
     }
 }

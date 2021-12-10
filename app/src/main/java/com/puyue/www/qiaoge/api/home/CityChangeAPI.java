@@ -7,7 +7,11 @@ import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
 import com.puyue.www.qiaoge.helper.RestHelper;
 import com.puyue.www.qiaoge.model.IsShowModel;
 import com.puyue.www.qiaoge.model.home.CityChangeModel;
+import com.puyue.www.qiaoge.model.home.ClickCollectionModel;
+import com.puyue.www.qiaoge.model.home.RecommendModel;
 
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 import rx.Observable;
 
@@ -23,7 +27,6 @@ public class CityChangeAPI {
     public static Observable<CityChangeModel>  requestCity(Context context){
         Observable<CityChangeModel> cityChangeModelObservable = RestHelper.getBaseRetrofit(context).create(CityChangeService.class).setParam();
         return cityChangeModelObservable;
-
     }
 
     public interface IsShowCityService{
@@ -34,9 +37,27 @@ public class CityChangeAPI {
     public static Observable<IsShowModel>  isShow(Context context){
         Observable<IsShowModel> cityChangeModelObservable = RestHelper.getBaseRetrofit(context).create(IsShowCityService.class).setParam();
         return cityChangeModelObservable;
-
     }
 
+    //店铺热门搜索
+    public interface SearchHotService{
+        @POST(AppInterfaceAddress.Info_Hot_Search)
+        Observable<RecommendModel> setParam();
+    }
 
+    public static Observable<RecommendModel>getHotSearch(Context context){
+        Observable<RecommendModel> cityChangeModelObservable = RestHelper.getBaseRetrofit(context).create(SearchHotService.class).setParam();
+        return cityChangeModelObservable;
+    }
+    //店铺搜索
+    public interface InfoSearchService{
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Info_Search)
+        Observable<ClickCollectionModel> getData(@Field("keyword") String keyword);
+    }
 
+    public static Observable<ClickCollectionModel> getShopList(Context context, String keyword) {
+        InfoSearchService service = RestHelper.getBaseRetrofit(context).create(InfoSearchService.class);
+        return service.getData(keyword);
+    }
 }

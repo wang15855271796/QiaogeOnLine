@@ -13,6 +13,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.InfoSearchActivity;
 import com.puyue.www.qiaoge.activity.ShopStartActivity;
 import com.puyue.www.qiaoge.activity.mine.IssueActivity;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
@@ -23,6 +24,7 @@ import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.dialog.CatePopWindow;
 import com.puyue.www.qiaoge.dialog.ChooseCityPopWindow;
+import com.puyue.www.qiaoge.event.SearchShopEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.PopWindowListener;
@@ -77,10 +79,6 @@ public class InfoFragment extends BaseFragment {
     LinearLayout ll_area;
     @BindView(R.id.tv_address)
     TextView tv_address;
-    @BindView(R.id.tv_area)
-    TextView tv_area;
-    @BindView(R.id.tv_reset)
-    TextView tv_reset;
     @BindView(R.id.tv_search)
     TextView tv_search;
     List<InfoListModel.DataBean.ListBean> list = new ArrayList<>();
@@ -94,6 +92,7 @@ public class InfoFragment extends BaseFragment {
     CatePopWindow catePopWindow;
     ChooseCityPopWindow cascadingMenuPopWindow;
     ArrayList<CityChangeModel.DataBean> listCity = new ArrayList<>();
+    String search;
     @Override
     public int setLayoutId() {
         return R.layout.fragment_info;
@@ -119,23 +118,15 @@ public class InfoFragment extends BaseFragment {
         recyclerView.setAdapter(marketsAdapter);
         List<String> strings = Arrays.asList(data);
         getCityChoose();
-        String city = UserInfoHelper.getCity(mActivity);
-        tv_area.setText(city);
-
+        search = tv_search.getText().toString();
         tv_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mActivity,ShopStartActivity.class);
+                Intent intent = new Intent(mActivity, InfoSearchActivity.class);
                 startActivity(intent);
             }
         });
 
-        tv_reset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         ll_cate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,15 +152,15 @@ public class InfoFragment extends BaseFragment {
                         list.clear();
                         mask.setVisibility(View.GONE);
                         if(position==0) {
-                            getCityList("",cityCode,provinceCode);
+                            getCityList(search,"",cityCode,provinceCode);
                         }else if(position==1) {
-                            getCityList("1",cityCode,provinceCode);
+                            getCityList(search,"1",cityCode,provinceCode);
                         }else if(position==2) {
-                            getCityList("2",cityCode,provinceCode);
+                            getCityList(search,"2",cityCode,provinceCode);
                         }else if(position==3){
-                            getCityList("3",cityCode,provinceCode);
+                            getCityList(search,"3",cityCode,provinceCode);
                         }else {
-                            getCityList("4",cityCode,provinceCode);
+                            getCityList(search,"4",cityCode,provinceCode);
                         }
 
                     }
@@ -232,15 +223,15 @@ public class InfoFragment extends BaseFragment {
                 list.clear();
                 pageNum=1;
                 if(pos==0) {
-                    getCityList("",cityCode,provinceCode);
+                    getCityList(search,"",cityCode,provinceCode);
                 }else if(pos==1) {
-                    getCityList("1",cityCode,provinceCode);
+                    getCityList(search,"1",cityCode,provinceCode);
                 }else if(pos==2) {
-                    getCityList("2",cityCode,provinceCode);
+                    getCityList(search,"2",cityCode,provinceCode);
                 }else if(pos==3){
-                    getCityList("3",cityCode,provinceCode);
+                    getCityList(search,"3",cityCode,provinceCode);
                 }else {
-                    getCityList("4",cityCode,provinceCode);
+                    getCityList(search,"4",cityCode,provinceCode);
                 }
                 smart.finishRefresh();
 
@@ -253,15 +244,15 @@ public class InfoFragment extends BaseFragment {
                     if(infoListModel1.getData().isHasNextPage()) {
                         pageNum++;
                         if(pos==0) {
-                            getCityList("",cityCode,provinceCode);
+                            getCityList(search,"",cityCode,provinceCode);
                         }else if(pos==1) {
-                            getCityList("1",cityCode,provinceCode);
+                            getCityList(search,"1",cityCode,provinceCode);
                         }else if(pos==2) {
-                            getCityList("2",cityCode,provinceCode);
+                            getCityList(search,"2",cityCode,provinceCode);
                         }else if(pos==3){
-                            getCityList("3",cityCode,provinceCode);
+                            getCityList(search,"3",cityCode,provinceCode);
                         }else {
-                            getCityList("4",cityCode,provinceCode);
+                            getCityList(search,"4",cityCode,provinceCode);
                         }
                         refreshLayout.finishLoadMore();
                     }else {
@@ -272,15 +263,15 @@ public class InfoFragment extends BaseFragment {
             }
         });
 
-        getCityList("","","");
+        getCityList("","","","");
     }
 
 
     /**
      * 资讯列表
      */
-    private void getCityList(String type,String cityCode,String provinceCode) {
-        InfoListAPI.requestData(mActivity,type,pageNum,pageSize,provinceCode,cityCode)
+    private void getCityList(String keyword,String type,String cityCode,String provinceCode) {
+        InfoListAPI.requestData(mActivity,keyword,type,pageNum,pageSize,provinceCode,cityCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<InfoListModel>() {
@@ -380,15 +371,15 @@ public class InfoFragment extends BaseFragment {
             cityCode = area.getCityCode();
 
             if(pos==0) {
-                getCityList("",cityCode,provinceCode);
+                getCityList(search,"",cityCode,provinceCode);
             }else if(pos==1) {
-                getCityList("1",cityCode,provinceCode);
+                getCityList(search,"1",cityCode,provinceCode);
             }else if(pos==2) {
-                getCityList("2",cityCode,provinceCode);
+                getCityList(search,"2",cityCode,provinceCode);
             }else if(pos==3){
-                getCityList("3",cityCode,provinceCode);
+                getCityList(search,"3",cityCode,provinceCode);
             }else {
-                getCityList("4",cityCode,provinceCode);
+                getCityList(search,"4",cityCode,provinceCode);
             }
 
 
@@ -397,7 +388,9 @@ public class InfoFragment extends BaseFragment {
         @Override
         public void cloese() {
             mask.setVisibility(View.GONE);
-            getCityList("","","");
+            cityCode = "";
+            provinceCode = "";
+            getCityList(search,"","","");
             tv_address.setText("全部");
             Log.d("wasfsdfd......","weqeq");
         }
@@ -440,6 +433,14 @@ public class InfoFragment extends BaseFragment {
         tv_address.setText(provinceName+cityName);
         smart.autoRefresh();
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getShop(SearchShopEvent event) {
+        String keyWord = event.getKeyWord();
+        tv_search.setText(keyWord);
+        smart.autoRefresh();
+    }
+
 
     @Override
     public void onDestroy() {

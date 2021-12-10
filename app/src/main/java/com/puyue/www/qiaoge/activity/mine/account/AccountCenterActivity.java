@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.PrivacySetting;
 import com.puyue.www.qiaoge.activity.cart.CompetActivity;
 import com.puyue.www.qiaoge.api.mine.AccountCenterAPI;
 import com.puyue.www.qiaoge.api.mine.LogoutAPI;
@@ -56,8 +57,11 @@ public class AccountCenterActivity extends BaseSwipeActivity {
     String mUserCells;
     private AccountCenterModel mModelAccountCenter;
     private BaseModel mModelLogout;
-
+    RelativeLayout rl_collection;
     private RelativeLayout rl_account_secret;
+    private RelativeLayout rl_xieyi;
+    private RelativeLayout rl_privacy_setting;
+    private RelativeLayout rl_share;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -70,6 +74,12 @@ public class AccountCenterActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
+        rl_xieyi = (RelativeLayout) findViewById(R.id.rl_xieyi);
+        rl_privacy_setting = (RelativeLayout) findViewById(R.id.rl_privacy_setting);
+        rl_collection = (RelativeLayout) findViewById(R.id.rl_collection);
+        rl_share = (RelativeLayout) findViewById(R.id.rl_share);
+        rl_collection = (RelativeLayout) findViewById(R.id.rl_collection);
+        rl_collection = (RelativeLayout) findViewById(R.id.rl_collection);
         mIvBack = (ImageView) findViewById(R.id.iv_account_back);
         mRlPhone = (RelativeLayout) findViewById(R.id.rl_account_phone);
         mTvPhone = (TextView) findViewById(R.id.tv_account_phone);
@@ -106,6 +116,14 @@ public class AccountCenterActivity extends BaseSwipeActivity {
                 intent.putExtra("URL", url);
                 intent.putExtra("TYPE", 1);
                 intent.putExtra("name", "协议");
+                startActivity(intent);
+            }
+        });
+
+        rl_privacy_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, PrivacySetting.class);
                 startActivity(intent);
             }
         });

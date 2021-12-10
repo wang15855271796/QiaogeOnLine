@@ -105,6 +105,24 @@ public class CartFullModel {
             private String roles;
             private String dateTime;
             private int productMainId;
+            String giftProdUseType;
+            String poolNo;
+
+            public String getPoolNo() {
+                return poolNo;
+            }
+
+            public void setPoolNo(String poolNo) {
+                this.poolNo = poolNo;
+            }
+
+            public String getGiftProdUseType() {
+                return giftProdUseType;
+            }
+
+            public void setGiftProdUseType(String giftProdUseType) {
+                this.giftProdUseType = giftProdUseType;
+            }
 
             public int getProductMainId() {
                 return productMainId;

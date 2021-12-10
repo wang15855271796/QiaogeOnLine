@@ -172,7 +172,7 @@ public class CollectionDialog extends Dialog implements View.OnClickListener {
                             if(exchangeProductModel.getData()!=null) {
                                 SearchItemAdapter searchItemAdapter = new SearchItemAdapter(1,exchangeProductModel.getData().getProdSpecs().get(pos).getProductId(),
                                         R.layout.item_choose_content,
-                                        exchangeProductModel.getData().getProdPrices());
+                                        exchangeProductModel.getData().getProdPrices(),exchangeProductModel);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                                 recyclerView.setAdapter(searchItemAdapter);
                                 tv_name.setText(exchangeProductModel.getData().getProductName());

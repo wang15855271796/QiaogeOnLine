@@ -181,7 +181,7 @@ public class ReduceDialog extends Dialog implements View.OnClickListener{
                                 Glide.with(context).load(exchangeProductModel.getData().getDefaultPic()).into(iv_head);
                                 Glide.with(context).load(exchangeProductModel.getData().getTypeUrl()).into(iv_pic);
                                 Glide.with(context).load(exchangeProductModel.getData().getSelfProd()).into(iv_operate);
-                                ReduceItemAdapter reduceItemAdapter = new ReduceItemAdapter(1, productId, R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices());
+                                ReduceItemAdapter reduceItemAdapter = new ReduceItemAdapter(1, productId, R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices(),exchangeProductModel);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                                 recyclerView.setAdapter(reduceItemAdapter);
 

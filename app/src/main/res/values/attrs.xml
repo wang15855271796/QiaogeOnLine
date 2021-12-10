@@ -49,7 +49,20 @@
         </attr>
         <attr name="shaderEnable" format="boolean" />
     </declare-styleable>
-
+    <declare-styleable name="LineGraph">
+        <attr name="scale_text_size" format="dimension" />
+        <attr name="scale_text_color" format="color" />
+        <attr name="tip_text_size" format="dimension" />
+        <attr name="tip_text_color" format="color" />
+        <attr name="tip_rect_color" format="color" />
+        <attr name="curve_stroke_width" format="dimension" />
+        <attr name="curve_color" format="color" />
+        <attr name="vertical_line_stroke_width" format="dimension" />
+        <attr name="vertical_line_color" format="color" />
+        <attr name="circle_stroke_width" format="dimension" />
+        <attr name="circle_color" format="color" />
+        <attr name="circle_radius" format="dimension" />
+    </declare-styleable>
     <declare-styleable name="TagFlowLayout">
         <!--最大选择数量-->
         <attr name="max_select" format="integer"/>

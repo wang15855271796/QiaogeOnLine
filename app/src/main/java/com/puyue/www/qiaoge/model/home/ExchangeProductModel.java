@@ -98,6 +98,7 @@ public class ExchangeProductModel {
         String sendTimeTpl;
         String selfProd;
 
+
         public String getSendTimeTpl() {
             return sendTimeTpl;
         }

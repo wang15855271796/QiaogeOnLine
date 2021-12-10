@@ -173,7 +173,7 @@ public class RecommendDialog extends Dialog implements View.OnClickListener {
                             if(exchangeProductModel.getData()!=null) {
                                 SearchItem1Adapter itemChooseAdapter = new SearchItem1Adapter(1,
                                         exchangeProductModel.getData().getProdSpecs().get(pos).getProductId(),
-                                        R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices());
+                                        R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices(),exchangeProductModel);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                                 recyclerView.setAdapter(itemChooseAdapter);
                                 tv_name.setText(exchangeProductModel.getData().getProductName());

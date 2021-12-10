@@ -1,6 +1,7 @@
 package com.puyue.www.qiaoge.adapter;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Paint;
 import androidx.annotation.Nullable;
 import android.view.Gravity;
@@ -16,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.PriceTrendActivity;
 import com.puyue.www.qiaoge.api.cart.AddMountChangeTwoAPI;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.base.BaseModel;
@@ -46,13 +48,13 @@ public class SearchItemAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
     TextView tv_coupon_desc;
     LinearLayout rl_desc;
     AlertDialog alertDialog;
-
-    public SearchItemAdapter(int businessType, int productId,int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data) {
+    ExchangeProductModel exchangeProductModel;
+    public SearchItemAdapter(int businessType, int productId,int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data,ExchangeProductModel exchangeProductModel) {
         super(layoutResId, data);
         this.productId = productId;
         this.businessType = businessType;
         this.data = data;
-
+        this.exchangeProductModel = exchangeProductModel;
 
     }
 
@@ -67,7 +69,7 @@ public class SearchItemAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
             tv_coupon_desc.setText(item.getSpecialOffer());
             rl_desc.setVisibility(View.VISIBLE);
         }
-
+        LinearLayout ll_trend = helper.getView(R.id.ll_trend);
         tv_price = helper.getView(R.id.tv_price);
         tv_price.setText(item.getPrice());
         helper.setText(R.id.tv_unit, item.getUnitDesc());
@@ -91,6 +93,16 @@ public class SearchItemAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
                 num++;
                 changeCartNum(num,item.getPriceId(),tv_num);
                 getDatas(1);
+            }
+        });
+
+        ll_trend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, PriceTrendActivity.class);
+                intent.putExtra("priceId", exchangeProductModel.getData().getProdPrices().get(helper.getLayoutPosition()).getPriceId()+"");
+                intent.putExtra("productId",productId+"");
+                mContext.startActivity(intent);
             }
         });
 

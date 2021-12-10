@@ -156,7 +156,7 @@
 
 
 
-        <com.puyue.www.qiaoge.activity.flow.TagFlowLayout
+    <com.puyue.www.qiaoge.activity.flow.TagFlowLayout
             android:id="@+id/fl_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -179,8 +179,6 @@
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
-
 
     <com.puyue.www.qiaoge.view.LineBreakLayout
         android:visibility="gone"

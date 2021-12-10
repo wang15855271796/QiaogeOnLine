@@ -36,7 +36,7 @@ public class CouponSearchAdapter extends BaseQuickAdapter<ProductNormalModel.Dat
     CouponSearchDialog searchDialog;
     private TextView tv_price_desc;
     ImageView iv_operate;
-    ImageView iv_next;
+//    ImageView iv_next;
 
     public CouponSearchAdapter(int layoutResId, @Nullable List<ProductNormalModel.DataBean.ListBean> data,Onclick onclick) {
         super(layoutResId, data);
@@ -45,13 +45,13 @@ public class CouponSearchAdapter extends BaseQuickAdapter<ProductNormalModel.Dat
 
     @Override
     protected void convert(BaseViewHolder helper, ProductNormalModel.DataBean.ListBean item) {
-        iv_next = helper.getView(R.id.iv_next);
+//        iv_next = helper.getView(R.id.iv_next);
         iv_operate = helper.getView(R.id.iv_operate);
         ImageView iv_no_data = helper.getView(R.id.iv_no_data);
         tv_price_desc = helper.getView(R.id.tv_price_desc);
         iv_type = helper.getView(R.id.iv_type);
         Glide.with(mContext).load(item.getSelfProd()).into(iv_operate);
-        Glide.with(mContext).load(item.getSendTimeTpl()).into(iv_next);
+//        Glide.with(mContext).load(item.getSendTimeTpl()).into(iv_next);
         if(item.getFlag()==0) {
             Glide.with(mContext).load(item.getTypeUrl()).into(iv_no_data);
             iv_no_data.setVisibility(View.VISIBLE);
@@ -78,9 +78,9 @@ public class CouponSearchAdapter extends BaseQuickAdapter<ProductNormalModel.Dat
         helper.setText(R.id.tv_name,item.getProductName());
         helper.setText(R.id.tv_stock_total,item.getInventory());
         helper.setText(R.id.tv_sale,item.getSalesVolume());
-        helper.setText(R.id.tv_desc,item.getSpecialOffer());
-        tv_stock = helper.getView(R.id.tv_stock);
-        tv_stock.setText(item.getInventory());
+//        helper.setText(R.id.tv_desc,item.getSpecialOffer());
+//        tv_stock = helper.getView(R.id.tv_stock);
+//        tv_stock.setText(item.getInventory());
 
         if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
             rl_price.setVisibility(View.GONE);

@@ -6,7 +6,7 @@ package com.puyue.www.qiaoge.constant;
 public class AppInterfaceAddress {
     //https://shaokao.qoger.com/qiaoge/正式   http://192.168.2.188:8082/qiaoge/
     //http://116.62.67.230:8082/qiaoge/   测试http://120.55.55.99:8082/qiaoge/
-    public static final String BASE_URL = "http://192.168.2.188:8082/qiaoge/";
+    public static final String BASE_URL = " http://192.168.2.232:8088/";
     // 正式https://shaokao.qoger.com/qiaoge/
     //http://192.168.1.45/   本地192.168.101.69:8088
     //http://qg.zhiyun88u.com/shen
@@ -309,6 +309,11 @@ public class AppInterfaceAddress {
      */
 
     public static final String Full_List_Coupon = "common/getAppFullActiveGiftDetailV3";
+
+    /**
+     *优惠券2
+     */
+    public static final String List_Coupon = "common/getFullGiftUseProdPage";
     /**
      * 其他信息
      */
@@ -556,6 +561,10 @@ public class AppInterfaceAddress {
     public static final String GETALREADYPRODUCT = "common/product/getAlreadyBuyProduct";
 
     /**
+     * 价格走势
+     */
+    public static final String Price_Trend = "common/getProdPriceTrend";
+    /**
      * 单位改变
      */
     public static final String ONLINEPRODUCTAMOUTN = "order/sumOnlineProductAmount";
@@ -671,7 +680,14 @@ public class AppInterfaceAddress {
      */
     public static final String MODIFYCITY = "common/getAreaOpenList";
 
-
+    /**
+     *搜索店铺
+     */
+    public static final String Info_Search = "message/getList";
+    /**
+     *店铺热门搜索
+     */
+    public static final String Info_Hot_Search = "message/getMessageHotSearch";
     /**
      * 账单明细搜索
      */

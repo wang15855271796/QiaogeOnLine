@@ -26,13 +26,13 @@ public class RecommendAdapter extends BaseQuickAdapter<String,BaseViewHolder>{
     protected void convert(BaseViewHolder helper, String item) {
         TextView tv_name = helper.getView(R.id.tv_name);
         tv_name.setText(item);
-        tv_name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext,SearchReasultActivity.class);
-                intent.putExtra(AppConstant.SEARCHWORD,item);
-                mContext.startActivity(intent);
-            }
-        });
+//        tv_name.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(mContext,SearchReasultActivity.class);
+//                intent.putExtra(AppConstant.SEARCHWORD,item);
+//                mContext.startActivity(intent);
+//            }
+//        });
     }
 }

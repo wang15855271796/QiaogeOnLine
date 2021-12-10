@@ -14,6 +14,7 @@ import android.view.KeyEvent;
 import com.gyf.barlibrary.ImmersionBar;
 import com.puyue.www.qiaoge.helper.AppHelper;
 
+import butterknife.ButterKnife;
 import pub.devrel.easypermissions.EasyPermissions;
 
 /**
@@ -49,6 +50,7 @@ public abstract class BaseActivity extends AppCompatActivity  {
         mBundle = savedInstanceState;
         mImmersionBar = ImmersionBar.with(this);
         mImmersionBar.init();   //所有子类都将继承这些相同的属性
+        ButterKnife.bind(this);
         findViewById();
         setViewData();
         setClickEvent();

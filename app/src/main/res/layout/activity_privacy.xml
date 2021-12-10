@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#f6f6f6"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_30dp"/>
+
+    <com.puyue.www.qiaoge.view.CompatToolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/app_border_bottom_bg">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:padding="10dp"
+            android:src="@mipmap/ic_back_arrow" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="13dp"
+            android:layout_marginTop="13dp"
+            android:text="隐私权限设置"
+            android:textColor="#232131"
+            android:textSize="18dp" />
+
+    </com.puyue.www.qiaoge.view.CompatToolbar>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/dp_10"
+        android:id="@+id/ll_root1"
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_60dp">
+
+        <LinearLayout
+            android:layout_marginLeft="@dimen/size_12dp"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textColor="#333333"
+                android:textSize="14sp"
+                android:text="允许翘歌访问位置信息权限"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:textColor="#FF5C00"
+                android:textSize="10sp"
+                android:layout_marginTop="@dimen/size_5dp"
+                android:text="根据您的位置提供对应的企业商品、售价信息"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv0"
+            android:text="已开启"
+            android:textColor="#999999"
+            android:textSize="10sp"
+            android:layout_marginRight="@dimen/size_12dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:drawablePadding="@dimen/size_5dp"
+            android:drawableRight="@mipmap/rightarrow"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_root2"
+        android:background="#ffffff"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_60dp">
+
+        <LinearLayout
+            android:layout_marginLeft="@dimen/size_12dp"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textColor="#333333"
+                android:textSize="14sp"
+                android:text="允许翘歌访问麦克风权限"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:textColor="#FF5C00"
+                android:textSize="10sp"
+                android:layout_marginTop="@dimen/size_5dp"
+                android:text="为您提供在线客服语音消息的权限、售价信息"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv1"
+            android:text="已开启"
+            android:textColor="#999999"
+            android:textSize="10sp"
+            android:layout_marginRight="@dimen/size_12dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:drawablePadding="@dimen/size_5dp"
+            android:drawableRight="@mipmap/rightarrow"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_root3"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:background="#ffffff"
+        android:layout_height="@dimen/size_60dp">
+
+        <LinearLayout
+            android:layout_marginLeft="@dimen/size_12dp"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textColor="#333333"
+                android:textSize="14sp"
+                android:text="允许翘歌读写外部存储"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:textColor="#FF5C00"
+                android:textSize="10sp"
+                android:layout_marginTop="@dimen/size_5dp"
+                android:text="帮助您实现图片的保存和读取（行业信息发布、售价信息）"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:text="已开启"
+            android:id="@+id/tv2"
+            android:textColor="#999999"
+            android:textSize="10sp"
+            android:layout_marginRight="@dimen/size_12dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:drawablePadding="@dimen/size_5dp"
+            android:drawableRight="@mipmap/rightarrow"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_root4"
+        android:background="#ffffff"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_60dp">
+
+        <LinearLayout
+            android:layout_marginLeft="@dimen/size_12dp"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textColor="#333333"
+                android:textSize="14sp"
+                android:text="允许翘歌读取电话状态"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:textColor="#FF5C00"
+                android:textSize="10sp"
+                android:layout_marginTop="@dimen/size_5dp"
+                android:text="方便完成推送以及一键注册"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:text="已开启"
+            android:id="@+id/tv3"
+            android:textColor="#999999"
+            android:textSize="10sp"
+            android:layout_marginRight="@dimen/size_12dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:drawablePadding="@dimen/size_5dp"
+            android:drawableRight="@mipmap/rightarrow"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_root5"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:background="#ffffff"
+        android:layout_height="@dimen/size_60dp">
+
+        <LinearLayout
+            android:layout_marginLeft="@dimen/size_12dp"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textColor="#333333"
+                android:textSize="14sp"
+                android:text="允许翘歌访问相机权限"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:textColor="#FF5C00"
+                android:textSize="10sp"
+                android:layout_marginTop="@dimen/size_5dp"
+                android:text="完成拍照功能并上传"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv4"
+            android:text="已开启"
+            android:textColor="#999999"
+            android:textSize="10sp"
+            android:layout_marginRight="@dimen/size_12dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:drawablePadding="@dimen/size_5dp"
+            android:drawableRight="@mipmap/rightarrow"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</LinearLayout>

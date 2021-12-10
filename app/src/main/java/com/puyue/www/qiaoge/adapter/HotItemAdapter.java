@@ -1,6 +1,7 @@
 package com.puyue.www.qiaoge.adapter;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Paint;
 import androidx.annotation.Nullable;
 
@@ -17,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.PriceTrendActivity;
 import com.puyue.www.qiaoge.api.cart.AddMountChangeTwoAPI;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.base.BaseModel;
@@ -49,11 +51,13 @@ public class HotItemAdapter extends BaseQuickAdapter<ExchangeProductModel.DataBe
     com.puyue.www.qiaoge.listener.OnItemClickListener onItemClickListener;
     LinearLayout rl_desc;
     AlertDialog alertDialog;
-    public HotItemAdapter(int businessType,int productId,int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data) {
+    ExchangeProductModel exchangeProductModel;
+    public HotItemAdapter(int businessType,int productId,int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data,ExchangeProductModel exchangeProductModel) {
         super(layoutResId, data);
         this.productId = productId;
         this.businessType = businessType;
         this.data = data;
+        this.exchangeProductModel = exchangeProductModel;
     }
 
     @Override
@@ -75,6 +79,18 @@ public class HotItemAdapter extends BaseQuickAdapter<ExchangeProductModel.DataBe
         tv_old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         helper.setText(R.id.tv_old_price,item.getOldPrice());
         TextView tv_num = helper.getView(R.id.tv_num);
+
+        LinearLayout ll_trend = helper.getView(R.id.ll_trend);
+        ll_trend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, PriceTrendActivity.class);
+                intent.putExtra("priceId", exchangeProductModel.getData().getProdPrices().get(helper.getLayoutPosition()).getPriceId()+"");
+                intent.putExtra("productId",productId+"");
+                mContext.startActivity(intent);
+            }
+        });
+
 
         if(!item.getOldPrice().equals("")&&item.getOldPrice()!=null) {
             iv_reduce.setImageResource(R.mipmap.icon_jiangjia);

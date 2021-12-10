@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    android:paddingBottom="15dp"
+    android:paddingTop="15dp">
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+         >
+            <!--dsr折线图-->
+            <com.puyue.www.qiaoge.activity.view.LineGraph
+                android:id="@+id/dsr_trend_line"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:layout_marginTop="8dp"
+                android:minHeight="220dp"
+                app:circle_color="#ff6c6c"
+                app:curve_color="#ff6c6c"
+                app:scale_text_color="#9b9b9b"
+                app:scale_text_size="12sp"
+                app:tip_rect_color="#ff6c6c"
+                app:tip_text_size="14sp"
+                app:vertical_line_color="#ff6c6c" />
+
+
+      </RelativeLayout>
+
+</LinearLayout>
+
