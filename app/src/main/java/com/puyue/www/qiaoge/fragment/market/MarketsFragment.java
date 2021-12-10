@@ -222,7 +222,7 @@ public class MarketsFragment extends BaseFragment {
 
 
     private void getDatas(long end) {
-        RecommendApI.getDatas(mContext,9,end)
+        RecommendApI.getDatas(getActivity(),9,end)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<BaseModel>() {

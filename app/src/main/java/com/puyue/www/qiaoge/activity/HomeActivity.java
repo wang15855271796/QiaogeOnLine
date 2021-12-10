@@ -156,25 +156,25 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
 
         //自4.3.0起，百度地图SDK所有接口均支持百度坐标和国测局坐标，用此方法设置您使用的坐标类型.
         //包括BD09LL和GCJ02两种坐标，默认是BD09LL坐标。
-        SDKInitializer.setCoordType(CoordType.BD09LL);
+//        SDKInitializer.setCoordType(CoordType.BD09LL);
 
-        OneKeyLoginManager.getInstance().init(getApplicationContext(), "cuRwbnsv", new InitListener() {
-                                @Override
-            public void getInitStatus(int code, String result) {
-                //初始化回调
-
-            }
-        });
+//        OneKeyLoginManager.getInstance().init(getApplicationContext(), "cuRwbnsv", new InitListener() {
+//                                @Override
+//            public void getInitStatus(int code, String result) {
+//                //初始化回调
+//
+//            }
+//        });
 
         //闪验SDK预取号（可缩短拉起授权页时间）
-        OneKeyLoginManager.getInstance().getPhoneInfo(new GetPhoneInfoListener() {
-            @Override
-            public void getPhoneInfoStatus(int code, String result) {
-                //预取号回调
-                Log.e("VVV", "预取号： code==" + code + "   result==" + result);
-
-            }
-        });
+//        OneKeyLoginManager.getInstance().getPhoneInfo(new GetPhoneInfoListener() {
+//            @Override
+//            public void getPhoneInfoStatus(int code, String result) {
+//                //预取号回调
+//                Log.e("VVV", "预取号： code==" + code + "   result==" + result);
+//
+//            }
+//        });
         setContentView(R.layout.activity_home);
 
     }

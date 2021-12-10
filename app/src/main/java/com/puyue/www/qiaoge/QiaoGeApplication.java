@@ -12,6 +12,7 @@ import androidx.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -124,6 +125,7 @@ public class QiaoGeApplication extends MultiDexApplication {
     public void getInit(InitEvent initEvent) {
         SharedPreferencesUtil.saveString(this,"pays","-1");
         SDKInitializer.initialize(getApplicationContext());
+        SDKInitializer.setCoordType(CoordType.BD09LL);
         //注册监听函数
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
