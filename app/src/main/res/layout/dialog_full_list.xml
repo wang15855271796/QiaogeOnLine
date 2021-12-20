@@ -113,6 +113,18 @@
 
                     </LinearLayout>
 
+                    <TextView
+                        android:id="@+id/tv_detail"
+                        android:padding="5dp"
+                        android:visibility="gone"
+                        android:layout_marginTop="@dimen/size_18dp"
+                        android:layout_marginRight="@dimen/size_10dp"
+                        android:textColor="#ffffff"
+                        android:background="@drawable/shape_orange"
+                        android:layout_alignParentRight="true"
+                        android:text="查看详情"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
                     <ImageView
                         android:id="@+id/iv_select"
                         android:layout_marginTop="@dimen/size_15dp"

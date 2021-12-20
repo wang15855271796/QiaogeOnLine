@@ -643,8 +643,9 @@
             android:taskAffinity="com.barbecue.app"
             android:launchMode="singleTask" />
 
-        <activity android:name=".wxapi.WXEntryActivity"
+        <activity android:name="com.barbecue.app.wxapi.WXEntryActivity"
             android:launchMode="singleTask"
+            android:exported="true"
             android:taskAffinity="com.barbecue.app"
             />
         <!--  -->

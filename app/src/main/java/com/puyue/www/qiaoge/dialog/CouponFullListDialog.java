@@ -2,6 +2,7 @@ package com.puyue.www.qiaoge.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.CouponUseActivity;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.model.FullCouponListModel;
 import com.puyue.www.qiaoge.model.FullDetailModel;
@@ -49,18 +51,24 @@ public class CouponFullListDialog extends Dialog implements View.OnClickListener
     TextView tv_role;
     @BindView(R.id.tv_time)
     TextView tv_time;
+    @BindView(R.id.tv_detail)
+    TextView tv_detail;
     int productId;
     public List<GetProductDetailModel.DataBean.ProdSpecsBean> prodSpecs;
     FullDetailModel.DataBean.ProdsBean item;
     String poolNo;
-
-    public CouponFullListDialog(Context mContext, String poolNo) {
+    String giftProdUseType;
+    String name;
+    public CouponFullListDialog(Context mContext, String poolNo, String giftProdUseType, String name) {
         super(mContext, R.style.dialog);
         this.context = mContext;
         this.poolNo = poolNo;
+        this.giftProdUseType = giftProdUseType;
+        this.name = name;
         init();
         getFullList();
     }
+
 
     public void init() {
         view = View.inflate(context, R.layout.dialog_full_list, null);
@@ -72,9 +80,15 @@ public class CouponFullListDialog extends Dialog implements View.OnClickListener
         attributes.width = Utils.getScreenWidth(context);
         getWindow().setAttributes(attributes);
         iv_close.setOnClickListener(this);
+        tv_detail.setOnClickListener(this);
 
-
-//        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        if(giftProdUseType.equals("1")) {
+            tv_detail.setVisibility(View.VISIBLE);
+        }else if(giftProdUseType.equals("2")) {
+            tv_detail.setVisibility(View.VISIBLE);
+        }else {
+            tv_detail.setVisibility(View.GONE);
+        }
     }
 
 
@@ -83,6 +97,26 @@ public class CouponFullListDialog extends Dialog implements View.OnClickListener
         switch (v.getId()) {
             case R.id.iv_close:
                 dismiss();
+                break;
+
+            case R.id.tv_detail:
+                if(giftProdUseType.equals("1")) {
+                    Intent intent = new Intent(context, CouponUseActivity.class);
+                    intent.putExtra("type",giftProdUseType);
+                    intent.putExtra("poolNo",poolNo);
+                    intent.putExtra("name",name);
+                    context.startActivity(intent);
+                    tv_detail.setVisibility(View.VISIBLE);
+                }else if(giftProdUseType.equals("2")) {
+                    Intent intent = new Intent(context, CouponUseActivity.class);
+                    intent.putExtra("type",giftProdUseType);
+                    intent.putExtra("poolNo",poolNo);
+                    intent.putExtra("name",name);
+                    context.startActivity(intent);
+                    tv_detail.setVisibility(View.VISIBLE);
+                }else {
+                    tv_detail.setVisibility(View.GONE);
+                }
                 break;
             default:
                 break;

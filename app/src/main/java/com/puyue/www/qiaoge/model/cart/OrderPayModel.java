@@ -38,5 +38,6 @@ public class OrderPayModel {
         public String businessCstNo;
         public String merchantNo;
         public String orderNoList;
+        public int jumpWx;
     }
 }

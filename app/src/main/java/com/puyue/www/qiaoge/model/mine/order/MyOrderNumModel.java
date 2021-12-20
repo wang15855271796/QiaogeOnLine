@@ -68,7 +68,7 @@ public class MyOrderNumModel extends BaseModel {
         private String phone;
         int inviteOpen;
         int subMessage;
-
+        private int showVip;
         public String getVipDeductAmt() {
             return vipDeductAmt;
         }
@@ -109,6 +109,14 @@ public class MyOrderNumModel extends BaseModel {
                     ", vipCenter='" + vipCenter + '\'' +
                     ", myBanner=" + myBanner +
                     '}';
+        }
+
+        public int getShowVip() {
+            return showVip;
+        }
+
+        public void setShowVip(int showVip) {
+            this.showVip = showVip;
         }
 
         public int getSubMessage() {

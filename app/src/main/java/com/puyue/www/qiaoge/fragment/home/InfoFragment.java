@@ -437,6 +437,7 @@ public class InfoFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getShop(SearchShopEvent event) {
         String keyWord = event.getKeyWord();
+        search = keyWord;
         tv_search.setText(keyWord);
         smart.autoRefresh();
     }

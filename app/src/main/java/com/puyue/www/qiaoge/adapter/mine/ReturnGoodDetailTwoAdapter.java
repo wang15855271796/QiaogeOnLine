@@ -102,7 +102,6 @@ public class ReturnGoodDetailTwoAdapter extends RecyclerView.Adapter<ReturnGoodD
             @Override
             public void onEventClick() {
                 listener.onClick();
-                Log.d("awesfdfds......","3333");
             }
         });
 

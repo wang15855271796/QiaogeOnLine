@@ -538,10 +538,12 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
 
                                         if(data.get(i).getType()==0&&data.get(i).getType()!=1) {
                                             rl_reduce.setVisibility(View.VISIBLE);
+                                            rl_given.setVisibility(View.GONE);
                                         }
 
                                         if(data.get(i).getType()==1&&data.get(i).getType()!=0) {
                                             rl_given.setVisibility(View.VISIBLE);
+                                            rl_reduce.setVisibility(View.GONE);
                                         }
 //                                    }
                                 }

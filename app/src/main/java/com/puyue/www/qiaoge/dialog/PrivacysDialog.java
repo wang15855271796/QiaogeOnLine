@@ -13,7 +13,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import android.text.Html;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.URLSpan;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -72,42 +78,13 @@ public class PrivacysDialog extends Dialog {
         ll_sure = findViewById(R.id.ll_sure);
         TextView tv_content1 = findViewById(R.id.tv_content1);
         TextView tv_content2 = findViewById(R.id.tv_content2);
-        String content1 = "您可通过阅读完整的<font color='#3483FF'>《翘歌隐私政策》</font>及<font color='#3483FF'>《第三方信息数据共享》</font>来了解详情信息。";
-        String content = "感谢您信任并使用翘歌。\n" +
-                "\n" +
-                "我们将依据<font color='#3483FF'>《翘歌隐私政策》</font>来帮助您了解我们在收集、使用、存储和共享您个人信息的情况以及您享有的相关权利。\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "我们将通过<font color='#3483FF'>《翘歌隐私政策》</font>向您说明：\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "为了您可以更好地享用周边的商品服务，我们会根据您的授权内容，收集和使用对应的必要信息（例如您的联系电话、位置信息、配送地址等）。\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "在您使用行业信息进行信息发布、在线客服等服务时，我们需要获取您设备的相机权限、相册权限、位置权限、通讯录权限、录音权限等信息。\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "您可以对上述信息进行访问、更正、删除您的个人信息或管理您的授权以及注销账户，我们也将提供专门的个人信息保护联系方式。\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "未经您的授权同意，我们不会将上述信息共享给第三方或用于您未授权的其他用途。\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "我们会采用行业内领先的安全技术来保护您的个人信息。";
-        tv_content1.setText(Html.fromHtml(content));
-        tv_content2.setText(Html.fromHtml(content1));
+        TextView tv_content3 = findViewById(R.id.tv_content3);
+
         ll_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SharedPreferencesUtil.saveString(mContext,"once","0");
                 EventBus.getDefault().post(new InitEvent());
-//                initSdk();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -120,7 +97,6 @@ public class PrivacysDialog extends Dialog {
                 dismiss();
             }
         });
-
         ll_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,132 +106,65 @@ public class PrivacysDialog extends Dialog {
             }
         });
 
-//        String s = tv_content1.getText().toString();
-//        SpannableStringBuilder spannableStringBuilder = StringSpecialHelper.buildSpanColorStyle(s, 0,
-//                9, Color.parseColor("#ff5000"));
-//        tv_content1.setText(spannableStringBuilder);
+
+        String s = tv_content1.getText().toString();
+        SpannableStringBuilder spannableStringBuilder = StringSpecialHelper.buildSpanColorStyle(s, 17,
+                8, Color.parseColor("#3483FF"));
+        tv_content1.setText(spannableStringBuilder);
 
 
-//        tv_content1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mContext.startActivity(CommonH5Activity.getIntent(mContext, CommonH5Activity.class, content));
-//            }
-//        });
+        tv_content1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.startActivity(CommonH5Activity.getIntent(mContext, CommonH5Activity.class, content));
+            }
+        });
 
 
-//        String s1 = tv_content2.getText().toString();
-//        SpannableStringBuilder spannableStringBuilder1 = StringSpecialHelper.buildSpanColorStyle(s1, 0,
-//                6, Color.parseColor("#ff5000"));
-//        tv_content2.setText(spannableStringBuilder1);
-//
-//
-//        tv_content2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mContext.startActivity(CommonH5Activity.getIntent(mContext, CommonH5Activity.class, register));
-//            }
-//        });
+        String s1 = tv_content2.getText().toString();
+        SpannableStringBuilder spannableStringBuilder1 = StringSpecialHelper.buildSpanColorStyle(s1, 11,
+                8, Color.parseColor("#3483FF"));
+        tv_content2.setText(spannableStringBuilder1);
 
 
+
+        SpannableString spStr = new SpannableString(tv_content3.getText().toString());
+        spStr.setSpan(new ClickableSpan() {
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(Color.parseColor("#3483FF"));       //设置文件颜色
+                ds.setUnderlineText(false);      //设置下划线
+            }
+
+            @Override
+            public void onClick(View widget) {
+                mContext.startActivity(CommonH5Activity.getIntent(mContext, CommonH5Activity.class, content));
+            }
+        }, 9, 17, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        spStr.setSpan(new ClickableSpan() {
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(Color.parseColor("#3483FF"));       //设置文件颜色
+                ds.setUnderlineText(false);      //设置下划线
+            }
+
+            @Override
+            public void onClick(View widget) {
+                mContext.startActivity(CommonH5Activity.getIntent(mContext, CommonH5Activity.class, "https://shaokao.qoger.com/apph5/html/third.html"));
+            }
+        }, 19, 29, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        tv_content3.setText(spStr);
+        tv_content3.setMovementMethod(LinkMovementMethod.getInstance());
+        tv_content2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.startActivity(CommonH5Activity.getIntent(mContext, CommonH5Activity.class, content));
+            }
+        });
     }
 
-//    private void initSdk() {
-//        SharedPreferencesUtil.saveString(QiaoGeApplication.getContext(),"pays","-1");
-//        SDKInitializer.initialize(QiaoGeApplication.getContext());
-//        //注册监听函数
-//        LocationClientOption option = new LocationClientOption();
-//        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-//        option.setIsNeedAddress(true);
-////        友盟
-//        UMConfigure.init(QiaoGeApplication.getContext(), "5facd45320657917050f92a0", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "9bde9b69caaff881a14239cb326241b8");
-//        PushAgent mPushAgent = PushAgent.getInstance(QiaoGeApplication.getContext());
-//        mPushAgent.setResourcePackageName(R.class.getPackage().getName());
-//        //注册推送服务，每次调用register方法都会回调该接口
-//        mPushAgent.register(new IUmengRegisterCallback() {
-//            @Override
-//            public void onSuccess(String deviceToken) {
-//                //注册成功会返回deviceToken
-//
-//            }
-//            @Override
-//            public void onFailure(String s, String s1) {
-//            }
-//        });
-//
-//        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
-//        UserInfoHelper.saveDate(QiaoGeApplication.getContext(), 0+"");
-//        api = WXAPIFactory.createWXAPI(QiaoGeApplication.getContext(), "wxbc18d7b8fee86977");
-//        api.registerApp("wxbc18d7b8fee86977");
-//        JPushInterface.setDebugMode(false);
-//        JPushInterface.init(QiaoGeApplication.getContext());
-//
-//        {
-//
-//            PlatformConfig.setWeixin("wxbc18d7b8fee86977", "710d1b08a6fd655ca8b3e4404fd937cd");
-//            PlatformConfig.setQQZone("1106452431", "vgywMsj2j66nW35l");
-//        }
-//        UMConfigure.init(QiaoGeApplication.getContext(), "5bcef11ab465f52b9d000094"
-//                , "umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
-//
-//        Unicorn.init(QiaoGeApplication.getContext(), "32e2c3d171b7d70287c22876a5622022", options(), new UnicornImageLoader() {
-//            @Nullable
-//            @Override
-//            public Bitmap loadImageSync(String uri, int width, int height) {
-//                return null;
-//            }
-//
-//            @Override
-//            public void loadImage(String uri, int width, int height, ImageLoaderListener listener) {
-//                RequestOptions options = new RequestOptions()
-//                        .centerCrop();
-//                if (width <= 0 || height <= 0) {
-//                    width = height = Integer.MIN_VALUE;
-//                }
-//
-//                Glide.with(QiaoGeApplication.getContext()).asBitmap().load(uri).apply(options)
-//                        .into(new SimpleTarget<Bitmap>(width, height) {
-//                            @Override
-//                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-//                                if (listener != null) {
-//                                    listener.onLoadComplete(resource);
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onLoadFailed(@Nullable Drawable errorDrawable) {
-//                                super.onLoadFailed(errorDrawable);
-//                                Throwable t = new Throwable("加载异常");
-//                                listener.onLoadFailed(t);
-//                            }
-//                        });
-//            }
-//        });
-//    }
-
-//    public static YSFOptions ysfOptions;
-    /**
-     //     * 网易七鱼客服
-     //     *
-     //     * @return
-     //     */
-//    private YSFOptions options() {
-//        YSFOptions options = new YSFOptions();
-//        /**
-//         * 客服消息通知
-//         */
-//        options.statusBarNotificationConfig = new StatusBarNotificationConfig();
-//        options.statusBarNotificationConfig.notificationSmallIconId = R.mipmap.ic_launcher;
-//        options.onBotEventListener = new OnBotEventListener() {
-//            @Override
-//            public boolean onUrlClick(Context context, String url) {
-//                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-//                context.startActivity(intent);
-//                return true;
-//            }
-//        };
-//
-//        ysfOptions = options;
-//        return options;
-//    }
 }

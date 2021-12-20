@@ -98,14 +98,15 @@ public class FullActiveActivity extends BaseSwipeActivity implements View.OnClic
         fullGivenAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
                 if(sendGifts.get(position).getType()==0) {
                     Intent intent = new Intent(mContext,CommonGoodsDetailActivity.class);
                     intent.putExtra("activeId",sendGifts.get(position).getProductMainId());
                     intent.putExtra("priceType", SharedPreferencesUtil.getString(mActivity, "priceType"));
                     startActivity(intent);
                 }else {
-                    CouponFullListDialog couponFullListDialog = new CouponFullListDialog(mContext,sendGifts.get(position).getPoolNo());
+                    CouponFullListDialog couponFullListDialog = new CouponFullListDialog(mContext,
+                            sendGifts.get(position).getPoolNo(),sendGifts.get(position).getGiftProdUseType(),
+                            sendGifts.get(position).getName());
                     couponFullListDialog.show();
                 }
             }
@@ -156,6 +157,7 @@ public class FullActiveActivity extends BaseSwipeActivity implements View.OnClic
                             list.clear();
                             if(fullDetailModel.getData()!=null) {
                                 FullDetailModel.DataBean data = fullDetailModel.getData();
+
                                 tv_roll.setText(data.getRoleDesc());
                                 if(!data.getTips().getTips().equals("")&&data.getTips().getTips()!=null) {
                                     ll_tips.setVisibility(View.VISIBLE);
@@ -174,6 +176,12 @@ public class FullActiveActivity extends BaseSwipeActivity implements View.OnClic
 
                                 sendGifts.addAll(data.getSendGifts());
                                 list.addAll(data.getProds());
+                                int total = sendGifts.size()+list.size();
+                                if(total>4) {
+                                    tv_more.setVisibility(View.VISIBLE);
+                                }else {
+                                    tv_more.setVisibility(View.GONE);
+                                }
                                 fullGivenAdapter.notifyDataSetChanged();
                                 fullActiveAdapter.notifyDataSetChanged();
                             }

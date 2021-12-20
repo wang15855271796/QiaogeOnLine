@@ -9,7 +9,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:text="猪肉"
+            android:text="猪肉猪肉猪肉猪肉"
             android:id="@+id/tv_name"
             android:textSize="12sp"
             android:ellipsize="end"

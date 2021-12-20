@@ -28,124 +28,29 @@
             android:layout_marginTop="@dimen/size_18dp"
             android:textColor="#333333"
             android:textSize="@dimen/sp_12"
-            android:text="感谢您信任并使用翘歌。
-
-我们将依据《翘歌隐私政策》来帮助您了解我们在收集、使用、存储和共享您个人信息的情况以及您享有的相关权利。
-
-
-
-我们将通过《翘歌隐私政策》向您说明：
-
-
-
-为了您可以更好地享用周边的商品服务，我们会根据您的授权内容，收集和使用对应的必要信息（例如您的联系电话、位置信息、配送地址等）。
-
-
-
-在您使用行业信息进行信息发布、在线客服等服务时，我们需要获取您设备的相机权限、相册权限、位置权限、通讯录权限、录音权限等信息。
-
-
-
-您可以对上述信息进行访问、更正、删除您的个人信息或管理您的授权以及注销账户，我们也将提供专门的个人信息保护联系方式。
-
-
-
-未经您的授权同意，我们不会将上述信息共享给第三方或用于您未授权的其他用途。
-
-
-
-我们会采用行业内领先的安全技术来保护您的个人信息。"
+            android:text="感谢您信任并使用翘歌。\n我们将依据《翘歌隐私政策》来帮助您了解我们在收集、使用、存储和共享您个人信息的情况以及您享有"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/tv_content2"
-            android:textColor="#999999"
+            android:textColor="#333333"
             android:textSize="@dimen/sp_12"
+            android:text="的相关权利。我们将通过《翘歌隐私政策》向您说明：为了您可以更好地享用周边的商品服务，我们会根据您的授权内容，收集和使用对应的必要信息（例如您的联系电话、位置信息、配送地址等）。
+在您使用行业信息进行信息发布、在线客服等服务时，我们需要获取您设备的相机权限、相册权限、位置权限、通讯录权限、录音权限等信息。
+您可以对上述信息进行访问、更正、删除您的个人信息或管理您的授权以及注销账户，我们也将提供专门的个人信息保护联系方式。
+未经您的授权同意，我们不会将上述信息共享给第三方或用于您未授权的其他用途。我们会采用行业内领先的安全技术来保护您的个人信息。"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_content3"
+            android:textColor="#999999"
+            android:textSize="12sp"
             android:layout_marginTop="@dimen/dp_10"
             android:text="您可通过阅读完整的《翘歌隐私政策》及《第三方信息数据共享》来了解详情信息。"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-<!--        <TextView-->
-<!--            android:text="温馨提示"-->
-<!--            android:layout_marginTop="15dp"-->
-<!--            android:textColor="#333333"-->
-<!--            android:textSize="@dimen/size_22dp"-->
-<!--            android:layout_gravity="center_horizontal"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content" />-->
-
-<!--        <TextView-->
-<!--            android:lineSpacingExtra="5dp"-->
-<!--            android:textSize="@dimen/sp_14"-->
-<!--            android:layout_marginTop="@dimen/size_10dp"-->
-<!--            android:text="感谢您对翘歌一直以来的信任，我们依据最新的监管要求更新了"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content" />-->
-
-<!--        &lt;!&ndash;《货易链隐私权政策》与《用户协议》，特向您说明如下&ndash;&gt;-->
-<!--        <LinearLayout-->
-<!--            android:orientation="horizontal"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content">-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/tv_content1"-->
-<!--                android:textSize="@dimen/sp_14"-->
-<!--                android:text="《翘歌隐私权政策》与"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content" />-->
-
-<!--        </LinearLayout>-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/tv_content"-->
-        <!--android:textSize="@dimen/sp_14"-->
-        <!--android:text="我们依据最新的监管要求更新了《货易链隐私权政策》与《用户协议》，特向您说明如下"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content" />-->
-
-        <!--<TextView-->
-        <!--android:textSize="@dimen/sp_14"-->
-        <!--android:text="我们依据最新的监管要求更新了《货易链隐私权政策》与《用户协议》，特向您说明如下"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content" />-->
-<!--        <TextView-->
-<!--            android:layout_marginTop="@dimen/size_5dp"-->
-<!--            android:textSize="@dimen/sp_14"-->
-<!--            android:text="1、为向您提供交易相关基本功能，我们会收集、使用必要的信息；"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content" />-->
-
-<!--        <TextView-->
-<!--            android:textSize="@dimen/sp_14"-->
-<!--            android:layout_marginTop="@dimen/size_5dp"-->
-<!--            android:text="2、基于您的明示授权，我们可能会获取您的位置（为您提供附近的商品、店铺及优惠资讯等）等信息，您有权拒绝或取消授权；"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content" />-->
-
-<!--        <TextView-->
-<!--            android:textSize="@dimen/sp_14"-->
-<!--            android:layout_marginTop="@dimen/size_5dp"-->
-<!--            android:text="3、我们会采取业界先进的安全措施保护您的信息安全；"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content" />-->
-
-<!--        <TextView-->
-<!--            android:textSize="@dimen/sp_14"-->
-<!--            android:layout_marginTop="@dimen/size_5dp"-->
-<!--            android:text="4、未经您同意，我们不会从第三方处获取、共享或向其提供您的信息；"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content" />-->
-
-<!--        <TextView-->
-<!--            android:textSize="@dimen/sp_14"-->
-<!--            android:layout_marginTop="@dimen/size_5dp"-->
-<!--            android:text="5、您可以查询、更正、删除您的个人信息，我们也提供账户注销的渠道。"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content" />-->
-
-
 
         <LinearLayout
             android:layout_marginTop="@dimen/size_13dp"

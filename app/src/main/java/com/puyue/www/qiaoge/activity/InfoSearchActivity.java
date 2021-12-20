@@ -9,6 +9,7 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -83,7 +84,7 @@ public class InfoSearchActivity extends BaseActivity implements SearchView.Searc
         } else {
             iv_clear.setVisibility(View.GONE);
         }
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        recyclerView.setLayoutManager(new GridLayoutManager(mContext,2));
         hotShopAdapter = new HotShopAdapter(R.layout.item_recommend,list);
         recyclerView.setAdapter(hotShopAdapter);
 
@@ -127,7 +128,7 @@ public class InfoSearchActivity extends BaseActivity implements SearchView.Searc
             @Override
             public void onTagClick(View view, int position, FlowLayout parent) {
                 String pos = mListHistory.get(position);
-                EventBus.getDefault().post(new SearchShopEvent(list.get(position)));
+                EventBus.getDefault().post(new SearchShopEvent(mListHistory.get(position)));
                 savaHistory(pos);
                 finish();
             }
@@ -188,8 +189,8 @@ public class InfoSearchActivity extends BaseActivity implements SearchView.Searc
     @Override
     public void onSearch(String text) {
         if (text.isEmpty()) {
-            //传参和输入都是空
-            AppHelper.showMsg(mContext, "请输入商品名称");
+            EventBus.getDefault().post(new SearchShopEvent(""));
+            finish();
 
         } else if (!text.isEmpty()) {
             //输入不为空,优先输入

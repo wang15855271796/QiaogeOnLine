@@ -81,6 +81,8 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
     RelativeLayout rl_unOperate;
     RelativeLayout rl_operate;
     RecyclerView rv_full;
+    LinearLayout ll_order1;
+    LinearLayout ll_order2;
     TextView tv_unOperate_num;
     TextView tv_operate_num;
     // 非退货订单layout 头部
@@ -230,6 +232,8 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
+        ll_order1 = (LinearLayout) findViewById(R.id.ll_order1);
+        ll_order2 = (LinearLayout) findViewById(R.id.ll_order2);
         tv_sale_name = (TextView) findViewById(R.id.tv_sale_name);
         tv_sale_name1 = (TextView) findViewById(R.id.tv_sale_name1);
         iv_order = (ImageView) findViewById(R.id.iv_order);
@@ -490,8 +494,20 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
                                     }else {
                                         rv_full.setVisibility(View.GONE);
                                     }
-
                                 }
+
+                                if(orderDetailModel.data.saleSettle==1) {
+                                    ll_order1.setVisibility(View.VISIBLE);
+                                }else {
+                                    ll_order1.setVisibility(View.GONE);
+                                }
+
+                                if(orderDetailModel.data.salePay==1) {
+                                    ll_order2.setVisibility(View.VISIBLE);
+                                }else {
+                                    ll_order2.setVisibility(View.GONE);
+                                }
+
                             }
 
 

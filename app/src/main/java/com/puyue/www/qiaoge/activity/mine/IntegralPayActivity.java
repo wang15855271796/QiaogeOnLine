@@ -9,7 +9,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.alipay.sdk.app.PayTask;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chinaums.pppay.unify.UnifyPayPlugin;
 import com.chinaums.pppay.unify.UnifyPayRequest;
 import com.puyue.www.qiaoge.QiaoGeApplication;
@@ -19,6 +23,7 @@ import com.puyue.www.qiaoge.activity.HomeActivity;
 
 import com.puyue.www.qiaoge.activity.mine.order.MyOrdersActivity;
 import com.puyue.www.qiaoge.activity.mine.order.VipPayResultActivity;
+import com.puyue.www.qiaoge.adapter.VipListAdapter;
 import com.puyue.www.qiaoge.api.cart.GetPayResultAPI;
 
 import com.puyue.www.qiaoge.api.mine.order.VipPayAPI;
@@ -31,6 +36,7 @@ import com.puyue.www.qiaoge.helper.AppHelper;
 
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
+import com.puyue.www.qiaoge.model.VipListModel;
 import com.puyue.www.qiaoge.model.cart.GetPayResultModel;
 
 import com.puyue.www.qiaoge.model.mine.order.VipPayModel;
@@ -41,6 +47,7 @@ import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import com.rrtx.tzpaylib.CashierManager;
 import com.rrtx.tzpaylib.PaymentCallback;
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -52,6 +59,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import rx.Subscriber;
@@ -74,6 +83,7 @@ public class IntegralPayActivity extends BaseSwipeActivity {
     private String vipPackageId;
     private int payChannel;  // 支付渠道   2=支付宝   3=微信
     private String outTradeNo;
+    RecyclerView recyclerView;
     private static final int SDK_PAY_FLAG = 1;
     private static final int SDK_AUTH_FLAG = 2;
     AVLoadingIndicatorView lav_activity_loading;
@@ -90,14 +100,27 @@ public class IntegralPayActivity extends BaseSwipeActivity {
 
     }
 
+    VipListAdapter vipListAdapter;
+    int jumpWx;
     @Override
     public void findViewById() {
-        iv_yun = (ImageView) findViewById(R.id.iv_yun);
+        recyclerView = findViewById(R.id.recyclerView);
         lav_activity_loading = (AVLoadingIndicatorView) findViewById(R.id.lav_activity_loading);
         imageViewBack = (ImageView) findViewById(R.id.imageViewBack);
-        alipay = (ImageView) findViewById(R.id.rb_activity_order_alipay);
-        wechat = (ImageView) findViewById(R.id.rb_activity_order_wechat);
         okPay = (ImageView) findViewById(R.id.okPay);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        vipListAdapter = new VipListAdapter(R.layout.item_vip,list);
+        recyclerView.setAdapter(vipListAdapter);
+        vipListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                payChannel = list.get(position).getFlag();
+                jumpWx = list.get(position).getJumpWx();
+                vipListAdapter.selectPosition(position);
+//               requestVipPay(vipPackageId,list.get(position).getFlag());
+            }
+        });
     }
 
     @Override
@@ -109,38 +132,17 @@ public class IntegralPayActivity extends BaseSwipeActivity {
     @Override
     public void setClickEvent() {
         imageViewBack.setOnClickListener(noDoubleClickListener);
-        alipay.setOnClickListener(noDoubleClickListener);
-        wechat.setOnClickListener(noDoubleClickListener);
         okPay.setOnClickListener(noDoubleClickListener);
-        iv_yun.setOnClickListener(noDoubleClickListener);
     }
 
     public NoDoubleClickListener noDoubleClickListener = new NoDoubleClickListener() {
         @Override
         public void onNoDoubleClick(View view) {
-
             switch (view.getId()) {
-                case R.id.iv_yun:
-                    payChannel = 16;
-                    alipay.setImageResource(R.mipmap.ic_pay_no);
-                    wechat.setImageResource(R.mipmap.ic_pay_no);
-                    iv_yun.setImageResource(R.mipmap.ic_pay_ok);
-                    break;
                 case R.id.imageViewBack:
                     finish();
                     break;
-                case R.id.rb_activity_order_alipay:
-                    payChannel = 2;
-                    alipay.setImageResource(R.mipmap.ic_pay_ok);
-                    wechat.setImageResource(R.mipmap.ic_pay_no);
-                    iv_yun.setImageResource(R.mipmap.ic_pay_no);
-                    break;
-                case R.id.rb_activity_order_wechat:
-                    payChannel = 3;
-                    alipay.setImageResource(R.mipmap.ic_pay_no);
-                    wechat.setImageResource(R.mipmap.ic_pay_ok);
-                    iv_yun.setImageResource(R.mipmap.ic_pay_no);
-                    break;
+
                 case R.id.okPay:
                     if (payChannel==0){
                         AppHelper.showMsg(mContext, "请选择支付方式");
@@ -148,7 +150,7 @@ public class IntegralPayActivity extends BaseSwipeActivity {
                     }
                     lav_activity_loading.setVisibility(View.VISIBLE);
                     lav_activity_loading.show();
-                    requestVipPay();
+                    requestVipPay(vipPackageId,payChannel);
                     break;
             }
         }
@@ -165,6 +167,42 @@ public class IntegralPayActivity extends BaseSwipeActivity {
             startActivity(intent);
             finish();
         }
+        getPayList();
+    }
+
+    List<VipListModel.DataBean> list = new ArrayList<>();
+    List<VipListModel.DataBean> datas;
+    private void getPayList() {
+        VipPayAPI.getPayList(mContext)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<VipListModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(VipListModel vipListModel) {
+                        if (vipListModel.getCode()==1) {
+                            if(vipListModel.getData()!=null) {
+                                datas = vipListModel.getData();
+                                list.clear();
+                                list.addAll(vipListModel.getData());
+                                vipListAdapter.notifyDataSetChanged();
+                            }
+
+                        } else {
+                            AppHelper.showMsg(mContext, vipListModel.getMessage());
+
+                        }
+                    }
+                });
     }
 
     private void getPayResult(String outTradeNo) {
@@ -204,7 +242,7 @@ public class IntegralPayActivity extends BaseSwipeActivity {
                 });
     }
 
-    private void  requestVipPay() {
+    private void requestVipPay(String vipPackageId,int payChannel) {
         VipPayAPI.requestVipPayData(mContext, vipPackageId,payChannel)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -269,10 +307,15 @@ public class IntegralPayActivity extends BaseSwipeActivity {
                                 //支付宝支付
                                 SharedPreferencesUtil.saveString(mContext,"payKey","2");
                                 aliPay(vipPayModel.getData().getPayToken());
-                            } else if (payChannel == 3) {
-                                //微信支付
-                                SharedPreferencesUtil.saveString(mContext,"payKey","3");
+                            } else if (payChannel == 3&&jumpWx==1) {
+                                //微信支付(小程序)
+                                SharedPreferencesUtil.saveString(getContext(),"payKey","3");
                                 weChatPay(vipPayModel.getData().getPayToken());
+
+                            }else if(payChannel == 3&&jumpWx==0) {
+                                //微信支付
+                                SharedPreferencesUtil.saveString(getContext(),"payKey","3");
+                                weChatPay2(vipPayModel.getData().getPayToken());
                             }else if(vipPayModel.getData().getPayType()==14&&payChannel == 2) {
                                 //银联
                                 SharedPreferencesUtil.saveString(mContext,"payKey","4");
@@ -283,6 +326,27 @@ public class IntegralPayActivity extends BaseSwipeActivity {
                         }
                     }
                 });
+    }
+
+    private void weChatPay2(String json) {
+        try {
+            IWXAPI api = WXAPIFactory.createWXAPI(this, "wxbc18d7b8fee86977");
+            JSONObject obj = new JSONObject(json);
+            PayReq request = new PayReq();
+            request.appId = obj.optString("appId");
+            request.partnerId = obj.optString("mchID");
+            request.prepayId = obj.optString("prepayId");
+            request.packageValue = obj.optString("pkg");
+            request.nonceStr = obj.optString("nonceStr");
+            request.timeStamp = obj.optString("timeStamp");
+            request.sign = obj.optString("paySign");
+            api.sendReq(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        lav_activity_loading.setVisibility(View.GONE);
+        lav_activity_loading.hide();
     }
 
     private void payAliPay(String parms) {
@@ -306,29 +370,21 @@ public class IntegralPayActivity extends BaseSwipeActivity {
 
     //---------------------------支付逻辑------------------------------------------------//
     /**
-     * 微信支付
+     * 微信支付(小程序)
      */
 
     private void weChatPay(String json) {
-        try {
-            IWXAPI api = WXAPIFactory.createWXAPI(this, "wxbc18d7b8fee86977");
-            JSONObject obj = new JSONObject(json);
-            PayReq request = new PayReq();
-            request.appId = obj.optString("appId");
-            request.partnerId = obj.optString("mchID");
-            request.prepayId = obj.optString("prepayId");
-            request.packageValue = obj.optString("pkg");
-            request.nonceStr = obj.optString("nonceStr");
-            request.timeStamp = obj.optString("timeStamp");
-            request.sign = obj.optString("paySign");
-           api.sendReq(request);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        lav_activity_loading.setVisibility(View.GONE);
+        SharedPreferencesUtil.saveString(getContext(),"pays","0");
+        String appId = "wx24c9fe5477c95b47"; // 填移动应用(App)的 AppId，非小程序的 AppID
+        IWXAPI api = WXAPIFactory.createWXAPI(getContext(), appId);
+        String userId = UserInfoHelper.getUserId(getContext());
+        WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
+        req.userName = "gh_02750c16f80b"; // 填小程序原始id
+        req.path = "/pagesGoods/vippage/appvippay?vipPackageId="+vipPackageId+"&token="+userId;
+        ////拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
+        req.miniprogramType =  WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW;// 可选打开 开发版，体验版和正式版
+        api.sendReq(req);
         lav_activity_loading.hide();
-
     }
 
     /**
@@ -367,11 +423,13 @@ public class IntegralPayActivity extends BaseSwipeActivity {
                 mHandler.sendMessage(msg);
             }
         };
+        Log.d("drgfdedffds........",orderInfo+"ss");
         lav_activity_loading.setVisibility(View.GONE);
         lav_activity_loading.hide();
         // 必须异步调用
         Thread payThread = new Thread(payRunnable);
         payThread.start();
+
     }
 
     /**

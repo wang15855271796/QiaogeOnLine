@@ -2,6 +2,8 @@ package com.puyue.www.qiaoge.activity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,12 +26,13 @@ public class FullActivity extends BaseActivity {
     RecyclerView recyclerView;
     @BindView(R.id.recycler)
     RecyclerView recycler;
+    @BindView(R.id.iv_back)
+    ImageView iv_back;
     List<FullDetailModel.DataBean.SendGiftsBean> sendGifts;
     List<FullDetailModel.DataBean.SendGiftsBean> list1 = new ArrayList<>();
     List<FullDetailModel.DataBean.SendGiftsBean> list2 = new ArrayList<>();
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
-
         return false;
     }
 
@@ -63,11 +66,15 @@ public class FullActivity extends BaseActivity {
         recycler.setLayoutManager(new LinearLayoutManager(mContext));
         Coupon4Adapter coupon4Adapter = new Coupon4Adapter(R.layout.item_coupons,list2);
         recycler.setAdapter(coupon4Adapter);
-
     }
 
     @Override
     public void setClickEvent() {
-
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }

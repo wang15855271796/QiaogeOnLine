@@ -225,7 +225,8 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
     private LoadingDailog dialog;
     private TextView buttonReturnGood_two;
 
-
+    LinearLayout ll_order1;
+    LinearLayout ll_order2;
     private TextView et_name;
     private TextView et_phone;
 
@@ -301,6 +302,8 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
+        ll_order1 = (LinearLayout) findViewById(R.id.ll_order1);
+        ll_order2 = (LinearLayout) findViewById(R.id.ll_order2);
         tv_full_price = (TextView) findViewById(R.id.tv_full_price);
         tv_full_desc = (TextView) findViewById(R.id.tv_full_desc);
         tv_payWay = (TextView) findViewById(R.id.tv_payWay);
@@ -928,6 +931,18 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
                                     list_full.addAll(orderDetailModel.data.sendGiftInfo);
                                     orderFullAdapter.notifyDataSetChanged();
 
+                                }
+
+                                if(orderDetailModel.data.saleSettle==1) {
+                                    ll_order1.setVisibility(View.VISIBLE);
+                                }else {
+                                    ll_order1.setVisibility(View.GONE);
+                                }
+
+                                if(orderDetailModel.data.salePay==1) {
+                                    ll_order2.setVisibility(View.VISIBLE);
+                                }else {
+                                    ll_order2.setVisibility(View.GONE);
                                 }
 
 //                                if (orderDetailModel.data.productVOList.size() > 0) {

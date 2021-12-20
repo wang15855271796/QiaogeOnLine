@@ -284,7 +284,7 @@ public class FundView extends BaseView {
         path.moveTo(mBasePaddingLeft, floatY);
         for (int i = 1; i < mFundModeList.size(); i++) {
             FundMode fm = mFundModeList.get(i);
-            float floatX2 = mBasePaddingLeft + mPerX * i;
+            float floatX2 = mBasePaddingLeft + mPerX * (i+1);
             float floatY2 = mBaseHeight - mBasePaddingBottom - mPerY * (fm.dataY - mMinFundMode.dataY);
             fm.floatX = floatX2;
             fm.floatY = floatY2;
@@ -388,9 +388,9 @@ public class FundView extends BaseView {
                 mBasePaddingLeft,
                 hight, mXYPaint);
 
-        canvas.drawText(mid,
-                mBasePaddingLeft + (mBaseWidth - mBasePaddingLeft - mBasePaddingRight) / 2,
-                hight, mXYPaint);
+//        canvas.drawText(mid,
+//                mBasePaddingLeft + (mBaseWidth - mBasePaddingLeft - mBasePaddingRight) / 2,
+//                hight, mXYPaint);
 
         canvas.drawText(end,
                 mBaseWidth - mBasePaddingRight - mXYPaint.measureText(end),

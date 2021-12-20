@@ -90,6 +90,7 @@
                 <TextView
                     android:id="@+id/tv_detail"
                     android:padding="5dp"
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/size_18dp"
                     android:layout_marginRight="@dimen/size_20dp"
                     android:textColor="#ffffff"

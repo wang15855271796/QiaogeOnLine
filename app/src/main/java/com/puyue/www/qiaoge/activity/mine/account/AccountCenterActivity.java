@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.CommonH5Activity;
 import com.puyue.www.qiaoge.activity.PrivacySetting;
 import com.puyue.www.qiaoge.activity.cart.CompetActivity;
 import com.puyue.www.qiaoge.api.mine.AccountCenterAPI;
@@ -78,8 +79,6 @@ public class AccountCenterActivity extends BaseSwipeActivity {
         rl_privacy_setting = (RelativeLayout) findViewById(R.id.rl_privacy_setting);
         rl_collection = (RelativeLayout) findViewById(R.id.rl_collection);
         rl_share = (RelativeLayout) findViewById(R.id.rl_share);
-        rl_collection = (RelativeLayout) findViewById(R.id.rl_collection);
-        rl_collection = (RelativeLayout) findViewById(R.id.rl_collection);
         mIvBack = (ImageView) findViewById(R.id.iv_account_back);
         mRlPhone = (RelativeLayout) findViewById(R.id.rl_account_phone);
         mTvPhone = (TextView) findViewById(R.id.tv_account_phone);
@@ -109,6 +108,27 @@ public class AccountCenterActivity extends BaseSwipeActivity {
         mRlAuthorization.setOnClickListener(noDoubleClickListener);
         mRlLogout.setOnClickListener(noDoubleClickListener);
         mRlPhone.setOnClickListener(noDoubleClickListener);
+        rl_xieyi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(CommonH5Activity.getIntent(mContext, CommonH5Activity.class, "http://staff.qoger.com/h5/enter.html"));
+            }
+        });
+
+        rl_collection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(CommonH5Activity.getIntent(mContext, CommonH5Activity.class, "https://shaokao.qoger.com/apph5/html/collect.html"));
+            }
+        });
+
+        rl_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(CommonH5Activity.getIntent(mContext, CommonH5Activity.class, "https://shaokao.qoger.com/apph5/html/third.html"));
+            }
+        });
+
         rl_account_secret.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -274,7 +294,6 @@ public class AccountCenterActivity extends BaseSwipeActivity {
 
                         @Override
                         public void onNext(AccountCenterModel accountCenterModel) {
-                            Log.d("dsassddddd......","sssss");
                             logoutAndToHome(mContext, accountCenterModel.code);
                             mModelAccountCenter = accountCenterModel;
                             if (mModelAccountCenter.success) {

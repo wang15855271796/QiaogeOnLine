@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 
 public class Utils {
 
+
     public static float getPureDouble(String str) {
         if (str == null || str.length() == 0) return 0;
         float result = 0;

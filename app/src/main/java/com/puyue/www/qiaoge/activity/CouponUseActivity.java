@@ -1,5 +1,6 @@
 package com.puyue.www.qiaoge.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,12 +9,15 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.adapter.CouponUseAdapter;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.model.CouponListsModel;
 import com.puyue.www.qiaoge.model.FullCouponListModel;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -74,6 +78,16 @@ public class CouponUseActivity extends BaseActivity {
         }
 
         getFullList(poolNo);
+
+        couponUseAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(mContext, CommonGoodsDetailActivity.class);
+                intent.putExtra("activeId",list.get(position).getProductMainId());
+                intent.putExtra("priceType", SharedPreferencesUtil.getString(mContext,"priceType"));
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

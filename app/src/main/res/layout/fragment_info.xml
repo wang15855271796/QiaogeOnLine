@@ -75,7 +75,7 @@
                     android:drawablePadding="@dimen/size_5dp"
                     android:gravity="center_vertical"
                     android:padding="@dimen/size_5dp"
-                    android:text="翘歌鸡排店"
+                    android:hint="请输入关键字搜索"
                     android:textColor="#999999"
                     android:textSize="@dimen/size_14dp" />
 

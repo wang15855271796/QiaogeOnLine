@@ -130,6 +130,17 @@
                     android:background="@drawable/mine_vip_bg">
 
                     <TextView
+                        android:id="@+id/tv_vip_desc"
+                        android:visibility="gone"
+                        android:textColor="#DEB999"
+                        android:textSize="@dimen/sp_14"
+                        android:layout_marginTop="@dimen/size_10dp"
+                        android:layout_centerHorizontal="true"
+                        android:text="该城市暂未启用会员哦！"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
                         android:id="@+id/tv_qiao_ge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -180,6 +191,7 @@
 
 
                     <TextView
+                        android:id="@+id/tv_desc1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/tv_qiao_ge"
@@ -874,11 +886,12 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/size_10dp">
 
+
                                     <RelativeLayout
                                         android:id="@+id/relativeLayoutVip"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1">
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content">
 
                                         <ImageView
                                             android:id="@+id/image13"
@@ -911,7 +924,6 @@
                                             android:textSize="@dimen/size_9dp"
                                             android:visibility="gone" />
                                     </RelativeLayout>
-
                                     <RelativeLayout
                                         android:id="@+id/accountAddress"
                                         android:layout_width="0dp"
@@ -1006,7 +1018,43 @@
 
                                     </RelativeLayout>
 
+                                    <RelativeLayout
+                                        android:visibility="gone"
+                                        android:id="@+id/rl_zizhi"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.2">
 
+                                        <ImageView
+                                            android:id="@+id/image"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerHorizontal="true"
+                                            android:layout_marginTop="10dp"
+                                            android:src="@mipmap/zizhi" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_below="@+id/image"
+                                            android:layout_centerHorizontal="true"
+                                            android:layout_marginTop="10dp"
+                                            android:text="资质信息"
+                                            android:textColor="@color/color_252525"
+                                            android:textSize="@dimen/size_11dp" />
+
+                                        <TextView
+                                            android:id="@+id/textCouponsPoint"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentRight="true"
+                                            android:layout_marginTop="@dimen/size_2dp"
+                                            android:background="@drawable/app_point_bg"
+                                            android:padding="@dimen/size_2dp"
+                                            android:textColor="@color/white"
+                                            android:textSize="@dimen/size_9dp"
+                                            android:visibility="gone" />
+                                    </RelativeLayout>
                                 </LinearLayout>
 
 
@@ -1014,7 +1062,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="15dp"
-                                    android:layout_marginBottom="20dp"
+                                    android:layout_marginBottom="10dp"
                                     android:gravity="center_horizontal">
 
                                     <RelativeLayout
@@ -1159,19 +1207,19 @@
 
 
                                 <LinearLayout
+                                    android:id="@+id/ll_fill"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/size_15dp"
                                     android:paddingBottom="@dimen/size_10dp">
 
                                     <RelativeLayout
-                                        android:id="@+id/rl_zizhi"
+                                        android:id="@+id/rl_zizhi1"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1.2">
 
                                         <ImageView
-                                            android:id="@+id/image"
+                                            android:id="@+id/iv_zizhi"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_centerHorizontal="true"
@@ -1181,24 +1229,13 @@
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_below="@+id/image"
+                                            android:layout_below="@+id/iv_zizhi"
                                             android:layout_centerHorizontal="true"
                                             android:layout_marginTop="10dp"
                                             android:text="资质信息"
                                             android:textColor="@color/color_252525"
                                             android:textSize="@dimen/size_11dp" />
 
-                                        <TextView
-                                            android:id="@+id/textCouponsPoint"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_alignParentRight="true"
-                                            android:layout_marginTop="@dimen/size_2dp"
-                                            android:background="@drawable/app_point_bg"
-                                            android:padding="@dimen/size_2dp"
-                                            android:textColor="@color/white"
-                                            android:textSize="@dimen/size_9dp"
-                                            android:visibility="gone" />
                                     </RelativeLayout>
 
                                     <RelativeLayout

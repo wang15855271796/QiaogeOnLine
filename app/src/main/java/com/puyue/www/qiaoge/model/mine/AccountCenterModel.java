@@ -39,6 +39,6 @@ public class AccountCenterModel extends BaseModel {
         public String customerPhone;
         public String version;
         public String onlineTime;
-
+        public String thirdUrl;
     }
 }

@@ -58,6 +58,7 @@ import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.rrtx.tzpaylib.CashierManager;
 import com.rrtx.tzpaylib.PaymentCallback;
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -309,11 +310,15 @@ public class PaymentFragments extends DialogFragment {
                                 //支付宝支付 已经改好了
                                 SharedPreferencesUtil.saveString(getContext(),"payKey","2");
                                 aliPay(orderPayModel.data.payToken);
-                            } else if (payChannel == 3) {
-                                //微信支付
+                            } else if (payChannel == 3&&jumpWx==1) {
+                                //微信支付(小程序)
                                 SharedPreferencesUtil.saveString(getContext(),"payKey","3");
                                 weChatPay(orderPayModel.data.payToken);
 
+                            }else if(payChannel == 3&&jumpWx==0) {
+                                //微信支付
+                                SharedPreferencesUtil.saveString(getContext(),"payKey","3");
+                                weChatPay2(orderPayModel.data.payToken);
                             }else if(orderPayModel.data.payType==14&&payChannel == 2) {
                                 //银联
                                 SharedPreferencesUtil.saveString(getContext(),"payKey","4");
@@ -331,6 +336,8 @@ public class PaymentFragments extends DialogFragment {
                 });
     }
 
+
+
     /**
      * 支付宝
      * @param parms
@@ -344,10 +351,27 @@ public class PaymentFragments extends DialogFragment {
     }
 
     /**
-     * 微信支付
+     * 微信支付(小程序)
      */
 
     private void weChatPay(String json) {
+        SharedPreferencesUtil.saveString(getContext(),"pays","0");
+        String appId = "wxbc18d7b8fee86977"; // 填移动应用(App)的 AppId，非小程序的 AppID
+        IWXAPI api = WXAPIFactory.createWXAPI(getContext(), appId);
+        String userId = UserInfoHelper.getUserId(getContext());
+        WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
+        req.userName = "gh_02750c16f80b"; // 填小程序原始id
+        req.path = "/pagesGoods/toplay/apptoplay?token="+userId+"&oderNo="+orderId;
+        ////拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
+        req.miniprogramType =  WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW;// 可选打开 开发版，体验版和正式版
+        api.sendReq(req);
+    }
+
+    /**
+     * 微信支付
+     */
+
+    private void weChatPay2(String json) {
         SharedPreferencesUtil.saveString(getContext(),"pays","0");
         try {
             IWXAPI api = WXAPIFactory.createWXAPI(getContext(), "wxbc18d7b8fee86977");
@@ -714,6 +738,7 @@ public class PaymentFragments extends DialogFragment {
      * 提交订单
      */
     List<PayListModel.DataBean> data;
+    int jumpWx;
     private void orderPay() {
         OrderPayAPI.requestsData(getContext())
                 .subscribeOn(Schedulers.io())
@@ -762,12 +787,16 @@ public class PaymentFragments extends DialogFragment {
 
                                     if(payListModel.getData().get(position).getFlag().equals("0")) {
                                         payChannel = 1;
+                                        jumpWx = payListModel.getData().get(position).getJumpWx();
                                     }else if(payListModel.getData().get(position).getFlag().equals("1")){
                                         payChannel = 2;
+                                        jumpWx = payListModel.getData().get(position).getJumpWx();
                                     }else if(payListModel.getData().get(position).getFlag().equals("2")){
                                         payChannel = 3;
+                                        jumpWx = payListModel.getData().get(position).getJumpWx();
                                     }else if(payListModel.getData().get(position).getFlag().equals("3")){
                                         payChannel = 16;
+                                        jumpWx = payListModel.getData().get(position).getJumpWx();
                                     }
                                     if(payListModel.getData().get(position).getFlag().equals("0")) {
                                         tv_balance.setText("余额"+"("+UserInfoHelper.getUserWalletAccount(getActivity())+")");

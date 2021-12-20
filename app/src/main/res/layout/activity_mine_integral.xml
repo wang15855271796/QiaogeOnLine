@@ -2,13 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#f6f6f6"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_30dp"/>
     <com.puyue.www.qiaoge.view.CompatToolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size_30dp"
         android:background="@drawable/app_border_bottom_bg">
 
         <ImageView
@@ -96,6 +99,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
+            android:layout_margin="@dimen/dp_10"
+            android:background="@drawable/shape_white1"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </in.srain.cube.views.ptr.PtrClassicFrameLayout>

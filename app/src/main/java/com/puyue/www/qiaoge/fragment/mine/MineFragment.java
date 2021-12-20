@@ -127,6 +127,8 @@ public class MineFragment extends BaseFragment {
     private SuperTextView mViewWaitEvaluateNum;
     private SuperTextView mViewReturnNum;
     private SuperTextView mViewCollectionNum;
+    TextView tv_qiao_ge;
+    RelativeLayout rl_zizhi1;
 //    AppBarLayout appBarLayout;
     RelativeLayout rl_bg;
     ImageView iv_setting1;
@@ -135,6 +137,7 @@ public class MineFragment extends BaseFragment {
     private AlertDialog mDialog;
     private String mCustomerPhone;
     private SuperTextView mViewMessageNum;
+    TextView tv_desc1;
     private UpdateModel mModelUpdate;
     private boolean update;
     private boolean forceUpdate;
@@ -188,6 +191,7 @@ public class MineFragment extends BaseFragment {
     private ImageView iv_message;
     UserDefineScrollView scoller;
     OutScollerview outScoller;
+    TextView tv_vip_desc;
     private SparseArray<RecyclerView> mPageMap = new SparseArray<>();
 
     private List<MyOrderNumModel.DataBean> mListData = new ArrayList<>();
@@ -201,7 +205,7 @@ public class MineFragment extends BaseFragment {
     private LinearLayout ll_self_sufficiency;
     private LinearLayout ll_deliver_order;
     TextView tv_number;
-
+    LinearLayout ll_fill;
     public static MineFragment getInstance() {
         MineFragment fragment = new MineFragment();
         Bundle bundle = new Bundle();
@@ -265,6 +269,11 @@ public class MineFragment extends BaseFragment {
     public void findViewById(View view) {
 
         EventBus.getDefault().register(this);
+        tv_desc1 = (view.findViewById(R.id.tv_desc1));
+        rl_zizhi1 = (view.findViewById(R.id.rl_zizhi1));
+        ll_fill = (view.findViewById(R.id.ll_fill));
+        tv_vip_desc = (view.findViewById(R.id.tv_vip_desc));
+        tv_qiao_ge =  (view.findViewById(R.id.tv_qiao_ge));
         outScoller = (view.findViewById(R.id.sc));
         tv_tip =  (view.findViewById(R.id.tv_tip));
         scoller = (view.findViewById(R.id.scoller));
@@ -494,7 +503,13 @@ public class MineFragment extends BaseFragment {
         ll_deduct.setOnClickListener(noDoubleClickListener);
         tv_vip_more.setOnClickListener(noDoubleClickListener);
         iv_vip_more.setOnClickListener(noDoubleClickListener);
-
+        rl_zizhi1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity,IntelliGencyActivity.class);
+                startActivity(intent);
+            }
+        });
 
         ll_deliver_order.setOnClickListener(noDoubleClickListener);
         ll_self_sufficiency.setOnClickListener(noDoubleClickListener);
@@ -1115,6 +1130,26 @@ public class MineFragment extends BaseFragment {
                                 mViewMessageNum.setVisibility(View.GONE);
                             }
 
+                            if(myOrderNumModel.getData().getShowVip()==0) {
+                                relativeLayoutVip.setVisibility(View.GONE);
+                                iv_vip_more.setVisibility(View.GONE);
+                                tv_qiao_ge.setVisibility(View.GONE);
+                                tv_tip.setVisibility(View.GONE);
+                                tv_vip_desc.setVisibility(View.VISIBLE);
+                                tv_desc1.setVisibility(View.GONE);
+                                rl_zizhi.setVisibility(View.VISIBLE);
+                                ll_fill.setVisibility(View.GONE);
+                            }else {
+                                relativeLayoutVip.setVisibility(View.VISIBLE);
+                                iv_vip_more.setVisibility(View.VISIBLE);
+                                tv_qiao_ge.setVisibility(View.VISIBLE);
+                                tv_tip.setVisibility(View.VISIBLE);
+                                tv_vip_desc.setVisibility(View.GONE);
+                                tv_desc1.setVisibility(View.VISIBLE);
+                                rl_zizhi.setVisibility(View.GONE);
+                                ll_fill.setVisibility(View.VISIBLE);
+
+                            }
                         } else {
                             AppHelper.showMsg(mActivity, myOrderNumModel.message);
                         }

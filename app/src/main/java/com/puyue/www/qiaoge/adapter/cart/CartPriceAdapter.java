@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -43,6 +44,7 @@ public class CartPriceAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
 
     @Override
     protected void convert(BaseViewHolder helper, CartTestModel.DataBean.ProdsBeanX.ProdsBean.ProductDescVOListBean item) {
+        LinearLayout ll_trend = helper.getView(R.id.ll_trend);
         TextView tv_price = helper.getView(R.id.tv_price);
         TextView tv_old_price = helper.getView(R.id.tv_old_price);
         TextView tv_unit = helper.getView(R.id.tv_unit);
@@ -52,6 +54,7 @@ public class CartPriceAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
         tv_price.setText(item.getPriceStr());
         tv_unit.setText(item.getUnitDesc());
 
+        ll_trend.setVisibility(View.GONE);
         tv_num.setText(item.getProductNum()+"");
         int productCombinationPriceId = item.getProductCombinationPriceId();
 

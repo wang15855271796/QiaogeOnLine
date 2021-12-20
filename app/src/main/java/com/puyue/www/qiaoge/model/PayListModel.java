@@ -24,6 +24,15 @@ public class PayListModel {
     public static class DataBean {
         private String channelName;
         private String flag;
+        private int jumpWx;
+
+        public int getJumpWx() {
+            return jumpWx;
+        }
+
+        public void setJumpWx(int jumpWx) {
+            this.jumpWx = jumpWx;
+        }
 
         public String getChannelName() {
             return channelName;

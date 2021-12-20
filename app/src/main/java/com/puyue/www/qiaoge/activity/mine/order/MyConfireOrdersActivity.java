@@ -331,11 +331,15 @@ public class MyConfireOrdersActivity extends BaseSwipeActivity {
                                 //支付宝支付 已经改好了
                                 SharedPreferencesUtil.saveString(mContext,"payKey","2");
                                 aliPay(orderPayModel.data.payToken);
-                            } else if (payChannel == 3) {
-                                //微信支付
-                                SharedPreferencesUtil.saveString(mContext,"payKey","3");
+                            } else if (payChannel == 3&&orderPayModel.data.jumpWx==1) {
+                                //微信支付(小程序)
+                                SharedPreferencesUtil.saveString(getContext(),"payKey","3");
                                 weChatPay(orderPayModel.data.payToken);
 
+                            }else if(payChannel == 3&&orderPayModel.data.jumpWx==0) {
+                                //微信支付
+                                SharedPreferencesUtil.saveString(getContext(),"payKey","3");
+//                                weChatPay2(orderPayModel.data.payToken);
                             }else if(orderPayModel.data.payType==14&&payChannel == 2) {
                                 //银联
                                 SharedPreferencesUtil.saveString(mContext,"payKey","4");

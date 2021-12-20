@@ -33,6 +33,15 @@ public class CartCouponsAdapter extends BaseQuickAdapter<CartFullModel.DataBean.
         helper.setText(R.id.tv_role,item.getRoles());
         helper.setText(R.id.tv_spec,item.getSpec());
         TextView tv_detail = helper.getView(R.id.tv_detail);
+
+        if(item.getGiftProdUseType().equals("1")) {
+            tv_detail.setVisibility(View.VISIBLE);
+        }else if(item.getGiftProdUseType().equals("2")) {
+            tv_detail.setVisibility(View.VISIBLE);
+        }else {
+            tv_detail.setVisibility(View.GONE);
+        }
+
         tv_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,7 +58,6 @@ public class CartCouponsAdapter extends BaseQuickAdapter<CartFullModel.DataBean.
                     intent.putExtra("name",item.getName());
                     mContext.startActivity(intent);
                 }else {
-                    ToastUtil.showSuccessMsg(mContext,"全部可用");
                 }
             }
         });

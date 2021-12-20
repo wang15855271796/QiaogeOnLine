@@ -132,7 +132,6 @@ public class PrivacySetting extends BaseActivity implements View.OnClickListener
         int check2 = ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE);
         int check3 = ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_PHONE_STATE);
         int check4 = ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA);
-//        int check5 = ContextCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if(check0== 0) {
             tv0.setText("已开启");
         }else {
@@ -157,7 +156,7 @@ public class PrivacySetting extends BaseActivity implements View.OnClickListener
             tv3.setText("去设置");
         }
 
-        if(check0== 0) {
+        if(check4== 0) {
             tv4.setText("已开启");
         }else {
             tv4.setText("去设置");

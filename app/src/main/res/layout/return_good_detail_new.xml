@@ -47,8 +47,8 @@
                     android:visibility="gone"
                     android:layout_marginTop="@dimen/size_5dp"
                     android:id="@+id/iv_flag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="32dp"
+                    android:layout_height="@dimen/size_12dp"
                     android:layout_marginRight="5dp"
                   />
 
