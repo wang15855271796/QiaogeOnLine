@@ -310,6 +310,12 @@ public class IntegralPayActivity extends BaseSwipeActivity {
                             } else if (payChannel == 3&&jumpWx==1) {
                                 //微信支付(小程序)
                                 SharedPreferencesUtil.saveString(getContext(),"payKey","3");
+                                Intent lan = mActivity.getPackageManager().getLaunchIntentForPackage("com.tencent.mm");
+                                Intent t2 = new Intent(Intent.ACTION_MAIN);
+                                t2.addCategory(Intent.CATEGORY_LAUNCHER);
+                                t2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                t2.setComponent(lan.getComponent());
+                                startActivity(t2);
                                 weChatPay(vipPayModel.getData().getPayToken());
 
                             }else if(payChannel == 3&&jumpWx==0) {

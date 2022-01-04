@@ -341,6 +341,13 @@ public class PaymentFragment extends DialogFragment {
                             } else if (payChannel == 3&&jumpWx==1) {
                                 //微信支付(小程序)1
                                 SharedPreferencesUtil.saveString(getContext(),"payKey","3");
+//                              这个是打开微信  防止华为手机 微信没有设置浮动权限 打不开小程序
+                                Intent lan = getActivity().getPackageManager().getLaunchIntentForPackage("com.tencent.mm");
+                                Intent t2 = new Intent(Intent.ACTION_MAIN);
+                                t2.addCategory(Intent.CATEGORY_LAUNCHER);
+                                t2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                t2.setComponent(lan.getComponent());
+                                startActivity(t2);
                                 weChatPay(orderPayModel.data.payToken);
                             }else if(payChannel == 3&&jumpWx==0) {
                                 //微信支付

@@ -4,6 +4,7 @@ package com.barbecue.app.wxapi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 
 import com.puyue.www.qiaoge.event.WeChatPayEvent;
@@ -40,6 +41,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
     @Override
     public void onReq(BaseReq req) {
+
     }
 
     @Override
