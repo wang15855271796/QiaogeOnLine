@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_edit_address"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:scrollbars="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingTop="6dp">
+
+        <LinearLayout
+            android:id="@+id/ll_address"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/icon_locations" />
+
+            <TextView
+                android:id="@+id/tv_city"
+                android:textColor="#333333"
+                android:text="杭州"
+                android:drawablePadding="@dimen/size_5dp"
+                android:drawableRight="@mipmap/icon_arrow_down"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginTop="@dimen/size_5dp"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/size_5dp"
+            android:layout_weight="1"
+            android:background="@drawable/app_search"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="6dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_32dp">
+
+                <EditText
+                    android:id="@+id/et_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableLeft="@mipmap/icon_search"
+                    android:layout_marginRight="@dimen/size_45dp"
+                    android:drawablePadding="5dp"
+                    android:background="@drawable/shape_grey3"
+                    android:hint="请输入地址"
+                    android:imeOptions="actionSearch"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:singleLine="true"
+                    android:textColorHint="@color/app_cancle_gray"
+                    android:textSize="14dp" />
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/search_iv_delete"
+                    android:src="@mipmap/ic_search_close"
+                    android:layout_centerVertical="true"
+                    android:padding="@dimen/size_5dp"
+                    android:layout_marginRight="@dimen/size_50dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/tv_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="0.06"
+                    android:padding="5dp"
+                    android:text="取消"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/color_333"
+                    android:textSize="13sp" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_activity_search_cancle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="取消"
+            android:textColor="@color/app_front_black"
+            android:textSize="15dp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <FrameLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_50dp"
+                android:textSize="16sp"
+                android:background="@color/white"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:hint="请输入收货地址"/>
+
+            <ImageView
+                android:visibility="gone"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="right|center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </FrameLayout>
+
+        <Button
+            android:visibility="gone"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_60dp"
+            android:text="返回"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:visibility="gone"
+        android:id="@+id/recycleView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+</LinearLayout>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_root"
+    android:background="@drawable/shape_choose_address"
+    android:layout_width="match_parent"
+    android:layout_height="320dp"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="320dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                >
+
+                <TextView
+                    android:text="预约时间"
+                    android:layout_centerInParent="true"
+                    android:textSize="@dimen/sp_16"
+                    android:textColor="#333333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
+                    android:id="@+id/iv_close"
+                    android:padding="@dimen/dp_10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_order_cancel" />
+
+
+            </RelativeLayout>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:text="确定"
+                android:textColor="#ffffff"
+                android:layout_marginRight="@dimen/size_20dp"
+                android:layout_marginLeft="@dimen/size_20dp"
+                android:layout_marginTop="@dimen/size_20dp"
+                android:padding="@dimen/size_5dp"
+                android:background="@drawable/shape_orange"
+                android:id="@+id/tv_sure"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:textSize="@dimen/sp_16"
+                android:layout_height="@dimen/size_48dp"/>
+        </LinearLayout>
+
+
+
+    </ScrollView>
+
+</LinearLayout>

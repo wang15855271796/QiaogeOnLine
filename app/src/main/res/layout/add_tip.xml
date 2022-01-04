@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/size_47dp"
+        android:layout_marginRight="@dimen/size_47dp"
+        android:background="@drawable/app_my_wallet_bg"
+        android:orientation="vertical">
+
+        <ImageView
+            android:scaleType="fitXY"
+            android:src="@mipmap/bg_add_tip"
+            android:layout_width="match_parent"
+            android:background="#F0F0F0"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/et_amount"
+            android:background="@drawable/shape_grey4"
+            android:inputType="number"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_38dp"
+            android:hint="请输入金额"
+            android:textAlignment="center"
+            android:text="22"
+            android:layout_toRightOf="@+id/radio2"
+            android:layout_marginRight="@dimen/size_30dp"
+            android:layout_marginLeft="@dimen/size_30dp"
+            android:textSize="@dimen/size_18dp" />
+
+        <TextView
+            android:id="@+id/tv_desc"
+            android:textSize="@dimen/size_11dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/et_amount"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="小费金额可多次添加不可低于上次添加金额"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_ok"
+            android:layout_below="@+id/tv_desc"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/size_25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/size_26dp"
+            android:layout_marginLeft="@dimen/size_26dp"
+            android:gravity="center"
+            android:background="@drawable/shape_orange"
+            android:text="确认添加"
+            android:padding="@dimen/size_8dp"
+            android:textColor="@color/white"
+            android:textSize="16dp" />
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:padding="@dimen/size_10dp"
+            android:layout_margin="@dimen/size_5dp"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/ic_huo_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+</LinearLayout>

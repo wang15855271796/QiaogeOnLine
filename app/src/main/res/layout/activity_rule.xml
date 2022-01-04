@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.puyue.www.qiaoge.view.CompatToolbar
+        android:layout_marginTop="@dimen/size_20dp"
+        android:id="@+id/compatToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/app_border_bottom_bg">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:padding="10dp"
+            android:src="@mipmap/ic_back_arrow" />
+
+        <TextView
+            android:id="@+id/tv_activity_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="13dp"
+            android:layout_marginTop="13dp"
+            android:text="货运费用标准"
+            android:textColor="@color/app_top_bar_text"
+            android:textSize="18dp" />
+    </com.puyue.www.qiaoge.view.CompatToolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_marginRight="@dimen/size_15dp"
+            android:layout_marginLeft="@dimen/size_15dp"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/size_14dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <View
+                    android:layout_marginTop="@dimen/size_2dp"
+                    android:background="#FD6601"
+                    android:layout_width="4dp"
+                    android:layout_height="@dimen/size_18dp"/>
+
+                <TextView
+                    android:layout_marginLeft="@dimen/size_8dp"
+                    android:textColor="#333333"
+                    android:textSize="@dimen/sp_16"
+                    android:textStyle="bold"
+                    android:text="车型"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+                <TextView
+                    android:id="@+id/tv_city"
+                    android:layout_alignParentRight="true"
+                    android:textColor="#FD6601"
+                    android:textSize="@dimen/sp_16"
+                    android:textStyle="bold"
+                    android:text="杭州"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_pic"
+                    android:src="@mipmap/icon_car"
+                    android:layout_marginTop="@dimen/size_42dp"
+                    android:layout_marginLeft="@dimen/size_67dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/size_42dp"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_car_style"
+                        android:layout_marginRight="108dp"
+                        android:layout_alignParentRight="true"
+                        android:textSize="@dimen/sp_16"
+                        android:textColor="#333333"
+                        android:text="小面"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/tv_length"
+                        android:layout_marginRight="108dp"
+                        android:layout_alignParentRight="true"
+                        android:textSize="@dimen/sp_12"
+                        android:textColor="#999999"
+                        android:layout_marginTop="@dimen/size_5dp"
+                        android:text="长*宽*高"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/tv_tiji"
+                        android:layout_marginRight="108dp"
+                        android:layout_alignParentRight="true"
+                        android:textSize="@dimen/sp_12"
+                        android:textColor="#999999"
+                        android:layout_marginTop="@dimen/size_5dp"
+                        android:text="体积"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/tv_weight"
+                        android:layout_marginRight="108dp"
+                        android:layout_alignParentRight="true"
+                        android:textSize="@dimen/sp_12"
+                        android:textColor="#999999"
+                        android:layout_marginTop="@dimen/size_5dp"
+                        android:text="重量"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/size_35dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <View
+                    android:layout_marginTop="@dimen/size_2dp"
+                    android:background="#FD6601"
+                    android:layout_width="4dp"
+                    android:layout_height="@dimen/size_18dp"/>
+
+                <TextView
+                    android:layout_marginLeft="@dimen/size_8dp"
+                    android:textColor="#333333"
+                    android:textSize="@dimen/sp_16"
+                    android:textStyle="bold"
+                    android:text="基本路费"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:background="@drawable/shape_grey7"
+                android:layout_marginTop="@dimen/dp_10"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="里程计费"
+                    android:textColor="#333333"
+                    android:gravity="center"
+                    android:background="@drawable/shape_grey5"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/size_44dp"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:background="@drawable/shape_grey6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_marginTop="@dimen/size_11dp"
+                        android:layout_marginRight="@dimen/size_14dp"
+                        android:layout_marginLeft="@dimen/size_14dp"
+                        android:text="基于订单里程，按照以下定价标准计算订单价格，若运输过程中 产生高速路桥费，司机会凭票据向客户确认并发起收款。"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_base"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/size_14dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <View
+                    android:layout_marginTop="@dimen/size_2dp"
+                    android:background="#FD6601"
+                    android:layout_width="4dp"
+                    android:layout_height="@dimen/size_18dp"/>
+
+                <TextView
+                    android:layout_marginLeft="@dimen/size_8dp"
+                    android:textColor="#333333"
+                    android:textSize="@dimen/sp_16"
+                    android:textStyle="bold"
+                    android:text="高速费/停车费"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:background="@drawable/shape_grey7"
+                android:layout_marginTop="@dimen/size_14dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_72">
+
+                <RelativeLayout
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/size_36dp">
+
+                    <TextView
+                        android:text="高速费"
+                        android:layout_marginLeft="@dimen/size_16dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:layout_marginRight="@dimen/public_space_value_120"
+                        android:layout_alignParentRight="true"
+                        android:text="凭票据实收"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/size_36dp">
+
+                    <TextView
+                        android:text="停车费"
+                        android:layout_marginLeft="@dimen/size_16dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:text="凭票据实收"
+                        android:layout_marginRight="@dimen/public_space_value_120"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/size_14dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <View
+                    android:layout_marginTop="@dimen/size_2dp"
+                    android:background="#FD6601"
+                    android:layout_width="4dp"
+                    android:layout_height="@dimen/size_18dp"/>
+
+                <TextView
+                    android:layout_marginLeft="@dimen/size_8dp"
+                    android:textColor="#333333"
+                    android:textSize="@dimen/sp_16"
+                    android:textStyle="bold"
+                    android:text="车型规格"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/size_14dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_car_style"
+                    android:background="@drawable/shape_grey7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/size_14dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <View
+                    android:layout_marginTop="@dimen/size_2dp"
+                    android:background="#FD6601"
+                    android:layout_width="4dp"
+                    android:layout_height="@dimen/size_18dp"/>
+
+                <TextView
+                    android:layout_marginLeft="@dimen/size_8dp"
+                    android:textColor="#333333"
+                    android:textSize="@dimen/sp_16"
+                    android:textStyle="bold"
+                    android:text="额外要求"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_marginBottom="@dimen/size_14dp"
+                android:layout_marginTop="@dimen/size_14dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_ask"
+                    android:background="@drawable/shape_grey7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.puyue.www.qiaoge.view.CompatToolbar
+        android:layout_marginTop="@dimen/size_20dp"
+        android:id="@+id/compatToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/app_border_bottom_bg">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:padding="10dp"
+            android:src="@mipmap/ic_back_arrow" />
+
+        <TextView
+            android:id="@+id/tv_activity_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="13dp"
+            android:layout_marginTop="13dp"
+            android:text="费用明细"
+            android:textColor="@color/app_top_bar_text"
+            android:textSize="18dp" />
+    </com.puyue.www.qiaoge.view.CompatToolbar>
+
+    <TextView
+        android:id="@+id/tv_rule"
+        android:padding="@dimen/size_5dp"
+        android:background="@drawable/shape_greys"
+        android:layout_marginRight="@dimen/size_20dp"
+        android:layout_marginTop="@dimen/size_14dp"
+        android:layout_gravity="right"
+        android:drawablePadding="@dimen/size_5dp"
+        android:text="收费标准"
+        android:drawableLeft="@mipmap/icon_wen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <RelativeLayout
+        android:layout_marginRight="@dimen/size_20dp"
+        android:layout_marginLeft="@dimen/size_20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            tools:text="300"
+            android:id="@+id/tv_price"
+            android:textSize="@dimen/size_36dp"
+            android:textColor="#333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="元"
+            android:layout_alignBaseline="@+id/tv_price"
+            android:layout_toRightOf="@+id/tv_price"
+            android:textSize="@dimen/size_18dp"
+            android:textColor="#333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            tools:text="小面"
+            android:layout_alignBaseline="@+id/tv_price"
+            android:layout_alignParentRight="true"
+            android:id="@+id/tv_car_style"
+            android:textSize="18sp"
+            android:textColor="#333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_desc"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginRight="@dimen/size_20dp"
+        android:layout_marginLeft="@dimen/size_20dp"
+        android:text="若产生高速费、停车费和搬运费，请用额外支付
+若产生逾时等费用，请司机按费用标准结算"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:layout_marginTop="@dimen/size_20dp"
+        android:layout_marginRight="@dimen/size_20dp"
+        android:layout_marginLeft="@dimen/size_20dp"
+        android:background="#F2F3F6"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_marginTop="@dimen/size_20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:layout_marginRight="@dimen/size_20dp"
+        android:layout_marginLeft="@dimen/size_20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            tools:text="300"
+            android:textSize="18sp"
+            android:textColor="#333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+</LinearLayout>

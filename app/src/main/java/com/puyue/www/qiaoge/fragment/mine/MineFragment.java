@@ -26,6 +26,7 @@ import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.CommonH5Activity;
+import com.puyue.www.qiaoge.activity.HuoHomeActivity;
 import com.puyue.www.qiaoge.activity.mine.FeedBackActivity;
 import com.puyue.www.qiaoge.activity.mine.MessageCenterActivity;
 import com.puyue.www.qiaoge.activity.mine.MyCollectionActivity;
@@ -42,6 +43,7 @@ import com.puyue.www.qiaoge.activity.mine.wallet.MyWalletNewActivity;
 import com.puyue.www.qiaoge.adapter.Must2Adapter;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
+import com.puyue.www.qiaoge.api.huolala.HuolalaAPI;
 import com.puyue.www.qiaoge.api.mine.AccountCenterAPI;
 import com.puyue.www.qiaoge.api.mine.UpdateAPI;
 import com.puyue.www.qiaoge.api.mine.order.MyOrderListAPI;
@@ -60,6 +62,7 @@ import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
+import com.puyue.www.qiaoge.model.IsAuthModel;
 import com.puyue.www.qiaoge.model.OrderNumsModel;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 import com.puyue.www.qiaoge.model.mine.AccountCenterModel;
@@ -68,6 +71,7 @@ import com.puyue.www.qiaoge.model.mine.order.MineCenterModel;
 import com.puyue.www.qiaoge.model.mine.order.MyOrderNumModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.Time;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.OutScollerview;
 import com.puyue.www.qiaoge.view.ScrollViewListeners;
 import com.puyue.www.qiaoge.view.SuperTextView;
@@ -731,17 +735,16 @@ public class MineFragment extends BaseFragment {
             } else if (view == relativeLayoutVip || view == tv_vip_more || view == iv_vip_more)
 
             { //会员中心
-                Intent intent = new Intent(getContext(), NewWebViewActivity.class);
-                intent.putExtra("URL", urlVIP);
-                intent.putExtra("TYPE", 1);
-                intent.putExtra("name", "");
+                Intent intent = new Intent(getActivity(), HuoHomeActivity.class);
                 startActivity(intent);
-            } /*else if (view == vipDay) {
-                Intent intent = new Intent(getContext(), NewWebViewActivity.class);
-                intent.putExtra("URL", vipDayUrlVIP);
-                intent.putExtra("name", "");
-                startActivity(intent);
-            }*/ else if (view == tv_use_deduct)
+//                isAuth();
+//                Intent intent = new Intent(getContext(), NewWebViewActivity.class);
+//                intent.putExtra("URL", urlVIP);
+//                intent.putExtra("TYPE", 1);
+//                intent.putExtra("name", "");
+//                startActivity(intent);
+
+            }  else if (view == tv_use_deduct)
 
             {
                 ll_expiredInfo.setVisibility(View.GONE);
@@ -782,6 +785,37 @@ public class MineFragment extends BaseFragment {
         }
 
     };
+
+    /**
+     * 判断是否需要授权
+     */
+    private void isAuth() {
+        HuolalaAPI.isAuthorize(mActivity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<IsAuthModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(IsAuthModel isAuthModel) {
+                        if(isAuthModel.getCode()==1) {
+                            if(isAuthModel.getData().isAuthorize()) {
+                                startActivity(CommonH5Activity.getIntent(getActivity(),CommonH5Activity.class,isAuthModel.getData().getAuthUrl()));
+                            }
+                        }else {
+                            ToastUtil.showSuccessMsg(getActivity(),isAuthModel.getMessage());
+                        }
+                    }
+                });
+    }
 
 
     private void useAccount() {

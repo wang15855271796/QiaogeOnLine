@@ -22,6 +22,9 @@ import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.view.StatusBarUtil;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
  * 与Activity通信的三种方式：Bundle Methods Listener
  * Created by GuoGai on 2016/7/6.
@@ -30,6 +33,7 @@ public abstract class BaseFragment extends Fragment {
     public FragmentActivity mActivity;
     public FragmentManager supportFragmentManager;
     public FragmentTransaction fragmentTransaction;
+    private Unbinder unbinder;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -95,6 +99,7 @@ public abstract class BaseFragment extends Fragment {
 
         findViewById(view);
         initViews(view);
+        unbinder = ButterKnife.bind(this, view);
         setViewData();
         setClickEvent();
 

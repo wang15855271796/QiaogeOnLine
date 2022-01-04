@@ -179,6 +179,9 @@
         <activity android:name=".activity.mine.login.ShopTypeActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".activity.HuoOrderConfirmActivity"
+            android:screenOrientation="portrait"
+            />
         <activity android:name=".activity.mine.SubAccountActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.mine.SubAccountOrderActivity"
@@ -229,6 +232,10 @@
             />
 
         <activity android:name=".activity.mine.account.LoginPayTestActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.HuoDetailActivity"
             android:screenOrientation="portrait"
             />
 
@@ -296,10 +303,20 @@
             android:screenOrientation="portrait" />
 
         <activity android:name=".activity.mine.account.HisActivity"
-
             android:screenOrientation="portrait"
             />
 
+        <activity android:name=".activity.HuoHomeActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.HuoEditAddressActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.HuoSearchAddressActivity"
+            android:screenOrientation="portrait"
+            />
         <!--登录验证-->
         <activity android:name=".activity.mine.account.LoginTestActivity"
             android:screenOrientation="portrait"
@@ -337,6 +354,13 @@
             android:screenOrientation="portrait"
             />
 
+        <activity android:name=".activity.PriceDetailActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.HuoRuleActivity"
+            android:screenOrientation="portrait"
+            />
         <activity android:name=".activity.ShopStartActivity"
             android:screenOrientation="portrait"
             />
@@ -774,6 +798,10 @@
             />
 
         <activity android:name=".activity.InfoSearchActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.HuoCancelActivity"
             android:screenOrientation="portrait"
             />
 

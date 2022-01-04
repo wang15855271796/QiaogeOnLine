@@ -15,8 +15,50 @@ public class AppInterfaceAddress {
     //http://192.168.101.41:8088/
 //    queryReturnProdIsContainFullGift
 
-
-
+    /**
+     *预约时间
+     */
+    public static final String Huo_Appoint = "hll/hllUseCarReserveTime ";
+    /**
+     * 车型费用明细
+     */
+    public static final String Car_Price = "hll/hllCarPriceDetailInfo";
+    /**
+     * 获取取消原因
+     */
+    public static final String Cancel_Reason = "hll/hllOrderCancelReason";
+    /**
+     * 取消订单
+     */
+    public static final String Cancel_Order = "hll/hllOrderCancel";
+    /**
+     * 添加小费
+     */
+    public static final String Add_Tips = "hll/hllOrderAddTips";
+    /**
+     *订单详情
+     */
+    public static final String Huo_Detail = "hll/hllOrderDetail";
+    /**
+     * hll/hllOrderPage订单列表
+     */
+    public static final String Huo_list = "hll/hllOrderPage";
+    /**
+     *计价
+     */
+    public static final String Deal_Price = "hll/hllOrderPriceCalculate";
+    /**
+     *地址检索
+     */
+    public static final String Address_Search = "hll/hllSearchAddress";
+    /**
+     * 货拉拉车型获取
+     */
+    public static final String Car_Style = "hll/hllCityCarInfo";
+    /**
+     *判断用户是否需要授权货拉拉，返回授权地址
+     */
+    public static final String Is_Authorize = "hll/hllAuthorize";
     /**
      *数据埋点
      */
