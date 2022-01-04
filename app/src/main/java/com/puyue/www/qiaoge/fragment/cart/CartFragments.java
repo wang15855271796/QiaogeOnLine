@@ -534,18 +534,25 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                                         tv_given.setText(data.get(i).getDeductInfo());
                                     }
 
-//                                    if(data.get(i).getType()!=null) {
+                                    if(data.size()==2) {
+                                        if(data.get(i).getType()==0) {
+                                            rl_reduce.setVisibility(View.VISIBLE);
+                                        }
 
-                                        if(data.get(i).getType()==0&&data.get(i).getType()!=1) {
+                                        if(data.get(i).getType()==1) {
+                                            rl_given.setVisibility(View.VISIBLE);
+                                        }
+                                    }else {
+                                        if(data.get(i).getType()==0) {
                                             rl_reduce.setVisibility(View.VISIBLE);
                                             rl_given.setVisibility(View.GONE);
                                         }
 
-                                        if(data.get(i).getType()==1&&data.get(i).getType()!=0) {
+                                        if(data.get(i).getType()==1) {
                                             rl_given.setVisibility(View.VISIBLE);
                                             rl_reduce.setVisibility(View.GONE);
                                         }
-//                                    }
+                                    }
                                 }
 
                                 rl_reduce.setOnClickListener(new View.OnClickListener() {
