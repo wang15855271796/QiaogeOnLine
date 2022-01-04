@@ -152,8 +152,10 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
                 orderIntent.putExtra("zAddr", tv_zhuang.getText().toString());
                 orderIntent.putExtra("xAddr", tv_unload.getText().toString());
                 orderIntent.putExtra("price", priceData.getTotal_price());
-                orderIntent.putExtra("name", huoAddressEvent.getName());
-                orderIntent.putExtra("phone", huoAddressEvent.getPhone());
+                orderIntent.putExtra("zName", huoAddressEvent.getName());
+                orderIntent.putExtra("zPhone", huoAddressEvent.getPhone());
+                orderIntent.putExtra("xName", huoAddressEvent.getName());
+                orderIntent.putExtra("xPhone", huoAddressEvent.getPhone());
                 startActivity(orderIntent);
                 break;
             case R.id.tv_appoint:

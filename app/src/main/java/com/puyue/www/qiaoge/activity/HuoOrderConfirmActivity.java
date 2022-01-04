@@ -16,6 +16,7 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.adapter.ReqAdapter;
 import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.dialog.HuoAddressDialog;
+import com.puyue.www.qiaoge.dialog.HuoContactDialog;
 import com.puyue.www.qiaoge.model.CarStyleModel;
 
 import java.io.Serializable;
@@ -43,8 +44,10 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
     String xAddr;
     String carStyle;
     String price;
-    String name;
-    String phone;
+    String zName;
+    String zPhone;
+    String xName;
+    String xPhone;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         reqList = (List<String>) getIntent().getSerializableExtra("reqList");
@@ -52,8 +55,10 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
         xAddr = getIntent().getStringExtra("xAddr");
         carStyle = getIntent().getStringExtra("carStyle");
         price = getIntent().getStringExtra("price");
-        name = getIntent().getStringExtra("name");
-        phone = getIntent().getStringExtra("phone");
+        zName = getIntent().getStringExtra("zName");
+        zPhone = getIntent().getStringExtra("zPhone");
+        xName = getIntent().getStringExtra("xName");
+        xPhone = getIntent().getStringExtra("xPhone");
         return false;
     }
 
@@ -77,12 +82,13 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
         ReqAdapter reqAdapter = new ReqAdapter(R.layout.item_req,reqList);
         recyclerView.setAdapter(reqAdapter);
         tv_total.setText(price);
-        tv_contact.setText(name+phone);
+        tv_contact.setText(zName+zName);
     }
 
     @Override
     public void setClickEvent() {
         rl_address.setOnClickListener(this);
+        tv_contact.setOnClickListener(this);
     }
 
     protected void setTranslucentStatus() {
@@ -103,8 +109,13 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rl_address:
-                HuoAddressDialog huoAddressDialog = new HuoAddressDialog(mContext);
+                HuoAddressDialog huoAddressDialog = new HuoAddressDialog(mContext,zName,xName,zPhone,xPhone);
                 huoAddressDialog.show();
+                break;
+
+            case R.id.tv_contact:
+                HuoContactDialog huoContactDialog = new HuoContactDialog(mContext);
+                huoContactDialog.show();
                 break;
         }
     }

@@ -19,7 +19,7 @@
             >
 
             <TextView
-                android:text="选择原因"
+                android:text="地址"
                 android:layout_centerInParent="true"
                 android:textSize="@dimen/sp_16"
                 android:textColor="#333333"
@@ -27,6 +27,8 @@
                 android:layout_height="wrap_content" />
 
             <ImageView
+                android:layout_marginLeft="@dimen/size_12dp"
+                android:layout_marginTop="@dimen/size_12dp"
                 android:id="@+id/iv_close"
                 android:padding="@dimen/dp_10"
                 android:layout_width="wrap_content"
@@ -81,6 +83,12 @@
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>
+
+        <ImageView
+            android:src="@mipmap/icon_drop"
+            android:layout_marginLeft="@dimen/size_32dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <LinearLayout
             android:layout_marginTop="@dimen/size_20dp"
