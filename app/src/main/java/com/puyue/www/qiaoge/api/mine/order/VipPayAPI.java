@@ -24,13 +24,13 @@ public class VipPayAPI  {
     private interface VipPayService {
         @FormUrlEncoded
         @POST(AppInterfaceAddress.VIPPAY)
-        Observable<VipPayModel> getVipPayData(@Field("vipPackageId") String vipPackageId,
+        Observable<VipPayModel> setParams(@Field("vipPackageId") String vipPackageId,
                                               @Field("payChannel") int payChannel);
     }
 
     public static Observable<VipPayModel> requestVipPayData(Context context, String vipPackageId, int payChannel) {
         VipPayService service = RestHelper.getBaseRetrofit(context).create(VipPayService.class);
-        return service.getVipPayData(vipPackageId, payChannel);
+        return service.setParams(vipPackageId, payChannel);
     }
 
     public interface VipPayListService {

@@ -83,7 +83,7 @@
                     android:id="@+id/tv_zhuang"
                     android:textStyle="bold"
                     android:gravity="center"
-                    android:text="请输入装货地址"
+                    android:hint="请输入装货地址"
                     android:textColor="#333333"
                     android:lines="1"
                     android:ellipsize="end"
@@ -109,7 +109,7 @@
                 <TextView
                     android:id="@+id/tv_unload"
                     android:gravity="center"
-                    android:hint="未填写联系人"
+                    android:hint="请输入卸货地址"
                     android:textColor="#333333"
                     android:lines="1"
                     android:ellipsize="end"

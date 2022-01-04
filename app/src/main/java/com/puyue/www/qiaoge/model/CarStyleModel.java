@@ -1,5 +1,6 @@
 package com.puyue.www.qiaoge.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class CarStyleModel {
@@ -291,7 +292,7 @@ public class CarStyleModel {
             }
         }
 
-        public static class SpecReqItemBean {
+        public static class SpecReqItemBean implements Serializable {
             /**
              * price_value_fen : 0
              * name : 搬运

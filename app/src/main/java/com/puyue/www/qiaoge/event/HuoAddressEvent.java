@@ -6,10 +6,12 @@ public class HuoAddressEvent {
     AddressListModel.DataBean dataBean;
     String name;
     String phone;
-    public HuoAddressEvent(AddressListModel.DataBean dataBean, String name, String phone) {
+    int type;
+    public HuoAddressEvent(AddressListModel.DataBean dataBean, String name, String phone, int type) {
         this.dataBean = dataBean;
         this.name = name;
         this.phone = phone;
+        this.type = type;
 
     }
 
@@ -35,5 +37,13 @@ public class HuoAddressEvent {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

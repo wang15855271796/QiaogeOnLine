@@ -100,7 +100,7 @@ public class HuoEditAddressActivity extends BaseActivity implements View.OnClick
                 break;
 
             case R.id.bt_sure:
-                EventBus.getDefault().post(new HuoAddressEvent(dataBean,et_name.getText().toString(),et_phone.getText().toString()));
+                EventBus.getDefault().post(new HuoAddressEvent(dataBean,et_name.getText().toString(),et_phone.getText().toString(),type));
                 finish();
                 break;
 

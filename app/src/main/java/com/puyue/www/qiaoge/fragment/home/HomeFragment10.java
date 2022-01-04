@@ -51,6 +51,7 @@ import com.puyue.www.qiaoge.activity.home.SearchStartActivity;
 import com.puyue.www.qiaoge.activity.home.SpecialGoodDetailActivity;
 import com.puyue.www.qiaoge.activity.home.TeamDetailActivity;
 import com.puyue.www.qiaoge.activity.mine.MessageCenterActivity;
+import com.puyue.www.qiaoge.activity.mine.coupons.MyCouponsActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LogoutsEvent;
 import com.puyue.www.qiaoge.activity.mine.order.MyOrdersActivity;
@@ -1599,7 +1600,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                         Intent intent = new Intent(getActivity(), MinerIntegralActivity.class);
                         startActivity(intent);
                     } else if (AppConstant.GIFT.equals(banners.get(position).getProdPage())) {
-                        Intent intent = new Intent(getActivity(), MyOrdersActivity.class);
+                        Intent intent = new Intent(getActivity(), MyCouponsActivity.class);
                         startActivity(intent);
                     }
                 } else if (showType == 4) {

@@ -62,9 +62,13 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
     TextView tv_appoint;
     @BindView(R.id.tv_now)
     TextView tv_now;
+    @BindView(R.id.tv_total_price)
+    TextView tv_total_price;
     int position;
     //附加要求选择
     List<Integer> list = new ArrayList<>();
+    //附加要求选择描述
+    List<String> listDesc = new ArrayList<>();
     String id;
     int type;
     @Override
@@ -87,6 +91,7 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
         EventBus.getDefault().register(this);
         Bundle bundle=getArguments();
         id=bundle.getString("id");
+
         tab_layout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -113,10 +118,13 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
             @Override
             public void onItemClick(int position, boolean hasFocus) {
                 type = reqList.get(position).getType();
+                String name = reqList.get(position).getName();
                 if(hasFocus) {
                     list.add(type);
+                    listDesc.add(name);
                 }else {
                     list.remove(new Integer(type));
+                    listDesc.remove(name);
                 }
             }
 
@@ -139,6 +147,11 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
 
             case R.id.tv_now:
                 Intent orderIntent = new Intent(mActivity, HuoOrderConfirmActivity.class);
+                orderIntent.putExtra("reqList", (Serializable) listDesc);
+                orderIntent.putExtra("carStyle", data.getVehicle_list().get(position).getVehicle_name());
+                orderIntent.putExtra("zAddr", tv_zhuang.getText().toString());
+                orderIntent.putExtra("xAddr", tv_unload.getText().toString());
+                orderIntent.putExtra("price", priceData.getTotal_price());
                 startActivity(orderIntent);
                 break;
             case R.id.tv_appoint:
@@ -171,8 +184,6 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
                 break;
         }
     }
-
-
 
     ChooseRequireAdapter chooseRequireAdapter;
     CarStyleModel.DataBean data;
@@ -217,10 +228,16 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
 
 
     AddressListModel.DataBean dataBean;
-    JSONArray jsonArray1 = new JSONArray();;
+    JSONArray jsonArray1 = new JSONArray();
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getAddress(HuoAddressEvent huoAddressEvent) {
         dataBean = huoAddressEvent.getDataBean();
+        if(huoAddressEvent.getType()==1) {
+            tv_zhuang.setText(dataBean.getAddr());
+        }else {
+            tv_unload.setText(dataBean.getAddr());
+        }
+
         JSONObject jsonObject;
         try {
             jsonObject = new JSONObject();
@@ -238,14 +255,12 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
             jsonObject1.put("lon",dataBean.getLat_lon().getLon());
             jsonObject.put("lat_lon",jsonObject1);
             jsonArray1.put(jsonObject);
-
-
+            Log.d("cdsgfsfe...","sss");
+            getPrice(dataBean.getCity_id(),data.getCity_info_revision(),
+                    data.getVehicle_list().get(position).getOrder_vehicle_id(),"", StringUtils.join(list, ","),jsonArray1,0,"");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        getPrice(dataBean.getCity_id(),data.getCity_info_revision(),
-                data.getVehicle_list().get(position).getOrder_vehicle_id(),"", StringUtils.join(list, ","),jsonArray1,0,"");
-
     }
 
     DealPriceModel.DataBean priceData;
@@ -262,7 +277,6 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
 
                     @Override
                     public void onError(Throwable e) {
-
                     }
 
                     @Override
@@ -270,6 +284,7 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
                         if(priceModel.getCode()==1) {
                             if(priceModel.getData()!=null) {
                                 priceData = priceModel.getData();
+                                tv_total_price.setText(priceData.getTotal_price());
                             }
                         }else {
                             ToastUtil.showSuccessMsg(mActivity,priceModel.getMessage());
@@ -277,5 +292,4 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
                     }
                 });
     }
-
 }

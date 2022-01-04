@@ -118,7 +118,6 @@ public abstract class BaseFragment extends Fragment {
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
-
     }
 
     /**

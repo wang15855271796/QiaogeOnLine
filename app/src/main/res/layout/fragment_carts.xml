@@ -95,8 +95,6 @@
                             tools:text="系统维护停服升级公告系统维护停服升级公告"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
-
-
                     </RelativeLayout>
 
                     <RelativeLayout

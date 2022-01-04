@@ -781,7 +781,6 @@ public class MineFragment extends BaseFragment {
             } else if(view == iv_setting1) {
                 startActivity(AccountCenterActivity.getIntent(getContext(), AccountCenterActivity.class));
             }
-
         }
 
     };

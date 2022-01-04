@@ -18,7 +18,7 @@ public class AppInterfaceAddress {
     /**
      *预约时间
      */
-    public static final String Huo_Appoint = "hll/hllUseCarReserveTime ";
+    public static final String Huo_Appoint = "hll/hllUseCarReserveTime";
     /**
      * 车型费用明细
      */
