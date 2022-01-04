@@ -51,7 +51,7 @@ public class HuoAddressDialog extends Dialog implements View.OnClickListener {
 
 
     public void init() {
-        view = View.inflate(context, R.layout.dialog_huo_reason, null);
+        view = View.inflate(context, R.layout.dialog_huo_address, null);
         view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         binder = ButterKnife.bind(this, view);
         setContentView(view);
