@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.adapter.ReqAdapter;
 import com.puyue.www.qiaoge.base.BaseActivity;
+import com.puyue.www.qiaoge.dialog.HuoAddressDialog;
 import com.puyue.www.qiaoge.model.CarStyleModel;
 
 import java.io.Serializable;
@@ -21,7 +23,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class HuoOrderConfirmActivity extends BaseActivity {
+public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.tv_z)
@@ -32,11 +34,17 @@ public class HuoOrderConfirmActivity extends BaseActivity {
     TextView tv_car;
     @BindView(R.id.tv_total)
     TextView tv_total;
+    @BindView(R.id.tv_contact)
+    TextView tv_contact;
+    @BindView(R.id.rl_address)
+    RelativeLayout rl_address;
     List<String> reqList;
     String zAddr;
     String xAddr;
     String carStyle;
     String price;
+    String name;
+    String phone;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         reqList = (List<String>) getIntent().getSerializableExtra("reqList");
@@ -44,6 +52,8 @@ public class HuoOrderConfirmActivity extends BaseActivity {
         xAddr = getIntent().getStringExtra("xAddr");
         carStyle = getIntent().getStringExtra("carStyle");
         price = getIntent().getStringExtra("price");
+        name = getIntent().getStringExtra("name");
+        phone = getIntent().getStringExtra("phone");
         return false;
     }
 
@@ -67,12 +77,12 @@ public class HuoOrderConfirmActivity extends BaseActivity {
         ReqAdapter reqAdapter = new ReqAdapter(R.layout.item_req,reqList);
         recyclerView.setAdapter(reqAdapter);
         tv_total.setText(price);
-
+        tv_contact.setText(name+phone);
     }
 
     @Override
     public void setClickEvent() {
-
+        rl_address.setOnClickListener(this);
     }
 
     protected void setTranslucentStatus() {
@@ -89,4 +99,13 @@ public class HuoOrderConfirmActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.rl_address:
+                HuoAddressDialog huoAddressDialog = new HuoAddressDialog(mContext);
+                huoAddressDialog.show();
+                break;
+        }
+    }
 }

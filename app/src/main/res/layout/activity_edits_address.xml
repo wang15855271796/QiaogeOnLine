@@ -145,7 +145,7 @@
                             android:layout_marginRight="20dp"
                             android:layout_weight="1"
                             android:background="@null"
-                            android:hint="姓名"
+                            android:hint="姓名(必填)"
                             android:textColor="#232131"
                             android:textColorHint="#D5D5D5"
                             android:textSize="18dp" />
@@ -180,7 +180,7 @@
                             android:layout_weight="1"
                             android:background="@null"
                             android:gravity="center_vertical"
-                            android:text="联系人手机号/座机"
+                            android:text="联系人手机号/座机(必填)"
                             android:textColor="#D5D5D5"
                             android:textSize="18dp" />
                     </LinearLayout>

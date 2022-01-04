@@ -152,6 +152,8 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
                 orderIntent.putExtra("zAddr", tv_zhuang.getText().toString());
                 orderIntent.putExtra("xAddr", tv_unload.getText().toString());
                 orderIntent.putExtra("price", priceData.getTotal_price());
+                orderIntent.putExtra("name", huoAddressEvent.getName());
+                orderIntent.putExtra("phone", huoAddressEvent.getPhone());
                 startActivity(orderIntent);
                 break;
             case R.id.tv_appoint:
@@ -210,8 +212,6 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
                             if(carStyleModel.getData()!=null) {
                                 reqList.clear();
                                 data = carStyleModel.getData();
-//                                tv_location.setText(data.getName());
-
                                 List<CarStyleModel.DataBean.VehicleListBean> vehicle_list = data.getVehicle_list();
                                 reqList.addAll(data.getSpec_req_item());
                                 MyCarPagerAdapter myCarPagerAdapter = new MyCarPagerAdapter(vehicle_list,mActivity);
@@ -229,8 +229,10 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
 
     AddressListModel.DataBean dataBean;
     JSONArray jsonArray1 = new JSONArray();
+    HuoAddressEvent huoAddressEvent;
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getAddress(HuoAddressEvent huoAddressEvent) {
+        this.huoAddressEvent = huoAddressEvent;
         dataBean = huoAddressEvent.getDataBean();
         if(huoAddressEvent.getType()==1) {
             tv_zhuang.setText(dataBean.getAddr());
