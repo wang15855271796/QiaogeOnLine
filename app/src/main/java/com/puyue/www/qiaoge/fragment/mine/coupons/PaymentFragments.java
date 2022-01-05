@@ -313,6 +313,12 @@ public class PaymentFragments extends DialogFragment {
                             } else if (payChannel == 3&&jumpWx==1) {
                                 //微信支付(小程序)
                                 SharedPreferencesUtil.saveString(getContext(),"payKey","3");
+                                Intent lan = getActivity().getPackageManager().getLaunchIntentForPackage("com.tencent.mm");
+                                Intent t2 = new Intent(Intent.ACTION_MAIN);
+                                t2.addCategory(Intent.CATEGORY_LAUNCHER);
+                                t2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                t2.setComponent(lan.getComponent());
+                                startActivity(t2);
                                 weChatPay(orderPayModel.data.payToken);
 
                             }else if(payChannel == 3&&jumpWx==0) {
@@ -363,7 +369,7 @@ public class PaymentFragments extends DialogFragment {
         req.userName = "gh_02750c16f80b"; // 填小程序原始id
         req.path = "/pagesGoods/toplay/apptoplay?token="+userId+"&oderNo="+orderId;
         ////拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
-        req.miniprogramType =  WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW;// 可选打开 开发版，体验版和正式版
+        req.miniprogramType =  WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发版，体验版和正式版
         api.sendReq(req);
     }
 
