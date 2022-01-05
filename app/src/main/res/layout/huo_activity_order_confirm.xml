@@ -218,6 +218,7 @@
             android:layout_height="@dimen/size_100dp">
 
             <RelativeLayout
+                android:id="@+id/rl_coupon"
                 android:layout_marginTop="@dimen/dp_10"
                 android:layout_marginLeft="@dimen/size_15dp"
                 android:layout_width="match_parent"

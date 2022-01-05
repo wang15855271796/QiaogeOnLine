@@ -17,7 +17,15 @@ import com.puyue.www.qiaoge.adapter.ReqAdapter;
 import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.dialog.HuoAddressDialog;
 import com.puyue.www.qiaoge.dialog.HuoContactDialog;
+import com.puyue.www.qiaoge.dialog.HuoCouponDialog;
+import com.puyue.www.qiaoge.event.HuoOrderContactEvent;
+import com.puyue.www.qiaoge.event.LogoutEvent;
 import com.puyue.www.qiaoge.model.CarStyleModel;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.Serializable;
 import java.util.List;
@@ -39,6 +47,8 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
     TextView tv_contact;
     @BindView(R.id.rl_address)
     RelativeLayout rl_address;
+    @BindView(R.id.rl_coupon)
+    RelativeLayout rl_coupon;
     List<String> reqList;
     String zAddr;
     String xAddr;
@@ -75,6 +85,7 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
     @Override
     public void setViewData() {
         setTranslucentStatus();
+        EventBus.getDefault().register(this);
         tv_z.setText(zAddr);
         tv_x.setText(xAddr);
         tv_car.setText(carStyle);
@@ -89,6 +100,7 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
     public void setClickEvent() {
         rl_address.setOnClickListener(this);
         tv_contact.setOnClickListener(this);
+        rl_coupon.setOnClickListener(this);
     }
 
     protected void setTranslucentStatus() {
@@ -117,6 +129,17 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
                 HuoContactDialog huoContactDialog = new HuoContactDialog(mContext);
                 huoContactDialog.show();
                 break;
+
+            case R.id.rl_coupon:
+                HuoCouponDialog huoCouponDialog = new HuoCouponDialog(mContext);
+                huoCouponDialog.show();
+                break;
         }
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getContact(HuoOrderContactEvent huoOrderContactEvent) {
+        tv_contact.setText(huoOrderContactEvent.getEtName()+huoOrderContactEvent.getEtPhone());
+    }
+
 }

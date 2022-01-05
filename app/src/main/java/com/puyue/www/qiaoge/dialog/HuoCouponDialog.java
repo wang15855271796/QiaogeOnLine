@@ -13,20 +13,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.adapter.ReasonsAdapter;
 import com.puyue.www.qiaoge.event.HuoOrderContactEvent;
-import com.puyue.www.qiaoge.model.CancelReasonModel;
 import com.puyue.www.qiaoge.utils.Utils;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class HuoContactDialog extends Dialog {
+public class HuoCouponDialog extends Dialog {
     public Unbinder binder;
     Context context;
     View view;
@@ -39,14 +35,14 @@ public class HuoContactDialog extends Dialog {
     @BindView(R.id.tv_sure)
     TextView tv_sure;
 
-    public HuoContactDialog(Context mContext) {
+    public HuoCouponDialog(Context mContext) {
         super(mContext, R.style.dialog);
         this.context = mContext;
         init();
     }
 
     public void init() {
-        view = View.inflate(context, R.layout.dialog_huo_contact, null);
+        view = View.inflate(context, R.layout.dialog_huo_coupon, null);
         view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         binder = ButterKnife.bind(this, view);
         setContentView(view);
