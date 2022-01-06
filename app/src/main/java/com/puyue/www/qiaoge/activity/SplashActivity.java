@@ -52,15 +52,18 @@ public class SplashActivity extends BaseActivity {
                 @Override
                 public void run() {
                     String userId = UserInfoHelper.getUserId(mContext);
-                    if(StringHelper.notEmptyAndNull(userId)) {
-                        Intent intent = new Intent(mActivity,HomeActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }else {
-                        Intent intent = new Intent(mActivity,LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
+                    Intent intent = new Intent(mActivity,HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+//                    if(StringHelper.notEmptyAndNull(userId)) {
+//                        Intent intent = new Intent(mActivity,HomeActivity.class);
+//                        startActivity(intent);
+//                        finish();
+//                    }else {
+//                        Intent intent = new Intent(mActivity,LoginActivity.class);
+//                        startActivity(intent);
+//                        finish();
+//                    }
                 }
             },1000);
             privacyDialog.dismiss();

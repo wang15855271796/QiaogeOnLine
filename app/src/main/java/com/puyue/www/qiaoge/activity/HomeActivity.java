@@ -32,6 +32,7 @@ import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LogoutsEvent;
 import com.puyue.www.qiaoge.api.PostLoadAmountAPI;
 import com.puyue.www.qiaoge.api.SendJsPushAPI;
+import com.puyue.www.qiaoge.api.cart.GetCartNumAPI;
 import com.puyue.www.qiaoge.api.home.SendLocationAPI;
 import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.base.BaseModel;
@@ -326,25 +327,20 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
             } else if (view == mLlMarket&&!mLlMarket.isSelected()) {
                 switchTab(TAB_MARKET);
             } else if (view == mLlCart&&!mLlCart.isSelected()) {
+                getCartNumss();
                 //从首页判断用户没有登录跳转到登录界面,登录成功回来的时候要重新请求数据,
                 //由于是从首页和商城页点击进入的登录界面,回到原来界面的时候需要首页刷新或者商城界面刷新分类和细节数据
-                if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-                    switchTab(TAB_CART);
-                    Window window = getWindow();
-                    window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                } else {
-//                    AppHelper.showMsg(mContext, "请先登录");
-//                    startActivity(LoginActivity.getIntent(mContext, LoginActivity.class));
-                    initDialog();
-                }
+//                if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+//                    switchTab(TAB_CART);
+//                    Window window = getWindow();
+//                    window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//                } else {
+////                    AppHelper.showMsg(mContext, "请先登录");
+////                    startActivity(LoginActivity.getIntent(mContext, LoginActivity.class));
+//                    initDialog();
+//                }
             } else if (view == mLlMine&&!mLlMine.isSelected()) {
-                if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-                    switchTab(TAB_MINE);
-                    Window window = getWindow();
-                    window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                } else {
-                    initDialog();
-                }
+                getCartNums();
             }else if(view == ll_info&&!ll_info.isSelected()) {
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     switchTab(TAB_INFO);
@@ -735,6 +731,62 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                 });
     }
 
+
+    private void getCartNums() {
+        GetCartNumAPI.requestData(mActivity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GetCartNumModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(GetCartNumModel getCartNumModel) {
+                        if(getCartNumModel.getCode()==-10001||getCartNumModel.getCode()==-10000) {
+                            initDialog();
+                        }else {
+                            switchTab(TAB_MINE);
+                            Window window = getWindow();
+                            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                        }
+                    }
+                });
+    }
+
+    private void getCartNumss() {
+        GetCartNumAPI.requestData(mActivity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GetCartNumModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(GetCartNumModel getCartNumModel) {
+                        if(getCartNumModel.getCode()==-10001||getCartNumModel.getCode()==-10000) {
+                            initDialog();
+                        }else {
+                            switchTab(TAB_CART);
+                            Window window = getWindow();
+                            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                        }
+                    }
+                });
+    }
 
     /**
      * 获取购物车角标数据
