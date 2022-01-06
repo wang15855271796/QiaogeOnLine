@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -100,7 +101,12 @@ public class HuoEditAddressActivity extends BaseActivity implements View.OnClick
                 break;
 
             case R.id.bt_sure:
-                EventBus.getDefault().post(new HuoAddressEvent(dataBean,et_name.getText().toString(),et_phone.getText().toString(),type));
+                if(type==1) {
+                    EventBus.getDefault().post(new HuoAddressEvent(dataBean,et_name.getText().toString(),et_phone.getText().toString(),type));
+                }else {
+                    EventBus.getDefault().post(new HuoAddressEvent(dataBean,et_name.getText().toString(),et_phone.getText().toString(),type));
+                }
+
                 finish();
                 break;
 
@@ -115,6 +121,7 @@ public class HuoEditAddressActivity extends BaseActivity implements View.OnClick
     AddressListModel.DataBean dataBean;
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getAddress(HuoAddress1Event huoAddressEvent) {
+        Log.d("dsfgefsdfs.....","333333");
         dataBean = huoAddressEvent.getDataBean();
         String address = huoAddressEvent.getDataBean().getAddr();
         tv_address.setText(address);

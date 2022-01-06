@@ -5,7 +5,7 @@
     android:id="@+id/ll_root"
     android:background="@drawable/shape_choose_address"
     android:layout_width="match_parent"
-    android:layout_height="360dp"
+    android:layout_height="460dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -19,7 +19,7 @@
             >
 
             <TextView
-                android:text="下单联系人"
+                android:text="订单备注"
                 android:layout_centerInParent="true"
                 android:textSize="@dimen/sp_16"
                 android:textColor="#333333"
@@ -37,35 +37,49 @@
 
         </RelativeLayout>
 
-        <TextView
-            android:textColor="#FD6601"
-            android:layout_marginLeft="@dimen/size_24dp"
-            android:layout_marginTop="@dimen/size_5dp"
-            android:text="*司机将优先联系此人确认订单信息"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        
         <EditText
-            android:id="@+id/et_name"
-            android:hint="请输入姓名"
+            android:id="@+id/et_desc"
+            android:gravity="top|left"
+            android:maxLength="150"
+            android:hint="请输入备注（如货物类别等）"
             android:paddingLeft="@dimen/dp_10"
+            android:paddingTop="@dimen/dp_10"
             android:layout_marginTop="@dimen/size_13dp"
             android:layout_marginRight="@dimen/size_24dp"
             android:layout_marginLeft="@dimen/size_24dp"
             android:background="@drawable/shape_grey4"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/size_48dp"/>
+            android:layout_height="250dp"/>
 
-        <EditText
-            android:id="@+id/et_phone"
-            android:hint="请输入手机号码"
-            android:paddingLeft="@dimen/dp_10"
-            android:layout_marginTop="@dimen/size_13dp"
+        <RelativeLayout
+            android:paddingRight="@dimen/size_15dp"
             android:layout_marginRight="@dimen/size_24dp"
             android:layout_marginLeft="@dimen/size_24dp"
             android:background="@drawable/shape_grey4"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/size_48dp"/>
+            android:layout_height="@dimen/size_30dp">
+
+            <TextView
+                android:layout_marginRight="@dimen/size_30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/sp_14"
+                android:textColor="#333333"
+                android:id="@+id/tv_num"
+                android:text="0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/sp_14"
+                android:textColor="#333333"
+                android:text="/150"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_sure"

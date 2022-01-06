@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -64,7 +65,7 @@ public class HuoSearchAddressActivity extends BaseActivity implements View.OnCli
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         huoAddressAdapter = new HuoAddressAdapter(R.layout.item_address_huo,list);
         recyclerView.setAdapter(huoAddressAdapter);
-        et_search.addTextChangedListener(textWatcher);
+//        et_search.addTextChangedListener(new EditChangedListener());
         huoAddressAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -80,23 +81,40 @@ public class HuoSearchAddressActivity extends BaseActivity implements View.OnCli
         tv_cancel.setOnClickListener(this);
     }
 
-    private TextWatcher textWatcher = new TextWatcher() {
+    private class EditChangedListener implements TextWatcher {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
 
         }
 
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
             recyclerView.setVisibility(View.VISIBLE);
-            getAddressList(s.toString(),"杭州",type);
+            getAddressList(charSequence.toString(),"杭州",type);
         }
-    };
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+        }
+    }
+
+//    private TextWatcher textWatcher = new TextWatcher() {
+//        @Override
+//        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//        }
+//
+//        @Override
+//        public void onTextChanged(CharSequence s, int start, int before, int count) {
+//            recyclerView.setVisibility(View.VISIBLE);
+//            getAddressList(s.toString(),"杭州",type);
+//        }
+//
+//        @Override
+//        public void afterTextChanged(Editable s) {
+//
+//        }
+//    };
 
     //地址检索
     List<AddressListModel.DataBean> list = new ArrayList<>();
@@ -119,7 +137,6 @@ public class HuoSearchAddressActivity extends BaseActivity implements View.OnCli
                     public void onNext(AddressListModel addressListModel) {
                         if(addressListModel.getCode()==1) {
                             if(addressListModel.getData()!=null) {
-
                                 list.clear();
                                 list.addAll(addressListModel.getData());
                                 huoAddressAdapter.notifyDataSetChanged();
@@ -136,7 +153,8 @@ public class HuoSearchAddressActivity extends BaseActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_cancel:
-                finish();
+                getAddressList(et_search.getText().toString(),"杭州",type);
+//                finish();
                 break;
         }
     }

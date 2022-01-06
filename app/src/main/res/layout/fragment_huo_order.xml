@@ -86,6 +86,7 @@
                     android:hint="请输入装货地址"
                     android:textColor="#333333"
                     android:lines="1"
+                    android:text="西湖"
                     android:ellipsize="end"
                     android:layout_marginLeft="@dimen/size_14dp"
                     android:layout_marginRight="@dimen/size_16dp"
@@ -112,6 +113,7 @@
                     android:hint="请输入卸货地址"
                     android:textColor="#333333"
                     android:lines="1"
+                    android:text="良渚"
                     android:ellipsize="end"
                     android:layout_marginLeft="@dimen/size_14dp"
                     android:layout_marginRight="@dimen/size_16dp"
@@ -128,7 +130,7 @@
 
                 <TextView
                     android:id="@+id/tv_total_price"
-                    tools:text="300"
+                    android:text="200"
                     android:textColor="#333333"
                     android:textSize="@dimen/size_30dp"
                     android:layout_width="wrap_content"

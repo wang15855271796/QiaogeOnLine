@@ -41,6 +41,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -167,6 +168,7 @@ public class HuoHomeActivity extends BaseActivity implements View.OnClickListene
             fragmentTransaction.add(R.id.content, huoOrderFragment, HuoOrderFragment.class.getCanonicalName());
             Bundle bundle = new Bundle();
             bundle.putString("id",data.getVehicle_list().get(position).getOrder_vehicle_id());
+            bundle.putSerializable("vehicleStdItem", (Serializable) data.getVehicle_list());
             huoOrderFragment.setArguments(bundle);
         }
         fragmentTransaction.show(huoOrderFragment);

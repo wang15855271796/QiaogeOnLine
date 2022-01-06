@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/size_30dp">
+
+    <CheckBox
+        android:id="@+id/cb_choose"
+        android:layout_width="@dimen/size_16dp"
+        android:layout_height="@dimen/size_16dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/app_equipment_all_select"
+        android:button="@null" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:textColor="#333333"
+        android:text="需要搬运（和司机商议）"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

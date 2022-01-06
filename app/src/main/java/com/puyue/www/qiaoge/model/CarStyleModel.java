@@ -124,7 +124,7 @@ public class CarStyleModel {
             this.spec_req_item = spec_req_item;
         }
 
-        public static class VehicleListBean {
+        public static class VehicleListBean implements Serializable{
             /**
              * order_vehicle_id : 2870
              * vehicle_name : 微面
@@ -145,10 +145,18 @@ public class CarStyleModel {
             private String vehicle_size;
             private String text_desc;
             private PriceTextItemBean price_text_item;
-            private List<?> vehicle_std_item;
+            private List<VehicleStdItem> vehicle_std_item;
 
             public String getOrder_vehicle_id() {
                 return order_vehicle_id;
+            }
+
+            public List<VehicleStdItem> getVehicle_std_item() {
+                return vehicle_std_item;
+            }
+
+            public void setVehicle_std_item(List<VehicleStdItem> vehicle_std_item) {
+                this.vehicle_std_item = vehicle_std_item;
             }
 
             public void setOrder_vehicle_id(String order_vehicle_id) {
@@ -211,15 +219,8 @@ public class CarStyleModel {
                 this.price_text_item = price_text_item;
             }
 
-            public List<?> getVehicle_std_item() {
-                return vehicle_std_item;
-            }
 
-            public void setVehicle_std_item(List<?> vehicle_std_item) {
-                this.vehicle_std_item = vehicle_std_item;
-            }
-
-            public static class PriceTextItemBean {
+            public static class PriceTextItemBean implements Serializable{
                 /**
                  * base_distancekm : 5
                  * base_price_fen : 2800
@@ -254,7 +255,7 @@ public class CarStyleModel {
                     this.exceed_segment_price = exceed_segment_price;
                 }
 
-                public static class ExceedSegmentPriceBean {
+                public static class ExceedSegmentPriceBean implements Serializable{
                     /**
                      * end_exdistancekm : 999999
                      * price_extra_fen : 285
@@ -288,6 +289,27 @@ public class CarStyleModel {
                     public void setStart_exdistancekm(int start_exdistancekm) {
                         this.start_exdistancekm = start_exdistancekm;
                     }
+                }
+            }
+
+            public class VehicleStdItem implements Serializable{
+                String name;
+                String desc;
+
+                public String getName() {
+                    return name;
+                }
+
+                public void setName(String name) {
+                    this.name = name;
+                }
+
+                public String getDesc() {
+                    return desc;
+                }
+
+                public void setDesc(String desc) {
+                    this.desc = desc;
                 }
             }
         }

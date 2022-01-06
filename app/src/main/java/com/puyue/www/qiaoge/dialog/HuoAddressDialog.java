@@ -84,7 +84,7 @@ public class HuoAddressDialog extends Dialog {
         tv_x_name.setText(xName);
         tv_x_phone.setText(xPhone);
         tv_z_name.setText(zName);
-        tv_z_name.setText(zName);
+        tv_z_phone.setText(zPhone);
     }
 
 }

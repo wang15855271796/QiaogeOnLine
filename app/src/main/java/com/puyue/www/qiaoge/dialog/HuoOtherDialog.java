@@ -2,13 +2,11 @@ package com.puyue.www.qiaoge.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,29 +14,21 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.adapter.HuoCouponAdapter;
-import com.puyue.www.qiaoge.api.huolala.HuolalaAPI;
-import com.puyue.www.qiaoge.event.HuoOrderContactEvent;
-import com.puyue.www.qiaoge.model.CarPriceModel;
+import com.puyue.www.qiaoge.adapter.HuoOtherAdapter;
+import com.puyue.www.qiaoge.model.CarStyleModel;
 import com.puyue.www.qiaoge.model.HuoCouponModel;
-import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.utils.Utils;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
-public class HuoCouponDialog extends Dialog {
+public class HuoOtherDialog extends Dialog {
     public Unbinder binder;
     Context context;
     View view;
@@ -48,16 +38,16 @@ public class HuoCouponDialog extends Dialog {
     TextView tv_sure;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-    List<HuoCouponModel.DataBean> dataList;
-    public HuoCouponDialog(Context mContext, List<HuoCouponModel.DataBean> dataList) {
+    List<CarStyleModel.DataBean.VehicleListBean.VehicleStdItem> vehicleStdItemList;
+    public HuoOtherDialog(Context mContext, List<CarStyleModel.DataBean.VehicleListBean.VehicleStdItem> vehicleStdItem) {
         super(mContext, R.style.dialog);
         this.context = mContext;
-        this.dataList = dataList;
+        this.vehicleStdItemList = vehicleStdItem;
         init();
     }
 
     public void init() {
-        view = View.inflate(context, R.layout.dialog_huo_coupon, null);
+        view = View.inflate(context, R.layout.dialog_huo_other, null);
         view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         binder = ButterKnife.bind(this, view);
         setContentView(view);
@@ -80,18 +70,9 @@ public class HuoCouponDialog extends Dialog {
         });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        HuoCouponAdapter huoCouponAdapter = new HuoCouponAdapter(R.layout.item_huo_coupon,dataList);
-        recyclerView.setAdapter(huoCouponAdapter);
-        huoCouponAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                huoCouponAdapter.setSelectionPosition(position);
-            }
-        });
 
+        HuoOtherAdapter huoOtherAdapter = new HuoOtherAdapter(R.layout.item_other,vehicleStdItemList);
+        recyclerView.setAdapter(huoOtherAdapter);
     }
-
-
-
 
 }

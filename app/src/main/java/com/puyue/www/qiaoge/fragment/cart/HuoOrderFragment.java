@@ -69,7 +69,9 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
     List<Integer> list = new ArrayList<>();
     //附加要求选择描述
     List<String> listDesc = new ArrayList<>();
+    //车型id
     String id;
+    List<CarStyleModel.DataBean.VehicleListBean> vehicleStdItem;
     int type;
     @Override
     public int setLayoutId() {
@@ -91,7 +93,7 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
         EventBus.getDefault().register(this);
         Bundle bundle=getArguments();
         id=bundle.getString("id");
-
+        vehicleStdItem = (List<CarStyleModel.DataBean.VehicleListBean>) bundle.getSerializable("vehicleStdItem");
         tab_layout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -144,20 +146,25 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
             case R.id.tv_now:
                 Intent orderIntent = new Intent(mActivity, HuoOrderConfirmActivity.class);
                 orderIntent.putExtra("reqList", (Serializable) listDesc);
                 orderIntent.putExtra("carStyle", data.getVehicle_list().get(position).getVehicle_name());
                 orderIntent.putExtra("zAddr", tv_zhuang.getText().toString());
                 orderIntent.putExtra("xAddr", tv_unload.getText().toString());
-                orderIntent.putExtra("price", priceData.getTotal_price());
-                orderIntent.putExtra("zName", huoAddressEvent.getName());
-                orderIntent.putExtra("zPhone", huoAddressEvent.getPhone());
-                orderIntent.putExtra("xName", huoAddressEvent.getName());
-                orderIntent.putExtra("xPhone", huoAddressEvent.getPhone());
+                orderIntent.putExtra("price", "200");
+                orderIntent.putExtra("zName", zName);
+                orderIntent.putExtra("zPhone", zPhone);
+                orderIntent.putExtra("xName", xName);
+                orderIntent.putExtra("xPhone", xPhone);
+                orderIntent.putExtra("orderTime", "0");
+                orderIntent.putExtra("id", id);
+                orderIntent.putExtra("lat", lat);
+                orderIntent.putExtra("lon", lon);
+                orderIntent.putExtra("vehicleStdItem", (Serializable) vehicleStdItem.get(position).getVehicle_std_item());
                 startActivity(orderIntent);
                 break;
+
             case R.id.tv_appoint:
                 AppointDialog appointDialog = new AppointDialog(mActivity);
                 appointDialog.show();
@@ -232,16 +239,28 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
     AddressListModel.DataBean dataBean;
     JSONArray jsonArray1 = new JSONArray();
     HuoAddressEvent huoAddressEvent;
+    String lat;
+    String lon;
+    String zPhone;
+    String zName;
+    String xPhone;
+    String xName;
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getAddress(HuoAddressEvent huoAddressEvent) {
         this.huoAddressEvent = huoAddressEvent;
         dataBean = huoAddressEvent.getDataBean();
         if(huoAddressEvent.getType()==1) {
             tv_zhuang.setText(dataBean.getAddr());
+            zPhone = huoAddressEvent.getPhone();
+            zName = huoAddressEvent.getName();
         }else {
+            xPhone = huoAddressEvent.getPhone();
+            xName = huoAddressEvent.getName();
             tv_unload.setText(dataBean.getAddr());
         }
-
+        AddressListModel.DataBean.LatLonBean lat_lon = dataBean.getLat_lon();
+        lat = lat_lon.getLat();
+        lon = lat_lon.getLon();
         JSONObject jsonObject;
         try {
             jsonObject = new JSONObject();
@@ -259,9 +278,9 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
             jsonObject1.put("lon",dataBean.getLat_lon().getLon());
             jsonObject.put("lat_lon",jsonObject1);
             jsonArray1.put(jsonObject);
-            Log.d("cdsgfsfe...","sss");
             getPrice(dataBean.getCity_id(),data.getCity_info_revision(),
                     data.getVehicle_list().get(position).getOrder_vehicle_id(),"", StringUtils.join(list, ","),jsonArray1,0,"");
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -289,6 +308,7 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
                             if(priceModel.getData()!=null) {
                                 priceData = priceModel.getData();
                                 tv_total_price.setText(priceData.getTotal_price());
+                                Log.d("efefsdfdfd.......","111111");
                             }
                         }else {
                             ToastUtil.showSuccessMsg(mActivity,priceModel.getMessage());

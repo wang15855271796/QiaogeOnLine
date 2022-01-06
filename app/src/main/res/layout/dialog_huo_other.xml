@@ -5,7 +5,7 @@
     android:id="@+id/ll_root"
     android:background="@drawable/shape_choose_address"
     android:layout_width="match_parent"
-    android:layout_height="360dp"
+    android:layout_height="460dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -19,7 +19,7 @@
             >
 
             <TextView
-                android:text="优惠券"
+                android:text="搬运及其它服务"
                 android:layout_centerInParent="true"
                 android:textSize="@dimen/sp_16"
                 android:textColor="#333333"
@@ -37,36 +37,33 @@
 
         </RelativeLayout>
 
-        <LinearLayout
-            android:paddingBottom="@dimen/size_15dp"
-            android:background="#f6f6f6"
-            android:orientation="vertical"
+        <TextView
+            android:text="其他服务"
+            android:textColor="#333333"
+            android:textSize="@dimen/sp_16"
+            android:layout_marginLeft="@dimen/size_22dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_marginLeft="@dimen/size_22dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_marginTop="@dimen/dp_10"
-                android:layout_marginRight="@dimen/size_15dp"
-                android:layout_marginLeft="@dimen/size_15dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-            <TextView
-                android:id="@+id/tv_sure"
-                android:layout_marginTop="@dimen/size_20dp"
-                android:layout_marginRight="@dimen/size_20dp"
-                android:layout_marginLeft="@dimen/size_20dp"
-                android:text="确定"
-                android:textSize="@dimen/sp_16"
-                android:gravity="center"
-                android:textColor="#ffffff"
-                android:background="@drawable/shape_orange2"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_48dp"/>
-
-        </LinearLayout>
-
+        <TextView
+            android:id="@+id/tv_sure"
+            android:layout_marginTop="@dimen/size_40dp"
+            android:layout_marginRight="@dimen/size_20dp"
+            android:layout_marginLeft="@dimen/size_20dp"
+            android:layout_marginBottom="@dimen/size_20dp"
+            android:text="确定"
+            android:textSize="@dimen/sp_16"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:background="@drawable/shape_orange2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_48dp"/>
 
     </LinearLayout>
 

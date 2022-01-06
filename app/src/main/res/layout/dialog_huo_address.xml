@@ -5,11 +5,12 @@
     android:id="@+id/ll_root"
     android:background="@drawable/shape_choose_address"
     android:layout_width="match_parent"
-    android:layout_height="243dp"
+    android:layout_height="230dp"
     android:orientation="vertical">
 
     <LinearLayout
         android:orientation="vertical"
+        android:paddingBottom="@dimen/size_15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

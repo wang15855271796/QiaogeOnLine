@@ -12,6 +12,7 @@ import com.puyue.www.qiaoge.model.CancelReasonModel;
 import com.puyue.www.qiaoge.model.CarPriceModel;
 import com.puyue.www.qiaoge.model.CarStyleModel;
 import com.puyue.www.qiaoge.model.DealPriceModel;
+import com.puyue.www.qiaoge.model.HuoCouponModel;
 import com.puyue.www.qiaoge.model.HuoDetailModel;
 import com.puyue.www.qiaoge.model.HuoListModel;
 import com.puyue.www.qiaoge.model.IsAuthModel;
@@ -170,4 +171,24 @@ public class HuolalaAPI {
         AppointService service = RestHelper.getBaseRetrofit(context).create(AppointService.class);
         return service.getData();
     }
+
+    //优惠券列表
+    public interface CouponService{
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Car_Price)
+        Observable<HuoCouponModel> getData(@Field("orderTime") String orderTime,
+                                           @Field("reserve_time") String reserve_time,
+                                           @Field("city_id") String city_id,
+                                           @Field("order_vehicle_id") String order_vehicle_id,
+                                           @Field("lat") String lat,
+                                           @Field("lon") String lon);
+    }
+
+    public static Observable<HuoCouponModel> getCoupon(Context context, String orderTime, String reserve_time,
+                                                       String city_id, String order_vehicle_id,
+                                                       String lat,String lon) {
+        CouponService service = RestHelper.getBaseRetrofit(context).create(CouponService.class);
+        return service.getData(orderTime,reserve_time,city_id,order_vehicle_id,lat,lon);
+    }
+
 }
