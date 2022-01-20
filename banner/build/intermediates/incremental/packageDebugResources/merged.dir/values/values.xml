@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="banner_data_key" type="id"/>
+    <item name="banner_pos_key" type="id"/>
+    <string name="banner_adapter_null_error">Adapter为空！请检查下参数</string>
+    <string name="indicator_color_error">指示器的颜色只能设置成“@color/colorID or #000000”</string>
+    <declare-styleable name="Banner">
+        <attr format="integer" name="banner_loop_time"/>
+        <attr format="boolean" name="banner_auto_loop"/>
+        <attr format="boolean" name="banner_infinite_loop"/>
+
+        <!--RoundLinesIndicator、RectangleIndicator-->
+        <attr format="dimension" name="banner_indicator_height"/>
+        <attr format="dimension" name="banner_indicator_radius"/>
+
+        <!-- 以下为公用属性 -->
+        <attr format="dimension" name="banner_indicator_selected_width"/>
+        <!--CircleIndicator-->
+        <attr format="dimension" name="banner_indicator_normal_width"/>
+        <attr format="dimension" name="banner_indicator_space"/>
+
+        <attr format="reference|color" name="banner_indicator_normal_color"/>
+        <attr format="reference|color" name="banner_indicator_selected_color"/>
+        <attr format="dimension" name="banner_indicator_margin"/>
+        <attr format="dimension" name="banner_indicator_marginLeft"/>
+        <attr format="dimension" name="banner_indicator_marginTop"/>
+        <attr format="dimension" name="banner_indicator_marginRight"/>
+        <attr format="dimension" name="banner_indicator_marginBottom"/>
+
+        <attr format="enum" name="banner_indicator_gravity">
+            <enum name="left" value="0"/>
+            <enum name="center" value="1"/>
+            <enum name="right" value="2"/>
+        </attr>
+
+        <attr name="banner_orientation">
+            <enum name="horizontal" value="0"/>
+            <enum name="vertical" value="1"/>
+        </attr>
+
+        <attr format="dimension" name="banner_radius"/>
+
+        <!--设置需要圆角的方向，不设置默认全部设置-->
+        <attr format="boolean" name="banner_round_top_left"/>
+        <attr format="boolean" name="banner_round_top_right"/>
+        <attr format="boolean" name="banner_round_bottom_left"/>
+        <attr format="boolean" name="banner_round_bottom_right"/>
+
+    </declare-styleable>
+    <declare-styleable name="DrawableIndicator">
+        <attr format="reference" name="normal_drawable"/>
+        <attr format="reference" name="selected_drawable"/>
+    </declare-styleable>
+</resources>

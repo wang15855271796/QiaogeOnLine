@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MarqueeViewStyle">
+        <attr format="integer|reference" name="standDuration"/>
+        <attr format="integer|reference" name="turningDuration"/>
+        <attr format="integer|reference" name="showItemCount"/>
+        <attr format="integer|reference" name="scrollItemCount"/>
+    </declare-styleable>
+</resources>

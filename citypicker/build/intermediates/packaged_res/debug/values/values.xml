@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="businesstop">#1462BF</color>
+    <color name="cp_alpha_gray">#CC646464</color>
+    <color name="cp_colorAccent">#F3F3F3</color>
+    <color name="cp_colorPrimary">@color/cp_colorAccent</color>
+    <color name="cp_colorPrimaryDark">@color/cp_colorAccent</color>
+    <color name="cp_common_bg">#FAFAFA</color>
+    <color name="cp_content_bg">@color/cp_colorAccent</color>
+    <color name="cp_divider">#E5E5E5</color>
+    <color name="cp_gray">#8c8c8c</color>
+    <color name="cp_gray_deep">#5c5c5c</color>
+    <color name="cp_grey">#f5f5f5</color>
+    <color name="cp_shadow">#AAEBEBEB</color>
+    <color name="cp_theme_gray">#646464</color>
+    <color name="white">#FFFFFF</color>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="city_text_size">16sp</dimen>
+    <dimen name="side_letter_bar_letter_size">13sp</dimen>
+    <dimen name="side_letter_bar_width">36dp</dimen>
+    <string name="app_name">CityPicker</string>
+    <string name="cp_btn_cancel">取消</string>
+    <string name="cp_hint_search_box">城市名或拼音</string>
+    <string name="cp_hot_city">已开通城市</string>
+    <string name="cp_located_city">定位城市</string>
+    <string name="cp_located_failed">定位失败</string>
+    <string name="cp_locating">正在定位…</string>
+    <string name="cp_nothing_found">没有搜索结果~</string>
+    <string name="cp_select_city">选择城市</string>
+    <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        
+        <item name="colorPrimary">@color/cp_colorPrimary</item>
+        <item name="colorPrimaryDark">@color/cp_colorPrimaryDark</item>
+        <item name="colorAccent">@color/cp_colorAccent</item>
+    </style>
+    <style name="CityPicker.NoActionBar" parent="BaseTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+    </style>
+    <style name="LetterIndexTextViewStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">@dimen/side_letter_bar_width</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/cp_gray</item>
+        <item name="android:background">#ffffff</item>
+    </style>
+</resources>

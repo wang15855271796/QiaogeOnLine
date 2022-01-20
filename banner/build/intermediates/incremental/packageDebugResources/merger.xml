@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Qiaoges\banner\src\main\res"/><source path="D:\Qiaoges\banner\build\generated\res\rs\debug"/><source path="D:\Qiaoges\banner\build\generated\res\resValues\debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main" generated-set="main$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Qiaoges\banner\src\main\res"><file path="D:\Qiaoges\banner\src\main\res\values\attr.xml" qualifiers=""><declare-styleable name="Banner">
+        <attr format="integer" name="banner_loop_time"/>
+        <attr format="boolean" name="banner_auto_loop"/>
+        <attr format="boolean" name="banner_infinite_loop"/>
+
+        
+        <attr format="dimension" name="banner_indicator_height"/>
+        <attr format="dimension" name="banner_indicator_radius"/>
+
+        
+        <attr format="dimension" name="banner_indicator_selected_width"/>
+        
+        <attr format="dimension" name="banner_indicator_normal_width"/>
+        <attr format="dimension" name="banner_indicator_space"/>
+
+        <attr format="reference|color" name="banner_indicator_normal_color"/>
+        <attr format="reference|color" name="banner_indicator_selected_color"/>
+        <attr format="dimension" name="banner_indicator_margin"/>
+        <attr format="dimension" name="banner_indicator_marginLeft"/>
+        <attr format="dimension" name="banner_indicator_marginTop"/>
+        <attr format="dimension" name="banner_indicator_marginRight"/>
+        <attr format="dimension" name="banner_indicator_marginBottom"/>
+
+        <attr format="enum" name="banner_indicator_gravity">
+            <enum name="left" value="0"/>
+            <enum name="center" value="1"/>
+            <enum name="right" value="2"/>
+        </attr>
+
+        <attr name="banner_orientation">
+            <enum name="horizontal" value="0"/>
+            <enum name="vertical" value="1"/>
+        </attr>
+
+        <attr format="dimension" name="banner_radius"/>
+
+        
+        <attr format="boolean" name="banner_round_top_left"/>
+        <attr format="boolean" name="banner_round_top_right"/>
+        <attr format="boolean" name="banner_round_bottom_left"/>
+        <attr format="boolean" name="banner_round_bottom_right"/>
+
+    </declare-styleable><declare-styleable name="DrawableIndicator">
+        <attr format="reference" name="normal_drawable"/>
+        <attr format="reference" name="selected_drawable"/>
+    </declare-styleable></file><file path="D:\Qiaoges\banner\src\main\res\values\ids.xml" qualifiers=""><item name="banner_data_key" type="id"/><item name="banner_pos_key" type="id"/></file><file path="D:\Qiaoges\banner\src\main\res\values\strings.xml" qualifiers=""><string name="indicator_color_error">指示器的颜色只能设置成“@color/colorID or #000000”</string><string name="banner_adapter_null_error">Adapter为空！请检查下参数</string></file></source><source path="D:\Qiaoges\banner\build\generated\res\rs\debug"/><source path="D:\Qiaoges\banner\build\generated\res\resValues\debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Qiaoges\banner\src\debug\res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug" generated-set="debug$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Qiaoges\banner\src\debug\res"/></dataSet><mergedItems><configuration qualifiers=""><declare-styleable name="Banner">
+        <attr format="integer" name="banner_loop_time"/>
+        <attr format="boolean" name="banner_auto_loop"/>
+        <attr format="boolean" name="banner_infinite_loop"/>
+
+        
+        <attr format="dimension" name="banner_indicator_height"/>
+        <attr format="dimension" name="banner_indicator_radius"/>
+
+        
+        <attr format="dimension" name="banner_indicator_selected_width"/>
+        
+        <attr format="dimension" name="banner_indicator_normal_width"/>
+        <attr format="dimension" name="banner_indicator_space"/>
+
+        <attr format="reference|color" name="banner_indicator_normal_color"/>
+        <attr format="reference|color" name="banner_indicator_selected_color"/>
+        <attr format="dimension" name="banner_indicator_margin"/>
+        <attr format="dimension" name="banner_indicator_marginLeft"/>
+        <attr format="dimension" name="banner_indicator_marginTop"/>
+        <attr format="dimension" name="banner_indicator_marginRight"/>
+        <attr format="dimension" name="banner_indicator_marginBottom"/>
+
+        <attr format="enum" name="banner_indicator_gravity">
+            <enum name="left" value="0"/>
+            <enum name="center" value="1"/>
+            <enum name="right" value="2"/>
+        </attr>
+
+        <attr name="banner_orientation">
+            <enum name="horizontal" value="0"/>
+            <enum name="vertical" value="1"/>
+        </attr>
+
+        <attr format="dimension" name="banner_radius"/>
+
+        
+        <attr format="boolean" name="banner_round_top_left"/>
+        <attr format="boolean" name="banner_round_top_right"/>
+        <attr format="boolean" name="banner_round_bottom_left"/>
+        <attr format="boolean" name="banner_round_bottom_right"/>
+
+    </declare-styleable><declare-styleable name="DrawableIndicator">
+        <attr format="reference" name="normal_drawable"/>
+        <attr format="reference" name="selected_drawable"/>
+    </declare-styleable></configuration></mergedItems></merger>
