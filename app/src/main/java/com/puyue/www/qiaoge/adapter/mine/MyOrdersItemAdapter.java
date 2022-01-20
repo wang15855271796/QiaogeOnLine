@@ -6,6 +6,7 @@ import android.graphics.LinearGradient;
 import android.graphics.Shader;
 import androidx.annotation.Nullable;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.HuoHomeActivity;
 import com.puyue.www.qiaoge.activity.mine.order.NewOrderDetailActivity;
 
 import com.puyue.www.qiaoge.activity.mine.order.ReturnGoodDetailActivity;
@@ -56,6 +58,7 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
     TextView tv_time;
     TextView tv_subUserBuy;
     RelativeLayout rl;
+    TextView tv_call;
     public MyOrdersItemAdapter(int layoutResId, @Nullable List<OrdersModel.DataBean.ListBean> data, int orderState, int orderDeliveryType, OnClick onClick) {
         super(layoutResId, data);
         this.orderState = orderState;
@@ -68,6 +71,8 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
     protected void convert(final BaseViewHolder helper, final OrdersModel.DataBean.ListBean item) {
         helper.setIsRecyclable(false);
         rl = helper.getView(R.id.rl);
+        tv_call = helper.getView(R.id.tv_call);
+        TextView tv_style = helper.getView(R.id.tv_style);
         ImageView iv_order = helper.getView(R.id.iv_order);
         ImageView iv_pay = helper.getView(R.id.iv_pay);
         tv_title = helper.getView(R.id.tv_title);
@@ -91,6 +96,12 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
 
         tv_time.setText(item.orderTime);
         tv_subUserBuy.setText(item.subBuyPhone);
+        if(item.deliverModel==0) {
+            tv_style.setText("【翘歌配送】");
+        }else {
+            tv_style.setText("【我自己叫货拉拉】-"+item.hllOrderStatusName);
+        }
+
 
         if(item.saleSettle==1) {
             iv_order.setVisibility(View.VISIBLE);
@@ -133,6 +144,7 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
             confirmOrder.setVisibility(View.GONE);
             deleteOrder.setVisibility(View.GONE);
             cancelOrder.setVisibility(View.GONE);
+            tv_call.setVisibility(View.GONE);
 //            orderType.setText(item.returnOrderState);
         } else {
             if (item.orderStatusName.equals("待付款")) {
@@ -146,6 +158,7 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
                 evaluateNow.setVisibility(View.GONE);
                 confirmOrder.setVisibility(View.GONE);
                 deleteOrder.setVisibility(View.GONE);
+                tv_call.setVisibility(View.GONE);
             } else if (item.orderStatusName.equals("已取消")) {
                 Log.d("weeeesss..............","22222");
                 rl.setVisibility(View.VISIBLE);
@@ -156,6 +169,7 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
                 cancelOrder.setVisibility(View.GONE);
                 evaluateNow.setVisibility(View.GONE);
                 confirmOrder.setVisibility(View.GONE);
+                tv_call.setVisibility(View.GONE);
             } else if (item.orderStatusName.equals("待发货")) {
                 Log.d("weeeesss..............","33333");
                 rl.setVisibility(View.VISIBLE);
@@ -166,9 +180,21 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
                 deleteOrder.setVisibility(View.GONE);
                 confirmOrder.setVisibility(View.GONE);
                 tv_time.setVisibility(View.VISIBLE);
+                if(item.deliverModel==1) {
+                    if(!TextUtils.isEmpty(item.hllOrderId)&&!item.hllOrderId.equals("")) {
+                        tv_call.setVisibility(View.GONE);
+                    }else {
+                        tv_call.setVisibility(View.VISIBLE);
+                    }
+                }else {
+                    tv_call.setVisibility(View.GONE);
+                }
+
+
             } else if (item.orderStatusName.equals("待收货")) {
                 Log.d("weeeesss..............","44444");
                 rl.setVisibility(View.VISIBLE);
+                tv_call.setVisibility(View.GONE);
                 confirmOrder.setVisibility(View.VISIBLE);
                 againBay.setVisibility(View.VISIBLE);
                 imageGo.setVisibility(View.GONE);
@@ -182,6 +208,7 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
             if (item.orderStatusName.equals("待评价")) {   // 待评价显示 立即评价 和再次购买
                 rl.setVisibility(View.VISIBLE);
                 tv_time.setVisibility(View.GONE);
+                tv_call.setVisibility(View.GONE);
                 evaluateNow.setVisibility(View.VISIBLE);
                 againBay.setVisibility(View.VISIBLE);
                 deleteOrder.setVisibility(View.GONE);
@@ -190,7 +217,6 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
                 confirmOrder.setVisibility(View.GONE);
             } else {
                 evaluateNow.setVisibility(View.GONE);
-
             }
         }
 
@@ -257,9 +283,16 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
             commodityMore.setVisibility(View.VISIBLE);
         } else {
             commodityMore.setVisibility(View.GONE);
-
         }
 
+        tv_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, HuoHomeActivity.class);
+                intent.putExtra("orderId",item.orderId);
+                mContext.startActivity(intent);
+            }
+        });
 
         linearLayoutItem.setOnClickListener(new View.OnClickListener() {
             @Override

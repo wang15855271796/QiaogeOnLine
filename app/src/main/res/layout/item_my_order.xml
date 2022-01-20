@@ -167,6 +167,14 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/tv_style"
+            android:text="【我自己叫货拉拉】"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/size_11dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
             tools:text="合计500"
             android:layout_marginRight="@dimen/size_15dp"
             android:id="@+id/tv_item_my_order_all_price"
@@ -213,12 +221,29 @@
 
         <ImageView
             android:id="@+id/evaluateNow"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginTop="10dp"
             android:layout_marginRight="102dp"
             android:src="@mipmap/ic_evaluate_now_two" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_call"
+            android:text="呼叫货拉拉"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:textColor="#ffffff"
+            android:paddingBottom="@dimen/size_3dp"
+            android:paddingTop="@dimen/size_2dp"
+            android:paddingRight="@dimen/size_5dp"
+            android:paddingLeft="@dimen/size_5dp"
+            android:layout_marginRight="102dp"
+            android:background="@drawable/shape_orange10" />
 
         <ImageView
             android:id="@+id/imageGo"

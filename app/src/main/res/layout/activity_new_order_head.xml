@@ -10,12 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/size_15dp"
-
         android:background="@mipmap/ic_new_order_head_bg"
         android:orientation="vertical">
 
         <LinearLayout
-
             android:id="@+id/orderLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,7 +26,6 @@
                 android:layout_marginTop="@dimen/size_15dp"
                 android:gravity="center_horizontal"
                 android:text=""
-
                 android:textColor="@color/white"
                 android:textSize="@dimen/size_18dp" />
 
@@ -39,6 +36,49 @@
                 android:layout_marginTop="@dimen/size_10dp"
                 android:gravity="center_horizontal"
                 android:visibility="gone" />
+
+            <!--货拉拉-->
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/ll_huo"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/size_35dp">
+
+                    <TextView
+                        android:text="请在"
+                        android:textColor="#ffffff"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <com.puyue.www.qiaoge.view.SnapUpCountDownTimerView2
+                        android:id="@+id/snap"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="呼叫货拉拉"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="#ffffff"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="#ffffff"
+                    android:text="否则订单将取消（全部商品退款）"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/tvOrderContent"
@@ -55,7 +95,7 @@
                 android:id="@+id/linearLayout_shipped"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="15dp"
                 android:orientation="horizontal"
                 android:visibility="gone">
 

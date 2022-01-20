@@ -106,13 +106,9 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <TextView
-        android:layout_marginRight="@dimen/size_11dp"
-        android:layout_marginLeft="@dimen/size_11dp"
-        android:background="@drawable/shape_grey4"
+    <com.puyue.www.qiaoge.view.ExpandTextView
         android:id="@+id/tv_car_desc"
-        android:padding="5dp"
-        android:text="车型描述：车型描述车型描述车型描述车型描车型描述描述…"
+        android:layout_marginLeft="@dimen/dp_10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

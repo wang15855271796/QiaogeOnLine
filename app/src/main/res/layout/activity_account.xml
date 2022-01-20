@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.puyue.www.qiaoge.view.CompatToolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_30dp"
+        android:background="@drawable/app_border_bottom_bg">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:padding="10dp"
+            android:src="@mipmap/ic_back_arrow" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="13dp"
+            android:layout_marginTop="13dp"
+            android:text="申诉账单"
+            android:textColor="#232131"
+            android:textSize="18dp" />
+    </com.puyue.www.qiaoge.view.CompatToolbar>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textColor="#333333"
+            android:textSize="@dimen/sp_16"
+            android:layout_marginLeft="@dimen/size_12dp"
+            android:layout_marginTop="@dimen/size_12dp"
+            android:layout_marginBottom="@dimen/size_12dp"
+            android:text="申诉类型：账单申述"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_marginRight="@dimen/size_12dp"
+            android:layout_marginLeft="@dimen/size_12dp"
+            android:background="@drawable/shape_white1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:textColor="#333333"
+            android:textSize="@dimen/sp_16"
+            android:layout_marginLeft="@dimen/size_12dp"
+            android:layout_marginTop="@dimen/size_12dp"
+            android:layout_marginBottom="@dimen/size_12dp"
+            android:text="申诉描述说明："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_marginRight="@dimen/size_12dp"
+            android:layout_marginLeft="@dimen/size_12dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/et_desc"
+                android:gravity="top|left"
+                android:maxLength="150"
+                android:hint="请输入您的申诉理由"
+                android:background="@drawable/shape_white1"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"/>
+
+            <RelativeLayout
+                android:paddingRight="@dimen/size_15dp"
+                android:background="@drawable/shape_white1"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_30dp">
+
+                <TextView
+                    android:layout_marginRight="@dimen/size_30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/sp_14"
+                    android:textColor="#333333"
+                    android:id="@+id/tv_num"
+                    android:text="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/sp_14"
+                    android:textColor="#333333"
+                    android:text="/150"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_sure"
+                android:layout_marginTop="@dimen/size_40dp"
+                android:layout_marginRight="@dimen/size_20dp"
+                android:layout_marginLeft="@dimen/size_20dp"
+                android:layout_marginBottom="@dimen/size_20dp"
+                android:text="确定"
+                android:textSize="@dimen/sp_16"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:background="@drawable/shape_orange2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_48dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

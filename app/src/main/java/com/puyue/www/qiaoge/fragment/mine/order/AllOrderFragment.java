@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -497,6 +498,7 @@ public class AllOrderFragment extends BaseFragment {
                         mPtr.refreshComplete();
                         mModelMyOrders = myOrdersModel;
                         if (mModelMyOrders.success) {
+
                             updateOrderList();
                         } else {
                             AppHelper.showMsg(getActivity(), mModelMyOrders.message);
@@ -536,6 +538,7 @@ public class AllOrderFragment extends BaseFragment {
 
 
     private void updateOrderList() {
+
         if (pageNum == 1) {
             //第一次加载
             if (mModelMyOrders.data != null && mModelMyOrders.data.list.size() > 0) {

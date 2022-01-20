@@ -38,6 +38,10 @@ public class HuoAddressDialog extends Dialog {
     View view;
     @BindView(R.id.iv_close)
     ImageView iv_close;
+    @BindView(R.id.tv_z)
+    TextView tv_z;
+    @BindView(R.id.tv_x)
+    TextView tv_x;
     @BindView(R.id.tv_x_name)
     TextView tv_x_name;
     @BindView(R.id.tv_x_phone)
@@ -52,18 +56,23 @@ public class HuoAddressDialog extends Dialog {
     String xName;
     String zPhone;
     String xPhone;
+    String zAddr;
+    String xAddr;
     List<CancelReasonModel.DataBean> list;
 
-    public HuoAddressDialog(Context mContext, String zName, String xName, String zPhone, String xPhone) {
+    public HuoAddressDialog(Context mContext, String zName, String xName, String zPhone, String xPhone, String zAddr, String xAddr) {
         super(mContext, R.style.dialog);
         this.context = mContext;
         this.zName = zName;
         this.xName = xName;
         this.zPhone = zPhone;
         this.xPhone = xPhone;
+        this.zAddr = zAddr;
+        this.xAddr = xAddr;
         init();
     }
-    
+
+
     public void init() {
         view = View.inflate(context, R.layout.dialog_huo_address, null);
         view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -85,6 +94,8 @@ public class HuoAddressDialog extends Dialog {
         tv_x_phone.setText(xPhone);
         tv_z_name.setText(zName);
         tv_z_phone.setText(zPhone);
+        tv_z.setText(zAddr);
+        tv_x.setText(xAddr);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.puyue.www.qiaoge.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class AddressListModel {
@@ -58,7 +59,7 @@ public class AddressListModel {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable {
         /**
          * district_name : 余杭区
          * place_id : 20017918901077815936
@@ -83,7 +84,6 @@ public class AddressListModel {
         private String tag;
         private String adcode;
         private LatLonBean lat_lon;
-        private List<?> children;
 
         public String getDistrict_name() {
             return district_name;
@@ -165,13 +165,6 @@ public class AddressListModel {
             this.lat_lon = lat_lon;
         }
 
-        public List<?> getChildren() {
-            return children;
-        }
-
-        public void setChildren(List<?> children) {
-            this.children = children;
-        }
 
         @Override
         public String toString() {
@@ -186,11 +179,10 @@ public class AddressListModel {
                     ", tag='" + tag + '\'' +
                     ", adcode='" + adcode + '\'' +
                     ", lat_lon=" + lat_lon +
-                    ", children=" + children +
                     '}';
         }
 
-        public static class LatLonBean {
+        public static class LatLonBean implements Serializable{
             /**
              * lat : 30.357762
              * lon : 120.05528

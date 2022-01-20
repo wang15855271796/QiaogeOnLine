@@ -10,11 +10,7 @@
         android:color="@color/color_AAA8AB" >
     </stroke>
 
-    <corners
-        android:bottomLeftRadius="@dimen/size_5dp"
-        android:bottomRightRadius="@dimen/size_5dp"
-        android:topLeftRadius="@dimen/size_5dp"
-        android:topRightRadius="@dimen/size_5dp" />
+    <corners android:radius="250dp"/>
 
 
 </shape>

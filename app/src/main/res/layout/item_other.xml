@@ -10,7 +10,6 @@
         android:id="@+id/cb_choose"
         android:layout_width="@dimen/size_16dp"
         android:layout_height="@dimen/size_16dp"
-        android:layout_marginLeft="20dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/app_equipment_all_select"
         android:button="@null" />

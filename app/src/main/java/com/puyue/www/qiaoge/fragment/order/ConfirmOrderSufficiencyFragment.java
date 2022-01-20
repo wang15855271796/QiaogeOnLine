@@ -65,11 +65,13 @@ import com.puyue.www.qiaoge.api.mine.order.GenerateOrderAPI;
 import com.puyue.www.qiaoge.api.mine.order.GetOrderDeliverTimeAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.base.BaseModel;
+import com.puyue.www.qiaoge.dialog.DisDialog;
 import com.puyue.www.qiaoge.dialog.OperateDialog;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.BeizhuEvent;
 import com.puyue.www.qiaoge.event.ChooseCoupon2Event;
 import com.puyue.www.qiaoge.event.ChooseCouponsEvent;
+import com.puyue.www.qiaoge.event.DisTributionEvent;
 import com.puyue.www.qiaoge.event.RefreshEvent;
 import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragment;
 import com.puyue.www.qiaoge.helper.ActivityResultHelper;
@@ -231,7 +233,9 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     TextView tv_beizhu;
     private TextView tv_phone;
     TextView tv_full_price;
+    RelativeLayout rl_distribution;
     private LinearLayout ll_self_sufficiency;
+    TextView tv_distribution;
     @Override
     public int setLayoutId() {
         return R.layout.fragment_confirm_sufficiency_order;
@@ -244,6 +248,8 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
 
     @Override
     public void findViewById(View view) {
+        rl_distribution = (RelativeLayout) view.findViewById(R.id.rl_distribution);
+        tv_distribution = (TextView) view.findViewById(R.id.tv_distribution);
         rl_arrow = (RelativeLayout) view.findViewById(R.id.rl_arrow);
         rl_unOperate = (RelativeLayout) view.findViewById(R.id.rl_unOperate);
         tv_operate_title = (TextView) view.findViewById(R.id.tv_operate_title);
@@ -354,7 +360,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
             }
         });
 
-        requestCartBalance(NewgiftDetailNo, 1);//NewgiftDetailNo
+        requestCartBalance(NewgiftDetailNo, 1,disType);//NewgiftDetailNo
         et_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -390,7 +396,12 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
 
     };
 
-
+    int disType;
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getDistribution(DisTributionEvent disTributionEvent) {
+        tv_distribution.setText(disTributionEvent.getDesc());
+        disType = disTributionEvent.getType();
+    }
 
     BaiduMap.OnMapClickListener listenerClick = new BaiduMap.OnMapClickListener() {
         /**
@@ -565,8 +576,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     private GetTimeOrderModel dataBean;
 
     private void showGetTime() {
-
-
         GetOrderDeliverTimeAPI.requestOrderSelfTime(mActivity)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -668,12 +677,17 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
         imVipButton.setOnClickListener(noDoubleClickListener);
         ll_go_market.setOnClickListener(noDoubleClickListener);
         ll_beizhu.setOnClickListener(noDoubleClickListener);
+        rl_distribution.setOnClickListener(noDoubleClickListener);
     }
 
     private NoDoubleClickListener noDoubleClickListener = new NoDoubleClickListener() {
         @Override
         public void onNoDoubleClick(View view) {
             switch (view.getId()) {
+                case R.id.rl_distribution:
+                    DisDialog disDialog = new DisDialog(mActivity,cModel.getData().getSendAmount(),0);
+                    disDialog.show();
+                    break;
                 case R.id.ll_beizhu:
                     Intent intents = new Intent(mActivity,BeizhuActivity.class);
                     intents.putExtra("beizhu",tv_beizhu.getText().toString()+"");
@@ -690,6 +704,15 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                     break;
                 case R.id.buttonPay:// 去支付
                     getDatas(1);
+                    lav_activity_loading.show();
+                    lav_activity_loading.setVisibility(View.VISIBLE);
+                    if(tv_distribution.getText().toString().equals("")) {
+                        AppHelper.showMsg(mActivity, "请选择配送服务");
+                        buttonPay.setEnabled(true);
+                        lav_activity_loading.hide();
+                        return;
+                    }
+
                     if (LinearLayoutAddress.getVisibility() == View.VISIBLE) { // 没有地址
                         AppHelper.showMsg(mActivity, "请填写地址");
                     } else {
@@ -743,8 +766,8 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     /**
      * 获取数据的网络请求
      */
-    private void requestCartBalance(String giftDetailNo, int type) {
-        CartBalanceAPI.requestCartBalance(mActivity, normalProductBalanceVOStr, activityBalanceVOStr, cartListStr, giftDetailNo, type, 1)
+    private void requestCartBalance(String giftDetailNo, int type,int disType) {
+        CartBalanceAPI.requestCartBalance(mActivity, normalProductBalanceVOStr, activityBalanceVOStr, cartListStr, giftDetailNo, type, 1,disType)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<CartBalanceModel>() {
@@ -1039,7 +1062,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     OperateDialog operateDialog;
     private void requestOrderNum() {
         GenerateOrderAPI.requestGenerateOrder(mActivity, activityBalanceVOStr, normalProductBalanceVOStr, cartListStr, NewgiftDetailNo, messageEditText.getText().toString(),
-                deliverTimeStart, deliverTimeEnd, deliverTimeName, 1, et_name.getText().toString(), et_phone.getText().toString(), mYear)//NewgiftDetailNo
+                deliverTimeStart, deliverTimeEnd, deliverTimeName, 1, et_name.getText().toString(), et_phone.getText().toString(), mYear,0)//NewgiftDetailNo
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<GenerateOrderModel>() {
@@ -1143,7 +1166,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     public void onEventMainThread(AddressEvent event) {
 
         list.clear();
-        requestCartBalance(NewgiftDetailNo, 1);
+        requestCartBalance(NewgiftDetailNo, 1,disType);
 //        userChooseDeduct();
     }
 
@@ -1155,7 +1178,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getCouponss(ChooseCouponsEvent chooseCouponEvent) {
         list.clear();
-        requestCartBalance(chooseCouponEvent.getGiftDetailNo(), 1);
+        requestCartBalance(chooseCouponEvent.getGiftDetailNo(), 1,disType);
         statModel.setSelects(false);
     }
 
@@ -1167,7 +1190,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     public void getCoupons(ChooseCoupon2Event chooseCouponEvent) {
         list.clear();
         NewgiftDetailNo = "";
-        requestCartBalance("",1);
+        requestCartBalance("",1,disType);
         statModel.setSelects(true);
     }
 

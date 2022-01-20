@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_black"
+    android:orientation="vertical">
+
+    <com.puyue.www.qiaoge.view.datepicker.FingerFrameLayout
+        android:id="@+id/ffl_dialog_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp">
+
+
+        <ImageView
+            android:id="@+id/iv_pic"
+            android:scaleType="fitXY"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+    </com.puyue.www.qiaoge.view.datepicker.FingerFrameLayout>
+
+
+</LinearLayout>

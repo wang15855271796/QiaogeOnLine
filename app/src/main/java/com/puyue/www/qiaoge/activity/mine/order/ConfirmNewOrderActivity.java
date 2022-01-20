@@ -57,7 +57,6 @@ public class ConfirmNewOrderActivity extends BaseSwipeActivity implements Confir
     public void findViewById() {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-
         fr_confirm_oder = findViewById(R.id.fr_confirm_oder);
         tv_deliver_order = findViewById(R.id.tv_deliver_order);
         tv_sufficiency_order = findViewById(R.id.tv_sufficiency_order);

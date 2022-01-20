@@ -9,9 +9,13 @@ import android.graphics.Shader;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,16 +25,22 @@ import android.widget.TextView;
 
 import com.android.tu.loadingdialog.LoadingDailog;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.BeizhuActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
+import com.puyue.www.qiaoge.activity.HuoDetailActivity;
+import com.puyue.www.qiaoge.activity.HuoHomeActivity;
 import com.puyue.www.qiaoge.activity.mine.account.AddressListsActivity;
+import com.puyue.www.qiaoge.activity.view.Line;
+import com.puyue.www.qiaoge.adapter.HuoConnectionAdapter;
 import com.puyue.www.qiaoge.adapter.OrderFullAdapter;
 
 import com.puyue.www.qiaoge.adapter.mine.NewOrderDetailAdapter;
 import com.puyue.www.qiaoge.api.cart.CancelOrderAPI;
 import com.puyue.www.qiaoge.api.cart.DeleteOrderAPI;
 import com.puyue.www.qiaoge.api.home.GetOrderDetailAPI;
+import com.puyue.www.qiaoge.api.huolala.HuolalaAPI;
 import com.puyue.www.qiaoge.api.mine.order.ConfirmGetGoodsAPI;
 import com.puyue.www.qiaoge.api.mine.order.CopyToCartAPI;
 import com.puyue.www.qiaoge.api.mine.order.GetDeliverTimeOrderAPI;
@@ -39,6 +49,8 @@ import com.puyue.www.qiaoge.api.mine.order.NotifyDeliverTimeOrderAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
+import com.puyue.www.qiaoge.dialog.HllOrderDialog;
+import com.puyue.www.qiaoge.dialog.HuoConnentionDialog;
 import com.puyue.www.qiaoge.event.BackEvent;
 import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragments;
@@ -52,8 +64,12 @@ import com.puyue.www.qiaoge.model.mine.order.CommonModel;
 import com.puyue.www.qiaoge.model.mine.order.ConfirmGetGoodsModel;
 import com.puyue.www.qiaoge.model.mine.order.CopyToCartModel;
 import com.puyue.www.qiaoge.model.mine.order.OrderEvaluateListModel;
+import com.puyue.www.qiaoge.utils.ToastUtil;
+import com.puyue.www.qiaoge.utils.Utils;
 import com.puyue.www.qiaoge.view.GradientColorTextView;
 import com.puyue.www.qiaoge.view.SnapUpCountDownTimerView;
+import com.puyue.www.qiaoge.view.SnapUpCountDownTimerView2;
+import com.puyue.www.qiaoge.view.scrollview.Util;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -98,6 +114,8 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
     TextView tv_beizhu;
     private TextView tvOrderTitle; //订单类型
     private SnapUpCountDownTimerView orderTimerView; //倒计时
+    private SnapUpCountDownTimerView2 snap;
+    private LinearLayout ll_huo;
     private TextView tvOrderContent; //订单内容
     private LinearLayout threeButtonLayout; //三个按钮（退货按钮 评价按钮 在次购买按钮）
     private TextView buttonReturnGoods; // 退货按钮
@@ -220,6 +238,12 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
     ImageView iv_pay;
     TextView tv_sale_name;
     TextView tv_sale_name1;
+    TextView tv_distribution;
+    TextView tv_call;
+    RecyclerView rv_huo;
+    TextView tv_style;
+    TextView tv_order_num;
+    TextView tv_hll_order;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -232,6 +256,13 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
+        tv_hll_order = (TextView) findViewById(R.id.tv_hll_order);
+        ll_huo = (LinearLayout) findViewById(R.id.ll_huo);
+        tv_order_num = (TextView) findViewById(R.id.tv_order_num);
+        rv_huo = (RecyclerView) findViewById(R.id.rv_huo);
+        tv_call = (TextView) findViewById(R.id.tv_call);
+        tv_style = (TextView) findViewById(R.id.tv_style);
+        tv_distribution = (TextView) findViewById(R.id.tv_distribution);
         ll_order1 = (LinearLayout) findViewById(R.id.ll_order1);
         ll_order2 = (LinearLayout) findViewById(R.id.ll_order2);
         tv_sale_name = (TextView) findViewById(R.id.tv_sale_name);
@@ -262,6 +293,7 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
         orderLinearLayout = (LinearLayout) findViewById(R.id.orderLinearLayout);
         tvOrderTitle = (TextView) findViewById(R.id.tvOrderTitle);
         orderTimerView = (SnapUpCountDownTimerView) findViewById(R.id.orderTimerView);
+        snap = (SnapUpCountDownTimerView2) findViewById(R.id.snap);
         tvOrderContent = (TextView) findViewById(R.id.tvOrderContent);
         threeButtonLayout = (LinearLayout) findViewById(R.id.threeButtonLayout);
         buttonReturnGoods = (TextView) findViewById(R.id.buttonReturnGoods);
@@ -331,6 +363,7 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
 
     }
 
+    HuoConnectionAdapter huoConnectionAdapter;
     @Override
     public void setViewData() {
 
@@ -351,6 +384,15 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
                 }
             }
         });
+//
+//        snap.setTimeout(new SnapUpCountDownTimerView2.Timeout() {
+//            @Override
+//            public void getStop() {
+//                if (orderStatusRequest == 2||orderStatusRequest == 14) {
+//                    cancelOrder(orderId);
+//                }
+//            }
+//        });
 
         adapter = new NewOrderDetailAdapter(mActivity,R.layout.new_order_detail, list,orderId);
         //自营
@@ -365,6 +407,19 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
         LinearGradient mLinearGradient = new LinearGradient(0, 0, 0, tvInfo.getPaint().getTextSize(), Color.parseColor("#CEA6FF")
                 , Color.parseColor("#6F81FF"), Shader.TileMode.CLAMP);
         tvInfo.getPaint().setShader(mLinearGradient);
+
+        rv_huo.setLayoutManager(new LinearLayoutManager(mContext));
+        huoConnectionAdapter = new HuoConnectionAdapter(R.layout.item_huo_connection,hllConnectOrderIds);
+        rv_huo.setAdapter(huoConnectionAdapter);
+        huoConnectionAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+//                Intent intent = new Intent(mContext,HuoDetailActivity.class);
+//                intent.putExtra("id",orderDetailModels.data.hllConnectOrderIds.get(position));
+//                startActivity(intent);
+                getOrderDetail(orderDetailModels.data.hllConnectOrderIds.get(position));
+            }
+        });
     }
 
     @Override
@@ -391,6 +446,9 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
         buttonReturnGood_two.setOnClickListener(noDoubleClickListener);
         tv_notify_time.setOnClickListener(noDoubleClickListener);
         tv_evaluate.setOnClickListener(noDoubleClickListener);
+        tv_style.setOnClickListener(noDoubleClickListener);
+        tv_call.setOnClickListener(noDoubleClickListener);
+        tv_order_num.setOnClickListener(noDoubleClickListener);
     }
 
     @Override
@@ -443,6 +501,7 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
                         if (orderDetailModel.success) {
                             dialog.dismiss();
                             if (orderDetailModel != null) {
+
                                 setText(orderDetailModel);
                                 list.clear();
 
@@ -460,6 +519,8 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
     }
 
     //获取订单详情
+    List<String> hllConnectOrderIds = new ArrayList<>();
+    GetOrderDetailModel orderDetailModels;
     private void getOrderDetail(String orderId) {
         GetOrderDetailAPI.requestData(mContext, orderId)
                 .subscribeOn(Schedulers.io())
@@ -472,7 +533,7 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.d("fdgsdvffds......",e.getMessage());
                     }
 
                     @Override
@@ -480,6 +541,7 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
 
                         if (orderDetailModel.success) {
                             if (orderDetailModel != null) {
+                                orderDetailModels = orderDetailModel;
                                 setText(orderDetailModel);
                                 list.clear();
                                 list_full.clear();
@@ -511,11 +573,43 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
                             }
 
 
+                            if(orderDetailModel.data.getDeliveryModel()==0) {
+                                tv_distribution.setText("翘歌配送");
+                            }else {
+                                tv_distribution.setText("我自己叫货拉拉");
+                                GetOrderDetailModel.DataBean data = orderDetailModel.data;
+                                if(data.orderStatus!=1&&data.orderStatus!=7&&data.orderStatus!=11) {
+                                    if(!TextUtils.isEmpty(data.hllOrderId)&&!data.hllOrderId.equals("")) {
+                                        tv_call.setVisibility(View.GONE);
+                                        tv_style.setVisibility(View.VISIBLE);
+                                    }else {
+                                        tv_call.setVisibility(View.VISIBLE);
+                                        tv_style.setVisibility(View.GONE);
+                                    }
+                                }
+                            }
+
                             if (returnCode == 39 && !isShowed) {
                                 isShowed = true;
                                 getDeliverChangeTime();
                             }
-                            //  getDeliverChangeTime();
+                            hllConnectOrderIds.clear();
+                            if(orderDetailModel.data.hllConnectOrderIds!=null&&orderDetailModel.data.hllConnectOrderIds.size()>0) {
+                                rv_huo.setVisibility(View.VISIBLE);
+                                hllConnectOrderIds.addAll(orderDetailModel.data.hllConnectOrderIds);
+                                huoConnectionAdapter.notifyDataSetChanged();
+                                if(orderDetailModel.data.hllConnectOrderIds.size()>3) {
+                                    tv_order_num.setVisibility(View.VISIBLE);
+                                    tv_order_num.setText("查看全部"+orderDetailModel.data.hllConnectOrderIds.size()+"个关联订单");
+//                                    rv_huo.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Util.dp2px(mContext,75)));
+
+                                }else {
+                                    tv_order_num.setVisibility(View.GONE);
+//                                    rv_huo.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Util.dp2px(mContext,75)));
+                                }
+                            }else {
+                                rv_huo.setVisibility(View.GONE);
+                            }
                         } else {
                             AppHelper.showMsg(mContext, orderDetailModel.message);
                         }
@@ -626,6 +720,12 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
             iv_pay.setVisibility(View.GONE);
         }
 
+        //货拉拉倒计时
+        snap.SnapUpCountDownTimerViewType(mContext, 1);
+        snap.setBackTheme(true);
+        snap.setTime(true, getOrderDetailModel.sysCurrentTime, getOrderDetailModel.orderOverTime, 0);
+        snap.changeTypeColor(Color.WHITE);
+        snap.start();
         //倒计时设置
         orderTimerView.SnapUpCountDownTimerViewType(mContext, 1);
         orderTimerView.setBackTheme(true);
@@ -721,7 +821,7 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
         //  状态是待付款 或者是待支付 显示倒计时 其他状态不需要显示
         linearLayoutAddressArrow.setVisibility(orderStatusRequest == 1 || orderStatusRequest == 2 ? View.VISIBLE : View.GONE);
         orderTimerView.setVisibility(orderStatusRequest == 1 ? View.VISIBLE : View.GONE);
-
+//        ll_huo.setVisibility(orderStatusRequest == 2||orderStatusRequest == 14 ? View.VISIBLE : View.GONE);
 
         //  orderTimerView.setVisibility(orderStatusRequest == 1 ? View.VISIBLE : View.GONE);
         //状态是待付款 或者是待支付 不显示状态文案 其他状态需要显示
@@ -746,7 +846,19 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
     private void setOrderContent(int type) {
         switch (orderStatusRequest) {
             case 2:
-                tvOrderContent.setText("我们将尽快发货，感谢您对翘歌的信任");
+                if(getOrderDetailModel.deliveryModel==1) {
+                    ll_huo.setVisibility(View.VISIBLE);
+                    tvOrderContent.setVisibility(View.GONE);
+                    if(getOrderDetailModel.hllConnectOrderIds!=null&&getOrderDetailModel.hllConnectOrderIds.size()>0) {
+                        tv_hll_order.setVisibility(View.VISIBLE);
+                    }else {
+                        tv_hll_order.setVisibility(View.GONE);
+                    }
+                }else {
+                    tv_hll_order.setVisibility(View.GONE);
+                    tvOrderContent.setVisibility(View.VISIBLE);
+                    tvOrderContent.setText("我们将尽快发货，感谢您对翘歌的信任");
+                }
                 break;
             case 3:
                 tvOrderContent.setText("有问题请及时联系客服，客服电话" + getOrderDetailModel.customerPhone);
@@ -780,7 +892,20 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
                 tvOrderContent.setText("感谢您的评价！欢迎您再次使用翘歌！");
                 break;
             case 14:
-                tvOrderContent.setText("我们将尽快发货，感谢您对翘歌的信任");
+                if(getOrderDetailModel.deliveryModel==1) {
+                    ll_huo.setVisibility(View.VISIBLE);
+                    tvOrderContent.setVisibility(View.GONE);
+                    if(getOrderDetailModel.hllConnectOrderIds!=null&&getOrderDetailModel.hllConnectOrderIds.size()>0) {
+                        tv_hll_order.setVisibility(View.VISIBLE);
+                    }else {
+                        tv_hll_order.setVisibility(View.GONE);
+                    }
+                }else {
+                    tv_hll_order.setVisibility(View.GONE);
+                    tvOrderContent.setVisibility(View.VISIBLE);
+                    tvOrderContent.setText("我们将尽快发货，感谢您对翘歌的信任");
+                }
+
                 break;
         }
     }
@@ -972,10 +1097,54 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
                 });
     }
 
+    HuoConnentionDialog huoConnentionDialog;
     private NoDoubleClickListener noDoubleClickListener = new NoDoubleClickListener() {
         @Override
         public void onNoDoubleClick(View view) {
             switch (view.getId()) {
+                case R.id.tv_order_num:
+                    HllOrderDialog hllOrderDialog = new HllOrderDialog(mActivity, orderDetailModels.data.hllConnectOrderIds) {
+                        @Override
+                        public void close(int pos) {
+                            getOrderDetail(orderDetailModels.data.hllConnectOrderIds.get(pos));
+                        }
+                    };
+                    hllOrderDialog.show();
+                    break;
+
+                case R.id.tv_call:
+                    if(getOrderDetailModel.hllConnectOrderIds!=null&&getOrderDetailModel.hllConnectOrderIds.size()>0) {
+                        huoConnentionDialog = new HuoConnentionDialog(mContext) {
+                            @Override
+                            public void Connect() {
+                                getConnection(orderId, getOrderDetailModel.hllOrderId);
+                            }
+
+                            @Override
+                            public void Next() {
+                                dismiss();
+                                Intent intent = new Intent(mContext, HuoHomeActivity.class);
+                                intent.putExtra("orderId", getOrderDetailModel.orderId);
+                                startActivity(intent);
+                                finish();
+                            }
+                        };
+                        huoConnentionDialog.show();
+                    }else {
+                        Intent intent = new Intent(mContext, HuoHomeActivity.class);
+                        intent.putExtra("orderId", getOrderDetailModel.orderId);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                    break;
+
+                case R.id.tv_style:
+                    Intent intent = new Intent(mContext, HuoDetailActivity.class);
+                    intent.putExtra("id",getOrderDetailModel.hllOrderId);
+                    startActivity(intent);
+                    break;
+
                 case R.id.imageViewBreak: //返回按钮
                     backEvent();
 //                    finish();
@@ -1142,6 +1311,34 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
         }
     };
 
+    private void getConnection(String orderId, String hllOrderId) {
+        HuolalaAPI.getConnection(mActivity, orderId,hllOrderId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+                        if(baseModel.code==1) {
+                            huoConnentionDialog.dismiss();
+                            ToastUtil.showSuccessMsg(mActivity,baseModel.message);
+                            finish();
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,baseModel.message);
+                        }
+                    }
+                });
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -1291,33 +1488,6 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
     }
 
 
-    private void notifyDeliverTime() {
-        NotifyDeliverTimeOrderAPI.notifyDeliverTime(mActivity, orderId, deliverTimeName, deliverTimeStart, deliverTimeEnd)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BaseModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(BaseModel baseModel) {
-
-                        if (baseModel.success) {
-                            getOrderDetail(orderId);
-                        } else {
-                            AppHelper.showMsg(mContext, baseModel.message);
-                        }
-                    }
-                });
-    }
-
 
     public void deleteOrder() {
         DeleteOrderAPI.requestData(mContext, orderId)
@@ -1344,30 +1514,6 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
                         }
                     }
                 });
-    }
-
-/*
-
-    protected void setTranslucentStatus() {
-        // 5.0以上系统状态栏透明
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
-    }
-*/
-
-    @Override
-    protected void onDestroy() {
-
-        super.onDestroy();
-//        EventBus.getDefault().unregister(this);
     }
 
 

@@ -18,6 +18,7 @@ import com.puyue.www.qiaoge.api.huolala.HuolalaAPI;
 import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.model.CarPriceModel;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -53,6 +54,8 @@ public class HuoRuleActivity extends BaseActivity implements View.OnClickListene
     HuoBaseAdapter huoBaseAdapter;
     HuoCarAdapter huoCarAdapter;
     HuoAskAdapter huoAskAdapter;
+
+    String cityId;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         id = getIntent().getStringExtra("id");
@@ -71,7 +74,7 @@ public class HuoRuleActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void setViewData() {
-
+        cityId = SharedPreferencesUtil.getString(mActivity, "huoCityId");
         rv_base.setLayoutManager(new LinearLayoutManager(mContext));
         huoBaseAdapter = new HuoBaseAdapter(R.layout.item_base,basicFee);
         rv_base.setAdapter(huoBaseAdapter);
@@ -84,7 +87,7 @@ public class HuoRuleActivity extends BaseActivity implements View.OnClickListene
         huoAskAdapter = new HuoAskAdapter(R.layout.item_huo_car,otherReq);
         rv_ask.setAdapter(huoAskAdapter);
 
-        getCarPrice("1011",id);
+        getCarPrice(cityId,id);
     }
 
     @Override

@@ -38,19 +38,6 @@ public class MyOrderListAPI {
         return myOrdersModelObservable;
     }
 
-    public interface ReturnOrderListService {
-        @FormUrlEncoded
-        @POST(AppInterfaceAddress.Order_List)
-        Observable<MyOrdersModel> setParams(@Field("orderStatus") int orderStatus,
-                                          @Field("pageNum") int pageNum,
-                                          @Field("pageSize") int pageSize,
-                                          @Field("orderDeliveryType") int orderDeliveryType);
-    }
-
-    public static Observable<MyOrdersModel> getOrderList(Context context, int orderStatus, int pageNum, int pageSize,int orderDeliveryType) {
-        Observable<MyOrdersModel> myOrdersModelObservable = RestHelper.getBaseRetrofit(context).create(ReturnOrderListService.class).setParams(orderStatus, pageNum, pageSize,orderDeliveryType);
-        return myOrdersModelObservable;
-    }
 
     public interface MySubOrderListService {
         @FormUrlEncoded

@@ -69,18 +69,18 @@ public class CarStyleModel {
          * spec_req_item : [{"price_value_fen":0,"name":"搬运","price_type":4,"type":1,"desc":"司机另议"},{"price_value_fen":40,"name":"返程","price_type":2,"type":5,"desc":"附加40%路费"},{"price_value_fen":0,"name":"小推车","price_type":4,"type":2,"desc":"免费"},{"price_value_fen":0,"name":"拍照回单","price_type":4,"type":6,"desc":"免费"},{"price_value_fen":0,"name":"纸质回单","price_type":4,"type":3,"desc":"商议价格"},{"price_value_fen":0,"name":"代收货款","price_type":4,"type":8,"desc":"免费；货款上限一万元"}]
          */
 
-        private int city_id;
+        private String city_id;
         private String name;
         private String name_en;
         private String city_info_revision;
         private List<VehicleListBean> vehicle_list;
         private List<SpecReqItemBean> spec_req_item;
 
-        public int getCity_id() {
+        public String getCity_id() {
             return city_id;
         }
 
-        public void setCity_id(int city_id) {
+        public void setCity_id(String city_id) {
             this.city_id = city_id;
         }
 

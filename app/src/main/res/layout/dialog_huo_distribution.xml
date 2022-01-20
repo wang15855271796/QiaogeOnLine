@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_root"
+    android:background="@drawable/shape_choose_address"
+    android:layout_width="match_parent"
+    android:layout_height="460dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_62dp"
+            >
+
+            <TextView
+                android:text="配送服务"
+                android:layout_centerInParent="true"
+                android:textSize="@dimen/sp_16"
+                android:textColor="#333333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:id="@+id/cb_1"
+                android:button="@null"
+                android:layout_alignBottom="@+id/tv1"
+                android:layout_marginLeft="@dimen/size_20dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/checkbox_no"
+                android:layout_width="@dimen/size_16dp"
+                android:layout_height="@dimen/size_16dp" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:text="翘歌配送"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_toRightOf="@+id/cb_1"
+                android:textSize="@dimen/sp_16"
+                android:textColor="#333333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_marginTop="@dimen/size_2dp"
+                android:layout_marginLeft="@dimen/size_45dp"
+                android:layout_below="@+id/tv_name"
+                android:textSize="@dimen/sp_14"
+                android:textColor="#999999"
+                android:text="(200免配送费)"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:id="@+id/cb_2"
+                android:button="@null"
+                android:layout_alignBottom="@+id/tv2"
+                android:layout_marginLeft="@dimen/size_20dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/checkbox_no"
+                android:layout_width="@dimen/size_16dp"
+                android:layout_height="@dimen/size_16dp" />
+
+            <TextView
+                android:id="@+id/tv2"
+                android:text="我自己叫货拉拉"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_toRightOf="@+id/cb_2"
+                android:textSize="@dimen/sp_16"
+                android:textColor="#333333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_marginTop="@dimen/size_2dp"
+                android:layout_marginLeft="@dimen/size_45dp"
+                android:layout_below="@+id/tv2"
+                android:textSize="@dimen/sp_14"
+                android:textColor="#999999"
+                android:text="(订单支付后，用户自己发起配送服务)"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_sure"
+            android:layout_marginTop="@dimen/size_40dp"
+            android:layout_marginRight="@dimen/size_20dp"
+            android:layout_marginLeft="@dimen/size_20dp"
+            android:layout_marginBottom="@dimen/size_20dp"
+            android:text="选好了"
+            android:textSize="@dimen/sp_16"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:background="@drawable/shape_orange2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_48dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

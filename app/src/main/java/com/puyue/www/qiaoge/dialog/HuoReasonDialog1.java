@@ -74,7 +74,7 @@ public class HuoReasonDialog1 extends Dialog implements View.OnClickListener {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 list.get(position).getName();
                 name = list.get(position).getName();
-
+                reasonsAdapter.setSelectPosition(position);
             }
         });
 
@@ -92,6 +92,7 @@ public class HuoReasonDialog1 extends Dialog implements View.OnClickListener {
 
             case R.id.tv_sure:
                 EventBus.getDefault().post(new HuoReason1Event(name));
+                dismiss();
                 break;
             default:
                 break;

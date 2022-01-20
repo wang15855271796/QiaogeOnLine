@@ -68,7 +68,6 @@ public class ProdAdapter extends BaseQuickAdapter<MarketRightModel.DataBean.Bran
                     }else {
                         if(list.size()%3==0) {
                             lp.height = DensityUtil.dip2px(150 *(list.size()/3),mContext);
-
                             tv_expand.setText("收起");
                             open = true;
                             recyclerViewProd.setLayoutManager(new GridLayoutManager(mContext,3));

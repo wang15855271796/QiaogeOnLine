@@ -42,14 +42,19 @@ public class GenerateOrderAPI {
                                                  @Field("orderDeliveryType") int orderDeliveryType,
                                                  @Field("pickUserName") String pickUserName,
                                                  @Field("pickPhone") String pickPhone,
-                                                 @Field("pickUpTime") String pickUpTime
+                                                 @Field("pickUpTime") String pickUpTime,
+                                                 @Field("deliveryMode") int deliveryMode
         );
 
     }
 
-    public static Observable<GenerateOrderModel> requestGenerateOrder(Context context, String activityBalanceVOStr, String normalProductBalanceVOStr, String cartListStr, String giftDetailNo, String memo, String deliverTimeStart, String deliverTimeEnd, String deliverTimeName,int orderDeliveryType,String pickUserName,String pickPhone,String pickUpTime) {
+    public static Observable<GenerateOrderModel>
+    requestGenerateOrder(Context context, String activityBalanceVOStr,
+                         String normalProductBalanceVOStr,
+                         String cartListStr, String giftDetailNo, String memo, String deliverTimeStart, String deliverTimeEnd,
+                         String deliverTimeName,int orderDeliveryType,String pickUserName,String pickPhone,String pickUpTime,int deliveryMode) {
         Observable<GenerateOrderModel> generateOrderModelbservable = RestHelper.getBaseRetrofit(context).create(GenerateOrderService.class).setParams(activityBalanceVOStr, normalProductBalanceVOStr,
-                cartListStr, giftDetailNo, memo, deliverTimeStart, deliverTimeEnd, deliverTimeName,orderDeliveryType,pickUserName,pickPhone,pickUpTime);
+                cartListStr, giftDetailNo, memo, deliverTimeStart, deliverTimeEnd, deliverTimeName,orderDeliveryType,pickUserName,pickPhone,pickUpTime,deliveryMode);
         return generateOrderModelbservable;
     }
 

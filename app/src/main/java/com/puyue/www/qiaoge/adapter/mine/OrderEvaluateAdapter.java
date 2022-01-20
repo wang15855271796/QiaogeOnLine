@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -110,6 +111,7 @@ public class OrderEvaluateAdapter extends BaseQuickAdapter<OrderEvaluateListMode
                         onStatusListener.onDeleteListener(helper.getLayoutPosition(), selectedList.get(0));
                         break;
                     case R.id.iv_comment_image:
+
                         if (list.get(helper.getLayoutPosition()).getCommentImgs().size() > 0) {
                             if (list.get(helper.getLayoutPosition()).getCommentImgs().size() == selectedList.get(0)) {
                                 onStatusListener.onSetStatusListener(helper.getLayoutPosition());

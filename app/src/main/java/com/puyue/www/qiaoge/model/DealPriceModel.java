@@ -78,6 +78,19 @@ public class DealPriceModel {
         private String price_calculate_id;
         private List<CalculatePriceInfoBean> calculate_price_info;
 
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "distance_total=" + distance_total +
+                    ", exceed_distance=" + exceed_distance +
+                    ", total_price_fen=" + total_price_fen +
+                    ", total_price='" + total_price + '\'' +
+                    ", coupon_item=" + coupon_item +
+                    ", price_calculate_id='" + price_calculate_id + '\'' +
+                    ", calculate_price_info=" + calculate_price_info +
+                    '}';
+        }
+
         public int getDistance_total() {
             return distance_total;
         }
@@ -146,6 +159,16 @@ public class DealPriceModel {
             private int amount_fen;
             private String name;
             private int type;
+
+            @Override
+            public String toString() {
+                return "CalculatePriceInfoBean{" +
+                        "amount='" + amount + '\'' +
+                        ", amount_fen=" + amount_fen +
+                        ", name='" + name + '\'' +
+                        ", type=" + type +
+                        '}';
+            }
 
             public String getAmount() {
                 return amount;

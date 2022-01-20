@@ -1,6 +1,7 @@
 package com.puyue.www.qiaoge.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -84,8 +85,8 @@ public class HuoCancelActivity extends BaseActivity implements View.OnClickListe
             ll_box1.setVisibility(View.VISIBLE);
             ll_box2.setVisibility(View.GONE);
         }else {
-            ll_box1.setVisibility(View.GONE);
-            ll_box2.setVisibility(View.VISIBLE);
+            ll_box1.setVisibility(View.VISIBLE);
+            ll_box2.setVisibility(View.GONE);
         }
     }
 
@@ -147,7 +148,7 @@ public class HuoCancelActivity extends BaseActivity implements View.OnClickListe
                 break;
 
             case R.id.rl_reason1:
-                if(tv_reason2.getText().toString().equals("")||tv_reason2.getText().toString()==null) {
+                if(tv_reason1.getText().toString().equals("")|| TextUtils.isEmpty(tv_reason1.getText().toString())) {
                     ToastUtil.showErroMsg(mContext,"请先选择第一个原因");
                 }else {
                     HuoReasonDialog1 huoReasonDialog1 = new HuoReasonDialog1(mContext,sub_reason_list);
@@ -216,6 +217,6 @@ public class HuoCancelActivity extends BaseActivity implements View.OnClickListe
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getReason1(HuoReason1Event huoReasonEvent) {
-        tv_reason1.setText(huoReasonEvent.getName());
+        tv_reason2.setText(huoReasonEvent.getName());
     }
 }

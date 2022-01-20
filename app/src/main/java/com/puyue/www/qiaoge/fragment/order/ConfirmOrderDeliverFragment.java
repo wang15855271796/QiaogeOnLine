@@ -44,10 +44,12 @@ import com.puyue.www.qiaoge.api.mine.order.GenerateOrderAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.dialog.ChooseAddressDialog;
+import com.puyue.www.qiaoge.dialog.DisDialog;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.BeizhuEvent;
 import com.puyue.www.qiaoge.event.ChooseCoupon1Event;
 import com.puyue.www.qiaoge.event.ChooseCouponEvent;
+import com.puyue.www.qiaoge.event.DisTributionEvent;
 import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragment;
 import com.puyue.www.qiaoge.helper.ActivityResultHelper;
 import com.puyue.www.qiaoge.helper.AlwaysMarqueeTextViewHelper;
@@ -187,6 +189,9 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     ImageView iv_pic;
     RecyclerView rv_given;
     RecyclerView rv_coupon;
+    RelativeLayout rl_distribution;
+    TextView tv_distribution;
+    int disType = 0;
     @Override
     public int setLayoutId() {
         return R.layout.fragment_confirm_deliver_order;
@@ -199,6 +204,8 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     @Override
     public void findViewById(View view) {
         //  toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        tv_distribution = (TextView) view.findViewById(R.id.tv_distribution);
+        rl_distribution = (RelativeLayout) view.findViewById(R.id.rl_distribution);
         rv_given = (RecyclerView) view.findViewById(R.id.rv_given);
         rv_coupon = (RecyclerView) view.findViewById(R.id.rv_coupon);
         iv_operate_pic = (ImageView) view.findViewById(R.id.iv_operate_pic);
@@ -286,7 +293,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
         //非自营
         recyclerView1.setLayoutManager(new LinearLayoutManager(mActivity));
         recyclerView1.setAdapter(unOperateAdapter);
-        requestCartBalance(NewgiftDetailNo, 0);//NewgiftDetailNo
+        requestCartBalance(NewgiftDetailNo, 0,disType);//NewgiftDetailNo
     }
 
     @Override
@@ -299,12 +306,19 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
         imVipButton.setOnClickListener(noDoubleClickListener);
         ll_go_market.setOnClickListener(noDoubleClickListener);
         ll_beizhu.setOnClickListener(noDoubleClickListener);
+        rl_distribution.setOnClickListener(noDoubleClickListener);
     }
 
     private NoDoubleClickListener noDoubleClickListener = new NoDoubleClickListener() {
         @Override
         public void onNoDoubleClick(View view) {
             switch (view.getId()) {
+
+                case R.id.rl_distribution:
+                    DisDialog disDialog = new DisDialog(mActivity,cModel.getData().getSendAmount(),1);
+                    disDialog.show();
+                    break;
+
                 case R.id.ll_beizhu:
                     Intent intents = new Intent(mActivity,BeizhuActivity.class);
                     intents.putExtra("beizhu",tv_beizhu.getText().toString()+"");
@@ -326,6 +340,12 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                     getDatas(1);
                     lav_activity_loading.show();
                     lav_activity_loading.setVisibility(View.VISIBLE);
+                    if(tv_distribution.getText().toString().equals("")) {
+                        AppHelper.showMsg(mActivity, "请选择配送服务");
+                        buttonPay.setEnabled(true);
+                        lav_activity_loading.hide();
+                        return;
+                    }
                     if (LinearLayoutAddress.getVisibility() == View.VISIBLE) { // 没有地址
                         AppHelper.showMsg(mActivity, "请填写地址");
                         lav_activity_loading.hide();
@@ -498,8 +518,8 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     /**
      * 结算接口
      */
-    private void requestCartBalance(String giftDetailNo, int type) {
-        CartBalanceAPI.requestCartBalance(mActivity, normalProductBalanceVOStr, activityBalanceVOStr, cartListStr, giftDetailNo, type, 0)
+    private void requestCartBalance(String giftDetailNo, int type,int disType) {
+        CartBalanceAPI.requestCartBalance(mActivity, normalProductBalanceVOStr, activityBalanceVOStr, cartListStr, giftDetailNo, type, 0,disType)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<CartBalanceModel>() {
@@ -748,7 +768,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     private void requestOrderNum() {
 
         GenerateOrderAPI.requestGenerateOrder(mActivity, activityBalanceVOStr, normalProductBalanceVOStr, cartListStr, NewgiftDetailNo, tv_beizhu.getText().toString(),
-                deliverTimeStart, deliverTimeEnd, deliverTimeName, 0, "", "", "")
+                deliverTimeStart, deliverTimeEnd, deliverTimeName, 0, "", "", "",disType)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<GenerateOrderModel>() {
@@ -798,7 +818,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     @Subscribe
     public void onEventMainThread(AddressEvent event) {
         list.clear();
-        requestCartBalance(NewgiftDetailNo, 0);////NewgiftDetailNo
+        requestCartBalance(NewgiftDetailNo, 0,disType);////NewgiftDetailNo
 //        userChooseDeduct();
     }
 
@@ -807,6 +827,13 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    //配送方式
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getDistribution(DisTributionEvent disTributionEvent) {
+        tv_distribution.setText(disTributionEvent.getDesc());
+        disType = disTributionEvent.getType();
     }
 
     /**
@@ -828,7 +855,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     public void getCoupon(ChooseCouponEvent chooseCouponEvent) {
 
         list.clear();
-        requestCartBalance(chooseCouponEvent.getGiftDetailNo(), 0);
+        requestCartBalance(chooseCouponEvent.getGiftDetailNo(), 0,disType);
         statModel.setSelects(false);
     }
 //      subtractionActivitiesPrice.setText("¥" + cartBalanceModel.getData().getNormalReduct());
@@ -839,7 +866,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getCoupons(ChooseCoupon1Event chooseCouponEvent) {
         list.clear();
-        requestCartBalance("",0);
+        requestCartBalance("",0,disType);
         NewgiftDetailNo = "";
         statModel.setSelects(true);
     }

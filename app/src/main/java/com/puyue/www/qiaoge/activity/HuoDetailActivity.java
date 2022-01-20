@@ -27,12 +27,18 @@ import com.puyue.www.qiaoge.api.huolala.HuolalaAPI;
 import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.dialog.AddTipDialog;
+import com.puyue.www.qiaoge.dialog.XieShangDialog;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.model.HuoDetailModel;
+import com.puyue.www.qiaoge.model.HuoDriverPayModel;
 import com.puyue.www.qiaoge.model.HuoListModel;
 import com.puyue.www.qiaoge.model.HuoPriceModel;
+import com.puyue.www.qiaoge.model.QueryProdModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
+import com.puyue.www.qiaoge.view.Arith;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,16 +84,30 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
     TextView tv_create_time;
     @BindView(R.id.tv_price)
     TextView tv_price;
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
+    @BindView(R.id.rv_unPay)
+    RecyclerView rv_unPay;
+    @BindView(R.id.rv_success)
+    RecyclerView rv_success;
+    @BindView(R.id.rv_payFailed)
+    RecyclerView rv_payFailed;
+    @BindView(R.id.rv_backing)
+    RecyclerView rv_backing;
+    @BindView(R.id.rv_paying)
+    RecyclerView rv_paying;
+    @BindView(R.id.rv_apply)
+    RecyclerView rv_apply;
     @BindView(R.id.tv_payed)
     TextView tv_payed;
+    @BindView(R.id.tv_pay)
+    TextView tv_pay;
     @BindView(R.id.tv_payed_money)
     TextView tv_payed_money;
     @BindView(R.id.tv_add)
     TextView tv_add;
     @BindView(R.id.rl_foot)
     RelativeLayout rl_foot;
+    @BindView(R.id.rl_foot1)
+    RelativeLayout rl_foot1;
     @BindView(R.id.tv_d_name)
     TextView tv_d_name;
     @BindView(R.id.rl_location)
@@ -104,9 +124,53 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
     RecyclerView rv_payed;
     @BindView(R.id.rl_phone)
     RelativeLayout rl_phone;
+    @BindView(R.id.tv_backing)
+    TextView tv_backing;
+    @BindView(R.id.tv_paySuccess)
+    TextView tv_paySuccess;
+    @BindView(R.id.tv_paying)
+    TextView tv_paying;
+    @BindView(R.id.tv_apply)
+    TextView tv_apply;
+    @BindView(R.id.tv_payFailed)
+    TextView tv_payFailed;
+    @BindView(R.id.tv_unPay)
+    TextView tv_unPay;
+    @BindView(R.id.tv_unPay_money)
+    TextView tv_unPay_money;
+    @BindView(R.id.tv_payFailed_money)
+    TextView tv_payFailed_money;
+    @BindView(R.id.tv_backing_money)
+    TextView tv_backing_money;
+    @BindView(R.id.tv_success_money)
+    TextView tv_success_money;
+    @BindView(R.id.tv_paying_money)
+    TextView tv_paying_money;
+    @BindView(R.id.tv_apply_money)
+    TextView tv_apply_money;
+    @BindView(R.id.ll_payed)
+    LinearLayout ll_payed;
+    @BindView(R.id.ll_paying)
+    LinearLayout ll_paying;
+    @BindView(R.id.ll_unPay)
+    LinearLayout ll_unPay;
+    @BindView(R.id.ll_backing)
+    LinearLayout ll_backing;
+    @BindView(R.id.ll_apply)
+    LinearLayout ll_apply;
+    @BindView(R.id.ll_success)
+    LinearLayout ll_success;
+    @BindView(R.id.ll_failed)
+    LinearLayout ll_failed;
+    @BindView(R.id.tv_desc)
+    TextView tv_desc;
+    @BindView(R.id.iv_wen)
+    ImageView iv_wen;
+    @BindView(R.id.ll_driver)
+    LinearLayout ll_driver;
     String id;
-    HuoPayAdapter huoPayAdapter;
     HuoPayedAdapter huoPayedAdapter;
+
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         id = getIntent().getStringExtra("id");
@@ -126,11 +190,6 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void setViewData() {
         getHuoDetail(id);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        huoPayAdapter = new HuoPayAdapter(R.layout.item_huo_pay,priceInfoList);
-        recyclerView.setAdapter(huoPayAdapter);
-
-
     }
 
     @Override
@@ -143,13 +202,28 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
         tv_cancel.setOnClickListener(this);
         ll_order_state.setOnClickListener(this);
         rl_phone.setOnClickListener(this);
+        tv_paying.setOnClickListener(this);
+        tv_unPay.setOnClickListener(this);
+        tv_backing.setOnClickListener(this);
+        tv_paySuccess.setOnClickListener(this);
+        tv_apply.setOnClickListener(this);
+        tv_payFailed.setOnClickListener(this);
+        tv_desc.setOnClickListener(this);
+        tv_pay.setOnClickListener(this);
+        iv_wen.setOnClickListener(this);
     }
 
 
     HuoDetailModel.DataBean data;
     List<Integer> payPriceList = new ArrayList<>();
     List<HuoDetailModel.DataBean.PriceInfoBean> priceInfoList = new ArrayList<>();
-    HuoPriceModel huoPriceModel = new HuoPriceModel();
+    List<HuoPriceModel> list1 = new ArrayList<>();
+    List<HuoPriceModel> list2 = new ArrayList<>();
+    List<HuoPriceModel> list3 = new ArrayList<>();
+    List<HuoPriceModel> list4 = new ArrayList<>();
+    List<HuoPriceModel> list5 = new ArrayList<>();
+    List<HuoPriceModel> list6 = new ArrayList<>();
+    List<HuoPriceModel> list7 = new ArrayList<>();
     private void getHuoDetail(String orderDisplayId) {
         HuolalaAPI.getHuoDetail(mActivity,orderDisplayId)
                 .subscribeOn(Schedulers.io())
@@ -162,7 +236,7 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.d("dsgfsds...",e.getMessage());
                     }
 
                     @Override
@@ -176,10 +250,10 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
                                 tv_zhuang_desc.setText(data.getSendAddr().getAddrInfo());
                                 tv_z_contact.setText(data.getSendAddr().getContactName());
                                 tv_z_phone.setText(data.getSendAddr().getContactPhone());
-                                tv_xie_address.setText(data.getSendAddr().getName());
-                                tv_x_phone.setText(data.getSendAddr().getContactPhone());
-                                tv_x_contact.setText(data.getSendAddr().getContactName());
-                                tv_x_desc.setText(data.getSendAddr().getAddrInfo());
+                                tv_xie_address.setText(data.getReceiveAddr().getName());
+                                tv_x_phone.setText(data.getReceiveAddr().getContactPhone());
+                                tv_x_contact.setText(data.getReceiveAddr().getContactName());
+                                tv_x_desc.setText(data.getReceiveAddr().getAddrInfo());
                                 tv_order_id.setText(data.getOrderDisplayId());
                                 tv_state.setText(data.getOrderStatusName());
                                 if(data.getDriverInfo()!=null) {
@@ -191,37 +265,47 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
                                 tv_beizhu.setText(data.getOrderRemark());
                                 tv_create_time.setText(data.getCreateTime());
                                 tv_price.setText(data.getTotalPrice()+"");
-                                tv_payed_money.setText(data.getPayPrice()+"");
+//                                tv_payed_money.setText(data.getPayPrice()+"");
                                 if(data.getDriverInfo()!=null) {
                                     HuoDetailModel.DataBean.DriverInfoBean driverInfo = data.getDriverInfo();
                                     tv_d_name.setText(driverInfo.getName());
                                     tv_d_car.setText(driverInfo.getVehicleName());
                                     tv_d_phone.setText(driverInfo.getPhone());
                                 }
-
+                                int orderStatus = data.getOrderStatus();
+                                if(orderStatus==3||orderStatus==4||orderStatus==5||orderStatus==8||orderStatus==9||orderStatus==17) {
+                                    ll_driver.setVisibility(View.GONE);
+                                }else {
+                                    ll_driver.setVisibility(View.VISIBLE);
+                                }
                                 if(data.getCanAddTips()==1) {
+                                    rl_foot1.setVisibility(View.GONE);
                                     rl_foot.setVisibility(View.VISIBLE);
+
                                 }else {
                                     rl_foot.setVisibility(View.GONE);
-                                }
-
-                                for (int i = 0; i < priceInfoList.size(); i++) {
-                                    HuoDetailModel.DataBean.PriceInfoBean priceInfoBean = priceInfoList.get(i);
-                                    if(priceInfoList.get(i).getPayStatus()==4) {
-                                        huoPriceModel.setAmount(priceInfoBean.getAmount());
-                                        huoPriceModel.setBillTypeName(priceInfoBean.getBillTypeName());
-                                        huoPriceModel.setAmount(priceInfoBean.getAmount());
-                                        huoPriceModel.setAmount(priceInfoBean.getAmount());
+                                    if(data.getNeedToPay()==0||data.getNeedToPay()==2) {
+                                        rl_foot1.setVisibility(View.GONE);
+                                    }else if(data.getNeedToPay()==1) {
+                                        rl_foot1.setVisibility(View.VISIBLE);
+                                        if(data.getAppealEnabledStatus()==1) {
+                                            //费用协商
+                                            tv_desc.setVisibility(View.VISIBLE);
+                                            tv_desc.setText("费用协商");
+                                        }else if(data.getAppealEnabledStatus()==2) {
+                                            //申诉
+                                            tv_desc.setText("账单申诉");
+                                            tv_desc.setVisibility(View.VISIBLE);
+                                        }else{
+                                            tv_desc.setVisibility(View.GONE);
+                                        }
                                     }
                                 }
 
-                                rv_payed.setLayoutManager(new LinearLayoutManager(mContext));
-                                huoPayedAdapter = new HuoPayedAdapter(R.layout.item_payed,priceInfoList,payPriceList);
-                                rv_payed.setAdapter(huoPayedAdapter);
-
-                                huoPayedAdapter.notifyDataSetChanged();
-                                huoPayAdapter.notifyDataSetChanged();
-
+                                priceInfoList.addAll(data.getPriceInfo());
+                                for (int i = 0; i < priceInfoList.size(); i++) {
+                                    getState(priceInfoList.get(i),priceInfoList.get(i).getPayStatus());
+                                }
                             }
 
                         }else {
@@ -229,6 +313,193 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
                         }
                     }
                 });
+    }
+
+    BigDecimal amount00 = new BigDecimal("0.00");
+    BigDecimal amount11 = new BigDecimal("0.00");
+    BigDecimal amount22 = new BigDecimal("0.00");
+    BigDecimal amount33 = new BigDecimal("0.00");
+    BigDecimal amount44 = new BigDecimal("0.00");
+    BigDecimal amount55 = new BigDecimal("0.00");
+    BigDecimal amount77 = new BigDecimal("0.00");
+    private void getState(HuoDetailModel.DataBean.PriceInfoBean priceInfoList, int payStatus) {
+        String billTypeName = priceInfoList.getBillTypeName();
+
+        switch (payStatus) {
+            case 0:
+                ll_unPay.setVisibility(View.VISIBLE);
+                ll_paying.setVisibility(View.GONE);
+                ll_payed.setVisibility(View.GONE);
+                ll_success.setVisibility(View.GONE);
+                ll_failed.setVisibility(View.GONE);
+                ll_apply.setVisibility(View.GONE);
+                ll_backing.setVisibility(View.GONE);
+                //"未支付"
+                BigDecimal amount0 = new BigDecimal(priceInfoList.getAmount());
+                amount00 = amount00.add(amount0);
+                tv_unPay_money.setText(amount0.doubleValue()+"");
+                HuoPriceModel huoPriceModel0 = new HuoPriceModel();
+                huoPriceModel0.setAmount(priceInfoList.getAmount());
+                huoPriceModel0.setBillTypeName(billTypeName);
+                huoPriceModel0.setImgUrl(priceInfoList.getImgUrl());
+                list2.add(huoPriceModel0);
+
+                rv_unPay.setLayoutManager(new LinearLayoutManager(mContext));
+                huoPayedAdapter = new HuoPayedAdapter(R.layout.item_huo_pay,list2);
+                rv_unPay.setAdapter(huoPayedAdapter);
+                huoPayedAdapter.notifyDataSetChanged();
+                break;
+
+            case 1:
+                //"已支付"
+                ll_unPay.setVisibility(View.GONE);
+                ll_paying.setVisibility(View.GONE);
+                ll_payed.setVisibility(View.VISIBLE);
+                ll_success.setVisibility(View.GONE);
+                ll_failed.setVisibility(View.GONE);
+                ll_apply.setVisibility(View.GONE);
+                ll_backing.setVisibility(View.GONE);
+
+                BigDecimal amount1 = new BigDecimal(priceInfoList.getAmount());
+                amount11 = amount11.add(amount1);
+                tv_payed_money.setText(amount11.doubleValue()+"");
+                HuoPriceModel huoPriceModel = new HuoPriceModel();
+                huoPriceModel.setAmount(priceInfoList.getAmount());
+                huoPriceModel.setBillTypeName(billTypeName);
+                huoPriceModel.setImgUrl(priceInfoList.getImgUrl());
+                list1.add(huoPriceModel);
+
+                rv_payed.setLayoutManager(new LinearLayoutManager(mContext));
+                huoPayedAdapter = new HuoPayedAdapter(R.layout.item_huo_pay,list1);
+                rv_payed.setAdapter(huoPayedAdapter);
+                huoPayedAdapter.notifyDataSetChanged();
+                break;
+
+            case 2:
+                //"支付失败"
+                ll_unPay.setVisibility(View.GONE);
+                ll_paying.setVisibility(View.GONE);
+                ll_payed.setVisibility(View.GONE);
+                ll_success.setVisibility(View.GONE);
+                ll_failed.setVisibility(View.VISIBLE);
+                ll_apply.setVisibility(View.GONE);
+                ll_backing.setVisibility(View.GONE);
+                BigDecimal amount2 = new BigDecimal(priceInfoList.getAmount());
+                amount22 = amount22.add(amount2);
+                tv_payFailed_money.setText(amount22.doubleValue()+"");
+                HuoPriceModel huoPriceModel2 = new HuoPriceModel();
+                huoPriceModel2.setAmount(priceInfoList.getAmount());
+                huoPriceModel2.setImgUrl(priceInfoList.getImgUrl());
+                huoPriceModel2.setBillTypeName(billTypeName);
+                list3.add(huoPriceModel2);
+
+                rv_payFailed.setLayoutManager(new LinearLayoutManager(mContext));
+                huoPayedAdapter = new HuoPayedAdapter(R.layout.item_huo_pay,list3);
+                rv_payFailed.setAdapter(huoPayedAdapter);
+                huoPayedAdapter.notifyDataSetChanged();
+                break;
+
+            case 3:
+                //"退款中"
+                ll_unPay.setVisibility(View.GONE);
+                ll_paying.setVisibility(View.GONE);
+                ll_payed.setVisibility(View.GONE);
+                ll_success.setVisibility(View.GONE);
+                ll_failed.setVisibility(View.GONE);
+                ll_apply.setVisibility(View.GONE);
+                ll_backing.setVisibility(View.VISIBLE);
+                BigDecimal amount3 = new BigDecimal(priceInfoList.getAmount());
+                amount33 = amount33.add(amount3);
+                tv_backing_money.setText(amount33.doubleValue()+"");
+                HuoPriceModel huoPriceModel3 = new HuoPriceModel();
+                huoPriceModel3.setAmount(priceInfoList.getAmount());
+                huoPriceModel3.setImgUrl(priceInfoList.getImgUrl());
+                huoPriceModel3.setBillTypeName(billTypeName);
+                list4.add(huoPriceModel3);
+
+                rv_backing.setLayoutManager(new LinearLayoutManager(mContext));
+                huoPayedAdapter = new HuoPayedAdapter(R.layout.item_huo_pay,list4);
+                rv_backing.setAdapter(huoPayedAdapter);
+                huoPayedAdapter.notifyDataSetChanged();
+//                tv_payed.setText("退款中");
+                break;
+
+            case 4:
+                //"退款成功"
+                ll_unPay.setVisibility(View.GONE);
+                ll_paying.setVisibility(View.GONE);
+                ll_payed.setVisibility(View.GONE);
+                ll_success.setVisibility(View.VISIBLE);
+                ll_failed.setVisibility(View.GONE);
+                ll_apply.setVisibility(View.GONE);
+                ll_backing.setVisibility(View.GONE);
+                BigDecimal amount4 = new BigDecimal(priceInfoList.getAmount());
+                amount44 = amount44.add(amount4);
+                tv_success_money.setText(amount44.doubleValue()+"");
+                HuoPriceModel huoPriceModel4 = new HuoPriceModel();
+                huoPriceModel4.setAmount(priceInfoList.getAmount());
+                huoPriceModel4.setBillTypeName(billTypeName);
+                huoPriceModel4.setImgUrl(priceInfoList.getImgUrl());
+                list5.add(huoPriceModel4);
+
+                rv_success.setLayoutManager(new LinearLayoutManager(mContext));
+                huoPayedAdapter = new HuoPayedAdapter(R.layout.item_huo_pay,list5);
+                rv_success.setAdapter(huoPayedAdapter);
+                huoPayedAdapter.notifyDataSetChanged();
+//                tv_payed.setText("退款成功");
+                break;
+
+            case 5:
+                //"支付中"
+                ll_unPay.setVisibility(View.GONE);
+                ll_paying.setVisibility(View.VISIBLE);
+                ll_payed.setVisibility(View.GONE);
+                ll_success.setVisibility(View.GONE);
+                ll_failed.setVisibility(View.GONE);
+                ll_apply.setVisibility(View.GONE);
+                ll_backing.setVisibility(View.GONE);
+                BigDecimal amount5 = new BigDecimal(priceInfoList.getAmount());
+                amount55 = amount55.add(amount5);
+                tv_paying_money.setText(amount55.doubleValue()+"");
+                HuoPriceModel huoPriceModel5 = new HuoPriceModel();
+                huoPriceModel5.setAmount(priceInfoList.getAmount());
+                huoPriceModel5.setBillTypeName(billTypeName);
+                huoPriceModel5.setImgUrl(priceInfoList.getImgUrl());
+                list6.add(huoPriceModel5);
+
+                rv_paying.setLayoutManager(new LinearLayoutManager(mContext));
+                huoPayedAdapter = new HuoPayedAdapter(R.layout.item_huo_pay,list6);
+                rv_paying.setAdapter(huoPayedAdapter);
+                huoPayedAdapter.notifyDataSetChanged();
+//                tv_payed.setText("支付中");
+                break;
+
+            case 7:
+//                "申诉中"
+                ll_unPay.setVisibility(View.GONE);
+                ll_paying.setVisibility(View.GONE);
+                ll_payed.setVisibility(View.GONE);
+                ll_success.setVisibility(View.GONE);
+                ll_failed.setVisibility(View.GONE);
+                ll_apply.setVisibility(View.VISIBLE);
+                ll_backing.setVisibility(View.GONE);
+                BigDecimal amount7 = new BigDecimal(priceInfoList.getAmount());
+                amount77 = amount77.add(amount7);
+                tv_apply_money.setText(amount77.doubleValue()+"");
+                HuoPriceModel huoPriceModel6 = new HuoPriceModel();
+                huoPriceModel6.setImgUrl(priceInfoList.getImgUrl());
+                huoPriceModel6.setAmount(priceInfoList.getAmount());
+                huoPriceModel6.setBillTypeName(billTypeName);
+                list7.add(huoPriceModel6);
+
+                rv_apply.setLayoutManager(new LinearLayoutManager(mContext));
+                huoPayedAdapter = new HuoPayedAdapter(R.layout.item_huo_pay,list7);
+                rv_apply.setAdapter(huoPayedAdapter);
+                huoPayedAdapter.notifyDataSetChanged();
+//                tv_payed.setText("申诉中");
+                break;
+
+        }
     }
 
     private void getAddTip(String orderDisplayId,String tips) {
@@ -260,11 +531,41 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
 
 
 
-    boolean isOpen = false;
+    boolean isPayed = true;
+    boolean isPaying = true;
+    boolean isBacking = true;
+    boolean isFailed = true;
+    boolean isSuccess = true;
+    boolean isApply = true;
+    boolean isUnPay = true;
+
     AddTipDialog addTipDialog;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.tv_pay:
+                getDriver();
+
+                break;
+
+            case R.id.iv_wen:
+                if(data.getAppealEnabledStatus()==1) {
+                    //协商
+                    XieShangDialog xieShangDialog = new XieShangDialog(mContext,1);
+                    xieShangDialog.show();
+                }else {
+                    XieShangDialog xieShangDialog = new XieShangDialog(mContext,2);
+                    xieShangDialog.show();
+                }
+                break;
+
+            case R.id.tv_desc:
+                Intent intent1 = new Intent(mContext,AccountActivity.class);
+                intent1.putExtra("billList", (Serializable) data.getBillAppeal());
+                intent1.putExtra("orderDisPlayId", data.getOrderDisplayId());
+                startActivity(intent1);
+
+                break;
 
             case R.id.rl_phone:
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + data.getDriverInfo().getPhone()));
@@ -272,7 +573,6 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.ll_order_state:
-
                 break;
 
             case R.id.iv_back:
@@ -290,12 +590,72 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
 
                 break;
             case R.id.tv_payed:
-                if(!isOpen) {
-                    recyclerView.setVisibility(View.VISIBLE);
-                    isOpen = true;
+                if(!isPayed) {
+                    rv_payed.setVisibility(View.VISIBLE);
+                    isPayed = true;
                 }else {
-                    isOpen = false;
-                    recyclerView.setVisibility(View.GONE);
+                    isPayed = false;
+                    rv_payed.setVisibility(View.GONE);
+                }
+                break;
+
+            case R.id.tv_paying:
+                if(!isPaying) {
+                    rv_paying.setVisibility(View.VISIBLE);
+                    isPaying = true;
+                }else {
+                    isPaying = false;
+                    rv_paying.setVisibility(View.GONE);
+                }
+                break;
+
+            case R.id.tv_unPay:
+                if(!isUnPay) {
+                    rv_unPay.setVisibility(View.VISIBLE);
+                    isUnPay = true;
+                }else {
+                    isUnPay = false;
+                    rv_unPay.setVisibility(View.GONE);
+                }
+                break;
+
+            case R.id.tv_backing:
+                if(!isBacking) {
+                    rv_backing.setVisibility(View.VISIBLE);
+                    isBacking = true;
+                }else {
+                    isBacking = false;
+                    rv_backing.setVisibility(View.GONE);
+                }
+                break;
+
+            case R.id.tv_paySuccess:
+                if(!isSuccess) {
+                    rv_success.setVisibility(View.VISIBLE);
+                    isSuccess = true;
+                }else {
+                    isSuccess = false;
+                    rv_success.setVisibility(View.GONE);
+                }
+                break;
+
+            case R.id.tv_apply:
+                if(!isApply) {
+                    rv_apply.setVisibility(View.VISIBLE);
+                    isApply = true;
+                }else {
+                    isApply = false;
+                    rv_apply.setVisibility(View.GONE);
+                }
+                break;
+
+            case R.id.tv_payFailed:
+                if(!isFailed) {
+                    rv_payFailed.setVisibility(View.VISIBLE);
+                    isFailed = true;
+                }else {
+                    isFailed = false;
+                    rv_payFailed.setVisibility(View.GONE);
                 }
                 break;
 
@@ -311,25 +671,62 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
                 break;
 
             case R.id.rl_location:
+                if(data!=null) {
+                    Intent intent2 = new Intent(mContext,HuoDriverActivity.class);
+                    intent2.putExtra("orderDisplayId",data.getOrderDisplayId());
+                    intent2.putExtra("sendAddress",data.getSendAddr());
+                    intent2.putExtra("receiveAddress",data.getReceiveAddr());
+                    startActivity(intent2);
+                }
 
                 break;
 
             case R.id.tv_cancel:
-                if(data.getNeedToCancelReason()==1) {
-                    Intent intent1 = new Intent(mContext,HuoCancelActivity.class);
-                    intent1.putExtra("displayId",data.getOrderDisplayId());
-                    intent1.putExtra("type",1);
-                    startActivity(intent1);
-                }else {
-                    Intent intents = new Intent(mContext,HuoCancelActivity.class);
-                    intents.putExtra("displayId",data.getOrderDisplayId());
-                    intents.putExtra("type",2);
-                    startActivity(intents);
+                if(data!=null) {
+                    if(data.getNeedToCancelReason()==1) {
+                        Intent intent3 = new Intent(mContext,HuoCancelActivity.class);
+                        intent3.putExtra("displayId",data.getOrderDisplayId());
+                        intent3.putExtra("type",1);
+                        startActivity(intent3);
+                    }else {
+                        Intent intents = new Intent(mContext,HuoCancelActivity.class);
+                        intents.putExtra("displayId",data.getOrderDisplayId());
+                        intents.putExtra("type",2);
+                        startActivity(intents);
+                    }
                 }
 
-                finish();
                 break;
         }
     }
 
+    private void getDriver() {
+        HuolalaAPI.getDriverPay(mActivity,data.getOrderDisplayId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<HuoDriverPayModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(HuoDriverPayModel huoDriverPayModel) {
+                        if(huoDriverPayModel.getCode()==1) {
+                            if(huoDriverPayModel.getData()!=null) {
+                                String cashier_url = huoDriverPayModel.getData().getCashier_url();
+                                startActivity(CommonH5Activity.getIntent(mContext, CommonH5Activity.class, cashier_url));
+                                finish();
+                            }
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,huoDriverPayModel.getMessage());
+                        }
+                    }
+                });
+    }
 }

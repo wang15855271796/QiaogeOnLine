@@ -21,6 +21,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.adapter.HuoCouponAdapter;
 import com.puyue.www.qiaoge.api.huolala.HuolalaAPI;
+import com.puyue.www.qiaoge.event.HuoCouponEvent;
 import com.puyue.www.qiaoge.event.HuoOrderContactEvent;
 import com.puyue.www.qiaoge.model.CarPriceModel;
 import com.puyue.www.qiaoge.model.HuoCouponModel;
@@ -75,7 +76,7 @@ public class HuoCouponDialog extends Dialog {
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                dismiss();
             }
         });
 
@@ -86,6 +87,9 @@ public class HuoCouponDialog extends Dialog {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 huoCouponAdapter.setSelectionPosition(position);
+                EventBus.getDefault().post(new HuoCouponEvent(dataList.get(position).getBusiness_type_str()+dataList.get(position).getDiscount_str(),
+                        dataList.get(position).getCoupon_id()
+                        ));
             }
         });
 

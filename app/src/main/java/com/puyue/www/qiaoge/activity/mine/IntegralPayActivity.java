@@ -388,7 +388,7 @@ public class IntegralPayActivity extends BaseSwipeActivity {
         req.userName = "gh_02750c16f80b"; // 填小程序原始id
         req.path = "/pagesGoods/vippage/appvippay?vipPackageId="+vipPackageId+"&token="+userId;
         ////拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
-        req.miniprogramType =  WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发版，体验版和正式版
+        req.miniprogramType =  WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW;// 可选打开 开发版，体验版和正式版
         api.sendReq(req);
         lav_activity_loading.hide();
     }

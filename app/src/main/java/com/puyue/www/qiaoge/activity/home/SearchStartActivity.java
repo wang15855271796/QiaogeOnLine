@@ -284,9 +284,11 @@ public class SearchStartActivity extends BaseSwipeActivity implements View.OnFoc
                 mListHistory.remove(i);
             }
         }
+
         for (int i = 0; i < mListHistory.size(); i++) {
             text = text + "," + mListHistory.get(i);
         }
+
         UserInfoHelper.saveUserHistory(mContext, text);
 
     }

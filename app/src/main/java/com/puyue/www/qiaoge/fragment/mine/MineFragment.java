@@ -735,14 +735,17 @@ public class MineFragment extends BaseFragment {
             } else if (view == relativeLayoutVip || view == tv_vip_more || view == iv_vip_more)
 
             { //会员中心
-                Intent intent = new Intent(getActivity(), HuoHomeActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(), HuoHomeActivity.class);
+//                startActivity(intent);
 //                isAuth();
 //                Intent intent = new Intent(getContext(), NewWebViewActivity.class);
 //                intent.putExtra("URL", urlVIP);
 //                intent.putExtra("TYPE", 1);
 //                intent.putExtra("name", "");
 //                startActivity(intent);
+//                getCode();
+                Intent intent = new Intent(getActivity(), HuoHomeActivity.class);
+                startActivity(intent);
 
             }  else if (view == tv_use_deduct)
 
@@ -784,38 +787,6 @@ public class MineFragment extends BaseFragment {
         }
 
     };
-
-    /**
-     * 判断是否需要授权
-     */
-    private void isAuth() {
-        HuolalaAPI.isAuthorize(mActivity)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<IsAuthModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(IsAuthModel isAuthModel) {
-                        if(isAuthModel.getCode()==1) {
-                            if(isAuthModel.getData().isAuthorize()) {
-                                startActivity(CommonH5Activity.getIntent(getActivity(),CommonH5Activity.class,isAuthModel.getData().getAuthUrl()));
-                            }
-                        }else {
-                            ToastUtil.showSuccessMsg(getActivity(),isAuthModel.getMessage());
-                        }
-                    }
-                });
-    }
-
 
     private void useAccount() {
         MineAccountAPI.requestMineAccount(mActivity, day, giftNo)

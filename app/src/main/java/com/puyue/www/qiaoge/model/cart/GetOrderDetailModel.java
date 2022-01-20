@@ -113,6 +113,18 @@ public class GetOrderDetailModel {
         public int saleSettle;
         public int salePay;
         public List<OrderProdsBean> orderProds;
+        public int deliveryModel;
+        public String showHllDesc;
+        public String hllEndTime;
+        public String hllOrderId;
+        public String hllOrderStatusName;
+        public int getDeliveryModel() {
+            return deliveryModel;
+        }
+        public List<String> hllConnectOrderIds;
+        public void setDeliveryModel(int deliveryModel) {
+            this.deliveryModel = deliveryModel;
+        }
 
         public static class SendGiftInfo {
             private String type;

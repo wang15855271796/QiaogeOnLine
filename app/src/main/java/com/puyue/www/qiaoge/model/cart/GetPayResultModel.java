@@ -75,6 +75,42 @@ public class GetPayResultModel {
         private String message;
         private String otherMessage;
         private VoBean vo;
+        private int deliverModel;
+        private int connectHllOrder;
+        private String hllOrderId;
+        private String orderId;
+
+        public String getOrderId() {
+            return orderId;
+        }
+
+        public void setOrderId(String orderId) {
+            this.orderId = orderId;
+        }
+
+        public int getDeliverModel() {
+            return deliverModel;
+        }
+
+        public void setDeliverModel(int deliverModel) {
+            this.deliverModel = deliverModel;
+        }
+
+        public int getConnectHllOrder() {
+            return connectHllOrder;
+        }
+
+        public void setConnectHllOrder(int connectHllOrder) {
+            this.connectHllOrder = connectHllOrder;
+        }
+
+        public String getHllOrderId() {
+            return hllOrderId;
+        }
+
+        public void setHllOrderId(String hllOrderId) {
+            this.hllOrderId = hllOrderId;
+        }
 
         public boolean isResult() {
             return result;

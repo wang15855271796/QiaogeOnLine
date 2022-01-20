@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginLeft="@dimen/size_12dp"
+    android:layout_height="@dimen/size_40dp">
+
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:button="@null"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/select_check"
+        android:layout_width="@dimen/size_16dp"
+        android:layout_height="@dimen/size_16dp" />
+
+    <TextView
+        android:layout_gravity="center_vertical"
+        android:id="@+id/tv_name"
+        android:layout_marginLeft="@dimen/dp_4"
+        android:textColor="#333333"
+        android:textSize="@dimen/sp_14"
+        android:text="费用项目名称（20元）"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:textAlignment="center"
+        android:id="@+id/et_money"
+        android:hint="请输入您的期望费用"
+        android:layout_centerVertical="true"
+        android:textSize="@dimen/sp_12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

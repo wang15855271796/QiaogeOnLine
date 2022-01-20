@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,12 +22,18 @@ import com.puyue.www.qiaoge.api.huolala.HuolalaAPI;
 import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.event.HuoAddress1Event;
 import com.puyue.www.qiaoge.event.HuoAddressEvent;
+import com.puyue.www.qiaoge.event.HuoCityEvent;
+import com.puyue.www.qiaoge.event.LogoutEvent;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.model.AddressListModel;
 import com.puyue.www.qiaoge.model.CarStyleModel;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
+import com.zaaach.citypicker.CityPickerActivity;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +50,14 @@ public class HuoSearchAddressActivity extends BaseActivity implements View.OnCli
     EditText et_search;
     @BindView(R.id.tv_cancel)
     TextView tv_cancel;
+    @BindView(R.id.ll_address)
+    LinearLayout ll_address;
+    @BindView(R.id.tv_city)
+    TextView tv_city;
     HuoAddressAdapter huoAddressAdapter;
     int type;
+    String cityId;
+    String name;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         type = getIntent().getIntExtra("type",0);
@@ -62,10 +76,11 @@ public class HuoSearchAddressActivity extends BaseActivity implements View.OnCli
 
     @Override
     public void setViewData() {
+        EventBus.getDefault().register(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         huoAddressAdapter = new HuoAddressAdapter(R.layout.item_address_huo,list);
         recyclerView.setAdapter(huoAddressAdapter);
-//        et_search.addTextChangedListener(new EditChangedListener());
+        et_search.addTextChangedListener(new EditChangedListener());
         huoAddressAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -74,11 +89,17 @@ public class HuoSearchAddressActivity extends BaseActivity implements View.OnCli
                 finish();
             }
         });
+
+        //默认城市名称
+        name = SharedPreferencesUtil.getString(mContext, "huoCityName");
+        cityId = SharedPreferencesUtil.getString(mContext, "huoCityId");
+        tv_city.setText(name);
     }
 
     @Override
     public void setClickEvent() {
         tv_cancel.setOnClickListener(this);
+        ll_address.setOnClickListener(this);
     }
 
     private class EditChangedListener implements TextWatcher {
@@ -90,7 +111,7 @@ public class HuoSearchAddressActivity extends BaseActivity implements View.OnCli
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
             recyclerView.setVisibility(View.VISIBLE);
-            getAddressList(charSequence.toString(),"杭州",type);
+            getAddressList(charSequence.toString(),name,type,cityId);
         }
 
         @Override
@@ -98,28 +119,10 @@ public class HuoSearchAddressActivity extends BaseActivity implements View.OnCli
         }
     }
 
-//    private TextWatcher textWatcher = new TextWatcher() {
-//        @Override
-//        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//        }
-//
-//        @Override
-//        public void onTextChanged(CharSequence s, int start, int before, int count) {
-//            recyclerView.setVisibility(View.VISIBLE);
-//            getAddressList(s.toString(),"杭州",type);
-//        }
-//
-//        @Override
-//        public void afterTextChanged(Editable s) {
-//
-//        }
-//    };
-
     //地址检索
     List<AddressListModel.DataBean> list = new ArrayList<>();
-    private void getAddressList(String address,String city,int placeType) {
-        HuolalaAPI.getAddressList(mActivity,address,city,placeType)
+    private void getAddressList(String address,String city,int placeType,String cityId) {
+        HuolalaAPI.getAddressList(mActivity,address,city,placeType,cityId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<AddressListModel>() {
@@ -153,9 +156,23 @@ public class HuoSearchAddressActivity extends BaseActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_cancel:
-                getAddressList(et_search.getText().toString(),"杭州",type);
-//                finish();
+                finish();
+                break;
+
+            case R.id.ll_address:
+                Intent intent = new Intent(mContext,HuoCityActivity.class);
+                startActivity(intent);
                 break;
         }
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getCity(HuoCityEvent huoCityEvent) {
+        name = huoCityEvent.getName();
+        cityId = huoCityEvent.getCityId();
+        list.clear();
+        tv_city.setText(huoCityEvent.getName());
+        et_search.setText("");
     }
 }

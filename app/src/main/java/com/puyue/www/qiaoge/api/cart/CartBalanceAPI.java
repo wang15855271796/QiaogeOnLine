@@ -26,7 +26,8 @@ public class CartBalanceAPI {
                                                @Field("cartListStr") String cartListStr,
                                                @Field("giftDetailNo") String giftDetailNo,
                                                @Field("type") int type,
-                                               @Field("orderDeliveryType") int orderDeliveryType);
+                                               @Field("orderDeliveryType") int orderDeliveryType,
+                                               @Field("deliveryMode") int deliveryMode);
 
 
 
@@ -34,8 +35,8 @@ public class CartBalanceAPI {
         ;
     }
 
-    public static Observable<CartBalanceModel> requestCartBalance(Context context, String normalProductBalanceVOStr, String activityBalanceVOStr, String cartListStr,String giftDetailNo,int type,int orderDeliveryType) {
-        Observable<CartBalanceModel> cartBalanceModelObservable = RestHelper.getBaseRetrofit(context).create(CartBalanceService.class).setParams(normalProductBalanceVOStr, activityBalanceVOStr, cartListStr, giftDetailNo,type,orderDeliveryType);
+    public static Observable<CartBalanceModel> requestCartBalance(Context context, String normalProductBalanceVOStr, String activityBalanceVOStr, String cartListStr,String giftDetailNo,int type,int orderDeliveryType,int deliveryMode) {
+        Observable<CartBalanceModel> cartBalanceModelObservable = RestHelper.getBaseRetrofit(context).create(CartBalanceService.class).setParams(normalProductBalanceVOStr, activityBalanceVOStr, cartListStr, giftDetailNo,type,orderDeliveryType,deliveryMode);
         return cartBalanceModelObservable;
     }
 }

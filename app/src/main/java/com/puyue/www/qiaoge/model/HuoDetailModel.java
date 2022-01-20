@@ -1,5 +1,6 @@
 package com.puyue.www.qiaoge.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class HuoDetailModel {
@@ -92,8 +93,8 @@ public class HuoDetailModel {
         private String contactPhone;
         private String orderRemark;
         private String createTime;
-        private int totalPrice;
-        private int payPrice;
+        private String totalPrice;
+        private String payPrice;
         private int unpaidPrice;
         private int canOrderCancel;
         private int needToCancelReason;
@@ -101,8 +102,25 @@ public class HuoDetailModel {
         private int canAddTips;
         private int appealEnabledStatus;
         private DriverInfoBean driverInfo;
-        private Object billAppeal;
         private List<PriceInfoBean> priceInfo;
+        private List<BillAppealBean> billAppeal;
+        int orderStatus;
+
+        public List<BillAppealBean> getBillAppeal() {
+            return billAppeal;
+        }
+
+        public void setBillAppeal(List<BillAppealBean> billAppeal) {
+            this.billAppeal = billAppeal;
+        }
+
+        public int getOrderStatus() {
+            return orderStatus;
+        }
+
+        public void setOrderStatus(int orderStatus) {
+            this.orderStatus = orderStatus;
+        }
 
         public SendAddrBean getSendAddr() {
             return sendAddr;
@@ -176,19 +194,19 @@ public class HuoDetailModel {
             this.createTime = createTime;
         }
 
-        public int getTotalPrice() {
+        public String getTotalPrice() {
             return totalPrice;
         }
 
-        public void setTotalPrice(int totalPrice) {
+        public void setTotalPrice(String totalPrice) {
             this.totalPrice = totalPrice;
         }
 
-        public int getPayPrice() {
+        public String getPayPrice() {
             return payPrice;
         }
 
-        public void setPayPrice(int payPrice) {
+        public void setPayPrice(String payPrice) {
             this.payPrice = payPrice;
         }
 
@@ -248,13 +266,6 @@ public class HuoDetailModel {
             this.driverInfo = driverInfo;
         }
 
-        public Object getBillAppeal() {
-            return billAppeal;
-        }
-
-        public void setBillAppeal(Object billAppeal) {
-            this.billAppeal = billAppeal;
-        }
 
         public List<PriceInfoBean> getPriceInfo() {
             return priceInfo;
@@ -264,7 +275,7 @@ public class HuoDetailModel {
             this.priceInfo = priceInfo;
         }
 
-        public static class SendAddrBean {
+        public static class SendAddrBean implements Serializable{
             /**
              * name : 起梦科创园
              * memo : 地址备注
@@ -278,6 +289,15 @@ public class HuoDetailModel {
             private String addrInfo;
             private String contactName;
             private String contactPhone;
+            private LatLonBean latLon;
+
+            public LatLonBean getLatLon() {
+                return latLon;
+            }
+
+            public void setLatLon(LatLonBean latLon) {
+                this.latLon = latLon;
+            }
 
             public String getName() {
                 return name;
@@ -318,9 +338,43 @@ public class HuoDetailModel {
             public void setContactPhone(String contactPhone) {
                 this.contactPhone = contactPhone;
             }
+
+            public static class LatLonBean implements Serializable{
+                /**
+                 * lat : 30.357762
+                 * lon : 120.05528
+                 */
+
+                private double lat;
+                private double lon;
+
+                public double getLat() {
+                    return lat;
+                }
+
+                public void setLat(double lat) {
+                    this.lat = lat;
+                }
+
+                public double getLon() {
+                    return lon;
+                }
+
+                public void setLon(double lon) {
+                    this.lon = lon;
+                }
+
+                @Override
+                public String toString() {
+                    return "LatLonBean{" +
+                            "lat=" + lat +
+                            ", lon=" + lon +
+                            '}';
+                }
+            }
         }
 
-        public static class ReceiveAddrBean {
+        public static class ReceiveAddrBean implements Serializable{
             /**
              * name : 雅居乐国际花园
              * memo : 地址备注
@@ -334,6 +388,15 @@ public class HuoDetailModel {
             private String addrInfo;
             private String contactName;
             private String contactPhone;
+            private LatLonBean latLon;
+
+            public LatLonBean getLatLon() {
+                return latLon;
+            }
+
+            public void setLatLon(LatLonBean latLon) {
+                this.latLon = latLon;
+            }
 
             public String getName() {
                 return name;
@@ -373,6 +436,40 @@ public class HuoDetailModel {
 
             public void setContactPhone(String contactPhone) {
                 this.contactPhone = contactPhone;
+            }
+
+            public static class LatLonBean implements Serializable{
+                /**
+                 * lat : 30.357762
+                 * lon : 120.05528
+                 */
+
+                private double lat;
+                private double lon;
+
+                public double getLat() {
+                    return lat;
+                }
+
+                public void setLat(double lat) {
+                    this.lat = lat;
+                }
+
+                public double getLon() {
+                    return lon;
+                }
+
+                public void setLon(double lon) {
+                    this.lon = lon;
+                }
+
+                @Override
+                public String toString() {
+                    return "LatLonBean{" +
+                            "lat=" + lat +
+                            ", lon=" + lon +
+                            '}';
+                }
             }
         }
 
@@ -468,6 +565,36 @@ public class HuoDetailModel {
             }
         }
 
+        public static class BillAppealBean implements Serializable{
+            String bilTypeName;
+            int billType;
+            double amount;
+
+            public String getBilTypeName() {
+                return bilTypeName;
+            }
+
+            public void setBilTypeName(String bilTypeName) {
+                this.bilTypeName = bilTypeName;
+            }
+
+            public int getBillType() {
+                return billType;
+            }
+
+            public void setBillType(int billType) {
+                this.billType = billType;
+            }
+
+            public double getAmount() {
+                return amount;
+            }
+
+            public void setAmount(double amount) {
+                this.amount = amount;
+            }
+        }
+
         public static class PriceInfoBean {
             /**
              * amount : 35
@@ -475,10 +602,19 @@ public class HuoDetailModel {
              * payStatusName : 已支付
              */
 
-            private int amount;
+            private double amount;
             private String billTypeName;
             private String payStatusName;
             private int payStatus;
+            private String imgUrl;
+
+            public String getImgUrl() {
+                return imgUrl;
+            }
+
+            public void setImgUrl(String imgUrl) {
+                this.imgUrl = imgUrl;
+            }
 
             public int getPayStatus() {
                 return payStatus;
@@ -488,11 +624,11 @@ public class HuoDetailModel {
                 this.payStatus = payStatus;
             }
 
-            public int getAmount() {
+            public double getAmount() {
                 return amount;
             }
 
-            public void setAmount(int amount) {
+            public void setAmount(double amount) {
                 this.amount = amount;
             }
 
@@ -512,5 +648,42 @@ public class HuoDetailModel {
                 this.payStatusName = payStatusName;
             }
         }
+
+        public static class LatLonBean {
+            /**
+             * lat : 30.357762
+             * lon : 120.05528
+             */
+
+            private String lat;
+            private String lon;
+
+            public String getLat() {
+                return lat;
+            }
+
+            public void setLat(String lat) {
+                this.lat = lat;
+            }
+
+            public String getLon() {
+                return lon;
+            }
+
+            public void setLon(String lon) {
+                this.lon = lon;
+            }
+
+            @Override
+            public String toString() {
+                return "LatLonBean{" +
+                        "lat=" + lat +
+                        ", lon=" + lon +
+                        '}';
+            }
+        }
+
     }
+
+
 }

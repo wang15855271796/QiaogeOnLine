@@ -219,7 +219,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     public void onResume() {
         super.onResume();
         start = System.currentTimeMillis();
-
+        getCartLists();
     }
 
     @Override
@@ -269,6 +269,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     public void setClickEvent() {
 
     }
+
 
     List<CartTestModel.DataBean.ProdsBeanX> prods = new ArrayList<>();
     List<CartTestModel.DataBean.InValidProdBean> inProds = new ArrayList<>();
@@ -753,7 +754,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
      * 结算
      */
     private void requestCartBalance() {
-        CartBalanceAPI.requestCartBalance(mActivity, normalProductBalanceVOStr, activityBalanceVOStr, cartListStr, "", 0,0)
+        CartBalanceAPI.requestCartBalance(mActivity, normalProductBalanceVOStr, activityBalanceVOStr, cartListStr, "", 0,0,0)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<CartBalanceModel>() {

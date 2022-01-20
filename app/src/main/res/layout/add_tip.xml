@@ -20,6 +20,25 @@
             android:background="#F0F0F0"
             android:layout_height="wrap_content"/>
 
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_marginTop="@dimen/size_20dp"
+            android:layout_marginLeft="@dimen/size_16dp"
+            android:textColor="#FD4900"
+            android:text="添加小费"
+            android:textSize="@dimen/size_18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_marginLeft="@dimen/size_16dp"
+            android:layout_below="@+id/tv1"
+            android:textSize="@dimen/size_12dp"
+            android:textColor="#FD4900"
+            android:text="给点小费犒劳一下吧~"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
         <EditText
             android:id="@+id/et_amount"
             android:background="@drawable/shape_grey4"
@@ -29,7 +48,6 @@
             android:layout_height="@dimen/size_38dp"
             android:hint="请输入金额"
             android:textAlignment="center"
-            android:text="22"
             android:layout_toRightOf="@+id/radio2"
             android:layout_marginRight="@dimen/size_30dp"
             android:layout_marginLeft="@dimen/size_30dp"

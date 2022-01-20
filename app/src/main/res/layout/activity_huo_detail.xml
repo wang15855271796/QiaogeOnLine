@@ -9,7 +9,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_weight="1"
@@ -351,10 +351,9 @@
                             <TextView
                                 android:id="@+id/tv_beizhu"
                                 android:textColor="#333333"
-                                tools:text="2021年11月18日11:18:012021年11月18日11:18:012021年11月18日11:18:012021年11月18日11:18:012021年11月18日11:18:012021年11月18日11:18:012021年11月18日11:18:012021年11月18日11:18:012021年11月18日11:18:012021年11月18日11:18:01"
-                                android:layout_gravity="center_vertical"
+                                tools:text="20218:01日11:18:012021年11月18日11:18:012021年11月18日11:18:012021年11月18日11:18:012021年11月18日11:18:01"
+                                android:maxLength="120"
                                 android:textSize="12sp"
-                                android:lines="3"
                                 android:layout_marginLeft="@dimen/sp_14"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
@@ -390,6 +389,7 @@
 
                     <!--接单司机信息-->
                     <LinearLayout
+                        android:id="@+id/ll_driver"
                         android:orientation="vertical"
                         android:layout_margin="@dimen/dp_10"
                         android:background="@drawable/shape_white1"
@@ -397,7 +397,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:text="订单信息"
+                            android:text="接单司机信息"
                             android:textSize="18sp"
                             android:layout_margin="@dimen/size_14dp"
                             android:textColor="#333333"
@@ -545,6 +545,7 @@
 
                             <TextView
                                 android:text="订单总价："
+                                android:textColor="#FD6601"
                                 android:layout_toLeftOf="@+id/tv_price"
                                 android:layout_centerVertical="true"
                                 android:layout_width="wrap_content"
@@ -552,7 +553,7 @@
 
                             <TextView
                                 android:id="@+id/tv_price"
-                                android:text="1000000"
+                                tools:text="1000000"
                                 android:textColor="#FD6601"
                                 android:layout_marginRight="@dimen/size_14dp"
                                 android:textSize="@dimen/size_18dp"
@@ -568,84 +569,437 @@
                             android:layout_width="match_parent"
                             android:layout_height="0.5dp"/>
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_payed"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-
-                        <RelativeLayout
+                        <!--已支付-->
+                        <LinearLayout
                             android:visibility="gone"
-                            android:layout_marginLeft="@dimen/size_14dp"
+                            android:id="@+id/ll_payed"
+                            android:orientation="vertical"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <TextView
-                                android:id="@+id/tv_payed"
-                                android:text="已支付"
-                                android:drawablePadding="@dimen/size_5dp"
-                                android:drawableRight="@mipmap/ic_drop_down"
-                                android:textColor="#333333"
-                                android:textSize="@dimen/sp_14"
-                                android:layout_marginBottom="@dimen/size_20dp"
-                                android:layout_marginTop="@dimen/size_14dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                            <RelativeLayout
+                                android:layout_marginLeft="@dimen/size_14dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
 
-                            <TextView
-                                android:visibility="gone"
-                                android:id="@+id/tv_payed_money"
-                                tools:text="100"
-                                android:textSize="@dimen/sp_14"
-                                android:layout_marginRight="@dimen/size_14dp"
-                                android:layout_alignParentRight="true"
-                                android:textColor="#333333"
-                                android:layout_marginTop="@dimen/size_14dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                <TextView
+                                    android:id="@+id/tv_payed"
+                                    android:text="已支付"
+                                    android:drawablePadding="@dimen/size_5dp"
+                                    android:drawableRight="@mipmap/ic_drop_down"
+                                    android:textColor="#333333"
+                                    android:textSize="@dimen/sp_14"
+                                    android:layout_marginBottom="@dimen/size_20dp"
+                                    android:layout_marginTop="@dimen/size_14dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+
+                                <TextView
+                                    android:id="@+id/tv_payed_money"
+                                    tools:text="100"
+                                    android:textSize="@dimen/sp_14"
+                                    android:layout_marginRight="@dimen/size_14dp"
+                                    android:layout_alignParentRight="true"
+                                    android:textColor="#333333"
+                                    android:layout_marginTop="@dimen/size_14dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+                            </RelativeLayout>
 
                             <androidx.recyclerview.widget.RecyclerView
-                                android:visibility="gone"
-                                android:id="@+id/recyclerView"
-                                android:layout_below="@+id/tv_payed_money"
+                                android:id="@+id/rv_payed"
+                                android:layout_marginLeft="@dimen/size_14dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
-                        </RelativeLayout>
+                        </LinearLayout>
+
+                        <!--未支付-->
+                        <LinearLayout
+                            android:visibility="gone"
+                            android:id="@+id/ll_unPay"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <RelativeLayout
+                                android:layout_marginLeft="@dimen/size_14dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/tv_unPay"
+                                    android:text="未支付"
+                                    android:drawablePadding="@dimen/size_5dp"
+                                    android:drawableRight="@mipmap/ic_drop_down"
+                                    android:textColor="#333333"
+                                    android:textSize="@dimen/sp_14"
+                                    android:layout_marginBottom="@dimen/size_20dp"
+                                    android:layout_marginTop="@dimen/size_14dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+
+                                <TextView
+                                    tools:text="100"
+                                    android:id="@+id/tv_unPay_money"
+                                    android:textSize="@dimen/sp_14"
+                                    android:layout_marginRight="@dimen/size_14dp"
+                                    android:layout_alignParentRight="true"
+                                    android:textColor="#333333"
+                                    android:layout_marginTop="@dimen/size_14dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+
+
+                            </RelativeLayout>
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_unPay"
+                                android:layout_marginLeft="@dimen/size_14dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+                        </LinearLayout>
+
+                        <!--支付失败-->
+                        <LinearLayout
+                            android:visibility="gone"
+                            android:id="@+id/ll_failed"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <RelativeLayout
+                                android:layout_marginLeft="@dimen/size_14dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/tv_payFailed"
+                                    android:text="支付失败"
+                                    android:drawablePadding="@dimen/size_5dp"
+                                    android:drawableRight="@mipmap/ic_drop_down"
+                                    android:textColor="#333333"
+                                    android:textSize="@dimen/sp_14"
+                                    android:layout_marginBottom="@dimen/size_20dp"
+                                    android:layout_marginTop="@dimen/size_14dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+
+                                <TextView
+                                    android:id="@+id/tv_payFailed_money"
+                                    tools:text="100"
+                                    android:textSize="@dimen/sp_14"
+                                    android:layout_marginRight="@dimen/size_14dp"
+                                    android:layout_alignParentRight="true"
+                                    android:textColor="#333333"
+                                    android:layout_marginTop="@dimen/size_14dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+
+                            </RelativeLayout>
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_payFailed"
+                                android:layout_marginLeft="@dimen/size_14dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+                        </LinearLayout>
+
+                        <!--退款中-->
+                        <LinearLayout
+                            android:visibility="gone"
+                            android:id="@+id/ll_backing"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <RelativeLayout
+                                android:layout_marginLeft="@dimen/size_14dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/tv_backing"
+                                    android:text="退款中"
+                                    android:drawablePadding="@dimen/size_5dp"
+                                    android:drawableRight="@mipmap/ic_drop_down"
+                                    android:textColor="#333333"
+                                    android:textSize="@dimen/sp_14"
+                                    android:layout_marginBottom="@dimen/size_20dp"
+                                    android:layout_marginTop="@dimen/size_14dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+
+                                <TextView
+                                    android:id="@+id/tv_backing_money"
+                                    tools:text="100"
+                                    android:textSize="@dimen/sp_14"
+                                    android:layout_marginRight="@dimen/size_14dp"
+                                    android:layout_alignParentRight="true"
+                                    android:textColor="#333333"
+                                    android:layout_marginTop="@dimen/size_14dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+
+                            </RelativeLayout>
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_backing"
+                                android:layout_marginLeft="@dimen/size_14dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+                        </LinearLayout>
+
+                        <!--退款成功-->
+                        <LinearLayout
+                            android:visibility="gone"
+                            android:id="@+id/ll_success"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <RelativeLayout
+                                android:layout_marginLeft="@dimen/size_14dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/tv_paySuccess"
+                                    android:text="退款成功"
+                                    android:drawablePadding="@dimen/size_5dp"
+                                    android:drawableRight="@mipmap/ic_drop_down"
+                                    android:textColor="#333333"
+                                    android:textSize="@dimen/sp_14"
+                                    android:layout_marginBottom="@dimen/size_20dp"
+                                    android:layout_marginTop="@dimen/size_14dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+
+                                <TextView
+                                    android:id="@+id/tv_success_money"
+                                    tools:text="100"
+                                    android:textSize="@dimen/sp_14"
+                                    android:layout_marginRight="@dimen/size_14dp"
+                                    android:layout_alignParentRight="true"
+                                    android:textColor="#333333"
+                                    android:layout_marginTop="@dimen/size_14dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+
+                            </RelativeLayout>
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_success"
+                                android:layout_marginLeft="@dimen/size_14dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+                        </LinearLayout>
+
+                        <!--支付中-->
+                        <LinearLayout
+                            android:visibility="gone"
+                            android:id="@+id/ll_paying"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <RelativeLayout
+                                android:layout_marginLeft="@dimen/size_14dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/tv_paying"
+                                    android:text="支付中"
+                                    android:drawablePadding="@dimen/size_5dp"
+                                    android:drawableRight="@mipmap/ic_drop_down"
+                                    android:textColor="#333333"
+                                    android:textSize="@dimen/sp_14"
+                                    android:layout_marginBottom="@dimen/size_20dp"
+                                    android:layout_marginTop="@dimen/size_14dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+
+                                <TextView
+                                    android:id="@+id/tv_paying_money"
+                                    tools:text="100"
+                                    android:textSize="@dimen/sp_14"
+                                    android:layout_marginRight="@dimen/size_14dp"
+                                    android:layout_alignParentRight="true"
+                                    android:textColor="#333333"
+                                    android:layout_marginTop="@dimen/size_14dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+
+                            </RelativeLayout>
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_paying"
+                                android:layout_marginLeft="@dimen/size_14dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+                        </LinearLayout>
+
+                        <!--申诉中-->
+                        <LinearLayout
+                            android:visibility="gone"
+                            android:id="@+id/ll_apply"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <RelativeLayout
+                                android:layout_marginLeft="@dimen/size_14dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/tv_apply"
+                                    android:text="申诉中"
+                                    android:drawablePadding="@dimen/size_5dp"
+                                    android:drawableRight="@mipmap/ic_drop_down"
+                                    android:textColor="#333333"
+                                    android:textSize="@dimen/sp_14"
+                                    android:layout_marginBottom="@dimen/size_20dp"
+                                    android:layout_marginTop="@dimen/size_14dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+
+                                <TextView
+                                    tools:text="100"
+                                    android:id="@+id/tv_apply_money"
+                                    android:textSize="@dimen/sp_14"
+                                    android:layout_marginRight="@dimen/size_14dp"
+                                    android:layout_alignParentRight="true"
+                                    android:textColor="#333333"
+                                    android:layout_marginTop="@dimen/size_14dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+
+                            </RelativeLayout>
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_apply"
+                                android:layout_marginLeft="@dimen/size_14dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+                        </LinearLayout>
+
                     </LinearLayout>
 
                 </LinearLayout>
 
             </ScrollView>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--小费-->
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/rl_foot"
+                android:background="#ffffff"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_60dp">
+
+                <TextView
+                    android:layout_marginLeft="@dimen/sp_14"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/sp_14"
+                    android:text="给点小费犒劳一下吧~"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/tv_add"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/sp_14"
+                    android:text="添加小费"
+                    android:layout_marginRight="@dimen/size_14dp"
+                    android:padding="@dimen/size_8dp"
+                    android:background="@drawable/shape_orange"
+                    android:textColor="#ffffff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+            <!--支付-->
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/rl_foot1"
+                android:background="#ffffff"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_85dp">
+
+                <RelativeLayout
+                    android:layout_centerVertical="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv1"
+                        android:layout_marginLeft="@dimen/sp_14"
+                        android:layout_centerVertical="true"
+                        android:textSize="@dimen/sp_14"
+                        android:text="合计"
+                        android:textColor="#333333"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/tv_desc"
+                        android:layout_marginTop="@dimen/size_20dp"
+                        android:layout_below="@+id/tv1"
+                        android:textColor="#3483FF"
+                        android:text="费用协商"
+                        android:layout_marginLeft="@dimen/sp_14"
+                        android:textSize="@dimen/size_10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <ImageView
+                        android:layout_below="@+id/tv1"
+                        android:src="@mipmap/icon_wen"
+                        android:layout_toRightOf="@+id/tv_desc"
+                        android:id="@+id/iv_wen"
+                        android:layout_marginLeft="@dimen/size_5dp"
+                        android:layout_marginTop="@dimen/size_22dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:text="100"
+                        android:layout_marginLeft="@dimen/size_12dp"
+                        android:layout_toRightOf="@+id/tv1"
+                        android:layout_centerVertical="true"
+                        android:textColor="#FF5C00"
+                        android:textSize="@dimen/size_22dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/tv_pay"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:textSize="@dimen/sp_14"
+                        android:text="去支付"
+                        android:layout_marginRight="@dimen/size_14dp"
+                        android:padding="@dimen/size_8dp"
+                        android:background="@drawable/shape_orange"
+                        android:textColor="#ffffff"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </RelativeLayout>
+
+            </RelativeLayout>
 
         </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/rl_foot"
-            android:background="#ffffff"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/size_60dp">
-
-            <TextView
-                android:layout_marginLeft="@dimen/sp_14"
-                android:layout_centerVertical="true"
-                android:textSize="@dimen/sp_14"
-                android:text="给点小费犒劳一下吧~"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:id="@+id/tv_add"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:textSize="@dimen/sp_14"
-                android:text="添加小费"
-                android:layout_marginRight="@dimen/size_14dp"
-                android:padding="@dimen/size_8dp"
-                android:background="@drawable/shape_orange"
-                android:textColor="#ffffff"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </RelativeLayout>
     </LinearLayout>
 
 </LinearLayout>

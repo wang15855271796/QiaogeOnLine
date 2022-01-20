@@ -18,6 +18,7 @@ import com.puyue.www.qiaoge.activity.HuoDetailActivity;
 import com.puyue.www.qiaoge.adapter.MyHuoAdapter;
 import com.puyue.www.qiaoge.api.huolala.HuolalaAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
+import com.puyue.www.qiaoge.event.HuoCityEvent;
 import com.puyue.www.qiaoge.fragment.home.UnOperateFragment;
 import com.puyue.www.qiaoge.model.AddressListModel;
 import com.puyue.www.qiaoge.model.HuoListModel;
@@ -26,6 +27,10 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +83,7 @@ public class HuoMyOrderFragment extends BaseFragment {
         if (getArguments() != null) {
             type = getArguments().getString("type");
         }
+
         smart.autoRefresh();
         smart.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -88,7 +94,8 @@ public class HuoMyOrderFragment extends BaseFragment {
                 refreshLayout.finishRefresh();
             }
         });
-
+//        recyclerView.setHasFixedSize(true);
+        recyclerView.setNestedScrollingEnabled(false);
         smart.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
@@ -112,7 +119,7 @@ public class HuoMyOrderFragment extends BaseFragment {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(mActivity, HuoDetailActivity.class);
-                intent.putExtra("id",data.getList().get(position).getOrder_display_id());
+                intent.putExtra("id",list.get(position).getOrder_display_id());
                 startActivity(intent);
             }
         });
@@ -150,9 +157,7 @@ public class HuoMyOrderFragment extends BaseFragment {
                         if(huoListModel.getCode()==1) {
                             if(huoListModel.getData().getList()!=null&&huoListModel.getData().getList().size()>0) {
                                 data = huoListModel.getData();
-                                list.clear();
                                 list.addAll(huoListModel.getData().getList());
-
                                 myHuoAdapter.notifyDataSetChanged();
                                 iv_no_data.setVisibility(View.GONE);
                                 recyclerView.setVisibility(View.VISIBLE);

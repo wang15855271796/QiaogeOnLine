@@ -3,6 +3,7 @@ package com.puyue.www.qiaoge.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -15,10 +16,12 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.event.HuoAddress1Event;
 import com.puyue.www.qiaoge.event.HuoAddressEvent;
+import com.puyue.www.qiaoge.event.HuoCityEvent;
 import com.puyue.www.qiaoge.event.LogoutEvent;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.model.AddressListModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -48,7 +51,7 @@ public class HuoEditAddressActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void setContentView() {
-        setContentView(R.layout.activity_edits_address);
+        setContentView(R.layout.activity_huo_edit);
     }
 
     @Override
@@ -59,15 +62,19 @@ public class HuoEditAddressActivity extends BaseActivity implements View.OnClick
     @Override
     public void setViewData() {
         EventBus.getDefault().register(this);
-        tv_address.setOnClickListener(this);
-        et_phone.addTextChangedListener(textWatcher);
-        et_name.addTextChangedListener(textWatcher);
-        bt_sure.setOnClickListener(this);
+        et_name.setText(SharedPreferencesUtil.getString(mContext,"etName"));
+        et_desc.setText(SharedPreferencesUtil.getString(mContext,"etDesc"));
+        et_phone.setText(SharedPreferencesUtil.getString(mContext,"etPhone"));
+        tv_address.setText(SharedPreferencesUtil.getString(mContext,"address"));
     }
 
     @Override
     public void setClickEvent() {
         iv_back.setOnClickListener(this);
+        tv_address.setOnClickListener(this);
+        et_phone.addTextChangedListener(textWatcher);
+        et_name.addTextChangedListener(textWatcher);
+        bt_sure.setOnClickListener(this);
     }
 
     private TextWatcher textWatcher = new TextWatcher() {
@@ -83,12 +90,12 @@ public class HuoEditAddressActivity extends BaseActivity implements View.OnClick
 
         @Override
         public void afterTextChanged(Editable s) {
-            if (StringHelper.notEmptyAndNull(et_name.getText().toString())
-                    && StringHelper.notEmptyAndNull(et_phone.getText().toString())) {
-                bt_sure.setEnabled(true);
-            } else {
-                bt_sure.setEnabled(false);
-            }
+//            if (StringHelper.notEmptyAndNull(et_name.getText().toString())
+//                    && StringHelper.notEmptyAndNull(et_phone.getText().toString())) {
+//                bt_sure.setEnabled(true);
+//            } else {
+//                bt_sure.setEnabled(false);
+//            }
         }
     };
 
@@ -101,12 +108,26 @@ public class HuoEditAddressActivity extends BaseActivity implements View.OnClick
                 break;
 
             case R.id.bt_sure:
-                if(type==1) {
-                    EventBus.getDefault().post(new HuoAddressEvent(dataBean,et_name.getText().toString(),et_phone.getText().toString(),type));
-                }else {
-                    EventBus.getDefault().post(new HuoAddressEvent(dataBean,et_name.getText().toString(),et_phone.getText().toString(),type));
+                String etName = et_name.getText().toString();
+                String etDesc = et_desc.getText().toString();
+                String etPhone = et_phone.getText().toString();
+                String address = tv_address.getText().toString();
+                if(TextUtils.isEmpty(etName)||etName.equals("")
+                ||TextUtils.isEmpty(etPhone)||etPhone.equals("")
+                ||TextUtils.isEmpty(address)||address.equals("")) {
+                    ToastUtil.showSuccessMsg(mContext,"请填写对应信息");
+                    return;
                 }
 
+                SharedPreferencesUtil.saveString(mContext,"etName",etName);
+                SharedPreferencesUtil.saveString(mContext,"etDesc",etDesc);
+                SharedPreferencesUtil.saveString(mContext,"etPhone",etPhone);
+                SharedPreferencesUtil.saveString(mContext,"address",address);
+                if(type==1) {
+                    EventBus.getDefault().postSticky(new HuoAddressEvent(dataBean,et_name.getText().toString(),et_phone.getText().toString(),type));
+                }else {
+                    EventBus.getDefault().postSticky(new HuoAddressEvent(dataBean,et_name.getText().toString(),et_phone.getText().toString(),type));
+                }
                 finish();
                 break;
 
@@ -121,9 +142,22 @@ public class HuoEditAddressActivity extends BaseActivity implements View.OnClick
     AddressListModel.DataBean dataBean;
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getAddress(HuoAddress1Event huoAddressEvent) {
-        Log.d("dsfgefsdfs.....","333333");
         dataBean = huoAddressEvent.getDataBean();
         String address = huoAddressEvent.getDataBean().getAddr();
         tv_address.setText(address);
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getCity(HuoCityEvent huoCityEvent) {
+//        SharedPreferencesUtil.saveString(mContext,"etName","");
+//        SharedPreferencesUtil.saveString(mContext,"etDesc","");
+//        SharedPreferencesUtil.saveString(mContext,"etPhone","");
+//        SharedPreferencesUtil.saveString(mContext,"address","");
+//
+//        et_name.setText("");
+//        et_desc.setText("");
+//        et_phone.setText("");
+//        tv_address.setText("");
+    }
+
 }

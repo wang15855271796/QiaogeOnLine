@@ -75,6 +75,9 @@ public class OrdersModel {
             public String returnProductMainId;
             public int saleSettle;
             public int salePay;
+            public int deliverModel;
+            public String hllOrderId;
+            public String hllOrderStatusName;
         }
     }
 }

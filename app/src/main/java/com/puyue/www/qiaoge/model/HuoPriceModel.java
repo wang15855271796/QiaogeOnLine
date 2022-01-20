@@ -3,11 +3,11 @@ package com.puyue.www.qiaoge.model;
 public class HuoPriceModel {
 
 
-    private int amount;
+    private double amount;
     private String billTypeName;
     private String payStatusName;
     private int payStatus;
-
+    private String imgUrl;
     public int getPayStatus() {
         return payStatus;
     }
@@ -16,11 +16,11 @@ public class HuoPriceModel {
         this.payStatus = payStatus;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -40,4 +40,11 @@ public class HuoPriceModel {
         this.payStatusName = payStatusName;
     }
 
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
 }

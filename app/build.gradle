@@ -122,6 +122,7 @@ dependencies {
     implementation fileTree(include: ['*.aar', '*.jar'], dir: 'libs')
     implementation project(path: ':banner')
     implementation files('libs\\hellocharts-library-1.5.8.jar')
+    implementation project(path: ':citypicker')
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
     implementation 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
     implementation 'androidx.appcompat:appcompat:1.0.0'
@@ -211,6 +212,7 @@ dependencies {
 
     //退货图片上传espresso
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.1.0'
+//    implementation'com.github.LuckSiege.PictureSelector:picture_library:v2.5.6'
     implementation files('libs/BaiduLBS_Android.jar')
 
     //分类下滑

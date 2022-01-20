@@ -50,6 +50,97 @@
                 <include layout="@layout/activity_new_order_head" />
 
                 <RelativeLayout
+                    android:id="@+id/rl_distribution"
+                    android:background="@drawable/shape_white1"
+                    android:layout_margin="@dimen/dp_10"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_dis"
+                        android:textColor="#333333"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:textSize="@dimen/sp_14"
+                        android:text="配送服务"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/tv_hll_order"
+                        android:textColor="#333333"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_below="@+id/tv_dis"
+                        android:textSize="@dimen/sp_14"
+                        android:text="关联配送订单"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/tv_distribution"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:hint="配送"
+                        android:textColor="#FD6601"
+                        android:textSize="@dimen/sp_12" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_below="@+id/tv_distribution"
+                        android:id="@+id/rv_huo"
+                        android:visibility="gone"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/tv_order_num"
+                        android:visibility="gone"
+                        android:layout_below="@+id/rv_huo"
+                        android:textSize="@dimen/sp_12"
+                        android:text="查看全部17个关联订单>"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/tv_style"
+                        android:text="配对中>"
+                        android:visibility="gone"
+                        android:textSize="@dimen/sp_12"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_below="@+id/rv_huo"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/tv_call"
+                        android:visibility="gone"
+                        android:text="呼叫货拉拉"
+                        android:textColor="#ffffff"
+                        android:padding="3dp"
+                        android:background="@drawable/shape_orange"
+                        android:textSize="@dimen/sp_12"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_below="@+id/tv_distribution"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/relativeLayout_driver"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -13,12 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="320dp">
 
-        <LinearLayout
+        <RelativeLayout
+            android:paddingBottom="@dimen/dp_10"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="320dp">
 
             <RelativeLayout
+                android:id="@+id/rl1"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40"
                 >
@@ -41,18 +43,18 @@
 
             </RelativeLayout>
 
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
+                android:layout_below="@+id/rl1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="200dp"/>
 
             <TextView
                 android:text="确定"
+                android:layout_alignParentBottom="true"
                 android:textColor="#ffffff"
                 android:layout_marginRight="@dimen/size_20dp"
                 android:layout_marginLeft="@dimen/size_20dp"
-                android:layout_marginTop="@dimen/size_20dp"
                 android:padding="@dimen/size_5dp"
                 android:background="@drawable/shape_orange"
                 android:id="@+id/tv_sure"
@@ -60,7 +62,8 @@
                 android:gravity="center"
                 android:textSize="@dimen/sp_16"
                 android:layout_height="@dimen/size_48dp"/>
-        </LinearLayout>
+
+        </RelativeLayout>
 
 
 

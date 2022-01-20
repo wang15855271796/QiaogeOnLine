@@ -98,6 +98,7 @@ public class HuoReasonDialog extends Dialog implements View.OnClickListener {
                 break;
 
             case R.id.tv_sure:
+                dismiss();
                 EventBus.getDefault().post(new HuoReasonEvent(sub_reason,name));
                 break;
 

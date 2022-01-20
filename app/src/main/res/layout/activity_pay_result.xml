@@ -47,7 +47,7 @@
             android:orientation="vertical">
 
             <ImageView
-            android:visibility="gone"
+                android:visibility="gone"
                 android:id="@+id/iv_activity_order_success"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -61,6 +61,7 @@
                 android:id="@+id/textViewSuccess"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
             <TextView
                 android:textSize="@dimen/dp_10"
                 android:textColor="@color/color_AAA8AB"
@@ -79,27 +80,22 @@
                 android:src="@mipmap/icon_pay_error"
                 />
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:visibility="gone"
-                android:id="@+id/lav_activity_loading"
-                android:layout_width="33dp"
-                android:layout_height="5dp"
-                app:lottie_autoPlay="true"
-                app:lottie_fileName="loading_result.json"
-                app:lottie_loop="true" />
-
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/tv_activity_result_state"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="等待支付"
-                android:textColor="@color/app_front_black"
-                android:textSize="15dp" />
-
 
         </LinearLayout>
+        <TextView
+            android:layout_marginTop="@dimen/size_20dp"
+            android:id="@+id/tv_huo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/shape_orange"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="呼叫货拉拉（3s）"
+            android:textColor="#ffffff"
+            android:textSize="18dp" />
+
 
         <TextView
             android:layout_marginTop="@dimen/size_20dp"

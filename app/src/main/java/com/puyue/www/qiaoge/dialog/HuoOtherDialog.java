@@ -16,11 +16,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.mine.login.LogoutsEvent;
 import com.puyue.www.qiaoge.adapter.HuoCouponAdapter;
 import com.puyue.www.qiaoge.adapter.HuoOtherAdapter;
+import com.puyue.www.qiaoge.event.OtherEvent;
 import com.puyue.www.qiaoge.model.CarStyleModel;
 import com.puyue.www.qiaoge.model.HuoCouponModel;
 import com.puyue.www.qiaoge.utils.Utils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -38,12 +44,24 @@ public class HuoOtherDialog extends Dialog {
     TextView tv_sure;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-    List<CarStyleModel.DataBean.VehicleListBean.VehicleStdItem> vehicleStdItemList;
-    public HuoOtherDialog(Context mContext, List<CarStyleModel.DataBean.VehicleListBean.VehicleStdItem> vehicleStdItem) {
+    List<CarStyleModel.DataBean.SpecReqItemBean> vehicleStdItemList;
+    public HuoOtherDialog(Context mContext, List<CarStyleModel.DataBean.SpecReqItemBean> vehicleStdItem) {
         super(mContext, R.style.dialog);
         this.context = mContext;
         this.vehicleStdItemList = vehicleStdItem;
         init();
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void hide() {
+        super.hide();
+        EventBus.getDefault().unregister(this);
     }
 
     public void init() {
@@ -65,14 +83,20 @@ public class HuoOtherDialog extends Dialog {
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                EventBus.getDefault().post(new OtherEvent(list));
+                dismiss();
             }
         });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-
         HuoOtherAdapter huoOtherAdapter = new HuoOtherAdapter(R.layout.item_other,vehicleStdItemList);
         recyclerView.setAdapter(huoOtherAdapter);
+    }
+
+    List<String> list;
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getOther(OtherEvent otherEvent) {
+        list = otherEvent.getList();
     }
 
 }

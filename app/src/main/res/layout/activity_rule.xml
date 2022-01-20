@@ -86,12 +86,13 @@
                     android:id="@+id/iv_pic"
                     android:src="@mipmap/icon_car"
                     android:layout_marginTop="@dimen/size_42dp"
-                    android:layout_marginLeft="@dimen/size_67dp"
+                    android:layout_marginLeft="@dimen/size_30dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
                 <LinearLayout
-                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="@dimen/size_15dp"
+                    android:layout_toRightOf="@+id/iv_pic"
                     android:layout_marginTop="@dimen/size_42dp"
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
@@ -110,8 +111,6 @@
 
                     <TextView
                         android:id="@+id/tv_length"
-                        android:layout_marginRight="108dp"
-                        android:layout_alignParentRight="true"
                         android:textSize="@dimen/sp_12"
                         android:textColor="#999999"
                         android:layout_marginTop="@dimen/size_5dp"
@@ -122,8 +121,6 @@
 
                     <TextView
                         android:id="@+id/tv_tiji"
-                        android:layout_marginRight="108dp"
-                        android:layout_alignParentRight="true"
                         android:textSize="@dimen/sp_12"
                         android:textColor="#999999"
                         android:layout_marginTop="@dimen/size_5dp"
@@ -134,8 +131,6 @@
 
                     <TextView
                         android:id="@+id/tv_weight"
-                        android:layout_marginRight="108dp"
-                        android:layout_alignParentRight="true"
                         android:textSize="@dimen/sp_12"
                         android:textColor="#999999"
                         android:layout_marginTop="@dimen/size_5dp"
@@ -145,6 +140,7 @@
                         android:layout_height="wrap_content"/>
 
                 </LinearLayout>
+
             </RelativeLayout>
 
             <RelativeLayout

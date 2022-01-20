@@ -16,6 +16,7 @@ public class UserInfoHelper {
     private static final String USER_TEL = "user_tel";//用户手机号
     private static final String USER_INFO_USER_CELL = "user_info_user_cell";//dianh
     private static final String USER_SEARCH_HISTORY = "user_search_history";//用户搜索记录
+    private static final String USER_City_Id = "user_city_id";//用户搜索记录
     private static final String USER_SEARCH_CONTENT = "user_search_content";//用户搜索内容
     private static final String USER_TYPE = "user_type";//用户是批发用户还是零售用户
     private static final String USER_LOGIN_HOME_REFRESH = "user_login_home_refresh";//用户切换登录状态之后首页是否刷新数据了
@@ -701,6 +702,29 @@ private static final String ISREGISTER ="is_register";
             }
         }
     }
+    //保存用户搜索Id
+    public static void saveCityIdHistory(Context context, String userHistory) {
+        try {
+            PreferenceHelper.saveData(context, USER_INFO, USER_City_Id, EncryptHelper.encrypt(AppConstant.APP_SHA_256, userHistory));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //获取用户搜索Id
+    public static String getCityIdHistory(Context context) {
+        if (StringUtils.isBlank(PreferenceHelper.getData(context, USER_INFO, USER_City_Id))) {
+            return "";
+        } else {
+            try {
+                return EncryptHelper.decrypt(AppConstant.APP_SHA_256, PreferenceHelper.getData(context, USER_INFO, USER_City_Id));
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "";
+            }
+        }
+    }
+
 
     //保存用户搜索内容
     public static void saveUserContent(Context context, String userContent) {

@@ -609,7 +609,6 @@ public class EditAndAddActivity extends BaseSwipeActivity  implements OnGetSugge
         options1Items = data;
 ////     遍历省
         for(int i = 0; i <data.size() ; i++) {
-
 //         存放城市
             ArrayList<AreaModel.DataBean.ChildrenBeanX> cityList = new ArrayList<>();
 //         存放区

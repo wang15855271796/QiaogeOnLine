@@ -42,6 +42,7 @@
 
     <!--  理由1  -->
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/ll_box1"
         android:orientation="vertical"
         android:layout_margin="@dimen/dp_10"
@@ -158,13 +159,16 @@
             android:layout_height="260dp">
 
             <EditText
+                android:padding="@dimen/dp_10"
+                android:gravity="top|left"
                 android:id="@+id/et_reason"
                 android:layout_marginTop="@dimen/sp_12"
                 android:layout_marginLeft="@dimen/sp_12"
                 android:hint="取消原因描述（150以内）"
+                android:maxLength="150"
                 android:background="@drawable/shape_white1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent"/>
 
         </LinearLayout>
 

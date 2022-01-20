@@ -107,7 +107,7 @@ public class HuoCouponModel {
         private String client_type;
         private String client_type_str;
         private String coupon_code;
-        private long coupon_id;
+        private String coupon_id;
         private String discount_amount;
         private String discount_rate;
         private String discount_str;
@@ -218,11 +218,11 @@ public class HuoCouponModel {
             this.coupon_code = coupon_code;
         }
 
-        public long getCoupon_id() {
+        public String getCoupon_id() {
             return coupon_id;
         }
 
-        public void setCoupon_id(long coupon_id) {
+        public void setCoupon_id(String coupon_id) {
             this.coupon_id = coupon_id;
         }
 

@@ -16,6 +16,43 @@ public class AppInterfaceAddress {
 //    queryReturnProdIsContainFullGift
 
     /**
+     * 关联货拉拉订单
+     */
+    public static final String Huo_Connection_Id = "commonOrder/bindHllOrderId";
+    /**
+     * 支付司机账单
+     */
+    public static final String Huo_Driver_Pay = "hll/hllDriverBillPay";
+    /**
+     * 司机账单申述
+     */
+    public static final String Huo_Apply = "hll/hllDriverBillAppeal";
+    /**
+     *获取授权地址
+     */
+    public static final String Huo_AuthUrl = "hll/getHllAuthUrl";
+    /**
+     *获取司机位置
+     */
+    public static final String Huo_Driver_Address = "hll/hllOrderDriverLatLon";
+    /**
+     * 获取默认城市id
+     */
+    public static final String Huo_City_Id = "hll/getHllDefaultCityId";
+
+    /**
+     * 货拉拉开放城市获取
+     */
+    public static final String Huo_City = "hll/hllOpenCityList";
+    /**
+     * 回调保存授权信息
+     */
+    public static final String Huo_Auth_Code = "hll/hllAuthorizeBack";
+    /**
+     * 下单获取收银台地址
+     */
+    public static final String Huo_Pay_Address = "hll/hllOrderCreate";
+    /**
      *优惠券列表
      */
     public static final String Huo_Coupon_List = "hll/hllCouponList";

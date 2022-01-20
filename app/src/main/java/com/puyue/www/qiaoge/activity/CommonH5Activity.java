@@ -2,11 +2,14 @@ package com.puyue.www.qiaoge.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import androidx.annotation.Nullable;
+
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.CookieManager;
@@ -21,10 +24,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.api.huolala.HuolalaAPI;
+import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
+import com.puyue.www.qiaoge.utils.ToastUtil;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * H5 混合开发交互页面 邀请页面
@@ -158,9 +168,21 @@ public class CommonH5Activity extends BaseSwipeActivity {
 
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//                    view.loadUrl(url);
-//                    return true;
-                    return false;
+
+                    try{
+                        if(url.startsWith("wushang://")){
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                            startActivity(intent);
+                            return true;
+                        }
+                    }catch (Exception e){
+                        return false;
+                    }
+                    mWv.loadUrl(url);
+                    Uri parse = Uri.parse(url);
+                    String code = parse.getQueryParameter("code");
+                    getCode(code);
+                    return true;
                 }
 
                 @Override
@@ -171,6 +193,32 @@ public class CommonH5Activity extends BaseSwipeActivity {
             mWv.loadUrl(mUrl);
 //            Log.e(TAG, "setViewData: "+mUrl );
         }
+    }
+
+    private void getCode(String code) {
+        HuolalaAPI.getCode(mActivity,code)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+                        if(baseModel.code==1) {
+                            ToastUtil.showSuccessMsg(mActivity,baseModel.message);
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,baseModel.message);
+                        }
+                    }
+                });
     }
 
 

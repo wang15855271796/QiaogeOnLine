@@ -16,6 +16,7 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.adapter.ReasonsAdapter;
 import com.puyue.www.qiaoge.event.HuoOrderContactEvent;
 import com.puyue.www.qiaoge.model.CancelReasonModel;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.utils.Utils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -70,11 +71,10 @@ public class HuoContactDialog extends Dialog {
                 if(!TextUtils.isEmpty(etName)&&!TextUtils.isEmpty(etPhone)) {
                     EventBus.getDefault().post(new HuoOrderContactEvent(etName,etPhone));
                     dismiss();
+                }else {
+                    ToastUtil.showSuccessMsg(context,"请填写对应信息");
                 }
-
             }
         });
-
     }
-
 }

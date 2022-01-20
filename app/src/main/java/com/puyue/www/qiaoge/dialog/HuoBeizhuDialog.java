@@ -65,6 +65,7 @@ public class HuoBeizhuDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 EventBus.getDefault().post(new HuoBeizhuEvent(et_desc.getText().toString()));
+                dismiss();
             }
         });
 

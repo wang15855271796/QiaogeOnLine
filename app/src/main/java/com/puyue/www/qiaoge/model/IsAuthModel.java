@@ -66,7 +66,7 @@ public class IsAuthModel {
 
         private boolean authorize;
         private String authUrl;
-        private Object authPhone;
+        private String authPhone;
 
         public boolean isAuthorize() {
             return authorize;
@@ -84,11 +84,11 @@ public class IsAuthModel {
             this.authUrl = authUrl;
         }
 
-        public Object getAuthPhone() {
+        public String getAuthPhone() {
             return authPhone;
         }
 
-        public void setAuthPhone(Object authPhone) {
+        public void setAuthPhone(String authPhone) {
             this.authPhone = authPhone;
         }
     }
