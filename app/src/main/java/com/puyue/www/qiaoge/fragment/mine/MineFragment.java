@@ -1309,8 +1309,7 @@ public class MineFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void changes(CityEvent cityEvent) {
 //        requestOrderNum();
-//        requestUserInfo();
-//        useAccount();
+        requestUserInfo();
 //        requestUpdate();
         getProductsList();
     }

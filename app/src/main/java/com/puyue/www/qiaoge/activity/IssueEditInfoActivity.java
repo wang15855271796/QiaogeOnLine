@@ -29,6 +29,7 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.view.GlideEngine;
 import com.puyue.www.qiaoge.adapter.ShopImageViewssAdapter;
 import com.puyue.www.qiaoge.api.home.CityChangeAPI;
 import com.puyue.www.qiaoge.api.home.InfoListAPI;
@@ -406,6 +407,7 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
                                 .imageSpanCount(4)
                                 .compress(true)
                                 .isCamera(false)
+                                .loadImageEngine(GlideEngine.createGlideEngine())
                                 .selectionMode(PictureConfig.MULTIPLE)
                                 .forResult(PictureConfig.CHOOSE_REQUEST);
 
@@ -415,6 +417,7 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
                         PictureSelector.create(IssueEditInfoActivity.this)
                                 .openCamera(PictureMimeType.ofImage())
                                 .compress(true)
+                                .loadImageEngine(GlideEngine.createGlideEngine())
                                 .setOutputCameraPath("/CustomPath")
                                 .forResult(PictureConfig.CHOOSE_REQUEST);
                         break;

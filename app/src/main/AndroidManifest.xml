@@ -417,7 +417,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activity.CommonH5Activity"
             android:screenOrientation="portrait" />
-
+        <activity android:name=".activity.CommonH6Activity"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.home.CommonGoodsDetailActivity"
             android:screenOrientation="portrait" />
         <!--满赠界面-->

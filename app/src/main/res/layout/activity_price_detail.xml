@@ -86,8 +86,7 @@
         android:layout_marginTop="@dimen/dp_10"
         android:layout_marginRight="@dimen/size_20dp"
         android:layout_marginLeft="@dimen/size_20dp"
-        android:text="若产生高速费、停车费和搬运费，请用额外支付
-若产生逾时等费用，请司机按费用标准结算"
+        android:text="若产生高速费、停车费和搬运费，请用额外支付\n若产生逾时等费用，请司机按费用标准结算"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

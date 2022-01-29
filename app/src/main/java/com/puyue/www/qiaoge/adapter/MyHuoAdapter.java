@@ -29,13 +29,13 @@ public class MyHuoAdapter extends BaseQuickAdapter<HuoListModel.DataBean.ListBea
         helper.setText(R.id.tv_xie,item.getReceive_address());
         helper.setText(R.id.tv_price,item.getTotalPrice());
 
-        if(type.equals("1")) {
-            //进行中
-            helper.setVisible(R.id.tv_state, true);
-            helper.setVisible(R.id.tv_price, false);
-        }else {
-            helper.setVisible(R.id.tv_state, false);
-            helper.setVisible(R.id.tv_price, true);
-        }
+//        if(type.equals("1")) {
+//            //进行中
+//            helper.setVisible(R.id.tv_state, true);
+//            helper.setVisible(R.id.tv_price, false);
+//        }else {
+//            helper.setVisible(R.id.tv_state, false);
+//            helper.setVisible(R.id.tv_price, true);
+//        }
     }
 }

@@ -5,6 +5,48 @@
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <RelativeLayout
+        android:orientation="vertical"
+        android:id="@+id/rl_huo"
+        android:background="@mipmap/bg_huo"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginTop="@dimen/size_10dp"
+        android:layout_width="match_parent"
+        android:layout_height="78dp">
+
+        <ImageView
+            android:id="@+id/iv1"
+            android:layout_marginTop="@dimen/size_21dp"
+            android:layout_marginLeft="@dimen/size_15dp"
+            android:src="@mipmap/icon_huo_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv1"
+            android:text="新增货拉拉服务"
+            android:textColor="#FD4900"
+            android:layout_marginLeft="@dimen/size_15dp"
+            android:layout_below="@+id/iv1"
+            android:layout_marginTop="@dimen/size_3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_call"
+            android:layout_toRightOf="@+id/tv1"
+            android:layout_below="@+id/iv1"
+            android:text="快速下单"
+            android:drawableRight="@mipmap/ic_arrow_right"
+            android:textColor="#ffffff"
+            android:padding="@dimen/size_3dp"
+            android:background="@drawable/shape_orange"
+            android:layout_marginLeft="@dimen/size_5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
     <!--秒杀开始-->
     <LinearLayout
         android:id="@+id/ll_skill"

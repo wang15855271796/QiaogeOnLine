@@ -40,6 +40,8 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.FullListActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
+import com.puyue.www.qiaoge.activity.HuoDetailActivity;
+import com.puyue.www.qiaoge.activity.HuoHomeActivity;
 import com.puyue.www.qiaoge.activity.TopEvent;
 import com.puyue.www.qiaoge.activity.home.ChangeCityActivity;
 import com.puyue.www.qiaoge.activity.home.ChooseAddressActivity;
@@ -55,6 +57,7 @@ import com.puyue.www.qiaoge.activity.mine.coupons.MyCouponsActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LogoutsEvent;
 import com.puyue.www.qiaoge.activity.mine.order.MyOrdersActivity;
+import com.puyue.www.qiaoge.activity.mine.order.NewOrderDetailActivity;
 import com.puyue.www.qiaoge.activity.mine.wallet.MinerIntegralActivity;
 import com.puyue.www.qiaoge.activity.mine.wallet.MyWalletNewActivity;
 import com.puyue.www.qiaoge.adapter.CommonCouponAdapter;
@@ -156,7 +159,7 @@ import java.util.concurrent.TimeUnit;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import io.reactivex.disposables.Disposable;
+//import io.reactivex.disposables.Disposable;
 import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -351,6 +354,14 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     RelativeLayout rl_more5;
     @BindView(R.id.tv_time)
     TextView tv_time;
+    @BindView(R.id.tv_call)
+    TextView tv_call;
+    @BindView(R.id.tv_look)
+    TextView tv_look;
+    @BindView(R.id.tv_order_num)
+    TextView tv_order_num;
+    @BindView(R.id.rl_huo)
+    RelativeLayout rl_huo;
     List<String> list = new ArrayList<>();
     private static final float ENDMARGINLEFT = 50;
     private static final float ENDMARGINTOP = 5;
@@ -661,6 +672,8 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
         rl_more4.setOnClickListener(this);
         tv_look_more.setOnClickListener(this);
         tv_coupon_more.setOnClickListener(this);
+        tv_call.setOnClickListener(this);
+        tv_look.setOnClickListener(this);
         rl_address.setOnClickListener(null);
         requestUpdate();
         refreshLayout.autoRefresh();
@@ -1044,7 +1057,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     }
 
 
-
     private void isShow() {
         CityChangeAPI.isShow(mActivity)
                 .subscribeOn(Schedulers.io())
@@ -1143,7 +1155,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                 });
     }
 
-    private Disposable mAutoTask;
+//    private Disposable mAutoTask;
     private LinearSmoothScroller mSmoothScroller;
     private LinearSmoothScroller mSmoothScrollers;
     private int mCurrentPosition;
@@ -1422,6 +1434,12 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                 rl_address.setVisibility(View.VISIBLE);
                             }
 
+                            if(data.getHllOrderCallNum()>0) {
+                                rl_huo.setVisibility(View.VISIBLE);
+                                tv_order_num.setText("您有"+data.getHllOrderCallNum()+"笔订单待呼叫货拉拉！");
+                            }else {
+                                rl_huo.setVisibility(View.GONE);
+                            }
                             questUrl = indexInfoModel.getData().getQuestUrl();
                             tv_city.setText(data.getAddress());
                             list.clear();
@@ -1764,6 +1782,22 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.tv_look:
+                if(data.getHllOrderCallNum()>1) {
+                    Intent intent = MyOrdersActivity.getIntent(getContext(), MyOrdersActivity.class, AppConstant.ALL);
+                    intent.putExtra("orderDeliveryType",0);
+                    startActivity(intent);
+                }else {
+                    Intent intentsss = new Intent(mActivity, NewOrderDetailActivity.class);
+                    intentsss.putExtra("orderId",data.getOrderId());
+                    startActivity(intentsss);
+                }
+                break;
+            case R.id.tv_call:
+                Intent intentss = new Intent(mActivity, HuoHomeActivity.class);
+                intentss.putExtra("orderId","");
+                startActivity(intentss);
+                break;
             case R.id.tv_search:
                 Intent intent = new Intent(mActivity, SearchStartActivity.class);
                 intent.putExtra(AppConstant.SEARCHTYPE, AppConstant.HOME_SEARCH);
@@ -1917,10 +1951,10 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
 
 
     private void stopAuto() {
-        if (mAutoTask != null && !mAutoTask.isDisposed()) {
-            mAutoTask.dispose();
-            mAutoTask = null;
-        }
+//        if (mAutoTask != null && !mAutoTask.isDisposed()) {
+//            mAutoTask.dispose();
+//            mAutoTask = null;
+//        }
     }
 
 

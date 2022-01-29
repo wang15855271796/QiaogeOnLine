@@ -102,7 +102,6 @@ public class HuoCityActivity extends BaseActivity implements View.OnClickListene
             }
         }
 
-        Log.d("dsfxdewfxds.....",mListHistory.size()+"s");
         getCity();
     }
 

@@ -16,27 +16,32 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 
+import com.puyue.www.qiaoge.activity.HuoHomeActivity;
 import com.puyue.www.qiaoge.activity.mine.order.OrderEvaluateActivity;
 import com.puyue.www.qiaoge.activity.mine.order.ReturnGoodActivity;
 import com.puyue.www.qiaoge.adapter.mine.MyOrdersItemAdapter;
 import com.puyue.www.qiaoge.api.cart.CancelOrderAPI;
 import com.puyue.www.qiaoge.api.cart.DeleteOrderAPI;
+import com.puyue.www.qiaoge.api.huolala.HuolalaAPI;
 import com.puyue.www.qiaoge.api.mine.order.ConfirmGetGoodsAPI;
 import com.puyue.www.qiaoge.api.mine.order.ConfirmOrderSelfAPI;
 import com.puyue.www.qiaoge.api.mine.order.CopyToCartAPI;
 import com.puyue.www.qiaoge.api.mine.order.MyOrderListAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.base.BaseModel;
+import com.puyue.www.qiaoge.dialog.HuoConnentionDialog;
 import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragments;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.model.HasConnectModel;
 import com.puyue.www.qiaoge.model.OrdersModel;
 import com.puyue.www.qiaoge.model.cart.CancelOrderModel;
 import com.puyue.www.qiaoge.model.mine.order.CommonModel;
 import com.puyue.www.qiaoge.model.mine.order.ConfirmGetGoodsModel;
 import com.puyue.www.qiaoge.model.mine.order.CopyToCartModel;
 import com.puyue.www.qiaoge.model.mine.order.OrderEvaluateListModel;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -85,6 +90,7 @@ public class AllOrderFragment extends BaseFragment {
         mIvNoData = ((ImageView) view.findViewById(R.id.iv_my_orders_no_data));
     }
 
+    HuoConnentionDialog huoConnentionDialog;
     @Override
     public void setViewData() {
         mListResult.clear();
@@ -109,6 +115,11 @@ public class AllOrderFragment extends BaseFragment {
 
 
                 @Override
+                public void callHuo(int deliveryMode, String orderId, String hllOrderId) {
+                    HasConnect(orderId,hllOrderId);
+                }
+
+                @Override
                 public void evaluateNowOnclick(int position,String orderId) { // 立即评价
                     getComment(orderId);
 
@@ -215,13 +226,13 @@ public class AllOrderFragment extends BaseFragment {
 
                                     if (confirmGetGoodsModel.success) {
                                         //确认收货成功
-                                        AppHelper.showMsg(mContext, "确认收货成功");
+                                        AppHelper.showMsg(mActivity, "确认收货成功");
                                         requestOrdersList(0);
                                         mPtr.autoRefresh();
                                         //刷新订单状态
                                         //  getOrderDetail(orderId, orderState, returnProductMainId);
                                     } else {
-                                        AppHelper.showMsg(mContext, confirmGetGoodsModel.message);
+                                        AppHelper.showMsg(mActivity, confirmGetGoodsModel.message);
                                     }
                                 }
                             });
@@ -242,6 +253,10 @@ public class AllOrderFragment extends BaseFragment {
         } else if (orderDeliveryType == 1) {
             mAdapterMyOrders = new MyOrdersItemAdapter(R.layout.item_my_order_self, mListResult, 0, orderDeliveryType, new MyOrdersItemAdapter.OnClick() {
 
+                @Override
+                public void callHuo(int deliveryMode, String orderId, String hllOrderId) {
+                    HasConnect(orderId,hllOrderId);
+                }
 
                 @Override
                 public void evaluateNowOnclick(int position,String orderId) { // 立即评价
@@ -350,14 +365,14 @@ public class AllOrderFragment extends BaseFragment {
 
                                     if (confirmGetGoodsModel.success) {
                                         //确认收货成功
-                                        AppHelper.showMsg(mContext, "确认收货成功");
+                                        AppHelper.showMsg(mActivity, "确认收货成功");
 
                                         mPtr.autoRefresh();
                                         requestOrdersList(0);
                                         //刷新订单状态
                                         //  getOrderDetail(orderId, orderState, returnProductMainId);
                                     } else {
-                                        AppHelper.showMsg(mContext, confirmGetGoodsModel.message);
+                                        AppHelper.showMsg(mActivity, confirmGetGoodsModel.message);
                                     }
                                 }
                             });
@@ -409,6 +424,34 @@ public class AllOrderFragment extends BaseFragment {
                 requestOrdersList(0);
             }
         });
+    }
+
+    private void getConnection(String orderId, String hllOrderId) {
+        HuolalaAPI.getConnection(mActivity, orderId,hllOrderId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+                        if(baseModel.code==1) {
+                            requestOrdersList(0);
+                            ToastUtil.showSuccessMsg(mActivity,baseModel.message);
+                            huoConnentionDialog.dismiss();
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,baseModel.message);
+                        }
+                    }
+                });
     }
 
     /**
@@ -507,6 +550,58 @@ public class AllOrderFragment extends BaseFragment {
                 });
     }
 
+    /**
+     * 判断是否有关联订单
+     * @param orderId
+     * @param hllOrderId
+     */
+    private void HasConnect(String orderId, String hllOrderId) {
+        HuolalaAPI.getHasConnection(getContext(),orderId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<HasConnectModel>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(HasConnectModel hasConnectModel) {
+                        if(hasConnectModel.getCode()==1) {
+                            if(hasConnectModel.getData()!=null) {
+                                if(hasConnectModel.getData().getConnectHllOrder()==1) {
+                                    huoConnentionDialog = new HuoConnentionDialog(mActivity) {
+                                        @Override
+                                        public void Connect() {
+                                            getConnection(orderId,hllOrderId);
+                                        }
+
+                                        @Override
+                                        public void Next() {
+                                            Intent intent = new Intent(mActivity, HuoHomeActivity.class);
+                                            intent.putExtra("orderId",orderId);
+                                            mContext.startActivity(intent);
+                                            mActivity.finish();
+                                            dismiss();
+                                        }
+                                    };
+                                    huoConnentionDialog.show();
+                                }else {
+                                    Intent intent = new Intent(mActivity, HuoHomeActivity.class);
+                                    intent.putExtra("orderId",orderId);
+                                    mActivity.startActivity(intent);
+                                }
+                            }
+                        }else {
+                            ToastUtil.showErroMsg(mActivity,hasConnectModel.getMessage());
+                        }
+
+                    }
+                });
+    }
     /**
      * 点击去评价
      * @param orderId

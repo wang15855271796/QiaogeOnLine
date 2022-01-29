@@ -19,6 +19,7 @@ import com.puyue.www.qiaoge.adapter.mine.MinerIntegralAdapter;
 import com.puyue.www.qiaoge.api.mine.PointApI;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.mine.wallet.MinerIntegralModel;
 
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class MinerIntegralActivity extends BaseSwipeActivity {
     private TextView tvIntegral;
     private ImageView pointButton;
     private String Url;
-
+    TextView tv_city;
 
 
     @Override
@@ -64,6 +65,7 @@ public class MinerIntegralActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
+        tv_city = (TextView) findViewById(R.id.tv_city);
         imageBreak = (ImageView) findViewById(R.id.imageBreak);
         ptrClassicFrameLayout = (PtrClassicFrameLayout) findViewById(R.id.ptrClassicFrameLayout);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -120,6 +122,8 @@ public class MinerIntegralActivity extends BaseSwipeActivity {
                 }
             }
         });
+
+
     }
 
 
@@ -154,6 +158,7 @@ public class MinerIntegralActivity extends BaseSwipeActivity {
     private void updateOrderList(MinerIntegralModel minerIntegralModel) {
         Url = minerIntegralModel.getData().getPointMallUrl();
         tvIntegral.setText(minerIntegralModel.getData().getPoint() + "");
+        tv_city.setText(minerIntegralModel.getData().getCompanyName());
         if (pageNum == 1) {
             //第一次加载
             Log.d("----->","------");
@@ -202,6 +207,7 @@ public class MinerIntegralActivity extends BaseSwipeActivity {
                 intent.putExtra("URL", Url);
                 intent.putExtra("TYPE",1);
                 intent.putExtra("name","");
+                intent.putExtra("changeFlag", UserInfoHelper.getChangeFlag(mContext));
                 startActivity(intent);
 
             }

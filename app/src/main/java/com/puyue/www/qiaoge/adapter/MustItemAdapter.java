@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Paint;
 import androidx.annotation.Nullable;
+
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -69,7 +71,12 @@ public class MustItemAdapter extends BaseQuickAdapter<ExchangeProductModel.DataB
         tv_num.setText(item.getCartNum()+"");
         iv_cut = helper.getView(R.id.iv_cut);
         iv_add = helper.getView(R.id.iv_add);
-
+        TextView tv_weight = helper.getView(R.id.tv_weight);
+        if(TextUtils.isEmpty(item.getWeight())||item.getWeight().equals("")) {
+            tv_weight.setVisibility(View.GONE);
+        }else {
+            tv_weight.setText("重量:"+"("+item.getWeight()+")");
+        }
         LinearLayout ll_trend = helper.getView(R.id.ll_trend);
         ll_trend.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -46,7 +46,7 @@
             android:layout_marginRight="@dimen/size_15dp"
             android:layout_marginTop="@dimen/size_15dp"
             android:scaleType="fitXY"
-            android:src="@mipmap/ic_point_bg" />
+            android:src="@mipmap/bg_point" />
 
         <ImageView
             android:id="@+id/pointButton"
@@ -58,12 +58,29 @@
             android:layout_marginRight="@dimen/size_25dp"
             android:src="@mipmap/ic_ic_point_button" />
 
-        <TextView
+        <ImageView
+            android:src="@mipmap/icon_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/size_32dp"
+            android:layout_marginTop="@dimen/size_25dp"
+            android:textColor="@color/white" />
 
+        <TextView
+            android:id="@+id/tv_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/size_55dp"
+            android:layout_marginTop="@dimen/size_20dp"
+            android:text="杭州"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_16dp" />
+
+        <TextView
             android:id="@+id/tvIntegral"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/size_50dp"
+            android:layout_marginLeft="@dimen/size_32dp"
             android:layout_marginTop="@dimen/size_40dp"
             android:text="1000"
             android:textColor="@color/white"

@@ -59,6 +59,7 @@ public class HuoRuleActivity extends BaseActivity implements View.OnClickListene
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         id = getIntent().getStringExtra("id");
+        cityId = getIntent().getStringExtra("cityId");
         return false;
     }
 
@@ -74,13 +75,13 @@ public class HuoRuleActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void setViewData() {
-        cityId = SharedPreferencesUtil.getString(mActivity, "huoCityId");
+//        cityId = SharedPreferencesUtil.getString(mActivity, "huoCityId");
         rv_base.setLayoutManager(new LinearLayoutManager(mContext));
         huoBaseAdapter = new HuoBaseAdapter(R.layout.item_base,basicFee);
         rv_base.setAdapter(huoBaseAdapter);
 
         rv_car_style.setLayoutManager(new LinearLayoutManager(mContext));
-        huoCarAdapter = new HuoCarAdapter(R.layout.item_huo_car,carSpec);
+        huoCarAdapter = new HuoCarAdapter(R.layout.item_huo_cars,carSpec);
         rv_car_style.setAdapter(huoCarAdapter);
 
         rv_ask.setLayoutManager(new LinearLayoutManager(mContext));
@@ -128,7 +129,7 @@ public class HuoRuleActivity extends BaseActivity implements View.OnClickListene
                                 tv_length.setText("车厢长："+data.getVehicle_size());
                                 tv_tiji.setText("体积："+data.getVehicle_volume_text());
                                 tv_weight.setText("重量："+data.getVehicle_weight_text());
-
+                                tv_car_style.setText(data.getVehicle_name());
                                 basicFee.clear();
                                 basicFee.addAll(data.getBasicFee());
 

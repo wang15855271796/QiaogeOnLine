@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import androidx.annotation.Nullable;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -168,19 +169,33 @@ public class CommonH5Activity extends BaseSwipeActivity {
 
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
-
+                    Uri parse = Uri.parse(url);
+                    String code = parse.getQueryParameter("code");
+                    String hllOrderId = parse.getQueryParameter("hllOrderId");
                     try{
                         if(url.startsWith("wushang://")){
-                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                            startActivity(intent);
+                            if(!TextUtils.isEmpty(code)&&!code.equals("")) {
+//                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//                                startActivity(intent);
+                                Intent intent = new Intent(mContext,HuoHomeActivity.class);
+                                intent.putExtra("id",hllOrderId);
+                                startActivity(intent);
+                            }
+
+                            if(!TextUtils.isEmpty(hllOrderId)&&!hllOrderId.equals("")) {
+                                Intent intent = new Intent(mContext,HuoDetailActivity.class);
+                                intent.putExtra("id",hllOrderId);
+                                startActivity(intent);
+                                finish();
+                            }
+
                             return true;
                         }
                     }catch (Exception e){
                         return false;
                     }
+
                     mWv.loadUrl(url);
-                    Uri parse = Uri.parse(url);
-                    String code = parse.getQueryParameter("code");
                     getCode(code);
                     return true;
                 }

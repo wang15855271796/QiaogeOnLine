@@ -29,9 +29,9 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
+//import io.reactivex.Observable;
+//import io.reactivex.disposables.Disposable;
+//import io.reactivex.functions.Consumer;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
@@ -1355,7 +1355,7 @@ public class HomeFragmentsss extends BaseFragment implements View.OnClickListene
                 });
     }
 
-    private Disposable mAutoTask;
+//    private Disposable mAutoTask;
     private LinearSmoothScroller mSmoothScroller;
     private LinearSmoothScroller mSmoothScrollers;
     private int mCurrentPosition;
@@ -1363,7 +1363,7 @@ public class HomeFragmentsss extends BaseFragment implements View.OnClickListene
     @Override
     public void onResume() {
         super.onResume();
-        startAuto();
+//        startAuto();
 //        fullAdapter.start();
 //        teamAdapter.start();
 //        team3Adapter.start();
@@ -1380,28 +1380,28 @@ public class HomeFragmentsss extends BaseFragment implements View.OnClickListene
 //        commonssAdapter.cancle();
     }
 
-    private void startAuto() {
-        if (mAutoTask != null && !mAutoTask.isDisposed()) {
-            mAutoTask.dispose();
-        }
-        mAutoTask = Observable.interval(5, 2, TimeUnit.SECONDS).observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
-
-            @Override
-            public void accept(Long aLong) {
-                if (mCurrentPosition == 0) {
-                    mCurrentPosition = aLong.intValue();
-                } else {
-                    mCurrentPosition++;
-                }
-                mSmoothScroller.setTargetPosition(mCurrentPosition);
-                RecyclerView.LayoutManager layoutManager = rv_auto_view.getLayoutManager();
-                if (layoutManager!=null) {
-                    layoutManager.startSmoothScroll(mSmoothScroller);
-                }
-
-            }
-        });
-    }
+//    private void startAuto() {
+//        if (mAutoTask != null && !mAutoTask.isDisposed()) {
+//            mAutoTask.dispose();
+//        }
+//        mAutoTask = Observable.interval(5, 2, TimeUnit.SECONDS).observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
+//
+//            @Override
+//            public void accept(Long aLong) {
+//                if (mCurrentPosition == 0) {
+//                    mCurrentPosition = aLong.intValue();
+//                } else {
+//                    mCurrentPosition++;
+//                }
+//                mSmoothScroller.setTargetPosition(mCurrentPosition);
+//                RecyclerView.LayoutManager layoutManager = rv_auto_view.getLayoutManager();
+//                if (layoutManager!=null) {
+//                    layoutManager.startSmoothScroll(mSmoothScroller);
+//                }
+//
+//            }
+//        });
+//    }
 
     private void isSend() {
         IndexHomeAPI.isSend(mActivity)
@@ -2196,10 +2196,10 @@ public class HomeFragmentsss extends BaseFragment implements View.OnClickListene
 
 
     private void stopAuto() {
-        if (mAutoTask != null && !mAutoTask.isDisposed()) {
-            mAutoTask.dispose();
-            mAutoTask = null;
-        }
+//        if (mAutoTask != null && !mAutoTask.isDisposed()) {
+//            mAutoTask.dispose();
+//            mAutoTask = null;
+//        }
     }
 
     private void initRecycle() {

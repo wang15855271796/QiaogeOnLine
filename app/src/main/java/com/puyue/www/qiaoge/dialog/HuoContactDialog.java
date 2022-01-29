@@ -69,8 +69,13 @@ public class HuoContactDialog extends Dialog {
                 String etName = et_name.getText().toString();
                 String etPhone = et_phone.getText().toString();
                 if(!TextUtils.isEmpty(etName)&&!TextUtils.isEmpty(etPhone)) {
-                    EventBus.getDefault().post(new HuoOrderContactEvent(etName,etPhone));
-                    dismiss();
+                    if(etPhone.length()==11) {
+                        EventBus.getDefault().post(new HuoOrderContactEvent(etName,etPhone));
+                        dismiss();
+                    }else {
+                        ToastUtil.showSuccessMsg(context,"请填写11位手机号");
+                    }
+
                 }else {
                     ToastUtil.showSuccessMsg(context,"请填写对应信息");
                 }

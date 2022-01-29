@@ -95,7 +95,7 @@ public class HuoCouponModel {
          * tag : 新领券
          * valid_date : 2021.12.21 12:43~2022.03.20 23:59
          */
-
+        boolean isSelect;
         private String available_city_str;
         private String available_move_packages_str;
         private String available_time_periods_str;
@@ -129,6 +129,14 @@ public class HuoCouponModel {
         private String status;
         private String tag;
         private String valid_date;
+
+        public boolean isSelect() {
+            return isSelect;
+        }
+
+        public void setSelect(boolean select) {
+            isSelect = select;
+        }
 
         public String getAvailable_city_str() {
             return available_city_str;

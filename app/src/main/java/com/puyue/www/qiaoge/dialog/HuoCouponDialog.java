@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,9 @@ public class HuoCouponDialog extends Dialog {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     List<HuoCouponModel.DataBean> dataList;
+    boolean flag = false;
+    int pos = -1;
+    HuoCouponAdapter huoCouponAdapter;
     public HuoCouponDialog(Context mContext, List<HuoCouponModel.DataBean> dataList) {
         super(mContext, R.style.dialog);
         this.context = mContext;
@@ -66,9 +70,13 @@ public class HuoCouponDialog extends Dialog {
         WindowManager.LayoutParams attributes = getWindow().getAttributes();
         attributes.width = Utils.getScreenWidth(context);
         getWindow().setAttributes(attributes);
+
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EventBus.getDefault().post(new HuoCouponEvent("您有"+dataList.size()+"张优惠券可用",""));
+                pos = -1;
+                huoCouponAdapter.setSelectionPosition(pos);
                 dismiss();
             }
         });
@@ -76,20 +84,45 @@ public class HuoCouponDialog extends Dialog {
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EventBus.getDefault().post(new HuoCouponEvent(dataList.get(pos).getBusiness_type_str()+dataList.get(pos).getDiscount_str(),
+                        dataList.get(pos).getCoupon_id()
+                ));
                 dismiss();
             }
         });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        HuoCouponAdapter huoCouponAdapter = new HuoCouponAdapter(R.layout.item_huo_coupon,dataList);
+        huoCouponAdapter = new HuoCouponAdapter(R.layout.item_huo_coupon,dataList);
         recyclerView.setAdapter(huoCouponAdapter);
         huoCouponAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 huoCouponAdapter.setSelectionPosition(position);
-                EventBus.getDefault().post(new HuoCouponEvent(dataList.get(position).getBusiness_type_str()+dataList.get(position).getDiscount_str(),
-                        dataList.get(position).getCoupon_id()
-                        ));
+                pos = position;
+//                if(pos!=position) {
+//                    pos = position;
+//                    if(!flag) {
+//                        flag = true;
+//                        dataList.get(position).setSelect(flag);
+//                        huoCouponAdapter.setSelectionPosition(position,flag);
+//                    }else {
+//                        flag = false;
+//                        dataList.get(position).setSelect(flag);
+//                        huoCouponAdapter.setSelectionPosition(position,flag);
+//                    }
+//                }else {
+//                    pos = position;
+//                    if(!flag) {
+//                        flag = true;
+//                        dataList.get(position).setSelect(flag);
+//                        huoCouponAdapter.setSelectionPosition(position,flag);
+//                    }else {
+//                        flag = false;
+//                        dataList.get(position).setSelect(flag);
+//                        huoCouponAdapter.setSelectionPosition(position,flag);
+//                    }
+//                }
+
             }
         });
 

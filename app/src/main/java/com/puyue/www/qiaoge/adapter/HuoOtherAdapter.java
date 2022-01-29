@@ -20,6 +20,7 @@ import java.util.List;
 public class HuoOtherAdapter extends BaseQuickAdapter<CarStyleModel.DataBean.SpecReqItemBean, BaseViewHolder> {
 
     List<String> list = new ArrayList<>();
+    List<Integer> listType = new ArrayList<>();
     public HuoOtherAdapter(int layoutResId, @Nullable List<CarStyleModel.DataBean.SpecReqItemBean> data) {
         super(layoutResId, data);
     }
@@ -35,9 +36,11 @@ public class HuoOtherAdapter extends BaseQuickAdapter<CarStyleModel.DataBean.Spe
                 if(isChecked) {
                     cb_choose.setChecked(true);
                     list.add(item.getName());
-                    EventBus.getDefault().post(new OtherEvent(list));
+                    listType.add(item.getType());
+                    EventBus.getDefault().post(new OtherEvent(list,listType));
                 }else {
                     list.remove(item.getName());
+                    listType.remove(new Integer(item.getType()));
                     cb_choose.setChecked(false);
                 }
             }

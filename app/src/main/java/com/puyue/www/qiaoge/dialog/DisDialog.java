@@ -19,6 +19,8 @@ import androidx.fragment.app.FragmentActivity;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.event.DisTributionEvent;
 import com.puyue.www.qiaoge.event.HuoBeizhuEvent;
+import com.puyue.www.qiaoge.event.RefreshEvent;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.utils.Utils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -63,14 +65,8 @@ public class DisDialog extends Dialog {
         attributes.width = Utils.getScreenWidth(context);
         getWindow().setAttributes(attributes);
         tv_price.setText("满"+sendAmount+"元免配送费");
-        if(type==1) {
-            //配送
-            tv_price.setVisibility(View.VISIBLE);
-            tv_name.setText("翘歌配送");
-        }else {
-            tv_name.setText("到仓自提");
-            tv_price.setVisibility(View.GONE);
-        }
+        tv_price.setVisibility(View.VISIBLE);
+        tv_name.setText("翘歌配送");
         cb_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,16 +106,21 @@ public class DisDialog extends Dialog {
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(cb_1.isChecked()) {
-                    if(type==1) {
-                        EventBus.getDefault().post(new DisTributionEvent("翘歌配送",0));
-                    }else {
-                        EventBus.getDefault().post(new DisTributionEvent("到仓自提",0));
-                    }
-                }else {
-                    EventBus.getDefault().post(new DisTributionEvent("我自己叫货拉拉",1));
+                if(!cb_1.isChecked()&&!cb_2.isChecked()) {
+                    ToastUtil.showSuccessMsg(context,"请选择配送服务");
+                    return;
                 }
-                dismiss();
+
+                if(cb_1.isChecked()) {
+                    EventBus.getDefault().post(new DisTributionEvent("翘歌配送",0));
+                    dismiss();
+                    return;
+                }
+
+                if(cb_2.isChecked()) {
+                    EventBus.getDefault().post(new DisTributionEvent("我自己叫货拉拉",1));
+                    dismiss();
+                }
             }
         });
 

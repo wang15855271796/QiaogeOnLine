@@ -6,13 +6,17 @@ import android.view.GestureDetector;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.luck.picture.lib.photoview.OnPhotoTapListener;
+import com.luck.picture.lib.photoview.PhotoView;
+import com.luck.picture.lib.photoview.PhotoViewAttacher;
 
 import java.util.List;
 
-import uk.co.senab.photoview.PhotoView;
-import uk.co.senab.photoview.PhotoViewAttacher;
+//import uk.co.senab.photoview.PhotoView;
+//import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by win7 on 2018/7/23.
@@ -55,21 +59,13 @@ public class PhotoViewAdapter extends PagerAdapter {
         Glide.with(context).load(url).into(photoView);
         container.addView(photoView);
         photoView.isEnabled();
-        photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
+        photoView.setOnPhotoTapListener(new OnPhotoTapListener() {
             @Override
-            public void onPhotoTap(View view, float x, float y) {
+            public void onPhotoTap(ImageView view, float x, float y) {
                 if (photoListener != null) {
                     photoListener.onPhotoListenter();
                 }
             }
-
-           /* @Override
-            public void onOutsidePhotoTap() {
-                if (photoListener != null) {
-                    photoListener.onPhotoListenter();
-                }
-            }*/
-
         });
 
         return photoView;

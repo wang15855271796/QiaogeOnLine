@@ -2,7 +2,6 @@ package com.puyue.www.qiaoge.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,27 +13,25 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.activity.mine.login.LogoutsEvent;
-import com.puyue.www.qiaoge.adapter.HuoCouponAdapter;
 import com.puyue.www.qiaoge.adapter.HuoOtherAdapter;
 import com.puyue.www.qiaoge.event.OtherEvent;
+import com.puyue.www.qiaoge.event.OtherSureEvent;
 import com.puyue.www.qiaoge.model.CarStyleModel;
-import com.puyue.www.qiaoge.model.HuoCouponModel;
 import com.puyue.www.qiaoge.utils.Utils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class HuoOtherDialog extends Dialog {
+public abstract class HuoOtherDialog extends Dialog {
     public Unbinder binder;
     Context context;
     View view;
@@ -55,7 +52,9 @@ public class HuoOtherDialog extends Dialog {
     @Override
     public void show() {
         super.show();
-        EventBus.getDefault().register(this);
+        if(!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
@@ -83,8 +82,9 @@ public class HuoOtherDialog extends Dialog {
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventBus.getDefault().post(new OtherEvent(list));
-                dismiss();
+                Confirm(list,listType);
+//                EventBus.getDefault().post(new OtherSureEvent(list,listType));
+//                dismiss();
             }
         });
 
@@ -93,10 +93,13 @@ public class HuoOtherDialog extends Dialog {
         recyclerView.setAdapter(huoOtherAdapter);
     }
 
-    List<String> list;
+    List<String> list = new ArrayList<>();
+    List<Integer> listType = new ArrayList<>();
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getOther(OtherEvent otherEvent) {
         list = otherEvent.getList();
+        listType = otherEvent.getListType();
     }
 
+    public abstract void Confirm(List<String> list, List<Integer> listType);
 }

@@ -41,9 +41,11 @@ public class HuoEditxActivity extends BaseActivity implements View.OnClickListen
     @BindView(R.id.bt_sure)
     Button bt_sure;
     int type;
+    String cityId;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         type = getIntent().getIntExtra("type", 0);
+        cityId = getIntent().getStringExtra("cityId");
         return false;
     }
 
@@ -111,6 +113,10 @@ public class HuoEditxActivity extends BaseActivity implements View.OnClickListen
                     ToastUtil.showSuccessMsg(mContext,"请填写对应信息");
                     return;
                 }
+                if(etPhone.length()!=11) {
+                    ToastUtil.showSuccessMsg(mContext,"请填写11位手机号");
+                    return;
+                }
                 SharedPreferencesUtil.saveString(mContext,"etName1",etName);
                 SharedPreferencesUtil.saveString(mContext,"etDesc1",etDesc);
                 SharedPreferencesUtil.saveString(mContext,"etPhone1",etPhone);
@@ -126,6 +132,7 @@ public class HuoEditxActivity extends BaseActivity implements View.OnClickListen
             case R.id.tv_address:
                 Intent intent = new Intent(mContext,HuoSearchAddressActivity.class);
                 intent.putExtra("type",type);
+                intent.putExtra("cityId",cityId);
                 startActivity(intent);
                 break;
         }
@@ -141,14 +148,7 @@ public class HuoEditxActivity extends BaseActivity implements View.OnClickListen
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getCity(HuoCityEvent huoCityEvent) {
-//        SharedPreferencesUtil.saveString(mContext,"etName","");
-//        SharedPreferencesUtil.saveString(mContext,"etDesc","");
-//        SharedPreferencesUtil.saveString(mContext,"etPhone","");
-//        SharedPreferencesUtil.saveString(mContext,"address","");
-//
-//        et_name.setText("");
-//        et_desc.setText("");
-//        et_phone.setText("");
-//        tv_address.setText("");
+        SharedPreferencesUtil.saveString(mContext,"address1","");
+        tv_address.setText("");
     }
 }

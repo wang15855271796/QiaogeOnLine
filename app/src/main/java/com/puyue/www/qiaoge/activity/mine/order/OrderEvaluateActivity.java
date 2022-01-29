@@ -24,6 +24,7 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.puyue.www.qiaoge.R;
 
+import com.puyue.www.qiaoge.activity.view.GlideEngine;
 import com.puyue.www.qiaoge.adapter.mine.OrderEvaluateAdapter;
 import com.puyue.www.qiaoge.api.mine.order.GetEvaDetailAPI;
 import com.puyue.www.qiaoge.api.mine.order.OrderEvaluateAPI;
@@ -239,13 +240,14 @@ public class OrderEvaluateActivity extends BaseSwipeActivity implements OrderEva
                 .imageSpanCount(3)// 每行显示个数
                 .selectionMode(PictureConfig.MULTIPLE)// 多选
                 .previewImage(true)// 是否可预览图片
-                .compressGrade(Luban.THIRD_GEAR)// luban压缩档次，默认3档 Luban.FIRST_GEAR、Luban.CUSTOM_GEAR
+                .loadImageEngine(GlideEngine.createGlideEngine())
+//                .compressGrade(Luban.THIRD_GEAR)// luban压缩档次，默认3档 Luban.FIRST_GEAR、Luban.CUSTOM_GEAR
                 .isCamera(false)// 是否显示拍照按钮
                 .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
                 .setOutputCameraPath("/CustomPath")// 自定义拍照保存路径
                 .enableCrop(false)// 是否裁剪
                 .compress(true)// 是否压缩
-                .compressMode(PictureConfig.LUBAN_COMPRESS_MODE)//系统自带 or 鲁班压缩 PictureConfig.SYSTEM_COMPRESS_MODE or LUBAN_COMPRESS_MODE
+//                .compressMode(PictureConfig.LUBAN_COMPRESS_MODE)//系统自带 or 鲁班压缩 PictureConfig.SYSTEM_COMPRESS_MODE or LUBAN_COMPRESS_MODE
                 .hideBottomControls(false)// 是否显示uCrop工具栏，默认不显示
                 .isGif(true)// 是否显示gif图片.
                 .openClickSound(false)// 是否开启点击声音
@@ -284,7 +286,7 @@ public class OrderEvaluateActivity extends BaseSwipeActivity implements OrderEva
 
     @Override
     public void onSetListener(int pos) {
-        PictureSelector.create(mActivity).externalPicturePreview(pos, selectList);
+        PictureSelector.create(mActivity).externalPicturePreview(pos, selectList,pos);
     }
 
     private List<List<String>> mListPicture = new ArrayList<>();

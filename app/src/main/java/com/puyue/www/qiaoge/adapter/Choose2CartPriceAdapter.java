@@ -69,6 +69,7 @@ public class Choose2CartPriceAdapter extends BaseQuickAdapter<CartsListModel.Dat
         helper.setText(R.id.tv_price, item.getPriceStr());
         ImageView iv_cut = helper.getView(R.id.iv_cut);
         ImageView iv_add = helper.getView(R.id.iv_add);
+        
         iv_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

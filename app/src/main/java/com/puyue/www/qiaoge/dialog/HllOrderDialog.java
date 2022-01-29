@@ -83,9 +83,6 @@ public abstract class HllOrderDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 close(pos);
-//                Intent intent = new Intent(context, HuoDetailActivity.class);
-//                intent.putExtra("id",hllConnectOrderIds.get(pos));
-//                context.startActivity(intent);
             }
         });
 

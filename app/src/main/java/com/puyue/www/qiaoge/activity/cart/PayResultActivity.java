@@ -123,7 +123,7 @@ public class PayResultActivity extends BaseSwipeActivity {
             if (view == mIvBack) {
                 backEvent();
             } else if (view == mTvOrderDetail) {
-
+                handler.removeMessages(0);
                 if (orderDeliveryType==0){
                     Intent intent = new Intent(mContext, NewOrderDetailActivity.class);
                     intent.putExtra(AppConstant.ORDERID, orderId);
@@ -140,6 +140,7 @@ public class PayResultActivity extends BaseSwipeActivity {
                     intent.putExtra("account","0");
                     startActivity(intent);
                     finish();
+
                 }
 
             } else if (view == imageViewRecommend) {
@@ -418,17 +419,18 @@ public class PayResultActivity extends BaseSwipeActivity {
                                                 },0);
                                             }
                                         };
+
                                         huoConnentionDialog.show();
                                     }else {
-                                        new Handler().postDelayed(new Runnable() {
+                                        handler.postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
                                                 Intent intent = new Intent(mContext, HuoHomeActivity.class);
-                                                intent.putExtra("orderId",getPayResultModel.getData().getOrderId());
+                                                intent.putExtra("orderId", getPayResultModel.getData().getOrderId());
                                                 startActivity(intent);
                                                 finish();
                                             }
-                                        },3000);
+                                        }, 3000);
                                     }
                                 }
 
@@ -490,8 +492,6 @@ public class PayResultActivity extends BaseSwipeActivity {
                                  //   mTvState.setVisibility(View.VISIBLE);
                                 }
 
-
-
                                 if(getPayResultModel.getData().getDeliverModel()==0) {
                                     tv_huo.setVisibility(View.GONE);
                                 }else {
@@ -519,7 +519,7 @@ public class PayResultActivity extends BaseSwipeActivity {
                                         };
                                         huoConnentionDialog.show();
                                     }else {
-                                        new Handler().postDelayed(new Runnable() {
+                                        handler.postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
                                                 Intent intent = new Intent(mContext, HuoHomeActivity.class);

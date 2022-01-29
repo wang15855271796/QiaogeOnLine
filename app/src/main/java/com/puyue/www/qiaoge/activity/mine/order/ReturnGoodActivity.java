@@ -28,6 +28,7 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.view.GlideEngine;
 import com.puyue.www.qiaoge.adapter.mine.ReturnGoodDetailChangeAdapter;
 import com.puyue.www.qiaoge.adapter.mine.ReturnGoodDetailTwoAdapter;
 import com.puyue.www.qiaoge.adapter.mine.ReturnMoneyAdapter;
@@ -526,13 +527,15 @@ public class ReturnGoodActivity extends BaseSwipeActivity {
             public void onItemClick(int position, View v) {
                 if (selectList.size() > 0) {
                     LocalMedia media = selectList.get(position);
-                    String pictureType = media.getPictureType();
-                    int mediaType = PictureMimeType.pictureToVideo(pictureType);
-                    switch (mediaType) {
+                    String pictureType = media.getMimeType();
+                    int mimeType = PictureMimeType.getMimeType(pictureType);
+//                    String pictureType = media.getPictureType();
+//                    int mediaType = PictureMimeType.pictureToVideo(pictureType);
+                    switch (mimeType) {
                         case 1:
                             // 预览图片 可自定长按保存路径
                             //PictureSelector.create(MainActivity.this).externalPicturePreview(position, "/custom_file", selectList);
-                            PictureSelector.create(ReturnGoodActivity.this).externalPicturePreview(position, selectList);
+                            PictureSelector.create(ReturnGoodActivity.this).externalPicturePreview(position, selectList,position);
                             break;
                         case 2:
                             // 预览视频
@@ -599,6 +602,7 @@ public class ReturnGoodActivity extends BaseSwipeActivity {
                                 .maxSelectNum(maxSelectNum - selectList.size())
                                 .minSelectNum(1)
                                 .imageSpanCount(4)
+                                .loadImageEngine(GlideEngine.createGlideEngine())
                                 .compress(true)
                                 .isCamera(false)
                                 .selectionMode(PictureConfig.MULTIPLE)
@@ -611,6 +615,7 @@ public class ReturnGoodActivity extends BaseSwipeActivity {
                         PictureSelector.create(ReturnGoodActivity.this)
                                 .openCamera(PictureMimeType.ofImage())
                                 .compress(true)
+                                .loadImageEngine(GlideEngine.createGlideEngine())
                                 .setOutputCameraPath("/CustomPath")
                                 .forResult(PictureConfig.CHOOSE_REQUEST);
                         break;

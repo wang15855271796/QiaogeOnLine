@@ -38,10 +38,12 @@ import com.puyue.www.qiaoge.event.HuoOrderContactEvent;
 import com.puyue.www.qiaoge.event.JSONEvent;
 import com.puyue.www.qiaoge.event.LogoutEvent;
 import com.puyue.www.qiaoge.event.OtherEvent;
+import com.puyue.www.qiaoge.event.OtherSureEvent;
 import com.puyue.www.qiaoge.model.AddressListModel;
 import com.puyue.www.qiaoge.model.AppointModel;
 import com.puyue.www.qiaoge.model.CarPriceModel;
 import com.puyue.www.qiaoge.model.CarStyleModel;
+import com.puyue.www.qiaoge.model.DealPriceModel;
 import com.puyue.www.qiaoge.model.HuoCouponModel;
 import com.puyue.www.qiaoge.model.HuoPayModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
@@ -124,26 +126,26 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
     String xPhone;
     String orderTime;
     String reserve_time = "";
-    String city_id;
+//    String city_id;
     String id;
     String lat;
     String lon;
     String cityInfoRevision;
     List<Integer>reqIntegerList;
-    AddressListModel.DataBean dataBean;
-    String time;
     List<CarStyleModel.DataBean.SpecReqItemBean> vehicleStdItem;
     String orderId;
     String orderAmt;
+    String cityId;
+    List<Integer> listType;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
-        dataBean = (AddressListModel.DataBean) getIntent().getSerializableExtra("dataBean");
         reqIntegerList = (List<Integer>) getIntent().getSerializableExtra("list");
         reqList = (List<String>) getIntent().getSerializableExtra("reqList");
         vehicleStdItem = (List<CarStyleModel.DataBean.SpecReqItemBean>) getIntent().getSerializableExtra("vehicleStdItem");
         orderId = getIntent().getStringExtra("orderId");
         zAddr = getIntent().getStringExtra("zAddr");
         xAddr = getIntent().getStringExtra("xAddr");
+        cityId = getIntent().getStringExtra("cityId");
         reserve_time = getIntent().getStringExtra("time");
         carStyle = getIntent().getStringExtra("carStyle");
         price = getIntent().getStringExtra("price");
@@ -174,7 +176,6 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
     public void setViewData() {
         setTranslucentStatus();
         EventBus.getDefault().register(this);
-        city_id = SharedPreferencesUtil.getString(mActivity, "huoCityId");
         tv_z.setText(zAddr);
         tv_x.setText(xAddr);
         tv_car.setText(carStyle);
@@ -183,7 +184,7 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
         ReqAdapter reqAdapter = new ReqAdapter(R.layout.item_req,reqList);
         recyclerView.setAdapter(reqAdapter);
         tv_total.setText(price);
-        getCoupon(orderTime,reserve_time,city_id,id,lat,lon,price);
+        getCoupon(orderTime,reserve_time,cityId,id,lat,lon,price);
         getTime();
     }
 
@@ -203,6 +204,9 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
 
     boolean isChoose1 = false;
     boolean isChoose2 = false;
+    HuoCouponDialog huoCouponDialog;
+    HuoOtherDialog huoOtherDialog;
+    HuoBeizhuDialog huoBeizhuDialog;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -224,17 +228,32 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
                     lav_loading.hide();
                     return;
                 }
-                getOrderAddress(city_id,cityInfoRevision,id,coupon_id,StringUtils.join(reqIntegerList, ","),jsonArray1,orderTime,reserve_time
-                        ,zName,zPhone,remark,orderId,invoiceType, StringUtils.join(list, ","));
+                getOrderAddress(cityId,cityInfoRevision,id,coupon_id,StringUtils.join(reqIntegerList, ","),jsonArray1,orderTime,reserve_time
+                        ,zName,zPhone,remark,orderId,invoiceType, StringUtils.join(reqList, ","));
                 break;
 
             case R.id.rl_other:
-                HuoOtherDialog huoOtherDialog = new HuoOtherDialog(mContext,vehicleStdItem);
+                if(huoOtherDialog==null) {
+                    huoOtherDialog = new HuoOtherDialog(mContext, vehicleStdItem) {
+                        @Override
+                        public void Confirm(List<String> list, List<Integer> listType) {
+                            String join = StringUtils.join(list, ",");
+                            tv_other.setText(join);
+                            getPrice(cityId,cityInfoRevision,
+                                    id,coupon_id, StringUtils.join(listType, ","),
+                                    jsonArray1, Integer.parseInt(orderTime),reserve_time,StringUtils.join(reqList, ","),invoiceType);
+                            dismiss();
+                        }
+                    };
+                }
                 huoOtherDialog.show();
                 break;
 
             case R.id.rl_beizhu:
-                HuoBeizhuDialog huoBeizhuDialog = new HuoBeizhuDialog(mContext);
+                if(huoBeizhuDialog==null) {
+                    huoBeizhuDialog = new HuoBeizhuDialog(mContext);
+                }
+
                 huoBeizhuDialog.show();
                 break;
 
@@ -251,11 +270,17 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
                         ll_receipt.setBackgroundResource(R.drawable.shape_grey8);
                     }else {
                     }
+                    getPrice(cityId,cityInfoRevision,
+                            id,coupon_id, StringUtils.join(listType, ","),
+                            jsonArray1, Integer.parseInt(orderTime),reserve_time,StringUtils.join(reqList, ","),invoiceType);
                 }else {
                     invoiceType = 0;
                     isChoose1 = false;
                     tv_receipt.setBackgroundResource(R.drawable.shape_grey8);
                     tv_receipt.setTextColor(Color.parseColor("#666666"));
+                    getPrice(cityId,cityInfoRevision,
+                            id,coupon_id, StringUtils.join(listType, ","),
+                            jsonArray1, Integer.parseInt(orderTime),reserve_time,StringUtils.join(reqList, ","),invoiceType);
                 }
 
                 break;
@@ -271,13 +296,20 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
                         isChoose1 = false;
                         tv_receipt.setBackgroundResource(R.drawable.shape_grey8);
                         tv_receipt.setTextColor(Color.parseColor("#666666"));
-                    }else {
-
                     }
+
+                    getPrice(cityId,cityInfoRevision,
+                            id,coupon_id, StringUtils.join(listType, ","),
+                            jsonArray1, Integer.parseInt(orderTime),reserve_time,StringUtils.join(reqList, ","),invoiceType);
                 }else {
                     invoiceType = 0;
                     isChoose2 = false;
+                    tv_receipt1.setTextColor(Color.parseColor("#666666"));
+                    tv_receipt2.setTextColor(Color.parseColor("#666666"));
                     ll_receipt.setBackgroundResource(R.drawable.shape_grey8);
+                    getPrice(cityId,cityInfoRevision,
+                            id,coupon_id, StringUtils.join(listType, ","),
+                            jsonArray1, Integer.parseInt(orderTime),reserve_time,StringUtils.join(reqList, ","),invoiceType);
                 }
 
                 break;
@@ -296,12 +328,14 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
                 break;
 
             case R.id.rl_coupon:
-                HuoCouponDialog huoCouponDialog = new HuoCouponDialog(mContext,dataList);
+                if(huoCouponDialog==null) {
+                    huoCouponDialog = new HuoCouponDialog(mContext,dataList);
+                }
+                huoCouponDialog.setCanceledOnTouchOutside(false);
                 huoCouponDialog.show();
                 break;
         }
     }
-
 
     //  天
     private List<AppointModel.DataBean> dayList = new ArrayList<>();
@@ -318,6 +352,8 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
                 String hourStr = hoursList.get(options1).get(options2).getHourStr();
                 String minute = minList.get(options1).get(options2).get(options3).getDateTime();
                 tv_use_car.setText(minute);
+                reserve_time = minute;
+                Log.d("fersdffef.....",reserve_time);
             }
         })
 
@@ -328,6 +364,8 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
                 .setFlag(false)
                 .build();
         pvOptions.setPicker(dayList, hoursList, minList);//三级选择器
+        orderTime = "1";
+
         pvOptions.show();
     }
 
@@ -377,18 +415,17 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
             }
 
             hoursList.add(cityList);
-
             minList.add(province_AreaList);
-
         }
     }
-
-
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getContact(HuoCouponEvent huoCouponEvent) {
         tv_coupon.setText(huoCouponEvent.getAmount());
         coupon_id = huoCouponEvent.getCoupon_id();
+        getPrice(cityId,cityInfoRevision,
+                id,coupon_id, StringUtils.join(listType, ","),
+                jsonArray1, Integer.parseInt(orderTime),reserve_time,StringUtils.join(reqList, ","),invoiceType);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -403,13 +440,8 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
         remark = huoBeizhuEvent.getEtDesc();
     }
 
-    List<String> list;
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getOther(OtherEvent otherEvent) {
-        list = otherEvent.getList();
-        String join = StringUtils.join(list, ",");
-        tv_other.setText(join);
-    }
+
+
 
     JSONArray jsonArray1;
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
@@ -506,5 +538,33 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
+    }
+
+    private void getPrice(String city_id, String city_info_revision, String order_vehicle_id, String couponId,
+                          String spec_req, JSONArray addInfo, int orderTime, String reserve_time,String vehicle_std,int invoiceType) {
+        HuolalaAPI.getPrice(mActivity,city_id,city_info_revision,order_vehicle_id,couponId,spec_req,addInfo,orderTime,reserve_time,vehicle_std,invoiceType)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<DealPriceModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(DealPriceModel priceModel) {
+                        if(priceModel.getCode()==1) {
+                            if(priceModel.getData()!=null) {
+                                tv_total.setText(priceModel.getData().getTotal_price());
+                            }
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,priceModel.getMessage());
+                        }
+                    }
+                });
     }
 }

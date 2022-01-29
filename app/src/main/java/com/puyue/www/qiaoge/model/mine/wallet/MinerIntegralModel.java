@@ -75,6 +75,15 @@ public class MinerIntegralModel  {
         private String pointMallUrl;
         private boolean next;
         private List<AppPointVOListBean> appPointVOList;
+        String companyName;
+
+        public String getCompanyName() {
+            return companyName;
+        }
+
+        public void setCompanyName(String companyName) {
+            this.companyName = companyName;
+        }
 
         public String getPoint() {
             return point;

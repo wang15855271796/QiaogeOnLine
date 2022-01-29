@@ -1,6 +1,7 @@
 package com.puyue.www.qiaoge.fragment.mine.order;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,19 +14,25 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 
+import com.puyue.www.qiaoge.activity.HuoHomeActivity;
 import com.puyue.www.qiaoge.adapter.mine.MyOrdersItemAdapter;
 import com.puyue.www.qiaoge.adapter.mine.NewOrderDetailAdapter;
 import com.puyue.www.qiaoge.api.cart.CancelOrderAPI;
 import com.puyue.www.qiaoge.api.cart.DeleteOrderAPI;
+import com.puyue.www.qiaoge.api.huolala.HuolalaAPI;
 import com.puyue.www.qiaoge.api.mine.order.MyOrderListAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
+import com.puyue.www.qiaoge.base.BaseModel;
+import com.puyue.www.qiaoge.dialog.HuoConnentionDialog;
 import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragments;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.model.HasConnectModel;
 import com.puyue.www.qiaoge.model.OrdersModel;
 import com.puyue.www.qiaoge.model.cart.CancelOrderModel;
 import com.puyue.www.qiaoge.model.cart.GetOrderDetailModel;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +90,7 @@ public class PaymentOrderFragment extends BaseFragment {
         mIvNoData = ((ImageView) view.findViewById(R.id.iv_my_orders_no_data));
     }
 
+    HuoConnentionDialog huoConnentionDialog;
     @Override
     public void setViewData() {
         Log.d("fesfdsf.....","11");
@@ -105,6 +113,11 @@ public class PaymentOrderFragment extends BaseFragment {
         });
         if (orderDeliveryType==0){
             mAdapterMyOrders = new MyOrdersItemAdapter(R.layout.item_my_order, mListResult, 1,orderDeliveryType, new MyOrdersItemAdapter.OnClick() {
+
+                @Override
+                public void callHuo(int deliveryMode, String orderId, String hllOrderId) {
+                    HasConnect(orderId,hllOrderId);
+                }
 
                 @Override
                 public void evaluateNowOnclick(int position,String orderId) {
@@ -146,44 +159,13 @@ public class PaymentOrderFragment extends BaseFragment {
 
                 @Override
                 public void deleteOnclick(String orderId) {
-               /* final AlertDialog mDialog = new AlertDialog.Builder(getContext()).create();
-                mDialog.show();
-                mDialog.getWindow().setContentView(R.layout.dailog_cancel);
-                Button mBtnCancel = (Button) mDialog.getWindow().findViewById(R.id.btnCancel);
-                Button mBtnOK = (Button) mDialog.getWindow().findViewById(R.id.btnOK);
-
-                mBtnCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mDialog.dismiss();
-                    }
-                });
-
-
-                mBtnOK.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mDialog.dismiss();
-                        //取消订单的接口
-                       deleteOrder(orderId);
-                        //   mPtr.refreshComplete();
-                        //   mAdapterMyOrders.notifyDataSetChanged();
-                    }
-                });*/
 
 
                 }
 
                 @Override
                 public void imageGo(String orderId, String payAmount) {
-//                    Intent intent = new Intent(getActivity(), MyConfireOrdersActivity.class);
-//                    intent.putExtra("orderId", orderId);
-//                    intent.putExtra("remark", "");
-//
-//                    intent.putExtra("payAmount", Double.parseDouble(payAmount));
-//                    intent.putExtra("flag", true);
-//
-//                    startActivity(intent);
+
                     PaymentFragments paymentFragment = new PaymentFragments();
                     Bundle bundle = new Bundle();
                     bundle.putString("total", payAmount);
@@ -217,6 +199,11 @@ public class PaymentOrderFragment extends BaseFragment {
             mAdapterMyOrders = new MyOrdersItemAdapter(R.layout.item_my_order_self, mListResult, 1,orderDeliveryType, new MyOrdersItemAdapter.OnClick() {
 
                 @Override
+                public void callHuo(int deliveryMode, String orderId, String hllOrderId) {
+                    HasConnect(orderId,hllOrderId);
+                }
+
+                @Override
                 public void evaluateNowOnclick(int position,String orderId) {
 
                 }
@@ -327,97 +314,6 @@ public class PaymentOrderFragment extends BaseFragment {
             });
         }
 
-       /* mAdapterMyOrders = new MyOrdersItemAdapter(R.layout.item_my_order, mListResult, 1, new MyOrdersItemAdapter.OnClick() {
-
-            @Override
-            public void evaluateNowOnclick(int position) {
-
-            }
-
-            @Override
-            public void againBayOnclick(int position) {
-
-            }
-
-            @Override
-            public void cancelOnclick(String orderId) {
-                final AlertDialog mDialog = new AlertDialog.Builder(getContext()).create();
-                mDialog.show();
-                mDialog.getWindow().setContentView(R.layout.dailog_cancel);
-                TextView mBtnCancel = (TextView) mDialog.getWindow().findViewById(R.id.btnCancel);
-                TextView mBtnOK = (TextView) mDialog.getWindow().findViewById(R.id.btnOK);
-
-                mBtnCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mDialog.dismiss();
-                    }
-                });
-
-
-                mBtnOK.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mDialog.dismiss();
-                        //取消订单的接口
-                        cancelOrder(orderId);
-                        //   mPtr.refreshComplete();
-                        //   mAdapterMyOrders.notifyDataSetChanged();
-                    }
-                });
-            }
-
-            @Override
-            public void deleteOnclick(String orderId) {
-               *//* final AlertDialog mDialog = new AlertDialog.Builder(getContext()).create();
-                mDialog.show();
-                mDialog.getWindow().setContentView(R.layout.dailog_cancel);
-                Button mBtnCancel = (Button) mDialog.getWindow().findViewById(R.id.btnCancel);
-                Button mBtnOK = (Button) mDialog.getWindow().findViewById(R.id.btnOK);
-
-                mBtnCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mDialog.dismiss();
-                    }
-                });
-
-
-                mBtnOK.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mDialog.dismiss();
-                        //取消订单的接口
-                       deleteOrder(orderId);
-                        //   mPtr.refreshComplete();
-                        //   mAdapterMyOrders.notifyDataSetChanged();
-                    }
-                });*//*
-
-
-            }
-
-            @Override
-            public void imageGo(String orderId, String payAmount) {
-                Intent intent = new Intent(getActivity(), MyConfireOrdersActivity.class);
-                intent.putExtra("orderId", orderId);
-                intent.putExtra("remark", "");
-
-                intent.putExtra("payAmount", Double.parseDouble(payAmount));
-                intent.putExtra("flag", true);
-
-                startActivity(intent);
-            }
-
-            @Override
-            public void requestConfirmGetGoods(String orderId) {
-
-            }
-
-
-        });*/
-
-
         mAdapterMyOrders.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -450,6 +346,87 @@ public class PaymentOrderFragment extends BaseFragment {
             }
         });
 //        requestOrdersList(1);
+    }
+
+    /**
+     * 判断是否有关联订单
+     * @param orderId
+     * @param hllOrderId
+     */
+    private void HasConnect(String orderId, String hllOrderId) {
+        HuolalaAPI.getHasConnection(getContext(),orderId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<HasConnectModel>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(HasConnectModel hasConnectModel) {
+                        if(hasConnectModel.getCode()==1) {
+                            if(hasConnectModel.getData()!=null) {
+                                if(hasConnectModel.getData().getConnectHllOrder()==1) {
+                                    huoConnentionDialog = new HuoConnentionDialog(mActivity) {
+                                        @Override
+                                        public void Connect() {
+                                            getConnection(orderId,hllOrderId);
+                                        }
+
+                                        @Override
+                                        public void Next() {
+                                            Intent intent = new Intent(mActivity, HuoHomeActivity.class);
+                                            intent.putExtra("orderId",orderId);
+                                            mContext.startActivity(intent);
+                                            mActivity.finish();
+                                            dismiss();
+                                        }
+                                    };
+                                    huoConnentionDialog.show();
+                                }else {
+                                    Intent intent = new Intent(mActivity, HuoHomeActivity.class);
+                                    intent.putExtra("orderId",orderId);
+                                    mActivity.startActivity(intent);
+                                }
+                            }
+                        }else {
+                            ToastUtil.showErroMsg(mActivity,hasConnectModel.getMessage());
+                        }
+
+                    }
+                });
+    }
+
+    private void getConnection(String orderId, String hllOrderId) {
+        HuolalaAPI.getConnection(mActivity, orderId,hllOrderId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+                        if(baseModel.code==1) {
+                            requestOrdersList(1);
+                            ToastUtil.showSuccessMsg(mActivity,baseModel.message);
+                            huoConnentionDialog.dismiss();
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,baseModel.message);
+                        }
+                    }
+                });
     }
 
     private void requestOrdersList(int orderStatus) {

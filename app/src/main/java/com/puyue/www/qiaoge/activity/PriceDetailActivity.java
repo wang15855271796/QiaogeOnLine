@@ -41,6 +41,7 @@ public class PriceDetailActivity extends BaseActivity implements View.OnClickLis
     String carStyle;
     String totalPrice;
     String id;
+    String cityId;
     List<DealPriceModel.DataBean.CalculatePriceInfoBean> priceList = new ArrayList<>();
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class PriceDetailActivity extends BaseActivity implements View.OnClickLis
         carStyle = getIntent().getStringExtra("carStyle");
         totalPrice = getIntent().getStringExtra("totalPrice");
         id = getIntent().getStringExtra("id");
+        cityId = getIntent().getStringExtra("cityId");
         return false;
     }
 
@@ -87,6 +89,7 @@ public class PriceDetailActivity extends BaseActivity implements View.OnClickLis
             case R.id.tv_rule:
                 Intent intent = new Intent(mContext,HuoRuleActivity.class);
                 intent.putExtra("id",id);
+                intent.putExtra("cityId",cityId);
                 startActivity(intent);
                 break;
 

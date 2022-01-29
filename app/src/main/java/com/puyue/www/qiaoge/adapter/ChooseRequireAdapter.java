@@ -26,19 +26,13 @@ public class ChooseRequireAdapter extends BaseQuickAdapter<CarStyleModel.DataBea
     protected void convert(BaseViewHolder helper, CarStyleModel.DataBean.VehicleListBean.VehicleStdItem item) {
         helper.setText(R.id.tv_req,item.getName()+"("+item.getDesc()+")");
         CheckBox checkbox = helper.getView(R.id.checkbox);
-        Log.d("csdfwefsdf.....",item.getName()+"ss");
         checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mItemClickListener.onItemClick(helper.getAdapterPosition(),isChecked);
             }
         });
-        checkbox.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-
-            }
-        });
+        checkbox.setChecked(false);
     }
 
 

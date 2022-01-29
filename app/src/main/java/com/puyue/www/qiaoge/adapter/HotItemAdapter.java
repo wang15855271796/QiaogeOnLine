@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import androidx.annotation.Nullable;
 
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -62,6 +63,7 @@ public class HotItemAdapter extends BaseQuickAdapter<ExchangeProductModel.DataBe
 
     @Override
     protected void convert(BaseViewHolder helper, ExchangeProductModel.DataBean.ProdPricesBean item) {
+
         ImageView iv_reduce = helper.getView(R.id.iv_reduce);
         tv_coupon_desc = helper.getView(R.id.tv_coupon_desc);
         rl_desc = helper.getView(R.id.rl_desc);
@@ -71,7 +73,12 @@ public class HotItemAdapter extends BaseQuickAdapter<ExchangeProductModel.DataBe
             tv_coupon_desc.setText(item.getSpecialOffer());
             rl_desc.setVisibility(View.VISIBLE);
         }
-
+        TextView tv_weight = helper.getView(R.id.tv_weight);
+        if(TextUtils.isEmpty(item.getWeight())||item.getWeight().equals("")) {
+            tv_weight.setVisibility(View.GONE);
+        }else {
+            tv_weight.setText("重量:"+"("+item.getWeight()+")");
+        }
         tv_price = helper.getView(R.id.tv_price);
         tv_price.setText(item.getPrice());
         helper.setText(R.id.tv_unit, item.getUnitDesc());

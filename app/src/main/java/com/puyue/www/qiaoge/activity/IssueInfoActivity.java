@@ -25,6 +25,7 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.view.GlideEngine;
 import com.puyue.www.qiaoge.api.home.CityChangeAPI;
 import com.puyue.www.qiaoge.api.home.InfoListAPI;
 import com.puyue.www.qiaoge.api.mine.order.SendImageAPI;
@@ -126,13 +127,13 @@ public class IssueInfoActivity extends BaseSwipeActivity {
             public void onItemClick(int position, View v) {
                 if (selectList.size() > 0) {
                     LocalMedia media = selectList.get(position);
-                    String pictureType = media.getPictureType();
-                    int mediaType = PictureMimeType.pictureToVideo(pictureType);
+                    String pictureType = media.getMimeType();
+                    int mediaType = PictureMimeType.getMimeType(pictureType);
                     switch (mediaType) {
                         case 1:
                             // 预览图片 可自定长按保存路径
                             //PictureSelector.create(MainActivity.this).externalPicturePreview(position, "/custom_file", selectList);
-                            PictureSelector.create(mActivity).externalPicturePreview(position, selectList);
+                            PictureSelector.create(mActivity).externalPicturePreview(position, selectList,position);
                             break;
                         case 2:
                             // 预览视频
@@ -290,6 +291,7 @@ public class IssueInfoActivity extends BaseSwipeActivity {
                                 .maxSelectNum(maxSelectNum - selectList.size())
                                 .minSelectNum(1)
                                 .imageSpanCount(4)
+                                .loadImageEngine(GlideEngine.createGlideEngine())
                                 .compress(true)
                                 .isCamera(false)
                                 .selectionMode(PictureConfig.MULTIPLE)
@@ -300,6 +302,7 @@ public class IssueInfoActivity extends BaseSwipeActivity {
                         PictureSelector.create(IssueInfoActivity.this)
                                 .openCamera(PictureMimeType.ofImage())
                                 .compress(true)
+                                .loadImageEngine(GlideEngine.createGlideEngine())
                                 .setOutputCameraPath("/CustomPath")
                                 .forResult(PictureConfig.CHOOSE_REQUEST);
                         break;

@@ -1,6 +1,7 @@
 package com.puyue.www.qiaoge.activity.mine.order;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,19 +12,25 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.HuoHomeActivity;
 import com.puyue.www.qiaoge.adapter.mine.MyOrdersItemAdapter;
 import com.puyue.www.qiaoge.adapter.mine.NewOrderDetailAdapter;
 import com.puyue.www.qiaoge.api.cart.CancelOrderAPI;
 import com.puyue.www.qiaoge.api.cart.DeleteOrderAPI;
+import com.puyue.www.qiaoge.api.huolala.HuolalaAPI;
 import com.puyue.www.qiaoge.api.mine.order.MyOrderListAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
+import com.puyue.www.qiaoge.base.BaseModel;
+import com.puyue.www.qiaoge.dialog.HuoConnentionDialog;
 import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragments;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.model.HasConnectModel;
 import com.puyue.www.qiaoge.model.OrdersModel;
 import com.puyue.www.qiaoge.model.cart.CancelOrderModel;
 import com.puyue.www.qiaoge.model.cart.GetOrderDetailModel;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,6 +104,7 @@ public class PaymentOrdersFragment extends BaseFragment {
         mIvNoData = ((ImageView) view.findViewById(R.id.iv_my_orders_no_data));
     }
 
+    HuoConnentionDialog huoConnentionDialog;
     @Override
     public void setViewData() {
         mListResult.clear();
@@ -117,6 +125,11 @@ public class PaymentOrdersFragment extends BaseFragment {
         });
         if (orderDeliveryType==0){
             mAdapterMyOrders = new MyOrdersItemAdapter(R.layout.item_my_order, mListResult, 1,orderDeliveryType, new MyOrdersItemAdapter.OnClick() {
+
+                @Override
+                public void callHuo(int deliveryMode, String orderId, String hllOrderId) {
+                    HasConnect(orderId,hllOrderId);
+                }
 
                 @Override
                 public void evaluateNowOnclick(int position,String orderId) {
@@ -227,6 +240,11 @@ public class PaymentOrdersFragment extends BaseFragment {
             });
         }else if (orderDeliveryType==1){
             mAdapterMyOrders = new MyOrdersItemAdapter(R.layout.item_my_order_self, mListResult, 1,orderDeliveryType, new MyOrdersItemAdapter.OnClick() {
+
+                @Override
+                public void callHuo(int deliveryMode, String orderId, String hllOrderId) {
+                    HasConnect(orderId,hllOrderId);
+                }
 
                 @Override
                 public void evaluateNowOnclick(int position,String orderId) {
@@ -460,6 +478,87 @@ public class PaymentOrdersFragment extends BaseFragment {
             }
         });
 //        requestOrdersList(1);
+    }
+
+    private void getConnection(String orderId, String hllOrderId) {
+        HuolalaAPI.getConnection(mActivity, orderId,hllOrderId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+                        if(baseModel.code==1) {
+                            requestOrdersList(1);
+                            ToastUtil.showSuccessMsg(mActivity,baseModel.message);
+                            huoConnentionDialog.dismiss();
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,baseModel.message);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 判断是否有关联订单
+     * @param orderId
+     * @param hllOrderId
+     */
+    private void HasConnect(String orderId, String hllOrderId) {
+        HuolalaAPI.getHasConnection(getContext(),orderId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<HasConnectModel>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(HasConnectModel hasConnectModel) {
+                        if(hasConnectModel.getCode()==1) {
+                            if(hasConnectModel.getData()!=null) {
+                                if(hasConnectModel.getData().getConnectHllOrder()==1) {
+                                    huoConnentionDialog = new HuoConnentionDialog(mActivity) {
+                                        @Override
+                                        public void Connect() {
+                                            getConnection(orderId,hllOrderId);
+                                        }
+
+                                        @Override
+                                        public void Next() {
+                                            Intent intent = new Intent(mActivity, HuoHomeActivity.class);
+                                            intent.putExtra("orderId",orderId);
+                                            mContext.startActivity(intent);
+                                            mActivity.finish();
+                                            dismiss();
+                                        }
+                                    };
+                                    huoConnentionDialog.show();
+                                }else {
+                                    Intent intent = new Intent(mActivity, HuoHomeActivity.class);
+                                    intent.putExtra("orderId",orderId);
+                                    mActivity.startActivity(intent);
+                                }
+                            }
+                        }else {
+                            ToastUtil.showErroMsg(mActivity,hasConnectModel.getMessage());
+                        }
+
+                    }
+                });
     }
 
     private void requestOrdersList(int orderStatus) {

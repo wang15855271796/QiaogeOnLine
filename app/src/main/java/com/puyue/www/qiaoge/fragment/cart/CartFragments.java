@@ -325,6 +325,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                                     }else {
                                         ll_unList.setVisibility(View.GONE);
                                     }
+
                                     rv_invalid.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                                         @Override
                                         public void onGlobalLayout() {
@@ -337,6 +338,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                                             }
                                         }
                                     });
+
                                     tv_arrow.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
@@ -344,7 +346,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                                             unAbleAdapter.notifyDataChanged();
                                         }
                                     });
-                                    rv_invalid.setAdapter(unAbleAdapter);
+
                                 }else {
                                     ll_unList.setVisibility(View.GONE);
                                 }
@@ -370,7 +372,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                                         return view;
                                     }
                                 };
-
+                                rv_invalid.setAdapter(unAbleAdapter);
                                 unAbleAdapter.notifyDataChanged();
                                 //判断是否展示空数据界面
 
@@ -383,6 +385,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                                     tv_delete.setVisibility(View.VISIBLE);
                                     ll_NoData.setVisibility(View.GONE);
                                     ll_sure.setVisibility(View.VISIBLE);
+
                                     //计算总金额
                                     getAllPrice(prods);
                                 }

@@ -66,12 +66,14 @@ import com.puyue.www.qiaoge.api.mine.order.GetOrderDeliverTimeAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.dialog.DisDialog;
+import com.puyue.www.qiaoge.dialog.DisSelfDialog;
 import com.puyue.www.qiaoge.dialog.OperateDialog;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.BeizhuEvent;
 import com.puyue.www.qiaoge.event.ChooseCoupon2Event;
 import com.puyue.www.qiaoge.event.ChooseCouponsEvent;
 import com.puyue.www.qiaoge.event.DisTributionEvent;
+import com.puyue.www.qiaoge.event.DisTributionSelfEvent;
 import com.puyue.www.qiaoge.event.RefreshEvent;
 import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragment;
 import com.puyue.www.qiaoge.helper.ActivityResultHelper;
@@ -398,9 +400,14 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
 
     int disType;
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getDistribution(DisTributionEvent disTributionEvent) {
-        tv_distribution.setText(disTributionEvent.getDesc());
-        disType = disTributionEvent.getType();
+    public void getDistribution(DisTributionSelfEvent disTributionEvent) {
+        if(disTributionEvent.getType()==0) {
+            tv_distribution.setText(disTributionEvent.getDesc());
+            disType = disTributionEvent.getType();
+        }else {
+            tv_distribution.setText("");
+            disType = disTributionEvent.getType();
+        }
     }
 
     BaiduMap.OnMapClickListener listenerClick = new BaiduMap.OnMapClickListener() {
@@ -685,7 +692,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
         public void onNoDoubleClick(View view) {
             switch (view.getId()) {
                 case R.id.rl_distribution:
-                    DisDialog disDialog = new DisDialog(mActivity,cModel.getData().getSendAmount(),0);
+                    DisSelfDialog disDialog = new DisSelfDialog(mActivity,cModel.getData().getSendAmount(),0);
                     disDialog.show();
                     break;
                 case R.id.ll_beizhu:

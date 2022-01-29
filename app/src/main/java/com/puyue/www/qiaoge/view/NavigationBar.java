@@ -81,7 +81,7 @@ public class NavigationBar extends LinearLayout implements View.OnClickListener 
 
     private void insertSeparator() {
         View lineView = new View(getContext());
-        lineView.setBackgroundColor(getResources().getColor(R.color.color_4d));
+        lineView.setBackgroundColor(getResources().getColor(R.color.color_d15964));
         lineView.setLayoutParams(new LayoutParams(1, LayoutParams.MATCH_PARENT));
         addView(lineView);
     }

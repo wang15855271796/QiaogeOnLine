@@ -1,5 +1,7 @@
 package com.puyue.www.qiaoge.adapter;
 
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -12,6 +14,7 @@ import java.util.List;
 public class HuoCouponAdapter extends BaseQuickAdapter<HuoCouponModel.DataBean, BaseViewHolder> {
 
     int pos = -1;
+    boolean flag = false;
     public HuoCouponAdapter(int layoutResId, @Nullable List<HuoCouponModel.DataBean> data) {
         super(layoutResId, data);
     }
@@ -26,14 +29,30 @@ public class HuoCouponAdapter extends BaseQuickAdapter<HuoCouponModel.DataBean, 
         helper.setText(R.id.tv_title,item.getPacket_name());
         helper.setText(R.id.tv_price,item.getDiscount_str());
 
-        if(pos == helper.getLayoutPosition()) {
+        if(pos==helper.getAdapterPosition()) {
             helper.setVisible(R.id.iv_pic,true);
             helper.setBackgroundRes(R.id.rl_root,R.mipmap.huo_coupon_en);
         }else {
             helper.setVisible(R.id.iv_pic,false);
             helper.setBackgroundRes(R.id.rl_root,R.mipmap.huo_coupon_un);
         }
-
+//        if(flag) {
+//            if(pos==helper.getAdapterPosition()) {
+//                helper.setVisible(R.id.iv_pic,false);
+//                helper.setBackgroundRes(R.id.rl_root,R.mipmap.huo_coupon_un);
+//            }else {
+//                helper.setVisible(R.id.iv_pic,true);
+//                helper.setBackgroundRes(R.id.rl_root,R.mipmap.huo_coupon_en);
+//            }
+//        }else {
+//            if(pos==helper.getAdapterPosition()) {
+//                helper.setVisible(R.id.iv_pic,true);
+//                helper.setBackgroundRes(R.id.rl_root,R.mipmap.huo_coupon_en);
+//            }else {
+//                helper.setVisible(R.id.iv_pic,false);
+//                helper.setBackgroundRes(R.id.rl_root,R.mipmap.huo_coupon_un);
+//            }
+//        }
 
     }
 

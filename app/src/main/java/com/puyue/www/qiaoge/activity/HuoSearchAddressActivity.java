@@ -3,6 +3,7 @@ package com.puyue.www.qiaoge.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -58,9 +59,11 @@ public class HuoSearchAddressActivity extends BaseActivity implements View.OnCli
     int type;
     String cityId;
     String name;
+    String orderId;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
-        type = getIntent().getIntExtra("type",0);
+        orderId = getIntent().getStringExtra("orderId");
+        cityId = getIntent().getStringExtra("cityId");
         return false;
     }
 
@@ -77,6 +80,7 @@ public class HuoSearchAddressActivity extends BaseActivity implements View.OnCli
     @Override
     public void setViewData() {
         EventBus.getDefault().register(this);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         huoAddressAdapter = new HuoAddressAdapter(R.layout.item_address_huo,list);
         recyclerView.setAdapter(huoAddressAdapter);
@@ -92,8 +96,14 @@ public class HuoSearchAddressActivity extends BaseActivity implements View.OnCli
 
         //默认城市名称
         name = SharedPreferencesUtil.getString(mContext, "huoCityName");
-        cityId = SharedPreferencesUtil.getString(mContext, "huoCityId");
+//        cityId = SharedPreferencesUtil.getString(mContext, "huoCityId");
         tv_city.setText(name);
+        if(orderId!=null&&!TextUtils.isEmpty(orderId)) {
+            //装
+            ll_address.setVisibility(View.GONE);
+        }else {
+            ll_address.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -110,12 +120,16 @@ public class HuoSearchAddressActivity extends BaseActivity implements View.OnCli
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            recyclerView.setVisibility(View.VISIBLE);
-            getAddressList(charSequence.toString(),name,type,cityId);
+
+
         }
 
         @Override
         public void afterTextChanged(Editable editable) {
+            recyclerView.setVisibility(View.VISIBLE);
+            if(editable.toString()!=null&&!editable.toString().equals("")) {
+                getAddressList(editable.toString(),name,type,cityId);
+            }
         }
     }
 
@@ -133,7 +147,6 @@ public class HuoSearchAddressActivity extends BaseActivity implements View.OnCli
 
                     @Override
                     public void onError(Throwable e) {
-
                     }
 
                     @Override

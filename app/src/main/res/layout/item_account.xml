@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"/>
 
     <EditText
+        android:inputType="number|numberDecimal"
         android:textAlignment="center"
         android:id="@+id/et_money"
         android:hint="请输入您的期望费用"

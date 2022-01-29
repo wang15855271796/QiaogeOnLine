@@ -168,6 +168,8 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
     ImageView iv_wen;
     @BindView(R.id.ll_driver)
     LinearLayout ll_driver;
+    @BindView(R.id.tv_total)
+    TextView tv_total;
     String id;
     HuoPayedAdapter huoPayedAdapter;
 
@@ -236,7 +238,7 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("dsgfsds...",e.getMessage());
+                        Log.d("dsgsdgfrefds.....",e.getMessage()+"123");
                     }
 
                     @Override
@@ -256,16 +258,13 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
                                 tv_x_desc.setText(data.getReceiveAddr().getAddrInfo());
                                 tv_order_id.setText(data.getOrderDisplayId());
                                 tv_state.setText(data.getOrderStatusName());
-                                if(data.getDriverInfo()!=null) {
-                                    tv_car_style.setText(data.getDriverInfo().getVehicleName());
-                                }
-
+                                tv_car_style.setText(data.getVehicleName());
                                 tv_time.setText(data.getOrderTime());
                                 tv_contact.setText(data.getContactPhone());
                                 tv_beizhu.setText(data.getOrderRemark());
                                 tv_create_time.setText(data.getCreateTime());
                                 tv_price.setText(data.getTotalPrice()+"");
-//                                tv_payed_money.setText(data.getPayPrice()+"");
+                                tv_total.setText(data.getUnpaidPrice());
                                 if(data.getDriverInfo()!=null) {
                                     HuoDetailModel.DataBean.DriverInfoBean driverInfo = data.getDriverInfo();
                                     tv_d_name.setText(driverInfo.getName());
@@ -273,10 +272,15 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
                                     tv_d_phone.setText(driverInfo.getPhone());
                                 }
                                 int orderStatus = data.getOrderStatus();
-                                if(orderStatus==3||orderStatus==4||orderStatus==5||orderStatus==8||orderStatus==9||orderStatus==17) {
+                                if(orderStatus==0||orderStatus==3||orderStatus==4||orderStatus==5||orderStatus==8||orderStatus==9||orderStatus==17) {
                                     ll_driver.setVisibility(View.GONE);
                                 }else {
                                     ll_driver.setVisibility(View.VISIBLE);
+                                }
+                                if(data.getCanOrderCancel()==1) {
+                                    tv_cancel.setVisibility(View.VISIBLE);
+                                }else {
+                                    tv_cancel.setVisibility(View.GONE);
                                 }
                                 if(data.getCanAddTips()==1) {
                                     rl_foot1.setVisibility(View.GONE);
@@ -352,13 +356,13 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
 
             case 1:
                 //"已支付"
-                ll_unPay.setVisibility(View.GONE);
-                ll_paying.setVisibility(View.GONE);
+//                ll_unPay.setVisibility(View.GONE);
+//                ll_paying.setVisibility(View.GONE);
                 ll_payed.setVisibility(View.VISIBLE);
-                ll_success.setVisibility(View.GONE);
-                ll_failed.setVisibility(View.GONE);
-                ll_apply.setVisibility(View.GONE);
-                ll_backing.setVisibility(View.GONE);
+//                ll_success.setVisibility(View.GONE);
+//                ll_failed.setVisibility(View.GONE);
+//                ll_apply.setVisibility(View.GONE);
+//                ll_backing.setVisibility(View.GONE);
 
                 BigDecimal amount1 = new BigDecimal(priceInfoList.getAmount());
                 amount11 = amount11.add(amount1);
@@ -377,13 +381,13 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
 
             case 2:
                 //"支付失败"
-                ll_unPay.setVisibility(View.GONE);
-                ll_paying.setVisibility(View.GONE);
-                ll_payed.setVisibility(View.GONE);
-                ll_success.setVisibility(View.GONE);
+//                ll_unPay.setVisibility(View.GONE);
+//                ll_paying.setVisibility(View.GONE);
+//                ll_payed.setVisibility(View.GONE);
+//                ll_success.setVisibility(View.GONE);
                 ll_failed.setVisibility(View.VISIBLE);
-                ll_apply.setVisibility(View.GONE);
-                ll_backing.setVisibility(View.GONE);
+//                ll_apply.setVisibility(View.GONE);
+//                ll_backing.setVisibility(View.GONE);
                 BigDecimal amount2 = new BigDecimal(priceInfoList.getAmount());
                 amount22 = amount22.add(amount2);
                 tv_payFailed_money.setText(amount22.doubleValue()+"");
@@ -401,12 +405,12 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
 
             case 3:
                 //"退款中"
-                ll_unPay.setVisibility(View.GONE);
-                ll_paying.setVisibility(View.GONE);
-                ll_payed.setVisibility(View.GONE);
-                ll_success.setVisibility(View.GONE);
-                ll_failed.setVisibility(View.GONE);
-                ll_apply.setVisibility(View.GONE);
+//                ll_unPay.setVisibility(View.GONE);
+//                ll_paying.setVisibility(View.GONE);
+//                ll_payed.setVisibility(View.GONE);
+//                ll_success.setVisibility(View.GONE);
+//                ll_failed.setVisibility(View.GONE);
+//                ll_apply.setVisibility(View.GONE);
                 ll_backing.setVisibility(View.VISIBLE);
                 BigDecimal amount3 = new BigDecimal(priceInfoList.getAmount());
                 amount33 = amount33.add(amount3);
@@ -426,13 +430,13 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
 
             case 4:
                 //"退款成功"
-                ll_unPay.setVisibility(View.GONE);
-                ll_paying.setVisibility(View.GONE);
-                ll_payed.setVisibility(View.GONE);
+//                ll_unPay.setVisibility(View.GONE);
+//                ll_paying.setVisibility(View.GONE);
+//                ll_payed.setVisibility(View.GONE);
                 ll_success.setVisibility(View.VISIBLE);
-                ll_failed.setVisibility(View.GONE);
-                ll_apply.setVisibility(View.GONE);
-                ll_backing.setVisibility(View.GONE);
+//                ll_failed.setVisibility(View.GONE);
+//                ll_apply.setVisibility(View.GONE);
+//                ll_backing.setVisibility(View.GONE);
                 BigDecimal amount4 = new BigDecimal(priceInfoList.getAmount());
                 amount44 = amount44.add(amount4);
                 tv_success_money.setText(amount44.doubleValue()+"");
@@ -451,13 +455,13 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
 
             case 5:
                 //"支付中"
-                ll_unPay.setVisibility(View.GONE);
+//                ll_unPay.setVisibility(View.GONE);
                 ll_paying.setVisibility(View.VISIBLE);
-                ll_payed.setVisibility(View.GONE);
-                ll_success.setVisibility(View.GONE);
-                ll_failed.setVisibility(View.GONE);
-                ll_apply.setVisibility(View.GONE);
-                ll_backing.setVisibility(View.GONE);
+//                ll_payed.setVisibility(View.GONE);
+//                ll_success.setVisibility(View.GONE);
+//                ll_failed.setVisibility(View.GONE);
+//                ll_apply.setVisibility(View.GONE);
+//                ll_backing.setVisibility(View.GONE);
                 BigDecimal amount5 = new BigDecimal(priceInfoList.getAmount());
                 amount55 = amount55.add(amount5);
                 tv_paying_money.setText(amount55.doubleValue()+"");
@@ -476,13 +480,13 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
 
             case 7:
 //                "申诉中"
-                ll_unPay.setVisibility(View.GONE);
-                ll_paying.setVisibility(View.GONE);
-                ll_payed.setVisibility(View.GONE);
-                ll_success.setVisibility(View.GONE);
-                ll_failed.setVisibility(View.GONE);
+//                ll_unPay.setVisibility(View.GONE);
+//                ll_paying.setVisibility(View.GONE);
+//                ll_payed.setVisibility(View.GONE);
+//                ll_success.setVisibility(View.GONE);
+//                ll_failed.setVisibility(View.GONE);
                 ll_apply.setVisibility(View.VISIBLE);
-                ll_backing.setVisibility(View.GONE);
+//                ll_backing.setVisibility(View.GONE);
                 BigDecimal amount7 = new BigDecimal(priceInfoList.getAmount());
                 amount77 = amount77.add(amount7);
                 tv_apply_money.setText(amount77.doubleValue()+"");
@@ -522,6 +526,7 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
                         if(baseModel.code==1) {
                             ToastUtil.showSuccessMsg(mActivity,baseModel.message);
                             addTipDialog.dismiss();
+                            getHuoDetail(id);
                         }else {
                             ToastUtil.showSuccessMsg(mActivity,baseModel.message);
                         }
@@ -676,6 +681,7 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
                     intent2.putExtra("orderDisplayId",data.getOrderDisplayId());
                     intent2.putExtra("sendAddress",data.getSendAddr());
                     intent2.putExtra("receiveAddress",data.getReceiveAddr());
+                    intent2.putExtra("latLon",data.getDriverInfo().getLatLon());
                     startActivity(intent2);
                 }
 

@@ -94,11 +94,9 @@ public class HuoHomeActivity extends BaseActivity implements View.OnClickListene
     ImageView iv_huo;
     @BindView(R.id.iv1)
     ImageView iv1;
-    ChooseRequireAdapter chooseRequireAdapter;
     int position = 0;
-    //附加要求选择
-    List<Integer> list = new ArrayList<>();
     String orderId;
+
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         orderId = getIntent().getStringExtra("orderId");
@@ -157,7 +155,7 @@ public class HuoHomeActivity extends BaseActivity implements View.OnClickListene
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rb_quick:
-                        switchOrder();
+                        switchOrder(cityId);
                         rl_info.setVisibility(View.VISIBLE);
                         rb_quick.setBackgroundResource(R.drawable.shape_white3);
                         rb_order.setBackgroundResource(R.drawable.ysf_action_bar_icon_transparent);
@@ -180,7 +178,8 @@ public class HuoHomeActivity extends BaseActivity implements View.OnClickListene
     FragmentTransaction fragmentTransaction;
     HuoOrderFragment huoOrderFragment;
     QuickFragment qucikFragment;
-    private void switchOrder() {
+    private void switchOrder(String cityId) {
+
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
         rb_order.setClickable(true);
         if (huoOrderFragment == null) {
@@ -188,6 +187,7 @@ public class HuoHomeActivity extends BaseActivity implements View.OnClickListene
             fragmentTransaction.add(R.id.content, huoOrderFragment, HuoOrderFragment.class.getCanonicalName());
             Bundle bundle = new Bundle();
             bundle.putString("orderId",orderId);
+            bundle.putString("cityId",cityId);
             huoOrderFragment.setArguments(bundle);
         }
         fragmentTransaction.show(huoOrderFragment);
@@ -227,53 +227,8 @@ public class HuoHomeActivity extends BaseActivity implements View.OnClickListene
 
         isAuth();
     }
-    CarStyleModel.DataBean data;
-    //附加要求集合
-    List<CarStyleModel.DataBean.SpecReqItemBean> reqList = new ArrayList<>();
-    MyCarPagerAdapter myCarPagerAdapter;
-    List<CarStyleModel.DataBean.VehicleListBean> vehicle_list = new ArrayList<>();
-    private void getCarStyle(String cityId,String orderId) {
-        HuolalaAPI.getCarStyle(mActivity,cityId,orderId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<CarStyleModel>() {
-                    @Override
-                    public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-
-                    @Override
-                    public void onNext(CarStyleModel carStyleModel) {
-                        if(carStyleModel.getCode()==1) {
-                            if(carStyleModel.getData()!=null) {
-                                reqList.clear();
-                                data = carStyleModel.getData();
-                                tv_location.setText(data.getName());
-
-                                vehicle_list.clear();
-                                vehicle_list.addAll(data.getVehicle_list());
-                                reqList.addAll(data.getSpec_req_item());
-                                myCarPagerAdapter = new MyCarPagerAdapter(vehicle_list,mContext);
-                                viewPager.setAdapter(myCarPagerAdapter);
-                                myCarPagerAdapter.notifyDataSetChanged();
-                                tab_layout.setupWithViewPager(viewPager);
-                                SharedPreferencesUtil.saveString(mContext,"huoCityName",carStyleModel.getData().getName());
-                                SharedPreferencesUtil.saveString(mContext,"huoCityId",carStyleModel.getData().getCity_id());
-
-                                switchOrder();
-
-                            }
-                        }else {
-                            ToastUtil.showSuccessMsg(mContext,carStyleModel.getMessage());
-                        }
-                    }
-                });
-    }
-
+    String cityId;
     private void getCityId(String orderId) {
         HuolalaAPI.getCityId(mActivity,orderId)
                 .subscribeOn(Schedulers.io())
@@ -293,8 +248,8 @@ public class HuoHomeActivity extends BaseActivity implements View.OnClickListene
                     public void onNext(HuoCityIdModel huoCityIdModel) {
                         if(huoCityIdModel.getCode()==1) {
                             if(huoCityIdModel.getData()!=null) {
-//                                getCarStyle(huoCityIdModel.getData().getCity_id()+"",orderId);
-                                switchOrder();
+                                cityId = huoCityIdModel.getData().getCity_id();
+                                switchOrder(huoCityIdModel.getData().getCity_id());
                                 tv_location.setText(huoCityIdModel.getData().getName());
                                 SharedPreferencesUtil.saveString(mContext,"huoCityName",huoCityIdModel.getData().getName());
                                 SharedPreferencesUtil.saveString(mContext,"huoCityId",huoCityIdModel.getData().getCity_id());
@@ -359,7 +314,7 @@ public class HuoHomeActivity extends BaseActivity implements View.OnClickListene
                         if(isAuthModel.getCode()==1) {
                             if(isAuthModel.getData()!=null) {
                                 if(isAuthModel.getData().isAuthorize()) {
-                                    startActivity(CommonH5Activity.getIntent(mContext,CommonH5Activity.class,isAuthModel.getData().getAuthUrl()));
+                                    startActivity(CommonH5Activity.getIntent(mContext,CommonH6Activity.class,isAuthModel.getData().getAuthUrl()));
                                 }
                                 tv_phone.setText(isAuthModel.getData().getAuthPhone());
                             }
@@ -403,6 +358,7 @@ public class HuoHomeActivity extends BaseActivity implements View.OnClickListene
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getCity(HuoCityEvent huoCityEvent) {
         tv_location.setText(huoCityEvent.getName());
+        cityId = huoCityEvent.getCityId();
 //        getCarStyle(huoCityEvent.getCityId(),orderId);
     }
 

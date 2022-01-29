@@ -95,7 +95,7 @@ public class HuoDetailModel {
         private String createTime;
         private String totalPrice;
         private String payPrice;
-        private int unpaidPrice;
+        private String unpaidPrice;
         private int canOrderCancel;
         private int needToCancelReason;
         private int needToPay;
@@ -210,11 +210,11 @@ public class HuoDetailModel {
             this.payPrice = payPrice;
         }
 
-        public int getUnpaidPrice() {
+        public String getUnpaidPrice() {
             return unpaidPrice;
         }
 
-        public void setUnpaidPrice(int unpaidPrice) {
+        public void setUnpaidPrice(String unpaidPrice) {
             this.unpaidPrice = unpaidPrice;
         }
 
@@ -538,7 +538,7 @@ public class HuoDetailModel {
                 this.latLon = latLon;
             }
 
-            public static class LatLonBean {
+            public static class LatLonBean implements Serializable{
                 /**
                  * lat : 22.6458664
                  * lon : 113.788322

@@ -43,9 +43,13 @@ public class HuoEditAddressActivity extends BaseActivity implements View.OnClick
     @BindView(R.id.bt_sure)
     Button bt_sure;
     int type;
+    String cityId;
+    String orderId;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         type = getIntent().getIntExtra("type", 0);
+        cityId = getIntent().getStringExtra("cityId");
+        orderId = getIntent().getStringExtra("orderId");
         return false;
     }
 
@@ -72,32 +76,8 @@ public class HuoEditAddressActivity extends BaseActivity implements View.OnClick
     public void setClickEvent() {
         iv_back.setOnClickListener(this);
         tv_address.setOnClickListener(this);
-        et_phone.addTextChangedListener(textWatcher);
-        et_name.addTextChangedListener(textWatcher);
         bt_sure.setOnClickListener(this);
     }
-
-    private TextWatcher textWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-//            if (StringHelper.notEmptyAndNull(et_name.getText().toString())
-//                    && StringHelper.notEmptyAndNull(et_phone.getText().toString())) {
-//                bt_sure.setEnabled(true);
-//            } else {
-//                bt_sure.setEnabled(false);
-//            }
-        }
-    };
 
     @Override
     public void onClick(View v) {
@@ -119,6 +99,11 @@ public class HuoEditAddressActivity extends BaseActivity implements View.OnClick
                     return;
                 }
 
+                if(etPhone.length()!=11) {
+                    ToastUtil.showSuccessMsg(mContext,"请填写11位手机号");
+                    return;
+                }
+
                 SharedPreferencesUtil.saveString(mContext,"etName",etName);
                 SharedPreferencesUtil.saveString(mContext,"etDesc",etDesc);
                 SharedPreferencesUtil.saveString(mContext,"etPhone",etPhone);
@@ -133,7 +118,8 @@ public class HuoEditAddressActivity extends BaseActivity implements View.OnClick
 
             case R.id.tv_address:
                 Intent intent = new Intent(mContext,HuoSearchAddressActivity.class);
-                intent.putExtra("type",type);
+                intent.putExtra("orderId",orderId);
+                intent.putExtra("cityId",cityId);
                 startActivity(intent);
                 break;
         }
@@ -149,15 +135,8 @@ public class HuoEditAddressActivity extends BaseActivity implements View.OnClick
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getCity(HuoCityEvent huoCityEvent) {
-//        SharedPreferencesUtil.saveString(mContext,"etName","");
-//        SharedPreferencesUtil.saveString(mContext,"etDesc","");
-//        SharedPreferencesUtil.saveString(mContext,"etPhone","");
-//        SharedPreferencesUtil.saveString(mContext,"address","");
-//
-//        et_name.setText("");
-//        et_desc.setText("");
-//        et_phone.setText("");
-//        tv_address.setText("");
+        SharedPreferencesUtil.saveString(mContext,"address","");
+        tv_address.setText("");
     }
 
 }

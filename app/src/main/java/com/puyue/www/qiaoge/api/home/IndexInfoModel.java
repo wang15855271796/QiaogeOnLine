@@ -111,6 +111,24 @@ public class IndexInfoModel {
         String giftReceiveBtn;
         private UserPopup userPopup;
         private HomePopup homePopup;
+        int hllOrderCallNum;
+        String orderId;
+
+        public int getHllOrderCallNum() {
+            return hllOrderCallNum;
+        }
+
+        public void setHllOrderCallNum(int hllOrderCallNum) {
+            this.hllOrderCallNum = hllOrderCallNum;
+        }
+
+        public String getOrderId() {
+            return orderId;
+        }
+
+        public void setOrderId(String orderId) {
+            this.orderId = orderId;
+        }
 
         public String getProvinceName() {
             return provinceName;

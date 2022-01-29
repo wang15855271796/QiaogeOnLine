@@ -3,8 +3,10 @@ package com.puyue.www.qiaoge.fragment.cart;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.JsonObject;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.HuoEditAddressActivity;
 import com.puyue.www.qiaoge.activity.HuoEditxActivity;
@@ -81,17 +84,22 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
     AVLoadingIndicatorView lav_loading;
     @BindView(R.id.tv_desc)
     TextView tv_desc;
-    int positions;
+    @BindView(R.id.iv_pre)
+    ImageView iv_pre;
+    @BindView(R.id.iv_next)
+    ImageView iv_next;
+    int positions = 0;
     //附加要求选择
     List<Integer> list = new ArrayList<>();
     //附加要求选择描述
     List<String> listDesc = new ArrayList<>();
     //车型id
     String id;
-    List<CarStyleModel.DataBean.SpecReqItemBean> vehicleStdItem;
-    int type;
     String cityInfoRevision;
     String orderId;
+    String address;
+    String cityId;
+    int orderTime = 0;
     @Override
     public int setLayoutId() {
         return R.layout.fragment_huo_order;
@@ -111,60 +119,78 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
     public void setViewData() {
         EventBus.getDefault().register(this);
         Bundle bundle=getArguments();
-        id=bundle.getString("id");
         ll_price.setVisibility(View.GONE);
         orderId = bundle.getString("orderId");
-        tab_layout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        address = bundle.getString("address");
+        cityId = bundle.getString("cityId");
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                positions = tab.getPosition();
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                positions = position;
                 reqList.clear();
+                listDesc.clear();
                 reqList.addAll(data.getVehicle_list().get(positions).getVehicle_std_item());
+                id = data.getVehicle_list().get(positions).getOrder_vehicle_id();
                 if(reqList.size()>0) {
                     tv_desc.setVisibility(View.VISIBLE);
                 }else {
                     tv_desc.setVisibility(View.GONE);
                 }
-                if(dataBean!=null) {
-                    getPrice(dataBean.getCity_id(),data.getCity_info_revision(),
+
+                if(jsonArray1.length()>1) {
+                    getPrice(data.getCity_id(),data.getCity_info_revision(),
                             data.getVehicle_list().get(positions).getOrder_vehicle_id(),"",
-                            StringUtils.join(list, ","),jsonArray1,0,"");
+                            "",jsonArray1,orderTime,"",StringUtils.join(listDesc, ","),invoiceType);
                 }
-
                 chooseRequireAdapter.notifyDataSetChanged();
-
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
+            public void onPageScrollStateChanged(int state) {
             }
         });
         lav_loading.show();
         getTime();
-        String huoCityId = SharedPreferencesUtil.getString(mActivity, "huoCityId");
-        getCarStyle(huoCityId,orderId);
+        getCarStyle(cityId,orderId);
         recyclerView.setLayoutManager(new GridLayoutManager(mActivity,2));
         chooseRequireAdapter =  new ChooseRequireAdapter(R.layout.item_choose_req,reqList);
         recyclerView.setAdapter(chooseRequireAdapter);
-
         chooseRequireAdapter.setOnItemClickListener(new ChooseRequireAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, boolean hasFocus) {
                 String name = reqList.get(position).getName();
                 if(hasFocus) {
                     listDesc.add(name);
+                    if(data!=null) {
+                        getPrice(data.getCity_id(),data.getCity_info_revision(),
+                                data.getVehicle_list().get(positions).getOrder_vehicle_id(),"",
+                                "",jsonArray1,orderTime,"", StringUtils.join(listDesc, ","),invoiceType);
+                    }
+
                 }else {
                     listDesc.remove(name);
+                    if(data!=null) {
+                        getPrice(data.getCity_id(),data.getCity_info_revision(),
+                                data.getVehicle_list().get(positions).getOrder_vehicle_id(),"",
+                                "",jsonArray1,orderTime,"", StringUtils.join(listDesc, ","),invoiceType);
+                    }
                 }
             }
 
         });
+
+        if(orderId!=null&&!TextUtils.isEmpty(orderId)) {
+            tv_zhuang.setEnabled(false);
+            tv_unload.setEnabled(false);
+        }else {
+            tv_zhuang.setEnabled(true);
+            tv_unload.setEnabled(true);
+        }
     }
 
     @Override
@@ -174,14 +200,33 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
         ll_price.setOnClickListener(this);
         tv_appoint.setOnClickListener(this);
         tv_now.setOnClickListener(this);
+        iv_pre.setOnClickListener(this);
+        iv_next.setOnClickListener(this);
     }
 
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
+            case R.id.iv_pre:
+                if(positions==0) {
+                    return;
+                }
+                positions--;
+                viewPager.setCurrentItem(positions);
+                break;
+
+            case R.id.iv_next:
+                if(vehicle_list.size()== positions) {
+                    return;
+                }
+                positions++;
+                viewPager.setCurrentItem(positions);
+                break;
+
             case R.id.tv_now:
-                if(priceData!=null) {
+                if(priceData!=null&&data!=null) {
                     Intent orderIntent = new Intent(mActivity, HuoOrderConfirmActivity.class);
                     orderIntent.putExtra("reqList", (Serializable) listDesc);
                     orderIntent.putExtra("list", (Serializable) list);
@@ -198,11 +243,11 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
                     orderIntent.putExtra("id", id);
                     orderIntent.putExtra("lat", lat);
                     orderIntent.putExtra("lon", lon);
+                    orderIntent.putExtra("cityId", data.getCity_id());
                     orderIntent.putExtra("orderId", orderId);
-                    orderIntent.putExtra("dataBean", (Serializable) dataBean);
                     orderIntent.putExtra("cityInfoRevision",cityInfoRevision);
                     EventBus.getDefault().postSticky(new JSONEvent(jsonArray1));
-                    orderIntent.putExtra("vehicleStdItem", (Serializable) reqList);
+                    orderIntent.putExtra("vehicleStdItem", (Serializable) specList);
                     startActivity(orderIntent);
                 }else {
                     ToastUtil.showSuccessMsg(mActivity,"请填写装货/卸货信息");
@@ -221,13 +266,22 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
             case R.id.tv_zhuang:
                 Intent intent = new Intent(mActivity, HuoEditAddressActivity.class);
                 intent.putExtra("type",1);
+                intent.putExtra("cityId",cityId);
+                intent.putExtra("orderId",orderId);
                 startActivity(intent);
                 break;
 
             case R.id.tv_unload:
-                Intent intents = new Intent(mActivity, HuoEditxActivity.class);
-                intents.putExtra("type",2);
-                startActivity(intents);
+                if(tv_zhuang.getText().toString()!=null&&!tv_zhuang.getText().toString().equals("")) {
+                    Intent intents = new Intent(mActivity, HuoEditxActivity.class);
+                    intents.putExtra("type",2);
+                    intents.putExtra("cityId",cityId);
+                    intents.putExtra("orderId",orderId);
+                    startActivity(intents);
+                }else {
+                    ToastUtil.showSuccessMsg(mActivity,"请先填写装货地址");
+                }
+
                 break;
 
             case R.id.ll_price:
@@ -239,6 +293,7 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
                 intentss.putExtra("carStyle", data.getVehicle_list().get(positions).getVehicle_name());
                 intentss.putExtra("priceList", (Serializable) priceData.getCalculate_price_info());
                 intentss.putExtra("id", id);
+                intentss.putExtra("cityId",cityId);
                 startActivity(intentss);
                 break;
         }
@@ -255,7 +310,6 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 //返回的分别是三个级别的选中位置
-
                 Intent intent = new Intent(mActivity,HuoOrderConfirmActivity.class);
                 intent.putExtra("time",minList.get(options1).get(options2).get(options3).getDateTime());
                 intent.putExtra("reqList", (Serializable) listDesc);
@@ -270,13 +324,12 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
                 intent.putExtra("xPhone", xPhone);
                 intent.putExtra("orderTime", "1");
                 intent.putExtra("id", id);
+                intent.putExtra("cityId", data.getCity_id());
                 intent.putExtra("lat", lat);
                 intent.putExtra("lon", lon);
-                intent.putExtra("dataBean", (Serializable) dataBean);
                 intent.putExtra("cityInfoRevision",cityInfoRevision);
                 EventBus.getDefault().postSticky(new JSONEvent(jsonArray1));
-                intent.putExtra("vehicleStdItem", (Serializable) reqList);
-                startActivity(intent);
+                intent.putExtra("vehicleStdItem", (Serializable) specList);
                 startActivity(intent);
             }
         })
@@ -295,8 +348,11 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
 
     ChooseRequireAdapter chooseRequireAdapter;
     CarStyleModel.DataBean data;
+    List<CarStyleModel.DataBean.VehicleListBean> vehicle_list = new ArrayList<>();
     //附加要求集合
     List<CarStyleModel.DataBean.VehicleListBean.VehicleStdItem> reqList = new ArrayList<>();
+    List<CarStyleModel.DataBean.SpecReqItemBean> specList = new ArrayList<>();
+    MyCarPagerAdapter myCarPagerAdapter;
     private void getCarStyle(String cityId,String orderId) {
         HuolalaAPI.getCarStyle(mActivity,cityId,orderId)
                 .subscribeOn(Schedulers.io())
@@ -319,23 +375,80 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
                             if(carStyleModel.getData()!=null) {
                                 reqList.clear();
                                 data = carStyleModel.getData();
-                                List<CarStyleModel.DataBean.VehicleListBean> vehicle_list = data.getVehicle_list();
+                                vehicle_list = data.getVehicle_list();
+                                specList.clear();
+                                specList.addAll(data.getSpec_req_item());
                                 reqList.addAll(data.getVehicle_list().get(positions).getVehicle_std_item());
                                 cityInfoRevision = data.getCity_info_revision();
-                                MyCarPagerAdapter myCarPagerAdapter = new MyCarPagerAdapter(vehicle_list,mActivity);
+                                id = data.getVehicle_list().get(positions).getOrder_vehicle_id();
+                                myCarPagerAdapter = new MyCarPagerAdapter(vehicle_list,mActivity);
                                 viewPager.setAdapter(myCarPagerAdapter);
                                 tab_layout.setupWithViewPager(viewPager);
                                 chooseRequireAdapter.notifyDataSetChanged();
-
-                                if(dataBean!=null) {
-                                    getPrice(data.getCity_id(),data.getCity_info_revision(),
-                                            data.getVehicle_list().get(positions).getOrder_vehicle_id(),"",
-                                            StringUtils.join(list, ","),jsonArray1,0,"");
-                                }
                                 myCarPagerAdapter.notifyDataSetChanged();
                                 lav_loading.hide();
 
+                                tv_unload.setText(data.getReceiveAddr().getAddr());
 
+                                if(carStyleModel.getData().getReceiveAddr()!=null) {
+                                    tv_unload.setText(data.getReceiveAddr().getAddr());
+                                    CarStyleModel.DataBean.ReceiveAddrBean receiveAddr = data.getReceiveAddr();
+                                    JSONObject jsonObject;
+                                    JSONObject jsonObject1;
+                                    try {
+                                        jsonObject = new JSONObject();
+                                        jsonObject.put("district_name",receiveAddr.getDistrict_name());
+                                        jsonObject.put("addr",receiveAddr.getAddr());
+                                        jsonObject.put("name",receiveAddr.getName());
+                                        jsonObject.put("house_number",receiveAddr.getHouse_number());
+                                        jsonObject.put("city_name",receiveAddr.getCity_name());
+                                        jsonObject.put("city_id",receiveAddr.getCity_id());
+                                        jsonObject.put("contacts_name",receiveAddr.getContacts_name());
+                                        jsonObject.put("contacts_phone_no",receiveAddr.getContacts_phone_no());
+                                        jsonObject1 = new JSONObject();
+                                        jsonObject1.put("lat",receiveAddr.getLat_lon().getLat());
+                                        jsonObject1.put("lon",receiveAddr.getLat_lon().getLon());
+                                        jsonObject.put("lat_lon",jsonObject1);
+                                        jsonArray1.put(jsonObject);
+                                        xName = receiveAddr.getContacts_name();
+                                        xPhone = receiveAddr.getContacts_phone_no();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                tv_zhuang.setText(data.getSendAddr().getAddr());
+                                if(carStyleModel.getData().getSendAddr()!=null) {
+                                    tv_zhuang.setText(data.getSendAddr().getAddr());
+                                    CarStyleModel.DataBean.SendAddrBean sendAddr = data.getSendAddr();
+                                    JSONObject jsonObject;
+                                    JSONObject jsonObject1;
+                                    try {
+                                        jsonObject = new JSONObject();
+                                        jsonObject.put("district_name",sendAddr.getDistrict_name());
+                                        jsonObject.put("addr",sendAddr.getAddr());
+                                        jsonObject.put("name",sendAddr.getName());
+                                        jsonObject.put("house_number",sendAddr.getHouse_number());
+                                        jsonObject.put("city_name",sendAddr.getCity_name());
+                                        jsonObject.put("city_id",sendAddr.getCity_id());
+                                        jsonObject.put("contacts_name",sendAddr.getContacts_name());
+                                        jsonObject.put("contacts_phone_no",sendAddr.getContacts_phone_no());
+                                        jsonObject1 = new JSONObject();
+                                        jsonObject1.put("lat",sendAddr.getLat_lon().getLat());
+                                        jsonObject1.put("lon",sendAddr.getLat_lon().getLon());
+                                        jsonObject.put("lat_lon",jsonObject1);
+                                        jsonArray1.put(jsonObject);
+                                        zName = sendAddr.getContacts_name();
+                                        zPhone = sendAddr.getContacts_phone_no();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                if(orderId!=null&&!TextUtils.isEmpty(orderId)) {
+                                    getPrice(data.getCity_id(),data.getCity_info_revision(),
+                                            data.getVehicle_list().get(positions).getOrder_vehicle_id(),"",
+                                            "",jsonArray1,orderTime,"",StringUtils.join(listDesc, ","),invoiceType);
+                                }
                             }
                         }else {
                             lav_loading.hide();
@@ -344,7 +457,6 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
                     }
                 });
     }
-
 
     private void getTime() {
         HuolalaAPI.getAppoint(mActivity)
@@ -409,12 +521,14 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getAddress(HuoAddressEvent huoAddressEvent) {
         this.huoAddressEvent = huoAddressEvent;
+
         dataBean = huoAddressEvent.getDataBean();
         if(huoAddressEvent.getType()==1) {
             tv_zhuang.setText(dataBean.getAddr());
             zPhone = huoAddressEvent.getPhone();
             zName = huoAddressEvent.getName();
         }else {
+
             xPhone = huoAddressEvent.getPhone();
             xName = huoAddressEvent.getName();
             tv_unload.setText(dataBean.getAddr());
@@ -422,6 +536,7 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
         AddressListModel.DataBean.LatLonBean lat_lon = dataBean.getLat_lon();
         lat = lat_lon.getLat();
         lon = lat_lon.getLon();
+
         JSONObject jsonObject;
         try {
             jsonObject = new JSONObject();
@@ -438,19 +553,25 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
             jsonObject1.put("lat",dataBean.getLat_lon().getLat());
             jsonObject1.put("lon",dataBean.getLat_lon().getLon());
             jsonObject.put("lat_lon",jsonObject1);
-            jsonArray1.put(jsonObject);
+            if(huoAddressEvent.getType()==1) {
+                jsonArray1.put(0,jsonObject);
+            }else {
+                jsonArray1.put(1,jsonObject);
+            }
             getPrice(dataBean.getCity_id(),data.getCity_info_revision(),
-                    data.getVehicle_list().get(positions).getOrder_vehicle_id(),"", StringUtils.join(list, ","),jsonArray1,0,"");
+                    data.getVehicle_list().get(positions).getOrder_vehicle_id(),"", "",
+                    jsonArray1,orderTime,"",StringUtils.join(listDesc, ","),invoiceType);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
+    int invoiceType = 0;
     DealPriceModel.DataBean priceData;
     private void getPrice(String city_id, String city_info_revision, String order_vehicle_id, String couponId,
-                          String spec_req, JSONArray addInfo, int orderTime, String reserve_time) {
-        HuolalaAPI.getPrice(mActivity,city_id,city_info_revision,order_vehicle_id,couponId,spec_req,addInfo,orderTime,reserve_time)
+                          String spec_req, JSONArray addInfo, int orderTime, String reserve_time,String vehicle_std,int invoiceType) {
+        HuolalaAPI.getPrice(mActivity,city_id,city_info_revision,order_vehicle_id,couponId,spec_req,addInfo,orderTime,reserve_time,vehicle_std,invoiceType)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<DealPriceModel>() {
@@ -480,10 +601,20 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getCity(HuoCityEvent huoCityEvent) {
-        positions = 0;
-        getCarStyle(huoCityEvent.getCityId(),orderId);
+        cityId = huoCityEvent.getCityId();
+        SharedPreferencesUtil.saveString(mActivity,"huoCityName",huoCityEvent.getName());
+        getCarStyle(cityId,orderId);
+        tv_unload.setText("");
+        tv_zhuang.setText("");
+        ll_price.setVisibility(View.GONE);
 
+        try {
+            jsonArray1 = new JSONArray("[]");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.d("sada.........", jsonArray1.length()+"-----"+cityId);
 
+        dataBean = null;
     }
-
 }

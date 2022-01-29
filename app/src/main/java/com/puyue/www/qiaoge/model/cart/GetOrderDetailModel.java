@@ -114,7 +114,7 @@ public class GetOrderDetailModel {
         public int salePay;
         public List<OrderProdsBean> orderProds;
         public int deliveryModel;
-        public String showHllDesc;
+        public int showHllDesc;
         public String hllEndTime;
         public String hllOrderId;
         public String hllOrderStatusName;
@@ -122,6 +122,8 @@ public class GetOrderDetailModel {
             return deliveryModel;
         }
         public List<String> hllConnectOrderIds;
+
+
         public void setDeliveryModel(int deliveryModel) {
             this.deliveryModel = deliveryModel;
         }

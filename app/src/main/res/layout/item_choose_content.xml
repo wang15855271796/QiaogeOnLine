@@ -101,8 +101,18 @@
        <ImageView
            android:src="@mipmap/icon_trend"
            android:layout_marginLeft="@dimen/size_15dp"
+           android:layout_gravity="center_vertical"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_weight"
+            android:layout_marginLeft="@dimen/dp_10"
+            tools:text="重量"
+            android:textSize="@dimen/sp_12"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

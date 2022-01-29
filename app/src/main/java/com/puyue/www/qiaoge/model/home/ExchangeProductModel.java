@@ -324,6 +324,16 @@ public class ExchangeProductModel {
             private int productUnit;
             private String unitDesc;
             private String specialOffer;
+            private String weight;
+
+            public String getWeight() {
+                return weight;
+            }
+
+            public void setWeight(String weight) {
+                this.weight = weight;
+            }
+
             public String getSpecialOffer() {
                 return specialOffer;
             }

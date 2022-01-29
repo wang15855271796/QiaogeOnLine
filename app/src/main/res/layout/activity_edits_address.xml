@@ -112,9 +112,8 @@
                             android:layout_marginRight="20dp"
                             android:layout_weight="1"
                             android:background="@null"
+                            android:maxLength="13"
                             android:hint="选填"
-                            android:inputType="number"
-                            android:maxLength="11"
                             android:textColor="#232131"
                             android:textColorHint="#D5D5D5"
                             android:textSize="18dp" />
@@ -184,7 +183,7 @@
                             android:inputType="number"
                             android:background="@null"
                             android:gravity="center_vertical"
-                            android:hint="联系人手机号/座机(必填)"
+                            android:hint="联系人手机号(必填)"
                             android:textColor="#232131"
                             android:textSize="18dp" />
                     </LinearLayout>

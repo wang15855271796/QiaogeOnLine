@@ -12,6 +12,7 @@ import com.puyue.www.qiaoge.model.CancelReasonModel;
 import com.puyue.www.qiaoge.model.CarPriceModel;
 import com.puyue.www.qiaoge.model.CarStyleModel;
 import com.puyue.www.qiaoge.model.DealPriceModel;
+import com.puyue.www.qiaoge.model.HasConnectModel;
 import com.puyue.www.qiaoge.model.HuoAddressModel;
 import com.puyue.www.qiaoge.model.HuoCityIdModel;
 import com.puyue.www.qiaoge.model.HuoCityModel;
@@ -82,14 +83,16 @@ public class HuolalaAPI {
                                            @Field("spec_req") String spec_req,
                                            @Field("addrInfo") JSONArray addrInfo,
                                            @Field("orderTime") int orderTime,
-                                           @Field("reserve_time") String reserve_time);
+                                           @Field("reserve_time") String reserve_time,
+                                           @Field("vehicle_std") String vehicle_std,
+                                           @Field("invoiceType") int invoiceType);
     }
 
     public static Observable<DealPriceModel> getPrice(Context context, String city_id, String city_info_revision
-            ,String order_vehicle_id,String coupon_id,String spec_req,JSONArray addrInfo,int orderTime,String reserve_time) {
+            ,String order_vehicle_id,String coupon_id,String spec_req,JSONArray addrInfo,int orderTime,String reserve_time,String vehicle_std,int invoiceType) {
         DealPriceService service = RestHelper.getBaseRetrofit(context).create(DealPriceService.class);
         return service.getData(city_id,city_info_revision,order_vehicle_id,coupon_id,spec_req
-                ,addrInfo,orderTime,reserve_time);
+                ,addrInfo,orderTime,reserve_time,vehicle_std,invoiceType);
     }
 
     //订单列表
@@ -326,5 +329,17 @@ public class HuolalaAPI {
     public static Observable<BaseModel> getConnection(Context context, String orderId, String hllOrderId) {
         ConnectionService service = RestHelper.getBaseRetrofit(context).create(ConnectionService.class);
         return service.getData(orderId,hllOrderId);
+    }
+
+    //判断是否有关联订单
+    public interface HasConnectionService{
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Has_Connection_Id)
+        Observable<HasConnectModel> getData(@Field("orderId") String orderId);
+    }
+
+    public static Observable<HasConnectModel> getHasConnection(Context context, String orderId) {
+        HasConnectionService service = RestHelper.getBaseRetrofit(context).create(HasConnectionService.class);
+        return service.getData(orderId);
     }
 }

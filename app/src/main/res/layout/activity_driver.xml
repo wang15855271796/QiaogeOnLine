@@ -51,6 +51,7 @@
                 android:textSize="18dp" />
 
             <TextView
+                android:id="@+id/tv_refresh"
                 android:text="刷新"
                 android:textColor="#333333"
                 android:textSize="14dp"
