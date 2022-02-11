@@ -569,6 +569,24 @@ public class HuoDetailModel {
             String bilTypeName;
             int billType;
             double amount;
+            String num;
+            private  boolean isCheck=false;
+
+            public boolean isCheck() {
+                return isCheck;
+            }
+
+            public void setCheck(boolean check) {
+                isCheck = check;
+            }
+
+            public String getNum() {
+                return num;
+            }
+
+            public void setNum(String num) {
+                this.num = num;
+            }
 
             public String getBilTypeName() {
                 return bilTypeName;

@@ -18,7 +18,7 @@ public class AppInterfaceAddress {
     /**
      *判断是否有关联订单
      */
-    public static final String Has_Connection_Id = "commonOrder/haveHllOrderToBind ";
+    public static final String Has_Connection_Id = "commonOrder/haveHllOrderToBind";
     /**
      * 关联货拉拉订单
      */

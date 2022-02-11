@@ -85,8 +85,9 @@ public class HuoCancelActivity extends BaseActivity implements View.OnClickListe
             ll_box1.setVisibility(View.VISIBLE);
             ll_box2.setVisibility(View.GONE);
         }else {
-            ll_box1.setVisibility(View.VISIBLE);
-            ll_box2.setVisibility(View.GONE);
+
+            ll_box1.setVisibility(View.GONE);
+            ll_box2.setVisibility(View.VISIBLE);
         }
     }
 
@@ -158,16 +159,16 @@ public class HuoCancelActivity extends BaseActivity implements View.OnClickListe
                 break;
 
             case R.id.tv_cancel:
-                cancelOrder(displayId,name);
+                if(!name.equals("")&&!TextUtils.isEmpty(name)) {
+                    cancelOrder(displayId,name);
+                }else {
+                    ToastUtil.showSuccessMsg(mContext,"请选择原因");
+                }
+
                 break;
 
             case R.id.tv_sure:
-                if(et_reason.getText().toString().equals("")||et_reason.getText().toString()==null) {
-                    ToastUtil.showErroMsg(mContext,"请填写原因");
-                }else {
-                    cancelOrder(displayId,et_reason.getText().toString());
-                }
-
+                cancelOrder(displayId,et_reason.getText().toString());
                 break;
 
 
@@ -198,6 +199,7 @@ public class HuoCancelActivity extends BaseActivity implements View.OnClickListe
                     public void onNext(BaseModel baseModel) {
                         if(baseModel.code==1) {
                             ToastUtil.showSuccessMsg(mActivity,baseModel.message);
+                            finish();
                         }else {
                             ToastUtil.showSuccessMsg(mActivity,baseModel.message);
                         }
@@ -207,16 +209,16 @@ public class HuoCancelActivity extends BaseActivity implements View.OnClickListe
 
 
     List<CancelReasonModel.DataBean.SubReasonBean> sub_reason_list;
-    String name;
+    String name = "";
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getReason(HuoReasonEvent huoReasonEvent) {
-        name = huoReasonEvent.getName();
         tv_reason1.setText(huoReasonEvent.getName());
         sub_reason_list = huoReasonEvent.getSub_reason();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getReason1(HuoReason1Event huoReasonEvent) {
+        name = huoReasonEvent.getName();
         tv_reason2.setText(huoReasonEvent.getName());
     }
 }

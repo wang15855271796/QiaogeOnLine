@@ -122,7 +122,6 @@ public class NewWebViewActivity extends BaseSwipeActivity {
     private List<String> list;
     private int iphone;
 
-
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -146,7 +145,6 @@ public class NewWebViewActivity extends BaseSwipeActivity {
     @Override
     public void setViewData() {
         mUrl = getIntent().getStringExtra("URL");
-
         type = getIntent().getIntExtra("TYPE", 0);
         name = getIntent().getStringExtra("name");
         if (name.equals("consult") || name.equals("协议")) {
@@ -314,6 +312,9 @@ public class NewWebViewActivity extends BaseSwipeActivity {
                 .add(AppConstant.VERSION, AppHelper.getVersion(mContext))
                 .add(AppConstant.STIME, stime)
                 .add(AppConstant.SIGN, AppSafeHelper.sign(stime))
+                .add(AppConstant.changeFlag,UserInfoHelper.getChangeFlag(mContext))
+                .add(AppConstant.AreaName,UserInfoHelper.getAreaName(mContext))
+                .add(AppConstant.CITYNAME,UserInfoHelper.getCity(mContext))
                 .add(AppConstant.TOKEN, UserInfoHelper.getUserId(mContext))
                 .build();
         Request request = new Request.Builder()

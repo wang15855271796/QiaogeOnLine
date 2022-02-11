@@ -123,8 +123,6 @@ public class HuoMyOrderFragment extends BaseFragment {
                 startActivity(intent);
             }
         });
-
-
     }
 
     @Override

@@ -26,6 +26,7 @@ import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.CommonH5Activity;
+import com.puyue.www.qiaoge.activity.CommonH6Activity;
 import com.puyue.www.qiaoge.activity.HuoHomeActivity;
 import com.puyue.www.qiaoge.activity.mine.FeedBackActivity;
 import com.puyue.www.qiaoge.activity.mine.MessageCenterActivity;
@@ -738,14 +739,14 @@ public class MineFragment extends BaseFragment {
 //                Intent intent = new Intent(getActivity(), HuoHomeActivity.class);
 //                startActivity(intent);
 //                isAuth();
-//                Intent intent = new Intent(getContext(), NewWebViewActivity.class);
-//                intent.putExtra("URL", urlVIP);
-//                intent.putExtra("TYPE", 1);
-//                intent.putExtra("name", "");
-//                startActivity(intent);
-//                getCode();
-                Intent intent = new Intent(getActivity(), HuoHomeActivity.class);
+                Intent intent = new Intent(getContext(), NewWebViewActivity.class);
+                intent.putExtra("URL", urlVIP);
+                intent.putExtra("TYPE", 1);
+                intent.putExtra("name", "");
                 startActivity(intent);
+//                getCode();
+//                Intent intent = new Intent(getActivity(), HuoHomeActivity.class);
+//                startActivity(intent);
 
             }  else if (view == tv_use_deduct)
 
@@ -787,6 +788,40 @@ public class MineFragment extends BaseFragment {
         }
 
     };
+
+    /**
+     * 判断是否需要授权
+     */
+//    private void isAuth() {
+//        HuolalaAPI.isAuthorize(mActivity)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<IsAuthModel>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(IsAuthModel isAuthModel) {
+//                        if(isAuthModel.getCode()==1) {
+//                            if(isAuthModel.getData()!=null) {
+//                                if(isAuthModel.getData().isAuthorize()) {
+//                                    startActivity(CommonH6Activity.getIntent(mActivity,CommonH6Activity.class,isAuthModel.getData().getAuthUrl(),));
+//                                }
+//                            }
+//
+//                        }else {
+//                            ToastUtil.showSuccessMsg(mActivity,isAuthModel.getMessage());
+//                        }
+//                    }
+//                });
+//    }
 
     private void useAccount() {
         MineAccountAPI.requestMineAccount(mActivity, day, giftNo)
@@ -1312,6 +1347,7 @@ public class MineFragment extends BaseFragment {
         requestUserInfo();
 //        requestUpdate();
         getProductsList();
+        requestOrderNum();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -1321,6 +1357,7 @@ public class MineFragment extends BaseFragment {
         requestUserInfo();
         useAccount();
         requestUpdate();
+        requestOrderNum();
     }
 
 }

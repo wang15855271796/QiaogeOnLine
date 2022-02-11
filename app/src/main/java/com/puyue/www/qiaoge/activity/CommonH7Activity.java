@@ -7,10 +7,7 @@ import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import androidx.annotation.Nullable;
-
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.CookieManager;
@@ -23,6 +20,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.api.huolala.HuolalaAPI;
@@ -37,16 +36,11 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-/**
- * H5 混合开发交互页面 邀请页面
- * 之后都用NewWebViewActivity
- * Created by Administrator on 2018/4/18.
- */
+public class CommonH7Activity extends BaseSwipeActivity {
 
-public class CommonH5Activity extends BaseSwipeActivity {
     public static final String URL = "url";
 
-    public static final String TAG = CommonH5Activity.class.getSimpleName();
+    public static final String TAG = CommonH7Activity.class.getSimpleName();
 
     private TextView mTvTitle;
     private ProgressBar mProgress;
@@ -92,7 +86,7 @@ public class CommonH5Activity extends BaseSwipeActivity {
 
     @Override
     public void setContentView() {
-        setContentView(R.layout.activity_new_h5);
+        setContentView(R.layout.activity_new_h7);
     }
 
     @Override
@@ -146,7 +140,7 @@ public class CommonH5Activity extends BaseSwipeActivity {
                 @Override
                 public void onReceivedTitle(WebView view, String title) {
                     super.onReceivedTitle(view, title);
-                    mTvTitle.setText(title);
+//                    mTvTitle.setText(title);
                 }
 
                 @Override
@@ -175,10 +169,8 @@ public class CommonH5Activity extends BaseSwipeActivity {
                     try{
                         if(url.startsWith("wushang://")){
                             if(!TextUtils.isEmpty(code)&&!code.equals("")) {
-//                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-//                                startActivity(intent);
                                 Intent intent = new Intent(mContext,HuoHomeActivity.class);
-                                intent.putExtra("id",hllOrderId);
+                                intent.putExtra("orderId",hllOrderId);
                                 startActivity(intent);
                             }
 
@@ -280,8 +272,5 @@ public class CommonH5Activity extends BaseSwipeActivity {
         System.gc();
         super.onDestroy();
     }
-
-
-
 
 }

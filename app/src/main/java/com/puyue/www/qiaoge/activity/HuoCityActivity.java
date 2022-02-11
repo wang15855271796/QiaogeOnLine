@@ -39,7 +39,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -65,9 +68,6 @@ public class HuoCityActivity extends BaseActivity implements View.OnClickListene
     LinearLayout empty_view;
     SearchAdapter searchAdapter;
     private CityListsAdapter mCityAdapter;
-    public static String[] ziList = {"A", "B", "C", "D", "E", "F", "G", "H", "I",
-            "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
-            "W", "X", "Y", "Z"};
     private List<String> mListHistory = new ArrayList<>();
     private List<String> mListIdHistory = new ArrayList<>();
     @Override
@@ -154,10 +154,12 @@ public class HuoCityActivity extends BaseActivity implements View.OnClickListene
                     @Override
                     public void run() {
                         if(!keyWords.equals("")) {
-                            for (int i = 0; i < cityList.size(); i++) {
-                                fiter(keyWords,i);
-                            }
-                            searchAdapter.notifyDataSetChanged();
+//                            for (int i = 0; i < cityList.size(); i++) {
+//
+//                            }
+                            fiter(keyWords);
+
+
                         }else {
                             list_result.setVisibility(View.GONE);
                             fitList.clear();
@@ -174,37 +176,50 @@ public class HuoCityActivity extends BaseActivity implements View.OnClickListene
         list_result.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                EventBus.getDefault().post(new HuoCityEvent(fitList.get(position),fitIdList.get(position)));
                 saveHistory(fitList.get(position),fitIdList.get(position));
+                finish();
             }
         });
     }
 
-    private void fiter(String keyWords, int i) {
-        Pattern p=Pattern.compile("[a-zA-Z]");
+    private void fiter(String keyWords) {
+        fitList.clear();
+        fitIdList.clear();
+        Pattern p=Pattern.compile("[\u4e00-\u9fa5]");
         Matcher m=p.matcher(keyWords);
-        if(m.matches()){
-            if(cityList.get(i).getName_en().contains(keyWords)) {
-                fitList.add(cityList.get(i).getName());
-                fitIdList.add(cityList.get(i).getCity_id());
-            }else {
-                fitList.remove(cityList.get(i).getName());
-                fitIdList.remove(cityList.get(i).getCity_id());
-            }
-        }
-
-        p=Pattern.compile("[\u4e00-\u9fa5]");
-        m=p.matcher(keyWords);
-        if(m.matches()){
-            if(m.matches()){
-                if(cityList.get(i).getName().contains(keyWords)) {
-                    fitList.add(cityList.get(i).getName());
-                    fitIdList.add(cityList.get(i).getCity_id());
+        if(m.find()) {
+            Log.d("sadfdsf.......","222");
+            for (int i = 0; i < cityList.size(); i++) {
+                String name = cityList.get(i).getName();
+                String city_id = cityList.get(i).getCity_id();
+                if(name.contains(keyWords)) {
+                    fitList.add(name);
+                    fitIdList.add(city_id);
                 }else {
-                    fitList.remove(cityList.get(i).getName());
-                    fitIdList.remove(cityList.get(i).getCity_id());
+                    fitList.remove(name);
+                    fitIdList.remove(city_id);
                 }
             }
         }
+
+
+        Pattern p1=Pattern.compile("[a-zA-Z]");
+        Matcher m1=p1.matcher(keyWords);
+        if(m1.find()) {
+            for (int i = 0; i < cityList.size(); i++) {
+                String name = cityList.get(i).getName_en();
+                String city_id = cityList.get(i).getCity_id();
+                if(name.contains(keyWords)) {
+                    fitList.add(cityList.get(i).getName());
+                    fitIdList.add(city_id);
+                }else {
+                    fitList.remove(cityList.get(i).getName());
+                    fitIdList.remove(city_id);
+                }
+            }
+        }
+
 
         if(fitList.size()>0) {
             empty_view.setVisibility(View.GONE);
@@ -213,8 +228,51 @@ public class HuoCityActivity extends BaseActivity implements View.OnClickListene
             empty_view.setVisibility(View.VISIBLE);
             list_result.setVisibility(View.GONE);
         }
+        searchAdapter.notifyDataSetChanged();
 
     }
+
+//    private void fiter(String keyWords, int i) {
+//        Pattern p=Pattern.compile("[a-zA-Z]");
+//        Matcher m=p.matcher(keyWords);
+//
+//        if(m.matches()){
+//            if(cityList.get(i).getName().equals(keyWords)) {
+//                Log.d("dsgfefsdfs.......","1");
+//                fitList.add(cityList.get(i).getName());
+//                fitIdList.add(cityList.get(i).getCity_id());
+//            }else {
+//                Log.d("dsgfefsdfs.......","22");
+//                fitList.remove(cityList.get(i).getName());
+//                fitIdList.remove(cityList.get(i).getCity_id());
+//            }
+//        }
+//
+//        Pattern p1=Pattern.compile("[\u4e00-\u9fa5]");
+//        Matcher m1=p1.matcher(keyWords);
+//        Log.d("dsgfefsdfs.......", cityList.get(i).getName()+"444");
+//
+//        if(m1.matches()){
+//            if(cityList.get(i).getName().contains(keyWords)) {
+//                Log.d("dsgfefsdfs.......","3333");
+//                fitList.add(cityList.get(i).getName());
+//                fitIdList.add(cityList.get(i).getCity_id());
+//            }else {
+//
+//                fitList.remove(cityList.get(i).getName());
+//                fitIdList.remove(cityList.get(i).getCity_id());
+//            }
+//        }
+//
+//        if(fitList.size()>0) {
+//            empty_view.setVisibility(View.GONE);
+//            list_result.setVisibility(View.VISIBLE);
+//        }else {
+//            empty_view.setVisibility(View.VISIBLE);
+//            list_result.setVisibility(View.GONE);
+//        }
+//
+//    }
 
     @Override
     public void onClick(View v) {
@@ -228,6 +286,8 @@ public class HuoCityActivity extends BaseActivity implements View.OnClickListene
     List<HuoCityModel.DataBean.CityListBean> cityList = new ArrayList<>();
     List<String> hotList = new ArrayList<>();
     List<String> hotListId = new ArrayList<>();
+    //字母集合
+    List<String> ziLists = new ArrayList<>();
     private void getCity() {
         HuolalaAPI.getCity(mActivity)
                 .subscribeOn(Schedulers.io())
@@ -251,17 +311,19 @@ public class HuoCityActivity extends BaseActivity implements View.OnClickListene
                                 cityList.clear();
                                 hotListId.clear();
                                 cityList.addAll(huoCityModel.getData().getCity_list());
+
                                 for (int i = 0; i < cityList.size(); i++) {
                                     if(cityList.get(i).getIs_hot()==1) {
                                         //热门
                                         hotList.add(cityList.get(i).getName());
                                         hotListId.add(cityList.get(i).getCity_id());
                                     }
+                                    ziLists.add(cityList.get(i).getFirst_en());
                                 }
-
+                                List<String> ziListss = removeDuplicateWithOrder(ziLists);
                                 Collections.sort(cityList, new CityComparator());
-                                List<String> ziLists = Arrays.asList(ziList);
-                                mCityAdapter = new CityListsAdapter(mContext, cityList,hotList,hotListId,ziLists,mListHistory,mListIdHistory);
+                                Collections.sort(ziListss, new CityComparators());
+                                mCityAdapter = new CityListsAdapter(mContext, cityList,hotList,hotListId,ziListss,mListHistory,mListIdHistory);
                                 list_all.setAdapter(mCityAdapter);
 
                                 mCityAdapter.setOnCityClickListener(new CityListsAdapter.OnCityClickListener() {
@@ -287,15 +349,36 @@ public class HuoCityActivity extends BaseActivity implements View.OnClickListene
                 });
     }
 
+
+    //去除重复元素
+    public List<String> removeDuplicateWithOrder(List list) {
+        Set set = new HashSet();
+        List newList = new ArrayList();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Object element = iter.next();
+            if (set.add(element))
+                newList.add(element);
+        }
+        return newList;
+    }
+
     /**
      * sort by a-z
      */
     private class CityComparator implements Comparator<HuoCityModel.DataBean.CityListBean> {
         @Override
         public int compare(HuoCityModel.DataBean.CityListBean lhs, HuoCityModel.DataBean.CityListBean rhs) {
+
             String a = lhs.getName_en().substring(0, 1);
             String b = rhs.getName_en().substring(0, 1);
             return a.compareTo(b);
+        }
+    }
+
+    private class CityComparators implements Comparator<String> {
+        @Override
+        public int compare(String lhs, String rhs) {
+            return lhs.compareTo(rhs);
         }
     }
 }

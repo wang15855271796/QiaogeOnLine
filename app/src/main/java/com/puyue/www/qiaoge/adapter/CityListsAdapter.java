@@ -128,7 +128,16 @@ public class CityListsAdapter extends BaseAdapter {
                 view = inflater.inflate(com.zaaach.citypicker.R.layout.cp_view_locate_city, parent, false);
                 TextView tv_city = (TextView) view.findViewById(com.zaaach.citypicker.R.id.tv_located_city);
                 String huoCityName = UserInfoHelper.getCity(mContext);
+                String huoCityId = SharedPreferencesUtil.getString(mContext, "huoCityId");
                 tv_city.setText(huoCityName);
+                tv_city.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (onCityClickListener != null){
+                            onCityClickListener.onCityClick(huoCityName,huoCityId);
+                        }
+                    }
+                });
                 break;
 
             case 1: //最近

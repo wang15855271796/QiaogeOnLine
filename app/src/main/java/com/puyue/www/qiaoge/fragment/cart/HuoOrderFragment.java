@@ -116,14 +116,23 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+    }
+
+    @Override
     public void setViewData() {
-        EventBus.getDefault().register(this);
+        if(!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         Bundle bundle=getArguments();
         ll_price.setVisibility(View.GONE);
         orderId = bundle.getString("orderId");
         address = bundle.getString("address");
         cityId = bundle.getString("cityId");
-
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -166,7 +175,7 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
                 String name = reqList.get(position).getName();
                 if(hasFocus) {
                     listDesc.add(name);
-                    if(data!=null) {
+                    if(data!=null&&jsonArray1.length()==2) {
                         getPrice(data.getCity_id(),data.getCity_info_revision(),
                                 data.getVehicle_list().get(positions).getOrder_vehicle_id(),"",
                                 "",jsonArray1,orderTime,"", StringUtils.join(listDesc, ","),invoiceType);
@@ -174,7 +183,7 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
 
                 }else {
                     listDesc.remove(name);
-                    if(data!=null) {
+                    if(data!=null&&jsonArray1.length()==2) {
                         getPrice(data.getCity_id(),data.getCity_info_revision(),
                                 data.getVehicle_list().get(positions).getOrder_vehicle_id(),"",
                                 "",jsonArray1,orderTime,"", StringUtils.join(listDesc, ","),invoiceType);
@@ -229,7 +238,7 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
                 if(priceData!=null&&data!=null) {
                     Intent orderIntent = new Intent(mActivity, HuoOrderConfirmActivity.class);
                     orderIntent.putExtra("reqList", (Serializable) listDesc);
-                    orderIntent.putExtra("list", (Serializable) list);
+//                    orderIntent.putExtra("list", (Serializable) list);
                     orderIntent.putExtra("carStyle", data.getVehicle_list().get(positions).getVehicle_name());
                     orderIntent.putExtra("zAddr", tv_zhuang.getText().toString());
                     orderIntent.putExtra("xAddr", tv_unload.getText().toString());
@@ -313,7 +322,7 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
                 Intent intent = new Intent(mActivity,HuoOrderConfirmActivity.class);
                 intent.putExtra("time",minList.get(options1).get(options2).get(options3).getDateTime());
                 intent.putExtra("reqList", (Serializable) listDesc);
-                intent.putExtra("list", (Serializable) list);
+//                intent.putExtra("list", (Serializable) list);
                 intent.putExtra("carStyle", data.getVehicle_list().get(positions).getVehicle_name());
                 intent.putExtra("zAddr", tv_zhuang.getText().toString());
                 intent.putExtra("xAddr", tv_unload.getText().toString());
@@ -351,6 +360,7 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
     List<CarStyleModel.DataBean.VehicleListBean> vehicle_list = new ArrayList<>();
     //附加要求集合
     List<CarStyleModel.DataBean.VehicleListBean.VehicleStdItem> reqList = new ArrayList<>();
+    //额外服务集合
     List<CarStyleModel.DataBean.SpecReqItemBean> specList = new ArrayList<>();
     MyCarPagerAdapter myCarPagerAdapter;
     private void getCarStyle(String cityId,String orderId) {
@@ -376,8 +386,10 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
                                 reqList.clear();
                                 data = carStyleModel.getData();
                                 vehicle_list = data.getVehicle_list();
+                                //额外服务
                                 specList.clear();
                                 specList.addAll(data.getSpec_req_item());
+                                //附加要求集合
                                 reqList.addAll(data.getVehicle_list().get(positions).getVehicle_std_item());
                                 cityInfoRevision = data.getCity_info_revision();
                                 id = data.getVehicle_list().get(positions).getOrder_vehicle_id();
@@ -387,7 +399,6 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
                                 chooseRequireAdapter.notifyDataSetChanged();
                                 myCarPagerAdapter.notifyDataSetChanged();
                                 lav_loading.hide();
-
                                 tv_unload.setText(data.getReceiveAddr().getAddr());
 
                                 if(carStyleModel.getData().getReceiveAddr()!=null) {
@@ -589,6 +600,7 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
                         if(priceModel.getCode()==1) {
                             if(priceModel.getData()!=null) {
                                 priceData = priceModel.getData();
+
                                 tv_total_price.setText(priceData.getTotal_price());
                                 ll_price.setVisibility(View.VISIBLE);
                             }

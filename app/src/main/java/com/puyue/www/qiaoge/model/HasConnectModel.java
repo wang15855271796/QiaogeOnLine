@@ -73,7 +73,7 @@ public class HasConnectModel {
         private Object vo;
         private int deliverModel;
         private int connectHllOrder;
-        private Object hllOrderId;
+        private String hllOrderId;
         private Object orderId;
 
         public boolean isResult() {
@@ -124,11 +124,11 @@ public class HasConnectModel {
             this.connectHllOrder = connectHllOrder;
         }
 
-        public Object getHllOrderId() {
+        public String getHllOrderId() {
             return hllOrderId;
         }
 
-        public void setHllOrderId(Object hllOrderId) {
+        public void setHllOrderId(String hllOrderId) {
             this.hllOrderId = hllOrderId;
         }
 

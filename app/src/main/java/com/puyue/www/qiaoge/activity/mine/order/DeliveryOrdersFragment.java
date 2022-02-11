@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.CommonH6Activity;
 import com.puyue.www.qiaoge.activity.HuoHomeActivity;
 import com.puyue.www.qiaoge.adapter.mine.MyOrdersItemAdapter;
 import com.puyue.www.qiaoge.api.huolala.HuolalaAPI;
@@ -26,6 +27,7 @@ import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.HasConnectModel;
+import com.puyue.www.qiaoge.model.IsAuthModel;
 import com.puyue.www.qiaoge.model.OrdersModel;
 import com.puyue.www.qiaoge.model.mine.order.CopyToCartModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
@@ -294,24 +296,66 @@ public class DeliveryOrdersFragment extends BaseFragment {
 
                                         @Override
                                         public void Next() {
-                                            Intent intent = new Intent(mActivity, HuoHomeActivity.class);
-                                            intent.putExtra("orderId",orderId);
-                                            mContext.startActivity(intent);
-                                            mActivity.finish();
+//                                            Intent intent = new Intent(mActivity, HuoHomeActivity.class);
+//                                            intent.putExtra("orderId",orderId);
+//                                            mContext.startActivity(intent);
+//                                            mActivity.finish();
+//                                            dismiss();
+                                            isAuth(orderId);
                                             dismiss();
                                         }
                                     };
                                     huoConnentionDialog.show();
                                 }else {
-                                    Intent intent = new Intent(mActivity, HuoHomeActivity.class);
-                                    intent.putExtra("orderId",orderId);
-                                    mActivity.startActivity(intent);
+                                    isAuth(orderId);
+//                                    Intent intent = new Intent(mActivity, HuoHomeActivity.class);
+//                                    intent.putExtra("orderId",orderId);
+//                                    mActivity.startActivity(intent);
                                 }
                             }
                         }else {
                             ToastUtil.showErroMsg(mActivity,hasConnectModel.getMessage());
                         }
 
+                    }
+                });
+    }
+
+    /**
+     * 判断是否需要授权
+     */
+    private void isAuth(String orderId) {
+        HuolalaAPI.isAuthorize(mActivity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<IsAuthModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(IsAuthModel isAuthModel) {
+                        if(isAuthModel.getCode()==1) {
+                            if(isAuthModel.getData()!=null) {
+                                if(isAuthModel.getData().isAuthorize()) {
+                                    startActivity(CommonH6Activity.getIntent(mActivity, CommonH6Activity.class,isAuthModel.getData().getAuthUrl(),orderId));
+                                }else {
+                                    Intent intentss = new Intent(mActivity, HuoHomeActivity.class);
+                                    intentss.putExtra("orderId",orderId);
+                                    startActivity(intentss);
+                                    mActivity.finish();
+                                }
+                            }
+
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,isAuthModel.getMessage());
+                        }
                     }
                 });
     }

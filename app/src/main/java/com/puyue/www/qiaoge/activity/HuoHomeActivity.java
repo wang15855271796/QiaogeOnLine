@@ -1,9 +1,11 @@
 package com.puyue.www.qiaoge.activity;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -112,10 +114,13 @@ public class HuoHomeActivity extends BaseActivity implements View.OnClickListene
     public void findViewById() {
     }
 
-    int type;
+
     @Override
     public void setViewData() {
-        EventBus.getDefault().register(this);
+        if(!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+        getCityId(orderId);
         SharedPreferencesUtil.saveString(mContext,"etName","");
         SharedPreferencesUtil.saveString(mContext,"etDesc","");
         SharedPreferencesUtil.saveString(mContext,"etPhone","");
@@ -126,7 +131,6 @@ public class HuoHomeActivity extends BaseActivity implements View.OnClickListene
         SharedPreferencesUtil.saveString(mContext,"etPhone1","");
         SharedPreferencesUtil.saveString(mContext,"address1","");
 
-        getCityId(orderId);
         if(TextUtils.isEmpty(orderId)||orderId.equals("")) {
             tv_location.setEnabled(true);
         }else {
@@ -179,7 +183,6 @@ public class HuoHomeActivity extends BaseActivity implements View.OnClickListene
     HuoOrderFragment huoOrderFragment;
     QuickFragment qucikFragment;
     private void switchOrder(String cityId) {
-
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
         rb_order.setClickable(true);
         if (huoOrderFragment == null) {
@@ -191,7 +194,6 @@ public class HuoHomeActivity extends BaseActivity implements View.OnClickListene
             huoOrderFragment.setArguments(bundle);
         }
         fragmentTransaction.show(huoOrderFragment);
-
         if (qucikFragment != null) {
             fragmentTransaction.hide(qucikFragment);
         }
@@ -251,6 +253,7 @@ public class HuoHomeActivity extends BaseActivity implements View.OnClickListene
                                 cityId = huoCityIdModel.getData().getCity_id();
                                 switchOrder(huoCityIdModel.getData().getCity_id());
                                 tv_location.setText(huoCityIdModel.getData().getName());
+
                                 SharedPreferencesUtil.saveString(mContext,"huoCityName",huoCityIdModel.getData().getName());
                                 SharedPreferencesUtil.saveString(mContext,"huoCityId",huoCityIdModel.getData().getCity_id());
                             }
@@ -286,7 +289,6 @@ public class HuoHomeActivity extends BaseActivity implements View.OnClickListene
 
             case R.id.tv_phone:
                 getAuth();
-//                startActivity(CommonH5Activity.getIntent(mContext,CommonH5Activity.class,isAuthModel.getData().getAuthUrl()));
                 break;
         }
     }
@@ -313,9 +315,9 @@ public class HuoHomeActivity extends BaseActivity implements View.OnClickListene
                     public void onNext(IsAuthModel isAuthModel) {
                         if(isAuthModel.getCode()==1) {
                             if(isAuthModel.getData()!=null) {
-                                if(isAuthModel.getData().isAuthorize()) {
-                                    startActivity(CommonH5Activity.getIntent(mContext,CommonH6Activity.class,isAuthModel.getData().getAuthUrl()));
-                                }
+//                                if(isAuthModel.getData().isAuthorize()) {
+//                                    startActivity(CommonH6Activity.getIntent(mContext,CommonH6Activity.class,isAuthModel.getData().getAuthUrl()));
+//                                }
                                 tv_phone.setText(isAuthModel.getData().getAuthPhone());
                             }
 
@@ -325,7 +327,6 @@ public class HuoHomeActivity extends BaseActivity implements View.OnClickListene
                     }
                 });
     }
-
 
     private void getAuth() {
         HuolalaAPI.getAuthUrl(mActivity)
@@ -346,8 +347,9 @@ public class HuoHomeActivity extends BaseActivity implements View.OnClickListene
                     public void onNext(QueryProdModel queryProdModel) {
                         if(queryProdModel.getCode()==1) {
                             if(queryProdModel.getData()!=null) {
-                                startActivity(CommonH5Activity.getIntent(mContext,CommonH5Activity.class,queryProdModel.getData()));
+                                startActivity(CommonH6Activity.getIntent(mContext,CommonH6Activity.class,queryProdModel.getData(),orderId));
                             }
+
                         }else {
                             ToastUtil.showSuccessMsg(mActivity,queryProdModel.getMessage());
                         }
@@ -359,7 +361,6 @@ public class HuoHomeActivity extends BaseActivity implements View.OnClickListene
     public void getCity(HuoCityEvent huoCityEvent) {
         tv_location.setText(huoCityEvent.getName());
         cityId = huoCityEvent.getCityId();
-//        getCarStyle(huoCityEvent.getCityId(),orderId);
     }
 
 

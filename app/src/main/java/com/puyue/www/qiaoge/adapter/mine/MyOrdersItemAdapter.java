@@ -376,15 +376,13 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
             if(item.orderStatus!=1&&item.orderStatus!=7&&item.orderStatus!=11) {
                 if(!TextUtils.isEmpty(item.hllOrderId)&&!item.hllOrderId.equals("")) {
                     tv_call.setVisibility(View.GONE);
-                    Log.d("defweswfds......","1");
+
                 }else {
                     tv_call.setVisibility(View.VISIBLE);
-                    Log.d("defweswfds......","2");
                 }
             }
         }else {
             tv_call.setVisibility(View.GONE);
-            Log.d("defweswfds......","3");
         }
     }
 

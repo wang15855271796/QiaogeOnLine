@@ -5,7 +5,7 @@
     android:layout_marginLeft="@dimen/size_12dp"
     android:layout_height="@dimen/size_40dp">
 
-    <CheckBox
+    <ImageView
         android:id="@+id/checkbox"
         android:button="@null"
         android:layout_gravity="center_vertical"

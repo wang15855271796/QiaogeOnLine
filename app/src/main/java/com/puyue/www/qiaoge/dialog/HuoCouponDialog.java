@@ -84,6 +84,10 @@ public class HuoCouponDialog extends Dialog {
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(pos==-1) {
+                    ToastUtil.showSuccessMsg(context,"请选择优惠券");
+                    return;
+                }
                 EventBus.getDefault().post(new HuoCouponEvent(dataList.get(pos).getBusiness_type_str()+dataList.get(pos).getDiscount_str(),
                         dataList.get(pos).getCoupon_id()
                 ));
@@ -99,30 +103,6 @@ public class HuoCouponDialog extends Dialog {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 huoCouponAdapter.setSelectionPosition(position);
                 pos = position;
-//                if(pos!=position) {
-//                    pos = position;
-//                    if(!flag) {
-//                        flag = true;
-//                        dataList.get(position).setSelect(flag);
-//                        huoCouponAdapter.setSelectionPosition(position,flag);
-//                    }else {
-//                        flag = false;
-//                        dataList.get(position).setSelect(flag);
-//                        huoCouponAdapter.setSelectionPosition(position,flag);
-//                    }
-//                }else {
-//                    pos = position;
-//                    if(!flag) {
-//                        flag = true;
-//                        dataList.get(position).setSelect(flag);
-//                        huoCouponAdapter.setSelectionPosition(position,flag);
-//                    }else {
-//                        flag = false;
-//                        dataList.get(position).setSelect(flag);
-//                        huoCouponAdapter.setSelectionPosition(position,flag);
-//                    }
-//                }
-
             }
         });
 

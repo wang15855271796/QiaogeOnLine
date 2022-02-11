@@ -116,6 +116,7 @@ public class DisSelfDialog extends Dialog {
 
                 if(cb_2.isChecked()) {
                     EventBus.getDefault().post(new DisTributionSelfEvent("我自己叫货拉拉",1));
+                    EventBus.getDefault().post(new DisTributionEvent("我自己叫货拉拉",1));
                     EventBus.getDefault().post(new RefreshEvent());
                     dismiss();
                 }

@@ -21,6 +21,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/iv_huo"
                 android:src="@mipmap/qg_cart_back"
                 android:layout_marginTop="@dimen/size_56dp"
                 android:layout_marginLeft="@dimen/size_20dp"
@@ -28,7 +29,6 @@
                 android:layout_height="wrap_content"/>
 
             <ImageView
-                android:id="@+id/iv_huo"
                 android:src="@mipmap/icon_huo"
                 android:layout_marginTop="@dimen/size_56dp"
                 android:layout_marginLeft="@dimen/size_39dp"

@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.CommonH5Activity;
+import com.puyue.www.qiaoge.activity.CommonH6Activity;
 import com.puyue.www.qiaoge.activity.HuoHomeActivity;
 import com.puyue.www.qiaoge.activity.mine.account.EditPasswordInputCodeActivity;
 import com.puyue.www.qiaoge.activity.mine.account.PayActivity;
@@ -41,6 +42,7 @@ import com.puyue.www.qiaoge.helper.FVHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.HuoDriverPayModel;
+import com.puyue.www.qiaoge.model.IsAuthModel;
 import com.puyue.www.qiaoge.model.cart.CheckPayPwdModel;
 import com.puyue.www.qiaoge.model.cart.GetPayResultModel;
 import com.puyue.www.qiaoge.model.mine.AccountCenterModel;
@@ -354,6 +356,7 @@ public class PayResultActivity extends BaseSwipeActivity {
 //        mLavLoading.cancelAnimation();
     }
 
+    GetPayResultModel getPayResultModels;
     private void getPayResultAlready(String outTradeNo) {
         GetPayResultAPI.requestData(mContext, outTradeNo)
                 .subscribeOn(Schedulers.io())
@@ -374,6 +377,7 @@ public class PayResultActivity extends BaseSwipeActivity {
                         logoutAndToHome(mContext, getPayResultModel.getCode());
                         if (getPayResultModel.isSuccess()) {
                             if (getPayResultModel.getData() != null) {
+                                getPayResultModels = getPayResultModel;
                                 mIvSuccess.setVisibility(View.VISIBLE);
                                 mIvError.setVisibility(View.GONE);
                          //       mTvState.setVisibility(View.GONE);
@@ -411,10 +415,11 @@ public class PayResultActivity extends BaseSwipeActivity {
                                                 new Handler().postDelayed(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        Intent intent = new Intent(mContext, HuoHomeActivity.class);
-                                                        intent.putExtra("orderId",getPayResultModel.getData().getOrderId());
-                                                        startActivity(intent);
-                                                        finish();
+//                                                        Intent intent = new Intent(mContext, HuoHomeActivity.class);
+//                                                        intent.putExtra("orderId",getPayResultModel.getData().getOrderId());
+//                                                        startActivity(intent);
+//                                                        finish();
+                                                        isAuth();
                                                     }
                                                 },0);
                                             }
@@ -425,10 +430,11 @@ public class PayResultActivity extends BaseSwipeActivity {
                                         handler.postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
-                                                Intent intent = new Intent(mContext, HuoHomeActivity.class);
-                                                intent.putExtra("orderId", getPayResultModel.getData().getOrderId());
-                                                startActivity(intent);
-                                                finish();
+//                                                Intent intent = new Intent(mContext, HuoHomeActivity.class);
+//                                                intent.putExtra("orderId", getPayResultModel.getData().getOrderId());
+//                                                startActivity(intent);
+//                                                finish();
+                                                isAuth();
                                             }
                                         }, 3000);
                                     }
@@ -445,6 +451,45 @@ public class PayResultActivity extends BaseSwipeActivity {
                             AppHelper.showMsg(PayResultActivity.this, getPayResultModel.getMessage());
                             mIvError.setVisibility(View.VISIBLE);
                          ///   mTvState.setText("支付失败");
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 判断是否需要授权
+     */
+    private void isAuth() {
+        HuolalaAPI.isAuthorize(mActivity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<IsAuthModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(IsAuthModel isAuthModel) {
+                        if(isAuthModel.getCode()==1) {
+                            if(isAuthModel.getData()!=null) {
+                                if(isAuthModel.getData().isAuthorize()) {
+                                    startActivity(CommonH6Activity.getIntent(mActivity, CommonH6Activity.class,isAuthModel.getData().getAuthUrl(),getPayResultModels.getData().getOrderId()));
+                                }else {
+                                    Intent intentss = new Intent(mActivity, HuoHomeActivity.class);
+                                    intentss.putExtra("orderId",getPayResultModels.getData().getOrderId());
+                                    startActivity(intentss);
+                                    finish();
+                                }
+                            }
+
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,isAuthModel.getMessage());
                         }
                     }
                 });
@@ -509,10 +554,11 @@ public class PayResultActivity extends BaseSwipeActivity {
                                                 new Handler().postDelayed(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        Intent intent = new Intent(mContext, HuoHomeActivity.class);
-                                                        intent.putExtra("orderId",getPayResultModel.getData().getOrderId());
-                                                        startActivity(intent);
-                                                        finish();
+                                                        isAuth();
+//                                                        Intent intent = new Intent(mContext, HuoHomeActivity.class);
+//                                                        intent.putExtra("orderId",getPayResultModel.getData().getOrderId());
+//                                                        startActivity(intent);
+//                                                        finish();
                                                     }
                                                 },0);
                                             }
@@ -522,10 +568,11 @@ public class PayResultActivity extends BaseSwipeActivity {
                                         handler.postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
-                                                Intent intent = new Intent(mContext, HuoHomeActivity.class);
-                                                intent.putExtra("orderId",getPayResultModel.getData().getOrderId());
-                                                startActivity(intent);
-                                                finish();
+//                                                Intent intent = new Intent(mContext, HuoHomeActivity.class);
+//                                                intent.putExtra("orderId",getPayResultModel.getData().getOrderId());
+//                                                startActivity(intent);
+//                                                finish();
+                                                isAuth();
                                             }
                                         },3000);
                                     }

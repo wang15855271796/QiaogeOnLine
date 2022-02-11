@@ -417,6 +417,9 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activity.CommonH5Activity"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".activity.CommonH7Activity"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.CommonH6Activity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.home.CommonGoodsDetailActivity"

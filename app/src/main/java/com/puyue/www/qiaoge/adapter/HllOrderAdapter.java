@@ -25,9 +25,9 @@ public class HllOrderAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
         tv_desc.setText(item);
 
         if(helper.getAdapterPosition()==pos) {
-            tv_desc.setTextColor(Color.parseColor("#999999"));
-        }else {
             tv_desc.setTextColor(Color.parseColor("#FD6601"));
+        }else {
+            tv_desc.setTextColor(Color.parseColor("#999999"));
         }
     }
 

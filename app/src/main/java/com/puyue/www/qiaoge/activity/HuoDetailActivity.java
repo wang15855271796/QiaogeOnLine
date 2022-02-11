@@ -39,6 +39,7 @@ import com.puyue.www.qiaoge.view.Arith;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -238,7 +239,6 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("dsgsdgfrefds.....",e.getMessage()+"123");
                     }
 
                     @Override
@@ -270,13 +270,12 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
                                     tv_d_name.setText(driverInfo.getName());
                                     tv_d_car.setText(driverInfo.getVehicleName());
                                     tv_d_phone.setText(driverInfo.getPhone());
-                                }
-                                int orderStatus = data.getOrderStatus();
-                                if(orderStatus==0||orderStatus==3||orderStatus==4||orderStatus==5||orderStatus==8||orderStatus==9||orderStatus==17) {
-                                    ll_driver.setVisibility(View.GONE);
-                                }else {
                                     ll_driver.setVisibility(View.VISIBLE);
+                                }else {
+                                    ll_driver.setVisibility(View.GONE);
                                 }
+//                                int orderStatus = data.getOrderStatus();
+
                                 if(data.getCanOrderCancel()==1) {
                                     tv_cancel.setVisibility(View.VISIBLE);
                                 }else {
@@ -296,12 +295,15 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
                                             //费用协商
                                             tv_desc.setVisibility(View.VISIBLE);
                                             tv_desc.setText("费用协商");
+                                            iv_wen.setVisibility(View.VISIBLE);
                                         }else if(data.getAppealEnabledStatus()==2) {
                                             //申诉
                                             tv_desc.setText("账单申诉");
                                             tv_desc.setVisibility(View.VISIBLE);
+                                            iv_wen.setVisibility(View.VISIBLE);
                                         }else{
                                             tv_desc.setVisibility(View.GONE);
+                                            iv_wen.setVisibility(View.GONE);
                                         }
                                     }
                                 }
@@ -332,16 +334,17 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
         switch (payStatus) {
             case 0:
                 ll_unPay.setVisibility(View.VISIBLE);
-                ll_paying.setVisibility(View.GONE);
-                ll_payed.setVisibility(View.GONE);
-                ll_success.setVisibility(View.GONE);
-                ll_failed.setVisibility(View.GONE);
-                ll_apply.setVisibility(View.GONE);
-                ll_backing.setVisibility(View.GONE);
+//                ll_paying.setVisibility(View.GONE);
+//                ll_payed.setVisibility(View.GONE);
+//                ll_success.setVisibility(View.GONE);
+//                ll_failed.setVisibility(View.GONE);
+//                ll_apply.setVisibility(View.GONE);
+//                ll_backing.setVisibility(View.GONE);
                 //"未支付"
                 BigDecimal amount0 = new BigDecimal(priceInfoList.getAmount());
                 amount00 = amount00.add(amount0);
-                tv_unPay_money.setText(amount0.doubleValue()+"");
+                BigDecimal amount000 = amount00.setScale(2, RoundingMode.FLOOR);
+                tv_unPay_money.setText(amount000.doubleValue()+"");
                 HuoPriceModel huoPriceModel0 = new HuoPriceModel();
                 huoPriceModel0.setAmount(priceInfoList.getAmount());
                 huoPriceModel0.setBillTypeName(billTypeName);
@@ -366,7 +369,8 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
 
                 BigDecimal amount1 = new BigDecimal(priceInfoList.getAmount());
                 amount11 = amount11.add(amount1);
-                tv_payed_money.setText(amount11.doubleValue()+"");
+                BigDecimal amount111 = amount11.setScale(2, RoundingMode.HALF_UP);
+                tv_payed_money.setText(amount111.doubleValue()+"");
                 HuoPriceModel huoPriceModel = new HuoPriceModel();
                 huoPriceModel.setAmount(priceInfoList.getAmount());
                 huoPriceModel.setBillTypeName(billTypeName);
@@ -390,7 +394,8 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
 //                ll_backing.setVisibility(View.GONE);
                 BigDecimal amount2 = new BigDecimal(priceInfoList.getAmount());
                 amount22 = amount22.add(amount2);
-                tv_payFailed_money.setText(amount22.doubleValue()+"");
+                BigDecimal amount222 = amount22.setScale(2, RoundingMode.HALF_UP);
+                tv_payFailed_money.setText(amount222.doubleValue()+"");
                 HuoPriceModel huoPriceModel2 = new HuoPriceModel();
                 huoPriceModel2.setAmount(priceInfoList.getAmount());
                 huoPriceModel2.setImgUrl(priceInfoList.getImgUrl());
@@ -414,7 +419,8 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
                 ll_backing.setVisibility(View.VISIBLE);
                 BigDecimal amount3 = new BigDecimal(priceInfoList.getAmount());
                 amount33 = amount33.add(amount3);
-                tv_backing_money.setText(amount33.doubleValue()+"");
+                BigDecimal amount333 = amount33.setScale(2, RoundingMode.HALF_UP);
+                tv_backing_money.setText(amount333.doubleValue()+"");
                 HuoPriceModel huoPriceModel3 = new HuoPriceModel();
                 huoPriceModel3.setAmount(priceInfoList.getAmount());
                 huoPriceModel3.setImgUrl(priceInfoList.getImgUrl());
@@ -439,7 +445,8 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
 //                ll_backing.setVisibility(View.GONE);
                 BigDecimal amount4 = new BigDecimal(priceInfoList.getAmount());
                 amount44 = amount44.add(amount4);
-                tv_success_money.setText(amount44.doubleValue()+"");
+                BigDecimal amount444 = amount44.setScale(2, RoundingMode.HALF_UP);
+                tv_success_money.setText(amount444.doubleValue()+"");
                 HuoPriceModel huoPriceModel4 = new HuoPriceModel();
                 huoPriceModel4.setAmount(priceInfoList.getAmount());
                 huoPriceModel4.setBillTypeName(billTypeName);
@@ -464,7 +471,8 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
 //                ll_backing.setVisibility(View.GONE);
                 BigDecimal amount5 = new BigDecimal(priceInfoList.getAmount());
                 amount55 = amount55.add(amount5);
-                tv_paying_money.setText(amount55.doubleValue()+"");
+                BigDecimal amount555 = amount55.setScale(2, RoundingMode.HALF_UP);
+                tv_paying_money.setText(amount555.doubleValue()+"");
                 HuoPriceModel huoPriceModel5 = new HuoPriceModel();
                 huoPriceModel5.setAmount(priceInfoList.getAmount());
                 huoPriceModel5.setBillTypeName(billTypeName);
@@ -489,7 +497,8 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
 //                ll_backing.setVisibility(View.GONE);
                 BigDecimal amount7 = new BigDecimal(priceInfoList.getAmount());
                 amount77 = amount77.add(amount7);
-                tv_apply_money.setText(amount77.doubleValue()+"");
+                BigDecimal amount777 = amount77.setScale(2, RoundingMode.HALF_UP);
+                tv_apply_money.setText(amount777.doubleValue()+"");
                 HuoPriceModel huoPriceModel6 = new HuoPriceModel();
                 huoPriceModel6.setImgUrl(priceInfoList.getImgUrl());
                 huoPriceModel6.setAmount(priceInfoList.getAmount());

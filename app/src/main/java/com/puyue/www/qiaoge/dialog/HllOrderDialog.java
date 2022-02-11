@@ -83,6 +83,7 @@ public abstract class HllOrderDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 close(pos);
+                dismiss();
             }
         });
 

@@ -1,7 +1,9 @@
 package com.puyue.www.qiaoge.activity;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -115,6 +117,7 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
     LinearLayout ll_user;
     @BindView(R.id.lav_loading)
     AVLoadingIndicatorView lav_loading;
+    //附加要求
     List<String> reqList;
     String zAddr;
     String xAddr;
@@ -131,15 +134,15 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
     String lat;
     String lon;
     String cityInfoRevision;
-    List<Integer>reqIntegerList;
+//    List<Integer>reqIntegerList;
     List<CarStyleModel.DataBean.SpecReqItemBean> vehicleStdItem;
     String orderId;
     String orderAmt;
     String cityId;
-    List<Integer> listType;
+    List<Integer> listTypes = new ArrayList<>();
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
-        reqIntegerList = (List<Integer>) getIntent().getSerializableExtra("list");
+//        reqIntegerList = (List<Integer>) getIntent().getSerializableExtra("list");
         reqList = (List<String>) getIntent().getSerializableExtra("reqList");
         vehicleStdItem = (List<CarStyleModel.DataBean.SpecReqItemBean>) getIntent().getSerializableExtra("vehicleStdItem");
         orderId = getIntent().getStringExtra("orderId");
@@ -228,7 +231,7 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
                     lav_loading.hide();
                     return;
                 }
-                getOrderAddress(cityId,cityInfoRevision,id,coupon_id,StringUtils.join(reqIntegerList, ","),jsonArray1,orderTime,reserve_time
+                getOrderAddress(cityId,cityInfoRevision,id,coupon_id,StringUtils.join(listTypes, ","),jsonArray1,orderTime,reserve_time
                         ,zName,zPhone,remark,orderId,invoiceType, StringUtils.join(reqList, ","));
                 break;
 
@@ -237,10 +240,11 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
                     huoOtherDialog = new HuoOtherDialog(mContext, vehicleStdItem) {
                         @Override
                         public void Confirm(List<String> list, List<Integer> listType) {
+                            listTypes = listType;
                             String join = StringUtils.join(list, ",");
                             tv_other.setText(join);
                             getPrice(cityId,cityInfoRevision,
-                                    id,coupon_id, StringUtils.join(listType, ","),
+                                    id,coupon_id, StringUtils.join(listTypes, ","),
                                     jsonArray1, Integer.parseInt(orderTime),reserve_time,StringUtils.join(reqList, ","),invoiceType);
                             dismiss();
                         }
@@ -271,7 +275,7 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
                     }else {
                     }
                     getPrice(cityId,cityInfoRevision,
-                            id,coupon_id, StringUtils.join(listType, ","),
+                            id,coupon_id, StringUtils.join(listTypes, ","),
                             jsonArray1, Integer.parseInt(orderTime),reserve_time,StringUtils.join(reqList, ","),invoiceType);
                 }else {
                     invoiceType = 0;
@@ -279,7 +283,7 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
                     tv_receipt.setBackgroundResource(R.drawable.shape_grey8);
                     tv_receipt.setTextColor(Color.parseColor("#666666"));
                     getPrice(cityId,cityInfoRevision,
-                            id,coupon_id, StringUtils.join(listType, ","),
+                            id,coupon_id, StringUtils.join(listTypes, ","),
                             jsonArray1, Integer.parseInt(orderTime),reserve_time,StringUtils.join(reqList, ","),invoiceType);
                 }
 
@@ -299,7 +303,7 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
                     }
 
                     getPrice(cityId,cityInfoRevision,
-                            id,coupon_id, StringUtils.join(listType, ","),
+                            id,coupon_id, StringUtils.join(listTypes, ","),
                             jsonArray1, Integer.parseInt(orderTime),reserve_time,StringUtils.join(reqList, ","),invoiceType);
                 }else {
                     invoiceType = 0;
@@ -308,7 +312,7 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
                     tv_receipt2.setTextColor(Color.parseColor("#666666"));
                     ll_receipt.setBackgroundResource(R.drawable.shape_grey8);
                     getPrice(cityId,cityInfoRevision,
-                            id,coupon_id, StringUtils.join(listType, ","),
+                            id,coupon_id, StringUtils.join(listTypes, ","),
                             jsonArray1, Integer.parseInt(orderTime),reserve_time,StringUtils.join(reqList, ","),invoiceType);
                 }
 
@@ -328,11 +332,14 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
                 break;
 
             case R.id.rl_coupon:
-                if(huoCouponDialog==null) {
-                    huoCouponDialog = new HuoCouponDialog(mContext,dataList);
+                if(dataList.size()>0) {
+                    if(huoCouponDialog==null) {
+                        huoCouponDialog = new HuoCouponDialog(mContext,dataList);
+                    }
+                    huoCouponDialog.setCanceledOnTouchOutside(false);
+                    huoCouponDialog.show();
                 }
-                huoCouponDialog.setCanceledOnTouchOutside(false);
-                huoCouponDialog.show();
+
                 break;
         }
     }
@@ -353,7 +360,6 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
                 String minute = minList.get(options1).get(options2).get(options3).getDateTime();
                 tv_use_car.setText(minute);
                 reserve_time = minute;
-                Log.d("fersdffef.....",reserve_time);
             }
         })
 
@@ -424,7 +430,7 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
         tv_coupon.setText(huoCouponEvent.getAmount());
         coupon_id = huoCouponEvent.getCoupon_id();
         getPrice(cityId,cityInfoRevision,
-                id,coupon_id, StringUtils.join(listType, ","),
+                id,coupon_id, StringUtils.join(listTypes, ","),
                 jsonArray1, Integer.parseInt(orderTime),reserve_time,StringUtils.join(reqList, ","),invoiceType);
     }
 
@@ -514,7 +520,14 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
                     public void onNext(HuoPayModel huoPayModel) {
                         if(huoPayModel.getCode()==1) {
                             if(huoPayModel.getData()!=null) {
-                                mContext.startActivity(CommonH5Activity.getIntent(mContext, CommonH5Activity.class, huoPayModel.getData().getCashier_url()));
+                                Intent intent = new Intent();
+                                intent.setAction(Intent.ACTION_VIEW);
+                                intent.setData(Uri.parse(huoPayModel.getData().getCashier_url()));
+                                if (intent.resolveActivity(mActivity.getPackageManager()) != null) {
+                                    final ComponentName componentName = intent.resolveActivity(mActivity.getPackageManager());
+                                    mActivity.startActivity(Intent.createChooser(intent, "请选择浏览器"));
+                                }
+//                                mContext.startActivity(CommonH7Activity.getIntent(mContext, CommonH7Activity.class, huoPayModel.getData().getCashier_url()));
                                 finish();
                             }
                             lav_loading.hide();

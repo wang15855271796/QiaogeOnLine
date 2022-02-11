@@ -48,10 +48,11 @@ public class CommonH6Activity extends BaseSwipeActivity {
     private String mUrl;
     private FrameLayout mFram;
     private ImageView mIvBack;
-
-    public static Intent getIntent(Context context, Class<?> cls, String url) {
+    String orderId;
+    public static Intent getIntent(Context context, Class<?> cls, String url,String orderId) {
         Intent intent = new Intent();
         intent.putExtra(URL, url);
+        intent.putExtra("orderId", orderId);
         intent.setClass(context, cls);
         return intent;
     }
@@ -65,6 +66,7 @@ public class CommonH6Activity extends BaseSwipeActivity {
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         mUrl = getIntent().getStringExtra(URL);
+        orderId = getIntent().getStringExtra("orderId");
         if (savedInstanceState != null) {
             mUrl = savedInstanceState.getString(URL);
         }
@@ -168,6 +170,9 @@ public class CommonH6Activity extends BaseSwipeActivity {
                     try{
                         if(url.startsWith("wushang://")){
                             if(!TextUtils.isEmpty(code)&&!code.equals("")) {
+                                Intent intent = new Intent(mContext,HuoHomeActivity.class);
+                                intent.putExtra("orderId",orderId);
+                                startActivity(intent);
                                 finish();
                             }
 

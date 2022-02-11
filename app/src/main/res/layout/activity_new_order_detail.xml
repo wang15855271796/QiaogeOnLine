@@ -92,18 +92,28 @@
                         android:textSize="@dimen/sp_12" />
 
 
-                    <com.puyue.www.qiaoge.activity.flow.TagFlowLayout
-                        android:id="@+id/rv_huo"
-                        android:visibility="gone"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:layout_below="@+id/tv_distribution"
-                        android:layout_width="wrap_content"
-                        android:layout_marginRight="@dimen/size_15dp"
-                        android:layout_height="wrap_content"
-                        app:is_limit="true"
-                        app:limit_line_count="3"
-                        app:max_select="1"/>
+<!--                    <LinearLayout-->
+<!--                        android:id="@+id/ll_huo"-->
+<!--                        android:orientation="vertical"-->
+<!--                        android:layout_alignParentRight="true"-->
+<!--                        android:layout_marginRight="@dimen/size_15dp"-->
+<!--                        android:layout_below="@+id/tv_distribution"-->
+<!--                        android:layout_marginTop="@dimen/dp_10"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content">-->
+
+                        <com.puyue.www.qiaoge.activity.flow.TagFlowLayout
+                            android:id="@+id/rv_huo"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@+id/tv_distribution"
+                            android:layout_width="160dp"
+                            android:layout_height="wrap_content"
+                            app:is_limit="true"
+                            app:tag_gravity="right"
+                            app:limit_line_count="3"
+                            app:max_select="1"/>
+<!--                    </LinearLayout>-->
+
 
                     <TextView
                         android:id="@+id/tv_order_num"

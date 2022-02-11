@@ -140,7 +140,6 @@ public class CouponListssAdapter extends BaseQuickAdapter<ItemModel,BaseViewHold
                                 et.setText(amount);
                             }
                         }
-
                     }
                 }
             }

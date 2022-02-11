@@ -38,6 +38,7 @@ import com.puyue.www.qiaoge.AutoPollRecyclerView;
 import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
+import com.puyue.www.qiaoge.activity.CommonH6Activity;
 import com.puyue.www.qiaoge.activity.FullListActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.HuoDetailActivity;
@@ -81,6 +82,7 @@ import com.puyue.www.qiaoge.api.home.CityChangeAPI;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.api.home.IndexInfoModel;
 import com.puyue.www.qiaoge.api.home.ProductListAPI;
+import com.puyue.www.qiaoge.api.huolala.HuolalaAPI;
 import com.puyue.www.qiaoge.api.mine.UpdateAPI;
 import com.puyue.www.qiaoge.banner.Banner;
 import com.puyue.www.qiaoge.banner.BannerConfig;
@@ -119,6 +121,7 @@ import com.puyue.www.qiaoge.helper.PublicRequestHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.CouponModels;
+import com.puyue.www.qiaoge.model.IsAuthModel;
 import com.puyue.www.qiaoge.model.IsShowModel;
 import com.puyue.www.qiaoge.model.OrderModel;
 import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
@@ -1794,9 +1797,10 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                 }
                 break;
             case R.id.tv_call:
-                Intent intentss = new Intent(mActivity, HuoHomeActivity.class);
-                intentss.putExtra("orderId","");
-                startActivity(intentss);
+                isAuth();
+//                Intent intentss = new Intent(mActivity, HuoHomeActivity.class);
+//                intentss.putExtra("orderId","");
+//                startActivity(intentss);
                 break;
             case R.id.tv_search:
                 Intent intent = new Intent(mActivity, SearchStartActivity.class);
@@ -1949,6 +1953,43 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
 
     }
 
+    /**
+     * 判断是否需要授权
+     */
+    private void isAuth() {
+        HuolalaAPI.isAuthorize(mActivity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<IsAuthModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(IsAuthModel isAuthModel) {
+                        if(isAuthModel.getCode()==1) {
+                            if(isAuthModel.getData()!=null) {
+                                if(isAuthModel.getData().isAuthorize()) {
+                                    startActivity(CommonH6Activity.getIntent(mActivity, CommonH6Activity.class,isAuthModel.getData().getAuthUrl(),""));
+                                }else {
+                                    Intent intentss = new Intent(mActivity, HuoHomeActivity.class);
+                                    intentss.putExtra("orderId","");
+                                    startActivity(intentss);
+                                }
+                            }
+
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,isAuthModel.getMessage());
+                        }
+                    }
+                });
+    }
 
     private void stopAuto() {
 //        if (mAutoTask != null && !mAutoTask.isDisposed()) {
