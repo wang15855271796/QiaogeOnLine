@@ -177,42 +177,44 @@ public class HuoDriverActivity extends BaseActivity implements View.OnClickListe
         public void onGetDrivingRouteResult(DrivingRouteResult drivingRouteResult) {
             //创建DrivingRouteOverlay实例
             DrivingRouteOverlay overlay = new DrivingRouteOverlay(mBaidumap);
-            if (drivingRouteResult.getRouteLines().size() > 0) {
+            if(drivingRouteResult.getRouteLines()!=null) {
+                if (drivingRouteResult.getRouteLines().size() > 0) {
 //                overlay.setData(drivingRouteResult.getRouteLines().get(0));
-                LatLng p1 = new LatLng(sendAddress.getLatLon().getLat(), sendAddress.getLatLon().getLon());
-                LatLng p2 = new LatLng(receiveAddress.getLatLon().getLat(), receiveAddress.getLatLon().getLon());
-                LatLng p3 = new LatLng(latLon.getLat(), latLon.getLon());
-                List<LatLng> point = new ArrayList<>();
-                point.add(p1);
-                point.add(p2);
-                point.add(p3);
-                BitmapDescriptor start = BitmapDescriptorFactory.fromResource(R.mipmap.icon_z);
-                BitmapDescriptor end = BitmapDescriptorFactory.fromResource(R.mipmap.icon_x);
-                BitmapDescriptor driver = BitmapDescriptorFactory.fromResource(R.mipmap.icon_huo_cars);
-                List<OverlayOptions> options = new ArrayList<>();
-                OverlayOptions option1 =  new MarkerOptions()
-                        .position(p1)
-                        .icon(start);
-                OverlayOptions option2 =  new MarkerOptions()
-                        .position(p2)
-                        .icon(end);
-                OverlayOptions option3 =  new MarkerOptions()
-                        .position(p3)
-                        .icon(driver);
-                options.add(option1);
-                options.add(option2);
-                options.add(option3);
-                mBaidumap.addOverlays(options);
-                //设置折线的属性
-                OverlayOptions mOverlayOptions = new PolylineOptions()
-                        .width(10)
-                        .color(0xAAFF0000)
-                        .points(point);
-                //在地图上绘制折线
-                //mPloyline 折线对象
-                mBaidumap.addOverlay(mOverlayOptions);
-                mBaidumap.addOverlays(options);
-                overlay.addToMap();
+                    LatLng p1 = new LatLng(sendAddress.getLatLon().getLat(), sendAddress.getLatLon().getLon());
+                    LatLng p2 = new LatLng(receiveAddress.getLatLon().getLat(), receiveAddress.getLatLon().getLon());
+                    LatLng p3 = new LatLng(latLon.getLat(), latLon.getLon());
+                    List<LatLng> point = new ArrayList<>();
+                    point.add(p1);
+                    point.add(p2);
+                    point.add(p3);
+                    BitmapDescriptor start = BitmapDescriptorFactory.fromResource(R.mipmap.icon_z);
+                    BitmapDescriptor end = BitmapDescriptorFactory.fromResource(R.mipmap.icon_x);
+                    BitmapDescriptor driver = BitmapDescriptorFactory.fromResource(R.mipmap.icon_huo_cars);
+                    List<OverlayOptions> options = new ArrayList<>();
+                    OverlayOptions option1 =  new MarkerOptions()
+                            .position(p1)
+                            .icon(start);
+                    OverlayOptions option2 =  new MarkerOptions()
+                            .position(p2)
+                            .icon(end);
+                    OverlayOptions option3 =  new MarkerOptions()
+                            .position(p3)
+                            .icon(driver);
+                    options.add(option1);
+                    options.add(option2);
+                    options.add(option3);
+                    mBaidumap.addOverlays(options);
+                    //设置折线的属性
+                    OverlayOptions mOverlayOptions = new PolylineOptions()
+                            .width(10)
+                            .color(0xAAFF0000)
+                            .points(point);
+                    //在地图上绘制折线
+                    //mPloyline 折线对象
+                    mBaidumap.addOverlay(mOverlayOptions);
+                    mBaidumap.addOverlays(options);
+                    overlay.addToMap();
+                }
             }
         }
 

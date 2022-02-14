@@ -174,7 +174,6 @@ public class TestAdapter extends BaseQuickAdapter<CartsListModel.DataBean.ValidL
         cb_item_out.setOnCheckedChangeListener(null);
 //        cb_choose.setOnCheckedChangeListener(null);
         cb_item_out.setChecked(item.isSelected());
-        Log.d("wfdsfssds......",item.isSelected()+"wddssd");
 //        cb_choose.setChecked(item.isSelected());
         if(mOnResfreshListener != null){
             boolean isSelect = false;

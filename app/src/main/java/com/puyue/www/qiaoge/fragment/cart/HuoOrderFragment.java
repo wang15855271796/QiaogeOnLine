@@ -569,9 +569,13 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
             }else {
                 jsonArray1.put(1,jsonObject);
             }
-            getPrice(dataBean.getCity_id(),data.getCity_info_revision(),
-                    data.getVehicle_list().get(positions).getOrder_vehicle_id(),"", "",
-                    jsonArray1,orderTime,"",StringUtils.join(listDesc, ","),invoiceType);
+
+            if(jsonArray1.length()==2) {
+                getPrice(dataBean.getCity_id(),data.getCity_info_revision(),
+                        data.getVehicle_list().get(positions).getOrder_vehicle_id(),"", "",
+                        jsonArray1,orderTime,"",StringUtils.join(listDesc, ","),invoiceType);
+            }
+
 
         } catch (JSONException e) {
             e.printStackTrace();

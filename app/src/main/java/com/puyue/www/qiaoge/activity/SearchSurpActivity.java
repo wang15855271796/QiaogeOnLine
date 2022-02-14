@@ -138,11 +138,9 @@ public class SearchSurpActivity extends BaseActivity {
                                 List<SurpliListModel.DataBean.ListBean> lists = surpliListModel.getData().getList();
                                 list.addAll(lists);
                                 if(surpliListModel.getData().getList().size()>0) {
-                                    Log.d("wfsdfdsf....","0");
                                     iv_no_data.setVisibility(View.GONE);
                                     ll.setVisibility(View.VISIBLE);
                                 }else {
-                                    Log.d("wfsdfdsf....","1");
                                     iv_no_data.setVisibility(View.VISIBLE);
                                     ll.setVisibility(View.GONE);
                                 }

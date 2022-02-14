@@ -392,7 +392,6 @@ public class InfoFragment extends BaseFragment {
             provinceCode = "";
             getCityList(search,"","","");
             tv_address.setText("全部");
-            Log.d("wasfsdfd......","weqeq");
         }
 
     }

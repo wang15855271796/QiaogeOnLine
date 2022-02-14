@@ -887,7 +887,6 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
         }else {
             start = System.currentTimeMillis();
             requestCartList();
-            Log.d("fdsfdsfeff..........","sds4");
         }
     }
 
@@ -1221,7 +1220,6 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
     public void getMust(CityEvent event) {
         getProductsList();
         requestCartList();
-        Log.d("aegffgdfdfd....","1222");
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

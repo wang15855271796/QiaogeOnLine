@@ -21,7 +21,6 @@ public class QuarAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, String item) {
-        Log.d("dfghdsfds...",item);
         ImageView iv_pic = helper.getView(R.id.iv_pic);
         Glide.with(mContext).load(item).into(iv_pic);
     }

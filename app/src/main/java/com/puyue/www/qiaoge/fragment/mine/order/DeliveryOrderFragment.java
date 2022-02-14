@@ -80,7 +80,6 @@ public class DeliveryOrderFragment extends BaseFragment {
     HuoConnentionDialog huoConnentionDialog;
     @Override
     public void setViewData() {
-        Log.d("fesfdsf.....","22");
         mListResult.clear();
 //        requestOrdersList(2);
         if (UserInfoHelper.getDeliverType(mActivity)!=null&&StringHelper.notEmptyAndNull(UserInfoHelper.getDeliverType(mActivity))){

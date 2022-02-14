@@ -834,6 +834,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     public void getDistribution(DisTributionEvent disTributionEvent) {
         tv_distribution.setText(disTributionEvent.getDesc());
         disType = disTributionEvent.getType();
+        requestCartBalance(NewgiftDetailNo, 0,disType);
     }
 
     /**

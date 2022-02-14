@@ -82,7 +82,6 @@ public class EvaluatedOrderFragment extends BaseFragment {
     HuoConnentionDialog huoConnentionDialog;
     @Override
     public void setViewData() {
-        Log.d("fesfdsf.....","33");
         mListResult.clear();
         mListEvaluate.clear();
 //        requestOrdersList(5);

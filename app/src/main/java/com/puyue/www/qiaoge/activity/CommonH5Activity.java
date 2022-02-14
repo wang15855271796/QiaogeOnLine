@@ -169,35 +169,7 @@ public class CommonH5Activity extends BaseSwipeActivity {
 
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    Uri parse = Uri.parse(url);
-                    String code = parse.getQueryParameter("code");
-                    String hllOrderId = parse.getQueryParameter("hllOrderId");
-                    try{
-                        if(url.startsWith("wushang://")){
-                            if(!TextUtils.isEmpty(code)&&!code.equals("")) {
-//                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-//                                startActivity(intent);
-                                Intent intent = new Intent(mContext,HuoHomeActivity.class);
-                                intent.putExtra("id",hllOrderId);
-                                startActivity(intent);
-                            }
-
-                            if(!TextUtils.isEmpty(hllOrderId)&&!hllOrderId.equals("")) {
-                                Intent intent = new Intent(mContext,HuoDetailActivity.class);
-                                intent.putExtra("id",hllOrderId);
-                                startActivity(intent);
-                                finish();
-                            }
-
-                            return true;
-                        }
-                    }catch (Exception e){
-                        return false;
-                    }
-
-                    mWv.loadUrl(url);
-//                    getCode(code);
-                    return true;
+                    return false;
                 }
 
                 @Override
@@ -206,7 +178,6 @@ public class CommonH5Activity extends BaseSwipeActivity {
                 }
             });
             mWv.loadUrl(mUrl);
-//            Log.e(TAG, "setViewData: "+mUrl );
         }
     }
 

@@ -151,7 +151,6 @@ public class ReturnNumAdapter extends BaseQuickAdapter<ReturnOrderDetailModel.Da
                         if (listener != null) {
                             listener.onEventClick();
                         }
-                        Log.d("awesfdfds......","2222");
                     }
                 };
         et_num.addTextChangedListener(watcher);

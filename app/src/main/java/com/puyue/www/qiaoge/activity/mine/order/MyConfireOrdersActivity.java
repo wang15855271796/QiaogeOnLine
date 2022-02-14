@@ -654,7 +654,6 @@ public class MyConfireOrdersActivity extends BaseSwipeActivity {
         }
         lav_activity_loading.setVisibility(View.GONE);
         lav_activity_loading.hide();
-        Log.d("dwdsssss.......","00000");
     }
 
     /**
@@ -663,7 +662,6 @@ public class MyConfireOrdersActivity extends BaseSwipeActivity {
     @Subscribe
     public void onEventMainThread(WeChatPayEvent event) {
         //okpay
-        Log.d("dwdsssssss......","00000");
         okPay.setEnabled(true);
         Intent intent = new Intent(mContext, PayResultActivity.class);
         intent.putExtra(AppConstant.PAYCHANNAL, payChannel);

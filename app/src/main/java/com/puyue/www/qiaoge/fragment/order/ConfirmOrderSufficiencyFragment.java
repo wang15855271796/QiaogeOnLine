@@ -692,8 +692,11 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
         public void onNoDoubleClick(View view) {
             switch (view.getId()) {
                 case R.id.rl_distribution:
-                    DisSelfDialog disDialog = new DisSelfDialog(mActivity,cModel.getData().getSendAmount(),0);
-                    disDialog.show();
+                    if(cModel!=null&&cModel.getData()!=null) {
+                        DisSelfDialog disDialog = new DisSelfDialog(mActivity,cModel.getData().getSendAmount(),0);
+                        disDialog.show();
+                    }
+
                     break;
                 case R.id.ll_beizhu:
                     Intent intents = new Intent(mActivity,BeizhuActivity.class);

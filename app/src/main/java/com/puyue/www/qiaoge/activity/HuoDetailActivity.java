@@ -2,6 +2,7 @@ package com.puyue.www.qiaoge.activity;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -735,7 +736,14 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
                         if(huoDriverPayModel.getCode()==1) {
                             if(huoDriverPayModel.getData()!=null) {
                                 String cashier_url = huoDriverPayModel.getData().getCashier_url();
-                                startActivity(CommonH5Activity.getIntent(mContext, CommonH5Activity.class, cashier_url));
+                                Intent intent = new Intent();
+                                intent.setAction(Intent.ACTION_VIEW);
+                                intent.setData(Uri.parse(cashier_url));
+                                if (intent.resolveActivity(mActivity.getPackageManager()) != null) {
+                                    intent.resolveActivity(mActivity.getPackageManager());
+                                    mActivity.startActivity(Intent.createChooser(intent, "请选择浏览器"));
+                                }
+//                                startActivity(CommonH7Activity.getIntent(mContext, CommonH7Activity.class, cashier_url));
                                 finish();
                             }
                         }else {

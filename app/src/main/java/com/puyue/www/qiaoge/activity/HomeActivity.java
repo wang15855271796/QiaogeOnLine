@@ -815,7 +815,6 @@ public class MyLocationListener extends BDAbstractLocationListener {
         type = "";
         locationMessage = location.getAddrStr();    //获取详细地址信息
         switchTab(TAB_HOME);
-        Log.d("sdsdfdsfsfs.......",city+"ss");
     }
 }
 }

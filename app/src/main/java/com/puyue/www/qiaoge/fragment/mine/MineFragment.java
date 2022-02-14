@@ -1041,7 +1041,6 @@ public class MineFragment extends BaseFragment {
                         mListData.clear();
                         if (myOrderNumModel.success) {
                             mModelMyOrderNum = myOrderNumModel;
-                            Log.d("wwwwwwwwww.....","swdwd");
 
 //                            if(myOrderNumModel.getData().getSubMessage()==0) {
 //                                tv_number.setVisibility(View.GONE);

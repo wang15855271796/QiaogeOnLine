@@ -250,6 +250,7 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
                         }
                     };
                 }
+                huoOtherDialog.setCanceledOnTouchOutside(false);
                 huoOtherDialog.show();
                 break;
 
@@ -524,7 +525,7 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
                                 intent.setAction(Intent.ACTION_VIEW);
                                 intent.setData(Uri.parse(huoPayModel.getData().getCashier_url()));
                                 if (intent.resolveActivity(mActivity.getPackageManager()) != null) {
-                                    final ComponentName componentName = intent.resolveActivity(mActivity.getPackageManager());
+                                    intent.resolveActivity(mActivity.getPackageManager());
                                     mActivity.startActivity(Intent.createChooser(intent, "请选择浏览器"));
                                 }
 //                                mContext.startActivity(CommonH7Activity.getIntent(mContext, CommonH7Activity.class, huoPayModel.getData().getCashier_url()));

@@ -315,9 +315,6 @@ public class HuoHomeActivity extends BaseActivity implements View.OnClickListene
                     public void onNext(IsAuthModel isAuthModel) {
                         if(isAuthModel.getCode()==1) {
                             if(isAuthModel.getData()!=null) {
-//                                if(isAuthModel.getData().isAuthorize()) {
-//                                    startActivity(CommonH6Activity.getIntent(mContext,CommonH6Activity.class,isAuthModel.getData().getAuthUrl()));
-//                                }
                                 tv_phone.setText(isAuthModel.getData().getAuthPhone());
                             }
 

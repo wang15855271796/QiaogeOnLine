@@ -1084,7 +1084,6 @@ public class MarketsFragment extends BaseFragment {
         mAdapterMarketSecond.setOnItemClickListeners(new MarketSecondAdapter.OnEventClickListener() {
             @Override
             public void onEventClick(int position, int secondId) {
-                Log.d("wfdfvgdfds........","wddsff");
                 dialog.show();
                 pageNum = 1;
                 minPrice = "";
@@ -1613,7 +1612,6 @@ public class MarketsFragment extends BaseFragment {
     public void change(FromIndexEvent fromIndexEvent) {
         fromId = fromIndexEvent.getId();
         requestGoodsList(fromId);
-        Log.d("wdfdasfdsfsfs....","111");
     }
 
 //    @Subscribe(threadMode = ThreadMode.MAIN)
