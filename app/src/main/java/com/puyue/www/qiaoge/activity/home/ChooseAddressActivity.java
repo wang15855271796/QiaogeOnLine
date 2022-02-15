@@ -10,8 +10,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.baidu.mapapi.search.sug.SuggestionSearch;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.HomeActivity;
@@ -81,7 +79,7 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
     LinearLayout ll_area;
     List<AddressModel.DataBean> list = new ArrayList<>();
     private AddressListAdapter addressListAdapter;
-    private SuggestionSearch mSuggestionSearch;
+//    private SuggestionSearch mSuggestionSearch;
     private SuggestAdressAdapter adressAdapter;
     private String cityName;
     private String areaName;
@@ -104,7 +102,7 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
     public void findViewById() {
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
-        mSuggestionSearch = SuggestionSearch.newInstance();
+//        mSuggestionSearch = SuggestionSearch.newInstance();
         SharedPreferencesUtil.saveInt(mActivity,"isClick",0);
         tv_tip.setOnClickListener(this);
         iv_back.setOnClickListener(this);

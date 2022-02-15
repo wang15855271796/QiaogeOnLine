@@ -12,22 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.tu.loadingdialog.LoadingDailog;
-import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BitmapDescriptor;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
-import com.baidu.mapapi.map.MapStatus;
-import com.baidu.mapapi.map.MapStatusUpdate;
-import com.baidu.mapapi.map.MapStatusUpdateFactory;
-import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.MarkerOptions;
-import com.baidu.mapapi.map.OverlayOptions;
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.search.core.SearchResult;
-import com.baidu.mapapi.search.geocode.GeoCodeOption;
-import com.baidu.mapapi.search.geocode.GeoCodeResult;
-import com.baidu.mapapi.search.geocode.GeoCoder;
-import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
-import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
+
 import com.puyue.www.qiaoge.R;
 
 import com.puyue.www.qiaoge.adapter.mine.AddressApi;
@@ -55,12 +40,12 @@ import rx.schedulers.Schedulers;
  * Created by ${王文博} on 2019/5/28
  */
 public class MapOrderMessageActivity extends BaseSwipeActivity {
-    private MapView mMapView = null;
+//    private MapView mMapView = null;
     private String orderId;
     //司机地址
     private String addressDetail;
 
-    BaiduMap mBaiduMap;
+//    BaiduMap mBaiduMap;
     private ConfirmGetGoodsModel mModelConfirmGetGoods;
 
     private TextView mTvOk;
@@ -96,11 +81,11 @@ public class MapOrderMessageActivity extends BaseSwipeActivity {
     private LoadingDailog dialog;
 
 
-    private LatLng cenpt;
-    private MapStatusUpdate mMapStatusUpdate;
+//    private LatLng cenpt;
+//    private MapStatusUpdate mMapStatusUpdate;
 
 
-    private GeoCoder mCoder;
+//    private GeoCoder mCoder;
     double latitude1;
     double longitude1;
 
@@ -117,7 +102,7 @@ public class MapOrderMessageActivity extends BaseSwipeActivity {
     @Override
     public void findViewById() {
         //获取地图控件引用
-        mMapView = (MapView) findViewById(R.id.bmapView);
+//        mMapView = (MapView) findViewById(R.id.bmapView);
         mTvOk = findViewById(R.id.tv_ok);
         tv_wait_order = findViewById(R.id.tv_wait_order);
         tv_wait_send_date = findViewById(R.id.tv_wait_send_date);
@@ -150,19 +135,19 @@ public class MapOrderMessageActivity extends BaseSwipeActivity {
         getOrderMessage(orderId);
 
 
-        mBaiduMap = mMapView.getMap();
-//普通地图 ,mBaiduMap是地图控制器对象
-        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+//        mBaiduMap = mMapView.getMap();
+////普通地图 ,mBaiduMap是地图控制器对象
+//        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
 
 
         //默认显示地图标注
         //  mBaiduMap.showMapPoi(false);
 
         //通过设置enable为true或false 选择是否显示比例尺
-        mMapView.showScaleControl(false);
-
-        //通过设置enable为true或false 选择是否显示缩放按钮
-        mMapView.showZoomControls(false);
+//        mMapView.showScaleControl(false);
+//
+//        //通过设置enable为true或false 选择是否显示缩放按钮
+//        mMapView.showZoomControls(false);
 /*
         BaiduMapOptions options = new BaiduMapOptions();
         //设置地图模式为卫星地图
@@ -196,62 +181,62 @@ public class MapOrderMessageActivity extends BaseSwipeActivity {
         points.add(new LatLng(30.333936, 120.223496));*/
 
         Log.i("dwqrqrqwr", "setViewData: " + returnDate("2019-05-22 10:17:28"));
-        mCoder = GeoCoder.newInstance();
-
-        mCoder.setOnGetGeoCodeResultListener(listener);
+//        mCoder = GeoCoder.newInstance();
+//
+//        mCoder.setOnGetGeoCodeResultListener(listener);
 
         //   getAddress(addressDetail);
 
 
     }
 
-    OnGetGeoCoderResultListener listener = new OnGetGeoCoderResultListener() {
-        @Override
-        public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
-            if (null != geoCodeResult && null != geoCodeResult.getLocation()) {
-                if (geoCodeResult == null || geoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
-                    //没有检索到结果
-                    return;
-                } else {
-                    latitude1 = geoCodeResult.getLocation().latitude;
-                    longitude1 = geoCodeResult.getLocation().longitude;
-                    getAddressLocation();
-                }
-            }
-        }
+//    OnGetGeoCoderResultListener listener = new OnGetGeoCoderResultListener() {
+//        @Override
+//        public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
+//            if (null != geoCodeResult && null != geoCodeResult.getLocation()) {
+//                if (geoCodeResult == null || geoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
+//                    //没有检索到结果
+//                    return;
+//                } else {
+//                    latitude1 = geoCodeResult.getLocation().latitude;
+//                    longitude1 = geoCodeResult.getLocation().longitude;
+//                    getAddressLocation();
+//                }
+//            }
+//        }
+//
+//        @Override
+//        public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
+//
+//        }
+//
+//    };
 
-        @Override
-        public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
-
-        }
-
-    };
-
-    private void getAddressLocation() {
-        LatLng cenpt = new LatLng(latitude1, longitude1);
-        //定义地图状态
-        MapStatus mMapStatus = new MapStatus.Builder()
-                .target(cenpt)
-                .zoom(18)
-                .build();
-        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
-
-
-        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
-        //改变地图状态
-        //定义Maker坐标点
-
-        //构建Marker图标
-        BitmapDescriptor bitmap = BitmapDescriptorFactory
-                .fromResource(R.mipmap.ic_driver_location_end);
-        //构建MarkerOption，用于在地图上添加Marker
-        OverlayOptions option = new MarkerOptions()
-                .position(cenpt)
-                .icon(bitmap);
-        //在地图上添加Marker，并显示
-        mBaiduMap.addOverlay(option);
-        mBaiduMap.setMapStatus(mMapStatusUpdate);
-    }
+//    private void getAddressLocation() {
+//        LatLng cenpt = new LatLng(latitude1, longitude1);
+//        //定义地图状态
+//        MapStatus mMapStatus = new MapStatus.Builder()
+//                .target(cenpt)
+//                .zoom(18)
+//                .build();
+//        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+//
+//
+//        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+//        //改变地图状态
+//        //定义Maker坐标点
+//
+//        //构建Marker图标
+//        BitmapDescriptor bitmap = BitmapDescriptorFactory
+//                .fromResource(R.mipmap.ic_driver_location_end);
+//        //构建MarkerOption，用于在地图上添加Marker
+//        OverlayOptions option = new MarkerOptions()
+//                .position(cenpt)
+//                .icon(bitmap);
+//        //在地图上添加Marker，并显示
+//        mBaiduMap.addOverlay(option);
+//        mBaiduMap.setMapStatus(mMapStatusUpdate);
+//    }
 
     @Override
     public void setClickEvent() {
@@ -368,9 +353,9 @@ public class MapOrderMessageActivity extends BaseSwipeActivity {
                             listBeans.addAll(getOrderDriverModel.getData().getUserLocationVOList());
 
                             showPoint();
-                            mCoder.geocode(new GeoCodeOption()
-                                    .city("杭州")
-                                    .address(addressDetail));
+//                            mCoder.geocode(new GeoCodeOption()
+//                                    .city("杭州")
+//                                    .address(addressDetail));
                             // getAddress(addressDetail);
                             if (dialog != null) {
                                 dialog.dismiss();
@@ -418,10 +403,10 @@ public class MapOrderMessageActivity extends BaseSwipeActivity {
 
 
         //构建折线点坐标
-        List<LatLng> points = new ArrayList<LatLng>();
-        for (int i = 0; i < listBeans.size(); i++) {
-            points.add(new LatLng(Double.parseDouble(listBeans.get(i).getLatitude()), Double.parseDouble(listBeans.get(i).getLongitude())));
-        }
+//        List<LatLng> points = new ArrayList<LatLng>();
+//        for (int i = 0; i < listBeans.size(); i++) {
+//            points.add(new LatLng(Double.parseDouble(listBeans.get(i).getLatitude()), Double.parseDouble(listBeans.get(i).getLongitude())));
+//        }
 
 //        Log.i("wwbb", "setViewData: " + points.size());
 
@@ -465,29 +450,29 @@ public class MapOrderMessageActivity extends BaseSwipeActivity {
     }
 
     private void initMapTwo(Double lat, Double lng) {
-        LatLng cenpt = new LatLng(lat, lng);
-        //定义地图状态
-        MapStatus mMapStatus = new MapStatus.Builder()
-                .target(cenpt)
-                .zoom(18)
-                .build();
-        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
-
-
-        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
-        //改变地图状态
-        //定义Maker坐标点
-
-        //构建Marker图标
-        BitmapDescriptor bitmap = BitmapDescriptorFactory
-                .fromResource(R.mipmap.ic_driver_location_start);
-        //构建MarkerOption，用于在地图上添加Marker
-        OverlayOptions option = new MarkerOptions()
-                .position(cenpt)
-                .icon(bitmap);
-        //在地图上添加Marker，并显示
-        mBaiduMap.addOverlay(option);
-        mBaiduMap.setMapStatus(mMapStatusUpdate);
+//        LatLng cenpt = new LatLng(lat, lng);
+//        //定义地图状态
+//        MapStatus mMapStatus = new MapStatus.Builder()
+//                .target(cenpt)
+//                .zoom(18)
+//                .build();
+//        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+//
+//
+//        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+//        //改变地图状态
+//        //定义Maker坐标点
+//
+//        //构建Marker图标
+//        BitmapDescriptor bitmap = BitmapDescriptorFactory
+//                .fromResource(R.mipmap.ic_driver_location_start);
+//        //构建MarkerOption，用于在地图上添加Marker
+//        OverlayOptions option = new MarkerOptions()
+//                .position(cenpt)
+//                .icon(bitmap);
+//        //在地图上添加Marker，并显示
+//        mBaiduMap.addOverlay(option);
+//        mBaiduMap.setMapStatus(mMapStatusUpdate);
 
     }
 
@@ -514,29 +499,29 @@ public class MapOrderMessageActivity extends BaseSwipeActivity {
                         if (addressModel.status == 0) {
                             double lat = addressModel.result.location.lat;//纬度
                             double lng = addressModel.result.location.lng;//经度
-                            LatLng cenpt = new LatLng(lat, lng);
+//                            LatLng cenpt = new LatLng(lat, lng);
                             //定义地图状态
-                            MapStatus mMapStatus = new MapStatus.Builder()
-                                    .target(cenpt)
-                                    .zoom(18)
-                                    .build();
-                            //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
-
-
-                            MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
-                            //改变地图状态
-                            //定义Maker坐标点
-
-                            //构建Marker图标
-                            BitmapDescriptor bitmap = BitmapDescriptorFactory
-                                    .fromResource(R.mipmap.ic_driver_location_end);
-                            //构建MarkerOption，用于在地图上添加Marker
-                            OverlayOptions option = new MarkerOptions()
-                                    .position(cenpt)
-                                    .icon(bitmap);
-                            //在地图上添加Marker，并显示
-                            mBaiduMap.addOverlay(option);
-                            mBaiduMap.setMapStatus(mMapStatusUpdate);
+//                            MapStatus mMapStatus = new MapStatus.Builder()
+//                                    .target(cenpt)
+//                                    .zoom(18)
+//                                    .build();
+//                            //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+//
+//
+//                            MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+//                            //改变地图状态
+//                            //定义Maker坐标点
+//
+//                            //构建Marker图标
+//                            BitmapDescriptor bitmap = BitmapDescriptorFactory
+//                                    .fromResource(R.mipmap.ic_driver_location_end);
+//                            //构建MarkerOption，用于在地图上添加Marker
+//                            OverlayOptions option = new MarkerOptions()
+//                                    .position(cenpt)
+//                                    .icon(bitmap);
+//                            //在地图上添加Marker，并显示
+//                            mBaiduMap.addOverlay(option);
+//                            mBaiduMap.setMapStatus(mMapStatusUpdate);
                         } else {
 
                         }
@@ -547,52 +532,52 @@ public class MapOrderMessageActivity extends BaseSwipeActivity {
 
 
     private void initMap(Double lat, Double lng) {
-        cenpt = new LatLng(lat, lng);
+//        cenpt = new LatLng(lat, lng);
         //定义地图状态
-        MapStatus mMapStatus = new MapStatus.Builder()
-                .target(cenpt)
-                .zoom(18)
-                .build();
-        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
-
-
-        mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
-        //改变地图状态
-        //定义Maker坐标点
-
-        //构建Marker图标
-        BitmapDescriptor bitmap = BitmapDescriptorFactory
-                .fromResource(R.mipmap.ic_map_status);
-        //构建MarkerOption，用于在地图上添加Marker
-        OverlayOptions option = new MarkerOptions()
-                .position(cenpt)
-                .icon(bitmap);
-        //在地图上添加Marker，并显示
-        mBaiduMap.addOverlay(option);
-        mBaiduMap.setMapStatus(mMapStatusUpdate);
+//        MapStatus mMapStatus = new MapStatus.Builder()
+//                .target(cenpt)
+//                .zoom(18)
+//                .build();
+//        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+//
+//
+//        mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+//        //改变地图状态
+//        //定义Maker坐标点
+//
+//        //构建Marker图标
+//        BitmapDescriptor bitmap = BitmapDescriptorFactory
+//                .fromResource(R.mipmap.ic_map_status);
+//        //构建MarkerOption，用于在地图上添加Marker
+//        OverlayOptions option = new MarkerOptions()
+//                .position(cenpt)
+//                .icon(bitmap);
+//        //在地图上添加Marker，并显示
+//        mBaiduMap.addOverlay(option);
+//        mBaiduMap.setMapStatus(mMapStatusUpdate);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         //在activity执行onResume时执行mMapView. onResume ()，实现地图生命周期管理
-        mMapView.onResume();
+//        mMapView.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         //在activity执行onPause时执行mMapView. onPause ()，实现地图生命周期管理
-        mMapView.onPause();
+//        mMapView.onPause();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
-        mMapView.onDestroy();
+//        mMapView.onDestroy();
         timer.cancel();
-        mCoder.destroy();
+//        mCoder.destroy();
 
     }
 

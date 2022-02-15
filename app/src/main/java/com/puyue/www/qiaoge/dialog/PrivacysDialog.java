@@ -24,8 +24,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.SDKInitializer;
+//import com.baidu.location.LocationClientOption;
+//import com.baidu.mapapi.SDKInitializer;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;

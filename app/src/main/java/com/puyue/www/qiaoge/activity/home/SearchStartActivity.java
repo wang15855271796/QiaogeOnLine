@@ -20,8 +20,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.baidu.mapapi.search.sug.OnGetSuggestionResultListener;
-import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.flow.FlowLayout;
@@ -58,7 +56,7 @@ import rx.schedulers.Schedulers;
  * Created by WinSinMin on 2018/4/13.
  */
 
-public class SearchStartActivity extends BaseSwipeActivity implements View.OnFocusChangeListener ,SearchView.SearchViewListener, OnGetSuggestionResultListener {
+public class SearchStartActivity extends BaseSwipeActivity implements View.OnFocusChangeListener ,SearchView.SearchViewListener {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.fl_search)
@@ -336,10 +334,6 @@ public class SearchStartActivity extends BaseSwipeActivity implements View.OnFoc
     public void onFocusChange(View v, boolean hasFocus) {
     }
 
-    @Override
-    public void onGetSuggestionResult(SuggestionResult suggestionResult) {
-
-    }
 
     @Override
     public void onRefreshAutoComplete(String text) {

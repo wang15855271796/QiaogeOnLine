@@ -10,9 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.multidex.MultiDexApplication;
 import android.util.Log;
-
-import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.SDKInitializer;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -123,11 +120,12 @@ public class QiaoGeApplication extends MultiDexApplication {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getInit(InitEvent initEvent) {
         SharedPreferencesUtil.saveString(this,"pays","-1");
-        SDKInitializer.initialize(getApplicationContext());
-        //注册监听函数
-        LocationClientOption option = new LocationClientOption();
-        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-        option.setIsNeedAddress(true);
+
+//        SDKInitializer.initialize(getApplicationContext());
+//        //注册监听函数
+//        LocationClientOption option = new LocationClientOption();
+//        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+//        option.setIsNeedAddress(true);
 //        友盟
         UMConfigure.init(this, "5facd45320657917050f92a0", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "9bde9b69caaff881a14239cb326241b8");
         PushAgent mPushAgent = PushAgent.getInstance(this);
@@ -145,7 +143,7 @@ public class QiaoGeApplication extends MultiDexApplication {
             }
         });
 
-        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
+//        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
         UserInfoHelper.saveDate(this, 0+"");
         api = WXAPIFactory.createWXAPI(this, "wxbc18d7b8fee86977");
         api.registerApp("wxbc18d7b8fee86977");

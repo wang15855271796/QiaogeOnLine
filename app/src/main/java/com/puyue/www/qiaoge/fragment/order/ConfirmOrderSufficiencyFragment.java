@@ -7,6 +7,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
+
+//import com.amap.api.maps.TextureMapView;
+//import com.amap.api.maps.UiSettings;
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.TextureMapView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,35 +28,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.baidu.location.BDAbstractLocationListener;
-import com.baidu.location.BDLocation;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BitmapDescriptor;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
-import com.baidu.mapapi.map.InfoWindow;
-import com.baidu.mapapi.map.MapPoi;
-import com.baidu.mapapi.map.MapStatus;
-import com.baidu.mapapi.map.MapStatusUpdate;
-import com.baidu.mapapi.map.MapStatusUpdateFactory;
-import com.baidu.mapapi.map.MarkerOptions;
-import com.baidu.mapapi.map.OverlayOptions;
-import com.baidu.mapapi.map.TextureMapView;
-import com.baidu.mapapi.map.UiSettings;
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.search.core.SearchResult;
-import com.baidu.mapapi.search.geocode.GeoCodeOption;
-import com.baidu.mapapi.search.geocode.GeoCodeResult;
-import com.baidu.mapapi.search.geocode.GeoCoder;
-import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
-import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.bumptech.glide.Glide;
 import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.BeizhuActivity;
-
 import com.puyue.www.qiaoge.activity.flow.FlowLayout;
 import com.puyue.www.qiaoge.activity.flow.TagsFlowLayout;
 import com.puyue.www.qiaoge.activity.mine.coupons.ChooseCouponssActivity;
@@ -200,9 +180,10 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     private EditText et_name;
     private EditText et_phone;
 
-    BaiduMap mBaiduMap;
-    private TextureMapView mMapView = null;
-    private GeoCoder mCoder;
+    AMap mBaiduMap;
+//    private TextureMapView mMapView = null;
+    TextureMapView mMapView;
+//    private GeoCoder mCoder;
     double latitude1;//仓库位置
     double longitude1;
 
@@ -211,9 +192,9 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     private TextView tv_address;
     TextView tv_num;
     AVLoadingIndicatorView lav_activity_loading;
-    public LocationClient mLocationClient = null;
-    private MyLocationListener myListener = new MyLocationListener();
-    private UiSettings mUiSettings;
+//    public LocationClient mLocationClient = null;
+//    private MyLocationListener myListener = new MyLocationListener();
+//    private UiSettings mUiSettings;
 
 
     private BottomSheetDialog mDialogMap;
@@ -330,23 +311,24 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
 
         list.clear();
       //  requestCartBalance(NewgiftDetailNo, 1);//NewgiftDetailNo
-        mBaiduMap = mMapView.getMap();
-//普通地图 ,mBaiduMap是地图控制器对象
-        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+         mBaiduMap = mMapView.getMap();
+//        mBaiduMap = map;
+////普通地图 ,mBaiduMap是地图控制器对象
+        mBaiduMap.setMapType(mBaiduMap.MAP_TYPE_NORMAL);
 
 
         //默认显示地图标注
-        //  mBaiduMap.showMapPoi(false);
+//          mBaiduMap.showMapPoi(false);
 
         //通过设置enable为true或false 选择是否显示比例尺
-        mMapView.showScaleControl(false);
-
-        //通过设置enable为true或false 选择是否显示缩放按钮
-        mMapView.showZoomControls(false);
-
-        mUiSettings = mBaiduMap.getUiSettings();
+//        mBaiduMap.showScaleControl(false);
+//
+//        //通过设置enable为true或false 选择是否显示缩放按钮
+//        mMapView.showZoomControls(false);
+//
+//        mUiSettings = mBaiduMap.getUiSettings();
         //通过设置enable为true或false 选择是否禁用所有手势
-        mUiSettings.setAllGesturesEnabled(false);
+//        mUiSettings.setAllGesturesEnabled(false);
 
         adapter = new ConfirmOrderNewAdapter(R.layout.item_confirm_order_new, list);
         unOperateAdapter = new UnOperateAdapter(R.layout.item_confirm_order_new, listUnOperate);
@@ -374,29 +356,29 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
 
 
 
-    OnGetGeoCoderResultListener listener = new OnGetGeoCoderResultListener() {
-        @Override
-        public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
-            if (null != geoCodeResult && null != geoCodeResult.getLocation()) {
-                if (geoCodeResult == null || geoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
-                    //没有检索到结果
-                    return;
-                } else {
-                    latitude1 = geoCodeResult.getLocation().latitude;
-                    longitude1 = geoCodeResult.getLocation().longitude;
-                    getAddressLocation();
-
-                }
-            }
-        }
-
-        @Override
-        public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
-
-        }
-
-
-    };
+//    OnGetGeoCoderResultListener listener = new OnGetGeoCoderResultListener() {
+//        @Override
+//        public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
+//            if (null != geoCodeResult && null != geoCodeResult.getLocation()) {
+//                if (geoCodeResult == null || geoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
+//                    //没有检索到结果
+//                    return;
+//                } else {
+//                    latitude1 = geoCodeResult.getLocation().latitude;
+//                    longitude1 = geoCodeResult.getLocation().longitude;
+//                    getAddressLocation();
+//
+//                }
+//            }
+//        }
+//
+//        @Override
+//        public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
+//
+//        }
+//
+//
+//    };
 
     int disType;
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -410,61 +392,61 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
         }
     }
 
-    BaiduMap.OnMapClickListener listenerClick = new BaiduMap.OnMapClickListener() {
-        /**
-         * 地图单击事件回调函数
-         *
-         * @param point 点击的地理坐标
-         */
-        @Override
-        public void onMapClick(LatLng point) {
-            Log.i("dwqrqr", "onMapClick: " + "我点击了");
-            showMapDialog();
-        }
-
-        /**
-         * 地图内 Poi 单击事件回调函数
-         *
-         * @param mapPoi 点击的 poi 信息
-         */
-        @Override
-        public boolean onMapPoiClick(MapPoi mapPoi) {
-            return false;
-        }
-    };
+//    BaiduMap.OnMapClickListener listenerClick = new BaiduMap.OnMapClickListener() {
+//        /**
+//         * 地图单击事件回调函数
+//         *
+//         * @param point 点击的地理坐标
+//         */
+//        @Override
+//        public void onMapClick(LatLng point) {
+//            Log.i("dwqrqr", "onMapClick: " + "我点击了");
+//            showMapDialog();
+//        }
+//
+//        /**
+//         * 地图内 Poi 单击事件回调函数
+//         *
+//         * @param mapPoi 点击的 poi 信息
+//         */
+//        @Override
+//        public boolean onMapPoiClick(MapPoi mapPoi) {
+//            return false;
+//        }
+//    };
 
 
 
     private void getAddressLocation() {
-        LatLng cenpt = new LatLng(latitude1, longitude1);
-        //定义地图状态
-        MapStatus mMapStatus = new MapStatus.Builder()
-                .target(cenpt)
-                .zoom(18)
-                .build();
-        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
-
-
-        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
-        //改变地图状态
-        //定义Maker坐标点
-
-        //构建Marker图标
-        BitmapDescriptor bitmap = BitmapDescriptorFactory
-                .fromResource(R.mipmap.ic_confirm_map);
-        //构建MarkerOption，用于在地图上添加Marker
-        OverlayOptions option = new MarkerOptions()
-                .position(cenpt)
-                .icon(bitmap);
-        //在地图上添加Marker，并显示
-        mBaiduMap.addOverlay(option);
-        mBaiduMap.setMapStatus(mMapStatusUpdate);
-
-        LatLng cenpt1 = new LatLng(120.08947, 30.397751);
-
-        OverlayOptions position = new MarkerOptions().position(cenpt1);
-
-        LatLng cenpt2 = new LatLng(120.126731, 30.336927);
+//        LatLng cenpt = new LatLng(latitude1, longitude1);
+//        //定义地图状态
+//        MapStatus mMapStatus = new MapStatus.Builder()
+//                .target(cenpt)
+//                .zoom(18)
+//                .build();
+//        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+//
+//
+//        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+//        //改变地图状态
+//        //定义Maker坐标点
+//
+//        //构建Marker图标
+//        BitmapDescriptor bitmap = BitmapDescriptorFactory
+//                .fromResource(R.mipmap.ic_confirm_map);
+//        //构建MarkerOption，用于在地图上添加Marker
+//        OverlayOptions option = new MarkerOptions()
+//                .position(cenpt)
+//                .icon(bitmap);
+//        //在地图上添加Marker，并显示
+//        mBaiduMap.addOverlay(option);
+//        mBaiduMap.setMapStatus(mMapStatusUpdate);
+//
+//        LatLng cenpt1 = new LatLng(120.08947, 30.397751);
+//
+//        OverlayOptions position = new MarkerOptions().position(cenpt1);
+//
+//        LatLng cenpt2 = new LatLng(120.126731, 30.336927);
 
         //用来构造InfoWindow的Button
         TextView button = new TextView(mActivity.getApplicationContext());
@@ -487,10 +469,10 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
 //point 描述的位置点
 //-100 InfoWindow相对于point在y轴的偏移量
 
-                InfoWindow mInfoWindow = new InfoWindow(button, ((MarkerOptions) option).getPosition(), -50);
-
-//使InfoWindow生效
-                mBaiduMap.showInfoWindow(mInfoWindow);
+//                InfoWindow mInfoWindow = new InfoWindow(button, ((MarkerOptions) option).getPosition(), -50);
+//
+////使InfoWindow生效
+//                mBaiduMap.showInfoWindow(mInfoWindow);
             } else {
                 button.setVisibility(View.GONE);
             }
@@ -576,7 +558,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     public void onPause() {
         super.onPause();
         //在activity执行onPause时执行mMapView. onPause ()，实现地图生命周期管理
-        mMapView.onPause();
+//        mMapView.onPause();
     }
 
 
@@ -852,9 +834,9 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                                 recyclerView_un.setVisibility(View.GONE);
                             }
 
-                            mCoder.geocode(new GeoCodeOption()
-                                    .city("杭州")
-                                    .address(cartBalanceModel.getData().wareAddress));
+//                            mCoder.geocode(new GeoCodeOption()
+//                                    .city("杭州")
+//                                    .address(cartBalanceModel.getData().wareAddress));
                         } else {
                             AppHelper.showMsg(mActivity, cartBalanceModel.message);
                         }
@@ -1220,9 +1202,9 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        mMapView.onDestroy();
+//        mMapView.onDestroy();
 
-        mCoder.destroy();
+//        mCoder.destroy();
 
     }
 
@@ -1230,51 +1212,51 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         list.clear();
-        mMapView.onResume();
+//        mMapView.onResume();
 
 
-        mLocationClient = new LocationClient(mActivity.getApplicationContext());
-        //声明LocationClient类
-        mLocationClient.registerLocationListener(myListener);
-        //注册监听函数
-        LocationClientOption option = new LocationClientOption();
-
-        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-        option.setIsNeedAddress(true);
-//可选，是否需要地址信息，默认为不需要，即参数为false
-//如果开发者需要获得当前点的地址信息，此处必须为true
-//设置地图单击事件监听
-        mBaiduMap.setOnMapClickListener(listenerClick);
-
-        mLocationClient.setLocOption(option);
-        mLocationClient.start();
-        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
-        mCoder = GeoCoder.newInstance();
-//        requestCartBalance(NewgiftDetailNo, 1);//NewgiftDetailNo
-        mCoder.setOnGetGeoCodeResultListener(listener);
+//        mLocationClient = new LocationClient(mActivity.getApplicationContext());
+//        //声明LocationClient类
+//        mLocationClient.registerLocationListener(myListener);
+//        //注册监听函数
+//        LocationClientOption option = new LocationClientOption();
+//
+//        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+//        option.setIsNeedAddress(true);
+////可选，是否需要地址信息，默认为不需要，即参数为false
+////如果开发者需要获得当前点的地址信息，此处必须为true
+////设置地图单击事件监听
+//        mBaiduMap.setOnMapClickListener(listenerClick);
+//
+//        mLocationClient.setLocOption(option);
+//        mLocationClient.start();
+//        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
+//        mCoder = GeoCoder.newInstance();
+////        requestCartBalance(NewgiftDetailNo, 1);//NewgiftDetailNo
+//        mCoder.setOnGetGeoCodeResultListener(listener);
 
     }
 
 
-    public class MyLocationListener extends BDAbstractLocationListener {
-        @Override
-        public void onReceiveLocation(BDLocation location) {
-            //此处的BDLocation为定位结果信息类，通过它的各种get方法可获取定位相关的全部结果
-            //以下只列举部分获取地址相关的结果信息
-            //更多结果信息获取说明，请参照类参考中BDLocation类中的说明
-
-
-            String country = location.getCountry();    //获取国家
-            String province = location.getProvince();    //获取省份
-            String city = location.getCity();    //获取城市
-            String district = location.getDistrict();    //获取区县
-            String street = location.getStreet();    //获取街道信息
-            String streetNumber = location.getStreetNumber();
-            latitude2 = location.getLatitude();
-            longitude2 = location.getLongitude();
-
-        }
-    }
+//    public class MyLocationListener extends BDAbstractLocationListener {
+//        @Override
+//        public void onReceiveLocation(BDLocation location) {
+//            //此处的BDLocation为定位结果信息类，通过它的各种get方法可获取定位相关的全部结果
+//            //以下只列举部分获取地址相关的结果信息
+//            //更多结果信息获取说明，请参照类参考中BDLocation类中的说明
+//
+//
+//            String country = location.getCountry();    //获取国家
+//            String province = location.getProvince();    //获取省份
+//            String city = location.getCity();    //获取城市
+//            String district = location.getDistrict();    //获取区县
+//            String street = location.getStreet();    //获取街道信息
+//            String streetNumber = location.getStreetNumber();
+//            latitude2 = location.getLatitude();
+//            longitude2 = location.getLongitude();
+//
+//        }
+//    }
 
 
     public void showMapDialog() {

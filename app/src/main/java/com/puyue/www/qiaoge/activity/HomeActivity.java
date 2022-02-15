@@ -18,15 +18,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.baidu.location.BDAbstractLocationListener;
-import com.baidu.location.BDLocation;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.CoordType;
-import com.baidu.mapapi.SDKInitializer;
 import com.chuanglan.shanyan_sdk.OneKeyLoginManager;
 import com.chuanglan.shanyan_sdk.listener.GetPhoneInfoListener;
 import com.chuanglan.shanyan_sdk.listener.InitListener;
+import com.puyue.www.qiaoge.QiaoGeApplication;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LogoutsEvent;
@@ -64,6 +59,10 @@ import com.puyue.www.qiaoge.model.home.GetAddressModel;
 import com.puyue.www.qiaoge.utils.LoginUtil;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.view.StatusBarUtil;
+import com.tencent.map.geolocation.TencentLocation;
+import com.tencent.map.geolocation.TencentLocationListener;
+import com.tencent.map.geolocation.TencentLocationManager;
+import com.tencent.map.geolocation.TencentLocationRequest;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -75,7 +74,9 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class HomeActivity extends BaseActivity implements CartFragment.FragmentInteraction, CartFragment.GoToMarket{
+public class HomeActivity extends BaseActivity implements CartFragment.FragmentInteraction, CartFragment.GoToMarket
+, TencentLocationListener
+{
     private static final String TAB_HOME = "tab_home";
     private static final String TAB_MARKET = "tab_market";
     private static final String TAB_CART = "tab_cart";
@@ -110,8 +111,8 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     private TextView mTvCarNum;
     // 弹窗
     private LinearLayout rootview;
-    public LocationClient mLocationClient = null;
-    private MyLocationListener myListener = new MyLocationListener();
+//    public LocationClient mLocationClient = null;
+//    private MyLocationListener myListener = new MyLocationListener();
     private String token;
     private String locationMessage = "";
     private String guide;
@@ -122,6 +123,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     private String district;
     CouponDialog couponDialog;
     String[] params = { Manifest.permission.ACCESS_COARSE_LOCATION};
+    TencentLocationManager instance;
     @Override
     public void onAttachFragment(Fragment fragment) {
         //重新让新的Fragment指向了原本未被销毁的fragment，它就是onAttach方法对应的Fragment对象
@@ -145,7 +147,15 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
 
         @Override
     public void setContentView() {
-        //showSystemParameter();
+        //腾讯定位
+            instance = TencentLocationManager.getInstance(QiaoGeApplication.getContext());
+            TencentLocationRequest request = TencentLocationRequest.create();
+            request.setInterval(100000);
+            request.setRequestLevel(TencentLocationRequest. REQUEST_LEVEL_POI);
+            request.setAllowGPS(true);
+            request.setIndoorLocationMode(true);
+            instance.requestLocationUpdates(request, this);
+            //showSystemParameter();
         //在使用SDK各组件之前初始化context信息，传入ApplicationContext
 
 //            if (EasyPermissions.hasPermissions(this,params)) {//检查是否获取该权限
@@ -157,7 +167,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
 
         //自4.3.0起，百度地图SDK所有接口均支持百度坐标和国测局坐标，用此方法设置您使用的坐标类型.
         //包括BD09LL和GCJ02两种坐标，默认是BD09LL坐标。
-        SDKInitializer.setCoordType(CoordType.BD09LL);
+//        SDKInitializer.setCoordType(CoordType.BD09LL);
 
         OneKeyLoginManager.getInstance().init(getApplicationContext(), "cuRwbnsv", new InitListener() {
                                 @Override
@@ -177,11 +187,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
             }
         });
         setContentView(R.layout.activity_home);
-
     }
-
-
-
 
     @Override
     public void findViewById() {
@@ -220,30 +226,30 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         }
 
         token = AppConstant.TOKEN;
-        mLocationClient = new LocationClient(getApplicationContext());
-        //声明LocationClient类
-        mLocationClient.registerLocationListener(myListener);
+//        mLocationClient = new LocationClient(getApplicationContext());
+//        //声明LocationClient类
+//        mLocationClient.registerLocationListener(myListener);
 
         EventBus.getDefault().post(new InitEvent());
         //注册监听函数
-        LocationClientOption option = new LocationClientOption();
+//        LocationClientOption option = new LocationClientOption();
+//
+//        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+//        option.setIsNeedAddress(true);
+////可选，是否需要地址信息，默认为不需要，即参数为false
+////如果开发者需要获得当前点的地址信息，此处必须为true
+//        option.setOpenGps(true);
+////可选，设置是否使用gps，默认false
+////使用高精度和仅用设备两种定位模式的，参数必须设置为true
+//
+//        option.setLocationNotify(true);
+////可选，设置是否当GPS有效时按照1S/1次频率输出GPS结果，默认false
+//
+//        option.setIgnoreKillProcess(true);
+//        mLocationClient.setLocOption(option);
 
-        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-        option.setIsNeedAddress(true);
-//可选，是否需要地址信息，默认为不需要，即参数为false
-//如果开发者需要获得当前点的地址信息，此处必须为true
-        option.setOpenGps(true);
-//可选，设置是否使用gps，默认false
-//使用高精度和仅用设备两种定位模式的，参数必须设置为true
 
-        option.setLocationNotify(true);
-//可选，设置是否当GPS有效时按照1S/1次频率输出GPS结果，默认false
-
-        option.setIgnoreKillProcess(true);
-        mLocationClient.setLocOption(option);
-
-
-        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
+//        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
         //传当前地址信息
 //        QueryHomePropup();
 
@@ -258,7 +264,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         JPushInterface.init(this);
         String registrationID = JPushInterface.getRegistrationID(this);
         UserInfoHelper.saveRegistionId(mContext, registrationID);
-        mLocationClient.start();
+//        mLocationClient.start();
 
 }
 
@@ -375,7 +381,8 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     }
 
     private void switchTab(String tab) {
-        mLocationClient.stop();
+        instance.removeUpdates(this);
+//        mLocationClient.stop();
         //开始事务
         mFragmentTransaction = getSupportFragmentManager().beginTransaction();
         //隐藏所有的Fragment
@@ -789,21 +796,15 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         switchTab(TAB_MARKET);
     }
 
-
-public class MyLocationListener extends BDAbstractLocationListener {
     @Override
-    public void onReceiveLocation(BDLocation location) {
-        //此处的BDLocation为定位结果信息类，通过它的各种get方法可获取定位相关的全部结果
-        //以下只列举部分获取地址相关的结果信息
-        //更多结果信息获取说明，请参照类参考中BDLocation类中的说明
-        //获取区县
+    public void onLocationChanged(TencentLocation location, int error, String reason) {
         district = location.getDistrict();
         city = location.getCity();
         String province = location.getProvince();
         UserInfoHelper.saveProvince(mContext, province);
         SharedPreferencesUtil.saveString(mActivity,"provinceName",province);
         UserInfoHelper.saveAreaName(mContext, district);
-        UserInfoHelper.saveLocation(mContext,location.getAddrStr());
+        UserInfoHelper.saveLocation(mContext,location.getAddress());
         isGet = true;
 //        if (type.equals("goHome")) {
             if (city != null) {
@@ -813,8 +814,41 @@ public class MyLocationListener extends BDAbstractLocationListener {
             }
 //        }
         type = "";
-        locationMessage = location.getAddrStr();    //获取详细地址信息
+        locationMessage = location.getAddress();    //获取详细地址信息
         switchTab(TAB_HOME);
     }
-}
+
+    @Override
+    public void onStatusUpdate(String name, int status, String desc) {
+
+    }
+
+
+//public class MyLocationListener extends BDAbstractLocationListener {
+//    @Override
+//    public void onReceiveLocation(BDLocation location) {
+//        //此处的BDLocation为定位结果信息类，通过它的各种get方法可获取定位相关的全部结果
+//        //以下只列举部分获取地址相关的结果信息
+//        //更多结果信息获取说明，请参照类参考中BDLocation类中的说明
+//        //获取区县
+//        district = location.getDistrict();
+//        city = location.getCity();
+//        String province = location.getProvince();
+//        UserInfoHelper.saveProvince(mContext, province);
+//        SharedPreferencesUtil.saveString(mActivity,"provinceName",province);
+//        UserInfoHelper.saveAreaName(mContext, district);
+//        UserInfoHelper.saveLocation(mContext,location.getAddrStr());
+//        isGet = true;
+////        if (type.equals("goHome")) {
+//            if (city != null) {
+//                UserInfoHelper.saveCity(mContext, city);
+//            } else {
+//                UserInfoHelper.saveCity(mContext, "");
+//            }
+////        }
+//        type = "";
+//        locationMessage = location.getAddrStr();    //获取详细地址信息
+//        switchTab(TAB_HOME);
+//    }
+//}
 }

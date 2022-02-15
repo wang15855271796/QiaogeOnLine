@@ -107,6 +107,8 @@
 
         android:theme="@style/AppTheme">
 
+        <meta-data android:name="TencentMapSDK" android:value="3PXBZ-XEMYK-YD5J3-AFT4I-YUKF2-ROBZR" />
+
         <meta-data
             android:name="com.taobao.android.hotfix.IDSECRET"
             android:value="28409197" />
@@ -125,11 +127,11 @@
 
 
         </meta-data>
-        <service
-            android:name="com.baidu.location.f"
-            android:enabled="true"
-            android:process=":remote">
-        </service>
+<!--        <service-->
+<!--            android:name="com.baidu.location.f"-->
+<!--            android:enabled="true"-->
+<!--            android:process=":remote">-->
+<!--        </service>-->
         <!--android:screenOrientation="portrait"-->
         <activity
             android:name=".activity.HomeActivity"
@@ -485,8 +487,6 @@
         <activity android:name=".activity.cart.PaysResultActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.mine.wallet.WalletResultActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".activity.home.MapActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.mine.coupons.MyCouponsActivity"
             android:screenOrientation="portrait" />

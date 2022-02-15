@@ -30,8 +30,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.baidu.location.LocationClientOption;
-
 import com.chuanglan.shanyan_sdk.OneKeyLoginManager;
 import com.chuanglan.shanyan_sdk.listener.OneKeyLoginListener;
 import com.chuanglan.shanyan_sdk.listener.OpenLoginAuthListener;
@@ -132,16 +130,16 @@ public class LoginActivity extends BaseSwipeActivity {
 //        //声明LocationClient类
 //        mLocationClient.registerLocationListener(myListener);
         //注册监听函数
-        LocationClientOption option = new LocationClientOption();
-
-        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-        option.setIsNeedAddress(true);
+//        LocationClientOption option = new LocationClientOption();
+//
+//        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+//        option.setIsNeedAddress(true);
 //可选，是否需要地址信息，默认为不需要，即参数为false
 //如果开发者需要获得当前点的地址信息，此处必须为true
 
 //        mLocationClient.setLocOption(option);
 //        mLocationClient.start();
-        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
+//        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
 
 
         //在登录这里不需要去判断用户输入的密码是否合规,只要请求接口确认是和后台的密码一致的即可
