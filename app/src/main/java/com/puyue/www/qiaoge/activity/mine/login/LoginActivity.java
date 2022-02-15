@@ -219,6 +219,7 @@ public class LoginActivity extends BaseSwipeActivity {
                 }
             } else if (view == mBtnLogin) {
                 //走登录流程
+                hintKbTwo();
                 requestLogin();
             } else if (view == mTvForgetPassword) {
                 //忘记密码

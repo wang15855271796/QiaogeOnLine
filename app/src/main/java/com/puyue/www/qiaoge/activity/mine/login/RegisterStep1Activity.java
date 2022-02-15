@@ -15,6 +15,7 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -444,6 +445,7 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                 password = et_password.getText().toString();
                 passwordSure = et_password_sure.getText().toString();
                 etAuthor = et_author.getText().toString();
+                hintKbTwo();
                 if(cb_register.isChecked()) {
                     if(password !=null && passwordSure !=null) {
                         if(password.equals(passwordSure)) {
@@ -661,6 +663,15 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
         shopTypeId = event.id;
     }
 
+
+    private void hintKbTwo() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm.isActive() && getCurrentFocus() != null) {
+            if (getCurrentFocus().getWindowToken() != null) {
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
+    }
 
     /**
      * 注册成功

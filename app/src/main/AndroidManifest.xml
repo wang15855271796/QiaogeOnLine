@@ -149,6 +149,7 @@
                     android:scheme="wushang" />
             </intent-filter>
         </activity>
+
         <!--  -->
         <!-- 优化空白在theme里 -->
         <activity
