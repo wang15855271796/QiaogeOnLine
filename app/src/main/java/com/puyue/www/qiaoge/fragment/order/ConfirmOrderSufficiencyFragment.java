@@ -331,7 +331,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
         mMapView.addOverlay(testOverlay);
         map.setZoom(18);
 //        30.359807,120.054923
-        LatLng latLng = new LatLng(30.359807,120.054923);
+        LatLng latLng = new LatLng(30.337315206749725,120.09069890057103);
         map.setCenter(latLng);
         map.setOnMapClickListener(new TencentMap.OnMapClickListener() {
             @Override
@@ -1409,6 +1409,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
             overlayItems = new ArrayList<>();
             //        30.359807,120.054923
 //            GeoPoint gp3 = new GeoPoint(39794996, 116546586);
+
             GeoPoint gp3 = new GeoPoint(30359807, 120054923);
             String lat = SharedPreferencesUtil.getString(context, "lat");
             String lon = SharedPreferencesUtil.getString(context, "lon");

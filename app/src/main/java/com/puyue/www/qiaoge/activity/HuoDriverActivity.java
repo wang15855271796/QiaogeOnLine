@@ -129,6 +129,8 @@ public class HuoDriverActivity extends BaseActivity implements View.OnClickListe
         iv_back.setOnClickListener(this);
         tv_refresh.setOnClickListener(this);
     }
+
+
 //    BaiduMap mBaidumap = null;
 //    OnGetRoutePlanResultListener listener = new OnGetRoutePlanResultListener() {
 //        @Override
