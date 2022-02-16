@@ -804,7 +804,8 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         UserInfoHelper.saveProvince(mContext, province);
         SharedPreferencesUtil.saveString(mActivity,"provinceName",province);
         UserInfoHelper.saveAreaName(mContext, district);
-        UserInfoHelper.saveLocation(mContext,location.getAddress());
+        SharedPreferencesUtil.saveString(mContext,"lat",location.getLatitude()+"");
+        SharedPreferencesUtil.saveString(mContext,"lon",location.getLongitude()+"");
         isGet = true;
 //        if (type.equals("goHome")) {
             if (city != null) {

@@ -110,6 +110,10 @@ android {
                 }
     }
 
+    packagingOptions {
+        pickFirst 'assets/infowindow_bg.9.png'
+    }
+
 }
 
 //repositories {
