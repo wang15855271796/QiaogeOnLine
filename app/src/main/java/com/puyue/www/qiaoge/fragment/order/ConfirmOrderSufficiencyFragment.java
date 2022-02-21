@@ -12,10 +12,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
-//import com.amap.api.maps.TextureMapView;
-//import com.amap.api.maps.UiSettings;
 import com.amap.api.maps.AMap;
-import com.amap.api.maps.TextureMapView;
+
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,6 +32,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.puyue.www.qiaoge.NewWebViewActivity;
+import com.puyue.www.qiaoge.QiaoGeApplication;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.BeizhuActivity;
 import com.puyue.www.qiaoge.activity.flow.FlowLayout;
@@ -74,6 +73,14 @@ import com.puyue.www.qiaoge.model.mine.order.GetTimeOrderModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.view.GCJ02ToWGS84Util;
 import com.puyue.www.qiaoge.view.PickCityUtil;
+import com.tencent.lbssearch.TencentSearch;
+import com.tencent.lbssearch.httpresponse.HttpResponseListener;
+import com.tencent.lbssearch.object.param.DrivingParam;
+import com.tencent.lbssearch.object.result.DrivingResultObject;
+import com.tencent.map.geolocation.TencentLocation;
+import com.tencent.map.geolocation.TencentLocationListener;
+import com.tencent.map.geolocation.TencentLocationManager;
+import com.tencent.map.geolocation.TencentLocationRequest;
 import com.tencent.mapsdk.raster.model.GeoPoint;
 import com.tencent.mapsdk.raster.model.LatLng;
 import com.tencent.tencentmap.mapsdk.map.ItemizedOverlay;
@@ -81,6 +88,7 @@ import com.tencent.tencentmap.mapsdk.map.MapView;
 import com.tencent.tencentmap.mapsdk.map.OverlayItem;
 import com.tencent.tencentmap.mapsdk.map.Projection;
 import com.tencent.tencentmap.mapsdk.map.TencentMap;
+import com.tencent.tencentmap.mapsdk.maps.model.PolylineOptions;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -100,7 +108,7 @@ import rx.schedulers.Schedulers;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ConfirmOrderSufficiencyFragment extends BaseFragment {
+public class ConfirmOrderSufficiencyFragment extends BaseFragment implements TencentLocationListener {
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     TagsFlowLayout recyclerView_un;
@@ -233,6 +241,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     private LinearLayout ll_self_sufficiency;
     TextView tv_distribution;
     LinearLayout ll_map;
+    com.tencent.tencentmap.mapsdk.maps.MapView mapView;
     @Override
     public int setLayoutId() {
         return R.layout.fragment_confirm_sufficiency_order;
@@ -245,6 +254,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
 
     @Override
     public void findViewById(View view) {
+        mapView = view.findViewById(R.id.mapView);
         ll_map = (LinearLayout) view.findViewById(R.id.ll_map);
         rl_distribution = (RelativeLayout) view.findViewById(R.id.rl_distribution);
         tv_distribution = (TextView) view.findViewById(R.id.tv_distribution);
@@ -311,9 +321,21 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
         ll_beizhu = (RelativeLayout) view.findViewById(R.id.ll_beizhu);
     }
 
+    TencentMap map;
+    com.tencent.tencentmap.mapsdk.maps.TencentMap maps;
+    TencentLocationManager instance;
     @Override
     public void setViewData() {
         EventBus.getDefault().register(this);
+
+        instance = TencentLocationManager.getInstance(QiaoGeApplication.getContext());
+        TencentLocationRequest request = TencentLocationRequest.create();
+        request.setInterval(100000);
+        request.setRequestLevel(TencentLocationRequest. REQUEST_LEVEL_POI);
+        request.setAllowGPS(true);
+        request.setIndoorLocationMode(true);
+        instance.requestLocationUpdates(request, this);
+
         ll_self_sufficiency.setVisibility(View.GONE);
         final Calendar mCalendar = Calendar.getInstance();
         long time = System.currentTimeMillis();
@@ -325,21 +347,21 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
         cartListStr = mActivity.getIntent().getStringExtra("cartListStr");
 
         list.clear();
-        TencentMap map = mMapView.getMap();
+        map = mMapView.getMap();
+        maps = mapView.getMap();
         Drawable drawable = getResources().getDrawable(R.mipmap.ic_confirm_map);
         TestOverlay testOverlay = new TestOverlay(drawable, getActivity());
         mMapView.addOverlay(testOverlay);
-        map.setZoom(18);
-//        30.359807,120.054923
+        this.map.setZoom(12);
         LatLng latLng = new LatLng(30.337315206749725,120.09069890057103);
-        map.setCenter(latLng);
-        map.setOnMapClickListener(new TencentMap.OnMapClickListener() {
+        this.map.setCenter(latLng);
+        this.map.setOnMapClickListener(new TencentMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
                 showMapDialog();
             }
         });
-
+        getWalkingRoute();
       //  requestCartBalance(NewgiftDetailNo, 1);//NewgiftDetailNo
 //         mBaiduMap = mMapView.getMap();
 //        TextureMapView mapView = new TextureMapView(getActivity());
@@ -384,6 +406,42 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
             }
         });
     }
+
+
+//    LatLng fromPoint = new LatLng(24.66493, 117.09568); // 起点坐标
+//    LatLng toPoint = new LatLng(26.8857,120.00514); //终点坐标
+    com.tencent.tencentmap.mapsdk.maps.model.LatLng fromPoint = new com.tencent.tencentmap.mapsdk.maps.model.LatLng(24.66493, 117.09568);
+    com.tencent.tencentmap.mapsdk.maps.model.LatLng toPoint = new com.tencent.tencentmap.mapsdk.maps.model.LatLng(26.8857,120.00514);
+    private void getWalkingRoute(){
+        DrivingParam drivingParam = new DrivingParam(fromPoint, toPoint); //创建导航参数
+
+        drivingParam.roadType(DrivingParam.RoadType.ON_MAIN_ROAD_BELOW_BRIDGE);
+        drivingParam.heading(90);
+        drivingParam.accuracy(30);
+        TencentSearch tencentSearch = new TencentSearch(getActivity());
+        tencentSearch.getRoutePlan(drivingParam, new HttpResponseListener<DrivingResultObject>() {
+
+            @Override
+            public void onSuccess(int i, DrivingResultObject drivingResultObject) {
+
+                if (drivingResultObject == null){
+                    return;
+                }
+
+                for (DrivingResultObject.Route route : drivingResultObject.result.routes){
+                    List<com.tencent.tencentmap.mapsdk.maps.model.LatLng> lines = route.polyline;
+                    maps.addPolyline(new PolylineOptions().add(lines.get(0)).color(0x22ff0000));
+                    Log.d("drivingResultObj......",drivingResultObject.result.routes.size()+"ss");
+                }
+            }
+
+            @Override
+            public void onFailure(int i, String s, Throwable throwable) {
+
+            }
+        });
+    }
+
 
 
 
@@ -1162,6 +1220,17 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                 });
     }
     GoToConfirmDeliver mlisenter;
+
+    @Override
+    public void onLocationChanged(TencentLocation tencentLocation, int i, String s) {
+
+    }
+
+    @Override
+    public void onStatusUpdate(String s, int i, String s1) {
+
+    }
+
     public interface GoToConfirmDeliver {
         void jumpConfirmDeliver();
     }

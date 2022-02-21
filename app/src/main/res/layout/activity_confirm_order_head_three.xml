@@ -84,6 +84,7 @@
 
                 <LinearLayout
                     android:id="@+id/ll_map"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/deliver_map_order_bg">
@@ -92,6 +93,12 @@
                         android:id="@+id/bmapView"
                         android:layout_width="match_parent"
                         android:layout_height="160dp"/>
+
+                    <com.tencent.tencentmap.mapsdk.maps.MapView
+                        android:id="@+id/mapView"
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp" />
+
                 </LinearLayout>
 
 

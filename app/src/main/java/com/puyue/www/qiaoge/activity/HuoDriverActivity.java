@@ -5,6 +5,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.fragment.app.FragmentManager;
+
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.view.DrivingRouteOverlay;
 import com.puyue.www.qiaoge.api.huolala.HuolalaAPI;
@@ -14,6 +17,14 @@ import com.puyue.www.qiaoge.model.HuoCityIdModel;
 import com.puyue.www.qiaoge.model.HuoDetailModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
+import com.tencent.lbssearch.TencentSearch;
+import com.tencent.lbssearch.httpresponse.HttpResponseListener;
+import com.tencent.lbssearch.object.param.DrivingParam;
+import com.tencent.lbssearch.object.result.DrivingResultObject;
+import com.tencent.tencentmap.mapsdk.maps.SupportMapFragment;
+import com.tencent.tencentmap.mapsdk.maps.TencentMap;
+import com.tencent.tencentmap.mapsdk.maps.model.LatLng;
+import com.tencent.tencentmap.mapsdk.maps.model.PolylineOptions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,6 +50,10 @@ public class HuoDriverActivity extends BaseActivity implements View.OnClickListe
     HuoDetailModel.DataBean.DriverInfoBean.LatLonBean latLon;
     HuoDetailModel.DataBean.SendAddrBean sendAddress;
     HuoDetailModel.DataBean.ReceiveAddrBean receiveAddress;
+    private LatLng fromPoint = new LatLng(24.66493, 117.09568); // 起点坐标
+    private LatLng toPoint = new LatLng(26.8857,120.00514); //终点坐标
+    private FragmentManager fm;
+    TencentMap map;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         orderDisplayId = getIntent().getStringExtra("orderDisplayId");
@@ -53,6 +68,7 @@ public class HuoDriverActivity extends BaseActivity implements View.OnClickListe
         setContentView(R.layout.activity_driver);
     }
 
+    SupportMapFragment supportMapFragment;
     @Override
     public void findViewById() {
 
@@ -61,6 +77,10 @@ public class HuoDriverActivity extends BaseActivity implements View.OnClickListe
 //    LocationClient mLocationClient;
     @Override
     public void setViewData() {
+        fm = getSupportFragmentManager();
+        supportMapFragment =  (SupportMapFragment)fm.findFragmentById(R.id.frag);
+        map = supportMapFragment.getMap();
+
 
 //        mBaidumap = mMapView.getMap();
 //        mSearch = RoutePlanSearch.newInstance();
@@ -91,9 +111,37 @@ public class HuoDriverActivity extends BaseActivity implements View.OnClickListe
 //                .from(stNode)
 //                .to(enNode));
         getAddress(orderDisplayId);
-
+        getWalkingRoute();
     }
 
+    private void getWalkingRoute(){
+        DrivingParam drivingParam = new DrivingParam(fromPoint, toPoint); //创建导航参数
+
+        drivingParam.roadType(DrivingParam.RoadType.ON_MAIN_ROAD_BELOW_BRIDGE);
+        drivingParam.heading(90);
+        drivingParam.accuracy(30);
+        TencentSearch tencentSearch = new TencentSearch(this);
+        tencentSearch.getRoutePlan(drivingParam, new HttpResponseListener<DrivingResultObject>() {
+
+            @Override
+            public void onSuccess(int i, DrivingResultObject drivingResultObject) {
+                if (drivingResultObject == null){
+                    return;
+                }
+
+                for (DrivingResultObject.Route route : drivingResultObject.result.routes){
+                    List<LatLng> lines = route.polyline;
+                    map.addPolyline(new PolylineOptions().addAll(lines).color(0x22ff0000));
+                    Log.d("sfsfewfds.......","123");
+                }
+            }
+
+            @Override
+            public void onFailure(int i, String s, Throwable throwable) {
+
+            }
+        });
+    }
 //    public class MyLocationListener extends BDAbstractLocationListener {
 //        @Override
 //        public void onReceiveLocation(BDLocation location) {

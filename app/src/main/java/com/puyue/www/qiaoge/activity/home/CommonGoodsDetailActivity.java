@@ -830,11 +830,9 @@ public class CommonGoodsDetailActivity extends BaseActivity {
                                         if(i==0) {
                                             picVideo.add(new PicVideoModel.DatasBean(images.get(0),2));
                                         }else {
-
                                             picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
                                         }
                                     }else {
-
                                         picVideo.add(new PicVideoModel.DatasBean(images.get(0),1));
                                     }
                                 }
