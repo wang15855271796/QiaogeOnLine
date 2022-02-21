@@ -2,10 +2,15 @@ package com.puyue.www.qiaoge.activity.mine.order;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
+import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Shader;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -47,6 +52,7 @@ import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.BackEvent;
 import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragments;
+import com.puyue.www.qiaoge.fragment.order.ConfirmOrderSufficiencyFragment;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.MapHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
@@ -58,10 +64,18 @@ import com.puyue.www.qiaoge.model.mine.order.ConfirmGetGoodsModel;
 import com.puyue.www.qiaoge.model.mine.order.CopyToCartModel;
 import com.puyue.www.qiaoge.model.mine.order.GetTimeOrderModel;
 import com.puyue.www.qiaoge.model.mine.order.OrderEvaluateListModel;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.view.GCJ02ToWGS84Util;
 import com.puyue.www.qiaoge.view.GradientColorTextView;
 import com.puyue.www.qiaoge.view.PickCityUtil;
 import com.puyue.www.qiaoge.view.SnapUpCountDownTimerView;
+import com.tencent.mapsdk.raster.model.GeoPoint;
+import com.tencent.mapsdk.raster.model.LatLng;
+import com.tencent.tencentmap.mapsdk.map.ItemizedOverlay;
+import com.tencent.tencentmap.mapsdk.map.MapView;
+import com.tencent.tencentmap.mapsdk.map.OverlayItem;
+import com.tencent.tencentmap.mapsdk.map.Projection;
+import com.tencent.tencentmap.mapsdk.map.TencentMap;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -211,6 +225,7 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
 //    BaiduMap mBaiduMap;
 //    private TextureMapView mMapView;
 //    private GeoCoder mCoder;
+    MapView mMapView;
     double latitude1;//仓库位置
     double longitude1;
 
@@ -375,7 +390,7 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
         et_phone = (TextView) findViewById(R.id.et_phone);
         tv_address = (TextView) findViewById(R.id.tv_address);
         //获取地图控件引用
-//        mMapView = (TextureMapView) findViewById(R.id.bmapView);
+        mMapView = (MapView) findViewById(R.id.bmapView);
         iv_time_arrow = (LinearLayout) findViewById(R.id.iv_time_arrow);
         tv_year = (TextView) findViewById(R.id.tv_year);
         tv_hour = (TextView) findViewById(R.id.tv_hour);
@@ -391,7 +406,7 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
         tv_evaluate = findViewById(R.id.tv_evaluate);
     }
 
-
+    TencentMap map;
     @Override
     public void setViewData() {
 
@@ -431,6 +446,19 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
         //通过设置enable为true或false 选择是否禁用所有手势
 //        mUiSettings.setAllGesturesEnabled(false);
 
+        map = mMapView.getMap();
+        Drawable drawable = getResources().getDrawable(R.mipmap.ic_confirm_map);
+        TestOverlay testOverlay = new TestOverlay(drawable, mActivity);
+        mMapView.addOverlay(testOverlay);
+        map.setZoom(12);
+        LatLng latLng = new LatLng(30.337315206749725,120.09069890057103);
+        map.setCenter(latLng);
+        map.setOnMapClickListener(new TencentMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                showMapDialog();
+            }
+        });
 
         iv_time_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -469,6 +497,84 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
         LinearGradient mLinearGradient = new LinearGradient(0, 0, 0, tvInfo.getPaint().getTextSize(), Color.parseColor("#CEA6FF")
                 , Color.parseColor("#6F81FF"), Shader.TileMode.CLAMP);
         tvInfo.getPaint().setShader(mLinearGradient);
+    }
+
+    interface OnTapListener {
+        void onTap(OverlayItem itemTap);
+        void onEmptyTap(GeoPoint pt);
+    }
+
+    private class TestOverlay extends ItemizedOverlay<OverlayItem> {
+        private List<OverlayItem> overlayItems;
+        private OnTapListener onTapListener;
+
+        public TestOverlay(Drawable drawable, Context context) {
+            // TODO Auto-generated constructor stub
+            super(boundCenterBottom(drawable));
+            overlayItems = new ArrayList<>();
+            //        30.359807,120.054923
+//            GeoPoint gp3 = new GeoPoint(39794996, 116546586);
+
+            GeoPoint gp3 = new GeoPoint(30359807, 120054923);
+            String lat = SharedPreferencesUtil.getString(context, "lat");
+            String lon = SharedPreferencesUtil.getString(context, "lon");
+
+            OverlayItem item = new OverlayItem(gp3, "30.359807, 120.054923", "可拖动");
+            item.setDragable(true);
+            overlayItems.add(item);
+            populate();
+        }
+
+        @Override
+        protected OverlayItem createItem(int arg0) {
+            // TODO Auto-generated method stub
+            return overlayItems.get(arg0);
+        }
+
+        @Override
+        public int size() {
+            // TODO Auto-generated method stub
+            return overlayItems.size();
+        }
+
+        @Override
+        public void draw(Canvas arg0, com.tencent.tencentmap.mapsdk.map.MapView arg1) {
+            // TODO Auto-generated method stub
+            super.draw(arg0, arg1);
+            Projection projection = arg1.getProjection();
+            Paint paint = new Paint();
+            paint.setColor(0xff000000);
+            paint.setTextSize(15);
+            float width;
+            float textHeight = paint.measureText("Yy");
+            for (int i = 0; i < overlayItems.size(); i++) {
+                Point point = new Point();
+                projection.toPixels(overlayItems.get(i).getPoint(), point);
+                width = paint.measureText(Integer.toString(i));
+                arg0.drawText(Integer.toString(i),
+                        point.x - width / 2, point.y + textHeight, paint);
+            }
+
+        }
+
+        @Override
+        protected boolean onTap(int arg0) {
+            // TODO Auto-generated method stub
+            OverlayItem  overlayItem = overlayItems.get(arg0);
+            setFocus(overlayItem);
+            if (onTapListener != null) {
+                onTapListener.onTap(overlayItem);
+            }
+            return true;
+        }
+
+        @Override
+        public void onEmptyTap(GeoPoint arg0) {
+            // TODO Auto-generated method stub
+            if (onTapListener != null) {
+                onTapListener.onEmptyTap(arg0);
+            }
+        }
     }
 
     @Override
@@ -687,7 +793,7 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
 //        mCoder = GeoCoder.newInstance();
 //        list.clear();
 //
-//        getOrderDetail(orderId);
+        getOrderDetail(orderId);
 //        mCoder.setOnGetGeoCodeResultListener(listener);
 
 

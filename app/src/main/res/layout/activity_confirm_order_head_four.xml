@@ -88,13 +88,17 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/deliver_map_order_bg">
 
-                    <com.amap.api.maps.TextureMapView
+<!--                    <com.amap.api.maps.TextureMapView-->
+<!--                        android:id="@+id/bmapView"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="160dp"-->
+<!--                        android:layout_marginTop="@dimen/size_15dp"-->
+<!--                        android:clickable="true" />-->
+                    <com.tencent.tencentmap.mapsdk.map.MapView
                         android:id="@+id/bmapView"
-                        android:layout_width="match_parent"
-                        android:layout_height="160dp"
                         android:layout_marginTop="@dimen/size_15dp"
-                        android:clickable="true" />
-
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp"/>
                 </LinearLayout>
 
 

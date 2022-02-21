@@ -25,6 +25,7 @@ import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.model.mine.order.ConfirmGetGoodsModel;
 import com.puyue.www.qiaoge.model.mine.order.GetOrderDriverModel;
 import com.puyue.www.qiaoge.model.mine.wallet.AddressModel;
+import com.tencent.tencentmap.mapsdk.map.MapView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,7 @@ import rx.schedulers.Schedulers;
  * Created by ${王文博} on 2019/5/28
  */
 public class MapOrderMessageActivity extends BaseSwipeActivity {
-//    private MapView mMapView = null;
+    private MapView mMapView = null;
     private String orderId;
     //司机地址
     private String addressDetail;
@@ -102,7 +103,7 @@ public class MapOrderMessageActivity extends BaseSwipeActivity {
     @Override
     public void findViewById() {
         //获取地图控件引用
-//        mMapView = (MapView) findViewById(R.id.bmapView);
+        mMapView = (MapView) findViewById(R.id.bmapView);
         mTvOk = findViewById(R.id.tv_ok);
         tv_wait_order = findViewById(R.id.tv_wait_order);
         tv_wait_send_date = findViewById(R.id.tv_wait_send_date);
