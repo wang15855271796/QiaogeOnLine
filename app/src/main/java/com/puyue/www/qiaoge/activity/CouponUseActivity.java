@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +20,10 @@ import com.puyue.www.qiaoge.model.CouponListsModel;
 import com.puyue.www.qiaoge.model.FullCouponListModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +41,8 @@ public class CouponUseActivity extends BaseActivity {
     ImageView iv_back;
     @BindView(R.id.tv_desc)
     TextView tv_desc;
+    @BindView(R.id.smart)
+    SmartRefreshLayout smartRefreshLayout;
     int pageNum = 1;
     int pageSize = 10;
     String type;
@@ -77,7 +84,7 @@ public class CouponUseActivity extends BaseActivity {
             tv_desc.setText("以下商品不可使用"+name);
         }
 
-        getFullList(poolNo);
+
 
         couponUseAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -88,6 +95,31 @@ public class CouponUseActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+
+        smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                pageNum = 1;
+                list.clear();
+                getFullList(poolNo);
+                refreshLayout.finishRefresh();
+            }
+        });
+
+        smartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                if(fullCouponListModels != null) {
+                    if (fullCouponListModels.getData().isHasNextPage()) {
+                        pageNum++;
+                        getFullList(poolNo);
+                        refreshLayout.finishLoadMore();      //加载完成
+                    } else {
+                        refreshLayout.finishLoadMoreWithNoMoreData();
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -95,6 +127,7 @@ public class CouponUseActivity extends BaseActivity {
 
     }
 
+    CouponListsModel fullCouponListModels;
     List<CouponListsModel.DataBean.ListBean> list = new ArrayList<>();
     private void getFullList(String poolNo) {
         IndexHomeAPI.getCouponsList(mContext,poolNo,pageNum,pageSize)
@@ -115,6 +148,7 @@ public class CouponUseActivity extends BaseActivity {
                     public void onNext(CouponListsModel fullCouponListModel) {
                         if(fullCouponListModel.getCode()==1) {
                             if(fullCouponListModel.getData()!=null) {
+                                fullCouponListModels = fullCouponListModel;
                                 list.addAll(fullCouponListModel.getData().getList());
                                 couponUseAdapter.notifyDataSetChanged();
                             }

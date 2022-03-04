@@ -84,9 +84,9 @@ public class GetOrderDriverModel{
         private String addressDetail;
         private String driverName;
         private String driverPhone;
-        private Object longitude;
-        private Object latitude;
-        private Object locationTime;
+        private String longitude;
+        private String latitude;
+        private String locationTime;
         private List<UserLocationVOListBean> userLocationVOList;
 
         public String getFinishTime() {
@@ -154,27 +154,27 @@ public class GetOrderDriverModel{
             this.driverPhone = driverPhone;
         }
 
-        public Object getLongitude() {
+        public String getLongitude() {
             return longitude;
         }
 
-        public void setLongitude(Object longitude) {
+        public void setLongitude(String longitude) {
             this.longitude = longitude;
         }
 
-        public Object getLatitude() {
+        public String getLatitude() {
             return latitude;
         }
 
-        public void setLatitude(Object latitude) {
+        public void setLatitude(String latitude) {
             this.latitude = latitude;
         }
 
-        public Object getLocationTime() {
+        public String getLocationTime() {
             return locationTime;
         }
 
-        public void setLocationTime(Object locationTime) {
+        public void setLocationTime(String locationTime) {
             this.locationTime = locationTime;
         }
 
@@ -195,33 +195,33 @@ public class GetOrderDriverModel{
              * type : 1
              */
 
-            private Object userLocationId;
-            private String longitude;
-            private String latitude;
+            private String userLocationId;
+            private double longitude;
+            private double latitude;
             private String locationTime;
             private String type;
 
-            public Object getUserLocationId() {
+            public String getUserLocationId() {
                 return userLocationId;
             }
 
-            public void setUserLocationId(Object userLocationId) {
+            public void setUserLocationId(String userLocationId) {
                 this.userLocationId = userLocationId;
             }
 
-            public String getLongitude() {
+            public double getLongitude() {
                 return longitude;
             }
 
-            public void setLongitude(String longitude) {
+            public void setLongitude(double longitude) {
                 this.longitude = longitude;
             }
 
-            public String getLatitude() {
+            public double getLatitude() {
                 return latitude;
             }
 
-            public void setLatitude(String latitude) {
+            public void setLatitude(double latitude) {
                 this.latitude = latitude;
             }
 

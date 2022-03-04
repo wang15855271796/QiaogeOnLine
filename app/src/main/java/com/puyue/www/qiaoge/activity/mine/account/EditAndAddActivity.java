@@ -9,8 +9,12 @@ import androidx.core.widget.NestedScrollView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -44,10 +48,16 @@ import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.IsShowModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.tencent.lbssearch.TencentSearch;
+import com.tencent.lbssearch.httpresponse.BaseObject;
+import com.tencent.lbssearch.httpresponse.HttpResponseListener;
+import com.tencent.lbssearch.object.param.SuggestionParam;
+import com.tencent.lbssearch.object.result.SuggestionResultObject;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -143,6 +153,26 @@ public class EditAndAddActivity extends BaseSwipeActivity {
         return intent;
     }
 
+    private final MyHandler handler = new MyHandler(this);
+
+    private static class MyHandler extends Handler {
+        private final WeakReference<EditAndAddActivity> mActivity;
+
+        public MyHandler(EditAndAddActivity activity) {
+            // TODO Auto-generated constructor stub
+            mActivity = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+            EditAndAddActivity activity = mActivity.get();
+            if (activity != null) {
+                activity.handleMessage(msg);
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         handleExtra(savedInstanceState);
@@ -189,6 +219,7 @@ public class EditAndAddActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
+
         lav_activity_loading = (AVLoadingIndicatorView) findViewById(R.id.lav_activity_loading);
         mIvBack = (ImageView) findViewById(R.id.iv_edit_address_back);
         mEditName = (EditText) findViewById(R.id.edit_edit_address_name);
@@ -208,9 +239,10 @@ public class EditAndAddActivity extends BaseSwipeActivity {
 
     @Override
     public void setViewData() {
+        Log.d("dfdsfdsf...","q");
         //   setTranslucentStatus();
 //        mSuggestionSearch = SuggestionSearch.newInstance();
-        cityName=mArea;
+//        cityName=mArea;
 
         //  mSuggestionSearch = SuggestionSearch.newInstance();
         mPicker.init(mContext);
@@ -247,56 +279,69 @@ public class EditAndAddActivity extends BaseSwipeActivity {
         }
         selectCity();
 
-        keyWorldsView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    if (keyWorldsView.getText().toString() != null) {
-                        /* 使用建议搜索服务获取建议列表，结果在onSuggestionResult()中更新 */
-                        if (cityName!=null&&StringHelper.notEmptyAndNull(cityName))
-                        {
-//                            mSuggestionSearch.requestSuggestion((new SuggestionSearchOption())
-//                                    .keyword(keyWorldsView.getText().toString())
-//                                    .city(cityName)
-//                            )
-                            ;
-                        }
-
-                    }
-                }
-
-            }
-        });
         /* 当输入关键字变化时，动态更新建议列表 */
         keyWorldsView.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable arg0) {
-
             }
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-
                 if (cs.length() <= 0) {
                     ry_suggest.setVisibility(View.GONE);
                     tv_target.setVisibility(View.GONE);
                     return;
                 }
+
                 showSugDialog(cs);
+
             }
         });
 
 //        mSuggestionSearch.setOnGetSuggestionResultListener(this);
 
     }
+    public void handleMessage(Message msg) {
+        switch (msg.what) {
+            case 1000:
+
+                showAutoComplete((SuggestionResultObject)msg.obj);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 显示完整ListView
+     * @param obj
+     */
+    protected void showAutoComplete(SuggestionResultObject obj) {
+        if (obj.data.size() == 0) {
+            ry_suggest.setVisibility(View.GONE);
+            return;
+        }
+        adressAdapter = new SuggestAdressAdapter(obj.data, mContext, new SuggestAdressAdapter.onClick() {
+            @Override
+            public void setLocation(int pos) {
+
+            }
+        });
+        ry_suggest.setLayoutManager(new LinearLayoutManager(mContext));
+        ry_suggest.setAdapter(adressAdapter);
+        adressAdapter.notifyDataSetChanged();
+        ry_suggest.setVisibility(View.GONE);
+
+    }
 
     private void showSugDialog(CharSequence cs) {
-        if (cityName!=null&&StringHelper.notEmptyAndNull(cityName)) {
+        if (tv_edit_address_area.getText().toString()!=null&&!tv_edit_address_area.getText().toString().equals("")) {
+            suggestion(cs.toString());
             /* 使用建议搜索服务获取建议列表，结果在onSuggestionResult()中更新 */
 //            mSuggestionSearch.requestSuggestion((new SuggestionSearchOption())
 //
@@ -304,6 +349,38 @@ public class EditAndAddActivity extends BaseSwipeActivity {
 //                    .city(cityName));
 
         }
+    }
+
+    protected void suggestion(String keyword) {
+        if (keyword.trim().length() == 0) {
+            ry_suggest.setVisibility(View.GONE);
+            return;
+        }
+        TencentSearch tencentSearch = new TencentSearch(this);
+        SuggestionParam suggestionParam = new SuggestionParam(keyword, tv_edit_address_area.getText().toString());
+        //suggestion也提供了filter()方法和region方法
+        //具体说明见文档，或者官网的webservice对应接口
+        tencentSearch.suggestion(suggestionParam, new HttpResponseListener<BaseObject>() {
+
+            @Override
+            public void onSuccess(int arg0, BaseObject arg1) {
+
+//                if (arg1 == null || etSearch.getText().toString().trim().length() == 0) {
+//                    lvSuggesion.setVisibility(View.GONE);
+//                    return;
+//                }
+
+                Message msg = new Message();
+                msg.what = 1000;
+                msg.obj = arg1;
+                handler.sendMessage(msg);
+
+            }
+
+            @Override
+            public void onFailure(int arg0, String arg1, Throwable arg2) {
+            }
+        });
     }
 
     @Override

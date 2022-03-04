@@ -27,8 +27,8 @@ android {
         applicationId "com.barbecue.app"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 53
-        versionName "2.7.5"
+        versionCode 54
+        versionName "2.7.6"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         flavorDimensions "versionCode"
         multiDexEnabled true

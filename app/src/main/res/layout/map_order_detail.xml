@@ -6,21 +6,16 @@
 
     android:orientation="vertical">
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-<!--        <com.baidu.mapapi.map.MapView-->
-<!--            android:id="@+id/bmapView"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:clickable="true" />-->
-
-        <com.tencent.tencentmap.mapsdk.map.MapView
-            android:id="@+id/bmapView"
+        <fragment
+            android:id="@+id/frag"
+            class="com.tencent.tencentmap.mapsdk.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
+
         <ImageView
             android:id="@+id/iv_back"
             android:layout_marginLeft="20dp"
@@ -28,23 +23,35 @@
             android:src="@mipmap/ic_map_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <com.puyue.www.qiaoge.slidenested.SlideNestedPanelLayout
-            android:id="@+id/slideNestedPanelLayout"
-            android:layout_width="match_parent"
-            android:layout_height="265dp"
 
-            android:layout_gravity="bottom"
-            app:anchorPoint="1"
-            app:panelHeight="55dp"
-            app:parallaxOffset="50dp"
-            app:scrollView="@+id/nestedScrollView">
+        <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <include layout="@layout/return_good_map" />
 
             <include layout="@layout/return_good_driver_map" />
-        </com.puyue.www.qiaoge.slidenested.SlideNestedPanelLayout>
+        </LinearLayout>
 
-    </FrameLayout>
+
+<!--        <com.puyue.www.qiaoge.slidenested.SlideNestedPanelLayout-->
+<!--            android:id="@+id/slideNestedPanelLayout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="bottom"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            app:anchorPoint="1"-->
+<!--            app:panelHeight="55dp"-->
+<!--            app:parallaxOffset="50dp"-->
+<!--            app:scrollView="@+id/nestedScrollView">-->
+
+<!--            <include layout="@layout/return_good_map" />-->
+
+<!--            <include layout="@layout/return_good_driver_map" />-->
+<!--        </com.puyue.www.qiaoge.slidenested.SlideNestedPanelLayout>-->
+
+    </RelativeLayout>
 
 
 </LinearLayout>

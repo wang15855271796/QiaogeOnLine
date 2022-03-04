@@ -68,5 +68,5 @@
         android:id="@+id/frag"
         class="com.tencent.tencentmap.mapsdk.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="550dp" />
+        android:layout_height="match_parent" />
 </LinearLayout>

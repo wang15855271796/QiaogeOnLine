@@ -305,7 +305,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                                 inProdss.clear();
                                 prods.addAll(data.getProds());
                                 rv_cart.setLayoutManager(new LinearLayoutManager(mActivity));
-
+                                rv_cart.setActivated(false);
                                 cartAdapter = new CartAdapter(R.layout.item_cart, prods, new CartAdapter.Onclick() {
                                     @Override
                                     public void deleteItem(int pos, CartTestModel.DataBean.ProdsBeanX prodsBeanX) {

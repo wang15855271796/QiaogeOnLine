@@ -56,6 +56,7 @@ import com.puyue.www.qiaoge.fragment.order.ConfirmOrderSufficiencyFragment;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.MapHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
+import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.cart.CancelOrderModel;
 import com.puyue.www.qiaoge.model.cart.GetOrderDetailModel;
@@ -69,13 +70,24 @@ import com.puyue.www.qiaoge.view.GCJ02ToWGS84Util;
 import com.puyue.www.qiaoge.view.GradientColorTextView;
 import com.puyue.www.qiaoge.view.PickCityUtil;
 import com.puyue.www.qiaoge.view.SnapUpCountDownTimerView;
+import com.tencent.lbssearch.TencentSearch;
+import com.tencent.lbssearch.httpresponse.BaseObject;
+import com.tencent.lbssearch.httpresponse.HttpResponseListener;
+import com.tencent.lbssearch.object.param.Address2GeoParam;
+import com.tencent.lbssearch.object.result.Address2GeoResultObject;
 import com.tencent.mapsdk.raster.model.GeoPoint;
-import com.tencent.mapsdk.raster.model.LatLng;
 import com.tencent.tencentmap.mapsdk.map.ItemizedOverlay;
 import com.tencent.tencentmap.mapsdk.map.MapView;
 import com.tencent.tencentmap.mapsdk.map.OverlayItem;
 import com.tencent.tencentmap.mapsdk.map.Projection;
 import com.tencent.tencentmap.mapsdk.map.TencentMap;
+import com.tencent.tencentmap.mapsdk.maps.CameraUpdate;
+import com.tencent.tencentmap.mapsdk.maps.CameraUpdateFactory;
+import com.tencent.tencentmap.mapsdk.maps.SupportMapFragment;
+import com.tencent.tencentmap.mapsdk.maps.model.BitmapDescriptorFactory;
+import com.tencent.tencentmap.mapsdk.maps.model.CameraPosition;
+import com.tencent.tencentmap.mapsdk.maps.model.LatLng;
+import com.tencent.tencentmap.mapsdk.maps.model.MarkerOptions;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -222,9 +234,6 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
     private TextView et_name;
     private TextView et_phone;
 
-//    BaiduMap mBaiduMap;
-//    private TextureMapView mMapView;
-//    private GeoCoder mCoder;
     MapView mMapView;
     double latitude1;//仓库位置
     double longitude1;
@@ -232,12 +241,6 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
     double latitude2;//用户位置
     double longitude2;
     private TextView tv_address;
-
-
-//    public LocationClient mLocationClient = null;
-//    private MyLocationListener myListener = new MyLocationListener();
-//    private UiSettings mUiSettings;
-
 
     private BottomSheetDialog mDialogMap;
     private String title;
@@ -293,8 +296,11 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
         setContentView(R.layout.activity_self_sufficiency_order_detail);
     }
 
+    SupportMapFragment supportMapFragment;
+    com.tencent.tencentmap.mapsdk.maps.TencentMap mapss;
     @Override
     public void findViewById() {
+        supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.frag);
         ll_order1 = (LinearLayout) findViewById(R.id.ll_order1);
         ll_order2 = (LinearLayout) findViewById(R.id.ll_order2);
         tv_full_price = (TextView) findViewById(R.id.tv_full_price);
@@ -428,42 +434,31 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
         et_time.setVisibility(View.GONE);
         tv_hour.setVisibility(View.VISIBLE);
         tv_year.setVisibility(View.VISIBLE);
-//        mBaiduMap = mMapView.getMap();
-////普通地图 ,mBaiduMap是地图控制器对象
-//        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        //默认显示地图标注
-        //  mBaiduMap.showMapPoi(false);
-
-        //通过设置enable为true或false 选择是否显示比例尺
-//        mMapView.showScaleControl(false);
-//
-//        //通过设置enable为true或false 选择是否显示缩放按钮
-//        mMapView.showZoomControls(false);
-//
-//        mUiSettings = mBaiduMap.getUiSettings();
-        //通过设置enable为true或false 选择是否禁用所有手势
-//        mUiSettings.setAllGesturesEnabled(false);
-
-        map = mMapView.getMap();
-        Drawable drawable = getResources().getDrawable(R.mipmap.ic_confirm_map);
-        TestOverlay testOverlay = new TestOverlay(drawable, mActivity);
-        mMapView.addOverlay(testOverlay);
-        map.setZoom(12);
-        LatLng latLng = new LatLng(30.337315206749725,120.09069890057103);
-        map.setCenter(latLng);
-        map.setOnMapClickListener(new TencentMap.OnMapClickListener() {
+        mapss = supportMapFragment.getMap();
+        mapss.setOnMapClickListener(new com.tencent.tencentmap.mapsdk.maps.TencentMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
                 showMapDialog();
             }
         });
+//        map = mMapView.getMap();
+//        Drawable drawable = getResources().getDrawable(R.mipmap.ic_confirm_map);
+//        TestOverlay testOverlay = new TestOverlay(drawable, mActivity);
+//        mMapView.addOverlay(testOverlay);
+//        map.setZoom(12);
+//        LatLng latLng = new LatLng(30.337315206749725,120.09069890057103);
+//        map.setCenter(latLng);
+//        map.setOnMapClickListener(new TencentMap.OnMapClickListener() {
+//            @Override
+//            public void onMapClick(LatLng latLng) {
+//                showMapDialog();
+//            }
+//        });
 
         iv_time_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                showGetTime();
             }
         });
 
@@ -499,6 +494,52 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
         tvInfo.getPaint().setShader(mLinearGradient);
     }
 
+    protected void geocoder(String address) {
+        TencentSearch tencentSearch = new TencentSearch(mActivity);
+        Address2GeoParam address2GeoParam =
+                new Address2GeoParam(address).region(UserInfoHelper.getCity(mActivity));
+        tencentSearch.address2geo(address2GeoParam, new HttpResponseListener<BaseObject>() {
+
+            @Override
+            public void onSuccess(int arg0, BaseObject arg1) {
+                if (arg1 == null) {
+                    return;
+                }
+                Address2GeoResultObject obj = (Address2GeoResultObject)arg1;
+                StringBuilder sb = new StringBuilder();
+                sb.append("地址解析");
+                if (obj.result.latLng != null) {
+                    sb.append("\n坐标：" + obj.result.latLng.toString());
+                } else {
+                    sb.append("\n无坐标");
+                }
+                com.tencent.tencentmap.mapsdk.maps.model.LatLng latLng = obj.result.latLng;
+                CameraUpdate cameraSigma =
+                        CameraUpdateFactory.newCameraPosition(new CameraPosition(
+                                new com.tencent.tencentmap.mapsdk.maps.model.LatLng(latLng.latitude,latLng.longitude),
+                                15,
+                                0f,
+                                0f));
+                //移动地图
+                mapss.moveCamera(cameraSigma);
+                getWalkingRoute(latLng);
+
+            }
+
+            @Override
+            public void onFailure(int arg0, String arg1, Throwable arg2) {
+                Log.e("test", "error code:" + arg0 + ", msg:" + arg1);
+            }
+        });
+    }
+
+    private void getWalkingRoute(com.tencent.tencentmap.mapsdk.maps.model.LatLng latLng){
+        MarkerOptions options = new MarkerOptions(latLng);
+        options.infoWindowEnable(true);//默认为true
+        options.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_confirm_map));//设置自定义Marker图标
+        mapss.addMarker(options);
+    }
+
     interface OnTapListener {
         void onTap(OverlayItem itemTap);
         void onEmptyTap(GeoPoint pt);
@@ -512,8 +553,6 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
             // TODO Auto-generated constructor stub
             super(boundCenterBottom(drawable));
             overlayItems = new ArrayList<>();
-            //        30.359807,120.054923
-//            GeoPoint gp3 = new GeoPoint(39794996, 116546586);
 
             GeoPoint gp3 = new GeoPoint(30359807, 120054923);
             String lat = SharedPreferencesUtil.getString(context, "lat");
@@ -607,139 +646,6 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
 
     }
 
-//    OnGetGeoCoderResultListener listener = new OnGetGeoCoderResultListener() {
-//        @Override
-//        public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
-//            if (null != geoCodeResult && null != geoCodeResult.getLocation()) {
-//                if (geoCodeResult == null || geoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
-//                    //没有检索到结果
-//                    return;
-//                } else {
-//                    latitude1 = geoCodeResult.getLocation().latitude;
-//                    longitude1 = geoCodeResult.getLocation().longitude;
-//                    getAddressLocation();
-//                }
-//            }
-//        }
-//
-//        @Override
-//        public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
-//
-//        }
-//
-//
-//    };
-//    BaiduMap.OnMapClickListener listenerClick = new BaiduMap.OnMapClickListener() {
-//        /**
-//         * 地图单击事件回调函数
-//         *
-//         * @param point 点击的地理坐标
-//         */
-//        @Override
-//        public void onMapClick(LatLng point) {
-//            Log.i("dwqrqr", "onMapClick: " + "我点击了");
-//            showMapDialog();
-//        }
-//
-//        /**
-//         * 地图内 Poi 单击事件回调函数
-//         *
-//         * @param mapPoi 点击的 poi 信息
-//         */
-//        @Override
-//        public boolean onMapPoiClick(MapPoi mapPoi) {
-//            return false;
-//        }
-//    };
-
-    private void getAddressLocation() {
-//        LatLng cenpt = new LatLng(latitude1, longitude1);
-//        //定义地图状态
-//        MapStatus mMapStatus = new MapStatus.Builder()
-//                .target(cenpt)
-//                .zoom(18)
-//                .build();
-//        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
-//
-//
-//        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
-//        //改变地图状态
-//        //定义Maker坐标点
-//
-//        //构建Marker图标
-//        BitmapDescriptor bitmap = BitmapDescriptorFactory
-//                .fromResource(R.mipmap.ic_confirm_map);
-//        //构建MarkerOption，用于在地图上添加Marker
-//        OverlayOptions option = new MarkerOptions()
-//                .position(cenpt)
-//                .icon(bitmap);
-//        //在地图上添加Marker，并显示
-//        mBaiduMap.addOverlay(option);
-//        mBaiduMap.setMapStatus(mMapStatusUpdate);
-//
-//        LatLng cenpt1 = new LatLng(120.08947, 30.397751);
-//
-//        OverlayOptions position = new MarkerOptions().position(cenpt1);
-//
-//        LatLng cenpt2 = new LatLng(120.126731, 30.336927);
-
-        //用来构造InfoWindow的Button
-        TextView button = new TextView(mActivity.getApplicationContext());
-
-        if (latitude2 > 0 || longitude2 > 0) {
-            if (latitude2 != 4.9E-324 || longitude2 != 4.9E-324) {
-                button.setVisibility(View.VISIBLE);
-                button.setBackgroundResource(R.drawable.popup_map);
-                button.setTextColor(Color.parseColor("#FF666666"));
-                button.setGravity(Gravity.CENTER_HORIZONTAL);
-                if (getDistance(longitude1, latitude1, longitude2, latitude2) > 1000) {
-                    long round = Math.round(getDistance(longitude1, latitude1, longitude2, latitude2) / 1000);
-                    button.setText("距您" + String.valueOf(round) + "公里");
-                } else {
-                    button.setText("距您不到1公里");
-                }
-
-
-                //构造InfoWindow
-//point 描述的位置点
-//-100 InfoWindow相对于point在y轴的偏移量
-
-//                InfoWindow mInfoWindow = new InfoWindow(button, ((MarkerOptions) option).getPosition(), -50);
-//
-////使InfoWindow生效
-//                mBaiduMap.showInfoWindow(mInfoWindow);
-            } else {
-                button.setVisibility(View.GONE);
-
-            }
-        } else {
-            button.setVisibility(View.GONE);
-        }
-
-
-
-
- /*       //用来构造InfoWindow
-        BitmapDescriptor mBitmap = BitmapDescriptorFactory.fromResource(R.drawable.circle_bg);
-
-//响应点击的OnInfoWindowClickListener
-        InfoWindow.OnInfoWindowClickListener listener = new InfoWindow.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick() {
-                Toast.makeText(mActivity, "Click on InfoWindow", Toast.LENGTH_LONG).show();
-            }
-        };
-
-//构造InfoWindow
-//point 描述的位置点
-//-100 InfoWindow相对于point在y轴的偏移量
-      InfoWindow  mInfoWindow = new InfoWindow(mBitmap, cenpt1, -100, listener);
-
-//使InfoWindow生效
-        mBaiduMap.showInfoWindow(mInfoWindow);*/
-    }
-
-
     /**
      * 根据经纬度查询距离
      *
@@ -769,32 +675,7 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-//        mMapView.onResume();
-
-
-//        mLocationClient = new LocationClient(mActivity.getApplicationContext());
-//        //声明LocationClient类
-//        mLocationClient.registerLocationListener(myListener);
-//        //注册监听函数
-//        LocationClientOption option = new LocationClientOption();
-//
-//        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-//        option.setIsNeedAddress(true);
-////可选，是否需要地址信息，默认为不需要，即参数为false
-////如果开发者需要获得当前点的地址信息，此处必须为true
-////设置地图单击事件监听
-//        mBaiduMap.setOnMapClickListener(listenerClick);
-//
-//        mLocationClient.setLocOption(option);
-//        mLocationClient.start();
-//        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
-//
-//        mCoder = GeoCoder.newInstance();
-//        list.clear();
-//
         getOrderDetail(orderId);
-//        mCoder.setOnGetGeoCodeResultListener(listener);
 
 
     }
@@ -802,8 +683,6 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
     private GetTimeOrderModel dataBean;
 
     private void showGetTime() {
-
-
         GetOrderDeliverTimeAPI.requestOrderSelfTime(mActivity)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -829,8 +708,6 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
                             for (int i = 0; i < getTimeOrderModel.getData().size(); i++) {
                                 listYear.add(getTimeOrderModel.getData().get(i).getDateTime());
                             }
-                            Log.i("aaaadqee", "onNext: " + listYear.size());
-
 
                             for (int i = 0; i < getTimeOrderModel.getData().size(); i++) {
                                 List<String> listTime = new ArrayList<>();
@@ -1001,7 +878,6 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
 //                                mCoder.geocode(new GeoCodeOption()
 //                                        .city("杭州")
 //                                        .address(orderDetailModel.data.wareAddress));
-
                                 tv_year.setText(orderDetailModel.data.sendStartTime);
                                 tv_hour.setText(orderDetailModel.data.deliverTimeStart + "-" + orderDetailModel.data.deliverTimeEnd);
                                 et_name.setText(orderDetailModel.data.pickUserName);
@@ -1012,11 +888,12 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
                                 if (orderDetailModel.data.orderProds.size() > 0) {
                                     list.addAll(orderDetailModel.data.orderProds);
                                     adapter.notifyDataSetChanged();
-                                    list_full.addAll(orderDetailModel.data.sendGiftInfo);
+                                    if(orderDetailModel.data.sendGiftInfo!=null) {
+                                        list_full.addAll(orderDetailModel.data.sendGiftInfo);
+                                    }
+
                                     orderFullAdapter.notifyDataSetChanged();
-
                                 }
-
                                 if(orderDetailModel.data.saleSettle==1) {
                                     ll_order1.setVisibility(View.VISIBLE);
                                 }else {
@@ -1029,16 +906,8 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
                                     ll_order2.setVisibility(View.GONE);
                                 }
 
-//                                if (orderDetailModel.data.productVOList.size() > 0) {
-//                                    //  Log.e(TAG, "onNext: " + orderDetailModel.data.productVOList.get(0).productDescVOList.get(0).newDesc);
-//                                    list.clear();
-//                                    list.addAll(orderDetailModel.data.productVOList);
-//                                    adapter.notifyDataSetChanged();
-//
-//                                    list_full.clear();
-//                                    list_full.addAll(orderDetailModel.data.sendGiftInfo);
-//                                    orderFullAdapter.notifyDataSetChanged();
-//                                }
+                                geocoder(orderDetailModel.data.wareAddress);
+
                             }
 
 
@@ -1060,29 +929,11 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
         linearLayoutPay.setVisibility(View.GONE);
         tvNewOrderCommodityAmount.setText("￥" + getOrderDetailModel.prodAmount);
 
-//        tvNewOrderVipSubtractionPrice.setText("￥" + getOrderDetailModel.vipReductDesc);
         tvNewOrderDistributionFeePrice.setText("￥" + getOrderDetailModel.deliveryFee);
-        //已取消
-//        if(getOrderDetailModel.orderStatus==7||getOrderDetailModel.orderStatus==1) {
-//            ll_pay.setVisibility(View.GONE);
-//            ll_beizhu.setVisibility(View.GONE);
-//        }else {
-//            ll_pay.setVisibility(View.VISIBLE);
-//            ll_beizhu.setVisibility(View.VISIBLE);
-//        }
-//        tvnormalReduct.setText("￥" + getOrderDetailModel.normalReduct);
+
         address.setText(getOrderDetailModel.wareName);
         tvNewOrderCoupons.setText("￥" + getOrderDetailModel.giftAmount);
-//        returnGoodsCommodityNum.setText(getOrderDetailModel.applyReturnDate);
-//        returnGoodsReason.setText(getOrderDetailModel.returnReson);
-//
-//        tv_phone.setText(info.data.customerPhone);
-//        returnGoodsCommodityAmount.setText(getOrderDetailModel.checkDate);
-//        tv_return_reason.setText(getOrderDetailModel.returnReson);
-        //   tvNewOrderPayMoneyReturn.setText("￥" + getOrderDetailModel.actuallyReturn);
-        // tvReturnGoodsCommodity.setText("共" + getOrderDetailModel.returnProductNum + "件商品");
         deliver_linearLayout.setVisibility(View.GONE);
-//        ll_beizhu.setVisibility(View.GONE);
         tv_total_amount.setText("￥"+info.data.totalAmount);
         tv_payWay.setText(info.data.payChannel);
         tv_amount.setText(info.data.prodNum+"");
@@ -1095,15 +946,6 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
 
         tvNewOrderVipSubtractionPrice.setText("￥" + getOrderDetailModel.vipReductStr);
 
-//        tvDeductDsc.setText(getOrderDetailModel.deductDesc);
-//        tvNomalReductDesc.setText(getOrderDetailModel.normalReductDesc);
-    /*    if (getOrderDetailModel.deliverTimeStart == null) {
-            mLinearLayoutDeliver.setVisibility(View.GONE);
-        } else {
-            mLinearLayoutDeliver.setVisibility(View.VISIBLE);
-            mTvDeliverTime.setText(getOrderDetailModel.deliverTimeName + "  " + getOrderDetailModel.deliverTimeStart + " - " + getOrderDetailModel.deliverTimeEnd);
-        }*/
-
         //优惠券描述
         tvDeductDsc.setText(getOrderDetailModel.giftName);
         tvNewOrderPayTime.setText(getOrderDetailModel.payDate);
@@ -1115,8 +957,6 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
                 + getOrderDetailModel.addressVO.areaName + getOrderDetailModel.addressVO.detailAddress);
         tvNewOrderVipSubtractionPrice.setText(" ￥ " + getOrderDetailModel.vipReduct);
         tvNewOrderRemarks.setText(getOrderDetailModel.remark);
-        //  examineTimeLinearLayout.setVisibility(orderStatusRequest == 11 ? View.VISIBLE : View.GONE);
-
 
         if (orderStatusRequest == 2) {
             mTvDriverDeliverTime.setText(getOrderDetailModel.payDate);
@@ -1134,32 +974,12 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
             mTvOrderStatus.setText("装车完成-已发货");
         }
 
-
         //倒计时设置
         orderTimerView.SnapUpCountDownTimerViewType(mContext, 1);
         orderTimerView.setBackTheme(true);
         orderTimerView.setTime(true, getOrderDetailModel.sysCurrentTime, getOrderDetailModel.orderOverTime, 0);
         orderTimerView.changeTypeColor(Color.WHITE);
         orderTimerView.start();
-     /*   if (!TextUtils.isEmpty(getOrderDetailModel.payDate)) {// 付款时间
-
-            tvNewOrderPayTimeLinearLayout.setVisibility(View.VISIBLE);
-        } else {
-            tvNewOrderPayTimeLinearLayout.setVisibility(View.GONE);
-        }*/
-   /*     if (!TextUtils.isEmpty(getOrderDetailModel.confirmDate)) {
-            tvNewOrderReturnTime.setText(getOrderDetailModel.confirmDate);
-            newOrderReturnTimeLinearLayout.setVisibility(View.VISIBLE);
-        } else {
-            newOrderReturnTimeLinearLayout.setVisibility(View.GONE);
-        }*/
-  /*      if (!TextUtils.isEmpty(getOrderDetailModel.finishDate)) {
-            tvExamineTime.setText(getOrderDetailModel.finishDate);
-            examineTimeLinearLayout.setVisibility(View.VISIBLE);
-        } else {
-            examineTimeLinearLayout.setVisibility(View.GONE);
-
-        }*/
 
     }
 
@@ -1193,14 +1013,6 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
         buttonEvaluate.setVisibility(orderStatusRequest==5?View.VISIBLE:View.GONE);
         ReturnGoodsLinearLayout.setVisibility(orderStatusRequest == 11 ? View.VISIBLE : View.GONE);
         orderLinearLayout.setVisibility(orderStatusRequest == 11 ? View.GONE : View.VISIBLE);
-        // 判是否出现退货的 底部 layout
-     //   returnGoodsInfoLayout.setVisibility(orderStatusRequest == 11 ? View.VISIBLE : View.GONE);
-        // newOrderInfoLayout.setVisibility(orderStatusRequest == 11 ? View.GONE : View.VISIBLE);
-
-        //待发货待接受
-        //  mLinearLayoutShipped.setVisibility(orderStatusRequest == 2 ? View.VISIBLE : View.GONE);
-        //待发货 已接收
-        // mLinearLayoutReciverOrder.setVisibility(orderStatusRequest == 14 ? View.VISIBLE : View.GONE);
         //待提货
         threeButtonLayout.setVisibility(orderStatusRequest == 2 ? View.VISIBLE : View.GONE);
 //提货地图
@@ -1211,12 +1023,6 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
 
         et_name.setEnabled(orderStatusRequest == 1 || orderStatusRequest == 2 ? true : false);
         et_phone.setEnabled(orderStatusRequest == 1 || orderStatusRequest == 2 ? true : false);
-
-//司机物流信息
-        //  mRelativeDriver.setVisibility(orderStatusRequest == 2 || orderStatusRequest == 14 || orderStatusRequest == 3 ? View.VISIBLE : View.GONE);
-        // mTvSeeDriverStatus.setVisibility(orderStatusRequest == 3 ? View.VISIBLE : View.GONE);
-        //  mTvDriverName.setVisibility(orderStatusRequest == 3 ? View.VISIBLE : View.GONE);
-        //   tv_driver_phone.setVisibility(orderStatusRequest == 3 ? View.VISIBLE : View.GONE);
 
         //状态是待付款 或者是待支付 显示二个个按钮(取消订单 去支付) 其他状态需要不显示
         twoButtonLayout.setVisibility(orderStatusRequest == 1 ? View.VISIBLE : View.GONE);
@@ -1237,18 +1043,6 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
         //状态是待付款 或者是待支付 不显示状态文案 其他状态需要显示
         tvOrderContent.setVisibility(orderStatusRequest == 1 ? View.GONE : View.VISIBLE);
         //状态是待付款 或者是待支付 orderStatusRequest=1 不显示三个按钮(退货 评价 再次购买) 其他状态需要显示
-
-
-        //状态是待发货 已评价 不显示评价 其他状态
-        // buttonEvaluate.setVisibility(orderStatusRequest == 2 || orderStatusRequest == 7 || orderStatusRequest == 6 ? View.GONE : View.VISIBLE);
-
-        // buttonReturnGoods.setVisibility(orderStatusRequest == 7 ? View.GONE : View.VISIBLE);
-        // buttonEvaluate.setText(orderStatusRequest == 5 ? "确认收货" : "评价");
-        //状态是已取消  删除订单，再次购买显示，其它不显示
-        //
-       // mRlReturn.setVisibility(orderStatusRequest == 11 ? View.VISIBLE : View.GONE);
-
-
         setOrderContent(getOrderDetailModel.orderStatus);
 
     }

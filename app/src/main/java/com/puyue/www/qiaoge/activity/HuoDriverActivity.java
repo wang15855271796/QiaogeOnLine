@@ -1,5 +1,6 @@
 package com.puyue.www.qiaoge.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,9 +22,17 @@ import com.tencent.lbssearch.TencentSearch;
 import com.tencent.lbssearch.httpresponse.HttpResponseListener;
 import com.tencent.lbssearch.object.param.DrivingParam;
 import com.tencent.lbssearch.object.result.DrivingResultObject;
+import com.tencent.tencentmap.mapsdk.maps.CameraUpdate;
+import com.tencent.tencentmap.mapsdk.maps.CameraUpdateFactory;
 import com.tencent.tencentmap.mapsdk.maps.SupportMapFragment;
 import com.tencent.tencentmap.mapsdk.maps.TencentMap;
+import com.tencent.tencentmap.mapsdk.maps.TencentMapOptions;
+import com.tencent.tencentmap.mapsdk.maps.model.BitmapDescriptorFactory;
+import com.tencent.tencentmap.mapsdk.maps.model.CameraPosition;
 import com.tencent.tencentmap.mapsdk.maps.model.LatLng;
+import com.tencent.tencentmap.mapsdk.maps.model.LatLngBounds;
+import com.tencent.tencentmap.mapsdk.maps.model.MarkerOptions;
+import com.tencent.tencentmap.mapsdk.maps.model.Polyline;
 import com.tencent.tencentmap.mapsdk.maps.model.PolylineOptions;
 
 import org.json.JSONException;
@@ -50,8 +59,6 @@ public class HuoDriverActivity extends BaseActivity implements View.OnClickListe
     HuoDetailModel.DataBean.DriverInfoBean.LatLonBean latLon;
     HuoDetailModel.DataBean.SendAddrBean sendAddress;
     HuoDetailModel.DataBean.ReceiveAddrBean receiveAddress;
-    private LatLng fromPoint = new LatLng(24.66493, 117.09568); // 起点坐标
-    private LatLng toPoint = new LatLng(26.8857,120.00514); //终点坐标
     private FragmentManager fm;
     TencentMap map;
     @Override
@@ -81,175 +88,69 @@ public class HuoDriverActivity extends BaseActivity implements View.OnClickListe
         supportMapFragment =  (SupportMapFragment)fm.findFragmentById(R.id.frag);
         map = supportMapFragment.getMap();
 
-
-//        mBaidumap = mMapView.getMap();
-//        mSearch = RoutePlanSearch.newInstance();
-//        mSearch.setOnGetRoutePlanResultListener(listener);
-//
-//        mLocationClient = new LocationClient(getApplicationContext());
-//
-//        //通过LocationClientOption设置LocationClient相关参数
-//        LocationClientOption option = new LocationClientOption();
-//        option.setOpenGps(true); // 打开gps
-//        option.setCoorType("bd09ll"); // 设置坐标类型
-//        option.setScanSpan(0);
-//
-//        //设置locationClientOption
-//        mLocationClient.setLocOption(option);
-//
-//        //注册LocationListener监听器
-//        MyLocationListener myLocationListener = new MyLocationListener();
-//        mLocationClient.registerLocationListener(myLocationListener);
-////        //开启地图定位图层
-//        mLocationClient.start();
-//
-//        LatLng fromLl = new LatLng(sendAddress.getLatLon().getLat(), sendAddress.getLatLon().getLon());
-//        LatLng endLl = new LatLng(receiveAddress.getLatLon().getLat(), receiveAddress.getLatLon().getLon());
-//        PlanNode stNode = PlanNode.withLocation(fromLl);
-//        PlanNode enNode = PlanNode.withLocation(endLl);
-//        mSearch.drivingSearch((new DrivingRoutePlanOption())
-//                .from(stNode)
-//                .to(enNode));
         getAddress(orderDisplayId);
+
         getWalkingRoute();
     }
 
     private void getWalkingRoute(){
-        DrivingParam drivingParam = new DrivingParam(fromPoint, toPoint); //创建导航参数
+        LatLng fromPoint = new LatLng(sendAddress.getLatLon().getLat(), sendAddress.getLatLon().getLon());
+        LatLng toPoint = new LatLng(receiveAddress.getLatLon().getLat(), receiveAddress.getLatLon().getLon());
+        CameraUpdate cameraSigma =
+                CameraUpdateFactory.newCameraPosition(new CameraPosition(
+                        new LatLng(sendAddress.getLatLon().getLat(),sendAddress.getLatLon().getLon()),
+                        12,
+                        0f,
+                        0f));
+        //移动地图
+        map.moveCamera(cameraSigma);
+        MarkerOptions options = new MarkerOptions(fromPoint);
+        options.infoWindowEnable(true);//默认为true
+        options.icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_z));//设置自定义Marker图标
+        map.addMarker(options);
 
-        drivingParam.roadType(DrivingParam.RoadType.ON_MAIN_ROAD_BELOW_BRIDGE);
-        drivingParam.heading(90);
-        drivingParam.accuracy(30);
-        TencentSearch tencentSearch = new TencentSearch(this);
-        tencentSearch.getRoutePlan(drivingParam, new HttpResponseListener<DrivingResultObject>() {
+        MarkerOptions optionss = new MarkerOptions(toPoint);
+        optionss.infoWindowEnable(true);//默认为true
+        optionss.icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_x));//设置自定义Marker图标
+        map.addMarker(optionss);
 
-            @Override
-            public void onSuccess(int i, DrivingResultObject drivingResultObject) {
-                if (drivingResultObject == null){
-                    return;
-                }
-
-                for (DrivingResultObject.Route route : drivingResultObject.result.routes){
-                    List<LatLng> lines = route.polyline;
-                    map.addPolyline(new PolylineOptions().addAll(lines).color(0x22ff0000));
-                    Log.d("sfsfewfds.......","123");
-                }
-            }
-
-            @Override
-            public void onFailure(int i, String s, Throwable throwable) {
-
-            }
-        });
-    }
-//    public class MyLocationListener extends BDAbstractLocationListener {
-//        @Override
-//        public void onReceiveLocation(BDLocation location) {
-//            //mapView 销毁后不在处理新接收的位置
-//            if (location == null || mMapView == null) {
-//                return;
-//            }
-//            MyLocationData locData = new MyLocationData.Builder()
-//                    .accuracy(location.getRadius())
-//                    // 此处设置开发者获取到的方向信息，顺时针0-360
-//                    .direction(location.getDirection())
-//                    .latitude(location.getLatitude())
-//                    .longitude(location.getLongitude())
-//                    .build();
+        LatLng driverPoint = new LatLng(latLon.getLat(), latLon.getLon());
+        MarkerOptions optionsss = new MarkerOptions(driverPoint);
+        optionsss.infoWindowEnable(true);//默认为true
+        optionsss.icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_huo_car));//设置自定义Marker图标
+        map.addMarker(optionsss);
 //
-//            BaiduMap maps = mMapView.getMap();
-//            maps.setMyLocationData(locData);
-//            LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
-//            MapStatus.Builder builder = new MapStatus.Builder();
-//            builder.target(ll).zoom(18.0f);
-//            maps.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
-//        }
-//    }
+        // 构造折线点串
+        List<LatLng> latLngs = new ArrayList<>();
+        latLngs.add(fromPoint);
+        latLngs.add(toPoint);
+        latLngs.add(driverPoint);
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-//        mSearch.destroy();
+        // 构造 PolylineOpitons
+        PolylineOptions polylineOptions = new PolylineOptions()
+                .addAll(latLngs)
+//                // 折线设置圆形线头
+                .lineCap(true)
+                // 折线的颜色为绿色
+                .color(0xff00ff00)
+                // 折线宽度为25像素
+                .width(25)
+                // 还可以添加描边颜色
+                .borderColor(Color.parseColor("#3F51B5"))
+                // 描边颜色的宽度，线宽还是 25 像素，不过填充的部分宽度为 `width` - 2 * `borderWidth`
+                .borderWidth(5);
+
+        // 绘制折线
+        map.addPolyline(polylineOptions);
+
     }
+
 
     @Override
     public void setClickEvent() {
         iv_back.setOnClickListener(this);
         tv_refresh.setOnClickListener(this);
     }
-
-
-//    BaiduMap mBaidumap = null;
-//    OnGetRoutePlanResultListener listener = new OnGetRoutePlanResultListener() {
-//        @Override
-//        public void onGetWalkingRouteResult(WalkingRouteResult walkingRouteResult) {
-//
-//        }
-//
-//        @Override
-//        public void onGetTransitRouteResult(TransitRouteResult transitRouteResult) {
-//        }
-//
-//        @Override
-//        public void onGetMassTransitRouteResult(MassTransitRouteResult massTransitRouteResult) {
-//        }
-//
-//        @Override
-//        public void onGetDrivingRouteResult(DrivingRouteResult drivingRouteResult) {
-//            //创建DrivingRouteOverlay实例
-//            DrivingRouteOverlay overlay = new DrivingRouteOverlay(mBaidumap);
-//            if(drivingRouteResult.getRouteLines()!=null) {
-//                if (drivingRouteResult.getRouteLines().size() > 0) {
-////                overlay.setData(drivingRouteResult.getRouteLines().get(0));
-//                    LatLng p1 = new LatLng(sendAddress.getLatLon().getLat(), sendAddress.getLatLon().getLon());
-//                    LatLng p2 = new LatLng(receiveAddress.getLatLon().getLat(), receiveAddress.getLatLon().getLon());
-//                    LatLng p3 = new LatLng(latLon.getLat(), latLon.getLon());
-//                    List<LatLng> point = new ArrayList<>();
-//                    point.add(p1);
-//                    point.add(p2);
-//                    point.add(p3);
-//                    BitmapDescriptor start = BitmapDescriptorFactory.fromResource(R.mipmap.icon_z);
-//                    BitmapDescriptor end = BitmapDescriptorFactory.fromResource(R.mipmap.icon_x);
-//                    BitmapDescriptor driver = BitmapDescriptorFactory.fromResource(R.mipmap.icon_huo_cars);
-//                    List<OverlayOptions> options = new ArrayList<>();
-//                    OverlayOptions option1 =  new MarkerOptions()
-//                            .position(p1)
-//                            .icon(start);
-//                    OverlayOptions option2 =  new MarkerOptions()
-//                            .position(p2)
-//                            .icon(end);
-//                    OverlayOptions option3 =  new MarkerOptions()
-//                            .position(p3)
-//                            .icon(driver);
-//                    options.add(option1);
-//                    options.add(option2);
-//                    options.add(option3);
-//                    mBaidumap.addOverlays(options);
-//                    //设置折线的属性
-//                    OverlayOptions mOverlayOptions = new PolylineOptions()
-//                            .width(10)
-//                            .color(0xAAFF0000)
-//                            .points(point);
-//                    //在地图上绘制折线
-//                    //mPloyline 折线对象
-//                    mBaidumap.addOverlay(mOverlayOptions);
-//                    mBaidumap.addOverlays(options);
-//                    overlay.addToMap();
-//                }
-//            }
-//        }
-//
-//        @Override
-//        public void onGetIndoorRouteResult(IndoorRouteResult indoorRouteResult) {
-//
-//        }
-//
-//        @Override
-//        public void onGetBikingRouteResult(BikingRouteResult bikingRouteResult) {
-//
-//        }
-//    };
-
 
     private void getAddress(String orderDisplayId) {
         HuolalaAPI.getDriverAddress(mActivity,orderDisplayId)
@@ -271,13 +172,12 @@ public class HuoDriverActivity extends BaseActivity implements View.OnClickListe
                         if(huoAddressModel.getCode()==1) {
                             if(huoAddressModel.getData()!=null) {
                                 HuoAddressModel.DataBean data = huoAddressModel.getData();
-//                                LatLng fromLl = new LatLng(sendAddress.getLatLon().getLat(), sendAddress.getLatLon().getLon());
-//                                LatLng endLl = new LatLng(receiveAddress.getLatLon().getLat(), receiveAddress.getLatLon().getLon());
-//                                PlanNode stNode = PlanNode.withLocation(fromLl);
-//                                PlanNode enNode = PlanNode.withLocation(endLl);
-//                                mSearch.drivingSearch((new DrivingRoutePlanOption())
-//                                        .from(stNode)
-//                                        .to(enNode));
+
+                                LatLng driverPoint = new LatLng(data.getLat(), data.getLon());
+                                MarkerOptions optionsss = new MarkerOptions(driverPoint);
+                                optionsss.infoWindowEnable(true);//默认为true
+                                optionsss.icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_huo_car));//设置自定义Marker图标
+                                map.addMarker(optionsss);
                             }
                         }else {
                             ToastUtil.showSuccessMsg(mActivity,huoAddressModel.getMessage());

@@ -447,9 +447,6 @@ public class CommonGoodsDetailActivity extends BaseActivity {
             public void onClick(View v) {
                 PromoteDialog promoteDialog = new PromoteDialog(mContext,models.getData().getDivFullGiftSendInfo());
                 promoteDialog.show();
-//                FullDialog fullDialog = new FullDialog(mContext,);
-//
-//                fullDialog.show();
             }
         });
 
@@ -492,12 +489,6 @@ public class CommonGoodsDetailActivity extends BaseActivity {
                         }
                     }
                     else {
-//                        if (models.getData().isHasCollect()) {
-//                            //已收藏
-//                            mIvCollection.setImageResource(R.mipmap.ic_love);
-//                        } else {
-//                            mIvCollection.setImageResource(R.mipmap.icon_collection_fill);
-//                        }
                         boolean isCollection = SharedPreferencesUtil.getBoolean(mContext, "isCollection");
                         if (isCollection) {
                             //取消收藏
@@ -832,8 +823,8 @@ public class CommonGoodsDetailActivity extends BaseActivity {
                                         }else {
                                             picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
                                         }
-                                    }else {
-                                        picVideo.add(new PicVideoModel.DatasBean(images.get(0),1));
+                                    } else {
+                                        picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
                                     }
                                 }
                             }else {
@@ -862,7 +853,6 @@ public class CommonGoodsDetailActivity extends BaseActivity {
 
                                         }
                                     });
-
 
                             surplierList.clear();
                             surplierList.addAll(model.getData().getSupProds());

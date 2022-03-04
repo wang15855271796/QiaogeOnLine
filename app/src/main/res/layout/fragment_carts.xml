@@ -218,7 +218,6 @@
                                     app:limit_line_count="2"
                                     app:max_select="1"/>
 
-
                             </LinearLayout>
 
                             <TextView

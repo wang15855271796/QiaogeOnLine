@@ -89,13 +89,21 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/deliver_map_order_bg">
 
+                    <fragment
+                        android:id="@+id/frag"
+                        class="com.tencent.tencentmap.mapsdk.maps.SupportMapFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp" />
+
                     <com.tencent.tencentmap.mapsdk.map.MapView
                         android:id="@+id/bmapView"
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="160dp"/>
 
                     <com.tencent.tencentmap.mapsdk.maps.MapView
                         android:id="@+id/mapView"
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="400dp" />
 

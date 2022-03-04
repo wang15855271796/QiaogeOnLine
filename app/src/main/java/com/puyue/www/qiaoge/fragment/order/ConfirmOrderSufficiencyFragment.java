@@ -16,6 +16,7 @@ import com.amap.api.maps.AMap;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
@@ -30,6 +31,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.QiaoGeApplication;
@@ -64,6 +67,7 @@ import com.puyue.www.qiaoge.helper.ActivityResultHelper;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.MapHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
+import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.StatModel;
 import com.puyue.www.qiaoge.model.cart.CartBalanceModel;
@@ -74,9 +78,15 @@ import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.view.GCJ02ToWGS84Util;
 import com.puyue.www.qiaoge.view.PickCityUtil;
 import com.tencent.lbssearch.TencentSearch;
+import com.tencent.lbssearch.httpresponse.BaseObject;
 import com.tencent.lbssearch.httpresponse.HttpResponseListener;
+import com.tencent.lbssearch.httpresponse.Poi;
+import com.tencent.lbssearch.object.param.Address2GeoParam;
 import com.tencent.lbssearch.object.param.DrivingParam;
+import com.tencent.lbssearch.object.param.Geo2AddressParam;
+import com.tencent.lbssearch.object.result.Address2GeoResultObject;
 import com.tencent.lbssearch.object.result.DrivingResultObject;
+import com.tencent.lbssearch.object.result.Geo2AddressResultObject;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
 import com.tencent.map.geolocation.TencentLocationManager;
@@ -88,6 +98,12 @@ import com.tencent.tencentmap.mapsdk.map.MapView;
 import com.tencent.tencentmap.mapsdk.map.OverlayItem;
 import com.tencent.tencentmap.mapsdk.map.Projection;
 import com.tencent.tencentmap.mapsdk.map.TencentMap;
+import com.tencent.tencentmap.mapsdk.maps.CameraUpdate;
+import com.tencent.tencentmap.mapsdk.maps.CameraUpdateFactory;
+import com.tencent.tencentmap.mapsdk.maps.SupportMapFragment;
+import com.tencent.tencentmap.mapsdk.maps.model.BitmapDescriptorFactory;
+import com.tencent.tencentmap.mapsdk.maps.model.CameraPosition;
+import com.tencent.tencentmap.mapsdk.maps.model.MarkerOptions;
 import com.tencent.tencentmap.mapsdk.maps.model.PolylineOptions;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -252,9 +268,12 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
 
     }
 
+    SupportMapFragment supportMapFragment;
+    com.tencent.tencentmap.mapsdk.maps.TencentMap mapss;
     @Override
     public void findViewById(View view) {
         mapView = view.findViewById(R.id.mapView);
+        supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.frag);
         ll_map = (LinearLayout) view.findViewById(R.id.ll_map);
         rl_distribution = (RelativeLayout) view.findViewById(R.id.rl_distribution);
         tv_distribution = (TextView) view.findViewById(R.id.tv_distribution);
@@ -304,8 +323,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
         tv_vip_content_one = (TextView) view.findViewById(R.id.tv_vip_content_one);
         tv_vip_content_two = (TextView) view.findViewById(R.id.tv_tv_vip_content_two);
         tv_go = (TextView) view.findViewById(R.id.tv_go);
-
-
         et_name = (EditText) view.findViewById(R.id.et_name);
         et_phone = (EditText) view.findViewById(R.id.et_phone);
         tv_address = (TextView) view.findViewById(R.id.tv_address);
@@ -319,15 +336,21 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
         tv_phone = (TextView) view.findViewById(R.id.tv_phone);
         ll_self_sufficiency = (LinearLayout) view.findViewById(R.id.ll_self_sufficiency);
         ll_beizhu = (RelativeLayout) view.findViewById(R.id.ll_beizhu);
+
+        mapss = supportMapFragment.getMap();
+        mapss.setOnMapClickListener(new com.tencent.tencentmap.mapsdk.maps.TencentMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(com.tencent.tencentmap.mapsdk.maps.model.LatLng latLng) {
+                showMapDialog();
+            }
+        });
     }
 
     TencentMap map;
-    com.tencent.tencentmap.mapsdk.maps.TencentMap maps;
     TencentLocationManager instance;
     @Override
     public void setViewData() {
         EventBus.getDefault().register(this);
-
         instance = TencentLocationManager.getInstance(QiaoGeApplication.getContext());
         TencentLocationRequest request = TencentLocationRequest.create();
         request.setInterval(100000);
@@ -347,43 +370,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
         cartListStr = mActivity.getIntent().getStringExtra("cartListStr");
 
         list.clear();
-        map = mMapView.getMap();
-        maps = mapView.getMap();
-        Drawable drawable = getResources().getDrawable(R.mipmap.ic_confirm_map);
-        TestOverlay testOverlay = new TestOverlay(drawable, getActivity());
-        mMapView.addOverlay(testOverlay);
-        this.map.setZoom(12);
-        LatLng latLng = new LatLng(30.337315206749725,120.09069890057103);
-        this.map.setCenter(latLng);
-        this.map.setOnMapClickListener(new TencentMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                showMapDialog();
-            }
-        });
-        getWalkingRoute();
-      //  requestCartBalance(NewgiftDetailNo, 1);//NewgiftDetailNo
-//         mBaiduMap = mMapView.getMap();
-//        TextureMapView mapView = new TextureMapView(getActivity());
-
-//        mBaiduMap = map;
-////普通地图 ,mBaiduMap是地图控制器对象
-//        mBaiduMap.setMapType(mBaiduMap.MAP_TYPE_NORMAL);
-
-
-        //默认显示地图标注
-//          mBaiduMap.showMapPoi(false);
-
-        //通过设置enable为true或false 选择是否显示比例尺
-//        mBaiduMap.showScaleControl(false);
-//
-//        //通过设置enable为true或false 选择是否显示缩放按钮
-//        mMapView.showZoomControls(false);
-//
-//        mUiSettings = mBaiduMap.getUiSettings();
-        //通过设置enable为true或false 选择是否禁用所有手势
-//        mUiSettings.setAllGesturesEnabled(false);
-
         adapter = new ConfirmOrderNewAdapter(R.layout.item_confirm_order_new, list);
         unOperateAdapter = new UnOperateAdapter(R.layout.item_confirm_order_new, listUnOperate);
 
@@ -407,69 +393,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
         });
     }
 
-
-//    LatLng fromPoint = new LatLng(24.66493, 117.09568); // 起点坐标
-//    LatLng toPoint = new LatLng(26.8857,120.00514); //终点坐标
-    com.tencent.tencentmap.mapsdk.maps.model.LatLng fromPoint = new com.tencent.tencentmap.mapsdk.maps.model.LatLng(24.66493, 117.09568);
-    com.tencent.tencentmap.mapsdk.maps.model.LatLng toPoint = new com.tencent.tencentmap.mapsdk.maps.model.LatLng(26.8857,120.00514);
-    private void getWalkingRoute(){
-        DrivingParam drivingParam = new DrivingParam(fromPoint, toPoint); //创建导航参数
-
-        drivingParam.roadType(DrivingParam.RoadType.ON_MAIN_ROAD_BELOW_BRIDGE);
-        drivingParam.heading(90);
-        drivingParam.accuracy(30);
-        TencentSearch tencentSearch = new TencentSearch(getActivity());
-        tencentSearch.getRoutePlan(drivingParam, new HttpResponseListener<DrivingResultObject>() {
-
-            @Override
-            public void onSuccess(int i, DrivingResultObject drivingResultObject) {
-
-                if (drivingResultObject == null){
-                    return;
-                }
-
-                for (DrivingResultObject.Route route : drivingResultObject.result.routes){
-                    List<com.tencent.tencentmap.mapsdk.maps.model.LatLng> lines = route.polyline;
-                    maps.addPolyline(new PolylineOptions().add(lines.get(0)).color(0x22ff0000));
-                    Log.d("drivingResultObj......",drivingResultObject.result.routes.size()+"ss");
-                }
-            }
-
-            @Override
-            public void onFailure(int i, String s, Throwable throwable) {
-
-            }
-        });
-    }
-
-
-
-
-
-//    OnGetGeoCoderResultListener listener = new OnGetGeoCoderResultListener() {
-//        @Override
-//        public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
-//            if (null != geoCodeResult && null != geoCodeResult.getLocation()) {
-//                if (geoCodeResult == null || geoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
-//                    //没有检索到结果
-//                    return;
-//                } else {
-//                    latitude1 = geoCodeResult.getLocation().latitude;
-//                    longitude1 = geoCodeResult.getLocation().longitude;
-//                    getAddressLocation();
-//
-//                }
-//            }
-//        }
-//
-//        @Override
-//        public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
-//
-//        }
-//
-//
-//    };
-
     int disType;
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getDistribution(DisTributionSelfEvent disTributionEvent) {
@@ -482,119 +405,73 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
         }
     }
 
-//    BaiduMap.OnMapClickListener listenerClick = new BaiduMap.OnMapClickListener() {
-//        /**
-//         * 地图单击事件回调函数
-//         *
-//         * @param point 点击的地理坐标
-//         */
-//        @Override
-//        public void onMapClick(LatLng point) {
-//            Log.i("dwqrqr", "onMapClick: " + "我点击了");
-//            showMapDialog();
-//        }
-//
-//        /**
-//         * 地图内 Poi 单击事件回调函数
-//         *
-//         * @param mapPoi 点击的 poi 信息
-//         */
-//        @Override
-//        public boolean onMapPoiClick(MapPoi mapPoi) {
-//            return false;
-//        }
-//    };
+    protected void geocoder(String address) {
+        TencentSearch tencentSearch = new TencentSearch(mActivity);
+        Address2GeoParam address2GeoParam =
+                new Address2GeoParam(address).region(UserInfoHelper.getCity(mActivity));
+        tencentSearch.address2geo(address2GeoParam, new HttpResponseListener<BaseObject>() {
 
-
-
-    private void getAddressLocation() {
-//        LatLng cenpt = new LatLng(latitude1, longitude1);
-//        //定义地图状态
-//        MapStatus mMapStatus = new MapStatus.Builder()
-//                .target(cenpt)
-//                .zoom(18)
-//                .build();
-//        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
-//
-//
-//        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
-//        //改变地图状态
-//        //定义Maker坐标点
-//
-//        //构建Marker图标
-//        BitmapDescriptor bitmap = BitmapDescriptorFactory
-//                .fromResource(R.mipmap.ic_confirm_map);
-//        //构建MarkerOption，用于在地图上添加Marker
-//        OverlayOptions option = new MarkerOptions()
-//                .position(cenpt)
-//                .icon(bitmap);
-//        //在地图上添加Marker，并显示
-//        mBaiduMap.addOverlay(option);
-//        mBaiduMap.setMapStatus(mMapStatusUpdate);
-//
-//        LatLng cenpt1 = new LatLng(120.08947, 30.397751);
-//
-//        OverlayOptions position = new MarkerOptions().position(cenpt1);
-//
-//        LatLng cenpt2 = new LatLng(120.126731, 30.336927);
-
-        //用来构造InfoWindow的Button
-        TextView button = new TextView(mActivity.getApplicationContext());
-
-        if (latitude2>0||longitude2>0){
-            if (latitude2 != 4.9E-324 || longitude2 != 4.9E-324) {
-                button.setVisibility(View.VISIBLE);
-                button.setBackgroundResource(R.drawable.popup_map);
-                button.setTextColor(Color.parseColor("#FF666666"));
-                button.setGravity(Gravity.CENTER_HORIZONTAL);
-
-                if (getDistance(longitude1, latitude1, longitude2, latitude2) > 1000) {
-                    long round = Math.round(getDistance(longitude1, latitude1, longitude2, latitude2) / 1000);
-                    button.setText("距您" + String.valueOf(round) + "公里");
-                } else {
-                    button.setText("距您不到1公里");
-                }
-
-                //构造InfoWindow
-//point 描述的位置点
-//-100 InfoWindow相对于point在y轴的偏移量
-
-//                InfoWindow mInfoWindow = new InfoWindow(button, ((MarkerOptions) option).getPosition(), -50);
-//
-////使InfoWindow生效
-//                mBaiduMap.showInfoWindow(mInfoWindow);
-            } else {
-                button.setVisibility(View.GONE);
-            }
-        }else {
-            button.setVisibility(View.GONE);
-        }
-
-
-
- /*       //用来构造InfoWindow
-        BitmapDescriptor mBitmap = BitmapDescriptorFactory.fromResource(R.drawable.circle_bg);
-
-//响应点击的OnInfoWindowClickListener
-        InfoWindow.OnInfoWindowClickListener listener = new InfoWindow.OnInfoWindowClickListener() {
             @Override
-            public void onInfoWindowClick() {
-                Toast.makeText(mActivity, "Click on InfoWindow", Toast.LENGTH_LONG).show();
+            public void onSuccess(int arg0, BaseObject arg1) {
+                if (arg1 == null) {
+                    return;
+                }
+                Address2GeoResultObject obj = (Address2GeoResultObject)arg1;
+                StringBuilder sb = new StringBuilder();
+                sb.append("地址解析");
+                if (obj.result.latLng != null) {
+                    sb.append("\n坐标：" + obj.result.latLng.toString());
+                } else {
+                    sb.append("\n无坐标");
+                }
+                com.tencent.tencentmap.mapsdk.maps.model.LatLng latLng = obj.result.latLng;
+                CameraUpdate cameraSigma =
+                        CameraUpdateFactory.newCameraPosition(new CameraPosition(
+                                new com.tencent.tencentmap.mapsdk.maps.model.LatLng(latLng.latitude,latLng.longitude),
+                                15,
+                                0f,
+                                0f));
+                //移动地图
+                mapss.moveCamera(cameraSigma);
+                getWalkingRoute(latLng);
+
             }
-        };
 
-//构造InfoWindow
-//point 描述的位置点
-//-100 InfoWindow相对于point在y轴的偏移量
-      InfoWindow  mInfoWindow = new InfoWindow(mBitmap, cenpt1, -100, listener);
+            @Override
+            public void onFailure(int arg0, String arg1, Throwable arg2) {
+                Log.e("test", "error code:" + arg0 + ", msg:" + arg1);
+            }
+        });
+    }
 
-//使InfoWindow生效
-        mBaiduMap.showInfoWindow(mInfoWindow);*/
+    private void getWalkingRoute(com.tencent.tencentmap.mapsdk.maps.model.LatLng latLng){
+        MarkerOptions options = new MarkerOptions(latLng);
+        options.infoWindowEnable(true);//默认为true
+        options.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_confirm_map));//设置自定义Marker图标
+        mapss.addMarker(options);
     }
 
 
     //地球半径
     private static final double EARTH_RADIUS = 6378.137;
+
+    public static com.tencent.tencentmap.mapsdk.maps.model.LatLng str2Coordinate(Context context, String str) {
+        if (!str.contains(",")) {
+            Toast.makeText(context, "经纬度用\",\"分割", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+        String[] strs = str.split(",");
+        double lat = 0;
+        double lng = 0;
+        try {
+            lat = Double.parseDouble(strs[0]);
+            lng = Double.parseDouble(strs[1]);
+        } catch (NumberFormatException e) {
+            Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
+            return null;
+        }
+        return new com.tencent.tencentmap.mapsdk.maps.model.LatLng(lat, lng);
+    }
 
     /**
      * 根据经纬度查询距离
@@ -644,12 +521,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
                 });
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        //在activity执行onPause时执行mMapView. onPause ()，实现地图生命周期管理
-//        mMapView.onPause();
-    }
 
 
     private GetTimeOrderModel dataBean;
@@ -866,6 +737,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
                     @Override
                     public void onNext(CartBalanceModel cartBalanceModel) {
                         if (cartBalanceModel.success) {
+
                             cModel = cartBalanceModel;
                             toRechargeAmount = cModel.getData().getToRechargeAmount();
                             toRecharge = cModel.getData().isToRecharge();
@@ -895,7 +767,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
 
                                 list.clear();
                                 listUnOperate.clear();
-
+                                geocoder(cartBalanceModel.getData().wareAddress);
                                 if (cartBalanceModel.getData().getProductVOList().size() > 0) {
                                     for (int i = 0; i < cartBalanceModel.getData().getProductVOList().size(); i++) {
                                         if(cartBalanceModel.getData().getProductVOList().get(i).getSelfOrNot()==0) {
@@ -1303,9 +1175,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-//        mMapView.onDestroy();
-
-//        mCoder.destroy();
 
     }
 
@@ -1313,51 +1182,9 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
     public void onResume() {
         super.onResume();
         list.clear();
-//        mMapView.onResume();
-
-
-//        mLocationClient = new LocationClient(mActivity.getApplicationContext());
-//        //声明LocationClient类
-//        mLocationClient.registerLocationListener(myListener);
-//        //注册监听函数
-//        LocationClientOption option = new LocationClientOption();
-//
-//        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-//        option.setIsNeedAddress(true);
-////可选，是否需要地址信息，默认为不需要，即参数为false
-////如果开发者需要获得当前点的地址信息，此处必须为true
-////设置地图单击事件监听
-//        mBaiduMap.setOnMapClickListener(listenerClick);
-//
-//        mLocationClient.setLocOption(option);
-//        mLocationClient.start();
-//        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
-//        mCoder = GeoCoder.newInstance();
-////        requestCartBalance(NewgiftDetailNo, 1);//NewgiftDetailNo
-//        mCoder.setOnGetGeoCodeResultListener(listener);
 
     }
 
-
-//    public class MyLocationListener extends BDAbstractLocationListener {
-//        @Override
-//        public void onReceiveLocation(BDLocation location) {
-//            //此处的BDLocation为定位结果信息类，通过它的各种get方法可获取定位相关的全部结果
-//            //以下只列举部分获取地址相关的结果信息
-//            //更多结果信息获取说明，请参照类参考中BDLocation类中的说明
-//
-//
-//            String country = location.getCountry();    //获取国家
-//            String province = location.getProvince();    //获取省份
-//            String city = location.getCity();    //获取城市
-//            String district = location.getDistrict();    //获取区县
-//            String street = location.getStreet();    //获取街道信息
-//            String streetNumber = location.getStreetNumber();
-//            latitude2 = location.getLatitude();
-//            longitude2 = location.getLongitude();
-//
-//        }
-//    }
 
 
     public void showMapDialog() {
@@ -1472,17 +1299,12 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
         private List<OverlayItem> overlayItems;
         private OnTapListener onTapListener;
 
-        public TestOverlay(Drawable drawable, Context context) {
+        public TestOverlay(Drawable drawable, LatLng latLng) {
             // TODO Auto-generated constructor stub
             super(boundCenterBottom(drawable));
             overlayItems = new ArrayList<>();
-            //        30.359807,120.054923
-//            GeoPoint gp3 = new GeoPoint(39794996, 116546586);
-
-            GeoPoint gp3 = new GeoPoint(30359807, 120054923);
-            String lat = SharedPreferencesUtil.getString(context, "lat");
-            String lon = SharedPreferencesUtil.getString(context, "lon");
-
+            GeoPoint gp3 = new GeoPoint(30391693,120082278);
+//            Log.d("dsfsdfef.....",Integer.parseInt(latLng.getLatitude()+"")+"---"+Integer.parseInt(latLng.getLongitude()+""));
             OverlayItem item = new OverlayItem(gp3, "30.359807, 120.054923", "可拖动");
             item.setDragable(true);
             overlayItems.add(item);

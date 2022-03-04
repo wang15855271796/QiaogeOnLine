@@ -84,18 +84,20 @@
 
 
                 <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/deliver_map_order_bg">
 
-<!--                    <com.amap.api.maps.TextureMapView-->
-<!--                        android:id="@+id/bmapView"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="160dp"-->
-<!--                        android:layout_marginTop="@dimen/size_15dp"-->
-<!--                        android:clickable="true" />-->
+                    <fragment
+                        android:id="@+id/frag"
+                        class="com.tencent.tencentmap.mapsdk.maps.SupportMapFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp" />
+
                     <com.tencent.tencentmap.mapsdk.map.MapView
                         android:id="@+id/bmapView"
+                        android:visibility="gone"
                         android:layout_marginTop="@dimen/size_15dp"
                         android:layout_width="match_parent"
                         android:layout_height="160dp"/>

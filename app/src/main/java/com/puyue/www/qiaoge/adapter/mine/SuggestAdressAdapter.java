@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
+import com.tencent.lbssearch.object.result.SuggestionResultObject;
 
 import java.util.List;
 
@@ -16,13 +17,13 @@ import java.util.List;
  */
 public class SuggestAdressAdapter extends RecyclerView.Adapter<SuggestAdressAdapter.MySuggestViewHolde> {
 
-    private List<String> list;
+    private List<SuggestionResultObject.SuggestionData> list;
     private Context context;
 
     private onClick onClick;
 
 
-    public SuggestAdressAdapter(List<String> list, Context context,onClick  onClick) {
+    public SuggestAdressAdapter(List<SuggestionResultObject.SuggestionData> list, Context context, onClick  onClick) {
         this.list = list;
         this.context = context;
         this.onClick = onClick;
@@ -37,7 +38,7 @@ public class SuggestAdressAdapter extends RecyclerView.Adapter<SuggestAdressAdap
 
     @Override
     public void onBindViewHolder(@NonNull MySuggestViewHolde holder, int position) {
-        holder.tv_suggest_address.setText(list.get(position));
+        holder.tv_suggest_address.setText(list.get(position).address);
         holder.tv_suggest_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

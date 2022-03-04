@@ -10,6 +10,9 @@ import androidx.core.widget.NestedScrollView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -45,10 +48,16 @@ import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.IsShowModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.tencent.lbssearch.TencentSearch;
+import com.tencent.lbssearch.httpresponse.BaseObject;
+import com.tencent.lbssearch.httpresponse.HttpResponseListener;
+import com.tencent.lbssearch.object.param.SuggestionParam;
+import com.tencent.lbssearch.object.result.SuggestionResultObject;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -127,6 +136,26 @@ public class EditAddressActivity extends BaseSwipeActivity  {
     private String orderId;
     private String areaName1;
     private String cityName1;
+
+    private final MyHandler handler = new MyHandler(this);
+
+    private static class MyHandler extends Handler {
+        private final WeakReference<EditAddressActivity> mActivity;
+
+        public MyHandler(EditAddressActivity activity) {
+            // TODO Auto-generated constructor stub
+            mActivity = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+            EditAddressActivity activity = mActivity.get();
+            if (activity != null) {
+                activity.handleMessage(msg);
+            }
+        }
+    }
 
     public static Intent getIntent(Context context, Class<?> cls, String type, String userName, String userPhone, String storeName, String area, String address, String defaultOr, String addressId, String proviceCode, String cityCode, String areaCode,String orderId) {
         Intent intent = new Intent();
@@ -209,11 +238,43 @@ public class EditAddressActivity extends BaseSwipeActivity  {
         tv_target = (TextView) findViewById(R.id.tv_target);
     }
 
+    public void handleMessage(Message msg) {
+        switch (msg.what) {
+            case 1000:
+                showAutoComplete((SuggestionResultObject)msg.obj);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 显示完整ListView
+     * @param obj
+     */
+    protected void showAutoComplete(SuggestionResultObject obj) {
+        if (obj.data.size() == 0) {
+            ry_suggest.setVisibility(View.GONE);
+            return;
+        }
+        adressAdapter = new SuggestAdressAdapter(obj.data, mContext, new SuggestAdressAdapter.onClick() {
+            @Override
+            public void setLocation(int pos) {
+
+            }
+        });
+        ry_suggest.setLayoutManager(new LinearLayoutManager(mContext));
+        ry_suggest.setAdapter(adressAdapter);
+        adressAdapter.notifyDataSetChanged();
+        ry_suggest.setVisibility(View.GONE);
+
+    }
+
+
     @Override
     public void setViewData() {
-//        mSuggestionSearch = SuggestionSearch.newInstance();
         cityName=mArea;
-
         mPicker.init(mContext);
         if (StringHelper.notEmptyAndNull(mType)) {
             if (mType.equals("add")) {
@@ -233,7 +294,6 @@ public class EditAddressActivity extends BaseSwipeActivity  {
                 keyWorldsView.setText(mAddress);
                 if (StringHelper.notEmptyAndNull(mStoreName)) {
                     mEditStore.setText(mStoreName);
-
                 }
                 if (StringHelper.notEmptyAndNull(mDefault)) {
                     if (mDefault.equals("true")) {
@@ -248,53 +308,19 @@ public class EditAddressActivity extends BaseSwipeActivity  {
         }
 
         selectCity();
-
-/*
-
-        sugAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line);
-
-        keyWorldsView.setAdapter(sugAdapter);
-
-        keyWorldsView.setThreshold(1);
-*/
-
-
-        keyWorldsView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    if (keyWorldsView.getText().toString() != null) {
-                        /* 使用建议搜索服务获取建议列表，结果在onSuggestionResult()中更新 */
-                        if (cityName!=null&&StringHelper.notEmptyAndNull(cityName)) {
-//                            mSuggestionSearch.requestSuggestion((new SuggestionSearchOption())
-//
-//                                    .keyword(keyWorldsView.getText().toString())
-//
-//                                    .city(cityName)
-//                           )
-                            ;
-                        }
-
-                    }
-                }
-
-            }
-        });
         /* 当输入关键字变化时，动态更新建议列表 */
+
         keyWorldsView.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable arg0) {
-
             }
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-
                 if (cs.length() <= 0) {
                     ry_suggest.setVisibility(View.GONE);
                     tv_target.setVisibility(View.GONE);
@@ -303,16 +329,32 @@ public class EditAddressActivity extends BaseSwipeActivity  {
                 showSugDialog(cs);
             }
         });
-    /*    OnGetSuggestionResultListener listener = new OnGetSuggestionResultListener() {
+    }
+
+    protected void suggestion(String keyword) {
+        if (keyword.trim().length() == 0) {
+            ry_suggest.setVisibility(View.GONE);
+            return;
+        }
+        TencentSearch tencentSearch = new TencentSearch(this);
+        SuggestionParam suggestionParam = new SuggestionParam(keyword, tv_edit_address_area.getText().toString());
+        //suggestion也提供了filter()方法和region方法
+        //具体说明见文档，或者官网的webservice对应接口
+        tencentSearch.suggestion(suggestionParam, new HttpResponseListener<BaseObject>() {
+
             @Override
-            public void onGetSuggestionResult(SuggestionResult suggestionResult) {
-                //处理sug检索结果
+            public void onSuccess(int arg0, BaseObject arg1) {
+                Message msg = new Message();
+                msg.what = 1000;
+                msg.obj = arg1;
+                handler.sendMessage(msg);
+
             }
-        };*/
 
-//        mSuggestionSearch.setOnGetSuggestionResultListener(this);
-
-
+            @Override
+            public void onFailure(int arg0, String arg1, Throwable arg2) {
+            }
+        });
     }
 
     private void selectCity() {
@@ -383,13 +425,8 @@ public class EditAddressActivity extends BaseSwipeActivity  {
     }
 
     private void showSugDialog(CharSequence cs) {
-        if (cityName!=null&&StringHelper.notEmptyAndNull(cityName)) {
-            /* 使用建议搜索服务获取建议列表，结果在onSuggestionResult()中更新 */
-//            mSuggestionSearch.requestSuggestion((new SuggestionSearchOption())
-//
-//                    .keyword(cs.toString())
-//                    .city(cityName));
-
+        if (tv_edit_address_area.getText().toString()!=null&&!tv_edit_address_area.getText().toString().equals("")) {
+            suggestion(cs.toString());
         }
     }
 

@@ -139,7 +139,7 @@ public class QiaoGeApplication extends MultiDexApplication {
             }
             @Override
             public void onFailure(String s, String s1) {
-                Log.d("wsassssssss......",s1);
+
             }
         });
 

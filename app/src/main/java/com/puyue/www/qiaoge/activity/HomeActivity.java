@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AlertDialog;
+
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -151,7 +153,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
             instance = TencentLocationManager.getInstance(QiaoGeApplication.getContext());
             TencentLocationRequest request = TencentLocationRequest.create();
             request.setInterval(100000);
-            request.setRequestLevel(TencentLocationRequest. REQUEST_LEVEL_POI);
+            request.setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_ADMIN_AREA);
             request.setAllowGPS(true);
             request.setIndoorLocationMode(true);
             instance.requestLocationUpdates(request, this);
@@ -265,7 +267,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         String registrationID = JPushInterface.getRegistrationID(this);
         UserInfoHelper.saveRegistionId(mContext, registrationID);
 //        mLocationClient.start();
-
+        switchTab(TAB_HOME);
 }
 
     private void sendLocation() {
@@ -331,7 +333,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
 
             } else if (view == mLlMarket&&!mLlMarket.isSelected()) {
                 switchTab(TAB_MARKET);
-            } else if (view == mLlCart&&!mLlCart.isSelected()) {
+            } else if (view == mLlCart&&!mLlCart.isSelected())  {
                 //从首页判断用户没有登录跳转到登录界面,登录成功回来的时候要重新请求数据,
                 //由于是从首页和商城页点击进入的登录界面,回到原来界面的时候需要首页刷新或者商城界面刷新分类和细节数据
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
@@ -381,7 +383,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     }
 
     private void switchTab(String tab) {
-        instance.removeUpdates(this);
+
 //        mLocationClient.stop();
         //开始事务
         mFragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -675,9 +677,6 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         } else {
             mTvCarNum.setVisibility(View.GONE);
         }
-        if (token != null) {
-            sendLocation();
-        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -817,6 +816,10 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         type = "";
         locationMessage = location.getAddress();    //获取详细地址信息
         switchTab(TAB_HOME);
+        instance.removeUpdates(this);
+        if (token != null) {
+            sendLocation();
+        }
     }
 
     @Override
