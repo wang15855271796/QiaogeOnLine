@@ -414,6 +414,7 @@ public class MineFragment extends BaseFragment {
         });
     }
 
+
     @Override
     public void setViewData() {
         mViewVersionPoint.setVisibility(View.GONE);
@@ -421,7 +422,6 @@ public class MineFragment extends BaseFragment {
 
         if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(getContext()))) {
             //有userId,显示userId,
-            requestUserInfo();
             requestOrderNum();
 //            requestOrderNumTwo();
             //getPagerAdapter();
@@ -957,9 +957,13 @@ public class MineFragment extends BaseFragment {
         });
     }
 
+
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
+        if(!hidden) {
+            requestUserInfo();
+        }
         if(hidden&&SharedPreferencesUtil.getString(mActivity,"index1").equals("1")) {
             long end = (System.currentTimeMillis()-start)/1000;
             long time = Time.getTime(end);
@@ -973,6 +977,7 @@ public class MineFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         getOrderNum();
+        requestUserInfo();
         start = System.currentTimeMillis();
     }
 
@@ -1220,7 +1225,10 @@ public class MineFragment extends BaseFragment {
                             AppHelper.UserLogout(getContext(), mStateCode, 1);
                             if (mModelAccountCenter.success) {
                                 updateAccountCenter();
-
+                                if(accountCenterModel.code==-10001) {
+                                    Intent intent = new Intent(mActivity,LoginActivity.class);
+                                    startActivity(intent);
+                                }
                             } else {
                                 mTvPhone.setText("请登录");
                                 AppHelper.showMsg(getContext(), mModelAccountCenter.message);

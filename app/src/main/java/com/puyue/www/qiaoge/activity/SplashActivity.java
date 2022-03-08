@@ -1,8 +1,12 @@
 package com.puyue.www.qiaoge.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
+import android.view.KeyEvent;
+
 import androidx.annotation.NonNull;
 
 import com.puyue.www.qiaoge.R;
@@ -40,13 +44,26 @@ public class SplashActivity extends BaseActivity {
 
     }
 
+
     @Override
     public void setViewData() {
         //是否点击了隐私权限
         SharedPreferencesUtil.getString(mContext,"once").equals("-1");
         privacyDialog = new PrivacysDialog(mActivity);
+        privacyDialog.setCanceledOnTouchOutside(false);
+        privacyDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
+                if (i == keyEvent.KEYCODE_BACK) {
+                    return true;
+                }
+                return false;
+            }
+        });
+
         if (!SharedPreferencesUtil.getString(mActivity, "once").equals("0")) {
             privacyDialog.show();
+
         } else {
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -72,8 +89,28 @@ public class SplashActivity extends BaseActivity {
 
     }
 
-
 //    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        Log.d("fdsrgdffs....",KeyEvent.KEYCODE_BACK+"s");
+//        if(keyCode == KeyEvent.KEYCODE_BACK) {
+//            return true;
+//        }
+//
+//        return super.onKeyDown(keyCode, event);
+//    }
+//
+//    @Override
+//    public boolean dispatchKeyEvent(KeyEvent event) {
+//        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK ) {
+//            //do something.
+//            return true;
+//        } else {
+//            return super.dispatchKeyEvent(event);
+//        }
+//    }
+
+
+    //    @Override
 //    public boolean handleExtra(Bundle savedInstanceState) {
 //        return false;
 //    }

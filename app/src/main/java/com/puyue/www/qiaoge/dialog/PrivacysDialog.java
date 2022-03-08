@@ -3,6 +3,7 @@ package com.puyue.www.qiaoge.dialog;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -20,6 +21,7 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -101,6 +103,16 @@ public class PrivacysDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 Privacy2Dialog privacy2Dialog = new Privacy2Dialog(mContext);
+                privacy2Dialog.setCanceledOnTouchOutside(false);
+                privacy2Dialog.setOnKeyListener(new OnKeyListener() {
+                    @Override
+                    public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
+                        if (i == keyEvent.KEYCODE_BACK) {
+                            return true;
+                        }
+                        return false;
+                    }
+                });
                 privacy2Dialog.show();
                 dismiss();
             }

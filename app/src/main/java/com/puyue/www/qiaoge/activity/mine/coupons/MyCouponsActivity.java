@@ -1,15 +1,18 @@
 package com.puyue.www.qiaoge.activity.mine.coupons;
 
+import android.content.Intent;
 import android.os.Bundle;
 import com.google.android.material.tabs.TabLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.adapter.mine.ViewPagerAdapter;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.mine.order.MyOrderNumAPI;
@@ -125,40 +128,44 @@ public class MyCouponsActivity extends BaseSwipeActivity {
 
                     @Override
                     public void onNext(MyOrderNumModel myOrderNumModel) {
+                        if (myOrderNumModel.code==1) {
+                            if(myOrderNumModel.getData()!=null) {
+                                stringList.add("未使用"+"("+myOrderNumModel.getData().getDeductNum()+")");
+                                stringList.add("已使用");
+                                stringList.add("已过期/失效");
+                                //未使用
+                                list.add(new CouponsNotUseFragment());
+                                //已使用
+                                list.add(new CouponsUseFragment());
+                                //过期
+                                list.add(new CouponsOverdueFragment());
 
-                        if (myOrderNumModel.success) {
-                            stringList.add("未使用"+"("+myOrderNumModel.getData().getDeductNum()+")");
-                            stringList.add("已使用");
-                            stringList.add("已过期/失效");
-                            //未使用
-                            list.add(new CouponsNotUseFragment());
-                            //已使用
-                            list.add(new CouponsUseFragment());
-                            //过期
-                            list.add(new CouponsOverdueFragment());
+                                ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),list,stringList);
+                                viewPager.setAdapter(viewPagerAdapter);
+                                viewPager.setOffscreenPageLimit(4);
+                                tabLayout.setupWithViewPager(viewPager);
+                                tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                                    @Override
+                                    public void onTabSelected(TabLayout.Tab tab) {
+                                        viewPager.setCurrentItem(tab.getPosition(),false);
+                                    }
 
-                            ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),list,stringList);
-                            viewPager.setAdapter(viewPagerAdapter);
-                            viewPager.setOffscreenPageLimit(4);
-                            tabLayout.setupWithViewPager(viewPager);
-                            tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                                @Override
-                                public void onTabSelected(TabLayout.Tab tab) {
-                                    viewPager.setCurrentItem(tab.getPosition(),false);
-                                }
+                                    @Override
+                                    public void onTabUnselected(TabLayout.Tab tab) {
 
-                                @Override
-                                public void onTabUnselected(TabLayout.Tab tab) {
+                                    }
 
-                                }
+                                    @Override
+                                    public void onTabReselected(TabLayout.Tab tab) {
 
-                                @Override
-                                public void onTabReselected(TabLayout.Tab tab) {
-
-                                }
-                            });
-
-                        } else {
+                                    }
+                                });
+                            }
+                        }else if(myOrderNumModel.code==-10001) {
+                            Intent intent = new Intent(mActivity, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }else {
                             AppHelper.showMsg(mActivity, myOrderNumModel.message);
                         }
                     }
