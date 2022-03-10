@@ -83,7 +83,7 @@ public class WheelSurfView extends RelativeLayout {
 
         //如果用户没有设置自定义的图标就使用默认的
         if ( mGoImgRes == 0 ) {
-            mStart.setImageResource(R.drawable.node);
+            mStart.setImageResource(R.mipmap.node);
         } else {
             mStart.setImageResource(mGoImgRes);
         }

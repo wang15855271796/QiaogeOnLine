@@ -827,7 +827,7 @@ public class WheelSurfPanView extends View {
                     //设置绘制时画笔的颜色
 //                    mPaint.setColor(mColors[i]);
                     if(i%2==0) {
-                        mPaint.setColor(Color.parseColor("#F7AD42"));
+                        mPaint.setColor(Color.parseColor("#FFD1D0"));
                     }else {
                         mPaint.setColor(Color.parseColor("#ffffff"));
                     }
@@ -895,7 +895,7 @@ public class WheelSurfPanView extends View {
         //做最后的准备工作 检查数据是否合理
         if ( mType == 1 ) {
             if ( mHuanImgRes == null || mHuanImgRes == 0 )
-                mYuanHuan = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.yuanhua2);
+                mYuanHuan = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.icon_yuan_top);
             else {
                 mYuanHuan = BitmapFactory.decodeResource(mContext.getResources(), mHuanImgRes);
             }
@@ -904,7 +904,7 @@ public class WheelSurfPanView extends View {
                 mTextSize = 14 * getScale();
             //文字颜色 默认粉红色
             if ( mTextColor == 0 )
-                mTextColor = Color.parseColor("#333333");
+                mTextColor = Color.parseColor("#F45D4E");
 
             if ( mListBitmap.size() != mDeses.length) {
                 throw new RuntimeException("Icons数量和Deses和Colors三者数量必须与mTypeNum一致");

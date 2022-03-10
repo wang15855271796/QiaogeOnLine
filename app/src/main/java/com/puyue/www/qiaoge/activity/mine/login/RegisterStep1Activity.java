@@ -619,7 +619,6 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                                 if (mModelRegister.success) {
                                     updateRegister();
                                 } else {
-                                    //  dialog.dismiss();
                                     AppHelper.showMsg(mContext, mModelRegister.message);
                                 }
                             }

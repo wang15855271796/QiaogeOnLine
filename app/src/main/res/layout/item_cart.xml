@@ -96,12 +96,12 @@
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="wrap_content">-->
 
-                <androidx.recyclerview.widget.RecyclerView
+                <com.puyue.www.qiaoge.view.SlideRecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                </androidx.recyclerview.widget.RecyclerView>
+                </com.puyue.www.qiaoge.view.SlideRecyclerView>
 
             <!--</android.support.v4.widget.NestedScrollView>-->
 

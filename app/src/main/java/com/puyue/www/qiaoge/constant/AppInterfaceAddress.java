@@ -6,7 +6,7 @@ package com.puyue.www.qiaoge.constant;
 public class AppInterfaceAddress {
     //https://shaokao.qoger.com/qiaoge/正式   http://192.168.2.188:8082/qiaoge/
     //http://116.62.67.230:8082/qiaoge/   测试http://120.55.55.99:8082/qiaoge/
-    public static final String BASE_URL = "https://shaokao.qoger.com/qiaoge/";
+    public static final String BASE_URL = "http://192.168.2.188:8082/qiaoge/";
     // 正式https://shaokao.qoger.com/qiaoge/
     //http://192.168.1.45/   本地192.168.101.69:8088
     //http://qg.zhiyun88u.com/shen
@@ -15,6 +15,10 @@ public class AppInterfaceAddress {
     //http://192.168.101.41:8088/
 //    queryReturnProdIsContainFullGift
 
+    /**
+     *新订单确认接口 结算
+     */
+    public static final String Settle = "commonOrder/getBtnOpenInfo";
     /**
      *判断是否有关联订单
      */
@@ -285,7 +289,8 @@ public class AppInterfaceAddress {
     public static final String RECOMMEND = "common/getRecommendProductName";
     public static final String REGISTER_AGREEMENT = "auth/getRegisterProtocol";
     public static final String SEND_AUTH_CODE = "auth/sendMsg";
-    public static final String REGISTER = "auth/register";
+//    注册-新接口
+    public static final String REGISTER = "auth/registerV3";
     public static final String LOGIN = "auth/login";
     public static final String ACCOUNT_CENTER = "user/personCenter";
     public static final String LOG_OUT = "user/loginOut";

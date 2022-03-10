@@ -199,7 +199,28 @@
 
             </RelativeLayout>
 
+            <RelativeLayout
+                android:background="#ffffff"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_64dp">
+
+                <TextView
+                    android:drawablePadding="@dimen/size_5dp"
+                    android:drawableLeft="@mipmap/icon_city_green"
+                    android:layout_marginLeft="@dimen/size_16dp"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/tv_choose"
+                    android:text="切换为企业版"
+                    android:textColor="#17BD60"
+                    android:textSize="@dimen/ysf_text_size_16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+
             <LinearLayout
+                android:layout_marginTop="@dimen/dp_10"
                 android:id="@+id/ll_area"
                 android:background="#fff"
                 android:orientation="horizontal"

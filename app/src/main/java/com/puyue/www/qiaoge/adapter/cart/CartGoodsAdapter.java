@@ -21,6 +21,7 @@ import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.activity.home.SpecialGoodDetailActivity;
 import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
+import com.puyue.www.qiaoge.event.DeleteGoodsEvent;
 import com.puyue.www.qiaoge.fragment.cart.UpdateEvent;
 import com.puyue.www.qiaoge.model.cart.CartTestModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
@@ -50,6 +51,7 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
 
     @Override
     protected void convert(BaseViewHolder helper, CartTestModel.DataBean.ProdsBeanX.ProdsBean item) {
+        TextView tv_delete = helper.getView(R.id.tv_delete);
         ImageView iv_send = helper.getView(R.id.iv_send);
         ImageView iv_icon = helper.getView(R.id.iv_icon);
         LinearLayout ll_root = helper.getView(R.id.ll_root);
@@ -72,6 +74,13 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
         if(item.getFlagUrl()!=null&&item.getFlagUrl()!="") {
             Glide.with(mContext).load(item.getFlagUrl()).into(iv_icon);
         }
+
+        tv_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new DeleteGoodsEvent(helper.getAdapterPosition(),item));
+            }
+        });
 //        if(item.getSelfOrNot()==0) {
 //            iv_operate.setImageResource(R.mipmap.icon_operate);
 //        }else {

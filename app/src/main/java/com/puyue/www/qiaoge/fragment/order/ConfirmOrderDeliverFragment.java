@@ -308,14 +308,16 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
         ll_beizhu.setOnClickListener(noDoubleClickListener);
         rl_distribution.setOnClickListener(noDoubleClickListener);
     }
-
+    DisDialog disDialog;
     private NoDoubleClickListener noDoubleClickListener = new NoDoubleClickListener() {
         @Override
         public void onNoDoubleClick(View view) {
             switch (view.getId()) {
 
                 case R.id.rl_distribution:
-                    DisDialog disDialog = new DisDialog(mActivity,cModel.getData().getSendAmount(),1);
+                    if(disDialog==null) {
+                        disDialog = new DisDialog(mActivity,cModel.getData().getSendAmount(),1);
+                    }
                     disDialog.show();
                     break;
 
@@ -344,6 +346,8 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                         AppHelper.showMsg(mActivity, "请选择配送服务");
                         buttonPay.setEnabled(true);
                         lav_activity_loading.hide();
+                        disDialog = new DisDialog(mActivity,cModel.getData().getSendAmount(),1);
+                        disDialog.show();
                         return;
                     }
                     if (LinearLayoutAddress.getVisibility() == View.VISIBLE) { // 没有地址

@@ -44,9 +44,9 @@ public class TurnTableDialog extends Dialog {
 
         for ( int i = 0; i < list.size(); i++ ) {
             if(i%2==0) {
-                mListBitmap.add(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.icon_quan_blues));
+                mListBitmap.add(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.icon_quan_blues));
             }else {
-                mListBitmap.add(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.icon_quan_reds));
+                mListBitmap.add(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.icon_quan_reds));
             }
         }
 
@@ -62,7 +62,6 @@ public class TurnTableDialog extends Dialog {
                 .setmIcons(mListBitmap)
                 .setmType(1)
                 .setmTypeNum(list.size())
-//                .setSize(list.size())
                 .build();
 
         wheelSurfView.setConfig(build);

@@ -112,6 +112,7 @@ public class ConfirmNewOrderActivity extends BaseSwipeActivity implements Confir
                 switchTab(TAB_SUFFICIENCY);
             }
         });
+
         tv_deliver_order_two.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

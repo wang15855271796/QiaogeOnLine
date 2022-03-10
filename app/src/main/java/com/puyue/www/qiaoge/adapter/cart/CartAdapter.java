@@ -16,6 +16,7 @@ import com.puyue.www.qiaoge.activity.FullActiveActivity;
 import com.puyue.www.qiaoge.fragment.cart.UpdateEvent;
 import com.puyue.www.qiaoge.model.cart.CartTestModel;
 import com.puyue.www.qiaoge.view.Arith;
+import com.puyue.www.qiaoge.view.SlideRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -114,7 +115,7 @@ public class CartAdapter extends BaseQuickAdapter<CartTestModel.DataBean.ProdsBe
         rv_coupon.setAdapter(cartCouponAdapter);
         rv_coupon.setLayoutManager(new LinearLayoutManager(mContext));
 
-        RecyclerView recyclerView = helper.getView(R.id.recyclerView);
+        SlideRecyclerView recyclerView = helper.getView(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         cartGoodsAdapter = new CartGoodsAdapter(R.layout.item_goods,this,data,item,item.getProds(),mOnRefreshListener);
         recyclerView.setAdapter(cartGoodsAdapter);

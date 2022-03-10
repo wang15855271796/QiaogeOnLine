@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -99,30 +100,74 @@ public class DisSelfDialog extends Dialog {
             }
         });
 
-        tv_sure.setOnClickListener(new View.OnClickListener() {
+        cb_1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-
-                if(!cb_1.isChecked()&&!cb_2.isChecked()) {
-                    ToastUtil.showSuccessMsg(context,"请选择配送服务");
-                    return;
-                }
-
-                if(cb_1.isChecked()) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isCb1) {
+                    isCb1 = false;
+                    cb_1.setBackgroundResource(R.drawable.checkbox_no);
+                    if(isCb2) {
+                        cb_2.setBackgroundResource(R.drawable.checkbox_no);
+                    }
+                }else {
+                    isCb1 = true;
+                    isCb2 = false;
+                    cb_1.setBackgroundResource(R.drawable.icon_address_oval);
+                    cb_2.setBackgroundResource(R.drawable.checkbox_no);
                     EventBus.getDefault().post(new DisTributionSelfEvent("到仓自提",0));
                     dismiss();
-                    return;
                 }
+            }
 
-                if(cb_2.isChecked()) {
+        });
+
+        cb_2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isCb2) {
+                    isCb2 = false;
+                    cb_2.setBackgroundResource(R.drawable.checkbox_no);
+                    if(isCb1) {
+                        cb_1.setBackgroundResource(R.drawable.checkbox_no);
+                    }
+                }else {
+                    isCb2 = true;
+                    isCb1 = false;
                     EventBus.getDefault().post(new DisTributionSelfEvent("我自己叫货拉拉",1));
                     EventBus.getDefault().post(new DisTributionEvent("我自己叫货拉拉",1));
                     EventBus.getDefault().post(new RefreshEvent());
                     dismiss();
+                    cb_2.setBackgroundResource(R.drawable.icon_address_oval);
+                    cb_1.setBackgroundResource(R.drawable.checkbox_no);
                 }
-
             }
         });
+
+
+//        tv_sure.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                if(!cb_1.isChecked()&&!cb_2.isChecked()) {
+//                    ToastUtil.showSuccessMsg(context,"请选择配送服务");
+//                    return;
+//                }
+//
+//                if(cb_1.isChecked()) {
+//                    EventBus.getDefault().post(new DisTributionSelfEvent("到仓自提",0));
+//                    dismiss();
+//                    return;
+//                }
+//
+//                if(cb_2.isChecked()) {
+//                    EventBus.getDefault().post(new DisTributionSelfEvent("我自己叫货拉拉",1));
+//                    EventBus.getDefault().post(new DisTributionEvent("我自己叫货拉拉",1));
+//                    EventBus.getDefault().post(new RefreshEvent());
+//                    dismiss();
+//                }
+//
+//            }
+//        });
 
     }
 

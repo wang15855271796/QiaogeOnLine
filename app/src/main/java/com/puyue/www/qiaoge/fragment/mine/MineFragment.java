@@ -197,6 +197,7 @@ public class MineFragment extends BaseFragment {
     UserDefineScrollView scoller;
     OutScollerview outScoller;
     TextView tv_vip_desc;
+    TextView tv_company;
     private SparseArray<RecyclerView> mPageMap = new SparseArray<>();
 
     private List<MyOrderNumModel.DataBean> mListData = new ArrayList<>();
@@ -274,6 +275,7 @@ public class MineFragment extends BaseFragment {
     public void findViewById(View view) {
 
         EventBus.getDefault().register(this);
+        tv_company =  (view.findViewById(R.id.tv_company));
         tv_desc1 = (view.findViewById(R.id.tv_desc1));
         rl_zizhi1 = (view.findViewById(R.id.rl_zizhi1));
         ll_fill = (view.findViewById(R.id.ll_fill));
@@ -412,6 +414,8 @@ public class MineFragment extends BaseFragment {
                 refreshLayout.finishLoadMore();
             }
         });
+        tv_company.getBackground().setAlpha(30);
+
     }
 
 

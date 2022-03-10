@@ -629,14 +629,14 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
         ll_beizhu.setOnClickListener(noDoubleClickListener);
         rl_distribution.setOnClickListener(noDoubleClickListener);
     }
-
+    DisSelfDialog disDialog;
     private NoDoubleClickListener noDoubleClickListener = new NoDoubleClickListener() {
         @Override
         public void onNoDoubleClick(View view) {
             switch (view.getId()) {
                 case R.id.rl_distribution:
                     if(cModel!=null&&cModel.getData()!=null) {
-                        DisSelfDialog disDialog = new DisSelfDialog(mActivity,cModel.getData().getSendAmount(),0);
+                        disDialog = new DisSelfDialog(mActivity,cModel.getData().getSendAmount(),0);
                         disDialog.show();
                     }
 
@@ -663,6 +663,8 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
                         AppHelper.showMsg(mActivity, "请选择配送服务");
                         buttonPay.setEnabled(true);
                         lav_activity_loading.hide();
+                        disDialog = new DisSelfDialog(mActivity,cModel.getData().getSendAmount(),0);
+                        disDialog.show();
                         return;
                     }
 

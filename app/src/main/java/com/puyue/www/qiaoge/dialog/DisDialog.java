@@ -4,11 +4,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -67,9 +69,10 @@ public class DisDialog extends Dialog {
         tv_price.setText("满"+sendAmount+"元免配送费");
         tv_price.setVisibility(View.VISIBLE);
         tv_name.setText("翘歌配送");
-        cb_1.setOnClickListener(new View.OnClickListener() {
+
+        cb_1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isCb1) {
                     isCb1 = false;
                     cb_1.setBackgroundResource(R.drawable.checkbox_no);
@@ -81,13 +84,16 @@ public class DisDialog extends Dialog {
                     isCb2 = false;
                     cb_1.setBackgroundResource(R.drawable.icon_address_oval);
                     cb_2.setBackgroundResource(R.drawable.checkbox_no);
+                    EventBus.getDefault().post(new DisTributionEvent("翘歌配送",0));
+                    dismiss();
                 }
             }
+
         });
 
-        cb_2.setOnClickListener(new View.OnClickListener() {
+        cb_2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isCb2) {
                     isCb2 = false;
                     cb_2.setBackgroundResource(R.drawable.checkbox_no);
@@ -97,32 +103,15 @@ public class DisDialog extends Dialog {
                 }else {
                     isCb2 = true;
                     isCb1 = false;
+                    EventBus.getDefault().post(new DisTributionEvent("我自己叫货拉拉",1));
+                    dismiss();
                     cb_2.setBackgroundResource(R.drawable.icon_address_oval);
                     cb_1.setBackgroundResource(R.drawable.checkbox_no);
                 }
+
             }
         });
 
-        tv_sure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!cb_1.isChecked()&&!cb_2.isChecked()) {
-                    ToastUtil.showSuccessMsg(context,"请选择配送服务");
-                    return;
-                }
-
-                if(cb_1.isChecked()) {
-                    EventBus.getDefault().post(new DisTributionEvent("翘歌配送",0));
-                    dismiss();
-                    return;
-                }
-
-                if(cb_2.isChecked()) {
-                    EventBus.getDefault().post(new DisTributionEvent("我自己叫货拉拉",1));
-                    dismiss();
-                }
-            }
-        });
 
     }
 

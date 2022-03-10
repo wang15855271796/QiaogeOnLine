@@ -43,6 +43,7 @@ import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.FullDialog;
 import com.puyue.www.qiaoge.event.CartGoodsEvent;
+import com.puyue.www.qiaoge.event.DeleteGoodsEvent;
 import com.puyue.www.qiaoge.event.GoToMarketEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.fragment.home.CityEvent;
@@ -92,7 +93,7 @@ import rx.schedulers.Schedulers;
 public class CartFragments extends BaseFragment implements View.OnClickListener {
     Unbinder bind;
     @BindView(R.id.rv_cart)
-    SlideRecyclerView rv_cart;
+    RecyclerView rv_cart;
     @BindView(R.id.cb_select_all)
     CheckBox cb_select_all;
     @BindView(R.id.tv_total_price)
@@ -442,7 +443,17 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
         tv_total_price.setText(allPrice+"");
     }
 
-
+    /**
+     * 删除商品
+     * @param deleteGoodsEvent
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getCartList(DeleteGoodsEvent deleteGoodsEvent) {
+        int cartId = deleteGoodsEvent.getItem().getCartId();
+        cartIds.clear();
+        cartIds.add(cartId);
+        showDeleteCartDialog(0,cartIds);
+    }
 
     /**
      * 必买列表(王涛)

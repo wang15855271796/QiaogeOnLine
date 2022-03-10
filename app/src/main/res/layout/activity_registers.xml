@@ -157,6 +157,7 @@
                 android:textSize="@dimen/size_13dp" />
 
             <LinearLayout
+                android:id="@+id/ll_view"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/tv_shop_style"
@@ -165,6 +166,29 @@
                 android:background="#EFEFEF"
                 android:orientation="vertical" />
 
+            <LinearLayout
+                android:layout_marginTop="@dimen/size_13dp"
+                android:background="@drawable/shape_grey4"
+                android:layout_below="@+id/ll_view"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_32dp">
+
+                <ImageView
+                    android:layout_marginLeft="@dimen/size_18dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/icon_company"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:textColor="#FF680A"
+                    android:layout_gravity="center_vertical"
+                    android:text="亿诺食品（杭州亿创贸易有限公司）"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
         </RelativeLayout>
 
 

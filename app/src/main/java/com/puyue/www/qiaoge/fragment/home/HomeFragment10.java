@@ -732,8 +732,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
 
     }
 
-
-
     @Override
     public void setViewData() {
 
@@ -1233,8 +1231,8 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                 list.add(data2.get(i).getPoolNo());
                             }
 
-                            turnTableDialog = new TurnTableDialog(mActivity, list);
-                            turnTableDialog.show();
+//                            turnTableDialog = new TurnTableDialog(mActivity, list);
+//                            turnTableDialog.show();
                         } else {
                             AppHelper.showMsg(mActivity, turnModel.getMessage());
                         }
@@ -1414,11 +1412,16 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                             if (data.getDeductAmountStr() != null) {
                                 deductAmountStr = data.getDeductAmountStr();
                             }
+                            for (int i = 0; i < 6; i++) {
+                                list.add("s");
+                            }
+                            turnTableDialog = new TurnTableDialog(mActivity, list);
+                            turnTableDialog.show();
                             if(indexInfoModel.getData().getGiftReceiveBtn().equals("0")) {
                                 getPrivacy(indexInfoModel);
                                 getDialog(indexInfoModel);
                             }else {
-                                getTurn();
+//                                getTurn();
                             }
 
                             if(!SharedPreferencesUtil.getString(mActivity,"once").equals("0")) {

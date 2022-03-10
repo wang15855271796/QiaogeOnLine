@@ -19,10 +19,10 @@ public class RegisterModel extends BaseModel{
          * token : a098a7c303c84fad8e90429f798ce737
          * userBaseInfoVO : {"name":"cy","phone":"15700191306","sex":0,"sexName":"女","type":1,"invitationCode":"12346","hasSetPayPwd":false}
          */
-
+//        wad：0翘歌 1代仓代配
+        public int wad;
         public String token;
         public UserBaseInfoVOBean userBaseInfoVO;
-
         public static class UserBaseInfoVOBean {
             /**
              * name : cy

@@ -7,7 +7,7 @@
     android:layout_marginRight="@dimen/dp_10"
     android:layout_marginLeft="@dimen/dp_10"
     android:background="@drawable/shape_white1"
-    android:layout_height="@dimen/public_space_value_120">
+    android:layout_height="150dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -87,4 +87,13 @@
             android:layout_height="wrap_content"/>
 
     </RelativeLayout>
+
+    <TextView
+        android:text="关联翘歌订单"
+        android:textColor="#FD6601"
+        android:padding="@dimen/size_2dp"
+        android:background="@drawable/shape_orange1"
+        android:layout_marginLeft="@dimen/size_15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

@@ -358,6 +358,13 @@
             android:screenOrientation="portrait"
             />
 
+        <activity android:name=".activity.AddCompanyActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.ChooseCompanyActivity"
+            android:screenOrientation="portrait"
+            />
         <activity android:name=".activity.IssueInfoActivity"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan"
             android:screenOrientation="portrait"
