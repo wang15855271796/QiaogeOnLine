@@ -48,6 +48,7 @@ import com.puyue.www.qiaoge.adapter.mine.ChooseCouponsAdapter;
 import com.puyue.www.qiaoge.adapter.mine.ConfirmOrderNewAdapter;
 import com.puyue.www.qiaoge.api.cart.CartBalanceAPI;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
+import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.api.mine.order.GenerateOrderAPI;
 import com.puyue.www.qiaoge.api.mine.order.GetOrderDeliverTimeAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
@@ -69,12 +70,14 @@ import com.puyue.www.qiaoge.helper.MapHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
+import com.puyue.www.qiaoge.model.ModeModel;
 import com.puyue.www.qiaoge.model.StatModel;
 import com.puyue.www.qiaoge.model.cart.CartBalanceModel;
 import com.puyue.www.qiaoge.model.mine.coupons.UserChooseDeductModel;
 import com.puyue.www.qiaoge.model.mine.order.GenerateOrderModel;
 import com.puyue.www.qiaoge.model.mine.order.GetTimeOrderModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.GCJ02ToWGS84Util;
 import com.puyue.www.qiaoge.view.PickCityUtil;
 import com.tencent.lbssearch.TencentSearch;
@@ -120,6 +123,8 @@ import java.util.Map;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -257,6 +262,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
     private LinearLayout ll_self_sufficiency;
     TextView tv_distribution;
     LinearLayout ll_map;
+    LinearLayout ll_root;
     com.tencent.tencentmap.mapsdk.maps.MapView mapView;
     @Override
     public int setLayoutId() {
@@ -273,6 +279,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
     @Override
     public void findViewById(View view) {
         mapView = view.findViewById(R.id.mapView);
+        ll_root = view.findViewById(R.id.ll_root);
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.frag);
         ll_map = (LinearLayout) view.findViewById(R.id.ll_map);
         rl_distribution = (RelativeLayout) view.findViewById(R.id.rl_distribution);
@@ -358,7 +365,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
         request.setAllowGPS(true);
         request.setIndoorLocationMode(true);
         instance.requestLocationUpdates(request, this);
-
+        getMode();
         ll_self_sufficiency.setVisibility(View.GONE);
         final Calendar mCalendar = Calendar.getInstance();
         long time = System.currentTimeMillis();
@@ -497,6 +504,40 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
 
     private static double rad(double d) {
         return d * Math.PI / 180.0;
+    }
+
+    /**
+     * 是否显示内容
+     */
+    public void getMode() {
+        IndexHomeAPI.getMode(mActivity,SharedPreferencesUtil.getInt(mActivity,"wad"))
+                .subscribeOn(Schedulers.io())
+                .observeOn(mainThread())
+                .subscribe(new Subscriber<ModeModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ModeModel modeModel) {
+                        if(modeModel.getCode()==1) {
+                            if(modeModel.getData().getPickBtn()==0) {
+                                //展示
+                                ll_root.setVisibility(View.VISIBLE);
+                            }else {
+                                ll_root.setVisibility(View.GONE);
+                            }
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,modeModel.getMessage());
+                        }
+                    }
+                });
     }
 
     private void getDatas(long end) {

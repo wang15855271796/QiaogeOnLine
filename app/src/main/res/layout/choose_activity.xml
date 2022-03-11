@@ -200,6 +200,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_choose_company"
                 android:background="#ffffff"
                 android:layout_marginTop="@dimen/dp_10"
                 android:layout_width="match_parent"

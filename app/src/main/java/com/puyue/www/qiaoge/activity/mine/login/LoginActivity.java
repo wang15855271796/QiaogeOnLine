@@ -514,12 +514,12 @@ public class LoginActivity extends BaseSwipeActivity {
 
     private void updateLogin() {
         AppHelper.showMsg(mContext, "登录成功");
-
+        SharedPreferencesUtil.saveInt(mActivity,"wad",mModelLogin.data.wad);
+        UserInfoHelper.saveUserId(mContext, mModelLogin.data.token);
         UserInfoHelper.saveUserId(mContext, mModelLogin.data.token);
         UserInfoHelper.saveUserCell(mContext, mModelLogin.data.userBaseInfoVO.phone);
         UserInfoHelper.saveUserType(mContext, String.valueOf(mModelLogin.data.userBaseInfoVO.type));
         SharedPreferencesUtil.saveString(mActivity,"index1","7");
-//        UserInfoHelper.saveCity(mContext, UserInfoHelper.getCity(mContext));
         SharedPreferencesUtil.saveString(mContext,"userId",mModelLogin.data.userBaseInfoVO.id);
         isShow();
         //登录成功,登录状态有变化,需要让

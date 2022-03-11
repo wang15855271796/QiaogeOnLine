@@ -69,6 +69,16 @@ public class MyOrderNumModel extends BaseModel {
         int inviteOpen;
         int subMessage;
         private int showVip;
+        String companyName;
+
+        public String getCompanyName() {
+            return companyName;
+        }
+
+        public void setCompanyName(String companyName) {
+            this.companyName = companyName;
+        }
+
         public String getVipDeductAmt() {
             return vipDeductAmt;
         }

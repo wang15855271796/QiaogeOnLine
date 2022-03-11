@@ -807,6 +807,33 @@ public class IndexInfoModel {
             private String prodPage;
             private String businessId;
             private String businessType;
+            private String bannerId;
+            private String title;
+            private int businessNum;
+
+            public String getBannerId() {
+                return bannerId;
+            }
+
+            public void setBannerId(String bannerId) {
+                this.bannerId = bannerId;
+            }
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
+
+            public int getBusinessNum() {
+                return businessNum;
+            }
+
+            public void setBusinessNum(int businessNum) {
+                this.businessNum = businessNum;
+            }
 
             public String getRgbColor() {
                 return rgbColor;

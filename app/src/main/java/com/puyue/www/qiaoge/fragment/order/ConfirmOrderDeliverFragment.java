@@ -39,6 +39,7 @@ import com.puyue.www.qiaoge.adapter.mine.ConfirmOrderNewAdapter;
 import com.puyue.www.qiaoge.api.cart.CartBalanceAPI;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.GetDeliverTimeAPI;
+import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.api.mine.GetWalletAmountAPI;
 import com.puyue.www.qiaoge.api.mine.order.GenerateOrderAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
@@ -56,11 +57,14 @@ import com.puyue.www.qiaoge.helper.AlwaysMarqueeTextViewHelper;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
+import com.puyue.www.qiaoge.model.ModeModel;
 import com.puyue.www.qiaoge.model.StatModel;
 import com.puyue.www.qiaoge.model.cart.CartBalanceModel;
 import com.puyue.www.qiaoge.model.home.GetDeliverTimeModel;
 import com.puyue.www.qiaoge.model.mine.GetWalletAmountModel;
 import com.puyue.www.qiaoge.model.mine.order.GenerateOrderModel;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -77,6 +81,8 @@ import java.util.List;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -466,6 +472,40 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
             }
         }
     };
+
+    /**
+     * 是否显示内容
+     */
+    public void getMode() {
+        IndexHomeAPI.getMode(mActivity, SharedPreferencesUtil.getInt(mActivity,"wad"))
+                .subscribeOn(Schedulers.io())
+                .observeOn(mainThread())
+                .subscribe(new Subscriber<ModeModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ModeModel modeModel) {
+                        if(modeModel.getCode()==1) {
+                            if(modeModel.getData().getPickBtn()==0) {
+                                //展示
+                                rl_distribution.setVisibility(View.VISIBLE);
+                            }else {
+                                rl_distribution.setVisibility(View.GONE);
+                            }
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,modeModel.getMessage());
+                        }
+                    }
+                });
+    }
 
     private void getDatas(long end) {
         RecommendApI.getDatas(mActivity,17,end)

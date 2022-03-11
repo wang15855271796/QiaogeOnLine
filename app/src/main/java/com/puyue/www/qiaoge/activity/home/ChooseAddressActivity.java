@@ -17,6 +17,7 @@ import com.puyue.www.qiaoge.activity.mine.account.AddressListActivity;
 import com.puyue.www.qiaoge.activity.mine.account.EditAddressActivity;
 import com.puyue.www.qiaoge.adapter.mine.SuggestAdressAdapter;
 import com.puyue.www.qiaoge.api.home.CancleAPI;
+import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.api.mine.address.AddressListAPI;
 import com.puyue.www.qiaoge.api.mine.address.DefaultAddressAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
@@ -26,9 +27,11 @@ import com.puyue.www.qiaoge.event.BackEvent;
 import com.puyue.www.qiaoge.fragment.home.CityEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.model.CouponListsModel;
 import com.puyue.www.qiaoge.model.HotKeyModel;
 import com.puyue.www.qiaoge.model.mine.address.AddressModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.SearchView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -43,6 +46,8 @@ import butterknife.ButterKnife;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
 /**
  * Created by ${王涛} on 2019/12/20
@@ -77,6 +82,8 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
     LinearLayout ll_address;
     @BindView(R.id.ll_area)
     LinearLayout ll_area;
+    @BindView(R.id.rl_choose_company)
+    RelativeLayout rl_choose_company;
     List<AddressModel.DataBean> list = new ArrayList<>();
     private AddressListAdapter addressListAdapter;
 //    private SuggestionSearch mSuggestionSearch;
@@ -141,9 +148,47 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
             }
         });
 
+        rl_choose_company.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseStyle();
+            }
+        });
         //设置监听
         searchView.setSearchViewListener(this);
 
+    }
+
+    /**
+     * 切换城市版或企业版
+     */
+    private void chooseStyle() {
+        IndexHomeAPI.changeCity(mContext,SharedPreferencesUtil.getInt(mActivity,"wad"))
+                .subscribeOn(Schedulers.io())
+                .observeOn(mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+                        if(baseModel.code==1) {
+                            ToastUtil.showSuccessMsg(mContext,baseModel.message);
+                            EventBus.getDefault().post(new AddressEvent());
+                            SharedPreferencesUtil.saveInt(mActivity,"wad",1);
+                            finish();
+                        }else {
+                            ToastUtil.showSuccessMsg(mContext,baseModel.message);
+                        }
+                    }
+                });
     }
 
     private void requestEditDefaultAddress(int id, String ids, int position) {

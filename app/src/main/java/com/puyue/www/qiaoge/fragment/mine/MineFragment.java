@@ -198,6 +198,8 @@ public class MineFragment extends BaseFragment {
     OutScollerview outScoller;
     TextView tv_vip_desc;
     TextView tv_company;
+    LinearLayout ll_deliver_order2;
+    TextView tv_look;
     private SparseArray<RecyclerView> mPageMap = new SparseArray<>();
 
     private List<MyOrderNumModel.DataBean> mListData = new ArrayList<>();
@@ -275,6 +277,8 @@ public class MineFragment extends BaseFragment {
     public void findViewById(View view) {
 
         EventBus.getDefault().register(this);
+        tv_look = (view.findViewById(R.id.tv_look));
+        ll_deliver_order2 = (view.findViewById(R.id.ll_deliver_order2));
         tv_company =  (view.findViewById(R.id.tv_company));
         tv_desc1 = (view.findViewById(R.id.tv_desc1));
         rl_zizhi1 = (view.findViewById(R.id.rl_zizhi1));
@@ -416,6 +420,28 @@ public class MineFragment extends BaseFragment {
         });
         tv_company.getBackground().setAlpha(30);
 
+        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+            ll_deliver_order2.setVisibility(View.VISIBLE);
+            ll_deliver_order.setVisibility(View.GONE);
+            tv_vip_desc.setText("该企业暂未启用会员哦！");
+            ll_amount.setVisibility(View.GONE);
+            accountManagement.setVisibility(View.GONE);
+        }else {
+            tv_vip_desc.setText("该城市暂未启用会员哦！");
+            ll_deliver_order.setVisibility(View.VISIBLE);
+            ll_deliver_order2.setVisibility(View.GONE);
+            ll_amount.setVisibility(View.VISIBLE);
+            accountManagement.setVisibility(View.VISIBLE);
+        }
+
+        tv_look.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = MyOrdersActivity.getIntent(getContext(), MyOrdersActivity.class, AppConstant.ALL);
+                intent.putExtra("orderDeliveryType",0);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -1031,7 +1057,7 @@ public class MineFragment extends BaseFragment {
     }
 
     private void requestOrderNum() {
-        MyOrderNumAPI.requestOrderNum(getContext())
+        MyOrderNumAPI.requestOrderNum(getContext(),SharedPreferencesUtil.getInt(mActivity,"wad"))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<MyOrderNumModel>() {
@@ -1050,13 +1076,13 @@ public class MineFragment extends BaseFragment {
                         mListData.clear();
                         if (myOrderNumModel.success) {
                             mModelMyOrderNum = myOrderNumModel;
+                            if(myOrderNumModel.getData().getCompanyName()!=null) {
+                                tv_company.setText(myOrderNumModel.getData().getCompanyName());
+                                tv_company.setVisibility(View.VISIBLE);
+                            }else {
+                                tv_company.setVisibility(View.GONE);
+                            }
 
-//                            if(myOrderNumModel.getData().getSubMessage()==0) {
-//                                tv_number.setVisibility(View.GONE);
-//                            }else {
-//                                tv_number.setText(myOrderNumModel.getData().getSubMessage());
-//                                tv_number.setVisibility(View.VISIBLE);
-//                            }
                             mListData.add(myOrderNumModel.getData());
                             day = myOrderNumModel.getData().getDay();
                             giftNo = myOrderNumModel.getData().getGiftNo();

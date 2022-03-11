@@ -16,6 +16,36 @@ public class AppInterfaceAddress {
 //    queryReturnProdIsContainFullGift
 
     /**
+     *根据授权码获取企业信息
+     */
+    public static final String GetCompanyName = " auth/getAuthSaleInfo";
+    /**
+     *banner商品专区
+     */
+    public static final String Home_Banner = "common/getBannerProds";
+    /**
+     * 添加企业
+     */
+    public static final String Add_Company = "common/addQgUserFranchise";
+    /**
+     * 企业版-首页必调用-判断用户是否选择了企业
+     */
+    public static final String If_Choose_Company = "common/queryUserFranchiseIsChoose";
+    /**
+     * 企业版-切换企业
+     */
+    public static final String Change_Company = "common/changeUserFranchise";
+    /**
+     * 企业版-选择企业列表
+     */
+    public static final String Company_List = "common/getUserFranchiseList";
+
+    /**
+     * 切换企业版城市版
+     */
+
+    public static final String Change_City = "common/changeWad";
+    /**
      *新订单确认接口 结算
      */
     public static final String Settle = "commonOrder/getBtnOpenInfo";
@@ -291,6 +321,7 @@ public class AppInterfaceAddress {
     public static final String SEND_AUTH_CODE = "auth/sendMsg";
 //    注册-新接口
     public static final String REGISTER = "auth/registerV3";
+    //登录
     public static final String LOGIN = "auth/login";
     public static final String ACCOUNT_CENTER = "user/personCenter";
     public static final String LOG_OUT = "user/loginOut";

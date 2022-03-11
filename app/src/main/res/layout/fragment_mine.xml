@@ -107,13 +107,16 @@
 
                 <TextView
                     android:id="@+id/tv_company"
+                    android:visibility="gone"
                     android:background="@drawable/shape_white1"
                     android:layout_below="@+id/tv_mine_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/size_10dp"
                     android:layout_toRightOf="@+id/iv_mine_avatar"
-                    tools:text="其哦啊个"
+                    tools:text="其哦啊个其哦啊个其哦啊个其哦啊个"
+                    android:lines="1"
+                    android:maxLength="16"
                     android:textColor="@color/white" />
 
                 <ImageView

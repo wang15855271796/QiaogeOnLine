@@ -38,6 +38,8 @@ import com.puyue.www.qiaoge.AutoPollRecyclerView;
 import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
+import com.puyue.www.qiaoge.activity.BannerActivity;
+import com.puyue.www.qiaoge.activity.ChooseCompanyActivity;
 import com.puyue.www.qiaoge.activity.CommonH6Activity;
 import com.puyue.www.qiaoge.activity.FullListActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
@@ -120,6 +122,7 @@ import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.PublicRequestHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.model.ChangeCityModel;
 import com.puyue.www.qiaoge.model.CouponModels;
 import com.puyue.www.qiaoge.model.IsAuthModel;
 import com.puyue.www.qiaoge.model.IsShowModel;
@@ -599,7 +602,15 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                     layoutParams.setMargins(evaluatemargin, evaluatetop, evaluatemargin, 0);
                                     rl_search.requestLayout();
                                 }
-                                iv_location.setImageResource(R.mipmap.icon_address2);
+
+                                if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+                                    //企业
+                                    iv_location.setImageResource(R.mipmap.icon_company_white);
+                                }else {
+                                    //城市
+                                    iv_location.setImageResource(R.mipmap.icon_address2);
+                                }
+
                                 homeMessage.setImageResource(R.mipmap.ic_mine_email);
                                 tv_city.setAlpha(percent);
 //                                iv_tip.getBackground().setAlpha(1);
@@ -611,7 +622,12 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                             if(layoutParams!=null){
                                 layoutParams.setMargins(DensityUtil.dip2px(ENDMARGINLEFT,mActivity),85, DensityUtil.dip2px(ENDMARGINLEFT,mActivity), 0);
                                 rl_search.requestLayout();
-                                iv_location.setImageResource(R.mipmap.icon_address1);
+                                if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+                                    iv_location.setImageResource(R.mipmap.icon_company_black);
+                                }else {
+                                    iv_location.setImageResource(R.mipmap.icon_address1);
+                                }
+
                                 tv_city.setAlpha(0);
                                 iv_tip.setAlpha(0);
                                 tv_city.setEnabled(false);
@@ -729,7 +745,42 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                 indicator.bindRecyclerView(rv_icon);
             }
         });
+        //判断用户是否选择了企业
+        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+            getStyle();
+        }
 
+
+    }
+
+    //判断用户是否选择了企业
+    private void getStyle() {
+        IndexHomeAPI.chooseCity(mActivity,1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(mainThread())
+                .subscribe(new Subscriber<ChangeCityModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ChangeCityModel changeCityModel) {
+                        if(changeCityModel.getCode()==1) {
+                           if(!changeCityModel.isData()) {
+                               Intent intent = new Intent(mActivity,ChooseCompanyActivity.class);
+                               startActivity(intent);
+                           }
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,changeCityModel.getMessage());
+                        }
+                    }
+                });
     }
 
     @Override
@@ -1120,34 +1171,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                 privacysDialog.show();
                             }
 
-//                            couponListModels = indexInfoModel.getData();
-//                            if(couponListModels.getUserPopup()!=null) {
-//                                if(couponListModels.getUserPopup().getGifts()!=null) {
-//                                    lists = couponListModels.getUserPopup().getGifts();
-//                                    couponListDialog = new CouponListDialog(mActivity, couponListModels);
-//                                    if (lists.size() > 0) {
-//                                        couponListDialog.show();
-//                                    } else {
-//                                        couponListDialog.dismiss();
-//                                    }
-//                                }
-//                            }
-//
-//                            if(indexInfoModel.getData().getHomePopup()!=null) {
-//                                homePropup = indexInfoModel.getData().getHomePopup();
-//                                homeActivityDialog = new HomeActivityDialog(mActivity,homePropup);
-//                                homeActivityDialog.show();
-//
-//                            }else {
-//                                homeActivityDialog.dismiss();
-//                            }
-//
-//                            if (privacyModel.getData().getOpen().equals("1")) {
-//                                privacyDialog.show();
-//                            } else {
-//                                privacyDialog.dismiss();
-//                                couponListAdapter.notifyDataSetChanged();
-//                            }
 
                         } else {
                             AppHelper.showMsg(mActivity, privacyModel.getMessage());
@@ -1165,10 +1188,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     @Override
     public void onResume() {
         super.onResume();
-//        startAuto();
-//        fullAdapter.start();
-//        teamAdapter.start();
-//        team3Adapter.start();
         start = System.currentTimeMillis();
     }
 
@@ -1194,9 +1213,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     public void onStop() {
         super.onStop();
         banner.stopAutoPlay();
-        stopAuto();
-//        fullAdapter.cancle();
-//        team3Adapter.cancle();
         if(SharedPreferencesUtil.getString(mActivity,"index").equals("1")) {
             long end = (System.currentTimeMillis()-start)/1000;
             long time = Time.getTime(end);
@@ -1629,11 +1645,19 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                     }
                 } else if (showType == 4) {
                     //商品
-                    int businessId = Integer.parseInt(banners.get(position).getBusinessId());
-                    Intent intent = new Intent(getActivity(), CommonGoodsDetailActivity.class);
-                    intent.putExtra(AppConstant.ACTIVEID, businessId);
-                    intent.putExtra("priceType", SharedPreferencesUtil.getString(mActivity, "priceType"));
-                    startActivity(intent);
+                    if(banners.get(position).getBusinessNum()>1) {
+                        Intent intent = new Intent(mActivity, BannerActivity.class);
+                        intent.putExtra("title",banners.get(position).getTitle());
+                        intent.putExtra("bannerId",banners.get(position).getBannerId());
+                        startActivity(intent);
+                    }else {
+                        int businessId = Integer.parseInt(banners.get(position).getBusinessId());
+                        Intent intent = new Intent(getActivity(), CommonGoodsDetailActivity.class);
+                        intent.putExtra(AppConstant.ACTIVEID, businessId);
+                        intent.putExtra("priceType", SharedPreferencesUtil.getString(mActivity, "priceType"));
+                        startActivity(intent);
+                    }
+
                 } else if (showType == 5) {
                     //活动
                     String businessType = banners.get(position).getBusinessType();
@@ -1815,12 +1839,16 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
 
             case R.id.iv_location:
                 if (data != null) {
-                    Intent messageIntent = new Intent(getActivity(), ChooseAddressActivity.class);
-                    messageIntent.putExtra("cityName", data.getCityName());
-                    messageIntent.putExtra("areaName", data.getAreaName());
-                    messageIntent.putExtra("fromPage", "0");
-                    startActivity(messageIntent);
-
+                    if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+                        Intent intent1 = new Intent(mActivity, ChooseCompanyActivity.class);
+                        startActivity(intent1);
+                    }else {
+                        Intent messageIntent = new Intent(getActivity(), ChooseAddressActivity.class);
+                        messageIntent.putExtra("cityName", data.getCityName());
+                        messageIntent.putExtra("areaName", data.getAreaName());
+                        messageIntent.putExtra("fromPage", "0");
+                        startActivity(messageIntent);
+                    }
                 }
                 break;
 

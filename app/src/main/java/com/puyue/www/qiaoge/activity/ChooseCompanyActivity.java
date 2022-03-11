@@ -14,7 +14,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.adapter.CompanyListAdapter;
+import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.base.BaseActivity;
+import com.puyue.www.qiaoge.base.BaseModel;
+import com.puyue.www.qiaoge.event.AddressEvent;
+import com.puyue.www.qiaoge.event.ChangeAccountHylEvent;
+import com.puyue.www.qiaoge.event.CompanyEvent;
+import com.puyue.www.qiaoge.model.CompanyListModel;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -68,17 +76,17 @@ public class ChooseCompanyActivity extends BaseActivity implements View.OnClickL
     public void setViewData() {
         EventBus.getDefault().register(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-//        companyListAdapter = new CompanyListAdapter(R.layout.item_company,list);
-//        recyclerView.setAdapter(companyListAdapter);
-//        companyListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//                companyListAdapter.setSelectionPos(position);
-//                companyId = list.get(position).getCompanyId();
-//                companyListAdapter.notifyDataSetChanged();
-//            }
-//        });
-//        getCompanyList();
+        companyListAdapter = new CompanyListAdapter(R.layout.item_company,list);
+        recyclerView.setAdapter(companyListAdapter);
+        getCompanyList();
+        companyListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                companyListAdapter.setSelectionPos(position);
+                companyId = list.get(position).getCompanyId();
+                companyListAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -96,96 +104,97 @@ public class ChooseCompanyActivity extends BaseActivity implements View.OnClickL
                 finish();
                 break;
             case R.id.ll_add:
-//                Intent intent = new Intent(mActivity,AddCompanyActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(mActivity,AddCompanyActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.tv_sure:
-//                getFullTips(companyId);
+                getFullTips(companyId);
                 break;
         }
     }
 
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void getCompanyList(CompanyEvent companyEvent) {
-//        getCompanyList();
-//    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getCompanyList(CompanyEvent companyEvent) {
+        getCompanyList();
+    }
 
     /**
      * 更改企业
      * @param companyId
      */
-//    private void getFullTips(String companyId) {
-//        MyInfoApi.changeCompany(mContext,companyId)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(mainThread())
-//                .subscribe(new Subscriber<BaseModel>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(BaseModel baseModel) {
-//                        if(baseModel.code==1) {
-//                            ToastUtil.showSuccessMsg(mContext,baseModel.message);
-//                            EventBus.getDefault().post(new ChangeAccountHylEvent());
-//                            finish();
-//                        }else {
-//                            ToastUtil.showSuccessMsg(mContext,baseModel.message);
-//                        }
-//                    }
-//                });
-//    }
+    private void getFullTips(String companyId) {
+        IndexHomeAPI.changeCompany(mContext,companyId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+                        if(baseModel.code==1) {
+                            ToastUtil.showSuccessMsg(mContext,baseModel.message);
+                            EventBus.getDefault().post(new AddressEvent());
+                            finish();
+                        }else {
+                            ToastUtil.showSuccessMsg(mContext,baseModel.message);
+                        }
+                    }
+                });
+    }
 
     /**
      * 获取公司列表
      */
     String companyId;
-//    List<CompanyListModel.DataBean> list = new ArrayList<>();
-//    private void getCompanyList() {
-//        MyInfoApi.companyChoose(mActivity)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Subscriber<CompanyListModel>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(CompanyListModel companyListModel) {
-//                        if(companyListModel.getCode()==1) {
-//                            list.clear();
-//                            if(companyListModel.getData()!=null&&companyListModel.getData().size()>0) {
-//                                List<CompanyListModel.DataBean> data = companyListModel.getData();
-//                                for (int i = 0; i < data.size(); i++) {
-//                                    if(data.get(i).getFlag()==1) {
-//                                        tv_short.setText(data.get(i).getShortName());
-//                                        tv_long.setText(data.get(i).getCompanyName());
-//                                        companyId = data.get(i).getCompanyId();
-//                                    }else {
-//                                        list.add(data.get(i));
-//                                    }
-//                                }
-//                                companyListAdapter.notifyDataSetChanged();
-//                            }
-//
-//                        }else {
-//                            ToastUtil.showSuccessMsg(mContext,companyListModel.getMessage());
-//                        }
-//                    }
-//                });
-//    }
+    List<CompanyListModel.DataBean> list = new ArrayList<>();
+    private void getCompanyList() {
+        IndexHomeAPI.getCompanyList(mActivity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<CompanyListModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(CompanyListModel companyListModel) {
+                        if(companyListModel.getCode()==1) {
+                            list.clear();
+                            if(companyListModel.getData()!=null&&companyListModel.getData().size()>0) {
+                                List<CompanyListModel.DataBean> data = companyListModel.getData();
+                                for (int i = 0; i < data.size(); i++) {
+                                    if(data.get(i).getFlag()==1) {
+                                        tv_short.setText(data.get(i).getShortName());
+                                        tv_long.setText(data.get(i).getCompanyName());
+                                        companyId = data.get(i).getCompanyId();
+                                    }else {
+                                        list.add(data.get(i));
+                                    }
+                                }
+
+                                companyListAdapter.notifyDataSetChanged();
+                            }
+
+                        }else {
+                            ToastUtil.showSuccessMsg(mContext,companyListModel.getMessage());
+                        }
+                    }
+                });
+    }
 
 }
