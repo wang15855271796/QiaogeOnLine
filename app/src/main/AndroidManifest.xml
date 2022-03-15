@@ -712,8 +712,6 @@
             android:screenOrientation="portrait"
             />
 
-        <activity android:name=".activity.mine.order.MyConfireOrdersActivity"
-            android:screenOrientation="portrait" />
         <activity android:name=".activity.mine.wallet.MyWalletNewActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.mine.order.NewOrderDetailActivity"

@@ -2,6 +2,7 @@ package com.puyue.www.qiaoge.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,11 +41,17 @@ public class DisSelfDialog extends Dialog {
     CheckBox cb_2;
     @BindView(R.id.tv_name)
     TextView tv_name;
+    @BindView(R.id.tv_huo)
+    TextView tv_huo;
+    @BindView(R.id.tv2)
+    TextView tv2;
     String sendAmount;
     int type;
-    public DisSelfDialog(Context mContext, String sendAmount,int type) {
+    int hllBtn;
+    public DisSelfDialog(Context mContext, String sendAmount,int type,int hllBtn) {
         super(mContext, R.style.dialog);
         this.context = mContext;
+        this.hllBtn = hllBtn;
         this.sendAmount = sendAmount;
         this.type = type;
         init();
@@ -64,6 +71,16 @@ public class DisSelfDialog extends Dialog {
         tv_price.setText("满"+sendAmount+"元免配送费");
         tv_name.setText("到仓自提");
         tv_price.setVisibility(View.GONE);
+        if(hllBtn==1) {
+            cb_2.setClickable(false);
+            tv2.setTextColor(Color.parseColor("#999999"));
+            tv_huo.setText("(暂未开启货拉拉配送服务)");
+        }else {
+            tv2.setTextColor(Color.parseColor("#333333"));
+            tv_huo.setText("(订单支付后，用户自己发起配送服务)");
+            cb_2.setClickable(true);
+        }
+
         cb_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

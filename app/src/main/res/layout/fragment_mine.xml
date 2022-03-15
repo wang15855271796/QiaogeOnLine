@@ -1288,7 +1288,32 @@
                                             android:textSize="@dimen/size_11dp" />
                                     </RelativeLayout>
 
+                                    <RelativeLayout
+                                        android:visibility="gone"
+                                        android:id="@+id/rl_zizhi2"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.2">
 
+                                        <ImageView
+                                            android:id="@+id/iv_zizhi2"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerHorizontal="true"
+                                            android:layout_marginTop="10dp"
+                                            android:src="@mipmap/zizhi" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_below="@+id/iv_zizhi2"
+                                            android:layout_centerHorizontal="true"
+                                            android:layout_marginTop="10dp"
+                                            android:text="资质信息"
+                                            android:textColor="@color/color_252525"
+                                            android:textSize="@dimen/size_11dp" />
+
+                                    </RelativeLayout>
                                 </LinearLayout>
 
 

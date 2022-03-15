@@ -281,6 +281,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
         mCalendar.setTimeInMillis(time);
         currentDay = mCalendar.get(Calendar.DAY_OF_MONTH);
         getWalletAmount();
+        getMode();
         normalProductBalanceVOStr = mActivity.getIntent().getStringExtra("normalProductBalanceVOStr");
         activityBalanceVOStr = mActivity.getIntent().getStringExtra("activityBalanceVOStr");
         equipmentBalanceVOStr = mActivity.getIntent().getStringExtra("equipmentBalanceVOStr");
@@ -321,10 +322,14 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
             switch (view.getId()) {
 
                 case R.id.rl_distribution:
-                    if(disDialog==null) {
-                        disDialog = new DisDialog(mActivity,cModel.getData().getSendAmount(),1);
+                    if(modeModel1!=null) {
+                        if(disDialog==null) {
+                            disDialog = new DisDialog(mActivity,cModel.getData().getSendAmount(),1,modeModel1.getData().getHllBtn());
+                        }
+                        disDialog.show();
                     }
-                    disDialog.show();
+
+
                     break;
 
                 case R.id.ll_beizhu:
@@ -352,8 +357,10 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                         AppHelper.showMsg(mActivity, "请选择配送服务");
                         buttonPay.setEnabled(true);
                         lav_activity_loading.hide();
-                        disDialog = new DisDialog(mActivity,cModel.getData().getSendAmount(),1);
-                        disDialog.show();
+                        if(modeModel1!=null) {
+                            disDialog = new DisDialog(mActivity,cModel.getData().getSendAmount(),1,modeModel1.getData().getHllBtn());
+                            disDialog.show();
+                        }
                         return;
                     }
                     if (LinearLayoutAddress.getVisibility() == View.VISIBLE) { // 没有地址
@@ -476,6 +483,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     /**
      * 是否显示内容
      */
+    ModeModel modeModel1;
     public void getMode() {
         IndexHomeAPI.getMode(mActivity, SharedPreferencesUtil.getInt(mActivity,"wad"))
                 .subscribeOn(Schedulers.io())
@@ -494,12 +502,16 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                     @Override
                     public void onNext(ModeModel modeModel) {
                         if(modeModel.getCode()==1) {
-                            if(modeModel.getData().getPickBtn()==0) {
-                                //展示
-                                rl_distribution.setVisibility(View.VISIBLE);
-                            }else {
-                                rl_distribution.setVisibility(View.GONE);
+                            if(modeModel.getData()!=null) {
+                                modeModel1 = modeModel;
+                                if(modeModel.getData().getPickBtn()==0) {
+                                    //展示
+                                    rl_distribution.setVisibility(View.VISIBLE);
+                                }else {
+                                    rl_distribution.setVisibility(View.GONE);
+                                }
                             }
+
                         }else {
                             ToastUtil.showSuccessMsg(mActivity,modeModel.getMessage());
                         }

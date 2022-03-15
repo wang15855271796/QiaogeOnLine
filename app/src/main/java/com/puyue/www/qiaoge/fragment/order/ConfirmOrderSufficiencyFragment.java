@@ -509,6 +509,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
     /**
      * 是否显示内容
      */
+    ModeModel modeModel1;
     public void getMode() {
         IndexHomeAPI.getMode(mActivity,SharedPreferencesUtil.getInt(mActivity,"wad"))
                 .subscribeOn(Schedulers.io())
@@ -527,12 +528,16 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
                     @Override
                     public void onNext(ModeModel modeModel) {
                         if(modeModel.getCode()==1) {
-                            if(modeModel.getData().getPickBtn()==0) {
-                                //展示
-                                ll_root.setVisibility(View.VISIBLE);
-                            }else {
-                                ll_root.setVisibility(View.GONE);
+                            if(modeModel.getData()!=null) {
+                                modeModel1 = modeModel;
+                                if(modeModel.getData().getPickBtn()==0) {
+                                    //展示
+                                    ll_root.setVisibility(View.VISIBLE);
+                                }else {
+                                    ll_root.setVisibility(View.GONE);
+                                }
                             }
+
                         }else {
                             ToastUtil.showSuccessMsg(mActivity,modeModel.getMessage());
                         }
@@ -676,8 +681,8 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
         public void onNoDoubleClick(View view) {
             switch (view.getId()) {
                 case R.id.rl_distribution:
-                    if(cModel!=null&&cModel.getData()!=null) {
-                        disDialog = new DisSelfDialog(mActivity,cModel.getData().getSendAmount(),0);
+                    if(cModel!=null&&cModel.getData()!=null&&modeModel1!=null) {
+                        disDialog = new DisSelfDialog(mActivity,cModel.getData().getSendAmount(),0,modeModel1.getData().getHllBtn());
                         disDialog.show();
                     }
 
@@ -704,8 +709,11 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
                         AppHelper.showMsg(mActivity, "请选择配送服务");
                         buttonPay.setEnabled(true);
                         lav_activity_loading.hide();
-                        disDialog = new DisSelfDialog(mActivity,cModel.getData().getSendAmount(),0);
-                        disDialog.show();
+                        if(cModel!=null&&cModel.getData()!=null&&modeModel1!=null) {
+                            disDialog = new DisSelfDialog(mActivity,cModel.getData().getSendAmount(),0,modeModel1.getData().getHllBtn());
+                            disDialog.show();
+                        }
+
                         return;
                     }
 

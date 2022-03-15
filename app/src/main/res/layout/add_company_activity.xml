@@ -8,14 +8,13 @@
     android:layout_height="wrap_content">
 
     <com.puyue.www.qiaoge.view.CompatToolbar
-        android:layout_marginTop="@dimen/size_30dp"
         android:id="@+id/compatToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/app_border_bottom_bg">
 
         <ImageView
-            android:id="@+id/iv_activity_back"
+            android:id="@+id/iv_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -23,7 +22,7 @@
             android:src="@mipmap/ic_back_arrow" />
 
         <TextView
-            android:id="@+id/tv_activity_title"
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

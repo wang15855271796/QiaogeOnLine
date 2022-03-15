@@ -1,17 +1,23 @@
 package com.puyue.www.qiaoge.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.activity.mine.login.RegisterActivity;
 import com.puyue.www.qiaoge.activity.mine.login.RegisterMessageActivity;
+import com.puyue.www.qiaoge.adapter.HomeBannerAdapter;
+import com.puyue.www.qiaoge.api.home.BannerModel;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
@@ -19,6 +25,7 @@ import com.puyue.www.qiaoge.fragment.home.NewAdapter;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.GetCompanyModel;
+import com.puyue.www.qiaoge.model.HomeBannerModel;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 import com.puyue.www.qiaoge.utils.LoginUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
@@ -38,12 +45,16 @@ public class BannerActivity extends BaseActivity implements View.OnClickListener
     TextView tv_title;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.iv_banner)
+    ImageView iv_banner;
     String title;
     String bannerId;
+    String defaultPic;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         title = getIntent().getStringExtra("title");
         bannerId = getIntent().getStringExtra("bannerId");
+        defaultPic = getIntent().getStringExtra("defaultPic");
         return false;
     }
 
@@ -57,11 +68,13 @@ public class BannerActivity extends BaseActivity implements View.OnClickListener
 
     }
 
-    NewAdapter newAdapter;
+    HomeBannerAdapter newAdapter;
     @Override
     public void setViewData() {
         getBanner(bannerId);
-        newAdapter = new NewAdapter(R.layout.item_huo_pay, list, new NewAdapter.Onclick() {
+        tv_title.setText(title);
+        Glide.with(mActivity).load(defaultPic).into(iv_banner);
+        newAdapter = new HomeBannerAdapter(R.layout.item_team_list, list, new HomeBannerAdapter.Onclick() {
             @Override
             public void addDialog() {
                 if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mActivity))) {
@@ -76,7 +89,7 @@ public class BannerActivity extends BaseActivity implements View.OnClickListener
 
             }
         });
-        recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        recyclerView.setLayoutManager(new GridLayoutManager(mActivity,2));
         recyclerView.setAdapter(newAdapter);
     }
 
@@ -113,12 +126,12 @@ public class BannerActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    List<ProductNormalModel.DataBean.ListBean> list = new ArrayList<>();
+    List<HomeBannerModel.DataBean> list = new ArrayList<>();
     private void getBanner(String bannerId) {
         IndexHomeAPI.getBanner(mActivity,bannerId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ProductNormalModel>() {
+                .subscribe(new Subscriber<HomeBannerModel>() {
                     @Override
                     public void onCompleted() {
 
@@ -126,20 +139,24 @@ public class BannerActivity extends BaseActivity implements View.OnClickListener
 
                     @Override
                     public void onError(Throwable e) {
-
                     }
 
                     @Override
-                    public void onNext(ProductNormalModel productNormalModel) {
-                        if(productNormalModel.getCode()==1) {
-                            if(productNormalModel.getData()!=null) {
+                    public void onNext(HomeBannerModel homeBannerModel) {
+                        if(homeBannerModel.getCode()==1) {
+
+                            if(homeBannerModel.getData()!=null) {
                                 list.clear();
-                                list.addAll(productNormalModel.getData().getList());
+                                for (int i = 0; i < homeBannerModel.getData().size(); i++) {
+                                    list.add(homeBannerModel.getData().get(i));
+                                }
+
                                 newAdapter.notifyDataSetChanged();
+
                             }
 
                         }else {
-                            ToastUtil.showSuccessMsg(mContext,productNormalModel.getMessage());
+                            ToastUtil.showSuccessMsg(mContext,homeBannerModel.getMessage());
                         }
                     }
                 });

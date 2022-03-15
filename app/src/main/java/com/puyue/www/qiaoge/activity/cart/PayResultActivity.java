@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -50,6 +51,9 @@ import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -61,13 +65,10 @@ import rx.schedulers.Schedulers;
 
 public class PayResultActivity extends BaseSwipeActivity {
     private ImageView mIvBack;
-    //    private LottieAnimationView mLavLoading;
     private ImageView mIvSuccess;
     private ImageView mIvError;
-    private TextView mTvState;
     private TextView mTvOrderDetail;
 
-    private byte payChannal;
     private String outTradeNo;
     private String mUserCell;
     private String orderId;
@@ -78,14 +79,12 @@ public class PayResultActivity extends BaseSwipeActivity {
     private TextView otherMessage;
     private String imageUrl;
 
-    private String status;
     private TextView tv_huo;
     private int orderDeliveryType;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         if (getIntent() != null && getIntent().getExtras() != null) {
             Bundle bundle = getIntent().getExtras();
-            payChannal = bundle.getByte(AppConstant.PAYCHANNAL);
             outTradeNo = bundle.getString(AppConstant.OUTTRADENO, null);
             orderId = bundle.getString(AppConstant.ORDERID, null);
             if (bundle.getString(AppConstant.ORDERDELIVERYTYPE,null)!=null){
@@ -161,7 +160,6 @@ public class PayResultActivity extends BaseSwipeActivity {
             Intent intent = MyOrdersActivity.getIntent(mActivity, MyOrdersActivity.class, AppConstant.ALL);
             intent.putExtra("orderDeliveryType",0);
             startActivity(intent);
-
             finish();
             return true;
         }
@@ -287,9 +285,7 @@ public class PayResultActivity extends BaseSwipeActivity {
             @Override
             public void onClick(View v) {
                 mDialog.dismiss();
-//                mLavLoading.setVisibility(View.GONE);
                 mIvError.setVisibility(View.VISIBLE);
-            //    mTvState.setText("取消支付");
             }
         });
         mDialog.getWindow().findViewById(R.id.tv_dialog_goset).setOnClickListener(new View.OnClickListener() {
@@ -298,48 +294,35 @@ public class PayResultActivity extends BaseSwipeActivity {
                 Intent intent = new Intent(mContext,PayActivity.class);
                 intent.putExtra("phone",mUserCell);
                 mContext.startActivity(intent);
-//                startActivity(EditPasswordInputCodeActivity.getIntent(mContext, EditPasswordInputCodeActivity.class, "0", mUserCell, "pay","forgetPsw",0,0));
                 mDialog.dismiss();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mIvError.setVisibility(View.VISIBLE);
-                    //    mTvState.setText("取消支付");
                     }
                 }, 1000);
             }
         });
     }
 
+    Timer timer;
     @Override
     public void setViewData() {
         IntentFilter filter = new IntentFilter(AppConstant.PAY_PASSWORD_ACTION);
         registerReceiver(broadcastReceiver, filter);
-        if (payChannal == 1) {
-            //accountCenter();
-
-            getPayResultAlready(outTradeNo);
-        } else if (payChannal == 2) {
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                    getPayResult(outTradeNo);
-                }
-            }, 3000);
-        } else if (payChannal == 3) {
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                    getPayResult(outTradeNo);
-                }
-            }, 3000);
-        }else if(payChannal == 16) {
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                    getPayResult(outTradeNo);
-                }
-            }, 3000);
-        }
+        timer = new Timer();
+        timer.schedule(task,0,2000);
 
     }
+
+
+    private TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+            getPayResult(outTradeNo);
+        }
+    };
+
 
     @Override
     public void setClickEvent() {
@@ -353,108 +336,10 @@ public class PayResultActivity extends BaseSwipeActivity {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(broadcastReceiver);
-//        mLavLoading.cancelAnimation();
+        handler.removeCallbacksAndMessages(null);
     }
 
     GetPayResultModel getPayResultModels;
-    private void getPayResultAlready(String outTradeNo) {
-        GetPayResultAPI.requestData(mContext, outTradeNo)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<GetPayResultModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(GetPayResultModel getPayResultModel) {
-                        logoutAndToHome(mContext, getPayResultModel.getCode());
-                        if (getPayResultModel.isSuccess()) {
-                            if (getPayResultModel.getData() != null) {
-                                getPayResultModels = getPayResultModel;
-                                mIvSuccess.setVisibility(View.VISIBLE);
-                                mIvError.setVisibility(View.GONE);
-                         //       mTvState.setVisibility(View.GONE);
-                                imageUrl = getPayResultModel.getData().getVo().getBannerDetailUrl();
-                                Glide.with(mActivity).load(getPayResultModel.getData().getVo().getBannerUrl()).into(imageViewRecommend);
-                                textViewSuccess.setText(getPayResultModel.getData().getMessage());
-
-
-                                if (!TextUtils.isEmpty(getPayResultModel.getData().getOtherMessage())) {
-                                    otherMessage.setText(getPayResultModel.getData().getOtherMessage());
-                                    otherMessage.setVisibility(View.VISIBLE);
-                             //       mTvState.setVisibility(View.GONE);
-                                } else {
-                                    otherMessage.setVisibility(View.GONE);
-                           //         mTvState.setVisibility(View.VISIBLE);
-                                }
-
-                                textViewSuccess.setVisibility(View.VISIBLE);
-
-
-                                if(getPayResultModel.getData().getDeliverModel()==0) {
-                                    tv_huo.setVisibility(View.GONE);
-                                }else {
-                                    tv_huo.setVisibility(View.VISIBLE);
-                                    if(getPayResultModel.getData().getConnectHllOrder()==1) {
-                                        huoConnentionDialog = new HuoConnentionDialog(mContext) {
-                                            @Override
-                                            public void Connect() {
-                                                getConnection(orderId,getPayResultModel.getData().getHllOrderId());
-                                            }
-
-                                            @Override
-                                            public void Next() {
-                                                dismiss();
-                                                new Handler().postDelayed(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-//                                                        Intent intent = new Intent(mContext, HuoHomeActivity.class);
-//                                                        intent.putExtra("orderId",getPayResultModel.getData().getOrderId());
-//                                                        startActivity(intent);
-//                                                        finish();
-                                                        isAuth();
-                                                    }
-                                                },0);
-                                            }
-                                        };
-
-                                        huoConnentionDialog.show();
-                                    }else {
-                                        handler.postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-//                                                Intent intent = new Intent(mContext, HuoHomeActivity.class);
-//                                                intent.putExtra("orderId", getPayResultModel.getData().getOrderId());
-//                                                startActivity(intent);
-//                                                finish();
-                                                isAuth();
-                                            }
-                                        }, 3000);
-                                    }
-                                }
-
-                            } else {
-                                mIvSuccess.setVisibility(View.GONE);
-                                mIvError.setVisibility(View.VISIBLE);
-                         //       mTvState.setText("支付失败");
-                                textViewSuccess.setVisibility(View.GONE);
-                            }
-
-                        } else {
-                            AppHelper.showMsg(PayResultActivity.this, getPayResultModel.getMessage());
-                            mIvError.setVisibility(View.VISIBLE);
-                         ///   mTvState.setText("支付失败");
-                        }
-                    }
-                });
-    }
 
     /**
      * 判断是否需要授权
@@ -517,24 +402,47 @@ public class PayResultActivity extends BaseSwipeActivity {
                     @Override
                     public void onNext(GetPayResultModel getPayResultModel) {
                         logoutAndToHome(mContext, getPayResultModel.getCode());
-                        if (getPayResultModel.isSuccess()) {
-                            if (getPayResultModel.getData() != null) {
-
+                        if (getPayResultModel.getCode()==1) {
+                            if (getPayResultModel.getData()!= null) {
                                 mIvSuccess.setVisibility(View.VISIBLE);
                                 mIvError.setVisibility(View.GONE);
-                           //     mTvState.setText("支付成功");
                                 imageUrl = getPayResultModel.getData().getVo().getBannerDetailUrl();
+                                String message = getPayResultModel.getData().getMessage();
                                 Glide.with(mActivity).load(getPayResultModel.getData().getVo().getBannerUrl()).into(imageViewRecommend);
-                                textViewSuccess.setText(getPayResultModel.getData().getMessage());
-
+                                if(getPayResultModel.getData().getMessage().equals("支付中")) {
+                                    textViewSuccess.setText(getPayResultModel.getData().getMessage()+"(正在获取支付结果,请稍等！)");
+                                }else {
+                                    textViewSuccess.setText(getPayResultModel.getData().getMessage());
+                                }
 
                                 if (!TextUtils.isEmpty(getPayResultModel.getData().getOtherMessage())) {
                                     otherMessage.setText(getPayResultModel.getData().getOtherMessage());
                                     otherMessage.setVisibility(View.VISIBLE);
-                                //    mTvState.setVisibility(View.GONE);
                                 } else {
                                     otherMessage.setVisibility(View.GONE);
-                                 //   mTvState.setVisibility(View.VISIBLE);
+                                }
+
+                                if(message.equals("支付成功")) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            timer = null;
+                                        }
+                                    });
+                                }else if(message.equals("支付失败")) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            timer = null;
+                                        }
+                                    });
+                                }else {
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            timer = null;
+                                        }
+                                    },20000);
                                 }
 
                                 if(getPayResultModel.getData().getDeliverModel()==0) {
@@ -555,10 +463,6 @@ public class PayResultActivity extends BaseSwipeActivity {
                                                     @Override
                                                     public void run() {
                                                         isAuth();
-//                                                        Intent intent = new Intent(mContext, HuoHomeActivity.class);
-//                                                        intent.putExtra("orderId",getPayResultModel.getData().getOrderId());
-//                                                        startActivity(intent);
-//                                                        finish();
                                                     }
                                                 },0);
                                             }
@@ -568,10 +472,6 @@ public class PayResultActivity extends BaseSwipeActivity {
                                         handler.postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
-//                                                Intent intent = new Intent(mContext, HuoHomeActivity.class);
-//                                                intent.putExtra("orderId",getPayResultModel.getData().getOrderId());
-//                                                startActivity(intent);
-//                                                finish();
                                                 isAuth();
                                             }
                                         },3000);
@@ -581,13 +481,11 @@ public class PayResultActivity extends BaseSwipeActivity {
                             } else {
                                 mIvSuccess.setVisibility(View.GONE);
                                 mIvError.setVisibility(View.VISIBLE);
-                              //  mTvState.setText("支付失败");
                                 textViewSuccess.setVisibility(View.GONE);
                             }
                         } else {
                             AppHelper.showMsg(PayResultActivity.this, getPayResultModel.getMessage());
                             mIvError.setVisibility(View.VISIBLE);
-                         //   mTvState.setText("支付失败");
                         }
                     }
                 });
@@ -628,7 +526,6 @@ public class PayResultActivity extends BaseSwipeActivity {
             String mType = intent.getExtras().getString("type");
             if (StringHelper.notEmptyAndNull(mType)) {
                 if (mType.equals("balance")) {
-                  //  mTvState.setText("");
                     mIvError.setVisibility(View.GONE);
                     mIvSuccess.setVisibility(View.GONE);
                     accountCenter();

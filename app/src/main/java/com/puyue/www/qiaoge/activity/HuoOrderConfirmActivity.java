@@ -454,6 +454,7 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
     public void getAddress(JSONEvent jsonEvent) {
         jsonArray1 = jsonEvent.getJsonArray1();
+        Log.d("xasfswdefew.....",jsonEvent.getJsonArray1().toString()+"b");
     }
 
 

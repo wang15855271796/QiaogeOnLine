@@ -198,7 +198,8 @@ public class MineFragment extends BaseFragment {
     OutScollerview outScoller;
     TextView tv_vip_desc;
     TextView tv_company;
-    LinearLayout ll_deliver_order2;
+    RelativeLayout rl_zizhi2;
+    RelativeLayout ll_deliver_order2;
     TextView tv_look;
     private SparseArray<RecyclerView> mPageMap = new SparseArray<>();
 
@@ -277,6 +278,7 @@ public class MineFragment extends BaseFragment {
     public void findViewById(View view) {
 
         EventBus.getDefault().register(this);
+        rl_zizhi2 = (view.findViewById(R.id.rl_zizhi2));
         tv_look = (view.findViewById(R.id.tv_look));
         ll_deliver_order2 = (view.findViewById(R.id.ll_deliver_order2));
         tv_company =  (view.findViewById(R.id.tv_company));
@@ -420,20 +422,6 @@ public class MineFragment extends BaseFragment {
         });
         tv_company.getBackground().setAlpha(30);
 
-        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
-            ll_deliver_order2.setVisibility(View.VISIBLE);
-            ll_deliver_order.setVisibility(View.GONE);
-            tv_vip_desc.setText("该企业暂未启用会员哦！");
-            ll_amount.setVisibility(View.GONE);
-            accountManagement.setVisibility(View.GONE);
-        }else {
-            tv_vip_desc.setText("该城市暂未启用会员哦！");
-            ll_deliver_order.setVisibility(View.VISIBLE);
-            ll_deliver_order2.setVisibility(View.GONE);
-            ll_amount.setVisibility(View.VISIBLE);
-            accountManagement.setVisibility(View.VISIBLE);
-        }
-
         tv_look.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -494,12 +482,19 @@ public class MineFragment extends BaseFragment {
         rv1.setAdapter(mustAdapter);
         requestUpdate();
         getProductsList();
-//        appBarLayout.addOnOffsetChangedListener(this);
     }
 
     @Override
     public void setClickEvent() {
         rl_zizhi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity,IntelliGencyActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        rl_zizhi2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mActivity,IntelliGencyActivity.class);
@@ -818,40 +813,6 @@ public class MineFragment extends BaseFragment {
         }
 
     };
-
-    /**
-     * 判断是否需要授权
-     */
-//    private void isAuth() {
-//        HuolalaAPI.isAuthorize(mActivity)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Subscriber<IsAuthModel>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(IsAuthModel isAuthModel) {
-//                        if(isAuthModel.getCode()==1) {
-//                            if(isAuthModel.getData()!=null) {
-//                                if(isAuthModel.getData().isAuthorize()) {
-//                                    startActivity(CommonH6Activity.getIntent(mActivity,CommonH6Activity.class,isAuthModel.getData().getAuthUrl(),));
-//                                }
-//                            }
-//
-//                        }else {
-//                            ToastUtil.showSuccessMsg(mActivity,isAuthModel.getMessage());
-//                        }
-//                    }
-//                });
-//    }
 
     private void useAccount() {
         MineAccountAPI.requestMineAccount(mActivity, day, giftNo)
@@ -1204,14 +1165,14 @@ public class MineFragment extends BaseFragment {
                             }
 
                             if(myOrderNumModel.getData().getShowVip()==0) {
+                                //非会员
                                 relativeLayoutVip.setVisibility(View.GONE);
                                 iv_vip_more.setVisibility(View.GONE);
                                 tv_qiao_ge.setVisibility(View.GONE);
                                 tv_tip.setVisibility(View.GONE);
                                 tv_vip_desc.setVisibility(View.VISIBLE);
                                 tv_desc1.setVisibility(View.GONE);
-                                rl_zizhi.setVisibility(View.VISIBLE);
-                                ll_fill.setVisibility(View.GONE);
+
                             }else {
                                 relativeLayoutVip.setVisibility(View.VISIBLE);
                                 iv_vip_more.setVisibility(View.VISIBLE);
@@ -1219,10 +1180,53 @@ public class MineFragment extends BaseFragment {
                                 tv_tip.setVisibility(View.VISIBLE);
                                 tv_vip_desc.setVisibility(View.GONE);
                                 tv_desc1.setVisibility(View.VISIBLE);
-                                rl_zizhi.setVisibility(View.GONE);
                                 ll_fill.setVisibility(View.VISIBLE);
-
                             }
+
+                            if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+                                //企业版
+                                ll_deliver_order2.setVisibility(View.VISIBLE);
+                                ll_deliver_order.setVisibility(View.GONE);
+                                ll_amount.setVisibility(View.GONE);
+                                accountManagement.setVisibility(View.GONE);
+
+                                if(myOrderNumModel.getData().getShowVip()==0) {
+                                    //非会员 不展示
+                                    tv_vip_desc.setText("该企业暂未启用会员哦！");
+                                    rl_zizhi.setVisibility(View.GONE);
+                                    rl_zizhi2.setVisibility(View.VISIBLE);
+                                    rl_zizhi1.setVisibility(View.GONE);
+                                    ll_fill.setVisibility(View.VISIBLE);
+                                }else {
+                                    rl_zizhi.setVisibility(View.GONE);
+                                    rl_zizhi2.setVisibility(View.VISIBLE);
+                                    rl_zizhi1.setVisibility(View.GONE);
+                                    ll_fill.setVisibility(View.GONE);
+                                }
+                            }else {
+                                //城市版
+
+                                ll_deliver_order.setVisibility(View.VISIBLE);
+                                ll_deliver_order2.setVisibility(View.GONE);
+                                ll_amount.setVisibility(View.VISIBLE);
+                                accountManagement.setVisibility(View.VISIBLE);
+                                if(myOrderNumModel.getData().getShowVip()==0) {
+                                    //非会员 不展示
+                                    tv_vip_desc.setText("该城市暂未启用会员哦！");
+                                    rl_zizhi.setVisibility(View.VISIBLE);
+                                    rl_zizhi2.setVisibility(View.GONE);
+                                    rl_zizhi1.setVisibility(View.GONE);
+                                    ll_fill.setVisibility(View.GONE);
+                                }else {
+                                    rl_zizhi.setVisibility(View.GONE);
+                                    rl_zizhi2.setVisibility(View.GONE);
+                                    rl_zizhi1.setVisibility(View.VISIBLE);
+                                    ll_fill.setVisibility(View.VISIBLE);
+
+
+                                }
+                            }
+
                         } else {
                             AppHelper.showMsg(mActivity, myOrderNumModel.message);
                         }

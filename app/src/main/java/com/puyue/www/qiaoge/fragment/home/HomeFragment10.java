@@ -423,9 +423,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     private CouponModels.DataBean data1;
     private int showType;
     private CommonCouponAdapter commonCouponAdapter;
-    private CommonsAdapter commonsAdapter;
     private CommonAdapter commonAdapter;
-//    private List<CouponModels.DataBean.ActivesBean> actives = new ArrayList<>();
     private List<CouponModels.DataBean.SpikeBean.ActivesBean> skillActive3 = new ArrayList<>();
     private List<CouponModels.DataBean.SpikeBean.ActivesBean> skillActive2 = new ArrayList<>();
     private List<CouponModels.DataBean.SpikeBean.ActivesBean> skillActive1 = new ArrayList<>();
@@ -450,7 +448,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     private SkillAdapter skillAdapter;
     private Skill2Adapter skill2Adapter;
     private Skill3Adapter skill3Adapter;
-    private String deductAmountStr;
     private HomeActivityDialog homeActivityDialog;
     CommonssAdapter commonssAdapter;
     int topHeight;
@@ -747,6 +744,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
         });
         //判断用户是否选择了企业
         if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+            Log.d("vfdfvdf........","123");
             getStyle();
         }
 
@@ -1247,8 +1245,8 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                 list.add(data2.get(i).getPoolNo());
                             }
 
-//                            turnTableDialog = new TurnTableDialog(mActivity, list);
-//                            turnTableDialog.show();
+                            turnTableDialog = new TurnTableDialog(mActivity, list);
+                            turnTableDialog.show();
                         } else {
                             AppHelper.showMsg(mActivity, turnModel.getMessage());
                         }
@@ -1425,23 +1423,19 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                 iconList.addAll(data.getIcons());
                             }
                             couponListModels = indexInfoModel.getData();
-                            if (data.getDeductAmountStr() != null) {
-                                deductAmountStr = data.getDeductAmountStr();
-                            }
-                            for (int i = 0; i < 6; i++) {
-                                list.add("s");
-                            }
-                            turnTableDialog = new TurnTableDialog(mActivity, list);
-                            turnTableDialog.show();
                             if(indexInfoModel.getData().getGiftReceiveBtn().equals("0")) {
                                 getPrivacy(indexInfoModel);
                                 getDialog(indexInfoModel);
                             }else {
-//                                getTurn();
+                                getTurn();
                             }
 
+                            if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+                                tv_city.setText(data.getCompanyName());
+                            }else {
+                                tv_city.setText(data.getAddress());
+                            }
                             if(!SharedPreferencesUtil.getString(mActivity,"once").equals("0")) {
-//                                getPrivacys(indexInfoModel);
                                 getDialog(indexInfoModel);
                             }
 
@@ -1463,7 +1457,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                 rl_huo.setVisibility(View.GONE);
                             }
                             questUrl = indexInfoModel.getData().getQuestUrl();
-                            tv_city.setText(data.getAddress());
+
                             list.clear();
                             list1.clear();
 
@@ -1508,7 +1502,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                             if (!TextUtils.isEmpty(banners.get(pos).getRgbColor())) {
                                                 String rgbColor = banners.get(pos).getRgbColor();
                                                 ll_bgc.setBackgroundColor(Color.parseColor("#" + rgbColor));
-                                                Log.d("wwwwwwww........","bbb");
                                             }
                                         }
 
@@ -1602,6 +1595,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
             @Override
             public void OnBannerClick(int position) {
                 showType = banners.get(position).getShowType();
+
                 if (showType == 1 || banners.get(position).getLinkSrc() != null) {
                     //链接 banners.get(position).getLinkSrc()
                     Intent intent = new Intent(getActivity(), NewWebViewActivity.class);
@@ -1644,12 +1638,15 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                         startActivity(intent);
                     }
                 } else if (showType == 4) {
+
                     //商品
                     if(banners.get(position).getBusinessNum()>1) {
                         Intent intent = new Intent(mActivity, BannerActivity.class);
                         intent.putExtra("title",banners.get(position).getTitle());
                         intent.putExtra("bannerId",banners.get(position).getBannerId());
+                        intent.putExtra("defaultPic",banners.get(position).getDefaultPic());
                         startActivity(intent);
+
                     }else {
                         int businessId = Integer.parseInt(banners.get(position).getBusinessId());
                         Intent intent = new Intent(getActivity(), CommonGoodsDetailActivity.class);

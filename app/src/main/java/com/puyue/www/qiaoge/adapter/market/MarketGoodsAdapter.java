@@ -3,7 +3,10 @@ package com.puyue.www.qiaoge.adapter.market;
 import android.content.Intent;
 import androidx.annotation.Nullable;
 
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -14,6 +17,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.flow.TagAdapter;
+import com.puyue.www.qiaoge.activity.flow.TagFlowLayout;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.activity.home.SpecialGoodDetailActivity;
 import com.puyue.www.qiaoge.api.market.MarketRightModel;
@@ -43,6 +48,8 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
     ImageView iv_after_next;
     ImageView iv_operate;
     ImageView iv_next;
+    TextView tv_style;
+    boolean isLimit;
     public MarketGoodsAdapter( int layoutResId, @Nullable List<MarketRightModel.DataBean.ProdClassifyBean.ListBean> data, Onclick onclick) {
         super(layoutResId, data);
         this.onclick = onclick;
@@ -52,7 +59,9 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
     @Override
     protected void convert(BaseViewHolder helper, MarketRightModel.DataBean.ProdClassifyBean.ListBean item) {
         int businessType = item.getBusinessType();
+        tv_style = helper.getView(R.id.tv_style);
         ImageView iv_send = helper.getView(R.id.iv_send);
+        TagFlowLayout rv_spec =  helper.getView(R.id.rv_spec);
         iv_after_next = helper.getView(R.id.iv_after_next);
         iv_next = helper.getView(R.id.iv_next);
         iv_operate = helper.getView(R.id.iv_operate);
@@ -90,7 +99,6 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
             iv_no_data.setVisibility(View.GONE);
         }
         RelativeLayout rl_spec = helper.getView(R.id.rl_spec);
-        helper.setText(R.id.tv_spec,"规格："+item.getSpec());
         ll_group = helper.getView(R.id.ll_group);
         ll_group.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +114,45 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
                     intent.putExtra("priceType",SharedPreferencesUtil.getString(mContext,"priceType"));
                     mContext.startActivity(intent);
                 }
+            }
+        });
+
+
+        rv_spec.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                boolean isOverFlow = rv_spec.isOverFlow();
+                isLimit = rv_spec.isLimit();
+
+                Log.d("cdsferegf.....",isOverFlow+"a");
+                Log.d("cdsferegf.....",isLimit+"b");
+            }
+        });
+
+        TagAdapter unAbleAdapter = new TagAdapter<MarketRightModel.DataBean.ProdClassifyBean.ListBean.ProdSpecsBean>(item.getProdSpecs()){
+
+            @Override
+            public View getView(com.puyue.www.qiaoge.activity.flow.FlowLayout parent, int position, MarketRightModel.DataBean.ProdClassifyBean.ListBean.ProdSpecsBean listBean) {
+                View view = LayoutInflater.from(mContext).inflate(R.layout.item_specss,rv_spec, false);
+                TextView tv_spec = view.findViewById(R.id.tv_spec);
+                tv_spec.setText(listBean.getSpec());
+                return view;
+            }
+        };
+        rv_spec.setAdapter(unAbleAdapter);
+        unAbleAdapter.notifyDataChanged();
+
+        tv_style.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isLimit) {
+                    rv_spec.setLimit(false);
+
+                }else {
+                    Log.d("esfsfwef.....","cfsdfds");
+                    rv_spec.setLimit(true);
+                }
+                unAbleAdapter.notifyDataChanged();
             }
         });
 

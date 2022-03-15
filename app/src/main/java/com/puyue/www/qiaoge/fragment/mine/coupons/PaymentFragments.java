@@ -455,9 +455,11 @@ public class PaymentFragments extends DialogFragment {
     private Handler mHandler = new Handler() {
         @SuppressWarnings("unused")
         public void handleMessage(Message msg) {
+
             switch (msg.what) {
                 case SDK_PAY_FLAG: {
                     Map<String, String> result = (Map<String, String>) msg.obj;
+                    Log.d("dsfwfefdsf....",result.get("resultStatus")+"a");
                     Log.e("TGA", result.get("resultStatus") + "");
                     if ("9000".equals(result.get("resultStatus"))) {
                         //okpay
@@ -472,6 +474,7 @@ public class PaymentFragments extends DialogFragment {
                         getActivity().finish();
                     } else if ("6001".equals(result.get("resultStatus"))) {
                         //用户取消支付
+
                         AppHelper.showMsg(getContext(), "您已取消支付");
                     } else if ("6002".equals(result.get("resultStatus"))) {
                         //网络连接错误
@@ -484,8 +487,6 @@ public class PaymentFragments extends DialogFragment {
                         intent.putExtra(AppConstant.OUTTRADENO, outTradeNo);
                         intent.putExtra(AppConstant.ORDERID, orderId);
                         intent.putExtra(AppConstant.ORDERDELIVERYTYPE, orderDeliveryType + "");
-
-
                         startActivity(intent);
                         getActivity().finish();
                     }
@@ -552,9 +553,6 @@ public class PaymentFragments extends DialogFragment {
             @Override
             public void onClick(View v) {
                 mDialog.dismiss();
-//                mLavLoading.setVisibility(View.GONE);
-                //   mIvError.setVisibility(View.VISIBLE);
-                //  mTvState.setText("取消支付");
             }
         });
         mDialog.getWindow().findViewById(R.id.tv_dialog_goset).setOnClickListener(new View.OnClickListener() {
@@ -562,7 +560,6 @@ public class PaymentFragments extends DialogFragment {
             public void onClick(View v) {
                 UserInfoHelper.saveDeliverType(getContext(),1+"");
                 UserInfoHelper.saveForgetPas(getContext(), "wwwe");
-//                startActivity(EditPasswordInputCodeActivity.getIntent(getContext(), EditPasswordInputCodeActivity.class, "0", mUserCell, "pay","forgetPsw",1, Double.parseDouble(payAmount)));
                 checkFirstChange();
                 mDialog.dismiss();
                 handler.postDelayed(new Runnable() {
@@ -590,14 +587,10 @@ public class PaymentFragments extends DialogFragment {
         mDialog.getWindow().findViewById(R.id.tv_dialog_cancle).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(mContext, EditPasswordInputCodeActivity.class);
-
                 checkFirstChange();
-//                startActivity(EditPasswordInputCodeActivity.getIntent(getContext(), EditPasswordInputCodeActivity.class, "1", mUserCell, "pay","forgetPsw",1, Double.parseDouble(payAmount)));
                 UserInfoHelper.saveForgetPas(getContext(), "wwwe");
                 UserInfoHelper.saveDeliverType(getContext(),1+"");
                 mDialog.dismiss();
-//                mLavLoading.setVisibility(View.GONE);
 
             }
         });
@@ -685,7 +678,6 @@ public class PaymentFragments extends DialogFragment {
                         if (checkPayPwdModel.success) {
                             new Handler().postDelayed(new Runnable() {
                                 public void run() {
-
                                     getPayResult(outTradeNo);
 
                                 }

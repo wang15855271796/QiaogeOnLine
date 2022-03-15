@@ -113,6 +113,15 @@ public class IndexInfoModel {
         private HomePopup homePopup;
         int hllOrderCallNum;
         String orderId;
+        String companyName;
+
+        public String getCompanyName() {
+            return companyName;
+        }
+
+        public void setCompanyName(String companyName) {
+            this.companyName = companyName;
+        }
 
         public int getHllOrderCallNum() {
             return hllOrderCallNum;

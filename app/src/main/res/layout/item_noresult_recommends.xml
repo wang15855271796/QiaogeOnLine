@@ -70,6 +70,7 @@
                     android:textColor="#333333" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_spec"
                     android:ellipsize="end"
                     android:maxLines="1"
@@ -90,7 +91,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="库存：300"
-                    android:layout_below="@+id/tv_spec"
+                    android:layout_below="@+id/tv_name"
                     android:layout_marginLeft="@dimen/size_12dp"
                     android:layout_marginTop="3dp"
                     android:layout_toLeftOf="@+id/iv_close"
@@ -256,6 +257,47 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_style"
+                    android:textColor="#999999"
+                    android:text="展开全部规则"
+                    android:drawablePadding="@dimen/size_5dp"
+                    android:drawableRight="@mipmap/icon_arrow_light_down"
+                    android:layout_marginLeft="@dimen/size_10dp"
+                    android:textSize="@dimen/dp_10"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="规格："
+                    android:id="@+id/tv1"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_toRightOf="@+id/tv_style"
+                    android:textColor="#333333"
+                    android:textSize="@dimen/dp_10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <com.puyue.www.qiaoge.activity.flow.TagFlowLayout
+                    android:id="@+id/rv_spec"
+                    android:layout_toRightOf="@+id/tv1"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_width="160dp"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_height="wrap_content"
+                    app:is_limit="true"
+                    app:tag_gravity="right"
+                    app:limit_line_count="1"
+                    app:max_select="1"/>
+            </RelativeLayout>
+
 
             <View
                 android:background="#eeeeee"

@@ -18,6 +18,7 @@ import com.puyue.www.qiaoge.model.CouponModels;
 import com.puyue.www.qiaoge.model.FullCouponListModel;
 import com.puyue.www.qiaoge.model.FullDetailModel;
 import com.puyue.www.qiaoge.model.GetCompanyModel;
+import com.puyue.www.qiaoge.model.HomeBannerModel;
 import com.puyue.www.qiaoge.model.ModeModel;
 import com.puyue.www.qiaoge.model.OrderModel;
 import com.puyue.www.qiaoge.model.SendModel;
@@ -469,11 +470,11 @@ public class IndexHomeAPI {
     //Banner信息
     private interface HomeBannerService {
         @FormUrlEncoded
-        @POST(AppInterfaceAddress.GetCompanyName)
-        Observable<ProductNormalModel> getData(@Field("bannerId") String bannerId);
+        @POST(AppInterfaceAddress.Home_Banner)
+        Observable<HomeBannerModel> getData(@Field("bannerId") String bannerId);
     }
 
-    public static Observable<ProductNormalModel> getBanner(Context context,String bannerId) {
+    public static Observable<HomeBannerModel> getBanner(Context context,String bannerId) {
         HomeBannerService spikeActiveQueryService = RestHelper.getBaseRetrofit(context).create(HomeBannerService.class);
         return spikeActiveQueryService.getData(bannerId);
     }

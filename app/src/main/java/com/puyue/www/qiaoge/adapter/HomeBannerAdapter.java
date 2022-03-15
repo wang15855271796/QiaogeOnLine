@@ -1,13 +1,12 @@
-package com.puyue.www.qiaoge.fragment.home;
+package com.puyue.www.qiaoge.adapter;
 
 import android.content.Intent;
-import androidx.annotation.Nullable;
-
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -15,38 +14,37 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
+import com.puyue.www.qiaoge.dialog.HomeBannerDialog;
 import com.puyue.www.qiaoge.dialog.NewDialog;
+import com.puyue.www.qiaoge.fragment.home.NewAdapter;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.model.HomeBannerModel;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
 import java.util.List;
 
-public class NewAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.ListBean,BaseViewHolder> {
-
-    private ImageView iv_pic;
-    List<ProductNormalModel.DataBean.ListBean> activesBean;
-    private ImageView iv_add;
+public class HomeBannerAdapter extends BaseQuickAdapter<HomeBannerModel.DataBean, BaseViewHolder> {
     Onclick onclick;
-    private NewDialog newDialog;
+    private ImageView iv_pic;
+    private ImageView iv_add;
+    private HomeBannerDialog newDialog;
     private RelativeLayout rl_group;
     private TextView tv_sale;
     ImageView iv_flag;
-    String enjoyProduct;
     private TextView tv_desc;
     TextView tv_price;
     ImageView iv_operate;
     ImageView iv_next;
-    public NewAdapter(int layoutResId, @Nullable List<ProductNormalModel.DataBean.ListBean> activeList, Onclick onclick) {
-        super(layoutResId, activeList);
-        this.activesBean = activeList;
+
+    public HomeBannerAdapter(int layoutResId, @Nullable List<HomeBannerModel.DataBean> data, HomeBannerAdapter.Onclick onclick) {
+        super(layoutResId, data);
         this.onclick = onclick;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ProductNormalModel.DataBean.ListBean item) {
-
+    protected void convert(BaseViewHolder helper, HomeBannerModel.DataBean item) {
         iv_next = helper.getView(R.id.iv_next);
         iv_operate = helper.getView(R.id.iv_operate);
         tv_desc = helper.getView(R.id.tv_desc);
@@ -93,7 +91,7 @@ public class NewAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
                 if(onclick!=null) {
                     if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                         if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
-                            newDialog = new NewDialog(mContext,item.getProductId(),item);
+                            newDialog = new HomeBannerDialog(mContext,item.getProductId(),item);
                             newDialog.show();
                         }else {
                             onclick.tipClick();
@@ -116,7 +114,7 @@ public class NewAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
         rl_group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext,CommonGoodsDetailActivity.class);
+                Intent intent = new Intent(mContext, CommonGoodsDetailActivity.class);
                 intent.putExtra(AppConstant.ACTIVEID,item.getProductMainId());
                 intent.putExtra("priceType",SharedPreferencesUtil.getString(mContext,"priceType"));
                 mContext.startActivity(intent);
@@ -129,5 +127,4 @@ public class NewAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
         void addDialog();
         void tipClick();
     }
-
 }

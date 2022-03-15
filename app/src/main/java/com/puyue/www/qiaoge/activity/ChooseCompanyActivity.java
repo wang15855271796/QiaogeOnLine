@@ -51,6 +51,8 @@ public class ChooseCompanyActivity extends BaseActivity implements View.OnClickL
     TextView tv_short;
     @BindView(R.id.tv_sure)
     TextView tv_sure;
+    @BindView(R.id.tv_choose)
+    TextView tv_choose;
     CompanyListAdapter companyListAdapter;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
@@ -94,6 +96,7 @@ public class ChooseCompanyActivity extends BaseActivity implements View.OnClickL
         ll_add.setOnClickListener(this);
         tv_sure.setOnClickListener(this);
         iv_back.setOnClickListener(this);
+        tv_choose.setOnClickListener(this);
     }
 
     @Override
@@ -110,6 +113,12 @@ public class ChooseCompanyActivity extends BaseActivity implements View.OnClickL
 
             case R.id.tv_sure:
                 getFullTips(companyId);
+                break;
+
+            case R.id.tv_choose:
+                EventBus.getDefault().post(new AddressEvent());
+                SharedPreferencesUtil.saveInt(mActivity,"wad",0);
+                finish();
                 break;
         }
     }

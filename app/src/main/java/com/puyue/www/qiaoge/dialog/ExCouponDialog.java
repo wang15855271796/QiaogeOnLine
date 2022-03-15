@@ -167,6 +167,7 @@ public class ExCouponDialog extends Dialog {
                         public void onNext(AccountCenterModel accountCenterModel) {
                             if (accountCenterModel.success) {
                                 mModelAccountCenter = accountCenterModel;
+                                mUserCell = mModelAccountCenter.data.phone;
                                 checkFirstChange();
 //                                if (mModelAccountCenter.data.hasSetPayPwd) {
 //                                    //已经设置过支付密码

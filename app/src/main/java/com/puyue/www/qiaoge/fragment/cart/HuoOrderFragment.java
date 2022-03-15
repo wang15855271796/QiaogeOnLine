@@ -539,7 +539,6 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
             zPhone = huoAddressEvent.getPhone();
             zName = huoAddressEvent.getName();
         }else {
-
             xPhone = huoAddressEvent.getPhone();
             xName = huoAddressEvent.getName();
             tv_unload.setText(dataBean.getAddr());
@@ -576,7 +575,7 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
                         jsonArray1,orderTime,"",StringUtils.join(listDesc, ","),invoiceType);
             }
 
-
+            Log.d("xasfswdefew.....",jsonArray1.toString()+"a");
         } catch (JSONException e) {
             e.printStackTrace();
         }

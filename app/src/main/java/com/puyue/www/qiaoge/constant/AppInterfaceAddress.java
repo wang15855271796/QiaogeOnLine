@@ -18,7 +18,7 @@ public class AppInterfaceAddress {
     /**
      *根据授权码获取企业信息
      */
-    public static final String GetCompanyName = " auth/getAuthSaleInfo";
+    public static final String GetCompanyName = "auth/getAuthSaleInfo";
     /**
      *banner商品专区
      */

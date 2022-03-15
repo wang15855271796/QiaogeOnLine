@@ -85,7 +85,7 @@
                     android:layout_marginLeft="@dimen/size_16dp"
                     android:layout_centerVertical="true"
                     android:id="@+id/tv_choose"
-                    android:text="加盟名称公司简称"
+                    android:text="切换为城市版"
                     android:textColor="#17BD60"
                     android:textSize="@dimen/ysf_text_size_16sp"
                     android:layout_width="wrap_content"

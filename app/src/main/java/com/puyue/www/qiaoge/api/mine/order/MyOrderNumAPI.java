@@ -9,6 +9,7 @@ import com.puyue.www.qiaoge.model.mine.order.MyOrderNumModel;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -19,7 +20,7 @@ import rx.Observable;
 public class MyOrderNumAPI {
     public interface MyOrderNumService {
         @FormUrlEncoded
-        @GET(AppInterfaceAddress.USER_MY_COUNTER)
+        @POST(AppInterfaceAddress.USER_MY_COUNTER)
         Observable<MyOrderNumModel> setParams(@Field("wad") int wad);
     }
 
