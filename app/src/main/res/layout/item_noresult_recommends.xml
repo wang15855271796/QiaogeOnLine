@@ -267,10 +267,17 @@
                     android:textColor="#999999"
                     android:text="展开全部规则"
                     android:drawablePadding="@dimen/size_5dp"
-                    android:drawableRight="@mipmap/icon_arrow_light_down"
                     android:layout_marginLeft="@dimen/size_10dp"
                     android:textSize="@dimen/dp_10"
                     android:layout_marginTop="@dimen/dp_10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:id="@+id/iv_icon"
+                    android:layout_marginTop="13dp"
+                    android:layout_toRightOf="@+id/tv_style"
+                    android:src="@mipmap/icon_arrow_light_down"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -279,7 +286,7 @@
                     android:id="@+id/tv1"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginTop="@dimen/dp_10"
-                    android:layout_toRightOf="@+id/tv_style"
+                    android:layout_toRightOf="@+id/iv_icon"
                     android:textColor="#333333"
                     android:textSize="@dimen/dp_10"
                     android:layout_width="wrap_content"

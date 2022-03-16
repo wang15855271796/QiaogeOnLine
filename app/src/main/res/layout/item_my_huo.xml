@@ -89,6 +89,7 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/tv_huo_order"
         android:text="关联翘歌订单"
         android:textColor="#FD6601"
         android:padding="@dimen/size_2dp"

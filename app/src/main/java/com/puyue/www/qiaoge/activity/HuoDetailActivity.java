@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -22,6 +23,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.flow.FlowLayout;
+import com.puyue.www.qiaoge.activity.flow.TagAdapter;
+import com.puyue.www.qiaoge.activity.flow.TagFlowLayout;
 import com.puyue.www.qiaoge.adapter.HuoPayAdapter;
 import com.puyue.www.qiaoge.adapter.HuoPayedAdapter;
 import com.puyue.www.qiaoge.api.huolala.HuolalaAPI;
@@ -172,6 +176,14 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
     LinearLayout ll_driver;
     @BindView(R.id.tv_total)
     TextView tv_total;
+    @BindView(R.id.rv_huo)
+    TagFlowLayout rv_huo;
+    @BindView(R.id.rl_open)
+    RelativeLayout rl_open;
+    @BindView(R.id.tv_open)
+    TextView tv_open;
+    @BindView(R.id.iv_open)
+    ImageView iv_open;
     String id;
     HuoPayedAdapter huoPayedAdapter;
 
@@ -215,6 +227,7 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
         tv_desc.setOnClickListener(this);
         tv_pay.setOnClickListener(this);
         iv_wen.setOnClickListener(this);
+        rl_open.setOnClickListener(this);
     }
 
 
@@ -228,6 +241,8 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
     List<HuoPriceModel> list5 = new ArrayList<>();
     List<HuoPriceModel> list6 = new ArrayList<>();
     List<HuoPriceModel> list7 = new ArrayList<>();
+    List<HuoDetailModel.DataBean.ConnectOrdersBean> hllConnectOrders = new ArrayList<>();
+    TagAdapter unAbleAdapter;
     private void getHuoDetail(String orderDisplayId) {
         HuolalaAPI.getHuoDetail(mActivity,orderDisplayId)
                 .subscribeOn(Schedulers.io())
@@ -275,7 +290,26 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
                                 }else {
                                     ll_driver.setVisibility(View.GONE);
                                 }
-//                                int orderStatus = data.getOrderStatus();
+
+                                //关联订单
+                                hllConnectOrders.clear();
+                                if(data.getConnectOrders()!=null&&data.getConnectOrders().size()>0) {
+                                    List<HuoDetailModel.DataBean.ConnectOrdersBean> connectOrders = data.getConnectOrders();
+                                    hllConnectOrders.addAll(connectOrders);
+                                    rv_huo.setVisibility(View.VISIBLE);
+
+                                    unAbleAdapter = new TagAdapter<HuoDetailModel.DataBean.ConnectOrdersBean>(hllConnectOrders){
+                                        @Override
+                                        public View getView(FlowLayout parent, int position, HuoDetailModel.DataBean.ConnectOrdersBean connectOrdersBean) {
+                                            View view = LayoutInflater.from(mActivity).inflate(R.layout.item_huo_connection,rv_huo, false);
+                                            TextView tv_connect = view.findViewById(R.id.tv_connect);
+                                            tv_connect.setText(connectOrdersBean.getOrderId()+"("+connectOrdersBean.getState()+")");
+                                            return view;
+                                        }
+                                    };
+                                    rv_huo.setAdapter(unAbleAdapter);
+                                    unAbleAdapter.notifyDataChanged();
+                                }
 
                                 if(data.getCanOrderCancel()==1) {
                                     tv_cancel.setVisibility(View.VISIBLE);
@@ -335,12 +369,6 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
         switch (payStatus) {
             case 0:
                 ll_unPay.setVisibility(View.VISIBLE);
-//                ll_paying.setVisibility(View.GONE);
-//                ll_payed.setVisibility(View.GONE);
-//                ll_success.setVisibility(View.GONE);
-//                ll_failed.setVisibility(View.GONE);
-//                ll_apply.setVisibility(View.GONE);
-//                ll_backing.setVisibility(View.GONE);
                 //"未支付"
                 BigDecimal amount0 = new BigDecimal(priceInfoList.getAmount());
                 amount00 = amount00.add(amount0);
@@ -360,14 +388,7 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
 
             case 1:
                 //"已支付"
-//                ll_unPay.setVisibility(View.GONE);
-//                ll_paying.setVisibility(View.GONE);
                 ll_payed.setVisibility(View.VISIBLE);
-//                ll_success.setVisibility(View.GONE);
-//                ll_failed.setVisibility(View.GONE);
-//                ll_apply.setVisibility(View.GONE);
-//                ll_backing.setVisibility(View.GONE);
-
                 BigDecimal amount1 = new BigDecimal(priceInfoList.getAmount());
                 amount11 = amount11.add(amount1);
                 BigDecimal amount111 = amount11.setScale(2, RoundingMode.HALF_UP);
@@ -386,13 +407,7 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
 
             case 2:
                 //"支付失败"
-//                ll_unPay.setVisibility(View.GONE);
-//                ll_paying.setVisibility(View.GONE);
-//                ll_payed.setVisibility(View.GONE);
-//                ll_success.setVisibility(View.GONE);
                 ll_failed.setVisibility(View.VISIBLE);
-//                ll_apply.setVisibility(View.GONE);
-//                ll_backing.setVisibility(View.GONE);
                 BigDecimal amount2 = new BigDecimal(priceInfoList.getAmount());
                 amount22 = amount22.add(amount2);
                 BigDecimal amount222 = amount22.setScale(2, RoundingMode.HALF_UP);
@@ -411,12 +426,6 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
 
             case 3:
                 //"退款中"
-//                ll_unPay.setVisibility(View.GONE);
-//                ll_paying.setVisibility(View.GONE);
-//                ll_payed.setVisibility(View.GONE);
-//                ll_success.setVisibility(View.GONE);
-//                ll_failed.setVisibility(View.GONE);
-//                ll_apply.setVisibility(View.GONE);
                 ll_backing.setVisibility(View.VISIBLE);
                 BigDecimal amount3 = new BigDecimal(priceInfoList.getAmount());
                 amount33 = amount33.add(amount3);
@@ -432,18 +441,11 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
                 huoPayedAdapter = new HuoPayedAdapter(R.layout.item_huo_pay,list4);
                 rv_backing.setAdapter(huoPayedAdapter);
                 huoPayedAdapter.notifyDataSetChanged();
-//                tv_payed.setText("退款中");
                 break;
 
             case 4:
                 //"退款成功"
-//                ll_unPay.setVisibility(View.GONE);
-//                ll_paying.setVisibility(View.GONE);
-//                ll_payed.setVisibility(View.GONE);
                 ll_success.setVisibility(View.VISIBLE);
-//                ll_failed.setVisibility(View.GONE);
-//                ll_apply.setVisibility(View.GONE);
-//                ll_backing.setVisibility(View.GONE);
                 BigDecimal amount4 = new BigDecimal(priceInfoList.getAmount());
                 amount44 = amount44.add(amount4);
                 BigDecimal amount444 = amount44.setScale(2, RoundingMode.HALF_UP);
@@ -458,18 +460,11 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
                 huoPayedAdapter = new HuoPayedAdapter(R.layout.item_huo_pay,list5);
                 rv_success.setAdapter(huoPayedAdapter);
                 huoPayedAdapter.notifyDataSetChanged();
-//                tv_payed.setText("退款成功");
                 break;
 
             case 5:
                 //"支付中"
-//                ll_unPay.setVisibility(View.GONE);
                 ll_paying.setVisibility(View.VISIBLE);
-//                ll_payed.setVisibility(View.GONE);
-//                ll_success.setVisibility(View.GONE);
-//                ll_failed.setVisibility(View.GONE);
-//                ll_apply.setVisibility(View.GONE);
-//                ll_backing.setVisibility(View.GONE);
                 BigDecimal amount5 = new BigDecimal(priceInfoList.getAmount());
                 amount55 = amount55.add(amount5);
                 BigDecimal amount555 = amount55.setScale(2, RoundingMode.HALF_UP);
@@ -484,18 +479,11 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
                 huoPayedAdapter = new HuoPayedAdapter(R.layout.item_huo_pay,list6);
                 rv_paying.setAdapter(huoPayedAdapter);
                 huoPayedAdapter.notifyDataSetChanged();
-//                tv_payed.setText("支付中");
                 break;
 
             case 7:
 //                "申诉中"
-//                ll_unPay.setVisibility(View.GONE);
-//                ll_paying.setVisibility(View.GONE);
-//                ll_payed.setVisibility(View.GONE);
-//                ll_success.setVisibility(View.GONE);
-//                ll_failed.setVisibility(View.GONE);
                 ll_apply.setVisibility(View.VISIBLE);
-//                ll_backing.setVisibility(View.GONE);
                 BigDecimal amount7 = new BigDecimal(priceInfoList.getAmount());
                 amount77 = amount77.add(amount7);
                 BigDecimal amount777 = amount77.setScale(2, RoundingMode.HALF_UP);
@@ -510,7 +498,6 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
                 huoPayedAdapter = new HuoPayedAdapter(R.layout.item_huo_pay,list7);
                 rv_apply.setAdapter(huoPayedAdapter);
                 huoPayedAdapter.notifyDataSetChanged();
-//                tv_payed.setText("申诉中");
                 break;
 
         }
@@ -555,9 +542,26 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
     boolean isUnPay = true;
 
     AddTipDialog addTipDialog;
+    boolean isOpen;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
+            case R.id.rl_open:
+                if(isOpen) {
+                    isOpen = false;
+                    tv_open.setText("展开全部规则");
+                    iv_open.setImageResource(R.mipmap.icon_arrow_light_down);
+                    rv_huo.setLimit(true);
+                }else {
+                    tv_open.setText("收起全部规则");
+                    isOpen = true;
+                    iv_open.setImageResource(R.mipmap.icon_arrow_light_up);
+                    rv_huo.setLimit(false);
+                }
+                unAbleAdapter.notifyDataChanged();
+                break;
+
             case R.id.tv_pay:
                 getDriver();
 

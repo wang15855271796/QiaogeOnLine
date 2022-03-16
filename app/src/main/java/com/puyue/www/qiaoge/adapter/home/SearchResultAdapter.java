@@ -4,6 +4,7 @@ package com.puyue.www.qiaoge.adapter.home;
 import android.content.Intent;
 import androidx.annotation.Nullable;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,10 +16,14 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.flow.FlowLayout;
+import com.puyue.www.qiaoge.activity.flow.TagAdapter;
+import com.puyue.www.qiaoge.activity.flow.TagFlowLayout;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.model.SurpliListModel;
 import com.puyue.www.qiaoge.model.home.SearchResultsModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
@@ -39,7 +44,7 @@ public class SearchResultAdapter extends BaseQuickAdapter<SearchResultsModel.Dat
     Onclick onclick;
     RecommendDialog recommendDialog;
     ImageView iv_operate;
-
+    boolean isOpen;
     public SearchResultAdapter(int layoutResId, @Nullable List<SearchResultsModel.DataBean.RecommendProdBean> data, Onclick onclick) {
         super(layoutResId, data);
         this.onclick = onclick;
@@ -47,6 +52,10 @@ public class SearchResultAdapter extends BaseQuickAdapter<SearchResultsModel.Dat
 
     @Override
     protected void convert(BaseViewHolder helper, SearchResultsModel.DataBean.RecommendProdBean item) {
+        ImageView iv_icon = helper.getView(R.id.iv_icon);
+        RelativeLayout rl_open =  helper.getView(R.id.rl_open);
+        TextView tv_style =  helper.getView(R.id.tv_style);
+        TagFlowLayout rv_spec =  helper.getView(R.id.rv_spec);
         iv_operate = helper.getView(R.id.iv_operate);
         ImageView iv_no_data = helper.getView(R.id.iv_no_data);
         tv_price_desc = helper.getView(R.id.tv_price_desc);
@@ -62,7 +71,6 @@ public class SearchResultAdapter extends BaseQuickAdapter<SearchResultsModel.Dat
             iv_no_data.setVisibility(View.GONE);
         }
         RelativeLayout rl_spec = helper.getView(R.id.rl_spec);
-        helper.setText(R.id.tv_spec,"规格："+item.getSpec());
         ll_group = helper.getView(R.id.ll_group);
         ll_group.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +96,6 @@ public class SearchResultAdapter extends BaseQuickAdapter<SearchResultsModel.Dat
         RelativeLayout rl_price = helper.getView(R.id.rl_price);
         TextView tv_price = helper.getView(R.id.tv_price);
         helper.setText(R.id.tv_name,item.getProductName());
-        helper.setText(R.id.tv_stock_total,item.getInventory());
         helper.setText(R.id.tv_sale,item.getSalesVolume());
         helper.setText(R.id.tv_price,item.getMinMaxPrice());
 
@@ -105,6 +112,37 @@ public class SearchResultAdapter extends BaseQuickAdapter<SearchResultsModel.Dat
             tv_price.setVisibility(View.GONE);
             tv_price_desc.setVisibility(View.VISIBLE);
         }
+        TagAdapter unAbleAdapter = new TagAdapter<SearchResultsModel.DataBean.RecommendProdBean.ProdSpecsBean>(item.getProdSpecs()){
+
+            @Override
+            public View getView(FlowLayout parent, int position, SearchResultsModel.DataBean.RecommendProdBean.ProdSpecsBean prodSpecsBean) {
+                View view = LayoutInflater.from(mContext).inflate(R.layout.item_specss,rv_spec, false);
+                TextView tv_spec = view.findViewById(R.id.tv_spec);
+                tv_spec.setText(prodSpecsBean.getSpec());
+                return view;
+            }
+        };
+        rv_spec.setAdapter(unAbleAdapter);
+        unAbleAdapter.notifyDataChanged();
+
+        rl_open.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isOpen) {
+                    isOpen = false;
+                    tv_style.setText("展开全部规则");
+                    iv_icon.setImageResource(R.mipmap.icon_arrow_light_down);
+                    rv_spec.setLimit(true);
+                }else {
+                    tv_style.setText("收起全部规则");
+                    isOpen = true;
+                    iv_icon.setImageResource(R.mipmap.icon_arrow_light_up);
+                    rv_spec.setLimit(false);
+                }
+                unAbleAdapter.notifyDataChanged();
+            }
+        });
+
 
         rl_price.setOnClickListener(new View.OnClickListener() {
             @Override

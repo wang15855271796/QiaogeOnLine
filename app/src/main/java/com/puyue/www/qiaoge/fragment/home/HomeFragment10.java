@@ -98,6 +98,7 @@ import com.puyue.www.qiaoge.dialog.ChooseHomeDialog;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
 import com.puyue.www.qiaoge.dialog.CouponListDialog;
 import com.puyue.www.qiaoge.dialog.HomeActivityDialog;
+import com.puyue.www.qiaoge.dialog.HuoOrderDialog;
 import com.puyue.www.qiaoge.dialog.Privacy4Dialog;
 import com.puyue.www.qiaoge.dialog.PrivacysDialog;
 import com.puyue.www.qiaoge.dialog.TurnTableDialog;
@@ -1546,6 +1547,11 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                 indicator.setVisibility(View.VISIBLE);
                             }
 
+                            if(data.getHllTip()!=null) {
+                                HuoOrderDialog huoOrderDialog = new HuoOrderDialog(mActivity,data);
+                                huoOrderDialog.show();
+                            }
+
                             rvIconAdapter.notifyDataSetChanged();
 
                             rvIconAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -1835,11 +1841,11 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                 break;
 
             case R.id.iv_location:
-                if (data != null) {
-                    if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
-                        Intent intent1 = new Intent(mActivity, ChooseCompanyActivity.class);
-                        startActivity(intent1);
-                    }else {
+                if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+                    Intent intent1 = new Intent(mActivity, ChooseCompanyActivity.class);
+                    startActivity(intent1);
+                }else {
+                    if(data!=null) {
                         Intent messageIntent = new Intent(getActivity(), ChooseAddressActivity.class);
                         messageIntent.putExtra("cityName", data.getCityName());
                         messageIntent.putExtra("areaName", data.getAreaName());
@@ -1850,13 +1856,9 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                 break;
 
             case R.id.rl_message:
-//                Intent intent2 = new Intent(context, TestActivity4.class);
-//                startActivity(intent2);
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(getActivity()))) {
                     Intent intents = new Intent(getActivity(), MessageCenterActivity.class);
                     startActivityForResult(intents, 101);
-//                    Intent intent2 = new Intent(getActivity(), TestActivity.class);
-//                    startActivity(intent2);
 
                 } else {
                     initDialog();
@@ -1865,12 +1867,17 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
 
             case R.id.tv_city:
                 //选择城市
-                if (data != null) {
-                    Intent messageIntent = new Intent(getActivity(), ChooseAddressActivity.class);
-                    messageIntent.putExtra("cityName", data.getCityName());
-                    messageIntent.putExtra("areaName", data.getAreaName());
-                    messageIntent.putExtra("fromPage", "0");
-                    startActivity(messageIntent);
+                if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+                    Intent intent1 = new Intent(mActivity, ChooseCompanyActivity.class);
+                    startActivity(intent1);
+                }else {
+                    if(data!=null) {
+                        Intent messageIntent = new Intent(getActivity(), ChooseAddressActivity.class);
+                        messageIntent.putExtra("cityName", data.getCityName());
+                        messageIntent.putExtra("areaName", data.getAreaName());
+                        messageIntent.putExtra("fromPage", "0");
+                        startActivity(messageIntent);
+                    }
                 }
 
                 break;

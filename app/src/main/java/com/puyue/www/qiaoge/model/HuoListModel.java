@@ -159,6 +159,15 @@ public class HuoListModel {
             private String receive_address;
             private String order_display_id;
             private String totalPrice;
+            private int flag;
+
+            public int getFlag() {
+                return flag;
+            }
+
+            public void setFlag(int flag) {
+                this.flag = flag;
+            }
 
             public String getTotalPrice() {
                 return totalPrice;

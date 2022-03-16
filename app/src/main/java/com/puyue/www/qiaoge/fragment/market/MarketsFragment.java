@@ -1498,18 +1498,12 @@ public class MarketsFragment extends BaseFragment {
         super.onResume();
         start = System.currentTimeMillis();
         String userMarketRefresh = UserInfoHelper.getUserMarketRefresh(getContext());
-//        dialog.show();
         if (StringHelper.notEmptyAndNull(userMarketRefresh)) {
 
         } else {
             pageNum = 1;
-
             UserInfoHelper.saveUserMarketRefresh(getContext(), "market_has_refresh");
         }
-
-
-//        mViewBanner.startAutoCycle(3000, 8000, true);
-
     }
 
     /**
@@ -1545,30 +1539,6 @@ public class MarketsFragment extends BaseFragment {
     }
 
 
-    /**
-     * 获取客服电话
-     */
-    private void getCustomerPhone() {
-        PublicRequestHelper.getCustomerPhone(mActivity, new OnHttpCallBack<GetCustomerPhoneModel>() {
-            @Override
-            public void onSuccessful(GetCustomerPhoneModel getCustomerPhoneModel) {
-                if (getCustomerPhoneModel.isSuccess()) {
-                    cell = getCustomerPhoneModel.getData();
-                } else {
-                    AppHelper.showMsg(mActivity, getCustomerPhoneModel.getMessage());
-                }
-            }
-
-            @Override
-            public void onFaild(String errorMsg) {
-            }
-        });
-    }
-
-
-    List<String> list = new ArrayList<>();
-
-    List<String> list1 = new ArrayList<>();
     public interface onClick {
         void refreshCartNum(int pos);
     }
@@ -1613,14 +1583,6 @@ public class MarketsFragment extends BaseFragment {
         fromId = fromIndexEvent.getId();
         requestGoodsList(fromId);
     }
-
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void change(BackEvent fromIndexEvent) {
-//        requestGoodsList(fromId);
-//        getData();
-//        getCustomerPhone();
-//
-//    }
     /**
      * 提示用户去登录还是注册的弹窗
      */

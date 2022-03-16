@@ -104,7 +104,16 @@ public class HuoDetailModel {
         private DriverInfoBean driverInfo;
         private List<PriceInfoBean> priceInfo;
         private List<BillAppealBean> billAppeal;
+        private List<ConnectOrdersBean>connectOrders;
         int orderStatus;
+
+        public List<ConnectOrdersBean> getConnectOrders() {
+            return connectOrders;
+        }
+
+        public void setConnectOrders(List<ConnectOrdersBean> connectOrders) {
+            this.connectOrders = connectOrders;
+        }
 
         public List<BillAppealBean> getBillAppeal() {
             return billAppeal;
@@ -562,6 +571,28 @@ public class HuoDetailModel {
                 public void setLon(double lon) {
                     this.lon = lon;
                 }
+            }
+        }
+
+
+        public static class ConnectOrdersBean{
+            String orderId;
+            String state;
+
+            public String getOrderId() {
+                return orderId;
+            }
+
+            public void setOrderId(String orderId) {
+                this.orderId = orderId;
+            }
+
+            public String getState() {
+                return state;
+            }
+
+            public void setState(String state) {
+                this.state = state;
             }
         }
 

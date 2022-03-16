@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 //import com.airbnb.lottie.LottieAnimationView;
+import com.android.tu.loadingdialog.LoadingDailog;
 import com.bumptech.glide.Glide;
 import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
@@ -306,12 +307,20 @@ public class PayResultActivity extends BaseSwipeActivity {
     }
 
     Timer timer;
+    LoadingDailog dialog;
     @Override
     public void setViewData() {
         IntentFilter filter = new IntentFilter(AppConstant.PAY_PASSWORD_ACTION);
         registerReceiver(broadcastReceiver, filter);
         timer = new Timer();
         timer.schedule(task,0,2000);
+
+        LoadingDailog.Builder loadBuilder = new LoadingDailog.Builder(mContext)
+                .setMessage("获取支付结果中...")
+                .setCancelable(false)
+
+                .setCancelOutside(true);
+        dialog = loadBuilder.create();
 
     }
 
@@ -410,8 +419,10 @@ public class PayResultActivity extends BaseSwipeActivity {
                                 String message = getPayResultModel.getData().getMessage();
                                 Glide.with(mActivity).load(getPayResultModel.getData().getVo().getBannerUrl()).into(imageViewRecommend);
                                 if(getPayResultModel.getData().getMessage().equals("支付中")) {
-                                    textViewSuccess.setText(getPayResultModel.getData().getMessage()+"(正在获取支付结果,请稍等！)");
+                                    dialog.show();
+                                    textViewSuccess.setText(getPayResultModel.getData().getMessage());
                                 }else {
+                                    dialog.dismiss();
                                     textViewSuccess.setText(getPayResultModel.getData().getMessage());
                                 }
 

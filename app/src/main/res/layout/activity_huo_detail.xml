@@ -416,14 +416,32 @@
                             app:limit_line_count="2"
                             app:max_select="1"/>
 
-                        <TextView
-                            android:id="@+id/tv_order_num"
+                        <RelativeLayout
+                            android:id="@+id/rl_open"
+                            android:gravity="center_horizontal"
                             android:layout_below="@+id/rv_huo"
-                            android:textSize="@dimen/sp_12"
-                            android:text="展开全部订单>"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/size_20dp">
+
+                            <TextView
+                                android:id="@+id/tv_open"
+                                android:textSize="@dimen/sp_12"
+                                android:text="展开全部订单"
+                                android:textColor="#999999"
+                                android:layout_centerVertical="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                            <ImageView
+                                android:id="@+id/iv_open"
+                                android:layout_marginLeft="@dimen/size_5dp"
+                                android:layout_centerVertical="true"
+                                android:layout_toRightOf="@+id/tv_order_num"
+                                android:src="@mipmap/icon_arrow_light_down"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                        </RelativeLayout>
+
 
                     </LinearLayout>
 

@@ -48,8 +48,7 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
     ImageView iv_after_next;
     ImageView iv_operate;
     ImageView iv_next;
-    TextView tv_style;
-    boolean isLimit;
+    boolean isOpen;
     public MarketGoodsAdapter( int layoutResId, @Nullable List<MarketRightModel.DataBean.ProdClassifyBean.ListBean> data, Onclick onclick) {
         super(layoutResId, data);
         this.onclick = onclick;
@@ -59,11 +58,12 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
     @Override
     protected void convert(BaseViewHolder helper, MarketRightModel.DataBean.ProdClassifyBean.ListBean item) {
         int businessType = item.getBusinessType();
-        tv_style = helper.getView(R.id.tv_style);
+        TextView tv_style = helper.getView(R.id.tv_style);
         ImageView iv_send = helper.getView(R.id.iv_send);
         TagFlowLayout rv_spec =  helper.getView(R.id.rv_spec);
         iv_after_next = helper.getView(R.id.iv_after_next);
         iv_next = helper.getView(R.id.iv_next);
+        ImageView iv_icon = helper.getView(R.id.iv_icon);
         iv_operate = helper.getView(R.id.iv_operate);
         RelativeLayout rl_price = helper.getView(R.id.rl_price);
         TextView tv_desc = helper.getView(R.id.tv_desc);
@@ -117,18 +117,6 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
             }
         });
 
-
-        rv_spec.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                boolean isOverFlow = rv_spec.isOverFlow();
-                isLimit = rv_spec.isLimit();
-
-                Log.d("cdsferegf.....",isOverFlow+"a");
-                Log.d("cdsferegf.....",isLimit+"b");
-            }
-        });
-
         TagAdapter unAbleAdapter = new TagAdapter<MarketRightModel.DataBean.ProdClassifyBean.ListBean.ProdSpecsBean>(item.getProdSpecs()){
 
             @Override
@@ -140,17 +128,20 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
             }
         };
         rv_spec.setAdapter(unAbleAdapter);
-        unAbleAdapter.notifyDataChanged();
 
         tv_style.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isLimit) {
-                    rv_spec.setLimit(false);
-
-                }else {
-                    Log.d("esfsfwef.....","cfsdfds");
+                if(isOpen) {
+                    isOpen = false;
+                    tv_style.setText("展开全部规则");
+                    iv_icon.setImageResource(R.mipmap.icon_arrow_light_down);
                     rv_spec.setLimit(true);
+                }else {
+                    tv_style.setText("收起全部规则");
+                    isOpen = true;
+                    iv_icon.setImageResource(R.mipmap.icon_arrow_light_up);
+                    rv_spec.setLimit(false);
                 }
                 unAbleAdapter.notifyDataChanged();
             }
@@ -161,7 +152,6 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
         tv_price = helper.getView(R.id.tv_price);
         helper.setText(R.id.tv_sale,item.getSalesVolume());
         helper.setText(R.id.tv_price,item.getMinMaxPrice());
-        helper.setText(R.id.tv_stock_total,item.getInventory());
 
         if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
             if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {

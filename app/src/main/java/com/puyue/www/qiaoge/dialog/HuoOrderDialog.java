@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.HomeActivity;
+import com.puyue.www.qiaoge.activity.HuoHomeActivity;
 import com.puyue.www.qiaoge.adapter.CouponListAdapter;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.api.home.IndexInfoModel;
@@ -35,25 +36,36 @@ public class HuoOrderDialog extends Dialog {
     public RecyclerView recyclerView;
     ImageView iv_close;
     TextView tv_deal;
-
-
-    public HuoOrderDialog(@NonNull Context context, IndexInfoModel.DataBean couponListModel) {
+    TextView tv_content;
+    IndexInfoModel.DataBean dataBean;
+    public HuoOrderDialog(@NonNull Context context, IndexInfoModel.DataBean dataBean) {
         super(context, R.style.promptDialog);
         setContentView(R.layout.dialog_huo_order);
         mContext = context;
+        this.dataBean = dataBean;
         initView();
         initAction();
 
     }
 
     private void initView() {
+        tv_content = (TextView) findViewById(R.id.tv_content);
         tv_deal = (TextView) findViewById(R.id.tv_deal);
         iv_close = (ImageView) findViewById(R.id.iv_close);
+
+        tv_content.setText(dataBean.getHllTip().getContent());
     }
 
 
     private void initAction() {
-
+        tv_deal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, HuoHomeActivity.class);
+                intent.putExtra("orderId","");
+                mContext.startActivity(intent);
+            }
+        });
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
