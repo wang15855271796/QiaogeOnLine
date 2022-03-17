@@ -267,7 +267,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         String registrationID = JPushInterface.getRegistrationID(this);
         UserInfoHelper.saveRegistionId(mContext, registrationID);
 //        mLocationClient.start();
-        switchTab(TAB_HOME);
+//        switchTab(TAB_HOME);
 }
 
     private void sendLocation() {
