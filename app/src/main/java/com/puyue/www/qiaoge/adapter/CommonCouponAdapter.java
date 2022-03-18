@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +71,6 @@ public class CommonCouponAdapter extends RecyclerView.Adapter<CommonCouponAdapte
         try{
             pos = position%actives.size();
             activesBean = actives.get(position%actives.size());
-
             Glide.with(mContext).load(activesBean.getDefaultPic()).into(holder.iv_pic);
             holder.tv_name.setText(activesBean.getActiveName());
             holder.tv_price.setText(activesBean.getPrice());
@@ -130,7 +130,7 @@ public class CommonCouponAdapter extends RecyclerView.Adapter<CommonCouponAdapte
                 public void onClick(View v) {
                     if(style.equals("2")) {
                         Intent intent = new Intent(mContext,SeckillGoodActivity.class);
-                        intent.putExtra(AppConstant.ACTIVEID, activesBean.getActiveId());
+                        intent.putExtra(AppConstant.ACTIVEID, actives.get(position).getActiveId());
                         intent.putExtra("priceType",SharedPreferencesUtil.getString(mContext,"priceType"));
                         intent.putExtra("num","-1");
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
@@ -138,7 +138,7 @@ public class CommonCouponAdapter extends RecyclerView.Adapter<CommonCouponAdapte
                     }else {
                         Intent intent = new Intent(mContext,SpecialGoodDetailActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
-                        intent.putExtra(AppConstant.ACTIVEID, activesBean.getActiveId());
+                        intent.putExtra(AppConstant.ACTIVEID, actives.get(position).getActiveId());
                         intent.putExtra("priceType",SharedPreferencesUtil.getString(mContext,"priceType"));
                         mContext.startActivity(intent);
                     }

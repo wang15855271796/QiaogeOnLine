@@ -103,6 +103,7 @@
         </RelativeLayout>
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_sure"
             android:layout_marginTop="@dimen/size_40dp"
             android:layout_marginRight="@dimen/size_20dp"
