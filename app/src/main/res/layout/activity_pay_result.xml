@@ -83,6 +83,7 @@
 
         </LinearLayout>
         <TextView
+            android:visibility="gone"
             android:layout_marginTop="@dimen/size_20dp"
             android:id="@+id/tv_huo"
             android:layout_width="match_parent"

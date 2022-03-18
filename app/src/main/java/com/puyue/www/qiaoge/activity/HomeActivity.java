@@ -152,7 +152,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         //腾讯定位
             instance = TencentLocationManager.getInstance(QiaoGeApplication.getContext());
             TencentLocationRequest request = TencentLocationRequest.create();
-            request.setInterval(100000);
+            request.setInterval(1000);
             request.setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_ADMIN_AREA);
             request.setAllowGPS(true);
             request.setIndoorLocationMode(true);
@@ -172,7 +172,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
 //        SDKInitializer.setCoordType(CoordType.BD09LL);
 
         OneKeyLoginManager.getInstance().init(getApplicationContext(), "cuRwbnsv", new InitListener() {
-                                @Override
+                          @Override
             public void getInitStatus(int code, String result) {
                 //初始化回调
 
@@ -797,6 +797,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
 
     @Override
     public void onLocationChanged(TencentLocation location, int error, String reason) {
+        Log.d("dfesefsd........",error+"s");
         district = location.getDistrict();
         city = location.getCity();
         String province = location.getProvince();

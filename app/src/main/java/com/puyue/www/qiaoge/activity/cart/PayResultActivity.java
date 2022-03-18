@@ -415,10 +415,6 @@ public class PayResultActivity extends BaseSwipeActivity {
                                                 new Handler().postDelayed(new Runnable() {
                                                     @Override
                                                     public void run() {
-//                                                        Intent intent = new Intent(mContext, HuoHomeActivity.class);
-//                                                        intent.putExtra("orderId",getPayResultModel.getData().getOrderId());
-//                                                        startActivity(intent);
-//                                                        finish();
                                                         isAuth();
                                                     }
                                                 },0);
@@ -430,10 +426,7 @@ public class PayResultActivity extends BaseSwipeActivity {
                                         handler.postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
-//                                                Intent intent = new Intent(mContext, HuoHomeActivity.class);
-//                                                intent.putExtra("orderId", getPayResultModel.getData().getOrderId());
-//                                                startActivity(intent);
-//                                                finish();
+
                                                 isAuth();
                                             }
                                         }, 3000);
