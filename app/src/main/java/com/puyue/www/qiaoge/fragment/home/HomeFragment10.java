@@ -689,7 +689,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
         rl_more4.setOnClickListener(this);
         tv_look_more.setOnClickListener(this);
         tv_coupon_more.setOnClickListener(this);
-        tv_call.setOnClickListener(this);
+        rl_huo.setOnClickListener(this);
         tv_look.setOnClickListener(this);
         rl_address.setOnClickListener(null);
         requestUpdate();
@@ -1826,11 +1826,8 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                     startActivity(intentsss);
                 }
                 break;
-            case R.id.tv_call:
+            case R.id.rl_huo:
                 isAuth();
-//                Intent intentss = new Intent(mActivity, HuoHomeActivity.class);
-//                intentss.putExtra("orderId","");
-//                startActivity(intentss);
                 break;
             case R.id.tv_search:
                 Intent intent = new Intent(mActivity, SearchStartActivity.class);
