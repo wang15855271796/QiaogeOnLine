@@ -24,12 +24,8 @@ import java.util.List;
  */
 public class TurnTableDialog extends Dialog {
     Context mContext;
-    LuckPan pan;
-    ImageView iv_start;
     private boolean isRunning =false;
     List<String> list;
-    List<Integer> list1 = new ArrayList<>();
-    List<String> list2 = new ArrayList<>();
     List<Bitmap> mListBitmap = new ArrayList<>();
     public TurnTableDialog(@NonNull Context context, List<String> list) {
         super(context, R.style.promptDialog);

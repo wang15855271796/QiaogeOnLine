@@ -24,7 +24,7 @@
                 android:background="@drawable/app_equipment_all_select"
                 android:button="@null" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_marginLeft="@dimen/size_19dp"
                 android:layout_toRightOf="@+id/cb_item_out"
                 android:id="@+id/ll_root"
@@ -73,7 +73,7 @@
                     android:layout_marginTop="35dp"
                     android:layout_width="28dp"
                     android:layout_height="12dp" />
-            </LinearLayout>
+            </RelativeLayout>
 
 
         </RelativeLayout>

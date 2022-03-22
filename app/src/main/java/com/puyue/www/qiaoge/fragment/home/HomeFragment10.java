@@ -520,34 +520,44 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                 v2s.setVisibility(View.VISIBLE);
                                 v3s.setVisibility(View.INVISIBLE);
                                 v4s.setVisibility(View.INVISIBLE);
+
                                 rb_new_top.setTextColor(Color.parseColor("#333333"));
                                 rb_must_common_top.setTextColor(Color.parseColor("#17BD60"));
                                 rb_info_top.setTextColor(Color.parseColor("#333333"));
                                 rb_common_top.setTextColor(Color.parseColor("#333333"));
-                                Log.d("wdadddwdq.........","333");
                             }else if(rb_new.isChecked()) {
                                 rb_new_top.setChecked(true);
                                 rb_must_common_top.setChecked(false);
                                 rb_info_top.setChecked(false);
                                 rb_common_top.setChecked(false);
                                 v1s.setVisibility(View.VISIBLE);
-                                v2s.setVisibility(View.INVISIBLE);
+                                if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+                                    v2s.setVisibility(View.GONE);
+                                    v4s.setVisibility(View.GONE);
+                                }else {
+                                    v2s.setVisibility(View.INVISIBLE);
+                                    v4s.setVisibility(View.INVISIBLE);
+                                }
                                 v3s.setVisibility(View.INVISIBLE);
-                                v4s.setVisibility(View.INVISIBLE);
-                                Log.d("wdadddwdq.........","222");
                                 rb_new_top.setTextColor(Color.parseColor("#17BD60"));
                                 rb_must_common_top.setTextColor(Color.parseColor("#333333"));
                                 rb_info_top.setTextColor(Color.parseColor("#333333"));
                                 rb_common_top.setTextColor(Color.parseColor("#333333"));
                             }else if(rb_reduce.isChecked()) {
                                 rb_info_top.setChecked(true);
+                                Log.d("efsdfew.....","b");
                                 rb_new_top.setChecked(false);
                                 rb_must_common_top.setChecked(false);
                                 rb_common_top.setChecked(false);
                                 v1s.setVisibility(View.INVISIBLE);
-                                v2s.setVisibility(View.INVISIBLE);
+                                if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+                                    v2s.setVisibility(View.GONE);
+                                    v4s.setVisibility(View.GONE);
+                                }else {
+                                    v2s.setVisibility(View.INVISIBLE);
+                                    v4s.setVisibility(View.INVISIBLE);
+                                }
                                 v3s.setVisibility(View.VISIBLE);
-                                v4s.setVisibility(View.INVISIBLE);
                                 rb_info_top.setTextColor(Color.parseColor("#17BD60"));
                                 rb_new_top.setTextColor(Color.parseColor("#333333"));
                                 rb_must_common_top.setTextColor(Color.parseColor("#333333"));
@@ -745,11 +755,29 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
         });
         //判断用户是否选择了企业
         if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
-            Log.d("vfdfvdf........","123");
             getStyle();
+            rb_new.setText("热销商品");
+            rb_must_common_top.setVisibility(View.GONE);
+            rb_must_common.setVisibility(View.GONE);
+            tv_title2.setVisibility(View.GONE);
+            tv_title4.setVisibility(View.GONE);
+            v2s.setVisibility(View.GONE);
+            v4s.setVisibility(View.GONE);
+            rb_common.setVisibility(View.GONE);
+            rb_common_top.setVisibility(View.GONE);
+            rg_new.check(R.id.rb_new);
+        }else {
+            rb_new.setText("新品上市");
+            v2s.setVisibility(View.VISIBLE);
+            v4s.setVisibility(View.VISIBLE);
+            tv_title2.setVisibility(View.VISIBLE);
+            tv_title4.setVisibility(View.VISIBLE);
+            rb_must_common_top.setVisibility(View.VISIBLE);
+            rb_must_common.setVisibility(View.VISIBLE);
+            rb_common.setVisibility(View.VISIBLE);
+            rb_common_top.setVisibility(View.VISIBLE);
+            rg_new.check(R.id.rb_must_common);
         }
-
-
     }
 
     //判断用户是否选择了企业
@@ -812,10 +840,12 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                         if (couponModel.isSuccess()) {
 
                             if (couponModel.getData().getSpike()!=null) {
+
                                 data1 = couponModel.getData();
                                 tv_skill_title.setText(data1.getSpike().getTitle());
                                 currentTime = System.currentTimeMillis();
                                 startTime = couponModel.getData().getSpike().getStartTime();
+
                                     if (data1.getSpike().getActives().size() == 1) {
                                         skillActive1.clear();
                                         skillActive1.addAll(data1.getSpike().getActives());
@@ -825,13 +855,14 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                         rv_skill.setVisibility(View.VISIBLE);
                                         skillAdapter.notifyDataSetChanged();
                                         ll_skill.setVisibility(View.VISIBLE);
+                                        Log.d("fewfsfd........",data1.getSpike().getActives().size()+"qw");
                                     } else if (data1.getSpike().getActives().size() == 2||data1.getSpike().getActives().size() >4) {
                                         skillActive2.clear();
                                         skillActive2.addAll(data1.getSpike().getActives());
                                         ll_skill.setVisibility(View.VISIBLE);
                                         rv_skill.setVisibility(View.VISIBLE);
                                         skill2Adapter.notifyDataSetChanged();
-
+                                        Log.d("fewfsfd........",data1.getSpike().getActives().size()+"qwe");
                                     } else if (data1.getSpike().getActives().size() == 3) {
                                         skillActive3.clear();
                                         skillActive3.addAll(data1.getSpike().getActives());
@@ -1160,8 +1191,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                     @Override
                     public void onNext(PrivacyModel privacyModel) {
                         if (privacyModel.isSuccess()) {
-                            String content = privacyModel.getData().getContent();
-//                            privacyDialog = new PrivacysDialog(mActivity);
                             Privacy4Dialog privacysDialog = new Privacy4Dialog(mActivity);
                             privacysDialog.show();
                             if(privacyModel.getData().getOpen().equals("0")) {
@@ -1462,7 +1491,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                             list.clear();
                             list1.clear();
 
-//                            indexInfoModel.getData().getHomePopup()
                             for (int i = 0; i < indexInfoModel.getData().getBanners().size(); i++) {
                                 list.add(data.getBanners().get(i).getDefaultPic());
 
@@ -2023,15 +2051,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                 });
     }
 
-    private void stopAuto() {
-//        if (mAutoTask != null && !mAutoTask.isDisposed()) {
-//            mAutoTask.dispose();
-//            mAutoTask = null;
-//        }
-    }
-
-
-
     @Override
     public void onSliderClick(BaseSliderView slider) {
         String banner_url = slider.getBundle().getString("banner_url");
@@ -2048,13 +2067,55 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     public void loginEvent(LogoutsEvent event) {
         //刷新UI
         refreshLayout.autoRefresh();
+        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+            getStyle();
+            rb_new.setText("热销商品");
+            rb_must_common_top.setVisibility(View.GONE);
+            rb_must_common.setVisibility(View.GONE);
+            tv_title2.setVisibility(View.GONE);
+            tv_title4.setVisibility(View.GONE);
+            v2s.setVisibility(View.GONE);
+            v4s.setVisibility(View.GONE);
+            rb_common.setVisibility(View.GONE);
+            rb_common_top.setVisibility(View.GONE);
+            rg_new.check(R.id.rb_new);
+        }else {
+            rb_new.setText("新品上市");
+            v2s.setVisibility(View.VISIBLE);
+            v4s.setVisibility(View.VISIBLE);
+            tv_title2.setVisibility(View.VISIBLE);
+            tv_title4.setVisibility(View.VISIBLE);
+            rb_must_common_top.setVisibility(View.VISIBLE);
+            rb_must_common.setVisibility(View.VISIBLE);
+            rb_common.setVisibility(View.VISIBLE);
+            rb_common_top.setVisibility(View.VISIBLE);
+            rg_new.check(R.id.rb_must_common);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loginsEvent(AddressEvent event) {
         //刷新UI
         refreshLayout.autoRefresh();
-
+//        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+//            rb_must_common_top.setVisibility(View.GONE);
+//            rb_must_common.setVisibility(View.GONE);
+//            rb_common.setVisibility(View.GONE);
+//            rb_common_top.setVisibility(View.GONE);
+//            tv_title4.setVisibility(View.GONE);
+//            tv_title2.setVisibility(View.GONE);
+//            v2s.setVisibility(View.GONE);
+//            v4s.setVisibility(View.GONE);
+//        }else {
+//            tv_title4.setVisibility(View.VISIBLE);
+//            tv_title2.setVisibility(View.VISIBLE);
+//            rb_must_common_top.setVisibility(View.VISIBLE);
+//            rb_must_common.setVisibility(View.VISIBLE);
+//            rb_common.setVisibility(View.VISIBLE);
+//            rb_common_top.setVisibility(View.VISIBLE);
+//            v2s.setVisibility(View.VISIBLE);
+//            v4s.setVisibility(View.VISIBLE);
+//        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -2249,7 +2310,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
         rg_new.setOnCheckedChangeListener(new MyOnCheckedChangeListener());
         rg_new_top.setOnCheckedChangeListener(new MyTopOnCheckedChangeListener());
         //设置默认选中框架页面
-        rg_new.check(R.id.rb_must_common);
+
     }
 
 //    private List<Fragment> mBaseFragment;
@@ -2268,7 +2329,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                 case R.id.rb_new_top:
                     position = 1;
                     rb_new_top.setChecked(true);
-
                     rb_new.setChecked(true);
                     rb_reduce.setChecked(false);
                     rb_common.setChecked(false);
@@ -2277,15 +2337,23 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                     rb_common_top.setTextColor(Color.parseColor("#333333"));
                     rb_must_common_top.setTextColor(Color.parseColor("#333333"));
                     rb_new_top.setTextColor(Color.parseColor("#17BD60"));
-                    v4s.setVisibility(View.INVISIBLE);
-                    v1s.setVisibility(View.INVISIBLE);
                     v2s.setVisibility(View.VISIBLE);
-                    v3s.setVisibility(View.INVISIBLE);
+                    if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+                        v4s.setVisibility(View.INVISIBLE);
+                        v1s.setVisibility(View.GONE);
+                        v3s.setVisibility(View.GONE);
+                    }else {
+                        v4s.setVisibility(View.INVISIBLE);
+                        v1s.setVisibility(View.INVISIBLE);
+                        v3s.setVisibility(View.INVISIBLE);
+                    }
+
                     switchNew();
                     break;
 
                 case R.id.rb_must_common_top:
                     position = 0;
+                    Log.d("efsdfew.....","d");
                     rb_must_common_top.setChecked(true);
                     rb_new.setChecked(false);
                     rb_reduce.setChecked(false);
@@ -2298,8 +2366,8 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
 
                     v4s.setVisibility(View.INVISIBLE);
                     v1s.setVisibility(View.INVISIBLE);
-                    v2s.setVisibility(View.VISIBLE);
                     v3s.setVisibility(View.INVISIBLE);
+                    v2s.setVisibility(View.VISIBLE);
                     switchMust();
                     break;
 
@@ -2317,12 +2385,19 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                     rb_must_common_top.setTextColor(Color.parseColor("#333333"));
                     rb_new_top.setTextColor(Color.parseColor("#333333"));
 
-                    v4s.setVisibility(View.INVISIBLE);
-                    v1s.setVisibility(View.INVISIBLE);
-                    v2s.setVisibility(View.INVISIBLE);
+                    if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+                        v4s.setVisibility(View.GONE);
+                        v1s.setVisibility(View.INVISIBLE);
+                        v2s.setVisibility(View.GONE);
+                    }else {
+                        v4s.setVisibility(View.INVISIBLE);
+                        v1s.setVisibility(View.INVISIBLE);
+                        v2s.setVisibility(View.INVISIBLE);
+                    }
+
+
                     v3s.setVisibility(View.VISIBLE);
                     switchReduce();
-                    Log.d("wdasdassd....","111");
                     break;
 
                 case R.id.rb_common_top:

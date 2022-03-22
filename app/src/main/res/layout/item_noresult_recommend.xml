@@ -195,7 +195,7 @@
                     android:textSize="@dimen/dp_10"
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="@dimen/size_25dp"/>
 
                 <ImageView
                     android:id="@+id/iv_icon"

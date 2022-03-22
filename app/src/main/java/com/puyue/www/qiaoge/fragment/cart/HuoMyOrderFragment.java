@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,8 +46,8 @@ public class HuoMyOrderFragment extends BaseFragment {
     RecyclerView recyclerView;
     @BindView(R.id.smart)
     SmartRefreshLayout smart;
-    @BindView(R.id.iv_no_data)
-    ImageView iv_no_data;
+    @BindView(R.id.tv_no_data)
+    TextView tv_no_data;
     String type;
     MyHuoAdapter myHuoAdapter;
     public static Fragment getInstance(String type) {
@@ -157,13 +158,13 @@ public class HuoMyOrderFragment extends BaseFragment {
                                 data = huoListModel.getData();
                                 list.addAll(huoListModel.getData().getList());
                                 myHuoAdapter.notifyDataSetChanged();
-                                iv_no_data.setVisibility(View.GONE);
+                                tv_no_data.setVisibility(View.GONE);
                                 recyclerView.setVisibility(View.VISIBLE);
 
 
                             }else {
                                 recyclerView.setVisibility(View.GONE);
-                                iv_no_data.setVisibility(View.VISIBLE);
+                                tv_no_data.setVisibility(View.VISIBLE);
                             }
                         }else {
                             ToastUtil.showSuccessMsg(mActivity,huoListModel.getMessage());

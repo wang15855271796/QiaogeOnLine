@@ -23,7 +23,7 @@
                 android:id="@+id/ll_cart_order"
                 android:layout_width="match_parent"
                 android:layout_height="130dp"
-                android:background="@drawable/cart_tool_bg"
+                android:background="#FF680A"
                 android:orientation="horizontal">
 
                 <RelativeLayout
@@ -129,14 +129,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <LinearLayout
-                    android:id="@+id/ll_cart"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:background="@drawable/cart_tool_bg"
-                    android:orientation="vertical">
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/ll_cart"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="100dp"-->
+<!--                    android:background="#FF680A"-->
+<!--                    android:orientation="vertical">-->
 
-                </LinearLayout>
+<!--                </LinearLayout>-->
 
                 <!--列表-->
                 <com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -162,6 +162,7 @@
 
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/rv_cart"
+                                android:layout_marginTop="@dimen/size_12dp"
                                 android:layout_marginRight="@dimen/size_12dp"
                                 android:layout_marginLeft="@dimen/size_12dp"
                                 android:layout_width="match_parent"

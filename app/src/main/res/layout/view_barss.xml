@@ -55,9 +55,6 @@
                     android:gravity="center"
                     android:text="新品上市"/>
 
-
-
-
                 <RadioButton
                     android:background="@null"
                     android:textStyle="bold"
@@ -99,10 +96,10 @@
 
             <TextView
                 android:id="@+id/tv_title2"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:textColor="#999999"
-                android:textSize="13dp"
+                android:textSize="10dp"
                 android:layout_marginTop="@dimen/size_35dp"
                 android:text="超值囤货"
                 android:layout_width="0dp"
@@ -114,14 +111,14 @@
                 android:id="@+id/tv_title1"
                 android:singleLine="true"
                 android:maxLines="1"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginTop="@dimen/size_35dp"
                 android:text="上新立荐"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:textColor="#999999"
-                android:textSize="13dp"
+                android:textSize="10dp"
                 android:gravity="center_horizontal"
                 android:layout_height="match_parent" />
 
@@ -129,23 +126,23 @@
 
             <TextView
                 android:id="@+id/tv_title3"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:textColor="#999999"
-                android:textSize="13dp"
+                android:textSize="10dp"
                 android:layout_marginTop="@dimen/size_35dp"
-                tools:text="最高降99元"
+                tools:text="最高降99"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:layout_height="match_parent" />
 
             <TextView
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:id="@+id/tv_title4"
                 android:textColor="#999999"
-                android:textSize="13dp"
+                android:textSize="10dp"
                 android:layout_marginTop="@dimen/size_35dp"
                 android:text="我买过的"
                 android:layout_width="0dp"

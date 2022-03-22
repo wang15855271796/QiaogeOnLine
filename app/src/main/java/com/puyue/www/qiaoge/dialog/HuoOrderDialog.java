@@ -3,6 +3,9 @@ package com.puyue.www.qiaoge.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,6 +25,7 @@ import com.puyue.www.qiaoge.api.home.QueryHomePropupAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.event.GoToMarketEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.StringSpecialHelper;
 import com.puyue.www.qiaoge.model.home.QueryHomePropupModel;
 
 import org.greenrobot.eventbus.EventBus;
@@ -53,7 +57,10 @@ public class HuoOrderDialog extends Dialog {
         tv_deal = (TextView) findViewById(R.id.tv_deal);
         iv_close = (ImageView) findViewById(R.id.iv_close);
 
-        tv_content.setText(dataBean.getHllTip().getContent());
+        String content = dataBean.getHllTip().getContent();
+        SpannableStringBuilder spannableStringBuilder = StringSpecialHelper.buildSpanColorStyle(content, 2,
+                1, Color.parseColor("#FF3F3C"));
+        tv_content.setText(spannableStringBuilder);
     }
 
 

@@ -814,7 +814,7 @@ public class WheelSurfPanView extends View {
             if ( mType == 1 ) {
                 // 计算初始角度
                 // 从最上面开始绘制扇形会好看一点
-                float startAngle = -mAngle / 2 - 90;
+                float startAngle = -mAngle / 2 - 85;
 
                 final int paddingLeft = getPaddingLeft();
                 final int paddingRight = getPaddingRight();
@@ -836,7 +836,7 @@ public class WheelSurfPanView extends View {
                             + mRadius, mCenter + mRadius);
                     canvas.drawArc(rect, startAngle, mAngle, true, mPaint);
 //                    mTextPaint.setColor(mTextColor);
-
+                    Log.d("ewfsfdrsfw.......",mRadius+"a");
                     drawText(startAngle, mDeses[i], mRadius, mTextPaint, canvas);
 
                     int imgWidth = mRadius / 3;
@@ -852,7 +852,7 @@ public class WheelSurfPanView extends View {
                     float x = ( float ) (width / 2 + (mRadius / 2 + mRadius / 12) * Math.cos(angle));
                     float y = ( float ) (height / 2 + (mRadius / 2 + mRadius / 12) * Math.sin(angle));
                     // 确定绘制图片的位置
-                    RectF rect1 = new RectF(x - w / 2, y - h / 2, x + w / 2, y + h / 2);
+                    RectF rect1 = new RectF(x - w / 3, y - h / 3, x + w / 3, y + h / 3);
                     canvas.drawBitmap(mListBitmap.get(i), null, rect1, null);
 
                     //重置开始角度

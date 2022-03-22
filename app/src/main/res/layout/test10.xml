@@ -225,14 +225,6 @@
 
                     </com.google.android.material.appbar.AppBarLayout>
 
-                    <!--<LinearLayout-->
-                        <!--boy:layout_behavior="@string/appbar_scrolling_view_behavior"-->
-                        <!--android:orientation="vertical"-->
-                        <!--android:background="#333333"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="1500dp">-->
-
-                    <!--</LinearLayout>-->
                     <FrameLayout
                         android:id="@+id/fl_container"
                         boy:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -385,7 +377,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="杭州.余杭区"
+                        tools:text="杭州.余杭区"
+                        android:lines="1"
+                        android:layout_marginRight="@dimen/size_60dp"
+                        android:ellipsize="end"
                         android:textColor="#ffffff"
                         android:textSize="18dp" />
 

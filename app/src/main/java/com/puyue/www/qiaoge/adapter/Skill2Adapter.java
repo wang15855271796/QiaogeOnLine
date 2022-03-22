@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Paint;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,16 +29,8 @@ import java.util.List;
  * Created by ${王涛} on 2020/9/3
  */
 public class Skill2Adapter extends RecyclerView.Adapter<Skill2Adapter.BaseViewHolder> implements View.OnClickListener {
-    private ImageView iv_pic;
-//    private ImageView iv_add;
-    private RelativeLayout rl_group;
     String flag;
-    ImageView iv_flag;
-//    private TextView tv_old_price;
-    private TextView tv_coupon;
-//    RelativeLayout rl_coupon;
     public OnClick onClick;
-    TextView tv_desc;
     Context mContext;
     int layoutResId;
     int pos;
@@ -59,6 +53,7 @@ public class Skill2Adapter extends RecyclerView.Adapter<Skill2Adapter.BaseViewHo
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+        Log.d("fewfsfd........",SharedPreferencesUtil.getString(mContext,"priceType")+"aa");
         try {
             pos = position%actives.size();
             activesBean = actives.get(position%actives.size());
@@ -85,15 +80,11 @@ public class Skill2Adapter extends RecyclerView.Adapter<Skill2Adapter.BaseViewHo
             }
         }else {
             holder.tv_desc.setVisibility(View.GONE);
-//            holder.tv_old_price.setVisibility(View.VISIBLE);
             holder.tv_price.setVisibility(View.VISIBLE);
         }
 
         if(activesBean.getDiscount()!=null) {
             holder.tv_coupon.setText(activesBean.getDiscount());
-//            holder.rl_coupon.setVisibility(View.VISIBLE);
-        }else {
-//            holder.rl_coupon.setVisibility(View.GONE);
         }
 
         if(activesBean.getNotSend()==1) {

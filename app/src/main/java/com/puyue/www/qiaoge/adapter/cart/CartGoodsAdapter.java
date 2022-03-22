@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -54,7 +55,7 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
         TextView tv_delete = helper.getView(R.id.tv_delete);
         ImageView iv_send = helper.getView(R.id.iv_send);
         ImageView iv_icon = helper.getView(R.id.iv_icon);
-        LinearLayout ll_root = helper.getView(R.id.ll_root);
+        RelativeLayout ll_root = helper.getView(R.id.ll_root);
         ImageView iv_operate = helper.getView(R.id.iv_operate);
         RoundImageView iv_head = helper.getView(R.id.iv_head);
         TextView tv_title = helper.getView(R.id.tv_title);

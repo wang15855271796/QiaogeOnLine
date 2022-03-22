@@ -6,6 +6,8 @@ import android.graphics.Paint;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +50,7 @@ public class SkillAdapter extends RecyclerView.Adapter<SkillAdapter.BaseViewHold
 
     @Override
     public void onBindViewHolder(@NonNull SkillAdapter.BaseViewHolder holder, int position) {
+        Log.d("fewfsfd........",SharedPreferencesUtil.getString(mContext,"priceType")+"a");
         CouponModels.DataBean.SpikeBean.ActivesBean activesBean = actives.get(position);
         holder.tv_name.setText(activesBean.getActiveName());
         Glide.with(mContext).load(activesBean.getDefaultPic()).into(holder.iv_pic);

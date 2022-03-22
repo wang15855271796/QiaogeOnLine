@@ -271,7 +271,7 @@
                     android:textSize="@dimen/dp_10"
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="@dimen/size_25dp"/>
 
                 <ImageView
                     android:id="@+id/iv_icon"
@@ -308,7 +308,7 @@
 
             <View
                 android:background="#eeeeee"
-                android:layout_marginLeft="116dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="@dimen/size_12dp"
                 android:layout_alignParentBottom="true"
                 android:layout_width="match_parent"
