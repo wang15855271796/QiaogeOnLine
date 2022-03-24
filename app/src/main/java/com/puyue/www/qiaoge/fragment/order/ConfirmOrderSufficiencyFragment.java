@@ -263,6 +263,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
     TextView tv_distribution;
     LinearLayout ll_map;
     LinearLayout ll_root;
+    RelativeLayout rl_no_Data;
     com.tencent.tencentmap.mapsdk.maps.MapView mapView;
     @Override
     public int setLayoutId() {
@@ -278,6 +279,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
     com.tencent.tencentmap.mapsdk.maps.TencentMap mapss;
     @Override
     public void findViewById(View view) {
+        rl_no_Data = view.findViewById(R.id.rl_no_Data);
         mapView = view.findViewById(R.id.mapView);
         ll_root = view.findViewById(R.id.ll_root);
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.frag);
@@ -365,7 +367,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
         request.setAllowGPS(true);
         request.setIndoorLocationMode(true);
         instance.requestLocationUpdates(request, this);
-        getMode();
+
         ll_self_sufficiency.setVisibility(View.GONE);
         final Calendar mCalendar = Calendar.getInstance();
         long time = System.currentTimeMillis();
@@ -398,6 +400,8 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
                 showGetTime();
             }
         });
+
+        getMode();
     }
 
     int disType;
@@ -533,8 +537,11 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
                                 if(modeModel.getData().getPickBtn()==0) {
                                     //展示
                                     ll_root.setVisibility(View.VISIBLE);
+                                    rl_no_Data.setVisibility(View.GONE);
                                 }else {
+                                    //不展示
                                     ll_root.setVisibility(View.GONE);
+                                    rl_no_Data.setVisibility(View.VISIBLE);
                                 }
                             }
 
@@ -1237,6 +1244,13 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
     }
 
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden) {
+            getMode();
+        }
+    }
 
     public void showMapDialog() {
         mDialogMap = new BottomSheetDialog(mActivity);

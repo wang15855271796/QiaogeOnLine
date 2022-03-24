@@ -504,12 +504,6 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                         if(modeModel.getCode()==1) {
                             if(modeModel.getData()!=null) {
                                 modeModel1 = modeModel;
-                                if(modeModel.getData().getPickBtn()==0) {
-                                    //展示
-                                    rl_distribution.setVisibility(View.VISIBLE);
-                                }else {
-                                    rl_distribution.setVisibility(View.GONE);
-                                }
                             }
 
                         }else {

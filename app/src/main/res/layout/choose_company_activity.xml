@@ -85,11 +85,12 @@
                     android:layout_marginLeft="@dimen/size_16dp"
                     android:layout_centerVertical="true"
                     android:id="@+id/tv_choose"
+                    android:gravity="center_vertical"
                     android:text="切换为城市版"
                     android:textColor="#17BD60"
                     android:textSize="@dimen/ysf_text_size_16sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
 
             </RelativeLayout>
 
@@ -137,6 +138,8 @@
             </RelativeLayout>
 
             <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_other"
                 android:text="其他公司"
                 android:layout_marginTop="@dimen/sp_14"
                 android:layout_marginBottom="@dimen/size_6dp"

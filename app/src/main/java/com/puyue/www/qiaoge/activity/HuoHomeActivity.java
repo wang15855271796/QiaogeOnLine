@@ -98,10 +98,11 @@ public class HuoHomeActivity extends BaseActivity implements View.OnClickListene
     ImageView iv1;
     int position = 0;
     String orderId;
-
+    int intFlag;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         orderId = getIntent().getStringExtra("orderId");
+        intFlag = getIntent().getIntExtra("intFlag", 0);
         return false;
     }
 
@@ -251,9 +252,13 @@ public class HuoHomeActivity extends BaseActivity implements View.OnClickListene
                         if(huoCityIdModel.getCode()==1) {
                             if(huoCityIdModel.getData()!=null) {
                                 cityId = huoCityIdModel.getData().getCity_id();
-                                switchOrder(huoCityIdModel.getData().getCity_id());
-                                tv_location.setText(huoCityIdModel.getData().getName());
+                                if(intFlag ==0) {
+                                    switchOrder(huoCityIdModel.getData().getCity_id());
+                                }else {
+                                    switchQuick();
+                                }
 
+                                tv_location.setText(huoCityIdModel.getData().getName());
                                 SharedPreferencesUtil.saveString(mContext,"huoCityName",huoCityIdModel.getData().getName());
                                 SharedPreferencesUtil.saveString(mContext,"huoCityId",huoCityIdModel.getData().getCity_id());
                             }

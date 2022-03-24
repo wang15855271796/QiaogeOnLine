@@ -184,6 +184,8 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
     TextView tv_open;
     @BindView(R.id.iv_open)
     ImageView iv_open;
+    @BindView(R.id.ll_order)
+    LinearLayout ll_order;
     String id;
     HuoPayedAdapter huoPayedAdapter;
 
@@ -294,6 +296,12 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
                                 //关联订单
                                 hllConnectOrders.clear();
                                 if(data.getConnectOrders()!=null&&data.getConnectOrders().size()>0) {
+                                    if(data.getConnectOrders().size()>2) {
+                                        rl_open.setVisibility(View.VISIBLE);
+                                    }else {
+                                        rl_open.setVisibility(View.GONE);
+                                    }
+                                    ll_order.setVisibility(View.VISIBLE);
                                     List<HuoDetailModel.DataBean.ConnectOrdersBean> connectOrders = data.getConnectOrders();
                                     hllConnectOrders.addAll(connectOrders);
                                     rv_huo.setVisibility(View.VISIBLE);
@@ -309,6 +317,8 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
                                     };
                                     rv_huo.setAdapter(unAbleAdapter);
                                     unAbleAdapter.notifyDataChanged();
+                                }else {
+                                    ll_order.setVisibility(View.GONE);
                                 }
 
                                 if(data.getCanOrderCancel()==1) {
@@ -550,11 +560,11 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
             case R.id.rl_open:
                 if(isOpen) {
                     isOpen = false;
-                    tv_open.setText("展开全部规则");
+                    tv_open.setText("展开全部订单");
                     iv_open.setImageResource(R.mipmap.icon_arrow_light_down);
                     rv_huo.setLimit(true);
                 }else {
-                    tv_open.setText("收起全部规则");
+                    tv_open.setText("收起全部订单");
                     isOpen = true;
                     iv_open.setImageResource(R.mipmap.icon_arrow_light_up);
                     rv_huo.setLimit(false);

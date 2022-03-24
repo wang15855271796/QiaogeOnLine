@@ -12,6 +12,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.AddCompanyActivity;
+import com.puyue.www.qiaoge.activity.ChooseCompanyActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.mine.account.AddressListActivity;
 import com.puyue.www.qiaoge.activity.mine.account.EditAddressActivity;
@@ -151,7 +153,10 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
         rl_choose_company.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chooseStyle();
+//                chooseStyle();
+                Intent intent = new Intent(mActivity, ChooseCompanyActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
         //设置监听

@@ -68,17 +68,71 @@ public class HuoOrderDialog extends Dialog {
         tv_deal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, HuoHomeActivity.class);
-                intent.putExtra("orderId","");
-                mContext.startActivity(intent);
+                getCloses();
             }
         });
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+                getClose();
             }
         });
+    }
+
+    private void getCloses() {
+        IndexHomeAPI.getCouponClose(mContext,dataBean.getHllTip().getId()+"")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+                        if(baseModel.success) {
+                            Intent intent = new Intent(mContext, HuoHomeActivity.class);
+                            intent.putExtra("orderId","");
+                            intent.putExtra("intFlag",1);
+                            mContext.startActivity(intent);
+                            dismiss();
+                        }else {
+                            AppHelper.showMsg(mContext,baseModel.message);
+                        }
+                    }
+                });
+    }
+
+    private void getClose() {
+        IndexHomeAPI.getCouponClose(mContext,dataBean.getHllTip().getId()+"")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+                        if(baseModel.success) {
+                            dismiss();
+                        }else {
+                            AppHelper.showMsg(mContext,baseModel.message);
+                        }
+                    }
+                });
     }
 
 

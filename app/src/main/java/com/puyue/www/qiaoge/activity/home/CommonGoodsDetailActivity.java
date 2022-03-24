@@ -234,6 +234,7 @@ public class CommonGoodsDetailActivity extends BaseActivity {
     String priceType;
     private GetProductDetailModel models;
     RelativeLayout ll_desc;
+    RelativeLayout rl_date;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         if (getIntent() != null && getIntent().getExtras() != null) {
@@ -267,6 +268,7 @@ public class CommonGoodsDetailActivity extends BaseActivity {
 
     @Override
     public void findViewById() {
+        rl_date = FVHelper.fv(this, R.id.rl_date);
         ll_desc = FVHelper.fv(this, R.id.ll_desc);
         tv_price =  FVHelper.fv(this, R.id.tv_price);
         ll_service = FVHelper.fv(this, R.id.ll_service);
@@ -348,6 +350,11 @@ public class CommonGoodsDetailActivity extends BaseActivity {
         recyclerViewImage.setLayoutManager(new LinearLayoutManager(mActivity));
         recyclerViewImage.setAdapter(imageViewAdapter);
 
+        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+            rl_date.setVisibility(View.GONE);
+        }else {
+            rl_date.setVisibility(View.VISIBLE);
+        }
     }
 
     long start;

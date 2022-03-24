@@ -53,6 +53,8 @@ public class ChooseCompanyActivity extends BaseActivity implements View.OnClickL
     TextView tv_sure;
     @BindView(R.id.tv_choose)
     TextView tv_choose;
+    @BindView(R.id.tv_other)
+    TextView tv_other;
     CompanyListAdapter companyListAdapter;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
@@ -152,6 +154,7 @@ public class ChooseCompanyActivity extends BaseActivity implements View.OnClickL
                         if(baseModel.code==1) {
                             ToastUtil.showSuccessMsg(mContext,baseModel.message);
                             EventBus.getDefault().post(new AddressEvent());
+                            SharedPreferencesUtil.saveInt(mActivity,"wad",1);
                             finish();
                         }else {
                             ToastUtil.showSuccessMsg(mContext,baseModel.message);
@@ -185,18 +188,23 @@ public class ChooseCompanyActivity extends BaseActivity implements View.OnClickL
                         if(companyListModel.getCode()==1) {
                             list.clear();
                             if(companyListModel.getData()!=null&&companyListModel.getData().size()>0) {
+                                tv_sure.setVisibility(View.VISIBLE);
                                 List<CompanyListModel.DataBean> data = companyListModel.getData();
                                 for (int i = 0; i < data.size(); i++) {
                                     if(data.get(i).getFlag()==1) {
                                         tv_short.setText(data.get(i).getShortName());
                                         tv_long.setText(data.get(i).getCompanyName());
                                         companyId = data.get(i).getCompanyId();
+                                        tv_other.setVisibility(View.GONE);
                                     }else {
                                         list.add(data.get(i));
+                                        tv_other.setVisibility(View.VISIBLE);
                                     }
                                 }
-
                                 companyListAdapter.notifyDataSetChanged();
+                            }else {
+                                tv_sure.setVisibility(View.GONE);
+                                tv_other.setVisibility(View.GONE);
                             }
 
                         }else {

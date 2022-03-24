@@ -14,15 +14,24 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.event.RefreshEvent;
 import com.puyue.www.qiaoge.fragment.order.ConfirmOrderDeliverFragment;
 import com.puyue.www.qiaoge.fragment.order.ConfirmOrderSufficiencyFragment;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
+import com.puyue.www.qiaoge.model.ModeModel;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import rx.Subscriber;
+import rx.schedulers.Schedulers;
+
+import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
 /**
  * Created by ${王文博} on 2019/7/18
@@ -149,19 +158,17 @@ public class ConfirmNewOrderActivity extends BaseSwipeActivity implements Confir
         switch (tab) {
             case TAB_DELIVER:
                 if (mFragmentDeliver == null) {
-
                     mFragmentDeliver = new ConfirmOrderDeliverFragment();
                     mFragmentTransaction.add(R.id.fr_confirm_oder, mFragmentDeliver);
 
                 } else {
                     mFragmentTransaction.show(mFragmentDeliver);
-
                 }
-
 
                 break;
 
             case TAB_SUFFICIENCY:
+
                 if (mFragmentSufficiency == null) {
                     mFragmentSufficiency = new ConfirmOrderSufficiencyFragment();
                     mFragmentTransaction.add(R.id.fr_confirm_oder, mFragmentSufficiency);

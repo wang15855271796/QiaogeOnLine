@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:orientation="vertical"
-        android:id="@+id/rl_huo"
+        android:id="@+id/rl_huos"
         android:background="@mipmap/bg_huo"
         android:layout_marginRight="@dimen/dp_10"
         android:layout_marginLeft="@dimen/dp_10"

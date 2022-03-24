@@ -369,6 +369,8 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     TextView tv_order_num;
     @BindView(R.id.rl_huo)
     RelativeLayout rl_huo;
+    @BindView(R.id.rl_huos)
+    RelativeLayout rl_huos;
     List<String> list = new ArrayList<>();
     private static final float ENDMARGINLEFT = 50;
     private static final float ENDMARGINTOP = 5;
@@ -668,9 +670,9 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
         rv_auto_team.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
         rv_auto_team.start();
 
-        skill2Adapter = new Skill2Adapter(mActivity, R.layout.item_skill_lists, skillActive2, "0");
-        rv_skill.setAdapter(skill2Adapter);
-        rv_skill.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
+//        skill2Adapter = new Skill2Adapter(mActivity, R.layout.item_skill_lists, skillActive2, "0");
+//        rv_skill.setAdapter(skill2Adapter);
+//        rv_skill.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
         rv_skill.start();
 
         //顶部推荐
@@ -700,6 +702,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
         tv_look_more.setOnClickListener(this);
         tv_coupon_more.setOnClickListener(this);
         rl_huo.setOnClickListener(this);
+        rl_huos.setOnClickListener(this);
         tv_look.setOnClickListener(this);
         rl_address.setOnClickListener(null);
         requestUpdate();
@@ -743,6 +746,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                 getBaseLists();
                 EventBus.getDefault().post(new BackEvent());
                 refreshLayout.finishRefresh();
+                Log.d("efsfgewrfsf........","1234");
             }
         });
 
@@ -861,6 +865,11 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                         skillActive2.addAll(data1.getSpike().getActives());
                                         ll_skill.setVisibility(View.VISIBLE);
                                         rv_skill.setVisibility(View.VISIBLE);
+
+                                        skill2Adapter = new Skill2Adapter(mActivity, R.layout.item_skill_lists, skillActive2, "0");
+                                        rv_skill.setAdapter(skill2Adapter);
+                                        rv_skill.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
+
                                         skill2Adapter.notifyDataSetChanged();
                                         Log.d("fewfsfd........",data1.getSpike().getActives().size()+"qwe");
                                     } else if (data1.getSpike().getActives().size() == 3) {
@@ -1854,8 +1863,10 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                     startActivity(intentsss);
                 }
                 break;
-            case R.id.rl_huo:
+            case R.id.rl_huos:
+                Log.d("cdsefdfsgr.....","123");
                 isAuth();
+
                 break;
             case R.id.tv_search:
                 Intent intent = new Intent(mActivity, SearchStartActivity.class);
@@ -2005,12 +2016,12 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
             skillAdvList.clear();
             getBaseLists();
             EventBus.getDefault().post(new BackEvent());
+
         }
 
         if (requestCode == 105) {
             refreshLayout.autoRefresh();
         }
-
     }
 
     /**
@@ -2028,7 +2039,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.d("cdsefdfsgr.....",e.getMessage()+"1234");
                     }
 
                     @Override

@@ -485,17 +485,8 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                         if(password.length()>6&& passwordSure.length()>6) {
                             if (StringHelper.isLetterDigit(et_password.getText().toString())) {
                                 if(!etAuthor.equals("")) {
-                                    if(wad==1) {
-                                        //代配
-                                        updateCheckCode();
-                                    }else {
-                                        //翘歌
-                                        if(!tv_shop_style.getText().toString().equals("")&&!tv_shop_style.getText().toString().equals("0")) {
-                                            updateCheckCode();
-                                        }else {
-                                            AppHelper.showMsg(mContext, "店铺类型不能为空");
-                                        }
-                                    }
+                                    getCompanyNames(etAuthor);
+
 
                                 }else {
                                     AppHelper.showMsg(mContext, "授权码不能为空");
@@ -613,6 +604,44 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                 });
     }
 
+    private void getCompanyNames(String invitationCode) {
+        IndexHomeAPI.getCompanyName(mActivity,invitationCode)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GetCompanyModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(GetCompanyModel getCompanyModel) {
+                        if(getCompanyModel.getCode()==1) {
+                            if(getCompanyModel.getData()!=null) {
+                                if(wad==1) {
+                                    //代配
+                                    updateCheckCode();
+                                }else {
+                                    //翘歌
+                                    if(!tv_shop_style.getText().toString().equals("")&&!tv_shop_style.getText().toString().equals("0")) {
+                                        updateCheckCode();
+                                    }else {
+                                        AppHelper.showMsg(mContext, "店铺类型不能为空");
+                                    }
+                                }
+                            }
+
+                        }else {
+                            ToastUtil.showSuccessMsg(mContext,getCompanyModel.getMessage());
+                        }
+                    }
+                });
+    }
     /**
      * 拨打电话弹窗
      * @param cell
@@ -671,7 +700,7 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                                 @Override
                                 public void onNext(RegisterModel registerModel) {
                                     mModelRegister = registerModel;
-                                    if (mModelRegister.success) {
+                                    if (mModelRegister.code==1) {
                                         updateRegister();
                                     } else {
                                         AppHelper.showMsg(mContext, mModelRegister.message);
@@ -696,7 +725,7 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                                 @Override
                                 public void onNext(RegisterModel registerModel) {
                                     mModelRegister = registerModel;
-                                    if (mModelRegister.success) {
+                                    if (mModelRegister.code==1) {
                                         updateRegister();
                                     } else {
                                         AppHelper.showMsg(mContext, mModelRegister.message);
@@ -726,7 +755,7 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                                 public void onNext(RegisterModel registerModel) {
 
                                     mModelRegister = registerModel;
-                                    if (mModelRegister.success) {
+                                    if (mModelRegister.code==1) {
                                         //这里注册完成也就直接登录成功,本地存储token
                                         updateRegister();
                                     } else {
@@ -755,7 +784,7 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                                 public void onNext(RegisterModel registerModel) {
 
                                     mModelRegister = registerModel;
-                                    if (mModelRegister.success) {
+                                    if (mModelRegister.code==1) {
                                         //这里注册完成也就直接登录成功,本地存储token
                                         updateRegister();
                                     } else {
