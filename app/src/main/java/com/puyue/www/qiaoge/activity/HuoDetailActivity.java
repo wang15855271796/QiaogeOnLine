@@ -312,6 +312,13 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
                                             View view = LayoutInflater.from(mActivity).inflate(R.layout.item_huo_connection,rv_huo, false);
                                             TextView tv_connect = view.findViewById(R.id.tv_connect);
                                             tv_connect.setText(connectOrdersBean.getOrderId()+"("+connectOrdersBean.getState()+")");
+
+                                            tv_connect.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    getHuoDetail(connectOrdersBean.getOrderId());
+                                                }
+                                            });
                                             return view;
                                         }
                                     };
