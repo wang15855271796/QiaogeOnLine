@@ -617,14 +617,27 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
 
 
             case R.id.tv_delete:
-                for (int i = 0; i < prods.size(); i++) {
-                    List<CartTestModel.DataBean.ProdsBeanX.ProdsBean> prod = prods.get(i).getProds();
-                    for (int j = 0; j < prod.size(); j++) {
-                        int cartId = prod.get(j).getCartId();
-                        cartIdList.add(cartId);
+                cartIdList.clear();
+                if(prods!=null) {
+                    for (int i = 0; i < prods.size(); i++) {
+                        List<CartTestModel.DataBean.ProdsBeanX.ProdsBean> prod = prods.get(i).getProds();
+                        if(prod.get(i).isSelected()) {
+                            for (int j = 0; j < prod.size(); j++) {
+                                int cartId = prod.get(j).getCartId();
+                                cartIdList.add(cartId);
+                            }
+                        }
+                    }
+
+                    if(cartIdList.size()==0) {
+                        ToastUtil.showSuccessMsg(getActivity(),"请选择要删除的商品");
+                    }else {
+                        showDeleteCartDialog(0,cartIdList);
                     }
                 }
-                showDeleteCartDialog(0,cartIdList);
+
+
+
                 break;
 
             case R.id.tv_clear:
