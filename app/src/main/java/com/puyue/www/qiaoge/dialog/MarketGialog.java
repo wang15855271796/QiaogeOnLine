@@ -124,7 +124,7 @@ public class MarketGialog extends Dialog implements View.OnClickListener{
 
                     @Override
                     public void onNext(ExchangeProductModel exchangeProductModel) {
-                        if(exchangeProductModel.isSuccess()) {
+                        if(exchangeProductModel.getCode()==1) {
                             if(exchangeProductModel.getData()!=null) {
                                 exchangeProductModels = exchangeProductModel;
                                 tv_name.setText(exchangeProductModel.getData().getProductName());
@@ -186,7 +186,9 @@ public class MarketGialog extends Dialog implements View.OnClickListener{
                 if(listBean.getBusinessType()==11) {
                     exchangeLists(listBean.getActiveId(),11);
                 }else {
-                    exchangeLists(exchangeProductModels.getData().getProdSpecs().get(position).getProductId(),1);
+                    if(exchangeProductModels!=null) {
+                        exchangeLists(exchangeProductModels.getData().getProdSpecs().get(position).getProductId(),1);
+                    }
 
                 }
             }

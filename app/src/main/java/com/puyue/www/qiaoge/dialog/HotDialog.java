@@ -139,8 +139,11 @@ public class HotDialog extends Dialog implements View.OnClickListener{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 pos = position;
                 chooseSpecAdapter.selectPosition(position);
-                int productId = exchangeProductModel1s.getData().getProdSpecs().get(position).getProductId();
-                exchangeList(productId);
+                if(exchangeProductModel1s!=null) {
+                    int productId = exchangeProductModel1s.getData().getProdSpecs().get(position).getProductId();
+                    exchangeList(productId);
+                }
+
             }
         });
         chooseSpecAdapter = new ChooseSpecAdapters(context,item.getProdSpecs());
@@ -170,7 +173,7 @@ public class HotDialog extends Dialog implements View.OnClickListener{
 
                     @Override
                     public void onNext(ExchangeProductModel exchangeProductModel) {
-                        if(exchangeProductModel.isSuccess()) {
+                        if(exchangeProductModel.getCode()==1) {
                             if(exchangeProductModel.getData()!=null) {
                                 exchangeProductModel1s = exchangeProductModel;
                                 tv_name.setText(exchangeProductModel.getData().getProductName());

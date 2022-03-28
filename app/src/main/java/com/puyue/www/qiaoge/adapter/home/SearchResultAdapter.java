@@ -3,6 +3,8 @@ package com.puyue.www.qiaoge.adapter.home;
 
 import android.content.Intent;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +22,11 @@ import com.puyue.www.qiaoge.activity.flow.FlowLayout;
 import com.puyue.www.qiaoge.activity.flow.TagAdapter;
 import com.puyue.www.qiaoge.activity.flow.TagFlowLayout;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
+import com.puyue.www.qiaoge.adapter.MarketSpecAdapter;
+import com.puyue.www.qiaoge.adapter.SearchResultSpecAdapter;
+import com.puyue.www.qiaoge.adapter.cart.SearchSpecAdapter;
 import com.puyue.www.qiaoge.constant.AppConstant;
+import com.puyue.www.qiaoge.fragment.home.MarketsAdapter;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.SurpliListModel;
@@ -55,7 +61,7 @@ public class SearchResultAdapter extends BaseQuickAdapter<SearchResultsModel.Dat
         ImageView iv_icon = helper.getView(R.id.iv_icon);
         RelativeLayout rl_open =  helper.getView(R.id.rl_open);
         TextView tv_style =  helper.getView(R.id.tv_style);
-        TagFlowLayout rv_spec =  helper.getView(R.id.rv_spec);
+        RecyclerView rv_spec =  helper.getView(R.id.rv_spec);
         iv_operate = helper.getView(R.id.iv_operate);
         ImageView iv_no_data = helper.getView(R.id.iv_no_data);
         tv_price_desc = helper.getView(R.id.tv_price_desc);
@@ -112,36 +118,51 @@ public class SearchResultAdapter extends BaseQuickAdapter<SearchResultsModel.Dat
             tv_price.setVisibility(View.GONE);
             tv_price_desc.setVisibility(View.VISIBLE);
         }
-        TagAdapter unAbleAdapter = new TagAdapter<SearchResultsModel.DataBean.RecommendProdBean.ProdSpecsBean>(item.getProdSpecs()){
-
-            @Override
-            public View getView(FlowLayout parent, int position, SearchResultsModel.DataBean.RecommendProdBean.ProdSpecsBean prodSpecsBean) {
-                View view = LayoutInflater.from(mContext).inflate(R.layout.item_specss,rv_spec, false);
-                TextView tv_spec = view.findViewById(R.id.tv_spec);
-                tv_spec.setText(prodSpecsBean.getSpec());
-                return view;
-            }
-        };
-        rv_spec.setAdapter(unAbleAdapter);
-        unAbleAdapter.notifyDataChanged();
-
-        rl_open.setOnClickListener(new View.OnClickListener() {
+//        TagAdapter unAbleAdapter = new TagAdapter<SearchResultsModel.DataBean.RecommendProdBean.ProdSpecsBean>(item.getProdSpecs()){
+//
+//            @Override
+//            public View getView(FlowLayout parent, int position, SearchResultsModel.DataBean.RecommendProdBean.ProdSpecsBean prodSpecsBean) {
+//                View view = LayoutInflater.from(mContext).inflate(R.layout.item_specss,rv_spec, false);
+//                TextView tv_spec = view.findViewById(R.id.tv_spec);
+//                tv_spec.setText(prodSpecsBean.getSpec());
+//                return view;
+//            }
+//        };
+        tv_style.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isOpen) {
-                    isOpen = false;
-                    tv_style.setText("展开全部规则");
-                    iv_icon.setImageResource(R.mipmap.icon_arrow_light_down);
-                    rv_spec.setLimit(true);
-                }else {
-                    tv_style.setText("收起全部规则");
-                    isOpen = true;
-                    iv_icon.setImageResource(R.mipmap.icon_arrow_light_up);
-                    rv_spec.setLimit(false);
+                if(onclick!=null) {
+                    onclick.addDialog();
                 }
-                unAbleAdapter.notifyDataChanged();
+
+                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+                    recommendDialog = new RecommendDialog(mContext,item);
+                    recommendDialog.show();
+                }
             }
         });
+        SearchResultSpecAdapter marketsAdapter = new SearchResultSpecAdapter(R.layout.item_specss,item.getProdSpecs());
+        rv_spec.setLayoutManager(new LinearLayoutManager(mContext));
+        rv_spec.setAdapter(marketsAdapter);
+//        unAbleAdapter.notifyDataChanged();
+
+//        rl_open.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(isOpen) {
+//                    isOpen = false;
+//                    tv_style.setText("展开全部规则");
+//                    iv_icon.setImageResource(R.mipmap.icon_arrow_light_down);
+//                    rv_spec.setLimit(true);
+//                }else {
+//                    tv_style.setText("收起全部规则");
+//                    isOpen = true;
+//                    iv_icon.setImageResource(R.mipmap.icon_arrow_light_up);
+//                    rv_spec.setLimit(false);
+//                }
+//                unAbleAdapter.notifyDataChanged();
+//            }
+//        });
 
 
         rl_price.setOnClickListener(new View.OnClickListener() {

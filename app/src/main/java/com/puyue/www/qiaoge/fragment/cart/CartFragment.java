@@ -1066,6 +1066,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
                                 @Override
                                 public void onResfresh(boolean isSelect) {
                                     mSelect = isSelect;
+                                    Log.d("fewfewfwe....",isSelect+"a");
                                 }
                             });
 
@@ -1073,6 +1074,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
                                 @Override
                                 public void onResfresh(boolean isSelect) {
                                     mSelect = isSelect;
+                                    Log.d("fewfewfwe....",isSelect+"b");
                                 }
                             });
 

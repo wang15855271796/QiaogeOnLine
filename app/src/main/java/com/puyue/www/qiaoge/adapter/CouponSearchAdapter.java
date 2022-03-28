@@ -2,6 +2,8 @@ package com.puyue.www.qiaoge.adapter;
 
 import android.content.Intent;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +56,7 @@ public class CouponSearchAdapter extends BaseQuickAdapter<ProductNormalModel.Dat
         RelativeLayout rl_open =  helper.getView(R.id.rl_open);
         ImageView iv_no_data = helper.getView(R.id.iv_no_data);
         TextView tv_style =  helper.getView(R.id.tv_style);
-        TagFlowLayout rv_spec =  helper.getView(R.id.rv_spec);
+        RecyclerView rv_spec =  helper.getView(R.id.rv_spec);
         tv_price_desc = helper.getView(R.id.tv_price_desc);
         iv_type = helper.getView(R.id.iv_type);
         ImageView iv_icon = helper.getView(R.id.iv_icon);
@@ -98,36 +100,50 @@ public class CouponSearchAdapter extends BaseQuickAdapter<ProductNormalModel.Dat
             tv_price_desc.setVisibility(View.VISIBLE);
         }
 
-        TagAdapter unAbleAdapter = new TagAdapter<ProductNormalModel.DataBean.ListBean.ProdSpecsBean>(item.getProdSpecs()){
+//        TagAdapter unAbleAdapter = new TagAdapter<ProductNormalModel.DataBean.ListBean.ProdSpecsBean>(item.getProdSpecs()){
+//
+//            @Override
+//            public View getView(FlowLayout parent, int position, ProductNormalModel.DataBean.ListBean.ProdSpecsBean prodSpecsBean) {
+//                View view = LayoutInflater.from(mContext).inflate(R.layout.item_specss,rv_spec, false);
+//                TextView tv_spec = view.findViewById(R.id.tv_spec);
+//                tv_spec.setText(prodSpecsBean.getSpec());
+//                return view;
+//            }
+//        };
 
-            @Override
-            public View getView(FlowLayout parent, int position, ProductNormalModel.DataBean.ListBean.ProdSpecsBean prodSpecsBean) {
-                View view = LayoutInflater.from(mContext).inflate(R.layout.item_specss,rv_spec, false);
-                TextView tv_spec = view.findViewById(R.id.tv_spec);
-                tv_spec.setText(prodSpecsBean.getSpec());
-                return view;
-            }
-        };
-        rv_spec.setAdapter(unAbleAdapter);
-        unAbleAdapter.notifyDataChanged();
-
-        rl_open.setOnClickListener(new View.OnClickListener() {
+        tv_style.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isOpen) {
-                    isOpen = false;
-                    tv_style.setText("展开全部规则");
-                    iv_icon.setImageResource(R.mipmap.icon_arrow_light_down);
-                    rv_spec.setLimit(true);
-                }else {
-                    tv_style.setText("收起全部规则");
-                    isOpen = true;
-                    iv_icon.setImageResource(R.mipmap.icon_arrow_light_up);
-                    rv_spec.setLimit(false);
+                if(onclick!=null) {
+                    onclick.addDialog();
                 }
-                unAbleAdapter.notifyDataChanged();
+
+                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+                    searchDialog = new CouponSearchDialog(mContext,item);
+                    searchDialog.show();
+                }
             }
         });
+        CouponSpecAdapter couponSpecAdapter = new CouponSpecAdapter(R.layout.item_specss,item.getProdSpecs());
+        rv_spec.setAdapter(couponSpecAdapter);
+        rv_spec.setLayoutManager(new LinearLayoutManager(mContext));
+//        rl_open.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(isOpen) {
+//                    isOpen = false;
+//                    tv_style.setText("展开全部规则");
+//                    iv_icon.setImageResource(R.mipmap.icon_arrow_light_down);
+//                    rv_spec.setLimit(true);
+//                }else {
+//                    tv_style.setText("收起全部规则");
+//                    isOpen = true;
+//                    iv_icon.setImageResource(R.mipmap.icon_arrow_light_up);
+//                    rv_spec.setLimit(false);
+//                }
+//                unAbleAdapter.notifyDataChanged();
+//            }
+//        });
 
         rl_price.setOnClickListener(new View.OnClickListener() {
             @Override

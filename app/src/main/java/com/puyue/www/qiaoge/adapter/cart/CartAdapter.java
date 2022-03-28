@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -58,18 +59,17 @@ public class CartAdapter extends BaseQuickAdapter<CartTestModel.DataBean.ProdsBe
         }else {
             tv_desc.setText("查看活动");
         }
-        if(mOnRefreshListener != null){
-            for(int i = 0;i < data.size(); i++){
-                if(!data.get(i).isSelect()){
-                    isSelect = false;
-                    break;
-                }else{
-                    isSelect = true;
-                }
-            }
-
-            mOnRefreshListener.onRefresh(isSelect);
-        }
+//        if(mOnRefreshListener != null){
+//            for(int i = 0;i < data.size(); i++){
+//                if(!data.get(i).isSelect()){
+//                    isSelect = false;
+//                    break;
+//                }else{
+//                    isSelect = true;
+//                }
+//            }
+//            mOnRefreshListener.onRefresh(isSelect);
+//        }
 
         tv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +79,7 @@ public class CartAdapter extends BaseQuickAdapter<CartTestModel.DataBean.ProdsBe
                 }
             }
         });
+
         rl_tip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

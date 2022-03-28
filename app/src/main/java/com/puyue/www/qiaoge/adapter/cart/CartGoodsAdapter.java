@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -82,11 +83,32 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
                 EventBus.getDefault().post(new DeleteGoodsEvent(helper.getAdapterPosition(),item));
             }
         });
-//        if(item.getSelfOrNot()==0) {
-//            iv_operate.setImageResource(R.mipmap.icon_operate);
-//        }else {
-//            iv_operate.setImageResource(R.mipmap.icon_unoperate);
-//        }
+
+        if(mOnRefreshListener != null){
+            boolean isSelect = false;
+            if(prodsBeanX.size()>1) {
+                for (int i = 0; i < prodsBeanX.size(); i++) {
+                    for (int j = 0; j < data.size(); j++) {
+                        if(!data.get(j).isSelected()){
+                            isSelect = false;
+                            break;
+                        }else{
+                            isSelect = true;
+                        }
+                    }
+                }
+            }else {
+                for(int i = 0;i < data.size(); i++){
+                    if(!data.get(i).isSelected()){
+                        isSelect = false;
+                        break;
+                    }else{
+                        isSelect = true;
+                    }
+                }
+            }
+            mOnRefreshListener.onRefresh(isSelect);
+        }
 
         if(item.getSelfProd()!=null&&!item.getSelfProd().equals("")) {
             Glide.with(mContext).load(item.getSelfProd()).into(iv_operate);

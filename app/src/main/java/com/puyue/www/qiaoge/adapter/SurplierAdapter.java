@@ -2,6 +2,8 @@ package com.puyue.www.qiaoge.adapter;
 
 import android.content.Intent;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,7 +57,7 @@ public class SurplierAdapter extends BaseQuickAdapter<SurpliListModel.DataBean.L
         ImageView iv_icon = helper.getView(R.id.iv_icon);
         RelativeLayout rl_open =  helper.getView(R.id.rl_open);
         TextView tv_style =  helper.getView(R.id.tv_style);
-        TagFlowLayout rv_spec =  helper.getView(R.id.rv_spec);
+        RecyclerView rv_spec =  helper.getView(R.id.rv_spec);
         iv_next = helper.getView(R.id.iv_next);
         iv_send = helper.getView(R.id.iv_send);
         iv_operate = helper.getView(R.id.iv_operate);
@@ -73,36 +75,50 @@ public class SurplierAdapter extends BaseQuickAdapter<SurpliListModel.DataBean.L
             }
         }
 
-        TagAdapter unAbleAdapter = new TagAdapter<SurpliListModel.DataBean.ListBean.ProdSpecsBean>(item.getProdSpecs()){
-
-            @Override
-            public View getView(FlowLayout parent, int position, SurpliListModel.DataBean.ListBean.ProdSpecsBean prodSpecsBean) {
-                View view = LayoutInflater.from(mContext).inflate(R.layout.item_specss,rv_spec, false);
-                TextView tv_spec = view.findViewById(R.id.tv_spec);
-                tv_spec.setText(prodSpecsBean.getSpec());
-                return view;
-            }
-        };
-        rv_spec.setAdapter(unAbleAdapter);
-        unAbleAdapter.notifyDataChanged();
-
-        rl_open.setOnClickListener(new View.OnClickListener() {
+//        TagAdapter unAbleAdapter = new TagAdapter<SurpliListModel.DataBean.ListBean.ProdSpecsBean>(item.getProdSpecs()){
+//            @Override
+//            public View getView(FlowLayout parent, int position, SurpliListModel.DataBean.ListBean.ProdSpecsBean prodSpecsBean) {
+//                View view = LayoutInflater.from(mContext).inflate(R.layout.item_specss,rv_spec, false);
+//                TextView tv_spec = view.findViewById(R.id.tv_spec);
+//                tv_spec.setText(prodSpecsBean.getSpec());
+//                return view;
+//            }
+//        };
+        tv_style.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isOpen) {
-                    isOpen = false;
-                    tv_style.setText("展开全部规则");
-                    iv_icon.setImageResource(R.mipmap.icon_arrow_light_down);
-                    rv_spec.setLimit(true);
-                }else {
-                    tv_style.setText("收起全部规则");
-                    isOpen = true;
-                    iv_icon.setImageResource(R.mipmap.icon_arrow_light_up);
-                    rv_spec.setLimit(false);
+                if(onclick!=null) {
+                    onclick.addDialog();
                 }
-                unAbleAdapter.notifyDataChanged();
+
+                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+                    surpDialog = new SurpDialog(mContext,item);
+                    surpDialog.show();
+                }
             }
         });
+        SurplierSpecAdapter surplierSpecAdapter = new SurplierSpecAdapter(R.layout.item_specss,item.getProdSpecs());
+        rv_spec.setLayoutManager(new LinearLayoutManager(mContext));
+        rv_spec.setAdapter(surplierSpecAdapter);
+//        unAbleAdapter.notifyDataChanged();
+
+//        rl_open.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(isOpen) {
+//                    isOpen = false;
+//                    tv_style.setText("展开全部规则");
+//                    iv_icon.setImageResource(R.mipmap.icon_arrow_light_down);
+//                    rv_spec.setLimit(true);
+//                }else {
+//                    tv_style.setText("收起全部规则");
+//                    isOpen = true;
+//                    iv_icon.setImageResource(R.mipmap.icon_arrow_light_up);
+//                    rv_spec.setLimit(false);
+//                }
+//                unAbleAdapter.notifyDataChanged();
+//            }
+//        });
 
         if(item.getFlag()==0) {
             Glide.with(mContext).load(item.getTypeUrl()).into(iv_no_data);

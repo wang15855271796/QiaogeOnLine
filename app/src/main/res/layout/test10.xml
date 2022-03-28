@@ -386,6 +386,7 @@
 
                     <ImageView
                         android:id="@+id/iv_tip"
+                        android:visibility="gone"
                         android:layout_alignBaseline="@+id/tv_city"
                         android:layout_marginLeft="@dimen/size_5dp"
                         android:layout_toRightOf="@+id/tv_city"

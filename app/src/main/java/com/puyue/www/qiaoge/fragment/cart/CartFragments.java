@@ -621,8 +621,8 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                 if(prods!=null) {
                     for (int i = 0; i < prods.size(); i++) {
                         List<CartTestModel.DataBean.ProdsBeanX.ProdsBean> prod = prods.get(i).getProds();
-                        if(prod.get(i).isSelected()) {
-                            for (int j = 0; j < prod.size(); j++) {
+                        for (int j = 0; j < prod.size(); j++) {
+                            if(prod.get(j).isSelected()) {
                                 int cartId = prod.get(j).getCartId();
                                 cartIdList.add(cartId);
                             }

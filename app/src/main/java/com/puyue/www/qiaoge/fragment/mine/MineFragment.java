@@ -729,7 +729,6 @@ public class MineFragment extends BaseFragment {
             } else if (view == ll_deduct) {
 //                startActivity(MyCouponsActivity.getIntent(getContext(), MyCouponsActivity.class));
                 Intent intent = new Intent(getContext(),MyCouponsActivity.class);
-                intent.putExtra("couponsNum",String.valueOf(mModelMyOrderNum.getData().getDeductNum()));
                 startActivity(intent);
             } else if(view == iv_setting1) {
                 startActivity(AccountCenterActivity.getIntent(getContext(), AccountCenterActivity.class));
@@ -1070,8 +1069,7 @@ public class MineFragment extends BaseFragment {
 
                             if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
                                 //企业版
-                                ll_deliver_order2.setVisibility(View.VISIBLE);
-                                ll_deliver_order.setVisibility(View.GONE);
+                                ll_deliver_order2.setVisibility(View.GONE);
                                 ll_amount.setVisibility(View.GONE);
                                 accountManagement.setVisibility(View.GONE);
                                 //17586858586
@@ -1090,7 +1088,6 @@ public class MineFragment extends BaseFragment {
                                 }
                             }else {
                                 //城市版
-                                ll_deliver_order.setVisibility(View.VISIBLE);
                                 ll_deliver_order2.setVisibility(View.GONE);
                                 ll_amount.setVisibility(View.VISIBLE);
                                 accountManagement.setVisibility(View.VISIBLE);

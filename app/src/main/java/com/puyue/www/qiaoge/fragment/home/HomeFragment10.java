@@ -387,10 +387,8 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     TeamAdapter teamAdapter;
     Team3Adapter team3Adapter;
     private String cell; // 客服电话
-    private PrivacysDialog privacyDialog;
     ChooseHomeDialog chooseAddressDialog;
     List<String> recommendData;
-    List<ProductNormalModel.DataBean.ListBean> listss = new ArrayList<>();
     //司机信息
     List<OrderModel.DataBean> driverList = new ArrayList<>();
     //八个icon集合
@@ -746,7 +744,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                 getBaseLists();
                 EventBus.getDefault().post(new BackEvent());
                 refreshLayout.finishRefresh();
-                Log.d("efsfgewrfsf........","1234");
             }
         });
 
@@ -761,6 +758,11 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
         if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
             getStyle();
             rb_new.setText("热销商品");
+            tv_title1.setText("超值人气");
+            tv_title3.setText("专宠好物");
+            rb_reduce.setText("常购清单");
+            rb_new_top.setText("热销商品");
+            rb_info_top.setText("常购清单");
             rb_must_common_top.setVisibility(View.GONE);
             rb_must_common.setVisibility(View.GONE);
             tv_title2.setVisibility(View.GONE);
@@ -771,7 +773,12 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
             rb_common_top.setVisibility(View.GONE);
             rg_new.check(R.id.rb_new);
         }else {
+            rb_reduce.setText("降价商品");
             rb_new.setText("新品上市");
+            tv_title1.setText("上新立荐");
+            tv_title3.setText("物美价廉");
+            rb_new_top.setText("新品上市");
+            rb_info_top.setText("降价商品");
             v2s.setVisibility(View.VISIBLE);
             v4s.setVisibility(View.VISIBLE);
             tv_title2.setVisibility(View.VISIBLE);
@@ -1368,7 +1375,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
 
                     @Override
                     public void onNext(OrderModel indexInfoModel) {
-                        if (indexInfoModel.isSuccess()) {
+                        if (indexInfoModel.getCode()==1) {
                             if(indexInfoModel.getData()!=null) {
                                 if (indexInfoModel.getData().size() > 0) {
                                     driverList.clear();
@@ -1377,14 +1384,12 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                     ll_driver.setVisibility(View.VISIBLE);
                                     verticalBanner.setAdapter(verticalBannerAdapter);
                                     verticalBanner.start();
-
                                 } else {
                                     ll_driver.setVisibility(View.GONE);
                                 }
                             }else {
                                 ll_driver.setVisibility(View.GONE);
                             }
-
                         }else {
                             ll_driver.setVisibility(View.GONE);
                         }
@@ -1480,7 +1485,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
 
                             tv_times.setText(indexInfoModel.getData().getReturnAmountTime() + "小时快速退款");
                             tv_amount.setText("满" + indexInfoModel.getData().getSendAmount() + "元免配送费");
-                            tv_title3.setText("物美价廉");
+
 
 
                             if (data.isAddressIsInArea()) {
@@ -1645,7 +1650,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                     intent.putExtra("URL", banners.get(position).getLinkSrc());
                     intent.putExtra("TYPE", 2);
                     intent.putExtra("name", "");
-//                    Log.d("wsdsssssssss.........", banners.get(position).getLinkSrc());
                     startActivity(intent);
                 } else if (showType == 2 || banners.get(position).getDetailPic() != null) {
                     //图片
@@ -1704,7 +1708,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                     int businessId = Integer.parseInt(banners.get(position).getBusinessId());
                     if (businessType.equals("2")) {
                         Intent intent = new Intent(getActivity(), SeckillGoodActivity.class);
-//                        intent.putExtra(AppConstant.NUM,businessId);
                         intent.putExtra("num", "-1");
                         intent.putExtra("priceType", SharedPreferencesUtil.getString(mActivity, "priceType"));
                         intent.putExtra(AppConstant.ACTIVEID, businessId);
@@ -2081,6 +2084,11 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
         if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
             getStyle();
             rb_new.setText("热销商品");
+            tv_title1.setText("超值人气");
+            tv_title3.setText("专宠好物");
+            rb_reduce.setText("常购清单");
+            rb_new_top.setText("热销商品");
+            rb_info_top.setText("常购清单");
             rb_must_common_top.setVisibility(View.GONE);
             rb_must_common.setVisibility(View.GONE);
             tv_title2.setVisibility(View.GONE);
@@ -2091,7 +2099,12 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
             rb_common_top.setVisibility(View.GONE);
             rg_new.check(R.id.rb_new);
         }else {
+            rb_reduce.setText("降价商品");
             rb_new.setText("新品上市");
+            tv_title1.setText("上新立荐");
+            tv_title3.setText("物美价廉");
+            rb_new_top.setText("新品上市");
+            rb_info_top.setText("降价商品");
             v2s.setVisibility(View.VISIBLE);
             v4s.setVisibility(View.VISIBLE);
             tv_title2.setVisibility(View.VISIBLE);
@@ -2108,25 +2121,43 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     public void loginsEvent(AddressEvent event) {
         //刷新UI
         refreshLayout.autoRefresh();
-//        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
-//            rb_must_common_top.setVisibility(View.GONE);
-//            rb_must_common.setVisibility(View.GONE);
-//            rb_common.setVisibility(View.GONE);
-//            rb_common_top.setVisibility(View.GONE);
-//            tv_title4.setVisibility(View.GONE);
-//            tv_title2.setVisibility(View.GONE);
-//            v2s.setVisibility(View.GONE);
-//            v4s.setVisibility(View.GONE);
-//        }else {
-//            tv_title4.setVisibility(View.VISIBLE);
-//            tv_title2.setVisibility(View.VISIBLE);
-//            rb_must_common_top.setVisibility(View.VISIBLE);
-//            rb_must_common.setVisibility(View.VISIBLE);
-//            rb_common.setVisibility(View.VISIBLE);
-//            rb_common_top.setVisibility(View.VISIBLE);
-//            v2s.setVisibility(View.VISIBLE);
-//            v4s.setVisibility(View.VISIBLE);
-//        }
+        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+            getStyle();
+            rb_new.setText("热销商品");
+            tv_title1.setText("超值人气");
+            tv_title3.setText("专宠好物");
+            rb_reduce.setText("常购清单");
+            rb_new_top.setText("热销商品");
+            rb_info_top.setText("常购清单");
+            rb_must_common_top.setVisibility(View.GONE);
+            rb_must_common.setVisibility(View.GONE);
+            tv_title2.setVisibility(View.GONE);
+            tv_title4.setVisibility(View.GONE);
+            v2s.setVisibility(View.GONE);
+            v4s.setVisibility(View.GONE);
+            rb_common.setVisibility(View.GONE);
+            rb_common_top.setVisibility(View.GONE);
+            rg_new.check(R.id.rb_new);
+
+            Log.d("weewqdadqad.......","123");
+        }else {
+            Log.d("weewqdadqad.......","abc");
+            rb_reduce.setText("降价商品");
+            rb_new.setText("新品上市");
+            tv_title1.setText("上新立荐");
+            tv_title3.setText("物美价廉");
+            rb_new_top.setText("新品上市");
+            rb_info_top.setText("降价商品");
+            v2s.setVisibility(View.VISIBLE);
+            v4s.setVisibility(View.VISIBLE);
+            tv_title2.setVisibility(View.VISIBLE);
+            tv_title4.setVisibility(View.VISIBLE);
+            rb_must_common_top.setVisibility(View.VISIBLE);
+            rb_must_common.setVisibility(View.VISIBLE);
+            rb_common.setVisibility(View.VISIBLE);
+            rb_common_top.setVisibility(View.VISIBLE);
+            rg_new.check(R.id.rb_must_common);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

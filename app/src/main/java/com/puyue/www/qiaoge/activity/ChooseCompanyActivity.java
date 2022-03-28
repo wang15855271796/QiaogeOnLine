@@ -2,9 +2,11 @@ package com.puyue.www.qiaoge.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -55,6 +57,8 @@ public class ChooseCompanyActivity extends BaseActivity implements View.OnClickL
     TextView tv_choose;
     @BindView(R.id.tv_other)
     TextView tv_other;
+    @BindView(R.id.rl_current_company)
+    RelativeLayout rl_current_company;
     CompanyListAdapter companyListAdapter;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
@@ -118,8 +122,8 @@ public class ChooseCompanyActivity extends BaseActivity implements View.OnClickL
                 break;
 
             case R.id.tv_choose:
-                EventBus.getDefault().post(new AddressEvent());
                 SharedPreferencesUtil.saveInt(mActivity,"wad",0);
+                EventBus.getDefault().post(new AddressEvent());
                 finish();
                 break;
         }
@@ -153,8 +157,9 @@ public class ChooseCompanyActivity extends BaseActivity implements View.OnClickL
                     public void onNext(BaseModel baseModel) {
                         if(baseModel.code==1) {
                             ToastUtil.showSuccessMsg(mContext,baseModel.message);
-                            EventBus.getDefault().post(new AddressEvent());
                             SharedPreferencesUtil.saveInt(mActivity,"wad",1);
+                            EventBus.getDefault().post(new AddressEvent());
+                            Log.d("esfewfswfsd.......",SharedPreferencesUtil.getInt(mActivity,"wad")+"z");
                             finish();
                         }else {
                             ToastUtil.showSuccessMsg(mContext,baseModel.message);
@@ -196,6 +201,7 @@ public class ChooseCompanyActivity extends BaseActivity implements View.OnClickL
                                         tv_long.setText(data.get(i).getCompanyName());
                                         companyId = data.get(i).getCompanyId();
                                         tv_other.setVisibility(View.GONE);
+                                        rl_current_company.setVisibility(View.VISIBLE);
                                     }else {
                                         list.add(data.get(i));
                                         tv_other.setVisibility(View.VISIBLE);
@@ -203,6 +209,7 @@ public class ChooseCompanyActivity extends BaseActivity implements View.OnClickL
                                 }
                                 companyListAdapter.notifyDataSetChanged();
                             }else {
+                                rl_current_company.setVisibility(View.GONE);
                                 tv_sure.setVisibility(View.GONE);
                                 tv_other.setVisibility(View.GONE);
                             }

@@ -148,7 +148,7 @@ public class ChooseDialog extends Dialog implements View.OnClickListener {
 
                     @Override
                     public void onNext(ExchangeProductModel exchangeProductModel) {
-                        if(exchangeProductModel.isSuccess()) {
+                        if(exchangeProductModel.getCode()==1) {
                             if(exchangeProductModel.getData()!=null) {
                                 exchangeProductModels = exchangeProductModel;
                                 ItemChooseAdapter itemChooseAdapter = new ItemChooseAdapter(1, productId, R.layout.item_choose_content, exchangeProductModels,exchangeProductModel.getData().getProdPrices());
@@ -171,17 +171,6 @@ public class ChooseDialog extends Dialog implements View.OnClickListener {
                                         iv_send.setVisibility(View.GONE);
                                     }
                                 }
-//                                itemChooseAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-//                                    @Override
-//                                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//                                        Intent intent = new Intent(context, PriceTrendActivity.class);
-//                                        intent.putExtra("priceId", exchangeProductModels.getData().getProdPrices().get(position).getPriceId()+"");
-//                                        intent.putExtra("productId",productId+"");
-//
-//                                        context.startActivity(intent);
-//                                    }
-//                                });
-
                             }
                         }else {
                             ToastUtil.showErroMsg(context,exchangeProductModel.getMessage());
@@ -207,8 +196,11 @@ public class ChooseDialog extends Dialog implements View.OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 searchSpecAdapter.selectPosition(position);
-                int productId = exchangeProductModels.getData().getProdSpecs().get(position).getProductId();
-                exchangeList(productId);
+                if(exchangeProductModels!=null) {
+                    int productId = exchangeProductModels.getData().getProdSpecs().get(position).getProductId();
+                    exchangeList(productId);
+                }
+
             }
         });
         if(model!=null) {

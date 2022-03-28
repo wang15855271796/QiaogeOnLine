@@ -65,6 +65,7 @@ public class NewFragment extends BaseFragment {
     CouponDialog couponDialog;
     String cell;
     NewFragment fragment;
+    String type = "new";
     //新品集合
     private List<ProductNormalModel.DataBean.ListBean> list = new ArrayList<>();
     private NewAdapter newAdapter;
@@ -89,7 +90,12 @@ public class NewFragment extends BaseFragment {
         bind = ButterKnife.bind(this, view);
         refreshLayout.setEnableLoadMore(false);
         emptyView = View.inflate(mActivity, R.layout.layout_empty, null);
-        getProductsList(pageNum,11,"new");
+        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+            type = "hot";
+        }else {
+            type = "new";
+        }
+        getProductsList(pageNum,11,type);
         newAdapter = new NewAdapter(R.layout.item_team_list, list, new NewAdapter.Onclick() {
             @Override
             public void addDialog() {
@@ -114,7 +120,7 @@ public class NewFragment extends BaseFragment {
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 pageNum = 1;
                 list.clear();
-                getProductsList(1,10,"new");
+                getProductsList(1,10,type);
                 newAdapter.notifyDataSetChanged();
                 refreshLayout.finishRefresh();
             }
@@ -126,7 +132,7 @@ public class NewFragment extends BaseFragment {
                     if (productNormalModel.getData()!=null) {
                         if(productNormalModel.getData().isHasNextPage()) {
                             pageNum++;
-                            getProductsList(pageNum, 10,"new");
+                            getProductsList(pageNum, 10,type);
                             refreshLayout.finishLoadMore();
 
                         }else {

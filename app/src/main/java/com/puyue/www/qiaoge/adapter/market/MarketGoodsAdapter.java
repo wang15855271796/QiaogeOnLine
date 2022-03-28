@@ -2,6 +2,8 @@ package com.puyue.www.qiaoge.adapter.market;
 
 import android.content.Intent;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +23,7 @@ import com.puyue.www.qiaoge.activity.flow.TagAdapter;
 import com.puyue.www.qiaoge.activity.flow.TagFlowLayout;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.activity.home.SpecialGoodDetailActivity;
+import com.puyue.www.qiaoge.adapter.MarketSpecAdapter;
 import com.puyue.www.qiaoge.api.market.MarketRightModel;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.MarketGialog;
@@ -45,9 +48,7 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
     Onclick onclick;
     MarketGialog marketGialog;
     private TextView tv_price;
-    ImageView iv_after_next;
     ImageView iv_operate;
-    ImageView iv_next;
     boolean isOpen;
     public MarketGoodsAdapter( int layoutResId, @Nullable List<MarketRightModel.DataBean.ProdClassifyBean.ListBean> data, Onclick onclick) {
         super(layoutResId, data);
@@ -60,9 +61,7 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
         int businessType = item.getBusinessType();
         TextView tv_style = helper.getView(R.id.tv_style);
         ImageView iv_send = helper.getView(R.id.iv_send);
-        TagFlowLayout rv_spec =  helper.getView(R.id.rv_spec);
-        iv_after_next = helper.getView(R.id.iv_after_next);
-        iv_next = helper.getView(R.id.iv_next);
+        RecyclerView rv_spec =  helper.getView(R.id.rv_spec);
         ImageView iv_icon = helper.getView(R.id.iv_icon);
         iv_operate = helper.getView(R.id.iv_operate);
         RelativeLayout rl_price = helper.getView(R.id.rl_price);
@@ -117,35 +116,51 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
             }
         });
 
-        TagAdapter unAbleAdapter = new TagAdapter<MarketRightModel.DataBean.ProdClassifyBean.ListBean.ProdSpecsBean>(item.getProdSpecs()){
-
-            @Override
-            public View getView(com.puyue.www.qiaoge.activity.flow.FlowLayout parent, int position, MarketRightModel.DataBean.ProdClassifyBean.ListBean.ProdSpecsBean listBean) {
-                View view = LayoutInflater.from(mContext).inflate(R.layout.item_specss,rv_spec, false);
-                TextView tv_spec = view.findViewById(R.id.tv_spec);
-                tv_spec.setText(listBean.getSpec());
-                return view;
-            }
-        };
-        rv_spec.setAdapter(unAbleAdapter);
-
         tv_style.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isOpen) {
-                    isOpen = false;
-                    tv_style.setText("展开全部规则");
-                    iv_icon.setImageResource(R.mipmap.icon_arrow_light_down);
-                    rv_spec.setLimit(true);
-                }else {
-                    tv_style.setText("收起全部规则");
-                    isOpen = true;
-                    iv_icon.setImageResource(R.mipmap.icon_arrow_light_up);
-                    rv_spec.setLimit(false);
+                if(onclick!=null) {
+                    onclick.addDialog();
                 }
-                unAbleAdapter.notifyDataChanged();
+
+                if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+                    marketGialog = new MarketGialog(mContext, item);
+                    marketGialog.show();
+                }
             }
         });
+        rv_spec.setLayoutManager(new LinearLayoutManager(mContext));
+        MarketSpecAdapter marketSpecAdapter = new MarketSpecAdapter(R.layout.item_specss,item.getProdSpecs());
+        rv_spec.setAdapter(marketSpecAdapter);
+//        TagAdapter unAbleAdapter = new TagAdapter<MarketRightModel.DataBean.ProdClassifyBean.ListBean.ProdSpecsBean>(item.getProdSpecs()){
+//
+//            @Override
+//            public View getView(com.puyue.www.qiaoge.activity.flow.FlowLayout parent, int position, MarketRightModel.DataBean.ProdClassifyBean.ListBean.ProdSpecsBean listBean) {
+//                View view = LayoutInflater.from(mContext).inflate(R.layout.item_specss,rv_spec, false);
+//                TextView tv_spec = view.findViewById(R.id.tv_spec);
+//                tv_spec.setText(listBean.getSpec());
+//                return view;
+//            }
+//        };
+//        rv_spec.setAdapter(unAbleAdapter);
+
+//        tv_style.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(isOpen) {
+//                    isOpen = false;
+//                    tv_style.setText("展开全部规则");
+//                    iv_icon.setImageResource(R.mipmap.icon_arrow_light_down);
+//                    rv_spec.setLimit(true);
+//                }else {
+//                    tv_style.setText("收起全部规则");
+//                    isOpen = true;
+//                    iv_icon.setImageResource(R.mipmap.icon_arrow_light_up);
+//                    rv_spec.setLimit(false);
+//                }
+//                unAbleAdapter.notifyDataChanged();
+//            }
+//        });
 
         fl_container = helper.getView(R.id.fl_container);
         helper.setText(R.id.tv_name,item.getProductName());
@@ -200,7 +215,6 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
 
 
         Glide.with(mContext).load(item.getSelfProd()).into(iv_operate);
-        Glide.with(mContext).load(item.getSendTimeTpl()).into(iv_next);
         tv_choose_spec.setText("选规格");
         iv_head = helper.getView(R.id.iv_head);
         Glide.with(mContext)

@@ -56,6 +56,7 @@ public class ReduceFragment extends BaseFragment {
     int pageNum = 1;
     int pageSize = 10;
     View emptyView;
+    String type = "reduct";
     @Override
     public int setLayoutId() {
         return R.layout.fragment_reduce;
@@ -109,16 +110,22 @@ public class ReduceFragment extends BaseFragment {
         });
         rv_reduce.setAdapter(reduceAdapter);
         rv_reduce.setLayoutManager(new GridLayoutManager(mActivity,2));
-        getProductsList(1,10,"reduct");
+        getProductsList(1,10,type);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 pageNum = 1;
                 list.clear();
-                getProductsList(1,pageSize,"reduct");
+                getProductsList(1,pageSize,type);
                 refreshLayout.finishRefresh();
             }
         });
+
+        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+            type = "commonBuy";
+        }else {
+            type = "reduct";
+        }
 
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
@@ -126,7 +133,7 @@ public class ReduceFragment extends BaseFragment {
                 if (productNormalModel.getData()!=null) {
                     if(productNormalModel.getData().isHasNextPage()) {
                         pageNum++;
-                        getProductsList(pageNum, 10,"reduct");
+                        getProductsList(pageNum, 10,type);
                         refreshLayout.finishLoadMore();
 
 
