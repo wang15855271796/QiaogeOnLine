@@ -806,13 +806,11 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         SharedPreferencesUtil.saveString(mContext,"lat",location.getLatitude()+"");
         SharedPreferencesUtil.saveString(mContext,"lon",location.getLongitude()+"");
         isGet = true;
-//        if (type.equals("goHome")) {
             if (city != null) {
                 UserInfoHelper.saveCity(mContext, city);
             } else {
                 UserInfoHelper.saveCity(mContext, "");
             }
-//        }
         type = "";
         locationMessage = location.getAddress();    //获取详细地址信息
         instance.removeUpdates(this);

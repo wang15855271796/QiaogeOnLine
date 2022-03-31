@@ -1428,6 +1428,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
             }
         });
     }
+
     /**
      * 获取首页信息
      */
@@ -1444,13 +1445,14 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                     @Override
                     public void onError(Throwable e) {
                         lav_activity_loading.hide();
+                        Log.d("fefsdfds.....",e.getMessage());
                     }
 
                     @Override
                     public void onNext(IndexInfoModel indexInfoModel) {
                         if (indexInfoModel.isSuccess()) {
                             data = indexInfoModel.getData();
-
+                            Log.d("fefsdfds.....","123");
                             UserInfoHelper.saveAreaName(mActivity, data.getAreaName());
                             UserInfoHelper.saveCity(mActivity, data.getCityName());
                             UserInfoHelper.saveProvince(mActivity, data.getProvinceName());
