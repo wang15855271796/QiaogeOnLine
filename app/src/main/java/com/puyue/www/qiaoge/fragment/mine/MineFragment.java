@@ -1248,9 +1248,9 @@ public class MineFragment extends BaseFragment {
                     public void onNext(ProductNormalModel getCommonProductModel) {
                         if (getCommonProductModel.isSuccess()) {
                             productModels = getCommonProductModel;
+                            list.clear();
                             mustAdapter.notifyDataSetChanged();
                             if(getCommonProductModel.getData().getList().size()>0) {
-                                list.clear();
                                 list.addAll(getCommonProductModel.getData().getList());
                                 mustAdapter.notifyDataSetChanged();
                             }
@@ -1276,6 +1276,7 @@ public class MineFragment extends BaseFragment {
     public void changess(AddressEvent event) {
         requestOrderNum();
         //新改
+        getProductsList();
         requestUserInfo();
         useAccount();
         requestUpdate();

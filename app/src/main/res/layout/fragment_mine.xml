@@ -113,7 +113,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/size_10dp"
-                    android:layout_toRightOf="@+id/iv_mine_avatar"
+                    android:layout_toRightOf="@+id/iv_vip"
                     tools:text="其哦啊个其哦啊个其哦啊个其哦啊个"
                     android:lines="1"
                     android:ellipsize="end"

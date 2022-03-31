@@ -3,9 +3,12 @@ package com.puyue.www.qiaoge.activity.cart;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -306,6 +309,8 @@ public class PayResultActivity extends BaseSwipeActivity {
         });
     }
 
+
+
     Timer timer;
     LoadingDailog dialog;
     @Override
@@ -316,12 +321,22 @@ public class PayResultActivity extends BaseSwipeActivity {
         timer.schedule(task,0,2000);
 
         LoadingDailog.Builder loadBuilder = new LoadingDailog.Builder(mContext)
-                .setMessage("获取支付结果中...")
+                .setMessage("获取支付结果中")
                 .setCancelable(false)
 
                 .setCancelOutside(true);
         dialog = loadBuilder.create();
+        dialog.setCanceledOnTouchOutside(false);
 
+        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
+                if (i == keyEvent.KEYCODE_BACK) {
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
 
@@ -413,6 +428,7 @@ public class PayResultActivity extends BaseSwipeActivity {
                         logoutAndToHome(mContext, getPayResultModel.getCode());
                         if (getPayResultModel.getCode()==1) {
                             if (getPayResultModel.getData()!= null) {
+                                getPayResultModels = getPayResultModel;
                                 mIvSuccess.setVisibility(View.VISIBLE);
                                 mIvError.setVisibility(View.GONE);
                                 imageUrl = getPayResultModel.getData().getVo().getBannerDetailUrl();
@@ -437,21 +453,31 @@ public class PayResultActivity extends BaseSwipeActivity {
                                     handler.post(new Runnable() {
                                         @Override
                                         public void run() {
-                                            timer = null;
+                                            if(timer!=null) {
+                                                timer.cancel();
+                                                timer = null;
+                                            }
                                         }
                                     });
                                 }else if(message.equals("支付失败")) {
                                     handler.post(new Runnable() {
                                         @Override
                                         public void run() {
-                                            timer = null;
+                                            if(timer!=null) {
+                                                timer.cancel();
+                                                timer = null;
+                                            }
                                         }
                                     });
                                 }else {
                                     handler.postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
-                                            timer = null;
+                                            if(timer!=null) {
+                                                timer.cancel();
+                                                timer = null;
+                                            }
+                                            dialog.dismiss();
                                         }
                                     },20000);
                                 }
@@ -480,12 +506,13 @@ public class PayResultActivity extends BaseSwipeActivity {
                                         };
                                         huoConnentionDialog.show();
                                     }else {
-                                        handler.postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                isAuth();
-                                            }
-                                        },3000);
+//                                        handler.postDelayed(new Runnable() {
+//                                            @Override
+//                                            public void run() {
+//                                                isAuth();
+//                                            }
+//                                        },3000);
+                                        handleCountDown();
                                     }
                                 }
                                 textViewSuccess.setVisibility(View.VISIBLE);
@@ -500,6 +527,21 @@ public class PayResultActivity extends BaseSwipeActivity {
                         }
                     }
                 });
+    }
+
+    CountDownTimer countDownTimer;
+    private void handleCountDown() {
+        countDownTimer = new CountDownTimer(3000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                tv_huo.setText("呼叫货拉拉"+millisUntilFinished / 1000 + "秒后");
+            }
+
+            @Override
+            public void onFinish() {
+                isAuth();
+            }
+        }.start();
     }
 
     private void getConnection(String orderId, String hllOrderId) {

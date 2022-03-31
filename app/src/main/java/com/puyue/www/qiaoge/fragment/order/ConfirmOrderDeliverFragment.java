@@ -323,9 +323,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
 
                 case R.id.rl_distribution:
                     if(modeModel1!=null) {
-                        if(disDialog==null) {
-                            disDialog = new DisDialog(mActivity,cModel.getData().getSendAmount(),1,modeModel1.getData().getHllBtn());
-                        }
+                        disDialog = new DisDialog(mActivity,cModel.getData().getSendAmount(),1,modeModel1.getData().getHllBtn());
                         disDialog.show();
                     }
 
@@ -357,10 +355,11 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                         AppHelper.showMsg(mActivity, "请选择配送服务");
                         buttonPay.setEnabled(true);
                         lav_activity_loading.hide();
-                        if(modeModel1!=null) {
-                            disDialog = new DisDialog(mActivity,cModel.getData().getSendAmount(),1,modeModel1.getData().getHllBtn());
-                            disDialog.show();
-                        }
+//                        if(modeModel1!=null) {
+//
+//                        }
+                        disDialog = new DisDialog(mActivity,cModel.getData().getSendAmount(),1,modeModel1.getData().getHllBtn());
+                        disDialog.show();
                         return;
                     }
                     if (LinearLayoutAddress.getVisibility() == View.VISIBLE) { // 没有地址

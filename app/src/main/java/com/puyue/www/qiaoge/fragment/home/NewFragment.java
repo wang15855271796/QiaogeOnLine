@@ -88,13 +88,14 @@ public class NewFragment extends BaseFragment {
             EventBus.getDefault().register(this);
         }
         bind = ButterKnife.bind(this, view);
+//        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+//            type = "hot";
+//        }else {
+//            type = "new";
+//        }
         refreshLayout.setEnableLoadMore(false);
         emptyView = View.inflate(mActivity, R.layout.layout_empty, null);
-        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
-            type = "hot";
-        }else {
-            type = "new";
-        }
+
         getProductsList(pageNum,11,type);
         newAdapter = new NewAdapter(R.layout.item_team_list, list, new NewAdapter.Onclick() {
             @Override

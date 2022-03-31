@@ -78,6 +78,8 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
             }
         }
 
+
+
         if(item.getBuyFlag().equals("")) {
             helper.getView(R.id.tv_buy).setVisibility(View.GONE);
         }else {
@@ -132,6 +134,12 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
         rv_spec.setLayoutManager(new LinearLayoutManager(mContext));
         MarketSpecAdapter marketSpecAdapter = new MarketSpecAdapter(R.layout.item_specss,item.getProdSpecs());
         rv_spec.setAdapter(marketSpecAdapter);
+
+        if(item.getProdSpecs().size()>3) {
+            tv_style.setVisibility(View.VISIBLE);
+        }else {
+            tv_style.setVisibility(View.GONE);
+        }
 //        TagAdapter unAbleAdapter = new TagAdapter<MarketRightModel.DataBean.ProdClassifyBean.ListBean.ProdSpecsBean>(item.getProdSpecs()){
 //
 //            @Override

@@ -38,6 +38,18 @@
                         android:scaleType="fitXY"
                         />
 
+                    <TextView
+                        android:id="@+id/tv_sale"
+                        android:textColor="#666"
+                        android:textSize="12sp"
+                        tools:text="销量：300"
+                        android:layout_below="@+id/iv_head"
+                        android:drawablePadding="@dimen/size_5dp"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/size_25dp"/>
+
+
                     <ImageView
                         android:id="@+id/iv_no_data"
                         android:layout_centerInParent="true"
@@ -136,53 +148,6 @@
                         android:layout_height="wrap_content" />
                 </LinearLayout>
 
-                <!-- 规格,获取授权 -->
-                <RelativeLayout
-                    android:id="@+id/rl1"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@+id/ll_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <RelativeLayout
-                        android:id="@+id/rl_spec"
-                        android:layout_marginRight="@dimen/size_10dp"
-                        android:background="@drawable/shape_orange_radius_11"
-                        android:layout_width="@dimen/size_60dp"
-                        android:layout_height="@dimen/size_26dp">
-
-                        <TextView
-                            android:id="@+id/tv_choose_spec"
-                            android:text="选规格"
-                            android:textColor="#fff"
-                            android:layout_centerInParent="true"
-                            android:layout_marginRight="@dimen/size_10dp"
-                            android:textSize="@dimen/size_12dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/rl_price"
-                        android:visibility="gone"
-                        android:layout_marginRight="@dimen/size_10dp"
-                        android:background="@drawable/shape_orange_radius_11"
-                        android:layout_width="@dimen/size_70dp"
-                        android:layout_height="@dimen/size_26dp">
-
-                        <TextView
-                            android:text="获取授权"
-                            android:textColor="#fff"
-                            android:layout_centerInParent="true"
-                            android:layout_marginRight="@dimen/size_10dp"
-                            android:textSize="@dimen/size_12dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                    </RelativeLayout>
-
-                </RelativeLayout>
 
                 <!-- 图标区域 -->
                 <RelativeLayout
@@ -234,6 +199,55 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
+                <!-- 规格,获取授权 -->
+                <RelativeLayout
+                    android:id="@+id/rl1"
+                    android:layout_marginTop="@dimen/size_20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/ll_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:id="@+id/rl_spec"
+                        android:layout_marginRight="@dimen/size_10dp"
+                        android:background="@drawable/shape_orange_radius_11"
+                        android:layout_width="@dimen/size_60dp"
+                        android:layout_height="@dimen/size_26dp">
+
+                        <TextView
+                            android:id="@+id/tv_choose_spec"
+                            android:text="选规格"
+                            android:textColor="#fff"
+                            android:layout_centerInParent="true"
+                            android:layout_marginRight="@dimen/size_10dp"
+                            android:textSize="@dimen/size_12dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rl_price"
+                        android:visibility="gone"
+                        android:layout_marginRight="@dimen/size_10dp"
+                        android:background="@drawable/shape_orange_radius_11"
+                        android:layout_width="@dimen/size_70dp"
+                        android:layout_height="@dimen/size_26dp">
+
+                        <TextView
+                            android:text="获取授权"
+                            android:textColor="#fff"
+                            android:layout_centerInParent="true"
+                            android:layout_marginRight="@dimen/size_10dp"
+                            android:textSize="@dimen/size_12dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
                 <TextView
                     android:layout_below="@+id/rv_spec"
                     android:id="@+id/tv_style"
@@ -253,24 +267,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/tv_sale"
-                    android:textColor="#666"
-                    android:textSize="12sp"
-                    tools:text="销量：300"
-                    android:drawablePadding="@dimen/size_5dp"
-                    android:layout_marginLeft="@dimen/size_10dp"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/size_25dp"/>
-
 
 
                 <ImageView
                     android:id="@+id/iv_icon"
                     android:visibility="gone"
                     android:layout_marginTop="13dp"
-                    android:layout_toRightOf="@+id/tv_style"
                     android:src="@mipmap/icon_arrow_light_down"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>

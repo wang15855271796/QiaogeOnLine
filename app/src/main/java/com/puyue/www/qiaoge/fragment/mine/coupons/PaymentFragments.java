@@ -35,6 +35,7 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.cart.PayResultActivity;
 import com.puyue.www.qiaoge.activity.mine.account.HisActivity;
 import com.puyue.www.qiaoge.activity.mine.account.PayActivity;
+import com.puyue.www.qiaoge.activity.mine.order.NewOrderDetailActivity;
 import com.puyue.www.qiaoge.adapter.PayListAdapter;
 import com.puyue.www.qiaoge.api.cart.CheckPayPwdAPI;
 import com.puyue.www.qiaoge.api.cart.GetPayResultAPI;
@@ -232,9 +233,19 @@ public class PaymentFragments extends DialogFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(outTradeNo!=null&&SharedPreferencesUtil.getString(getContext(),"payKey").equals("4")) {
+
+        if(jumpWx==1) {
+            Intent intent = new Intent(getActivity(),NewOrderDetailActivity.class);
+            intent.putExtra(AppConstant.ORDERID,orderId);
+            startActivity(intent);
+            getActivity().finish();
+        }
+
+        if(outTradeNo!=null&&jumpWx==0) {
             getPayResult(outTradeNo);
         }
+
+
     }
 
     // 支付
@@ -675,7 +686,9 @@ public class PaymentFragments extends DialogFragment {
 
                     @Override
                     public void onNext(CheckPayPwdModel checkPayPwdModel) {
-                        if (checkPayPwdModel.success) {
+                        if (checkPayPwdModel.code==1) {
+                            lav_activity_loading.hide();
+                            lav_activity_loading.setVisibility(View.GONE);
                             new Handler().postDelayed(new Runnable() {
                                 public void run() {
                                     getPayResult(outTradeNo);
@@ -683,6 +696,8 @@ public class PaymentFragments extends DialogFragment {
                                 }
                             }, 500);
                         } else {
+                            lav_activity_loading.hide();
+                            lav_activity_loading.setVisibility(View.GONE);
                             AppHelper.showMsg(getContext(), checkPayPwdModel.message);
 
 
@@ -736,7 +751,7 @@ public class PaymentFragments extends DialogFragment {
      * 提交订单
      */
     List<PayListModel.DataBean> data;
-    int jumpWx;
+    int jumpWx = -1;
     private void orderPay() {
         OrderPayAPI.requestsData(getContext())
                 .subscribeOn(Schedulers.io())

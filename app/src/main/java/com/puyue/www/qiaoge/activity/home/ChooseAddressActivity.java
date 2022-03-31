@@ -153,7 +153,6 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
         rl_choose_company.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                chooseStyle();
                 Intent intent = new Intent(mActivity, ChooseCompanyActivity.class);
                 startActivity(intent);
                 finish();
@@ -164,37 +163,7 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
 
     }
 
-    /**
-     * 切换城市版或企业版
-     */
-    private void chooseStyle() {
-        IndexHomeAPI.changeCity(mContext,SharedPreferencesUtil.getInt(mActivity,"wad"))
-                .subscribeOn(Schedulers.io())
-                .observeOn(mainThread())
-                .subscribe(new Subscriber<BaseModel>() {
-                    @Override
-                    public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(BaseModel baseModel) {
-                        if(baseModel.code==1) {
-                            ToastUtil.showSuccessMsg(mContext,baseModel.message);
-                            EventBus.getDefault().post(new AddressEvent());
-                            SharedPreferencesUtil.saveInt(mActivity,"wad",1);
-                            finish();
-                        }else {
-                            ToastUtil.showSuccessMsg(mContext,baseModel.message);
-                        }
-                    }
-                });
-    }
 
     private void requestEditDefaultAddress(int id, String ids, int position) {
         DefaultAddressAPI.requestEditDefaultAddress(mContext, id, ids)

@@ -140,6 +140,12 @@ public class SearchReasultAdapter extends BaseQuickAdapter<SearchResultsModel.Da
                 }
             }
         });
+
+        if(item.getProdSpecs().size()>3) {
+            tv_style.setVisibility(View.VISIBLE);
+        }else {
+            tv_style.setVisibility(View.GONE);
+        }
 //        rl_open.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {

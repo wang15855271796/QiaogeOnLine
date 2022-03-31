@@ -4,6 +4,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -56,7 +58,7 @@ public class ReduceFragment extends BaseFragment {
     int pageNum = 1;
     int pageSize = 10;
     View emptyView;
-    String type = "reduct";
+    String type;
     @Override
     public int setLayoutId() {
         return R.layout.fragment_reduce;
@@ -88,6 +90,11 @@ public class ReduceFragment extends BaseFragment {
     @Override
     public void setViewData() {
         refreshLayout.setEnableLoadMore(false);
+//        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+//            type = "commonBuy";
+//        }else {
+//            type = "reduct";
+//        }
         rv_reduce.setLayoutManager(new MyGrideLayoutManager(mActivity,2));
         enjoyProduct = SharedPreferencesUtil.getString(mActivity, "priceType");
         reduceAdapter = new ReduceAdapter(enjoyProduct,R.layout.item_team_list, list, new ReduceAdapter.Onclick() {
@@ -104,7 +111,6 @@ public class ReduceFragment extends BaseFragment {
 
             @Override
             public void tipClick() {
-//                showPhoneDialog(cell);
                 AppHelper.ShowAuthDialog(mActivity,SharedPreferencesUtil.getString(mActivity,"mobile"));
             }
         });
@@ -121,11 +127,8 @@ public class ReduceFragment extends BaseFragment {
             }
         });
 
-        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
-            type = "commonBuy";
-        }else {
-            type = "reduct";
-        }
+        Log.d("dsfsef.....",SharedPreferencesUtil.getInt(mActivity,"wad")+"a");
+
 
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override

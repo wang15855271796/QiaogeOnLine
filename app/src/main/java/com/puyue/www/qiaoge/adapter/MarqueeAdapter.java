@@ -97,9 +97,4 @@ public class MarqueeAdapter extends RecyclerView.Adapter<MarqueeAdapter.ViewHold
             tv_notice = (TextView) view.findViewById(R.id.tv_notice);
         }
     }
-
-
-
-
-
 }

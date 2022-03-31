@@ -98,7 +98,7 @@ public class HuoHomeActivity extends BaseActivity implements View.OnClickListene
     ImageView iv1;
     int position = 0;
     String orderId;
-    int intFlag;
+    int intFlag = 0;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         orderId = getIntent().getStringExtra("orderId");
@@ -253,8 +253,19 @@ public class HuoHomeActivity extends BaseActivity implements View.OnClickListene
                             if(huoCityIdModel.getData()!=null) {
                                 cityId = huoCityIdModel.getData().getCity_id();
                                 if(intFlag ==0) {
+                                    rl_info.setVisibility(View.VISIBLE);
+                                    rb_quick.setBackgroundResource(R.drawable.shape_white3);
+                                    rb_order.setBackgroundResource(R.drawable.ysf_action_bar_icon_transparent);
+                                    rb_quick.setTextColor(Color.parseColor("#FD6601"));
+                                    rb_order.setTextColor(Color.parseColor("#ffffff"));
                                     switchOrder(huoCityIdModel.getData().getCity_id());
+
                                 }else {
+                                    rl_info.setVisibility(View.GONE);
+                                    rb_order.setTextColor(Color.parseColor("#FD6601"));
+                                    rb_quick.setTextColor(Color.parseColor("#ffffff"));
+                                    rb_order.setBackgroundResource(R.drawable.shape_white3);
+                                    rb_quick.setBackgroundResource(R.drawable.ysf_action_bar_icon_transparent);
                                     switchQuick();
                                 }
 

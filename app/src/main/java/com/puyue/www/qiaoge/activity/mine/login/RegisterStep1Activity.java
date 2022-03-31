@@ -486,8 +486,6 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                             if (StringHelper.isLetterDigit(et_password.getText().toString())) {
                                 if(!etAuthor.equals("")) {
                                     getCompanyNames(etAuthor);
-
-
                                 }else {
                                     AppHelper.showMsg(mContext, "授权码不能为空");
                                 }
@@ -699,9 +697,12 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
 
                                 @Override
                                 public void onNext(RegisterModel registerModel) {
-                                    mModelRegister = registerModel;
-                                    if (mModelRegister.code==1) {
-                                        updateRegister();
+
+                                    if (registerModel.code==1) {
+                                        if(registerModel.data!=null) {
+                                            mModelRegister = registerModel;
+                                            updateRegister();
+                                        }
                                     } else {
                                         AppHelper.showMsg(mContext, mModelRegister.message);
                                     }
@@ -724,9 +725,11 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
 
                                 @Override
                                 public void onNext(RegisterModel registerModel) {
-                                    mModelRegister = registerModel;
-                                    if (mModelRegister.code==1) {
-                                        updateRegister();
+                                    if (registerModel.code==1) {
+                                        if(registerModel.data!=null) {
+                                            mModelRegister = registerModel;
+                                            updateRegister();
+                                        }
                                     } else {
                                         AppHelper.showMsg(mContext, mModelRegister.message);
                                     }
@@ -753,11 +756,12 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
 
                                 @Override
                                 public void onNext(RegisterModel registerModel) {
-
-                                    mModelRegister = registerModel;
-                                    if (mModelRegister.code==1) {
-                                        //这里注册完成也就直接登录成功,本地存储token
-                                        updateRegister();
+                                    if (registerModel.code==1) {
+                                        if(registerModel.data!=null) {
+                                            mModelRegister = registerModel;
+                                            //这里注册完成也就直接登录成功,本地存储token
+                                            updateRegister();
+                                        }
                                     } else {
                                         //  dialog.dismiss();
                                         AppHelper.showMsg(mContext, mModelRegister.message);
@@ -783,10 +787,13 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                                 @Override
                                 public void onNext(RegisterModel registerModel) {
 
-                                    mModelRegister = registerModel;
-                                    if (mModelRegister.code==1) {
-                                        //这里注册完成也就直接登录成功,本地存储token
-                                        updateRegister();
+
+                                    if (registerModel.code==1) {
+                                        if(registerModel.data!=null) {
+                                            mModelRegister = registerModel;
+                                            //这里注册完成也就直接登录成功,本地存储token
+                                            updateRegister();
+                                        }
                                     } else {
                                         //  dialog.dismiss();
                                         AppHelper.showMsg(mContext, mModelRegister.message);

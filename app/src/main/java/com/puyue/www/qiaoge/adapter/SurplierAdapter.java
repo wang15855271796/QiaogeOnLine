@@ -100,6 +100,12 @@ public class SurplierAdapter extends BaseQuickAdapter<SurpliListModel.DataBean.L
         SurplierSpecAdapter surplierSpecAdapter = new SurplierSpecAdapter(R.layout.item_specss,item.getProdSpecs());
         rv_spec.setLayoutManager(new LinearLayoutManager(mContext));
         rv_spec.setAdapter(surplierSpecAdapter);
+
+        if(item.getProdSpecs().size()>3) {
+            tv_style.setVisibility(View.VISIBLE);
+        }else {
+            tv_style.setVisibility(View.GONE);
+        }
 //        unAbleAdapter.notifyDataChanged();
 
 //        rl_open.setOnClickListener(new View.OnClickListener() {

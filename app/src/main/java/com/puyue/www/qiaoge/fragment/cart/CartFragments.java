@@ -42,6 +42,7 @@ import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.FullDialog;
+import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.CartGoodsEvent;
 import com.puyue.www.qiaoge.event.DeleteGoodsEvent;
 import com.puyue.www.qiaoge.event.GoToMarketEvent;
@@ -881,6 +882,11 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getAllPrice(UpdateEvent updateEvent) {
         tv_total_price.setText(updateEvent.getDiscribe());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void upPrice(AddressEvent event) {
+        smart.autoRefresh();
     }
 
     //刷新列表

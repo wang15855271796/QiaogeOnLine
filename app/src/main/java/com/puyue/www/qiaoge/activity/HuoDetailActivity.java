@@ -26,11 +26,13 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.flow.FlowLayout;
 import com.puyue.www.qiaoge.activity.flow.TagAdapter;
 import com.puyue.www.qiaoge.activity.flow.TagFlowLayout;
+import com.puyue.www.qiaoge.activity.mine.order.NewOrderDetailActivity;
 import com.puyue.www.qiaoge.adapter.HuoPayAdapter;
 import com.puyue.www.qiaoge.adapter.HuoPayedAdapter;
 import com.puyue.www.qiaoge.api.huolala.HuolalaAPI;
 import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.base.BaseModel;
+import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.AddTipDialog;
 import com.puyue.www.qiaoge.dialog.XieShangDialog;
 import com.puyue.www.qiaoge.helper.AppHelper;
@@ -316,7 +318,10 @@ public class HuoDetailActivity extends BaseActivity implements View.OnClickListe
                                             tv_connect.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
-                                                    getHuoDetail(connectOrdersBean.getOrderId());
+                                                    Intent intent = new Intent(mActivity, NewOrderDetailActivity.class);
+                                                    intent.putExtra(AppConstant.ORDERID,connectOrdersBean.getOrderId());
+                                                    startActivity(intent);
+//                                                    getHuoDetail(connectOrdersBean.getOrderId());
                                                 }
                                             });
                                             return view;

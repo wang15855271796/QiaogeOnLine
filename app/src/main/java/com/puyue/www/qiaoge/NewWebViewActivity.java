@@ -451,6 +451,7 @@ public class NewWebViewActivity extends BaseSwipeActivity {
             Intent intent = new Intent(NewWebViewActivity.this, IntegralPayActivity.class);
             intent.putExtra("vipPackageId", msg);
             startActivity(intent);
+
 //            PaymentFragment paymentFragment = new PaymentFragment();
 //            Bundle bundle = new Bundle();
 //            bundle.putString("total", "1");

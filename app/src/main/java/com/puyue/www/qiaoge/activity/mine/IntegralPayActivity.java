@@ -22,6 +22,7 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 
 import com.puyue.www.qiaoge.activity.mine.order.MyOrdersActivity;
+import com.puyue.www.qiaoge.activity.mine.order.NewOrderDetailActivity;
 import com.puyue.www.qiaoge.activity.mine.order.VipPayResultActivity;
 import com.puyue.www.qiaoge.adapter.VipListAdapter;
 import com.puyue.www.qiaoge.api.cart.GetPayResultAPI;
@@ -101,7 +102,7 @@ public class IntegralPayActivity extends BaseSwipeActivity {
     }
 
     VipListAdapter vipListAdapter;
-    int jumpWx;
+    int jumpWx = -1;
     @Override
     public void findViewById() {
         recyclerView = findViewById(R.id.recyclerView);
@@ -118,7 +119,6 @@ public class IntegralPayActivity extends BaseSwipeActivity {
                 payChannel = list.get(position).getFlag();
                 jumpWx = list.get(position).getJumpWx();
                 vipListAdapter.selectPosition(position);
-//               requestVipPay(vipPackageId,list.get(position).getFlag());
             }
         });
     }
@@ -160,13 +160,19 @@ public class IntegralPayActivity extends BaseSwipeActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(outTradeNo!=null&&SharedPreferencesUtil.getString(mContext,"payKey").equals("4")) {
+
+        if(jumpWx==1) {
+            mActivity.finish();
+        }
+
+        if(outTradeNo!=null&&jumpWx==0) {
             Intent intent = new Intent(mContext, VipPayResultActivity.class);
             intent.putExtra("payChannal", payChannel);
             intent.putExtra("outTradeNo", outTradeNo);
             startActivity(intent);
             finish();
         }
+
         getPayList();
     }
 
@@ -359,18 +365,23 @@ public class IntegralPayActivity extends BaseSwipeActivity {
         UnifyPayRequest msg = new UnifyPayRequest();
         msg.payChannel = UnifyPayRequest.CHANNEL_ALIPAY;
         msg.payData = parms;
-        UnifyPayPlugin.getInstance(this).sendPayRequest(msg);
+        UnifyPayPlugin.getInstance(mContext).sendPayRequest(msg);
         lav_activity_loading.setVisibility(View.GONE);
         lav_activity_loading.hide();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = MyOrdersActivity.getIntent(getContext(), HomeActivity.class, AppConstant.ALL);
-                intent.putExtra("orderDeliveryType",0);
-                startActivity(intent);
-                finish();
-            }
-        },20000);
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Intent intent = MyOrdersActivity.getIntent(getContext(), HomeActivity.class, AppConstant.ALL);
+//                intent.putExtra("orderDeliveryType",0);
+//                startActivity(intent);
+//                finish();
+//            }
+//        },20000);
+
+//        UnifyPayRequest msg = new UnifyPayRequest();
+//        msg.payChannel = UnifyPayRequest.CHANNEL_ALIPAY;
+//        msg.payData = parms;
+//        UnifyPayPlugin.getInstance(getContext()).sendPayRequest(msg);
     }
 
 

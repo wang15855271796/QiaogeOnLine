@@ -40,8 +40,8 @@
                 android:layout_marginLeft="@dimen/size_20dp"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/checkbox_no"
-                android:layout_width="@dimen/size_16dp"
-                android:layout_height="@dimen/size_16dp" />
+                android:layout_width="@dimen/size_20dp"
+                android:layout_height="@dimen/size_20dp" />
 
             <TextView
                 android:id="@+id/tv_name"
@@ -55,7 +55,7 @@
 
             <TextView
                 android:id="@+id/tv_price"
-                android:layout_marginTop="@dimen/size_2dp"
+                android:layout_marginTop="@dimen/size_5dp"
                 android:layout_marginLeft="@dimen/size_45dp"
                 android:layout_below="@+id/tv_name"
                 android:textSize="@dimen/sp_14"
@@ -66,8 +66,8 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:paddingBottom="@dimen/size_16dp"
-            android:layout_marginTop="@dimen/dp_10"
+            android:paddingBottom="@dimen/size_60dp"
+            android:layout_marginTop="@dimen/size_20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -78,8 +78,8 @@
                 android:layout_marginLeft="@dimen/size_20dp"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/checkbox_no"
-                android:layout_width="@dimen/size_16dp"
-                android:layout_height="@dimen/size_16dp" />
+                android:layout_width="@dimen/size_20dp"
+                android:layout_height="@dimen/size_20dp" />
 
             <TextView
                 android:id="@+id/tv2"
@@ -93,7 +93,7 @@
 
             <TextView
                 android:id="@+id/tv_huo"
-                android:layout_marginTop="@dimen/size_2dp"
+                android:layout_marginTop="@dimen/size_5dp"
                 android:layout_marginLeft="@dimen/size_45dp"
                 android:layout_below="@+id/tv2"
                 android:textSize="@dimen/sp_14"

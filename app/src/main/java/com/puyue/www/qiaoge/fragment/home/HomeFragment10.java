@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.frankfancode.marqueeview.MarqueeView;
 import com.google.android.material.appbar.AppBarLayout;
 
 import androidx.core.content.ContextCompat;
@@ -68,8 +70,10 @@ import com.puyue.www.qiaoge.adapter.CommonsAdapter;
 import com.puyue.www.qiaoge.adapter.CommonssAdapter;
 import com.puyue.www.qiaoge.adapter.CouponListAdapter;
 import com.puyue.www.qiaoge.adapter.FullAdapter;
+import com.puyue.www.qiaoge.adapter.HomeMarqueeAdapter;
 import com.puyue.www.qiaoge.adapter.HotAdapter;
 import com.puyue.www.qiaoge.adapter.IndexRecommendAdapter;
+import com.puyue.www.qiaoge.adapter.MarqueeAdapter;
 import com.puyue.www.qiaoge.adapter.Skill2Adapter;
 import com.puyue.www.qiaoge.adapter.Skill3Adapter;
 import com.puyue.www.qiaoge.adapter.Team3Adapter;
@@ -647,6 +651,41 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
             }
         });
 
+        //判断用户是否选择了企业
+        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+            getStyle();
+            rb_new.setText("热销商品");
+            tv_title1.setText("超值人气");
+            tv_title3.setText("专宠好物");
+            rb_reduce.setText("常购清单");
+            rb_new_top.setText("热销商品");
+            rb_info_top.setText("常购清单");
+            rb_must_common_top.setVisibility(View.GONE);
+            rb_must_common.setVisibility(View.GONE);
+            tv_title2.setVisibility(View.GONE);
+            tv_title4.setVisibility(View.GONE);
+            v2s.setVisibility(View.GONE);
+            v4s.setVisibility(View.GONE);
+            rb_common.setVisibility(View.GONE);
+            rb_common_top.setVisibility(View.GONE);
+            rg_new.check(R.id.rb_new);
+        }else {
+            rb_reduce.setText("降价商品");
+            rb_new.setText("新品上市");
+            tv_title1.setText("上新立荐");
+            tv_title3.setText("物美价廉");
+            rb_new_top.setText("新品上市");
+            rb_info_top.setText("降价商品");
+            v2s.setVisibility(View.VISIBLE);
+            v4s.setVisibility(View.VISIBLE);
+            tv_title2.setVisibility(View.VISIBLE);
+            tv_title4.setVisibility(View.VISIBLE);
+            rb_must_common_top.setVisibility(View.VISIBLE);
+            rb_must_common.setVisibility(View.VISIBLE);
+            rb_common.setVisibility(View.VISIBLE);
+            rb_common_top.setVisibility(View.VISIBLE);
+            rg_new.check(R.id.rb_must_common);
+        }
 
         commonssAdapter = new CommonssAdapter(mActivity,fullActive1);
         rv_auto_view1.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
@@ -754,41 +793,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                 indicator.bindRecyclerView(rv_icon);
             }
         });
-        //判断用户是否选择了企业
-        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
-            getStyle();
-            rb_new.setText("热销商品");
-            tv_title1.setText("超值人气");
-            tv_title3.setText("专宠好物");
-            rb_reduce.setText("常购清单");
-            rb_new_top.setText("热销商品");
-            rb_info_top.setText("常购清单");
-            rb_must_common_top.setVisibility(View.GONE);
-            rb_must_common.setVisibility(View.GONE);
-            tv_title2.setVisibility(View.GONE);
-            tv_title4.setVisibility(View.GONE);
-            v2s.setVisibility(View.GONE);
-            v4s.setVisibility(View.GONE);
-            rb_common.setVisibility(View.GONE);
-            rb_common_top.setVisibility(View.GONE);
-            rg_new.check(R.id.rb_new);
-        }else {
-            rb_reduce.setText("降价商品");
-            rb_new.setText("新品上市");
-            tv_title1.setText("上新立荐");
-            tv_title3.setText("物美价廉");
-            rb_new_top.setText("新品上市");
-            rb_info_top.setText("降价商品");
-            v2s.setVisibility(View.VISIBLE);
-            v4s.setVisibility(View.VISIBLE);
-            tv_title2.setVisibility(View.VISIBLE);
-            tv_title4.setVisibility(View.VISIBLE);
-            rb_must_common_top.setVisibility(View.VISIBLE);
-            rb_must_common.setVisibility(View.VISIBLE);
-            rb_common.setVisibility(View.VISIBLE);
-            rb_common_top.setVisibility(View.VISIBLE);
-            rg_new.check(R.id.rb_must_common);
-        }
     }
 
     //判断用户是否选择了企业
@@ -866,19 +870,15 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                         rv_skill.setVisibility(View.VISIBLE);
                                         skillAdapter.notifyDataSetChanged();
                                         ll_skill.setVisibility(View.VISIBLE);
-                                        Log.d("fewfsfd........",data1.getSpike().getActives().size()+"qw");
                                     } else if (data1.getSpike().getActives().size() == 2||data1.getSpike().getActives().size() >4) {
                                         skillActive2.clear();
                                         skillActive2.addAll(data1.getSpike().getActives());
                                         ll_skill.setVisibility(View.VISIBLE);
                                         rv_skill.setVisibility(View.VISIBLE);
-
                                         skill2Adapter = new Skill2Adapter(mActivity, R.layout.item_skill_lists, skillActive2, "0");
                                         rv_skill.setAdapter(skill2Adapter);
                                         rv_skill.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-
                                         skill2Adapter.notifyDataSetChanged();
-                                        Log.d("fewfsfd........",data1.getSpike().getActives().size()+"qwe");
                                     } else if (data1.getSpike().getActives().size() == 3) {
                                         skillActive3.clear();
                                         skillActive3.addAll(data1.getSpike().getActives());
@@ -1867,7 +1867,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                 }
                 break;
             case R.id.rl_huos:
-                Log.d("cdsefdfsgr.....","123");
                 isAuth();
 
                 break;
@@ -2042,7 +2041,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("cdsefdfsgr.....",e.getMessage()+"1234");
                     }
 
                     @Override
@@ -2466,10 +2464,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
 //            Fragment to = getFragment();
 //            //替换到Fragment
 //            switchFrament(mContent,to);
-
         }
-
-
     }
 
     /**

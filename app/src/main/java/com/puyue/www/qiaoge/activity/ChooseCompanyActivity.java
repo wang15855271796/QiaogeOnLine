@@ -118,13 +118,16 @@ public class ChooseCompanyActivity extends BaseActivity implements View.OnClickL
                 break;
 
             case R.id.tv_sure:
-                getFullTips(companyId);
+                if(!companyId.equals("")) {
+                    getFullTips(companyId);
+                }else {
+                    ToastUtil.showSuccessMsg(mActivity,"请选择对应企业");
+                }
+
                 break;
 
             case R.id.tv_choose:
-                SharedPreferencesUtil.saveInt(mActivity,"wad",0);
-                EventBus.getDefault().post(new AddressEvent());
-                finish();
+                chooseStyle();
                 break;
         }
     }
@@ -132,6 +135,37 @@ public class ChooseCompanyActivity extends BaseActivity implements View.OnClickL
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getCompanyList(CompanyEvent companyEvent) {
         getCompanyList();
+    }
+
+    /**
+     * 切换城市版或企业版
+     */
+    private void chooseStyle() {
+        IndexHomeAPI.changeCity(mContext,SharedPreferencesUtil.getInt(mActivity,"wad"))
+                .subscribeOn(Schedulers.io())
+                .observeOn(mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+                        if(baseModel.code==1) {
+                            SharedPreferencesUtil.saveInt(mActivity,"wad",0);
+                            EventBus.getDefault().post(new AddressEvent());
+                            finish();
+                        }else {
+                            ToastUtil.showSuccessMsg(mContext,baseModel.message);
+                        }
+                    }
+                });
     }
 
     /**
@@ -159,7 +193,6 @@ public class ChooseCompanyActivity extends BaseActivity implements View.OnClickL
                             ToastUtil.showSuccessMsg(mContext,baseModel.message);
                             SharedPreferencesUtil.saveInt(mActivity,"wad",1);
                             EventBus.getDefault().post(new AddressEvent());
-                            Log.d("esfewfswfsd.......",SharedPreferencesUtil.getInt(mActivity,"wad")+"z");
                             finish();
                         }else {
                             ToastUtil.showSuccessMsg(mContext,baseModel.message);
@@ -171,7 +204,7 @@ public class ChooseCompanyActivity extends BaseActivity implements View.OnClickL
     /**
      * 获取公司列表
      */
-    String companyId;
+    String companyId = "";
     List<CompanyListModel.DataBean> list = new ArrayList<>();
     private void getCompanyList() {
         IndexHomeAPI.getCompanyList(mActivity)

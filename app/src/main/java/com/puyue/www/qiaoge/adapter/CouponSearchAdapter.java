@@ -127,6 +127,13 @@ public class CouponSearchAdapter extends BaseQuickAdapter<ProductNormalModel.Dat
         CouponSpecAdapter couponSpecAdapter = new CouponSpecAdapter(R.layout.item_specss,item.getProdSpecs());
         rv_spec.setAdapter(couponSpecAdapter);
         rv_spec.setLayoutManager(new LinearLayoutManager(mContext));
+
+        if(item.getProdSpecs().size()>3) {
+            tv_style.setVisibility(View.VISIBLE);
+        }else {
+            tv_style.setVisibility(View.GONE);
+        }
+
 //        rl_open.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
