@@ -83,7 +83,7 @@ public class WheelSurfView extends RelativeLayout {
 
         //如果用户没有设置自定义的图标就使用默认的
         if ( mGoImgRes == 0 ) {
-            mStart.setImageResource(R.drawable.node);
+            mStart.setImageResource(R.mipmap.node);
         } else {
             mStart.setImageResource(mGoImgRes);
         }
@@ -167,8 +167,8 @@ public class WheelSurfView extends RelativeLayout {
                     float w = mStart.getMeasuredWidth();
                     float h = mStart.getMeasuredHeight();
                     //计算新的大小 默认为整个大小最大值的0.17 至于为什么是0.17  我只想说我乐意。。。。
-                    int newW = ( int ) ((( float ) childWidthSize) * 0.17);
-                    int newH = ( int ) ((( float ) childWidthSize) * 0.17 * h / w);
+                    int newW = ( int ) ((( float ) childWidthSize) * 0.3);
+                    int newH = ( int ) ((( float ) childWidthSize) * 0.3 * h / w);
                     ViewGroup.LayoutParams layoutParams = mStart.getLayoutParams();
                     layoutParams.width = newW;
                     layoutParams.height = newH;

@@ -428,7 +428,7 @@ public class HomeFragmentsss extends BaseFragment implements View.OnClickListene
     }
 
     private void requestOrderNumTwo() {
-        MyOrderNumAPI.requestOrderNum(mActivity)
+        MyOrderNumAPI.requestOrderNum(mActivity,SharedPreferencesUtil.getInt(mActivity,"wad"))
                 .subscribeOn(Schedulers.io())
                 .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<MyOrderNumModel>() {

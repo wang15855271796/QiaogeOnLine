@@ -22,7 +22,8 @@ public class LoginModel extends BaseModel {
 
         public String token;
         public UserBaseInfoVOBean userBaseInfoVO;
-
+        //        0翘歌 1代仓代配
+        public int wad;
         public static class UserBaseInfoVOBean {
             /**
              * name : cy

@@ -38,6 +38,8 @@ import com.puyue.www.qiaoge.AutoPollRecyclerView;
 import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
+import com.puyue.www.qiaoge.activity.BannerActivity;
+import com.puyue.www.qiaoge.activity.ChooseCompanyActivity;
 import com.puyue.www.qiaoge.activity.CommonH6Activity;
 import com.puyue.www.qiaoge.activity.FullListActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
@@ -96,6 +98,7 @@ import com.puyue.www.qiaoge.dialog.ChooseHomeDialog;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
 import com.puyue.www.qiaoge.dialog.CouponListDialog;
 import com.puyue.www.qiaoge.dialog.HomeActivityDialog;
+import com.puyue.www.qiaoge.dialog.HuoOrderDialog;
 import com.puyue.www.qiaoge.dialog.Privacy4Dialog;
 import com.puyue.www.qiaoge.dialog.PrivacysDialog;
 import com.puyue.www.qiaoge.dialog.TurnTableDialog;
@@ -120,6 +123,7 @@ import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.PublicRequestHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.model.ChangeCityModel;
 import com.puyue.www.qiaoge.model.CouponModels;
 import com.puyue.www.qiaoge.model.IsAuthModel;
 import com.puyue.www.qiaoge.model.IsShowModel;
@@ -365,6 +369,8 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     TextView tv_order_num;
     @BindView(R.id.rl_huo)
     RelativeLayout rl_huo;
+    @BindView(R.id.rl_huos)
+    RelativeLayout rl_huos;
     List<String> list = new ArrayList<>();
     private static final float ENDMARGINLEFT = 50;
     private static final float ENDMARGINTOP = 5;
@@ -488,7 +494,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     public void findViewById(View view) {
         bind = ButterKnife.bind(this, view);
         setListener();
-        EventBus.getDefault().register(this);
         rl_grand.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -519,34 +524,44 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                 v2s.setVisibility(View.VISIBLE);
                                 v3s.setVisibility(View.INVISIBLE);
                                 v4s.setVisibility(View.INVISIBLE);
+
                                 rb_new_top.setTextColor(Color.parseColor("#333333"));
                                 rb_must_common_top.setTextColor(Color.parseColor("#17BD60"));
                                 rb_info_top.setTextColor(Color.parseColor("#333333"));
                                 rb_common_top.setTextColor(Color.parseColor("#333333"));
-                                Log.d("wdadddwdq.........","333");
                             }else if(rb_new.isChecked()) {
                                 rb_new_top.setChecked(true);
                                 rb_must_common_top.setChecked(false);
                                 rb_info_top.setChecked(false);
                                 rb_common_top.setChecked(false);
                                 v1s.setVisibility(View.VISIBLE);
-                                v2s.setVisibility(View.INVISIBLE);
+                                if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+                                    v2s.setVisibility(View.GONE);
+                                    v4s.setVisibility(View.GONE);
+                                }else {
+                                    v2s.setVisibility(View.INVISIBLE);
+                                    v4s.setVisibility(View.INVISIBLE);
+                                }
                                 v3s.setVisibility(View.INVISIBLE);
-                                v4s.setVisibility(View.INVISIBLE);
-                                Log.d("wdadddwdq.........","222");
                                 rb_new_top.setTextColor(Color.parseColor("#17BD60"));
                                 rb_must_common_top.setTextColor(Color.parseColor("#333333"));
                                 rb_info_top.setTextColor(Color.parseColor("#333333"));
                                 rb_common_top.setTextColor(Color.parseColor("#333333"));
                             }else if(rb_reduce.isChecked()) {
                                 rb_info_top.setChecked(true);
+                                Log.d("efsdfew.....","b");
                                 rb_new_top.setChecked(false);
                                 rb_must_common_top.setChecked(false);
                                 rb_common_top.setChecked(false);
                                 v1s.setVisibility(View.INVISIBLE);
-                                v2s.setVisibility(View.INVISIBLE);
+                                if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+                                    v2s.setVisibility(View.GONE);
+                                    v4s.setVisibility(View.GONE);
+                                }else {
+                                    v2s.setVisibility(View.INVISIBLE);
+                                    v4s.setVisibility(View.INVISIBLE);
+                                }
                                 v3s.setVisibility(View.VISIBLE);
-                                v4s.setVisibility(View.INVISIBLE);
                                 rb_info_top.setTextColor(Color.parseColor("#17BD60"));
                                 rb_new_top.setTextColor(Color.parseColor("#333333"));
                                 rb_must_common_top.setTextColor(Color.parseColor("#333333"));
@@ -599,7 +614,15 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                     layoutParams.setMargins(evaluatemargin, evaluatetop, evaluatemargin, 0);
                                     rl_search.requestLayout();
                                 }
-                                iv_location.setImageResource(R.mipmap.icon_address2);
+
+                                if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+                                    //企业
+                                    iv_location.setImageResource(R.mipmap.icon_company_white);
+                                }else {
+                                    //城市
+                                    iv_location.setImageResource(R.mipmap.icon_address2);
+                                }
+
                                 homeMessage.setImageResource(R.mipmap.ic_mine_email);
                                 tv_city.setAlpha(percent);
 //                                iv_tip.getBackground().setAlpha(1);
@@ -611,7 +634,12 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                             if(layoutParams!=null){
                                 layoutParams.setMargins(DensityUtil.dip2px(ENDMARGINLEFT,mActivity),85, DensityUtil.dip2px(ENDMARGINLEFT,mActivity), 0);
                                 rl_search.requestLayout();
-                                iv_location.setImageResource(R.mipmap.icon_address1);
+                                if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+                                    iv_location.setImageResource(R.mipmap.icon_company_black);
+                                }else {
+                                    iv_location.setImageResource(R.mipmap.icon_address1);
+                                }
+
                                 tv_city.setAlpha(0);
                                 iv_tip.setAlpha(0);
                                 tv_city.setEnabled(false);
@@ -644,9 +672,9 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
         rv_auto_team.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
         rv_auto_team.start();
 
-        skill2Adapter = new Skill2Adapter(mActivity, R.layout.item_skill_lists, skillActive2, "0");
-        rv_skill.setAdapter(skill2Adapter);
-        rv_skill.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
+//        skill2Adapter = new Skill2Adapter(mActivity, R.layout.item_skill_lists, skillActive2, "0");
+//        rv_skill.setAdapter(skill2Adapter);
+//        rv_skill.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
         rv_skill.start();
 
         //顶部推荐
@@ -675,9 +703,9 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
         rl_more4.setOnClickListener(this);
         tv_look_more.setOnClickListener(this);
         tv_coupon_more.setOnClickListener(this);
-        tv_call.setOnClickListener(this);
-        tv_look.setOnClickListener(this);
         rl_address.setOnClickListener(null);
+        rl_huo.setOnClickListener(this);
+        rl_huos.setOnClickListener(this);
         requestUpdate();
         refreshLayout.autoRefresh();
         lav_activity_loading.show();
@@ -733,10 +761,72 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     }
 
 
+    //判断用户是否选择了企业
+    private void getStyle() {
+        IndexHomeAPI.chooseCity(mActivity,1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(mainThread())
+                .subscribe(new Subscriber<ChangeCityModel>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ChangeCityModel changeCityModel) {
+                        if(changeCityModel.getCode()==1) {
+                            if(!changeCityModel.isData()) {
+                                Intent intent = new Intent(mActivity, ChooseCompanyActivity.class);
+                                startActivity(intent);
+                            }
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,changeCityModel.getMessage());
+                        }
+                    }
+                });
+    }
     @Override
     public void setViewData() {
-
+        //判断用户是否选择了企业
+        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+            getStyle();
+            rb_new.setText("热销商品");
+            tv_title1.setText("超值人气");
+            tv_title3.setText("专宠好物");
+            rb_reduce.setText("常购清单");
+            rb_new_top.setText("热销商品");
+            rb_info_top.setText("常购清单");
+            rb_must_common_top.setVisibility(View.GONE);
+            rb_must_common.setVisibility(View.GONE);
+            tv_title2.setVisibility(View.GONE);
+            tv_title4.setVisibility(View.GONE);
+            v2s.setVisibility(View.GONE);
+            v4s.setVisibility(View.GONE);
+            rb_common.setVisibility(View.GONE);
+            rb_common_top.setVisibility(View.GONE);
+            rg_new.check(R.id.rb_new);
+        }else {
+            rb_reduce.setText("降价商品");
+            rb_new.setText("新品上市");
+            tv_title1.setText("上新立荐");
+            tv_title3.setText("物美价廉");
+            rb_new_top.setText("新品上市");
+            rb_info_top.setText("降价商品");
+            v2s.setVisibility(View.VISIBLE);
+            v4s.setVisibility(View.VISIBLE);
+            tv_title2.setVisibility(View.VISIBLE);
+            tv_title4.setVisibility(View.VISIBLE);
+            rb_must_common_top.setVisibility(View.VISIBLE);
+            rb_must_common.setVisibility(View.VISIBLE);
+            rb_common.setVisibility(View.VISIBLE);
+            rb_common_top.setVisibility(View.VISIBLE);
+            rg_new.check(R.id.rb_must_common);
+        }
     }
 
     @Override
@@ -782,6 +872,9 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                         skillActive2.addAll(data1.getSpike().getActives());
                                         ll_skill.setVisibility(View.VISIBLE);
                                         rv_skill.setVisibility(View.VISIBLE);
+                                        skill2Adapter = new Skill2Adapter(mActivity, R.layout.item_skill_lists, skillActive2, "0");
+                                        rv_skill.setAdapter(skill2Adapter);
+                                        rv_skill.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
                                         skill2Adapter.notifyDataSetChanged();
 
                                     } else if (data1.getSpike().getActives().size() == 3) {
@@ -1204,7 +1297,22 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
             long time = Time.getTime(end);
             getDatas(time);
         }
+
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //开始轮播
+        banner.startAutoPlay();
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+    }
+
 
     /**
      * 转盘数据
@@ -1534,6 +1642,11 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                 indicator.setVisibility(View.VISIBLE);
                             }
 
+                            if(data.getHllTip()!=null) {
+                                HuoOrderDialog huoOrderDialog = new HuoOrderDialog(mActivity,data);
+                                huoOrderDialog.show();
+                            }
+
                             rvIconAdapter.notifyDataSetChanged();
 
                             rvIconAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -1626,11 +1739,26 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                     }
                 } else if (showType == 4) {
                     //商品
-                    int businessId = Integer.parseInt(banners.get(position).getBusinessId());
-                    Intent intent = new Intent(getActivity(), CommonGoodsDetailActivity.class);
-                    intent.putExtra(AppConstant.ACTIVEID, businessId);
-                    intent.putExtra("priceType", SharedPreferencesUtil.getString(mActivity, "priceType"));
-                    startActivity(intent);
+//                    int businessId = Integer.parseInt(banners.get(position).getBusinessId());
+//                    Intent intent = new Intent(getActivity(), CommonGoodsDetailActivity.class);
+//                    intent.putExtra(AppConstant.ACTIVEID, businessId);
+//                    intent.putExtra("priceType", SharedPreferencesUtil.getString(mActivity, "priceType"));
+//                    startActivity(intent);
+                    if(banners.get(position).getBusinessNum()>1) {
+                        Intent intent = new Intent(mActivity, BannerActivity.class);
+                        intent.putExtra("title",banners.get(position).getTitle());
+                        intent.putExtra("bannerId",banners.get(position).getBannerId());
+                        intent.putExtra("defaultPic",banners.get(position).getDefaultPic());
+                        startActivity(intent);
+
+                    }else {
+                        int businessId = Integer.parseInt(banners.get(position).getBusinessId());
+                        Intent intent = new Intent(getActivity(), CommonGoodsDetailActivity.class);
+                        intent.putExtra(AppConstant.ACTIVEID, businessId);
+                        intent.putExtra("priceType", SharedPreferencesUtil.getString(mActivity, "priceType"));
+                        startActivity(intent);
+                    }
+
                 } else if (showType == 5) {
                     //活动
                     String businessType = banners.get(position).getBusinessType();
@@ -1772,20 +1900,15 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     public void onDestroy() {
         super.onDestroy();
 //        verticalBanner.stop();
-        EventBus.getDefault().unregister(this);
+//        EventBus.getDefault().unregister(this);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        //开始轮播
-        banner.startAutoPlay();
-    }
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_look:
+            case R.id.rl_huo:
                 if(data.getHllOrderCallNum()>1) {
                     Intent intent = MyOrdersActivity.getIntent(getContext(), MyOrdersActivity.class, AppConstant.ALL);
                     intent.putExtra("orderDeliveryType",0);
@@ -1796,7 +1919,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                     startActivity(intentsss);
                 }
                 break;
-            case R.id.tv_call:
+            case R.id.rl_huos:
                 isAuth();
 //                Intent intentss = new Intent(mActivity, HuoHomeActivity.class);
 //                intentss.putExtra("orderId","");
@@ -1811,13 +1934,17 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                 break;
 
             case R.id.iv_location:
-                if (data != null) {
-                    Intent messageIntent = new Intent(getActivity(), ChooseAddressActivity.class);
-                    messageIntent.putExtra("cityName", data.getCityName());
-                    messageIntent.putExtra("areaName", data.getAreaName());
-                    messageIntent.putExtra("fromPage", "0");
-                    startActivity(messageIntent);
-
+                if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+                    Intent intent1 = new Intent(mActivity, ChooseCompanyActivity.class);
+                    startActivity(intent1);
+                }else {
+                    if(data!=null) {
+                        Intent messageIntent = new Intent(getActivity(), ChooseAddressActivity.class);
+                        messageIntent.putExtra("cityName", data.getCityName());
+                        messageIntent.putExtra("areaName", data.getAreaName());
+                        messageIntent.putExtra("fromPage", "0");
+                        startActivity(messageIntent);
+                    }
                 }
                 break;
 
@@ -1837,12 +1964,17 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
 
             case R.id.tv_city:
                 //选择城市
-                if (data != null) {
-                    Intent messageIntent = new Intent(getActivity(), ChooseAddressActivity.class);
-                    messageIntent.putExtra("cityName", data.getCityName());
-                    messageIntent.putExtra("areaName", data.getAreaName());
-                    messageIntent.putExtra("fromPage", "0");
-                    startActivity(messageIntent);
+                if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+                    Intent intent1 = new Intent(mActivity, ChooseCompanyActivity.class);
+                    startActivity(intent1);
+                }else {
+                    if(data!=null) {
+                        Intent messageIntent = new Intent(getActivity(), ChooseAddressActivity.class);
+                        messageIntent.putExtra("cityName", data.getCityName());
+                        messageIntent.putExtra("areaName", data.getAreaName());
+                        messageIntent.putExtra("fromPage", "0");
+                        startActivity(messageIntent);
+                    }
                 }
 
                 break;
@@ -2015,14 +2147,85 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loginEvent(LogoutsEvent event) {
         //刷新UI
+        Log.d("efsdfse.......","qwe");
         refreshLayout.autoRefresh();
+        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+            getStyle();
+            rb_new.setText("热销商品");
+            tv_title1.setText("超值人气");
+            tv_title3.setText("专宠好物");
+            rb_reduce.setText("常购清单");
+            rb_new_top.setText("热销商品");
+            rb_info_top.setText("常购清单");
+            rb_must_common_top.setVisibility(View.GONE);
+            rb_must_common.setVisibility(View.GONE);
+            tv_title2.setVisibility(View.GONE);
+            tv_title4.setVisibility(View.GONE);
+            v2s.setVisibility(View.GONE);
+            v4s.setVisibility(View.GONE);
+            rb_common.setVisibility(View.GONE);
+            rb_common_top.setVisibility(View.GONE);
+            rg_new.check(R.id.rb_new);
+        }else {
+            rb_reduce.setText("降价商品");
+            rb_new.setText("新品上市");
+            tv_title1.setText("上新立荐");
+            tv_title3.setText("物美价廉");
+            rb_new_top.setText("新品上市");
+            rb_info_top.setText("降价商品");
+            v2s.setVisibility(View.VISIBLE);
+            v4s.setVisibility(View.VISIBLE);
+            tv_title2.setVisibility(View.VISIBLE);
+            tv_title4.setVisibility(View.VISIBLE);
+            rb_must_common_top.setVisibility(View.VISIBLE);
+            rb_must_common.setVisibility(View.VISIBLE);
+            rb_common.setVisibility(View.VISIBLE);
+            rb_common_top.setVisibility(View.VISIBLE);
+            rg_new.check(R.id.rb_must_common);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loginsEvent(AddressEvent event) {
         //刷新UI
         refreshLayout.autoRefresh();
+        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+            getStyle();
+            rb_new.setText("热销商品");
+            tv_title1.setText("超值人气");
+            tv_title3.setText("专宠好物");
+            rb_reduce.setText("常购清单");
+            rb_new_top.setText("热销商品");
+            rb_info_top.setText("常购清单");
+            rb_must_common_top.setVisibility(View.GONE);
+            rb_must_common.setVisibility(View.GONE);
+            tv_title2.setVisibility(View.GONE);
+            tv_title4.setVisibility(View.GONE);
+            v2s.setVisibility(View.GONE);
+            v4s.setVisibility(View.GONE);
+            rb_common.setVisibility(View.GONE);
+            rb_common_top.setVisibility(View.GONE);
+            rg_new.check(R.id.rb_new);
 
+            Log.d("weewqdadqad.......","123");
+        }else {
+            Log.d("weewqdadqad.......","abc");
+            rb_reduce.setText("降价商品");
+            rb_new.setText("新品上市");
+            tv_title1.setText("上新立荐");
+            tv_title3.setText("物美价廉");
+            rb_new_top.setText("新品上市");
+            rb_info_top.setText("降价商品");
+            v2s.setVisibility(View.VISIBLE);
+            v4s.setVisibility(View.VISIBLE);
+            tv_title2.setVisibility(View.VISIBLE);
+            tv_title4.setVisibility(View.VISIBLE);
+            rb_must_common_top.setVisibility(View.VISIBLE);
+            rb_must_common.setVisibility(View.VISIBLE);
+            rb_common.setVisibility(View.VISIBLE);
+            rb_common_top.setVisibility(View.VISIBLE);
+            rg_new.check(R.id.rb_must_common);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -2236,7 +2439,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                 case R.id.rb_new_top:
                     position = 1;
                     rb_new_top.setChecked(true);
-
                     rb_new.setChecked(true);
                     rb_reduce.setChecked(false);
                     rb_common.setChecked(false);
@@ -2245,15 +2447,23 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                     rb_common_top.setTextColor(Color.parseColor("#333333"));
                     rb_must_common_top.setTextColor(Color.parseColor("#333333"));
                     rb_new_top.setTextColor(Color.parseColor("#17BD60"));
-                    v4s.setVisibility(View.INVISIBLE);
-                    v1s.setVisibility(View.INVISIBLE);
                     v2s.setVisibility(View.VISIBLE);
-                    v3s.setVisibility(View.INVISIBLE);
+                    if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+                        v4s.setVisibility(View.INVISIBLE);
+                        v1s.setVisibility(View.GONE);
+                        v3s.setVisibility(View.GONE);
+                    }else {
+                        v4s.setVisibility(View.INVISIBLE);
+                        v1s.setVisibility(View.INVISIBLE);
+                        v3s.setVisibility(View.INVISIBLE);
+                    }
+
                     switchNew();
                     break;
 
                 case R.id.rb_must_common_top:
                     position = 0;
+                    Log.d("efsdfew.....","d");
                     rb_must_common_top.setChecked(true);
                     rb_new.setChecked(false);
                     rb_reduce.setChecked(false);
@@ -2266,8 +2476,8 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
 
                     v4s.setVisibility(View.INVISIBLE);
                     v1s.setVisibility(View.INVISIBLE);
-                    v2s.setVisibility(View.VISIBLE);
                     v3s.setVisibility(View.INVISIBLE);
+                    v2s.setVisibility(View.VISIBLE);
                     switchMust();
                     break;
 
@@ -2285,12 +2495,19 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                     rb_must_common_top.setTextColor(Color.parseColor("#333333"));
                     rb_new_top.setTextColor(Color.parseColor("#333333"));
 
-                    v4s.setVisibility(View.INVISIBLE);
-                    v1s.setVisibility(View.INVISIBLE);
-                    v2s.setVisibility(View.INVISIBLE);
+                    if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+                        v4s.setVisibility(View.GONE);
+                        v1s.setVisibility(View.INVISIBLE);
+                        v2s.setVisibility(View.GONE);
+                    }else {
+                        v4s.setVisibility(View.INVISIBLE);
+                        v1s.setVisibility(View.INVISIBLE);
+                        v2s.setVisibility(View.INVISIBLE);
+                    }
+
+
                     v3s.setVisibility(View.VISIBLE);
                     switchReduce();
-                    Log.d("wdasdassd....","111");
                     break;
 
                 case R.id.rb_common_top:
@@ -2317,10 +2534,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
 //            Fragment to = getFragment();
 //            //替换到Fragment
 //            switchFrament(mContent,to);
-
         }
-
-
     }
 
     /**

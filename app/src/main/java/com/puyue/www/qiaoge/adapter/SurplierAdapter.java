@@ -2,6 +2,9 @@ package com.puyue.www.qiaoge.adapter;
 
 import android.content.Intent;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,7 +16,11 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.flow.FlowLayout;
+import com.puyue.www.qiaoge.activity.flow.TagAdapter;
+import com.puyue.www.qiaoge.activity.flow.TagFlowLayout;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
+import com.puyue.www.qiaoge.adapter.home.RecommendDialog;
 import com.puyue.www.qiaoge.adapter.home.SearchReasultAdapter;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.SurpDialog;
@@ -47,6 +54,8 @@ public class SurplierAdapter extends BaseQuickAdapter<SurpliListModel.DataBean.L
     protected void convert(BaseViewHolder helper, SurpliListModel.DataBean.ListBean item) {
         iv_next = helper.getView(R.id.iv_next);
         iv_send = helper.getView(R.id.iv_send);
+        TextView tv_style = helper.getView(R.id.tv_style);
+        TagFlowLayout rv_spec =  helper.getView(R.id.rv_spec);
         iv_operate = helper.getView(R.id.iv_operate);
         ImageView iv_no_data = helper.getView(R.id.iv_no_data);
         tv_price_desc = helper.getView(R.id.tv_price_desc);
@@ -72,7 +81,6 @@ public class SurplierAdapter extends BaseQuickAdapter<SurpliListModel.DataBean.L
             iv_no_data.setVisibility(View.GONE);
         }
         RelativeLayout rl_spec = helper.getView(R.id.rl_spec);
-        helper.setText(R.id.tv_spec,"规格："+item.getSpec());
         ll_group = helper.getView(R.id.ll_group);
         ll_group.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,12 +94,42 @@ public class SurplierAdapter extends BaseQuickAdapter<SurpliListModel.DataBean.L
         RelativeLayout rl_price = helper.getView(R.id.rl_price);
         TextView tv_price = helper.getView(R.id.tv_price);
         helper.setText(R.id.tv_name,item.getProductName());
-        helper.setText(R.id.tv_stock_total,item.getInventory());
         helper.setText(R.id.tv_sale,item.getSalesVolume());
 //        helper.setText(R.id.tv_desc,item.getSpecialOffer());
 //        tv_stock = helper.getView(R.id.tv_stock);
 //        tv_stock.setText(item.getInventory());
+        if(item.getProdSpecs().size()>3) {
+            tv_style.setVisibility(View.VISIBLE);
+        }else {
+            tv_style.setVisibility(View.GONE);
+        }
 
+        tv_style.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(onclick!=null) {
+                    onclick.addDialog();
+                }
+
+                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+                    surpDialog = new SurpDialog(mContext,item);
+                    surpDialog.show();
+                }
+            }
+        });
+
+        TagAdapter unAbleAdapter = new TagAdapter<SurpliListModel.DataBean.ListBean.ProdSpecsBean>(item.getProdSpecs()){
+            @Override
+            public View getView(FlowLayout parent, int position, SurpliListModel.DataBean.ListBean.ProdSpecsBean prodSpecsBean) {
+                View view = LayoutInflater.from(mContext).inflate(R.layout.item_specss,rv_spec, false);
+                TextView tv_spec = view.findViewById(R.id.tv_spec);
+                tv_spec.setText(prodSpecsBean.getSpec());
+                return view;
+            }
+        };
+
+        rv_spec.setAdapter(unAbleAdapter);
+        unAbleAdapter.notifyDataChanged();
         if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
             rl_price.setVisibility(View.GONE);
             rl_spec.setVisibility(View.VISIBLE);
@@ -122,9 +160,7 @@ public class SurplierAdapter extends BaseQuickAdapter<SurpliListModel.DataBean.L
                 }
 
                 if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-
                     surpDialog = new SurpDialog(mContext,item);
-
                     surpDialog.show();
                 }
             }

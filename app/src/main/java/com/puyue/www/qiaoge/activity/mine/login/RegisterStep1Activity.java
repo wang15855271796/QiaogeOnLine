@@ -10,6 +10,9 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -32,6 +35,7 @@ import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.CityChangeAPI;
 import com.puyue.www.qiaoge.api.home.GetCustomerPhoneAPI;
 import com.puyue.www.qiaoge.api.home.GetRegisterShopAPI;
+import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.api.mine.login.RegisterAPI;
 import com.puyue.www.qiaoge.api.mine.login.RegisterAgreementAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
@@ -43,12 +47,14 @@ import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.OnItemClickListener;
+import com.puyue.www.qiaoge.model.GetCompanyModel;
 import com.puyue.www.qiaoge.model.IsShowModel;
 import com.puyue.www.qiaoge.model.home.GetCustomerPhoneModel;
 import com.puyue.www.qiaoge.model.home.GetRegisterShopModel;
 import com.puyue.www.qiaoge.model.mine.login.RegisterAgreementModel;
 import com.puyue.www.qiaoge.model.mine.login.RegisterModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -68,6 +74,12 @@ import rx.schedulers.Schedulers;
  * 设置登录密码界面
  */
 public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnClickListener {
+    @BindView(R.id.ll_shop_style)
+    LinearLayout ll_shop_style;
+    @BindView(R.id.ll_company_name)
+    LinearLayout ll_company_name;
+    @BindView(R.id.tv_company_name)
+    TextView tv_company_name;
     @BindView(R.id.et_password)
     EditText et_password;
     @BindView(R.id.et_password_sure)
@@ -218,6 +230,27 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                 }
 
 
+            }
+        });
+        et_author.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(editable.toString().length()==6) {
+                    getCompanyName(editable.toString());
+                }else {
+                    ll_company_name.setVisibility(View.GONE);
+                    ll_shop_style.setVisibility(View.GONE);
+                }
             }
         });
     }
@@ -449,29 +482,25 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                 if(cb_register.isChecked()) {
                     if(password !=null && passwordSure !=null) {
                         if(password.equals(passwordSure)) {
-                        if(password.length()>6&& passwordSure.length()>6) {
-                            if (StringHelper.isLetterDigit(et_password.getText().toString())) {
-                                if(!etAuthor.equals("")) {
-                                    if(!tv_shop_style.getText().toString().equals("")&&!tv_shop_style.getText().toString().equals("0")) {
-                                        updateCheckCode();
+                            if(password.length()>6&& passwordSure.length()>6) {
+                                if (StringHelper.isLetterDigit(et_password.getText().toString())) {
+                                    if(!etAuthor.equals("")) {
+                                        getCompanyNames(etAuthor);
                                     }else {
-                                        AppHelper.showMsg(mContext, "店铺类型不能为空");
+                                        AppHelper.showMsg(mContext, "授权码不能为空");
                                     }
-                                }else {
-                                    AppHelper.showMsg(mContext, "授权码不能为空");
+                                } else {
+                                    AppHelper.showMsg(mContext, "密码由6-16位数字与字母组成");
                                 }
                             } else {
-                                AppHelper.showMsg(mContext, "密码由6-16位数字与字母组成");
+                                AppHelper.showMsg(mContext, "密码位数不足!");
                             }
-                        } else {
-                            AppHelper.showMsg(mContext, "密码位数不足!");
+                        }else {
+                            AppHelper.showMsg(mContext, "两次密码不一致!");
                         }
                     }else {
-                        AppHelper.showMsg(mContext, "两次密码不一致!");
+                        AppHelper.showMsg(mContext, "密码不能为空");
                     }
-                }else {
-                    AppHelper.showMsg(mContext, "密码不能为空");
-                }
 
                 }else {
                     AppHelper.showMsg(mContext, "请选择注册协议");
@@ -532,6 +561,85 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
 
     }
 
+    int wad;
+    private void getCompanyName(String invitationCode) {
+        IndexHomeAPI.getCompanyName(mActivity,invitationCode)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GetCompanyModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(GetCompanyModel getCompanyModel) {
+                        if(getCompanyModel.getCode()==1) {
+                            if(getCompanyModel.getData()!=null) {
+                                tv_company_name.setText(getCompanyModel.getData().getCompanyName());
+                                wad = getCompanyModel.getData().getWad();
+                                if(getCompanyModel.getData().getWad()==1) {
+                                    //代配
+
+                                    ll_company_name.setVisibility(View.VISIBLE);
+                                    ll_shop_style.setVisibility(View.GONE);
+                                }else {
+                                    //翘歌
+                                    ll_company_name.setVisibility(View.GONE);
+                                    ll_shop_style.setVisibility(View.VISIBLE);
+                                }
+                            }
+
+                        }else {
+                            ToastUtil.showSuccessMsg(mContext,getCompanyModel.getMessage());
+                        }
+                    }
+                });
+    }
+
+    private void getCompanyNames(String invitationCode) {
+        IndexHomeAPI.getCompanyName(mActivity,invitationCode)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GetCompanyModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(GetCompanyModel getCompanyModel) {
+                        if(getCompanyModel.getCode()==1) {
+                            if(getCompanyModel.getData()!=null) {
+                                if(wad==1) {
+                                    //代配
+                                    updateCheckCode();
+                                }else {
+                                    //翘歌
+                                    if(!tv_shop_style.getText().toString().equals("")&&!tv_shop_style.getText().toString().equals("0")) {
+                                        updateCheckCode();
+                                    }else {
+                                        AppHelper.showMsg(mContext, "店铺类型不能为空");
+                                    }
+                                }
+                            }
+
+                        }else {
+                            ToastUtil.showSuccessMsg(mContext,getCompanyModel.getMessage());
+                        }
+                    }
+                });
+    }
     /**
      * 拨打电话弹窗
      * @param cell
@@ -561,35 +669,8 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                 mDialog.dismiss();
             }
         });
-//        mTvCell.setText(cell);
-//        mDialog.getWindow().findViewById(R.id.tv_dialog_call_phone_cancel).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mDialog.dismiss();
-//            }
-//        });
-
-//        mDialog.getWindow().findViewById(R.id.tv_dialog_call_phone_sure).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (isTablet(mContext)) {
-//                    AppHelper.showMsg(mContext, "当前设备不具备拨号功能");
-//                } else {
-//                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + cell));
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    startActivity(intent);
-//                }
-//                mDialog.dismiss();
-//            }
-//        });
     }
 
-    /**
-     * 平板返回 True，手机返回 False
-     */
-    private boolean isTablet(Context context) {
-        return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
-    }
     /**
      * 注册
      */
@@ -599,61 +680,130 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
         } else {
             //这里请求注册成功之后直接登录成功,返回的token存储下来,就代表着用户已经登录了
             if(yzm==null) {
-                RegisterAPI.requestRegister(mContext, phone,token1,passwordSure, "000000", et_author.getText().toString(),"", String.valueOf(shopTypeId))
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<RegisterModel>() {
-                            @Override
-                            public void onCompleted() {
+                if(wad==1) {
+                    //代配
+                    RegisterAPI.requestRegister(mContext, phone,token1,passwordSure, "000000", et_author.getText().toString(),"", String.valueOf(0))
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<RegisterModel>() {
+                                @Override
+                                public void onCompleted() {
 
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                //  dialog.dismiss();
-                            }
-
-                            @Override
-                            public void onNext(RegisterModel registerModel) {
-                                mModelRegister = registerModel;
-                                if (mModelRegister.success) {
-                                    updateRegister();
-                                } else {
-                                    //  dialog.dismiss();
-                                    AppHelper.showMsg(mContext, mModelRegister.message);
                                 }
-                            }
-                        });
+
+                                @Override
+                                public void onError(Throwable e) {
+                                }
+
+                                @Override
+                                public void onNext(RegisterModel registerModel) {
+
+                                    if (registerModel.code==1) {
+                                        if(registerModel.data!=null) {
+                                            mModelRegister = registerModel;
+                                            updateRegister();
+                                        }
+                                    } else {
+                                        AppHelper.showMsg(mContext, mModelRegister.message);
+                                    }
+                                }
+                            });
+                }else {
+                    //翘歌
+                    RegisterAPI.requestRegister(mContext, phone,token1,passwordSure, "000000", et_author.getText().toString(),"", String.valueOf(shopTypeId))
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<RegisterModel>() {
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                }
+
+                                @Override
+                                public void onNext(RegisterModel registerModel) {
+                                    if (registerModel.code==1) {
+                                        if(registerModel.data!=null) {
+                                            mModelRegister = registerModel;
+                                            updateRegister();
+                                        }
+                                    } else {
+                                        AppHelper.showMsg(mContext, mModelRegister.message);
+                                    }
+                                }
+                            });
+                }
+
             }else {
-                RegisterAPI.requestRegister(mContext, phone,"",passwordSure, yzm, et_author.getText().toString(),"", String.valueOf(shopTypeId))
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<RegisterModel>() {
-                            @Override
-                            public void onCompleted() {
+                if(wad==1) {
+                    //代配
+                    RegisterAPI.requestRegister(mContext, phone,"",passwordSure, yzm, et_author.getText().toString(),"", String.valueOf(0))
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<RegisterModel>() {
+                                @Override
+                                public void onCompleted() {
 
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                //  dialog.dismiss();
-                            }
-
-                            @Override
-                            public void onNext(RegisterModel registerModel) {
-
-                                mModelRegister = registerModel;
-                                if (mModelRegister.success) {
-                                    //这里注册完成也就直接登录成功,本地存储token
-                                    updateRegister();
-                                } else {
-                                    //  dialog.dismiss();
-                                    AppHelper.showMsg(mContext, mModelRegister.message);
                                 }
-                            }
-                        });
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    //  dialog.dismiss();
+                                }
+
+                                @Override
+                                public void onNext(RegisterModel registerModel) {
+                                    if (registerModel.code==1) {
+                                        if(registerModel.data!=null) {
+                                            mModelRegister = registerModel;
+                                            //这里注册完成也就直接登录成功,本地存储token
+                                            updateRegister();
+                                        }
+                                    } else {
+                                        //  dialog.dismiss();
+                                        AppHelper.showMsg(mContext, mModelRegister.message);
+                                    }
+                                }
+                            });
+                }else {
+                    //翘歌
+                    RegisterAPI.requestRegister(mContext, phone,"",passwordSure, yzm, et_author.getText().toString(),"", String.valueOf(shopTypeId))
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<RegisterModel>() {
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    //  dialog.dismiss();
+                                }
+
+                                @Override
+                                public void onNext(RegisterModel registerModel) {
+
+
+                                    if (registerModel.code==1) {
+                                        if(registerModel.data!=null) {
+                                            mModelRegister = registerModel;
+                                            //这里注册完成也就直接登录成功,本地存储token
+                                            updateRegister();
+                                        }
+                                    } else {
+                                        //  dialog.dismiss();
+                                        AppHelper.showMsg(mContext, mModelRegister.message);
+                                    }
+                                }
+                            });
+                }
+
             }
-            }
+        }
 
     }
 
@@ -682,6 +832,7 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
         UserInfoHelper.saveUserCell(mContext, mModelRegister.data.userBaseInfoVO.phone);
         UserInfoHelper.saveUserType(mContext, String.valueOf(mModelRegister.data.userBaseInfoVO.type));
         SharedPreferencesUtil.saveString(mContext,"userId",mModelRegister.data.userBaseInfoVO.id);
+        SharedPreferencesUtil.saveInt(mActivity,"wad",mModelRegister.data.wad);
         isShow();
         //注册成功同时登录成功,需要首页和市场页刷新数据
         UserInfoHelper.saveUserHomeRefresh(mContext, "");
@@ -724,5 +875,6 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                     }
                 });
     }
+
 
 }

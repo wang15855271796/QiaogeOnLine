@@ -6,11 +6,13 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -21,6 +23,7 @@ import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.activity.home.SpecialGoodDetailActivity;
 import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
+import com.puyue.www.qiaoge.event.DeleteGoodsEvent;
 import com.puyue.www.qiaoge.fragment.cart.UpdateEvent;
 import com.puyue.www.qiaoge.model.cart.CartTestModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
@@ -50,9 +53,10 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
 
     @Override
     protected void convert(BaseViewHolder helper, CartTestModel.DataBean.ProdsBeanX.ProdsBean item) {
+        TextView tv_delete = helper.getView(R.id.tv_delete);
         ImageView iv_send = helper.getView(R.id.iv_send);
         ImageView iv_icon = helper.getView(R.id.iv_icon);
-        LinearLayout ll_root = helper.getView(R.id.ll_root);
+        RelativeLayout ll_root = helper.getView(R.id.ll_root);
         ImageView iv_operate = helper.getView(R.id.iv_operate);
         RoundImageView iv_head = helper.getView(R.id.iv_head);
         TextView tv_title = helper.getView(R.id.tv_title);
@@ -72,11 +76,39 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
         if(item.getFlagUrl()!=null&&item.getFlagUrl()!="") {
             Glide.with(mContext).load(item.getFlagUrl()).into(iv_icon);
         }
-//        if(item.getSelfOrNot()==0) {
-//            iv_operate.setImageResource(R.mipmap.icon_operate);
-//        }else {
-//            iv_operate.setImageResource(R.mipmap.icon_unoperate);
-//        }
+
+        tv_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new DeleteGoodsEvent(helper.getAdapterPosition(),item));
+            }
+        });
+
+        if(mOnRefreshListener != null){
+            boolean isSelect = false;
+            if(prodsBeanX.size()>1) {
+                for (int i = 0; i < prodsBeanX.size(); i++) {
+                    for (int j = 0; j < data.size(); j++) {
+                        if(!data.get(j).isSelected()){
+                            isSelect = false;
+                            break;
+                        }else{
+                            isSelect = true;
+                        }
+                    }
+                }
+            }else {
+                for(int i = 0;i < data.size(); i++){
+                    if(!data.get(i).isSelected()){
+                        isSelect = false;
+                        break;
+                    }else{
+                        isSelect = true;
+                    }
+                }
+            }
+            mOnRefreshListener.onRefresh(isSelect);
+        }
 
         if(item.getSelfProd()!=null&&!item.getSelfProd().equals("")) {
             Glide.with(mContext).load(item.getSelfProd()).into(iv_operate);

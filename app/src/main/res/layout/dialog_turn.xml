@@ -8,17 +8,24 @@
 
 
     <!--<ImageView-->
-        <!--android:id="@+id/iv_bg"-->
+    <!--android:id="@+id/iv_bg"-->
 
-        <!--android:layout_centerInParent="true"-->
-        <!--android:layout_width="410dp"-->
-        <!--android:layout_height="410dp" />-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:layout_width="410dp"-->
+    <!--android:layout_height="410dp" />-->
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/ll"
         android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_marginTop="-65dp"
+            android:layout_below="@+id/wheelSurfView"
+            android:src="@mipmap/icon_yuan_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <com.puyue.www.qiaoge.WheelSurfView
             android:id="@+id/wheelSurfView"
@@ -27,12 +34,12 @@
             wheelSurfView:typenum="-1"
             android:layout_margin="20dp"/>
 
-
-    </FrameLayout>
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/iv_chose"
         android:layout_below="@+id/ll"
+        android:layout_marginTop="@dimen/size_20dp"
         android:layout_centerHorizontal="true"
         android:src="@mipmap/iv_close_inform"
         android:layout_width="wrap_content"

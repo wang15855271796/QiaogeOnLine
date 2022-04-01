@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import com.puyue.www.qiaoge.activity.FullActiveActivity;
 import com.puyue.www.qiaoge.fragment.cart.UpdateEvent;
 import com.puyue.www.qiaoge.model.cart.CartTestModel;
 import com.puyue.www.qiaoge.view.Arith;
+import com.puyue.www.qiaoge.view.SlideRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -57,18 +59,17 @@ public class CartAdapter extends BaseQuickAdapter<CartTestModel.DataBean.ProdsBe
         }else {
             tv_desc.setText("查看活动");
         }
-        if(mOnRefreshListener != null){
-            for(int i = 0;i < data.size(); i++){
-                if(!data.get(i).isSelect()){
-                    isSelect = false;
-                    break;
-                }else{
-                    isSelect = true;
-                }
-            }
-
-            mOnRefreshListener.onRefresh(isSelect);
-        }
+//        if(mOnRefreshListener != null){
+//            for(int i = 0;i < data.size(); i++){
+//                if(!data.get(i).isSelect()){
+//                    isSelect = false;
+//                    break;
+//                }else{
+//                    isSelect = true;
+//                }
+//            }
+//            mOnRefreshListener.onRefresh(isSelect);
+//        }
 
         tv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +79,7 @@ public class CartAdapter extends BaseQuickAdapter<CartTestModel.DataBean.ProdsBe
                 }
             }
         });
+
         rl_tip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,7 +116,7 @@ public class CartAdapter extends BaseQuickAdapter<CartTestModel.DataBean.ProdsBe
         rv_coupon.setAdapter(cartCouponAdapter);
         rv_coupon.setLayoutManager(new LinearLayoutManager(mContext));
 
-        RecyclerView recyclerView = helper.getView(R.id.recyclerView);
+        SlideRecyclerView recyclerView = helper.getView(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         cartGoodsAdapter = new CartGoodsAdapter(R.layout.item_goods,this,data,item,item.getProds(),mOnRefreshListener);
         recyclerView.setAdapter(cartGoodsAdapter);

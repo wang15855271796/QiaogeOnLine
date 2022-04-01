@@ -12,11 +12,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.AddCompanyActivity;
+import com.puyue.www.qiaoge.activity.ChooseCompanyActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.mine.account.AddressListActivity;
 import com.puyue.www.qiaoge.activity.mine.account.EditAddressActivity;
 import com.puyue.www.qiaoge.adapter.mine.SuggestAdressAdapter;
 import com.puyue.www.qiaoge.api.home.CancleAPI;
+import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.api.mine.address.AddressListAPI;
 import com.puyue.www.qiaoge.api.mine.address.DefaultAddressAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
@@ -26,9 +29,11 @@ import com.puyue.www.qiaoge.event.BackEvent;
 import com.puyue.www.qiaoge.fragment.home.CityEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.model.CouponListsModel;
 import com.puyue.www.qiaoge.model.HotKeyModel;
 import com.puyue.www.qiaoge.model.mine.address.AddressModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.SearchView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -43,6 +48,8 @@ import butterknife.ButterKnife;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
 /**
  * Created by ${王涛} on 2019/12/20
@@ -77,9 +84,11 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
     LinearLayout ll_address;
     @BindView(R.id.ll_area)
     LinearLayout ll_area;
+    @BindView(R.id.rl_choose_company)
+    RelativeLayout rl_choose_company;
     List<AddressModel.DataBean> list = new ArrayList<>();
     private AddressListAdapter addressListAdapter;
-//    private SuggestionSearch mSuggestionSearch;
+    //    private SuggestionSearch mSuggestionSearch;
     private SuggestAdressAdapter adressAdapter;
     private String cityName;
     private String areaName;
@@ -141,10 +150,20 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
             }
         });
 
+        rl_choose_company.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity, ChooseCompanyActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         //设置监听
         searchView.setSearchViewListener(this);
 
     }
+
+
 
     private void requestEditDefaultAddress(int id, String ids, int position) {
         DefaultAddressAPI.requestEditDefaultAddress(mContext, id, ids)
@@ -176,7 +195,7 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
 //                                }else {
 //                                    SharedPreferencesUtil.saveInt(mContext,"isClick",1);
 //                                    UserInfoHelper.saveChangeFlag(mContext,1+"");
-                                    //接口新改
+                            //接口新改
 //                                Intent intent = new Intent(mContext,HomeActivity.class);//跳回首页
 //                                mActivity.setResult(104,intent);
 //                                mContext.startActivity(intent);
@@ -186,18 +205,18 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
 //                                    EventBus.getDefault().post(new CityEvent());
 //                                }
 //                            }else {
-                                if(areaName.equals(list.get(position).getAreaName())) {
-                                    finish();
-                                }else {
-                                    SharedPreferencesUtil.saveInt(mContext,"isClick",1);
-                                    UserInfoHelper.saveChangeFlag(mContext,1+"");
-                                    //接口新改
-                                    Intent intent = new Intent(mContext,HomeActivity.class);//跳回首页
-                                    mContext.startActivity(intent);
+                            if(areaName.equals(list.get(position).getAreaName())) {
+                                finish();
+                            }else {
+                                SharedPreferencesUtil.saveInt(mContext,"isClick",1);
+                                UserInfoHelper.saveChangeFlag(mContext,1+"");
+                                //接口新改
+                                Intent intent = new Intent(mContext,HomeActivity.class);//跳回首页
+                                mContext.startActivity(intent);
 //                                    EventBus.getDefault().post(new setFragmentEvent());
-                                    EventBus.getDefault().post(new CityEvent());
-                                    finish();
-                                }
+                                EventBus.getDefault().post(new CityEvent());
+                                finish();
+                            }
 //                            }
 
 
@@ -289,9 +308,9 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rl_empty:
-                    Intent intents = new Intent(mActivity,EditAddressActivity.class);
-                    intents.putExtra("type","add");
-                    startActivity(intents);
+                Intent intents = new Intent(mActivity,EditAddressActivity.class);
+                intents.putExtra("type","add");
+                startActivity(intents);
                 break;
 
             case R.id.tv_tip:

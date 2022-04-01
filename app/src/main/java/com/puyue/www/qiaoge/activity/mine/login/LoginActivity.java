@@ -502,6 +502,7 @@ public class LoginActivity extends BaseSwipeActivity {
                         @Override
                         public void onNext(LoginModel loginModel) {
                             mModelLogin = loginModel;
+
                             if (mModelLogin.success) {
                                 updateLogin();
                             } else {
@@ -514,7 +515,7 @@ public class LoginActivity extends BaseSwipeActivity {
 
     private void updateLogin() {
         AppHelper.showMsg(mContext, "登录成功");
-
+        SharedPreferencesUtil.saveInt(mActivity,"wad",mModelLogin.data.wad);
         UserInfoHelper.saveUserId(mContext, mModelLogin.data.token);
         UserInfoHelper.saveUserCell(mContext, mModelLogin.data.userBaseInfoVO.phone);
         UserInfoHelper.saveUserType(mContext, String.valueOf(mModelLogin.data.userBaseInfoVO.type));
@@ -523,12 +524,12 @@ public class LoginActivity extends BaseSwipeActivity {
         SharedPreferencesUtil.saveString(mContext,"userId",mModelLogin.data.userBaseInfoVO.id);
         isShow();
         //登录成功,登录状态有变化,需要让
+        EventBus.getDefault().post(new LogoutsEvent());
+        EventBus.getDefault().post(new LogoutEvent());
         UserInfoHelper.saveUserHomeRefresh(mContext, "");
         UserInfoHelper.saveUserMarketRefresh(mContext, "");
         Intent intent = new Intent(mContext,HomeActivity.class);
         startActivity(intent);
-        EventBus.getDefault().post(new LogoutsEvent());
-        EventBus.getDefault().post(new LogoutEvent());
         finish();
     }
 

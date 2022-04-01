@@ -104,7 +104,7 @@ public class PaymentFragment extends DialogFragment {
     ImageView iv_closes;
     AVLoadingIndicatorView lav_activity_loading;
     String remark;
-    int jumpWx;
+    int jumpWx = -1;
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -221,6 +221,7 @@ public class PaymentFragment extends DialogFragment {
         }
     };
 
+
     private void getDatas(long end) {
         RecommendApI.getDatas(getActivity(),18,end)
                 .subscribeOn(Schedulers.io())
@@ -260,7 +261,29 @@ public class PaymentFragment extends DialogFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(outTradeNo!=null&&SharedPreferencesUtil.getString(getContext(),"payKey").equals("4")) {
+//        if(outTradeNo!=null&&SharedPreferencesUtil.getString(getContext(),"payKey").equals("4")) {
+////            getPayResult(outTradeNo);
+////        }
+////
+////        if(jumpWx==1) {
+////            Intent intent = new Intent(getActivity(),NewOrderDetailActivity.class);
+////            intent.putExtra(AppConstant.ORDERID,orderId);
+////            startActivity(intent);
+////            getActivity().finish();
+////        }
+////
+////        if(outTradeNo!=null&&jumpWx==0) {
+////            getPayResult(outTradeNo);
+////        }
+
+        if(jumpWx==1) {
+            Intent intent = new Intent(getActivity(),NewOrderDetailActivity.class);
+            intent.putExtra(AppConstant.ORDERID,orderId);
+            startActivity(intent);
+            getActivity().finish();
+        }
+
+        if(outTradeNo!=null&&jumpWx==0) {
             getPayResult(outTradeNo);
         }
     }
@@ -369,8 +392,6 @@ public class PaymentFragment extends DialogFragment {
                     }
                 });
     }
-
-
 
     /**
      * 支付宝
@@ -629,7 +650,6 @@ public class PaymentFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 mDialog.dismiss();
-
             }
         });
         mDialog.getWindow().findViewById(R.id.tv_dialog_sure).setOnClickListener(new View.OnClickListener() {
@@ -706,22 +726,18 @@ public class PaymentFragment extends DialogFragment {
 
                     @Override
                     public void onNext(CheckPayPwdModel checkPayPwdModel) {
-                        if (checkPayPwdModel.success) {
+                        if (checkPayPwdModel.code==1) {
                             lav_activity_loading.hide();
                             lav_activity_loading.setVisibility(View.GONE);
                             new Handler().postDelayed(new Runnable() {
                                 public void run() {
-
                                     getPayResult(outTradeNo);
-
                                 }
                             }, 500);
                         } else {
                             lav_activity_loading.hide();
                             lav_activity_loading.setVisibility(View.GONE);
                             ToastUtil.showSuccessMsg(getContext(),checkPayPwdModel.message);
-
-
                         }
                     }
                 });

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.File;
@@ -127,7 +128,7 @@ public class RestHelper {
                         .addQueryParameter(AppConstant.AreaName, UserInfoHelper.getAreaName(context))
                         .addQueryParameter(AppConstant.LOCATIONADDRESS, UserInfoHelper.getLocationadress(context))
                         .addQueryParameter(AppConstant.PROVINCENAME,UserInfoHelper.getProvince(context))
-
+                        .addQueryParameter("wad", SharedPreferencesUtil.getInt(context,"wad")+"")
                         .build();
                 Request commonRequest = originalRequest.newBuilder().url(commonUrl).build();
                 Log.d("----->", commonRequest + AppConstant.TOKEN);

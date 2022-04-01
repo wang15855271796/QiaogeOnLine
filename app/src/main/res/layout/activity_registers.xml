@@ -142,28 +142,64 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size_25dp">
 
-            <TextView
-                android:id="@+id/tv_shop_style"
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/ll_shop_style"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:drawableLeft="@mipmap/ic_landing_psd"
-                android:drawablePadding="@dimen/size_15dp"
-                android:hint="店铺类型(必填)"
-                android:inputType="number"
-                android:maxLength="16"
-                android:textColor="#232131"
-                android:textColorHint="@color/color_CACACB"
-                android:textSize="@dimen/size_13dp" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_shop_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:drawableLeft="@mipmap/ic_landing_psd"
+                    android:drawablePadding="@dimen/size_15dp"
+                    android:hint="店铺类型(必填)"
+                    android:inputType="number"
+                    android:maxLength="16"
+                    android:textColor="#232131"
+                    android:textColorHint="@color/color_CACACB"
+                    android:textSize="@dimen/size_13dp" />
+
+                <LinearLayout
+                    android:id="@+id/ll_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/tv_shop_style"
+                    android:layout_marginLeft="@dimen/size_25dp"
+                    android:layout_marginTop="@dimen/size_5dp"
+                    android:background="#EFEFEF"
+                    android:orientation="vertical" />
+
+            </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/ll_company_name"
+                android:background="@drawable/shape_grey4"
+                android:layout_below="@+id/ll_shop_style"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/tv_shop_style"
-                android:layout_marginLeft="@dimen/size_25dp"
-                android:layout_marginTop="@dimen/size_5dp"
-                android:background="#EFEFEF"
-                android:orientation="vertical" />
+                android:layout_height="@dimen/size_32dp">
+
+                <ImageView
+                    android:layout_marginLeft="@dimen/size_18dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/icon_company"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/tv_company_name"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:textColor="#FF680A"
+                    android:layout_gravity="center_vertical"
+                    android:text="亿诺食品（杭州亿创贸易有限公司）"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
 
         </RelativeLayout>
 

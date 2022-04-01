@@ -11,10 +11,15 @@ import com.puyue.www.qiaoge.event.PrivacyModel;
 import com.puyue.www.qiaoge.event.TurnModel;
 import com.puyue.www.qiaoge.event.TurnReceiveModel;
 import com.puyue.www.qiaoge.helper.RestHelper;
+import com.puyue.www.qiaoge.model.ChangeCityModel;
+import com.puyue.www.qiaoge.model.CompanyListModel;
 import com.puyue.www.qiaoge.model.CouponListsModel;
 import com.puyue.www.qiaoge.model.CouponModels;
 import com.puyue.www.qiaoge.model.FullCouponListModel;
 import com.puyue.www.qiaoge.model.FullDetailModel;
+import com.puyue.www.qiaoge.model.GetCompanyModel;
+import com.puyue.www.qiaoge.model.HomeBannerModel;
+import com.puyue.www.qiaoge.model.ModeModel;
 import com.puyue.www.qiaoge.model.OrderModel;
 import com.puyue.www.qiaoge.model.SendModel;
 import com.puyue.www.qiaoge.model.home.CouponModel;
@@ -203,6 +208,20 @@ public class IndexHomeAPI {
 
     /**
      *
+     */
+    private interface GetModeService {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Settle)
+        Observable<ModeModel> getData(@Field("wad") int wad);
+    }
+
+    public static Observable<ModeModel> getMode(Context context,int wad) {
+        GetModeService spikeActiveQueryService = RestHelper.getBaseRetrofit(context).create(GetModeService.class);
+        return spikeActiveQueryService.getData(wad);
+    }
+
+    /**
+     *
      * 是否显示转盘
      */
     private interface IsTurnService {
@@ -375,4 +394,94 @@ public class IndexHomeAPI {
         CouponListActiveService spikeActiveQueryService = RestHelper.getBaseRetrofit(context).create(CouponListActiveService.class);
         return spikeActiveQueryService.getData(poolo,pageNum,pageSize);
     }
+
+    //企业版-首页必调用-判断用户是否选择了企业
+    private interface ChooseCompanyService {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.If_Choose_Company)
+        Observable<ChangeCityModel> getData(@Field("wad") int wad);
+    }
+
+    public static Observable<ChangeCityModel> chooseCity(Context context, int wad) {
+        ChooseCompanyService spikeActiveQueryService = RestHelper.getBaseRetrofit(context).create(ChooseCompanyService.class);
+        return spikeActiveQueryService.getData(wad);
+    }
+
+    /**
+     * 切换企业版城市版
+     */
+    private interface ChangeCityService {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Change_City)
+        Observable<BaseModel> getData(@Field("wad") int wad);
+    }
+
+    public static Observable<BaseModel> changeCity(Context context,int wad) {
+        ChangeCityService spikeActiveQueryService = RestHelper.getBaseRetrofit(context).create(ChangeCityService.class);
+        return spikeActiveQueryService.getData(wad);
+    }
+
+    //企业版-切换企业
+    private interface ChangeCompanyService {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Change_Company)
+        Observable<BaseModel> getData(@Field("companyId") String wad);
+    }
+
+    public static Observable<BaseModel> changeCompany(Context context,String companyId) {
+        ChangeCompanyService spikeActiveQueryService = RestHelper.getBaseRetrofit(context).create(ChangeCompanyService.class);
+        return spikeActiveQueryService.getData(companyId);
+    }
+
+    //企业版-选择企业列表
+    private interface CompanyListService {
+        @POST(AppInterfaceAddress.Company_List)
+        Observable<CompanyListModel> getData();
+    }
+
+    public static Observable<CompanyListModel> getCompanyList(Context context) {
+        CompanyListService spikeActiveQueryService = RestHelper.getBaseRetrofit(context).create(CompanyListService.class);
+        return spikeActiveQueryService.getData();
+    }
+
+
+    //添加企业
+    private interface AddCompanyService {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Add_Company)
+        Observable<BaseModel> getData(@Field("authCode") String authCode);
+    }
+
+    public static Observable<BaseModel> addCompany(Context context,String authCode) {
+        AddCompanyService spikeActiveQueryService = RestHelper.getBaseRetrofit(context).create(AddCompanyService.class);
+        return spikeActiveQueryService.getData(authCode);
+    }
+
+    //根据授权码获取企业信息
+    private interface GetCompanyService {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.GetCompanyName)
+        Observable<GetCompanyModel> getData(@Field("invitationCode") String invitationCode);
+    }
+
+    public static Observable<GetCompanyModel> getCompanyName(Context context, String invitationCode) {
+        GetCompanyService spikeActiveQueryService = RestHelper.getBaseRetrofit(context).create(GetCompanyService.class);
+        return spikeActiveQueryService.getData(invitationCode);
+    }
+
+    //Banner信息
+    private interface HomeBannerService {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Home_Banner)
+        Observable<HomeBannerModel> getData(@Field("bannerId") String bannerId);
+    }
+
+    public static Observable<HomeBannerModel> getBanner(Context context, String bannerId) {
+        HomeBannerService spikeActiveQueryService = RestHelper.getBaseRetrofit(context).create(HomeBannerService.class);
+        return spikeActiveQueryService.getData(bannerId);
+    }
+
+
+
+
 }

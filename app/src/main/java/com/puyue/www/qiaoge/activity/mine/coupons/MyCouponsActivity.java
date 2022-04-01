@@ -25,6 +25,7 @@ import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.mine.coupons.queryUserDeductByStateModel;
 import com.puyue.www.qiaoge.model.mine.order.MyOrderNumModel;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.Time;
 
 import java.util.ArrayList;
@@ -112,7 +113,7 @@ public class MyCouponsActivity extends BaseSwipeActivity {
     }
 
     private void requestOrderNum() {
-        MyOrderNumAPI.requestOrderNum(mContext)
+        MyOrderNumAPI.requestOrderNum(mContext, SharedPreferencesUtil.getInt(mActivity,"wad"))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<MyOrderNumModel>() {

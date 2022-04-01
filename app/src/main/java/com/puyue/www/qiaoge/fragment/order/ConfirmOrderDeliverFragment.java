@@ -39,6 +39,7 @@ import com.puyue.www.qiaoge.adapter.mine.ConfirmOrderNewAdapter;
 import com.puyue.www.qiaoge.api.cart.CartBalanceAPI;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.GetDeliverTimeAPI;
+import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.api.mine.GetWalletAmountAPI;
 import com.puyue.www.qiaoge.api.mine.order.GenerateOrderAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
@@ -56,11 +57,14 @@ import com.puyue.www.qiaoge.helper.AlwaysMarqueeTextViewHelper;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
+import com.puyue.www.qiaoge.model.ModeModel;
 import com.puyue.www.qiaoge.model.StatModel;
 import com.puyue.www.qiaoge.model.cart.CartBalanceModel;
 import com.puyue.www.qiaoge.model.home.GetDeliverTimeModel;
 import com.puyue.www.qiaoge.model.mine.GetWalletAmountModel;
 import com.puyue.www.qiaoge.model.mine.order.GenerateOrderModel;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -77,6 +81,8 @@ import java.util.List;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -275,6 +281,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
         mCalendar.setTimeInMillis(time);
         currentDay = mCalendar.get(Calendar.DAY_OF_MONTH);
         getWalletAmount();
+        getMode();
         normalProductBalanceVOStr = mActivity.getIntent().getStringExtra("normalProductBalanceVOStr");
         activityBalanceVOStr = mActivity.getIntent().getStringExtra("activityBalanceVOStr");
         equipmentBalanceVOStr = mActivity.getIntent().getStringExtra("equipmentBalanceVOStr");
@@ -309,14 +316,17 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
         rl_distribution.setOnClickListener(noDoubleClickListener);
     }
 
+    DisDialog disDialog;
     private NoDoubleClickListener noDoubleClickListener = new NoDoubleClickListener() {
         @Override
         public void onNoDoubleClick(View view) {
             switch (view.getId()) {
 
                 case R.id.rl_distribution:
-                    DisDialog disDialog = new DisDialog(mActivity,cModel.getData().getSendAmount(),1);
-                    disDialog.show();
+                    if(modeModel1!=null) {
+                        disDialog = new DisDialog(mActivity,cModel.getData().getSendAmount(),1,modeModel1.getData().getHllBtn());
+                        disDialog.show();
+                    }
                     break;
 
                 case R.id.ll_beizhu:
@@ -344,8 +354,11 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                         AppHelper.showMsg(mActivity, "请选择配送服务");
                         buttonPay.setEnabled(true);
                         lav_activity_loading.hide();
+                        disDialog = new DisDialog(mActivity,cModel.getData().getSendAmount(),1,modeModel1.getData().getHllBtn());
+                        disDialog.show();
                         return;
                     }
+
                     if (LinearLayoutAddress.getVisibility() == View.VISIBLE) { // 没有地址
                         AppHelper.showMsg(mActivity, "请填写地址");
                         lav_activity_loading.hide();
@@ -481,6 +494,39 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                     @Override
                     public void onNext(BaseModel baseModel) {
 
+                    }
+                });
+    }
+
+    /**
+     * 是否显示内容
+     */
+    ModeModel modeModel1;
+    public void getMode() {
+        IndexHomeAPI.getMode(mActivity, SharedPreferencesUtil.getInt(mActivity,"wad"))
+                .subscribeOn(Schedulers.io())
+                .observeOn(mainThread())
+                .subscribe(new Subscriber<ModeModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ModeModel modeModel) {
+                        if(modeModel.getCode()==1) {
+                            if(modeModel.getData()!=null) {
+                                modeModel1 = modeModel;
+                            }
+
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,modeModel.getMessage());
+                        }
                     }
                 });
     }

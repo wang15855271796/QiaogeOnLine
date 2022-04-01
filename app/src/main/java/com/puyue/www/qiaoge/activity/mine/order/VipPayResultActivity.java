@@ -1,15 +1,23 @@
 package com.puyue.www.qiaoge.activity.mine.order;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 //import com.airbnb.lottie.LottieAnimationView;
+import com.android.tu.loadingdialog.LoadingDailog;
 import com.bumptech.glide.Glide;
 import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
@@ -24,6 +32,9 @@ import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.cart.GetPayResultModel;
 import com.puyue.www.qiaoge.model.mine.order.VipPayResultModel;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -36,10 +47,8 @@ import rx.schedulers.Schedulers;
 public class VipPayResultActivity extends BaseSwipeActivity {
 
     private ImageView mIvBack;
-//    private LottieAnimationView mLavLoading;
     private ImageView mIvSuccess;
     private ImageView mIvError;
-    private TextView mTvState;
     private TextView mTvOrderDetail;
 
     private int payChannal;
@@ -71,40 +80,48 @@ public class VipPayResultActivity extends BaseSwipeActivity {
 //        mLavLoading = FVHelper.fv(this, R.id.lav_activity_loading);
         mIvSuccess = FVHelper.fv(this, R.id.iv_activity_order_success);
         mIvError = FVHelper.fv(this, R.id.iv_activity_order_error);
-        mTvState = FVHelper.fv(this, R.id.tv_activity_result_state);
         mTvOrderDetail = FVHelper.fv(this, R.id.tv_activity_order_look);
         textViewSuccess=FVHelper.fv(this, R.id.textViewSuccess);
         imageViewRecommend=FVHelper.fv(this,R.id.imageViewRecommend);
         otherMessage =FVHelper.fv(this,R.id.otherMessage);
     }
 
+    Timer timer;
+    LoadingDailog dialog;
     @Override
     public void setViewData() {
-//        mLavLoading.setVisibility(View.VISIBLE);
         payChannal = getIntent().getIntExtra("payChannal",0);
         outTradeNo = getIntent().getStringExtra("outTradeNo");
-        if (payChannal == 2) {
-            //支付宝支付
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                    getPayResult(outTradeNo);
+
+        timer = new Timer();
+        timer.schedule(task,0,2000);
+
+        LoadingDailog.Builder loadBuilder = new LoadingDailog.Builder(mContext)
+                .setMessage("获取支付结果中")
+                .setCancelable(false)
+                .setCancelOutside(true);
+        dialog = loadBuilder.create();
+        dialog.setCanceledOnTouchOutside(false);
+
+        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
+                if (i == keyEvent.KEYCODE_BACK) {
+                    return true;
                 }
-            }, 3000);
-        } else if (payChannal == 3) {
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                  getPayResult(outTradeNo);
-                }
-            }, 3000);
-        }else if(payChannal==16){
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                    getPayResult(outTradeNo);
-                }
-            }, 3000);
-        }
+                return false;
+            }
+        });
 
     }
+
+    private TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+            getPayResult(outTradeNo);
+        }
+    };
+
 
     @Override
     public void setClickEvent() {
@@ -149,36 +166,89 @@ public class VipPayResultActivity extends BaseSwipeActivity {
 
                     @Override
                     public void onNext(VipPayResultModel vipPayResultModel) {
-//                        mLavLoading.setVisibility(View.GONE);
                         logoutAndToHome(mContext, vipPayResultModel.getCode());
-                        if (vipPayResultModel.isSuccess()) {
+                        if (vipPayResultModel.getCode()==1) {
                             //支付成功
                             if (vipPayResultModel.getData()!=null) {
-                                //支付成功
-                                otherMessage.setVisibility(View.VISIBLE);
                                 mIvSuccess.setVisibility(View.VISIBLE);
                                 mIvError.setVisibility(View.GONE);
-                               mTvState.setText("");
+                                //支付成功
+                                if(vipPayResultModel.getData().getPayMsg().equals("支付成功")) {
+                                    textViewSuccess.setText(vipPayResultModel.getData().getPayMsg());
+                                    dialog.dismiss();
+                                }else if(vipPayResultModel.getData().getPayMsg().equals("支付失败")) {
+                                    textViewSuccess.setText(vipPayResultModel.getData().getPayMsg());
+                                    dialog.dismiss();
+                                }else {
+                                    //支付中
+                                    dialog.show();
+                                    textViewSuccess.setText(vipPayResultModel.getData().getPayMsg());
+                                }
+
+                                if(vipPayResultModel.getData().getPayMsg().equals("支付成功")) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if(timer!=null) {
+                                                timer.cancel();
+                                                timer = null;
+                                            }
+                                        }
+                                    });
+
+                                }else if(vipPayResultModel.getData().getPayMsg().equals("支付失败")) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if(timer!=null) {
+                                                timer.cancel();
+                                                timer = null;
+                                            }
+                                        }
+                                    });
+                                }else {
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if(timer!=null) {
+                                                timer.cancel();
+                                                timer = null;
+                                            }
+                                            dialog.dismiss();
+                                        }
+                                    },20000);
+                                }
+
+                                if (!TextUtils.isEmpty(vipPayResultModel.getData().getErrorMsg())) {
+                                    otherMessage.setText(vipPayResultModel.getData().getErrorMsg());
+                                    otherMessage.setVisibility(View.GONE);
+                                } else {
+                                    otherMessage.setVisibility(View.GONE);
+                                }
+
                                 Glide.with(mActivity).load(vipPayResultModel.getData().getVo().getBannerUrl()).into(imageViewRecommend);
                                 imageUrl = vipPayResultModel.getData().getVo().getBannerDetailUrl();
-
-                                textViewSuccess.setText(vipPayResultModel.getData().getPayMsg());
-                                otherMessage.setText(vipPayResultModel.getData().getErrorMsg());
                                 textViewSuccess.setVisibility(View.VISIBLE);
                             } else {
                                 mIvSuccess.setVisibility(View.GONE);
                                 mIvError.setVisibility(View.VISIBLE);
-                                mTvState.setText("");
                                 textViewSuccess.setVisibility(View.GONE);
                             }
                         } else {
                             AppHelper.showMsg(VipPayResultActivity.this, vipPayResultModel.getData().getPayMsg());
                             mIvError.setVisibility(View.VISIBLE);
-                            mTvState.setText("");
                         }
                     }
                 });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (dialog != null && !this.isFinishing()) {
+            dialog.dismiss();
+        }
+        handler.removeCallbacksAndMessages(null);
+    }
 
 }

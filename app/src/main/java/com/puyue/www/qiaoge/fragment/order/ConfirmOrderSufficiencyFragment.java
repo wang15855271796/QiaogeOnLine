@@ -48,6 +48,7 @@ import com.puyue.www.qiaoge.adapter.mine.ChooseCouponsAdapter;
 import com.puyue.www.qiaoge.adapter.mine.ConfirmOrderNewAdapter;
 import com.puyue.www.qiaoge.api.cart.CartBalanceAPI;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
+import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.api.mine.order.GenerateOrderAPI;
 import com.puyue.www.qiaoge.api.mine.order.GetOrderDeliverTimeAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
@@ -69,12 +70,14 @@ import com.puyue.www.qiaoge.helper.MapHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
+import com.puyue.www.qiaoge.model.ModeModel;
 import com.puyue.www.qiaoge.model.StatModel;
 import com.puyue.www.qiaoge.model.cart.CartBalanceModel;
 import com.puyue.www.qiaoge.model.mine.coupons.UserChooseDeductModel;
 import com.puyue.www.qiaoge.model.mine.order.GenerateOrderModel;
 import com.puyue.www.qiaoge.model.mine.order.GetTimeOrderModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.GCJ02ToWGS84Util;
 import com.puyue.www.qiaoge.view.PickCityUtil;
 import com.tencent.lbssearch.TencentSearch;
@@ -120,6 +123,8 @@ import java.util.Map;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -258,6 +263,8 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
     TextView tv_distribution;
     LinearLayout ll_map;
     com.tencent.tencentmap.mapsdk.maps.MapView mapView;
+    LinearLayout ll_root;
+    RelativeLayout rl_no_Data;
     @Override
     public int setLayoutId() {
         return R.layout.fragment_confirm_sufficiency_order;
@@ -272,6 +279,8 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
     com.tencent.tencentmap.mapsdk.maps.TencentMap mapss;
     @Override
     public void findViewById(View view) {
+        rl_no_Data = view.findViewById(R.id.rl_no_Data);
+        ll_root = view.findViewById(R.id.ll_root);
         mapView = view.findViewById(R.id.mapView);
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.frag);
         ll_map = (LinearLayout) view.findViewById(R.id.ll_map);
@@ -391,6 +400,8 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
                 showGetTime();
             }
         });
+
+        getMode();
     }
 
     int disType;
@@ -630,13 +641,14 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
         rl_distribution.setOnClickListener(noDoubleClickListener);
     }
 
+    DisSelfDialog disDialog;
     private NoDoubleClickListener noDoubleClickListener = new NoDoubleClickListener() {
         @Override
         public void onNoDoubleClick(View view) {
             switch (view.getId()) {
                 case R.id.rl_distribution:
-                    if(cModel!=null&&cModel.getData()!=null) {
-                        DisSelfDialog disDialog = new DisSelfDialog(mActivity,cModel.getData().getSendAmount(),0);
+                    if(cModel!=null&&cModel.getData()!=null&&modeModel1!=null) {
+                        disDialog = new DisSelfDialog(mActivity,cModel.getData().getSendAmount(),0,modeModel1.getData().getHllBtn());
                         disDialog.show();
                     }
 
@@ -715,6 +727,48 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
             }
         }
     };
+
+    /**
+     * 是否显示内容
+     */
+    ModeModel modeModel1;
+    public void getMode() {
+        IndexHomeAPI.getMode(mActivity,SharedPreferencesUtil.getInt(mActivity,"wad"))
+                .subscribeOn(Schedulers.io())
+                .observeOn(mainThread())
+                .subscribe(new Subscriber<ModeModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ModeModel modeModel) {
+                        if(modeModel.getCode()==1) {
+                            if(modeModel.getData()!=null) {
+                                modeModel1 = modeModel;
+                                if(modeModel.getData().getPickBtn()==0) {
+                                    //展示
+                                    ll_root.setVisibility(View.VISIBLE);
+                                    rl_no_Data.setVisibility(View.GONE);
+                                }else {
+                                    //不展示
+                                    ll_root.setVisibility(View.GONE);
+                                    rl_no_Data.setVisibility(View.VISIBLE);
+                                }
+                            }
+
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,modeModel.getMessage());
+                        }
+                    }
+                });
+    }
 
     /**
      * 获取数据的网络请求

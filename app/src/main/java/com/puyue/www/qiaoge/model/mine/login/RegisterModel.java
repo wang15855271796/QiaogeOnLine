@@ -22,7 +22,7 @@ public class RegisterModel extends BaseModel{
 
         public String token;
         public UserBaseInfoVOBean userBaseInfoVO;
-
+        public int wad;
         public static class UserBaseInfoVOBean {
             /**
              * name : cy

@@ -166,6 +166,18 @@
             android:process=":multiprocess"
             tools:node="replace" />
 
+        <activity android:name=".activity.AddCompanyActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.ChooseCompanyActivity"
+            android:screenOrientation="portrait"
+            />
+
+
+        <activity android:name=".activity.BannerActivity"
+            android:screenOrientation="portrait"
+            />
         <!--  -->
         <activity
             android:screenOrientation="portrait"

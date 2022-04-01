@@ -563,7 +563,7 @@ public class WheelSurfPanView extends View {
     private float mTextSize;
     //文字颜色
     private int mTextColor;
-//
+    //
 //    int size;
 //
     public void setmType(int mType) {
@@ -814,7 +814,7 @@ public class WheelSurfPanView extends View {
             if ( mType == 1 ) {
                 // 计算初始角度
                 // 从最上面开始绘制扇形会好看一点
-                float startAngle = -mAngle / 2 - 90;
+                float startAngle = -mAngle / 2 - 85;
 
                 final int paddingLeft = getPaddingLeft();
                 final int paddingRight = getPaddingRight();
@@ -827,7 +827,7 @@ public class WheelSurfPanView extends View {
                     //设置绘制时画笔的颜色
 //                    mPaint.setColor(mColors[i]);
                     if(i%2==0) {
-                        mPaint.setColor(Color.parseColor("#F7AD42"));
+                        mPaint.setColor(Color.parseColor("#FFD1D0"));
                     }else {
                         mPaint.setColor(Color.parseColor("#ffffff"));
                     }
@@ -836,7 +836,7 @@ public class WheelSurfPanView extends View {
                             + mRadius, mCenter + mRadius);
                     canvas.drawArc(rect, startAngle, mAngle, true, mPaint);
 //                    mTextPaint.setColor(mTextColor);
-
+                    Log.d("ewfsfdrsfw.......",mRadius+"a");
                     drawText(startAngle, mDeses[i], mRadius, mTextPaint, canvas);
 
                     int imgWidth = mRadius / 3;
@@ -852,7 +852,7 @@ public class WheelSurfPanView extends View {
                     float x = ( float ) (width / 2 + (mRadius / 2 + mRadius / 12) * Math.cos(angle));
                     float y = ( float ) (height / 2 + (mRadius / 2 + mRadius / 12) * Math.sin(angle));
                     // 确定绘制图片的位置
-                    RectF rect1 = new RectF(x - w / 2, y - h / 2, x + w / 2, y + h / 2);
+                    RectF rect1 = new RectF(x - w / 3, y - h / 3, x + w / 3, y + h / 3);
                     canvas.drawBitmap(mListBitmap.get(i), null, rect1, null);
 
                     //重置开始角度
@@ -895,7 +895,7 @@ public class WheelSurfPanView extends View {
         //做最后的准备工作 检查数据是否合理
         if ( mType == 1 ) {
             if ( mHuanImgRes == null || mHuanImgRes == 0 )
-                mYuanHuan = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.yuanhua2);
+                mYuanHuan = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.icon_yuan_top);
             else {
                 mYuanHuan = BitmapFactory.decodeResource(mContext.getResources(), mHuanImgRes);
             }
@@ -904,7 +904,7 @@ public class WheelSurfPanView extends View {
                 mTextSize = 14 * getScale();
             //文字颜色 默认粉红色
             if ( mTextColor == 0 )
-                mTextColor = Color.parseColor("#333333");
+                mTextColor = Color.parseColor("#F45D4E");
 
             if ( mListBitmap.size() != mDeses.length) {
                 throw new RuntimeException("Icons数量和Deses和Colors三者数量必须与mTypeNum一致");
