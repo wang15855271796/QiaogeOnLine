@@ -675,8 +675,12 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
                         AppHelper.showMsg(mActivity, "请选择配送服务");
                         buttonPay.setEnabled(true);
                         lav_activity_loading.hide();
+                        disDialog = new DisSelfDialog(mActivity,cModel.getData().getSendAmount(),1,modeModel1.getData().getHllBtn());
+                        disDialog.show();
                         return;
                     }
+
+
 
                     if (LinearLayoutAddress.getVisibility() == View.VISIBLE) { // 没有地址
                         AppHelper.showMsg(mActivity, "请填写地址");

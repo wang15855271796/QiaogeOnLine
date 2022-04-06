@@ -30,44 +30,6 @@
         android:textStyle="bold"
         android:visibility="gone" />
 
-    <LinearLayout
-        android:id="@+id/ll_hour_bg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_snap_ups"
-        android:padding="2dp">
-
-        <TextView
-
-            android:id="@+id/tv_hour_decade"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textColor="@color/app_color_white"
-            android:textSize="14dp" />
-
-        <TextView
-            android:id="@+id/tv_hour_unit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="1dp"
-            android:text="0"
-            android:textColor="@color/app_color_white"
-            android:textSize="14dp" />
-    </LinearLayout>
-
-
-    <TextView
-        android:id="@+id/colon_hour"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="1dp"
-        android:layout_marginRight="1dp"
-
-        android:text=":"
-        android:textColor="#ffffff"
-        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/ll_min_bg"
@@ -96,6 +58,43 @@
 
 
     <TextView
+        android:id="@+id/colon_hour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
+        android:text=":"
+        android:textColor="#ffffff"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_hour_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_snap_ups"
+        android:padding="2dp">
+
+        <TextView
+            android:id="@+id/tv_hour_decade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="@color/app_color_white"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/tv_hour_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:text="0"
+            android:textColor="@color/app_color_white"
+            android:textSize="14dp" />
+    </LinearLayout>
+
+    <TextView
         android:visibility="gone"
         android:id="@+id/colon_minute"
         android:layout_width="wrap_content"
@@ -110,7 +109,6 @@
 
 
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/ll_sec_bg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

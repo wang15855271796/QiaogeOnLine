@@ -124,6 +124,7 @@ public class ChooseCompanyActivity extends BaseActivity implements View.OnClickL
                 break;
 
             case R.id.tv_choose:
+                SharedPreferencesUtil.saveInt(mActivity,"wad",0);
                 chooseStyle();
                 break;
         }
@@ -155,7 +156,6 @@ public class ChooseCompanyActivity extends BaseActivity implements View.OnClickL
                     @Override
                     public void onNext(BaseModel baseModel) {
                         if(baseModel.code==1) {
-                            SharedPreferencesUtil.saveInt(mActivity,"wad",0);
                             EventBus.getDefault().post(new AddressEvent());
                             finish();
                         }else {

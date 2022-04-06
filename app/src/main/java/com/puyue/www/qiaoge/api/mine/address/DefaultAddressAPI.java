@@ -30,4 +30,16 @@ public class DefaultAddressAPI {
         Observable<BaseModel> editDefaultAddressObservable = RestHelper.getBaseRetrofit(context).create(DefaultAddressService.class).setParams(id,orderId);
         return editDefaultAddressObservable;
     }
+
+    public interface ReceiveAddressService {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.SetOrderAddress)
+        Observable<BaseModel> setParams(@Field("addressId") int addressId,
+                                        @Field("orderId") String orderId);
+    }
+
+    public static Observable<BaseModel> getReceiveAddress(Context context, int addressId,String orderId) {
+        Observable<BaseModel> editDefaultAddressObservable = RestHelper.getBaseRetrofit(context).create(ReceiveAddressService.class).setParams(addressId,orderId);
+        return editDefaultAddressObservable;
+    }
 }

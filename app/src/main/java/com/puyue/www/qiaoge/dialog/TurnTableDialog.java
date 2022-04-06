@@ -3,11 +3,13 @@ package com.puyue.www.qiaoge.dialog;
 import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import androidx.annotation.NonNull;
 
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -40,16 +42,31 @@ public class TurnTableDialog extends Dialog {
         initAction();
     }
 
+    private Bitmap decodeResource(Resources resources, int id) {
+        TypedValue value = new TypedValue();
+        resources.openRawResource(id, value);
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        opts.inTargetDensity = value.density;
+        opts.inScaled=false;
+        return BitmapFactory.decodeResource(resources, id, opts);
+    }
+
     private void initView() {
 
         for ( int i = 0; i < list.size(); i++ ) {
             if(i%2==0) {
-                mListBitmap.add(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.icon_quan_blues));
+                mListBitmap.add(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.icon_quan_blues));
             }else {
-                mListBitmap.add(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.icon_quan_reds));
+                mListBitmap.add(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.icon_quan_reds));
             }
         }
-
+//        for (int j = 0; j < list.size(); j++) {
+//            if(j%2==0) {
+//                mListBitmap.add(decodeResource(mContext.getResources(), R.mipmap.icon_quan_blues));
+//            }else {
+//                mListBitmap.add(decodeResource(mContext.getResources(), R.mipmap.icon_quan_reds));
+//            }
+//        }
         //主动旋转一下图片
         mListBitmap = WheelSurfView.rotateBitmaps(mListBitmap);
         String[] array =new String[list.size()];

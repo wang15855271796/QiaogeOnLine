@@ -166,6 +166,9 @@
             android:process=":multiprocess"
             tools:node="replace" />
 
+        <activity android:name=".activity.OrderAddressListActivity"
+            android:screenOrientation="portrait"
+            />
         <activity android:name=".activity.AddCompanyActivity"
             android:screenOrientation="portrait"
             />
@@ -187,6 +190,9 @@
         <activity android:name=".activity.mine.login.LoginActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".activity.OrderAddAddressActivity"
+            android:screenOrientation="portrait"
+            />
         <activity android:name=".activity.PrivacySetting"
             android:screenOrientation="portrait"
             />

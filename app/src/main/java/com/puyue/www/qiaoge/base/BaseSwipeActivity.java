@@ -18,6 +18,7 @@ import com.githang.statusbar.StatusBarCompat;
 import com.puyue.www.qiaoge.activity.mine.login.LogoutsEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -156,6 +157,7 @@ public abstract class BaseSwipeActivity extends FragmentActivity {
         if (mStateCode == -10000 || mStateCode == -10001) {
             UserInfoHelper.saveUserId(context, "");
             UserInfoHelper.saveUserType(context, "");
+            SharedPreferencesUtil.saveInt(mActivity,"wad",0);
             UserInfoHelper.saveUserHomeRefresh(context, "");
             UserInfoHelper.saveUserMarketRefresh(context, "");
             UserInfoHelper.saveChangeFlag(mActivity,"0");

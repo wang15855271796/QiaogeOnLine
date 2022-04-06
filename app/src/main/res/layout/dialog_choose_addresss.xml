@@ -37,6 +37,7 @@
         </androidx.recyclerview.widget.RecyclerView>
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv1"
             android:textSize="@dimen/sp_14"
             android:textColor="#666666"

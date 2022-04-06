@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.text.SpannableStringBuilder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -38,7 +40,7 @@ class VerticalBannerAdapter extends BaseBannerAdapter<OrderModel.DataBean> {
     RelativeLayout rl_driver;
     TextView tv_unpay;
     TextView tv_look;
-    SnapUpCountDownTimerViews snap;
+    LinearLayout ll_snap;
     public VerticalBannerAdapter(String cell, List<OrderModel.DataBean> datas, Context context) {
         super(datas);
          this.context = context;
@@ -52,45 +54,45 @@ class VerticalBannerAdapter extends BaseBannerAdapter<OrderModel.DataBean> {
 
     @Override
     public void setItem(View view, OrderModel.DataBean data) {
-        snap = view.findViewById(R.id.snap);
+        SnapUpCountDownTimerViews snap = view.findViewById(R.id.snap);
+        ll_snap = view.findViewById(R.id.ll_snap);
         tv_order_state = view.findViewById(R.id.tv_order_state);
         tv_unpay = view.findViewById(R.id.tv_unpay);
         tv_look = view.findViewById(R.id.tv_look);
         tv_order_state.setText(data.getOrderStatusStr());
         tv_time = view.findViewById(R.id.tv_time);
-
         tv_pay = view.findViewById(R.id.tv_pay);
         String s = "需支付￥"+data.getTotalAmount();
         SpannableStringBuilder spannableStringBuilder = StringSpecialHelper.buildSpanColorStyle(s, 3,
                 String.valueOf(data.getTotalAmount()).length()+1, Color.parseColor("#FF2622"));
         tv_pay.setText(spannableStringBuilder);
-
         if(data.getOrderStatus()==1) {
-//            tv_unpay.setText("去付款"+data.);
-            tv_time.setText(data.getGmtCreate()+"下单 |");
+            tv_time.setText(data.getGmtCreate()+"|");
             tv_unpay.setVisibility(View.VISIBLE);
+            tv_unpay.setText("去支付");
             tv_look.setVisibility(View.GONE);
             tv_pay.setVisibility(View.VISIBLE);
-
-//            snap.SnapUpCountDownTimerViewType(context, 1);
-//            snap.setBackTheme(true);
-            snap.setTime(true,data.sysCurrentTime,data.orderOverTime,0);
-//            snap.changeTypeColor(Color.WHITE);
-            snap.start();
+            snap.setTime(true,data.sysCurrentTime,0,data.orderOverTime);
+            tv_look.setText("查看");
+//            snap.start();
             snap.setVisibility(View.VISIBLE);
-
+            ll_snap.setVisibility(View.VISIBLE);
         }else if(data.getOrderStatus()==3){
-            tv_unpay.setVisibility(View.VISIBLE);
-            tv_look.setVisibility(View.GONE);
+            tv_unpay.setVisibility(View.GONE);
+            tv_look.setVisibility(View.VISIBLE);
+            tv_look.setText("查看物流");
             tv_pay.setVisibility(View.GONE);
             tv_time.setText(data.getGmtCreate()+"下单");
             snap.setVisibility(View.GONE);
+            ll_snap.setVisibility(View.GONE);
         }else {
+            tv_look.setText("查看");
             tv_unpay.setVisibility(View.GONE);
             tv_look.setVisibility(View.VISIBLE);
             tv_pay.setVisibility(View.GONE);
             tv_time.setText(data.getGmtCreate()+"下单");
             snap.setVisibility(View.GONE);
+            ll_snap.setVisibility(View.GONE);
         }
 
         tv_look.setOnClickListener(new View.OnClickListener() {
@@ -118,34 +120,6 @@ class VerticalBannerAdapter extends BaseBannerAdapter<OrderModel.DataBean> {
                 }
             }
         });
-//        iv_icon = view.findViewById(R.id.iv_icon);
-//        tv_date.setText(data.getSendTime());
-//        tv_no.setText("订单"+data.getOrderId());
-//        Glide.with(context).load(data.getIcon()).into(iv_icon);
-//        String s = data.getDriverName()+data.getDriverPhone()+"已出货，正在配送";
-//        String phone = String.valueOf(data.getDriverPhone());
-//        SpannableStringBuilder spannableStringBuilder = StringSpecialHelper.buildSpanColorStyle(s, data.getDriverName().length(),
-//                phone.length(), Color.parseColor("#ff5000"));
-//        tv_phone.setText(spannableStringBuilder);
-//        tv_phone.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + data.getDriverPhone()));
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                context.startActivity(intent);
-//            }
-//        });
-//
-//        rl_driver.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(context, NewOrderDetailActivity.class);
-//                intent.putExtra("account","0");
-//                intent.putExtra(AppConstant.ORDERID, data.getOrderId());
-//                context.startActivity(intent);
-//            }
-//        });
-//
     }
 
 }

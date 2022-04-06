@@ -26,7 +26,7 @@ import android.widget.LinearLayout;
 public class VerticalBannerView extends LinearLayout implements BaseBannerAdapter.OnDataChangedListener {
 
     private float mBannerHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,40,getResources().getDisplayMetrics());
-    private int mGap = 4000;
+    private int mGap = 2000;
     private int mAnimDuration = 1000;
 
     private BaseBannerAdapter mAdapter;
@@ -67,7 +67,7 @@ public class VerticalBannerView extends LinearLayout implements BaseBannerAdapte
         mAnimDuration = array.getInteger(R.styleable.VerticalBannerView_animDuration,mAnimDuration);
 
         if(mGap <= mAnimDuration){
-            mGap = 4000;
+            mGap = 2000;
             mAnimDuration = 1000;
         }
 

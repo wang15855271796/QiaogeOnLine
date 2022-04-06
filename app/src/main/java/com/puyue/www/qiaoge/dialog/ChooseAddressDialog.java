@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,9 +90,12 @@ public class ChooseAddressDialog extends Dialog {
         rl_add_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = AddressListActivity.getIntent(mContext, AddressListsActivity.class);
-                intent1.putExtra("mineAddress", "mineAddress");
-                mContext.startActivity(intent1);
+                mContext.startActivity(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "add", "",
+                        "", "", "", "", "false",
+                        "", "", "", "", orderId));
+//                Intent intent1 = AddressListActivity.getIntent(mContext, AddressListsActivity.class);
+//                intent1.putExtra("mineAddress", "mineAddress");
+//                mContext.startActivity(intent1);
 
                 dismiss();
             }
@@ -133,7 +137,8 @@ public class ChooseAddressDialog extends Dialog {
                                     @Override
                                     public void jump(int position) {
                                         dataBean = data0.get(position);
-                                        mContext.startActivity(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "edit", dataBean.userName, dataBean.contactPhone, dataBean.shopName, (dataBean.provinceName + " " + dataBean.cityName + " " + dataBean.areaName), dataBean.detailAddress, "true", String.valueOf(dataBean.id), dataBean.provinceCode,
+                                        mContext.startActivity(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "edit",
+                                                dataBean.userName, dataBean.contactPhone, dataBean.shopName, (dataBean.provinceName + " " + dataBean.cityName + " " + dataBean.areaName), dataBean.detailAddress, "true", String.valueOf(dataBean.id), dataBean.provinceCode,
                                                 dataBean.cityCode,dataBean.areaCode, orderId));
                                         dismiss();
                                     }

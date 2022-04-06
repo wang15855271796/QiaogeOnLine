@@ -184,7 +184,6 @@
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:visibility="gone"
                                         android:id="@+id/ll_driver"
                                         android:orientation="vertical"
                                         android:layout_marginTop="@dimen/size_12dp"

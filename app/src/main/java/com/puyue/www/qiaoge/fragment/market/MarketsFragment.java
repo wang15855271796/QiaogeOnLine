@@ -877,7 +877,7 @@ public class MarketsFragment extends BaseFragment {
         getSearchProd();
         getDataThree();
         getDataTwo();
-
+        requestGoodsList("");
 
     }
 

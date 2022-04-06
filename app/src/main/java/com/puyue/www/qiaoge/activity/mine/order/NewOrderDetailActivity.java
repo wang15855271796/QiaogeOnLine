@@ -34,6 +34,7 @@ import com.puyue.www.qiaoge.activity.CommonH6Activity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.HuoDetailActivity;
 import com.puyue.www.qiaoge.activity.HuoHomeActivity;
+import com.puyue.www.qiaoge.activity.OrderAddressListActivity;
 import com.puyue.www.qiaoge.activity.flow.FlowLayout;
 import com.puyue.www.qiaoge.activity.flow.TagAdapter;
 import com.puyue.www.qiaoge.activity.flow.TagFlowLayout;
@@ -60,6 +61,8 @@ import com.puyue.www.qiaoge.dialog.HllOrderDialog;
 import com.puyue.www.qiaoge.dialog.HuoConnentionDialog;
 import com.puyue.www.qiaoge.event.BackEvent;
 import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
+import com.puyue.www.qiaoge.event.OrderAddressEvent;
+import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragments;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
@@ -83,6 +86,8 @@ import com.puyue.www.qiaoge.view.scrollview.Util;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -240,7 +245,7 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
     private TextView tv_evaluate;
     private int returnCode;
     private boolean isShowed = false;
-    private String account;
+    private String account = "0";
     private String subId;
     OrderFullAdapter orderFullAdapter;
     TextView tv_amount;
@@ -377,7 +382,7 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
     @Override
     public void setViewData() {
 
-//        EventBus.getDefault().register(this);
+        EventBus.getDefault().register(this);
         orderId = getIntent().getStringExtra(AppConstant.ORDERID);
         subId = getIntent().getStringExtra("subId");
         //账号标识 1子账号点击进来的   0“我的界面”点击进来的 2订单确认界面进来的
@@ -419,6 +424,12 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
 //        });
 
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -1246,14 +1257,12 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
                     deleteOrder();
                     break;
                 case R.id.linearLayout_address_arrow:
-                    Intent intent_ = new Intent(mContext, AddressListsActivity.class);
-
+                    Intent intent_ = new Intent(mContext, OrderAddressListActivity.class);
                     intent_.putExtra("orderId", orderId);
                     intent_.putExtra("type", 1);
                     intent_.putExtra("mineAddress", "address");
                     intent_.putExtra("UseAddress", getOrderDetailModel.addressVO.provinceName + getOrderDetailModel.addressVO.cityName
                             + getOrderDetailModel.addressVO.areaName + getOrderDetailModel.addressVO.detailAddress);
-                    // startActivity(intent_);
                     startActivityForResult(intent_, 42);
                     break;
 
@@ -1595,5 +1604,10 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
                 });
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getOrderAddress(OrderAddressEvent event) {
+        getOrderDetail(orderId);
+
+    }
 
 }

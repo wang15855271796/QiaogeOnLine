@@ -78,7 +78,7 @@
             android:textStyle="bold"
             android:textColor="#333333"
             android:textSize="@dimen/sp_16"
-            android:layout_marginLeft="@dimen/size_15dp"
+            android:layout_marginLeft="@dimen/size_10dp"
             android:layout_marginTop="@dimen/size_16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -87,7 +87,7 @@
             android:text="12:00下单"
             android:id="@+id/tv_time"
             android:layout_marginTop="@dimen/public_space_value_1"
-            android:layout_marginLeft="@dimen/size_15dp"
+            android:layout_marginLeft="@dimen/size_10dp"
             android:layout_below="@+id/tv_order_state"
             android:textSize="@dimen/sp_12"
             android:textColor="#666666"
@@ -141,18 +141,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <com.puyue.www.qiaoge.view.SnapUpCountDownTimerViews
+        <LinearLayout
+            android:id="@+id/ll_snap"
             android:layout_alignParentRight="true"
-            android:id="@+id/snap"
-            android:visibility="gone"
-            android:background="@drawable/shape_red_orders"
-            android:layout_marginRight="@dimen/size_13dp"
-            android:layout_centerVertical="true"
-            android:paddingRight="@dimen/dp_10"
-            android:paddingLeft="@dimen/dp_10"
             android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/shape_red_orders"
+            android:layout_centerVertical="true"
             android:layout_height="wrap_content">
 
-        </com.puyue.www.qiaoge.view.SnapUpCountDownTimerViews>
+            <TextView
+                android:text="去支付:"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/size_11dp"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <com.puyue.www.qiaoge.view.SnapUpCountDownTimerViews
+                android:id="@+id/snap"
+                android:visibility="gone"
+                android:layout_marginRight="@dimen/size_5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </com.puyue.www.qiaoge.view.SnapUpCountDownTimerViews>
+        </LinearLayout>
+
     </RelativeLayout>
 </LinearLayout>

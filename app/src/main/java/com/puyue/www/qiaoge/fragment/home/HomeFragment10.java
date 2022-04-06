@@ -494,6 +494,10 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     public void findViewById(View view) {
         bind = ButterKnife.bind(this, view);
         setListener();
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+
         rl_grand.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -1298,9 +1302,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
             getDatas(time);
         }
 
-        if (EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().unregister(this);
-        }
     }
 
     @Override
@@ -1308,9 +1309,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
         super.onStart();
         //开始轮播
         banner.startAutoPlay();
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
     }
 
 
@@ -1428,13 +1426,12 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                         if (indexInfoModel.isSuccess()) {
                             if(indexInfoModel.getData()!=null) {
                                 if (indexInfoModel.getData().size() > 0) {
+                                    ll_driver.setVisibility(View.VISIBLE);
                                     driverList.clear();
                                     driverList.addAll(indexInfoModel.getData());
-                                    verticalBannerAdapter = new VerticalBannerAdapter(cell, driverList, getContext());
-                                    ll_driver.setVisibility(View.VISIBLE);
+                                    verticalBannerAdapter = new VerticalBannerAdapter(cell, driverList,mActivity);
                                     verticalBanner.setAdapter(verticalBannerAdapter);
                                     verticalBanner.start();
-
                                 } else {
                                     ll_driver.setVisibility(View.GONE);
                                 }
@@ -1510,7 +1507,11 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                             iconList.clear();
 
                             getSpikeList();
-                            getHot(1, 10, "hot");
+                            if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+                                ll_hot.setVisibility(View.GONE);
+                            }else {
+                                getHot(1, 10, "hot");
+                            }
                             getCustomerPhone();
                             isShow();
                             getOrder();
@@ -1552,14 +1553,16 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                 rl_huo.setVisibility(View.GONE);
                             }
                             questUrl = indexInfoModel.getData().getQuestUrl();
-                            tv_city.setText(data.getAddress());
+                            if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+                                tv_city.setText(data.getCompanyName());
+                            }else {
+                                tv_city.setText(data.getAddress());
+                            }
                             list.clear();
                             list1.clear();
 
-//                            indexInfoModel.getData().getHomePopup()
                             for (int i = 0; i < indexInfoModel.getData().getBanners().size(); i++) {
                                 list.add(data.getBanners().get(i).getDefaultPic());
-
                             }
 
                             for (int i = 0; i < indexInfoModel.getData().getBanners().size(); i++) {
@@ -1901,6 +1904,10 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
         super.onDestroy();
 //        verticalBanner.stop();
 //        EventBus.getDefault().unregister(this);
+
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
     }
 
 
@@ -1916,6 +1923,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                 }else {
                     Intent intentsss = new Intent(mActivity, NewOrderDetailActivity.class);
                     intentsss.putExtra("orderId",data.getOrderId());
+                    intentsss.putExtra("account","0");
                     startActivity(intentsss);
                 }
                 break;

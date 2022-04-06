@@ -340,9 +340,11 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
 
                     break;
                 case R.id.LinearLayoutAddress: // 添加地址
-                    Intent intent1 = AddressListActivity.getIntent(mActivity, AddressListsActivity.class);
-                    intent1.putExtra("mineAddress", "mineAddress");
-                    startActivityForResult(intent1, 32);
+                    ChooseAddressDialog chooseAddressDialog1 = new ChooseAddressDialog(getContext(),orderId);
+                    chooseAddressDialog1.show();
+//                    Intent intent1 = AddressListActivity.getIntent(mActivity, AddressListsActivity.class);
+//                    intent1.putExtra("mineAddress", "mineAddress");
+//                    startActivityForResult(intent1, 32);
 
                     break;
                 case R.id.buttonPay:// 去支付

@@ -267,7 +267,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         String registrationID = JPushInterface.getRegistrationID(this);
         UserInfoHelper.saveRegistionId(mContext, registrationID);
 //        mLocationClient.start();
-        switchTab(TAB_HOME);
+//        switchTab(TAB_HOME);
 }
 
     private void sendLocation() {
@@ -816,7 +816,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
 //        }
         type = "";
         locationMessage = location.getAddress();    //获取详细地址信息
-//        switchTab(TAB_HOME);
+        switchTab(TAB_HOME);
         instance.removeUpdates(this);
         if (token != null) {
             sendLocation();

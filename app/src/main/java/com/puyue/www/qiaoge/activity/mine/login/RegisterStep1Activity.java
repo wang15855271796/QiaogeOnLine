@@ -375,10 +375,8 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
 
         }
 
-
-
         requestRegisterAgreement();
-        getCustomerPhone();
+//        getCustomerPhone();
         tv_phone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
         tv_phone.getPaint().setAntiAlias(true);//抗锯齿
         tv_register_secret.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);

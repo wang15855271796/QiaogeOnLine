@@ -324,7 +324,7 @@ public class AppInterfaceAddress {
     public static final String RECOMMEND = "common/getRecommendProductName";
     public static final String REGISTER_AGREEMENT = "auth/getRegisterProtocol";
     public static final String SEND_AUTH_CODE = "auth/sendMsg";
-    public static final String REGISTER = "auth/register";
+    public static final String REGISTER = "auth/registerV3";
     public static final String LOGIN = "auth/login";
     public static final String ACCOUNT_CENTER = "user/personCenter";
     public static final String LOG_OUT = "user/loginOut";
@@ -529,6 +529,12 @@ public class AppInterfaceAddress {
     public static final String FEEDBACK = "feedback/addFeedBack";
     public static final String EDIT_ADDRESS = "address/updateAddress";
     public static final String DELETE_ADDRESS = "address/deleteAddressById";
+
+    /**
+     *修改收货地址
+     */
+    public static final String SetOrderAddress = "commonOrder/changeAnotherAddress";
+
     /**
      * 设置默认地址
      */

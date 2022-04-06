@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.Editable;
+import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.event.DisTributionEvent;
 import com.puyue.www.qiaoge.event.HuoBeizhuEvent;
 import com.puyue.www.qiaoge.event.RefreshEvent;
+import com.puyue.www.qiaoge.helper.StringSpecialHelper;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.utils.Utils;
 
@@ -72,7 +74,11 @@ public class DisDialog extends Dialog {
         WindowManager.LayoutParams attributes = getWindow().getAttributes();
         attributes.width = Utils.getScreenWidth(context);
         getWindow().setAttributes(attributes);
-        tv_price.setText("满"+sendAmount+"元免配送费");
+
+        String content = "(满"+sendAmount+"元免配送费)";
+        SpannableStringBuilder spannableStringBuilder = StringSpecialHelper.buildSpanColorStyle(content, 2,
+                sendAmount.length(), Color.parseColor("#FD6601"));
+        tv_price.setText(spannableStringBuilder);
         tv_price.setVisibility(View.VISIBLE);
         tv_name.setText("翘歌配送");
 

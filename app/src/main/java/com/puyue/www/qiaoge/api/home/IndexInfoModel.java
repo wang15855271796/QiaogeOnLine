@@ -114,7 +114,15 @@ public class IndexInfoModel {
         int hllOrderCallNum;
         String orderId;
         private HllTip hllTip;
+        String companyName;
 
+        public String getCompanyName() {
+            return companyName;
+        }
+
+        public void setCompanyName(String companyName) {
+            this.companyName = companyName;
+        }
         public HllTip getHllTip() {
             return hllTip;
         }
@@ -454,6 +462,7 @@ public class IndexInfoModel {
             private Object updateUserId;
             private Object memo;
             boolean isPropup;
+
 
             public boolean isPropup() {
                 return isPropup;
