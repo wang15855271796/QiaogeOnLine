@@ -165,9 +165,13 @@ public class ExCouponDialog extends Dialog {
 
                         @Override
                         public void onNext(AccountCenterModel accountCenterModel) {
-                            if (accountCenterModel.success) {
+                            if (accountCenterModel.code==1) {
                                 mModelAccountCenter = accountCenterModel;
-                                checkFirstChange();
+                                if(accountCenterModel.data!=null) {
+                                    mUserCell = mModelAccountCenter.data.phone;
+                                    checkFirstChange();
+                                }
+
 //                                if (mModelAccountCenter.data.hasSetPayPwd) {
 //                                    //已经设置过支付密码
 //                                    mUserCell = mModelAccountCenter.data.phone;

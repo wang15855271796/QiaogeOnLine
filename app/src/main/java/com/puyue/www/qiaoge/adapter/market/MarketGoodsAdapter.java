@@ -21,6 +21,7 @@ import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.activity.home.SpecialGoodDetailActivity;
 import com.puyue.www.qiaoge.api.market.MarketRightModel;
 import com.puyue.www.qiaoge.constant.AppConstant;
+import com.puyue.www.qiaoge.dialog.CouponSearchDialog;
 import com.puyue.www.qiaoge.dialog.MarketGialog;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
@@ -158,15 +159,36 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
         tv_style.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(onclick!=null) {
-                    onclick.addDialog();
+                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+                    if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
+                        //已授权
+                        marketGialog = new MarketGialog(mContext, item);
+                        marketGialog.show();
+                    }else{
+                        //未授权
+                        if(onclick!=null) {
+                            onclick.getPrice();
+                        }
+                    }
+                }else{
+                    //未登录
+                    if(onclick!=null) {
+                        onclick.addDialog();
+                    }
                 }
 
-                if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-                    marketGialog = new MarketGialog(mContext, item);
-                    marketGialog.show();
 
-                }
+
+
+//                if(onclick!=null) {
+//                    onclick.addDialog();
+//                }
+//
+//                if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+//                    marketGialog = new MarketGialog(mContext, item);
+//                    marketGialog.show();
+//
+//                }
             }
         });
         TextView tv_choose_spec = helper.getView(R.id.tv_choose_spec);

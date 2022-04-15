@@ -129,13 +129,22 @@ public class SearchReasultAdapter extends BaseQuickAdapter<SearchResultsModel.Da
         tv_style.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(onclick!=null) {
-                    onclick.addDialog();
-                }
-
                 if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-                    searchDialog = new SearchDialog(mContext,item);
-                    searchDialog.show();
+                    if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
+                        //已授权
+                        searchDialog = new SearchDialog(mContext,item);
+                        searchDialog.show();
+                    }else{
+                        //未授权
+                        if(onclick!=null) {
+                            onclick.getPrice();
+                        }
+                    }
+                }else{
+                    //未登录
+                    if(onclick!=null) {
+                        onclick.addDialog();
+                    }
                 }
             }
         });
@@ -148,6 +157,7 @@ public class SearchReasultAdapter extends BaseQuickAdapter<SearchResultsModel.Da
                 }
             }
         });
+
         rl_spec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

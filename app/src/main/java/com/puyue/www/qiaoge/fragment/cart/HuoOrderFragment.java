@@ -629,7 +629,6 @@ public class HuoOrderFragment extends BaseFragment implements View.OnClickListen
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.d("sada.........", jsonArray1.length()+"-----"+cityId);
 
         dataBean = null;
     }

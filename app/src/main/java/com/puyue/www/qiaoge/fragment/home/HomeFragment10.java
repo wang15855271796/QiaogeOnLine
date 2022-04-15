@@ -710,9 +710,9 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
         rl_address.setOnClickListener(null);
         rl_huo.setOnClickListener(this);
         rl_huos.setOnClickListener(this);
+        lav_activity_loading.show();
         requestUpdate();
         refreshLayout.autoRefresh();
-        lav_activity_loading.show();
         couponListAdapter = new CouponListAdapter(R.layout.item_home_coupon_list, lists);
         mTypedialog = new AlertDialog.Builder(mActivity, R.style.DialogStyle).create();
         mTypedialog.setCancelable(false);
@@ -1497,173 +1497,186 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
 
                     @Override
                     public void onNext(IndexInfoModel indexInfoModel) {
-                        if (indexInfoModel.isSuccess()) {
-                            data = indexInfoModel.getData();
+                        if (indexInfoModel.getCode()==1) {
+                            if(indexInfoModel.getData()!=null) {
+                                data = indexInfoModel.getData();
 
-                            UserInfoHelper.saveAreaName(mActivity, data.getAreaName());
-                            UserInfoHelper.saveCity(mActivity, data.getCityName());
-                            UserInfoHelper.saveProvince(mActivity, data.getProvinceName());
+                                UserInfoHelper.saveAreaName(mActivity, data.getAreaName());
+                                UserInfoHelper.saveCity(mActivity, data.getCityName());
+                                UserInfoHelper.saveProvince(mActivity, data.getProvinceName());
 
-                            iconList.clear();
-
-                            getSpikeList();
-                            if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
-                                ll_hot.setVisibility(View.GONE);
-                            }else {
-                                getHot(1, 10, "hot");
-                            }
-                            getCustomerPhone();
-                            isShow();
-                            getOrder();
-
-                            if(indexInfoModel.getData().getIcons()!=null) {
-                                iconList.addAll(data.getIcons());
-                            }
-                            couponListModels = indexInfoModel.getData();
-                            if (data.getDeductAmountStr() != null) {
-                                deductAmountStr = data.getDeductAmountStr();
-                            }
-                            if(indexInfoModel.getData().getGiftReceiveBtn().equals("0")) {
-                                getPrivacy(indexInfoModel);
-                                getDialog(indexInfoModel);
-                            }else {
-                                getTurn();
-                            }
-
-                            if(!SharedPreferencesUtil.getString(mActivity,"once").equals("0")) {
-//                                getPrivacys(indexInfoModel);
-                                getDialog(indexInfoModel);
-                            }
-
-                            tv_times.setText(indexInfoModel.getData().getReturnAmountTime() + "小时快速退款");
-                            tv_amount.setText("满" + indexInfoModel.getData().getSendAmount() + "元免配送费");
-                            tv_title3.setText("物美价廉");
-
-
-                            if (data.isAddressIsInArea()) {
-                                rl_address.setVisibility(View.GONE);
-                            } else {
-                                rl_address.setVisibility(View.VISIBLE);
-                            }
-
-                            if(data.getHllOrderCallNum()>0) {
-                                rl_huo.setVisibility(View.VISIBLE);
-                                tv_order_num.setText("您有"+data.getHllOrderCallNum()+"笔订单待呼叫货拉拉！");
-                            }else {
-                                rl_huo.setVisibility(View.GONE);
-                            }
-                            questUrl = indexInfoModel.getData().getQuestUrl();
-                            if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
-                                tv_city.setText(data.getCompanyName());
-                            }else {
-                                tv_city.setText(data.getAddress());
-                            }
-                            list.clear();
-                            list1.clear();
-
-                            for (int i = 0; i < indexInfoModel.getData().getBanners().size(); i++) {
-                                list.add(data.getBanners().get(i).getDefaultPic());
-                            }
-
-                            for (int i = 0; i < indexInfoModel.getData().getBanners().size(); i++) {
-                                if (indexInfoModel.getData().getBanners().get(i).getShowType() == 2) {
-                                    list1.add(data.getBanners().get(i).getDetailPic());
+                                iconList.clear();
+                                lav_activity_loading.hide();
+                                getSpikeList();
+                                if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+                                    ll_hot.setVisibility(View.GONE);
+                                }else {
+                                    getHot(1, 10, "hot");
                                 }
-                            }
 
-                            if (data.getBanners().size() > 0) {
-                                banner.setVisibility(View.VISIBLE);
-                                banner.setBannerStyle(BannerConfig.NUM_INDICATOR);
-                                banner.setImageLoader(new GlideImageLoader());
-                                bannerList.clear();
-                                bannerList.addAll(list);
-                                banner.setImages(bannerList);
-                                banner.setBannerAnimation(Transformer.DepthPage);
-                                banner.isAutoPlay(true);
-                                banner.setDelayTime(3000);
-                                banner.setIndicatorGravity(BannerConfig.RIGHT);
-                                ClickBanner(data.getBanners());
-                                banner.start();
 
-                                List<IndexInfoModel.DataBean.BannersBean> banners = data.getBanners();
-                                iv_fill.setVisibility(View.GONE);
-                                ll_bgc.setVisibility(View.VISIBLE);
-                                banner.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                                    @Override
-                                    public void onPageScrolled(int i, float v, int i1) {
+                                getCustomerPhone();
+                                isShow();
+                                getOrder();
 
+                                if(indexInfoModel.getData().getIcons()!=null) {
+                                    iconList.addAll(data.getIcons());
+                                }
+                                couponListModels = indexInfoModel.getData();
+                                if (data.getDeductAmountStr() != null) {
+                                    deductAmountStr = data.getDeductAmountStr();
+                                }
+                                if(indexInfoModel.getData().getGiftReceiveBtn().equals("0")) {
+                                    getPrivacy(indexInfoModel);
+                                    getDialog(indexInfoModel);
+                                }else {
+                                    getTurn();
+                                }
+
+                                if(!SharedPreferencesUtil.getString(mActivity,"once").equals("0")) {
+//                                getPrivacys(indexInfoModel);
+                                    getDialog(indexInfoModel);
+                                }
+
+                                tv_times.setText(indexInfoModel.getData().getReturnAmountTime() + "小时快速退款");
+                                tv_amount.setText("满" + indexInfoModel.getData().getSendAmount() + "元免配送费");
+                                tv_title3.setText("物美价廉");
+
+
+                                if (data.isAddressIsInArea()) {
+                                    rl_address.setVisibility(View.GONE);
+                                } else {
+                                    rl_address.setVisibility(View.VISIBLE);
+                                }
+
+                                if(data.getHllOrderCallNum()>0) {
+                                    rl_huo.setVisibility(View.VISIBLE);
+                                    tv_order_num.setText("您有"+data.getHllOrderCallNum()+"笔订单待呼叫货拉拉！");
+                                }else {
+                                    rl_huo.setVisibility(View.GONE);
+                                }
+                                questUrl = indexInfoModel.getData().getQuestUrl();
+                                if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+                                    tv_city.setText(data.getCompanyName());
+                                }else {
+                                    tv_city.setText(data.getAddress());
+                                }
+                                list.clear();
+                                list1.clear();
+
+                                for (int i = 0; i < indexInfoModel.getData().getBanners().size(); i++) {
+                                    list.add(data.getBanners().get(i).getDefaultPic());
+                                }
+
+                                for (int i = 0; i < indexInfoModel.getData().getBanners().size(); i++) {
+                                    if (indexInfoModel.getData().getBanners().get(i).getShowType() == 2) {
+                                        list1.add(data.getBanners().get(i).getDetailPic());
                                     }
+                                }
 
-                                    @Override
-                                    public void onPageSelected(int pos) {
-                                        if(data.getBanners().size()>0) {
-                                            if (!TextUtils.isEmpty(banners.get(pos).getRgbColor())) {
-                                                String rgbColor = banners.get(pos).getRgbColor();
-                                                ll_bgc.setBackgroundColor(Color.parseColor("#" + rgbColor));
-                                                Log.d("wwwwwwww........","bbb");
-                                            }
+                                if (data.getBanners().size() > 0) {
+                                    banner.setVisibility(View.VISIBLE);
+                                    banner.setBannerStyle(BannerConfig.NUM_INDICATOR);
+                                    banner.setImageLoader(new GlideImageLoader());
+                                    bannerList.clear();
+                                    bannerList.addAll(list);
+                                    banner.setImages(bannerList);
+                                    banner.setBannerAnimation(Transformer.DepthPage);
+                                    banner.isAutoPlay(true);
+                                    banner.setDelayTime(3000);
+                                    banner.setIndicatorGravity(BannerConfig.RIGHT);
+                                    ClickBanner(data.getBanners());
+                                    banner.start();
+
+                                    List<IndexInfoModel.DataBean.BannersBean> banners = data.getBanners();
+                                    iv_fill.setVisibility(View.GONE);
+                                    ll_bgc.setVisibility(View.VISIBLE);
+                                    banner.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                                        @Override
+                                        public void onPageScrolled(int i, float v, int i1) {
+
                                         }
 
-                                    }
+                                        @Override
+                                        public void onPageSelected(int pos) {
+                                            if(data.getBanners().size()>0) {
+                                                if (!TextUtils.isEmpty(banners.get(pos).getRgbColor())) {
+                                                    String rgbColor = banners.get(pos).getRgbColor();
+                                                    ll_bgc.setBackgroundColor(Color.parseColor("#" + rgbColor));
+                                                    Log.d("wwwwwwww........","bbb");
+                                                }
+                                            }
 
-                                    @Override
-                                    public void onPageScrollStateChanged(int i) {
+                                        }
+
+                                        @Override
+                                        public void onPageScrollStateChanged(int i) {
 //                                        Log.d("wwwwwwww........","3333");
+                                        }
+                                    });
+
+                                } else {
+                                    banner.setVisibility(View.GONE);
+                                    iv_fill.setVisibility(View.VISIBLE);
+                                    Glide.with(mActivity).load(data.getHomeBackPic()).into(iv_fill);
+                                    ll_bgc.setVisibility(View.GONE);
+                                }
+
+                                recommendList.clear();
+                                recommendData = indexInfoModel.getData().getHotKey();
+                                recommendList.addAll(recommendData);
+                                indexRecommendAdapter.notifyDataSetChanged();
+
+                                classifyLists = indexInfoModel.getData().getClassifyList();
+                                classifyList.clear();
+                                classifyList.addAll(classifyLists);
+                                rvIconAdapter = new RvIconAdapter(R.layout.item_home_icon,classifyList);
+                                if(classifyList.size()>0) {
+                                    rv_icon.setVisibility(View.VISIBLE);
+                                    if(classifyList.size()==5||classifyList.size()==9||classifyList.size()==10) {
+                                        GridLayoutManager gridLayoutManager1 = new GridLayoutManager(mActivity,5);
+                                        rv_icon.setLayoutManager(gridLayoutManager1);
+                                        rv_icon.setAdapter(rvIconAdapter);
+                                        indicator.setVisibility(View.GONE);
+                                    }else if(classifyList.size()<=4||classifyList.size()<=8 &&classifyList.size()!=5){
+                                        GridLayoutManager gridLayoutManager2 = new GridLayoutManager(mActivity,4);
+                                        rv_icon.setLayoutManager(gridLayoutManager2);
+                                        rv_icon.setAdapter(rvIconAdapter);
+                                        indicator.setVisibility(View.GONE);
+                                    }else {
+                                        GridLayoutManager gridLayoutManager = new GridLayoutManager(mActivity, 2, RecyclerView.HORIZONTAL, false);
+                                        rv_icon.setLayoutManager(gridLayoutManager);
+                                        rv_icon.setAdapter(rvIconAdapter);
+                                        indicator.setVisibility(View.VISIBLE);
+                                    }
+                                }else {
+                                    rv_icon.setVisibility(View.GONE);
+                                    indicator.setVisibility(View.GONE);
+                                }
+
+
+                                if(data.getHllTip()!=null) {
+                                    HuoOrderDialog huoOrderDialog = new HuoOrderDialog(mActivity,data);
+                                    huoOrderDialog.show();
+                                }
+
+                                rvIconAdapter.notifyDataSetChanged();
+
+                                rvIconAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                        mActivity.startActivity(new Intent(mActivity, HomeActivity.class));
+                                        EventBus.getDefault().post(new GoToMarketEvent());
+                                        EventBus.getDefault().postSticky(new FromIndexEvent(classifyList.get(position).getId() + ""));
                                     }
                                 });
 
-                            } else {
-                                banner.setVisibility(View.GONE);
-                                iv_fill.setVisibility(View.VISIBLE);
-                                Glide.with(mActivity).load(data.getHomeBackPic()).into(iv_fill);
-                                ll_bgc.setVisibility(View.GONE);
-                            }
-
-                            recommendList.clear();
-                            recommendData = indexInfoModel.getData().getHotKey();
-                            recommendList.addAll(recommendData);
-                            indexRecommendAdapter.notifyDataSetChanged();
-
-                            classifyLists = indexInfoModel.getData().getClassifyList();
-                            classifyList.clear();
-                            classifyList.addAll(classifyLists);
-                            rvIconAdapter = new RvIconAdapter(R.layout.item_home_icon,classifyList);
-                            if(classifyList.size()==5||classifyList.size()==9||classifyList.size()==10) {
-                                GridLayoutManager gridLayoutManager1 = new GridLayoutManager(mActivity,5);
-                                rv_icon.setLayoutManager(gridLayoutManager1);
-                                rv_icon.setAdapter(rvIconAdapter);
-                                indicator.setVisibility(View.GONE);
-                            }else if(classifyList.size()<=4||classifyList.size()<=8 &&classifyList.size()!=5){
-                                GridLayoutManager gridLayoutManager2 = new GridLayoutManager(mActivity,4);
-                                rv_icon.setLayoutManager(gridLayoutManager2);
-                                rv_icon.setAdapter(rvIconAdapter);
-                                indicator.setVisibility(View.GONE);
+                                lav_activity_loading.hide();
                             }else {
-                                GridLayoutManager gridLayoutManager = new GridLayoutManager(mActivity, 2, RecyclerView.HORIZONTAL, false);
-                                rv_icon.setLayoutManager(gridLayoutManager);
-                                rv_icon.setAdapter(rvIconAdapter);
-                                indicator.setVisibility(View.VISIBLE);
+                                lav_activity_loading.hide();
                             }
 
-                            if(data.getHllTip()!=null) {
-                                HuoOrderDialog huoOrderDialog = new HuoOrderDialog(mActivity,data);
-                                huoOrderDialog.show();
-                            }
-
-                            rvIconAdapter.notifyDataSetChanged();
-
-                            rvIconAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                                    mActivity.startActivity(new Intent(mActivity, HomeActivity.class));
-                                    EventBus.getDefault().post(new GoToMarketEvent());
-                                    EventBus.getDefault().postSticky(new FromIndexEvent(classifyList.get(position).getId() + ""));
-                                }
-                            });
-
-                            lav_activity_loading.hide();
                         } else {
-
                             AppHelper.showMsg(mActivity, indexInfoModel.getMessage());
                             lav_activity_loading.hide();
                         }
@@ -1902,12 +1915,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        verticalBanner.stop();
-//        EventBus.getDefault().unregister(this);
-
-        if (EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().unregister(this);
-        }
+        EventBus.getDefault().unregister(this);
     }
 
 
@@ -2214,10 +2222,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
             rb_common.setVisibility(View.GONE);
             rb_common_top.setVisibility(View.GONE);
             rg_new.check(R.id.rb_new);
-
-            Log.d("weewqdadqad.......","123");
         }else {
-            Log.d("weewqdadqad.......","abc");
             rb_reduce.setText("降价商品");
             rb_new.setText("新品上市");
             tv_title1.setText("上新立荐");

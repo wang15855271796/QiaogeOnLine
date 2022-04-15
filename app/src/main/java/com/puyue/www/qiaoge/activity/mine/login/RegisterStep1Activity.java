@@ -15,6 +15,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -180,7 +181,10 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
     @Override
     public void findViewById() {
         ButterKnife.bind(this);
-        EventBus.getDefault().register(this);
+        if(!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+
         tv_register.setOnClickListener(this);
         cb_register.setOnClickListener(this);
         iv_one.setOnClickListener(this);
@@ -376,7 +380,7 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
         }
 
         requestRegisterAgreement();
-//        getCustomerPhone();
+        getCustomerPhone();
         tv_phone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
         tv_phone.getPaint().setAntiAlias(true);//抗锯齿
         tv_register_secret.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);

@@ -222,7 +222,10 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     @Override
     public void setViewData() {
         StatusBarUtil.setStatusBarLightMode(mActivity);
-        EventBus.getDefault().register(this);
+        if(!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+
         if (getIntent() != null) {
             type = getIntent().getStringExtra("go_home");
         }

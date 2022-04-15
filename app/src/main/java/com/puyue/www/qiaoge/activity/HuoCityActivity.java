@@ -189,7 +189,6 @@ public class HuoCityActivity extends BaseActivity implements View.OnClickListene
         Pattern p=Pattern.compile("[\u4e00-\u9fa5]");
         Matcher m=p.matcher(keyWords);
         if(m.find()) {
-            Log.d("sadfdsf.......","222");
             for (int i = 0; i < cityList.size(); i++) {
                 String name = cityList.get(i).getName();
                 String city_id = cityList.get(i).getCity_id();

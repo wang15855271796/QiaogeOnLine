@@ -130,7 +130,7 @@ public class CommonCouponAdapter extends RecyclerView.Adapter<CommonCouponAdapte
                 public void onClick(View v) {
                     if(style.equals("2")) {
                         Intent intent = new Intent(mContext,SeckillGoodActivity.class);
-                        intent.putExtra(AppConstant.ACTIVEID, activesBean.getActiveId());
+                        intent.putExtra(AppConstant.ACTIVEID, actives.get(position).getActiveId());
                         intent.putExtra("priceType",SharedPreferencesUtil.getString(mContext,"priceType"));
                         intent.putExtra("num","-1");
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
@@ -138,7 +138,7 @@ public class CommonCouponAdapter extends RecyclerView.Adapter<CommonCouponAdapte
                     }else {
                         Intent intent = new Intent(mContext,SpecialGoodDetailActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
-                        intent.putExtra(AppConstant.ACTIVEID, activesBean.getActiveId());
+                        intent.putExtra(AppConstant.ACTIVEID, actives.get(position).getActiveId());
                         intent.putExtra("priceType",SharedPreferencesUtil.getString(mContext,"priceType"));
                         mContext.startActivity(intent);
                     }

@@ -120,6 +120,7 @@
 
                                     <RelativeLayout
                                         android:id="@+id/rl_huo"
+                                        android:visibility="gone"
                                         android:layout_marginRight="@dimen/size_12dp"
                                         android:layout_marginLeft="@dimen/size_12dp"
                                         android:background="@drawable/shape_orange11"
@@ -384,12 +385,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="杭州.余杭区"
+                    tools:text="杭州.余杭区"
+                    android:lines="1"
+                    android:layout_marginRight="@dimen/size_60dp"
+                    android:ellipsize="end"
                     android:textColor="#ffffff"
                     android:textSize="18dp" />
 
                 <ImageView
                     android:id="@+id/iv_tip"
+                    android:visibility="gone"
                     android:layout_alignBaseline="@+id/tv_city"
                     android:layout_marginLeft="@dimen/size_5dp"
                     android:layout_toRightOf="@+id/tv_city"

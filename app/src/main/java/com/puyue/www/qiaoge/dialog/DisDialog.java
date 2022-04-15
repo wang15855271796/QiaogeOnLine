@@ -15,6 +15,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
@@ -42,15 +43,19 @@ public class DisDialog extends Dialog {
     @BindView(R.id.tv_sure)
     TextView tv_sure;
     @BindView(R.id.cb_1)
-    CheckBox cb_1;
+    ImageView cb_1;
     @BindView(R.id.cb_2)
-    CheckBox cb_2;
+    ImageView cb_2;
     @BindView(R.id.tv_name)
     TextView tv_name;
     @BindView(R.id.tv_huo)
     TextView tv_huo;
     @BindView(R.id.tv2)
     TextView tv2;
+    @BindView(R.id.rl_cb1)
+    RelativeLayout rl_cb1;
+    @BindView(R.id.rl_cb2)
+    RelativeLayout rl_cb2;
     String sendAmount;
     int hllBtn;
     int type;
@@ -89,49 +94,88 @@ public class DisDialog extends Dialog {
         }else {
             tv2.setTextColor(Color.parseColor("#333333"));
             tv_huo.setText("(订单支付后，用户自己发起配送服务)");
-            cb_2.setClickable(true);
+            cb_2.setClickable(false);
         }
-        cb_1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        rl_cb1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onClick(View v) {
                 if(isCb1) {
                     isCb1 = false;
-                    cb_1.setBackgroundResource(R.drawable.checkbox_no);
+                    cb_1.setImageResource(R.drawable.checkbox_no);
                     if(isCb2) {
-                        cb_2.setBackgroundResource(R.drawable.checkbox_no);
+                        cb_2.setImageResource(R.drawable.checkbox_no);
                     }
                 }else {
                     isCb1 = true;
                     isCb2 = false;
-                    cb_1.setBackgroundResource(R.drawable.icon_address_oval);
-                    cb_2.setBackgroundResource(R.drawable.checkbox_no);
+                    cb_1.setImageResource(R.drawable.icon_address_oval);
+                    cb_2.setImageResource(R.drawable.checkbox_no);
                     EventBus.getDefault().post(new DisTributionEvent("翘歌配送",0));
                     dismiss();
                 }
             }
-
         });
+//        cb_1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(isCb1) {
+//                    isCb1 = false;
+//                    cb_1.setBackgroundResource(R.drawable.checkbox_no);
+//                    if(isCb2) {
+//                        cb_2.setBackgroundResource(R.drawable.checkbox_no);
+//                    }
+//                }else {
+//                    isCb1 = true;
+//                    isCb2 = false;
+//                    cb_1.setBackgroundResource(R.drawable.icon_address_oval);
+//                    cb_2.setBackgroundResource(R.drawable.checkbox_no);
+//                    EventBus.getDefault().post(new DisTributionEvent("翘歌配送",0));
+//                    dismiss();
+//                }
+//            }
+//
+//        });
 
-        cb_2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        rl_cb2.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onClick(View v) {
                 if(isCb2) {
                     isCb2 = false;
-                    cb_2.setBackgroundResource(R.drawable.checkbox_no);
+                    cb_2.setImageResource(R.drawable.checkbox_no);
                     if(isCb1) {
-                        cb_1.setBackgroundResource(R.drawable.checkbox_no);
+                        cb_1.setImageResource(R.drawable.checkbox_no);
                     }
                 }else {
                     isCb2 = true;
                     isCb1 = false;
                     EventBus.getDefault().post(new DisTributionEvent("我自己叫货拉拉",1));
                     dismiss();
-                    cb_2.setBackgroundResource(R.drawable.icon_address_oval);
-                    cb_1.setBackgroundResource(R.drawable.checkbox_no);
+                    cb_2.setImageResource(R.drawable.icon_address_oval);
+                    cb_1.setImageResource(R.drawable.checkbox_no);
                 }
-
             }
         });
+//        cb_2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(isCb2) {
+//                    isCb2 = false;
+//                    cb_2.setBackgroundResource(R.drawable.checkbox_no);
+//                    if(isCb1) {
+//                        cb_1.setBackgroundResource(R.drawable.checkbox_no);
+//                    }
+//                }else {
+//                    isCb2 = true;
+//                    isCb1 = false;
+//                    EventBus.getDefault().post(new DisTributionEvent("我自己叫货拉拉",1));
+//                    dismiss();
+//                    cb_2.setBackgroundResource(R.drawable.icon_address_oval);
+//                    cb_1.setBackgroundResource(R.drawable.checkbox_no);
+//                }
+//
+//            }
+//        });
 
 
     }

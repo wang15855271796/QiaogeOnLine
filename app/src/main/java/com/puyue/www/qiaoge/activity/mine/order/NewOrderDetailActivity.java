@@ -194,9 +194,7 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
     private List<GetOrderDetailModel.DataBean.OrderProdsBean> list = new ArrayList<>();
 
     private List<GetOrderDetailModel.DataBean.SendGiftInfo> list_full = new ArrayList<>();
-    private String returnProductMainId = "";
     private String orderId;
-    private String orderState = "";
     private int orderStatusRequest;
     private Dialog mDialog;
 
@@ -241,12 +239,10 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
     private String deliverTimeEnd = "";
     private String deliverTimeName = "";
     List<String> mlist = new ArrayList<>();
-    private String goAccount;
     private TextView tv_evaluate;
     private int returnCode;
     private boolean isShowed = false;
     private String account = "0";
-    private String subId;
     OrderFullAdapter orderFullAdapter;
     TextView tv_amount;
     ImageView iv_order;
@@ -384,12 +380,11 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
 
         EventBus.getDefault().register(this);
         orderId = getIntent().getStringExtra(AppConstant.ORDERID);
-        subId = getIntent().getStringExtra("subId");
         //账号标识 1子账号点击进来的   0“我的界面”点击进来的 2订单确认界面进来的
-        account = getIntent().getStringExtra("account");
-        orderState = getIntent().getStringExtra(AppConstant.ORDERSTATE);
-        returnProductMainId = getIntent().getStringExtra(AppConstant.RETURNPRODUCTMAINID);
-        goAccount = getIntent().getStringExtra("goAccount");
+        if(getIntent().getStringExtra("account")!=null) {
+            account = getIntent().getStringExtra("account");
+        }
+
         //未支付，15分钟后跳转到取消订单
         orderTimerView.setTimeout(new SnapUpCountDownTimerView.Timeout() {
             @Override

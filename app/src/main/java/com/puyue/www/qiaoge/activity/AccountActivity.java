@@ -225,7 +225,6 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
                 }
 
                 String etDesc = et_desc.getText().toString();
-                Log.d("efrfsef...",jsonArray.toString());
 //                getDriver (orderDisPlayId,etDesc,jsonArray);
                 break;
         }

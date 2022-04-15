@@ -141,6 +141,7 @@
                     <RelativeLayout
                         android:id="@+id/rl_price"
                         android:visibility="gone"
+                        android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/size_20dp"
                         android:background="@drawable/shape_orange_radius_11"
                         android:layout_width="@dimen/size_70dp"

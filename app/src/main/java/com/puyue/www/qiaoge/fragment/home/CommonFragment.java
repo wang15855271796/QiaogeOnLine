@@ -87,7 +87,7 @@ public class CommonFragment extends BaseFragment {
         if(!EventBus.getDefault().isRegistered(this)) {//加上判断
             EventBus.getDefault().register(this);
         }
-//        getCustomerPhone();
+
         bind = ButterKnife.bind(this, view);
         refreshLayout.setEnableLoadMore(false);
         commonListAdapter = new CommonListAdapter(R.layout.item_team_list, list, new CommonListAdapter.Onclick() {

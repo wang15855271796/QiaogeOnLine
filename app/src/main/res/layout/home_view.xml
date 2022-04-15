@@ -363,6 +363,7 @@
 
     <!--折扣-->
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/ll_coupon"
         android:layout_marginTop="@dimen/dp_10"
         android:orientation="vertical"

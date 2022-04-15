@@ -30,16 +30,19 @@
 
 
         <RelativeLayout
+            android:id="@+id/rl_cb1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <CheckBox
+            <ImageView
                 android:id="@+id/cb_1"
                 android:button="@null"
+                android:enabled="false"
+                android:clickable="false"
                 android:layout_alignBottom="@+id/tv1"
                 android:layout_marginLeft="@dimen/size_20dp"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/checkbox_no"
+                android:src="@drawable/checkbox_no"
                 android:layout_width="@dimen/size_20dp"
                 android:layout_height="@dimen/size_20dp" />
 
@@ -66,18 +69,21 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:paddingBottom="@dimen/size_60dp"
+            android:id="@+id/rl_cb2"
             android:layout_marginTop="@dimen/size_20dp"
+            android:paddingBottom="@dimen/size_60dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <CheckBox
+            <ImageView
                 android:id="@+id/cb_2"
                 android:button="@null"
+                android:clickable="false"
+                android:enabled="false"
                 android:layout_alignBottom="@+id/tv2"
                 android:layout_marginLeft="@dimen/size_20dp"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/checkbox_no"
+                android:src="@drawable/checkbox_no"
                 android:layout_width="@dimen/size_20dp"
                 android:layout_height="@dimen/size_20dp" />
 

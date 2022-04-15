@@ -15,11 +15,13 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.TopEvent;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
+import com.puyue.www.qiaoge.activity.mine.login.LogoutsEvent;
 import com.puyue.www.qiaoge.activity.mine.login.RegisterActivity;
 import com.puyue.www.qiaoge.activity.mine.login.RegisterMessageActivity;
 import com.puyue.www.qiaoge.api.home.ProductListAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
+import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.BackEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.helper.AppHelper;
@@ -64,7 +66,7 @@ public class NewFragment extends BaseFragment {
     View emptyView;
     CouponDialog couponDialog;
     String cell;
-    NewFragment fragment;
+    String type = "new";
     //新品集合
     private List<ProductNormalModel.DataBean.ListBean> list = new ArrayList<>();
     private NewAdapter newAdapter;
@@ -88,8 +90,14 @@ public class NewFragment extends BaseFragment {
         }
         bind = ButterKnife.bind(this, view);
         refreshLayout.setEnableLoadMore(false);
+        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+            type = "hot";
+            getProductsList(pageNum,11,type);
+        }else {
+            type = "new";
+            getProductsList(pageNum,11,type);
+        }
         emptyView = View.inflate(mActivity, R.layout.layout_empty, null);
-        getProductsList(pageNum,11,"new");
         newAdapter = new NewAdapter(R.layout.item_team_list, list, new NewAdapter.Onclick() {
             @Override
             public void addDialog() {
@@ -114,7 +122,7 @@ public class NewFragment extends BaseFragment {
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 pageNum = 1;
                 list.clear();
-                getProductsList(1,10,"new");
+                getProductsList(1,10,type);
                 newAdapter.notifyDataSetChanged();
                 refreshLayout.finishRefresh();
             }
@@ -126,7 +134,7 @@ public class NewFragment extends BaseFragment {
                     if (productNormalModel.getData()!=null) {
                         if(productNormalModel.getData().isHasNextPage()) {
                             pageNum++;
-                            getProductsList(pageNum, 10,"new");
+                            getProductsList(pageNum, 10,type);
                             refreshLayout.finishLoadMore();
 
                         }else {
@@ -215,7 +223,6 @@ public class NewFragment extends BaseFragment {
 
     }
 
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void messageEventBusss(BackEvent event) {
 //        getCustomerPhone();
@@ -254,6 +261,32 @@ public class NewFragment extends BaseFragment {
     public void getScrolls(TopEvent event) {
         recyclerView.smoothScrollToPosition(0);
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void logout(LogoutsEvent event) {
+        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+            type = "hot";
+        }else {
+            type = "new";
+        }
+
+        refreshLayout.autoRefresh();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void logout(AddressEvent event) {
+        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+            type = "hot";
+        }else {
+            type = "new";
+        }
+
+        refreshLayout.autoRefresh();
+    }
+
+
+
+
     @Override
     public void setViewData() {
 //        getCustomerPhone();

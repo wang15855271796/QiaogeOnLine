@@ -106,14 +106,32 @@ public class SearchResultAdapter extends BaseQuickAdapter<SearchResultsModel.Dat
         tv_style.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(onclick!=null) {
-                    onclick.addDialog();
+                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+                    if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
+                        //已授权
+                        recommendDialog = new RecommendDialog(mContext,item);
+                        recommendDialog.show();
+                    }else{
+                        //未授权
+                        if(onclick!=null) {
+                            onclick.getPrice();
+                        }
+                    }
+                }else{
+                    //未登录
+                    if(onclick!=null) {
+                        onclick.addDialog();
+                    }
                 }
 
-                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-                    recommendDialog = new RecommendDialog(mContext,item);
-                    recommendDialog.show();
-                }
+//                if(onclick!=null) {
+//                    onclick.addDialog();
+//                }
+//
+//                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+//                    recommendDialog = new RecommendDialog(mContext,item);
+//                    recommendDialog.show();
+//                }
             }
         });
 

@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
 import androidx.annotation.Nullable;
+
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,6 +21,7 @@ import com.puyue.www.qiaoge.activity.mine.order.NewOrderDetailActivity;
 import com.puyue.www.qiaoge.activity.mine.order.ReturnGoodDetailActivity;
 import com.puyue.www.qiaoge.activity.mine.order.SelfSufficiencyOrderDetailActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
+import com.puyue.www.qiaoge.dialog.HuoConnentionDialog;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.OrdersModel;
 import com.puyue.www.qiaoge.view.GlideModel;
@@ -48,17 +51,15 @@ public class MySubOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBea
     //    private ImageView iv_order_self_return;//待提货售后
 //    private ImageView iv_confirm_order_self;//待提货确认收货
     private int orderDeliveryType;
-    TextView tv_title;
     TextView tv_product_name;
     TextView tv_time;
     TextView tv_subUserBuy;
-    RelativeLayout rl;
-    String subId;
-    public MySubOrdersItemAdapter(int layoutResId, String subId,@Nullable List<OrdersModel.DataBean.ListBean> data, int orderState, int orderDeliveryType, OnClick onClick) {
+    HuoConnentionDialog huoConnentionDialog;
+    TextView tv_call;
+    public MySubOrdersItemAdapter(int layoutResId, @Nullable List<OrdersModel.DataBean.ListBean> data, int orderState, int orderDeliveryType, MySubOrdersItemAdapter.OnClick onClick) {
         super(layoutResId, data);
         this.orderState = orderState;
         this.onClick = onClick;
-        this.subId = subId;
         this.orderDeliveryType = orderDeliveryType;
     }
 
@@ -66,10 +67,10 @@ public class MySubOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBea
     @Override
     protected void convert(final BaseViewHolder helper, final OrdersModel.DataBean.ListBean item) {
         helper.setIsRecyclable(false);
+        tv_call = helper.getView(R.id.tv_call);
+        TextView tv_style = helper.getView(R.id.tv_style);
         ImageView iv_order = helper.getView(R.id.iv_order);
         ImageView iv_pay = helper.getView(R.id.iv_pay);
-        rl = helper.getView(R.id.rl);
-        tv_title = helper.getView(R.id.tv_title);
         tv_subUserBuy = helper.getView(R.id.tv_subUserBuy);
         tv_time = helper.getView(R.id.tv_time);
         tv_product_name = helper.getView(R.id.tv_product_name);
@@ -87,8 +88,22 @@ public class MySubOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBea
         linearLayoutItem = helper.getView(R.id.linearLayoutItem);
         confirmOrder = helper.getView(R.id.iv_confirm_order);
         tv_product_name.setText(item.prodName);
+
         tv_time.setText(item.orderTime);
         tv_subUserBuy.setText(item.subBuyPhone);
+        if(item.deliverModel==0) {
+            tv_style.setText("【翘歌配送】");
+            tv_style.setTextColor(Color.parseColor("#3483FF"));
+        }else {
+            if(item.hllOrderStatusName!=null) {
+                tv_style.setText("【我自己叫货拉拉】-"+item.hllOrderStatusName);
+                tv_style.setTextColor(Color.parseColor("#FD6601"));
+            }else {
+                tv_style.setText("【我自己叫货拉拉】");
+                tv_style.setTextColor(Color.parseColor("#FD6601"));
+            }
+
+        }
 
         if(item.saleSettle==1) {
             iv_order.setVisibility(View.VISIBLE);
@@ -101,19 +116,6 @@ public class MySubOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBea
         }else {
             iv_pay.setVisibility(View.GONE);
         }
-        //判断自营还是非自营
-        if(item.selfOrNot.equals("0")) {
-            tv_title.setText("自营商品");
-        }else {
-            tv_title.setText("非自营商品");
-        }
-
-        if (orderDeliveryType == 0) {
-
-        } else if (orderDeliveryType == 1) {
-//            iv_order_self_return = helper.getView(R.id.iv_order_self_return);
-//            iv_confirm_order_self = helper.getView(R.id.iv_confirm_order_self);
-        }
 
 
         helper.setText(R.id.tv_item_my_order_all_price, "合计￥"+item.totalAmount);//总价
@@ -121,72 +123,91 @@ public class MySubOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBea
         // orderState 0全部 orderState 2 待发货订单 orderState 5 待评价订单
         // 1待付款订单 3待收货订单 11退货订单 7 已取消
 
-        if (orderState == 11) { //退货订单 不显示按钮
-            Log.d("weeeesss..............","00000");
-            rl.setVisibility(View.VISIBLE);
+        if(item.orderStatus==2) {
+            //待发货-待接收
+            againBay.setVisibility(View.VISIBLE);
+            cancelOrder.setVisibility(View.GONE);
+            evaluateNow.setVisibility(View.GONE);
+            imageGo.setVisibility(View.GONE);
+            deleteOrder.setVisibility(View.GONE);
+            confirmOrder.setVisibility(View.GONE);
+            tv_time.setVisibility(View.VISIBLE);
+            getState(item);
+        }else if(item.orderStatus==1) {
+            //代付款
+            tv_time.setVisibility(View.VISIBLE);
+            imageGo.setVisibility(View.VISIBLE);
+            cancelOrder.setVisibility(View.VISIBLE);
+            againBay.setVisibility(View.GONE);
+            evaluateNow.setVisibility(View.GONE);
+            confirmOrder.setVisibility(View.GONE);
+            deleteOrder.setVisibility(View.GONE);
+            getState(item);
+        }else if(item.orderStatus==3) {
+            //待收货
+            confirmOrder.setVisibility(View.VISIBLE);
+            againBay.setVisibility(View.VISIBLE);
+            imageGo.setVisibility(View.GONE);
+            deleteOrder.setVisibility(View.GONE);
+            cancelOrder.setVisibility(View.GONE);
+            evaluateNow.setVisibility(View.GONE);
+            tv_time.setVisibility(View.GONE);
+            getState(item);
+        }else if(item.orderStatus==14) {
+            //待发货-已接收
+            againBay.setVisibility(View.VISIBLE);
+            cancelOrder.setVisibility(View.GONE);
+            evaluateNow.setVisibility(View.GONE);
+            imageGo.setVisibility(View.GONE);
+            deleteOrder.setVisibility(View.GONE);
+            confirmOrder.setVisibility(View.GONE);
+            tv_time.setVisibility(View.VISIBLE);
+            getState(item);
+        }else if(item.orderStatus==5) {
+            //待评价
+            tv_time.setVisibility(View.GONE);
+            evaluateNow.setVisibility(View.VISIBLE);
+            againBay.setVisibility(View.VISIBLE);
+            deleteOrder.setVisibility(View.GONE);
+            cancelOrder.setVisibility(View.GONE);
+            imageGo.setVisibility(View.GONE);
+            confirmOrder.setVisibility(View.GONE);
+            getState(item);
+        }else if(item.orderStatus==6) {
+            //已评价
             imageGo.setVisibility(View.GONE);
             againBay.setVisibility(View.VISIBLE);
             evaluateNow.setVisibility(View.GONE);
             confirmOrder.setVisibility(View.GONE);
             deleteOrder.setVisibility(View.GONE);
             cancelOrder.setVisibility(View.GONE);
-//            orderType.setText(item.returnOrderState);
-        } else {
-            if (item.orderStatusName.equals("待付款")) {
-                // 待付款不显示 再次购买 其他的显示，取消的显示
-                Log.d("weeeesss..............","11111");
-                rl.setVisibility(View.GONE);
-                imageGo.setVisibility(View.VISIBLE);
-                cancelOrder.setVisibility(View.VISIBLE);
-                againBay.setVisibility(View.GONE);
-                evaluateNow.setVisibility(View.GONE);
-                confirmOrder.setVisibility(View.GONE);
-                deleteOrder.setVisibility(View.GONE);
-            } else if (item.orderStatusName.equals("已取消")) {
-                Log.d("weeeesss..............","22222");
-                rl.setVisibility(View.VISIBLE);
-                imageGo.setVisibility(View.GONE);
-                deleteOrder.setVisibility(View.VISIBLE);
-                againBay.setVisibility(View.VISIBLE);
-                cancelOrder.setVisibility(View.GONE);
-                evaluateNow.setVisibility(View.GONE);
-                confirmOrder.setVisibility(View.GONE);
-            } else if (item.orderStatusName.equals("待发货")) {
-                Log.d("weeeesss..............","33333");
-                rl.setVisibility(View.VISIBLE);
-                againBay.setVisibility(View.VISIBLE);
-                cancelOrder.setVisibility(View.GONE);
-                evaluateNow.setVisibility(View.GONE);
-                imageGo.setVisibility(View.GONE);
-                deleteOrder.setVisibility(View.GONE);
-                confirmOrder.setVisibility(View.GONE);
-            } else if (item.orderStatusName.equals("待收货")) {
-                Log.d("weeeesss..............","44444");
-                rl.setVisibility(View.VISIBLE);
-                confirmOrder.setVisibility(View.VISIBLE);
-                againBay.setVisibility(View.VISIBLE);
-                imageGo.setVisibility(View.GONE);
-                deleteOrder.setVisibility(View.GONE);
-                cancelOrder.setVisibility(View.GONE);
-                evaluateNow.setVisibility(View.GONE);
-            }
-
-
-            if (item.orderStatusName.equals("待评价")) {   // 待评价显示 立即评价 和再次购买
-                rl.setVisibility(View.VISIBLE);
-                evaluateNow.setVisibility(View.VISIBLE);
-                againBay.setVisibility(View.VISIBLE);
-                deleteOrder.setVisibility(View.GONE);
-                cancelOrder.setVisibility(View.GONE);
-                imageGo.setVisibility(View.GONE);
-                confirmOrder.setVisibility(View.GONE);
-            } else {
-                evaluateNow.setVisibility(View.GONE);
-
-            }
-            tv_status.setText(item.orderStatusName);
+            tv_call.setVisibility(View.GONE);
+        }else if(item.orderStatus==7) {
+            //已取消
+            tv_time.setVisibility(View.GONE);
+            imageGo.setVisibility(View.GONE);
+            deleteOrder.setVisibility(View.VISIBLE);
+            againBay.setVisibility(View.VISIBLE);
+            cancelOrder.setVisibility(View.GONE);
+            evaluateNow.setVisibility(View.GONE);
+            confirmOrder.setVisibility(View.GONE);
+            getState(item);
+        }else {
+            //退货
+            imageGo.setVisibility(View.GONE);
+            againBay.setVisibility(View.VISIBLE);
+            evaluateNow.setVisibility(View.GONE);
+            confirmOrder.setVisibility(View.GONE);
+            deleteOrder.setVisibility(View.GONE);
+            cancelOrder.setVisibility(View.GONE);
+            tv_call.setVisibility(View.GONE);
         }
 
+        if(orderState==11) {
+            tv_status.setText(item.returnOrderStatusStr);
+        }else {
+            tv_status.setText(item.orderStatusName);
+        }
 //        helper.setText(R.id.orderTime, item.gmtCreate);
         // 文字渐变色
         LinearGradient mLinearGradient = new LinearGradient(0, 0, 0, tv_status.getPaint().getTextSize(), Color.parseColor("#CEA6FF")
@@ -245,9 +266,14 @@ public class MySubOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBea
             commodityMore.setVisibility(View.VISIBLE);
         } else {
             commodityMore.setVisibility(View.GONE);
-
         }
 
+        tv_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClick.callHuo(item.deliverModel,item.orderId,item.hllOrderId);
+            }
+        });
 
         linearLayoutItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -258,8 +284,7 @@ public class MySubOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBea
                     if (orderState == 11){
                         Intent intent =new Intent(mContext,ReturnGoodDetailActivity.class);
                         intent.putExtra("orderType" ,0);
-                        intent.putExtra("account" ,"1");
-                        intent.putExtra("subId" ,subId);
+                        intent.putExtra("account" ,"0");
                         intent.putExtra(AppConstant.RETURNPRODUCTMAINID, item.returnProductMainId);
                         mContext.startActivity(intent);
 
@@ -267,8 +292,7 @@ public class MySubOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBea
                         Intent intent = new Intent(mContext, NewOrderDetailActivity.class);
                         intent.putExtra(AppConstant.ORDERID, item.orderId);
                         intent.putExtra(AppConstant.ORDERSTATE, "");
-                        intent.putExtra("account" ,"1");
-                        intent.putExtra("subId" ,subId);
+                        intent.putExtra("account" ,"0");
                         intent.putExtra(AppConstant.RETURNPRODUCTMAINID, "");
                         mContext.startActivity(intent);
                     }
@@ -277,24 +301,21 @@ public class MySubOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBea
                     if (orderState == 11){
                         Intent intent =new Intent(mContext,ReturnGoodDetailActivity.class);
                         intent.putExtra("orderType" ,1);
-                        intent.putExtra("account" ,"1");
-                        intent.putExtra("subId" ,subId);
+                        intent.putExtra("account" ,"0");
                         intent.putExtra(AppConstant.RETURNPRODUCTMAINID, item.returnProductMainId);
                         mContext.startActivity(intent);
 
                     }else {
                         Intent intent = new Intent(mContext, SelfSufficiencyOrderDetailActivity.class);
                         intent.putExtra(AppConstant.ORDERID, item.orderId);
-                        intent.putExtra("account" ,"1");
-                        intent.putExtra("subId" ,subId);
                         intent.putExtra(AppConstant.ORDERSTATE, "");
+                        intent.putExtra("account" ,"0");
                         intent.putExtra(AppConstant.RETURNPRODUCTMAINID, "");
                         mContext.startActivity(intent);
                     }
                 }
             }
         });
-
 
         evaluateNow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -335,37 +356,27 @@ public class MySubOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBea
                 onClick.requestConfirmGetGoods(item.orderId);
             }
         });
+    }
 
+    private void getState(OrdersModel.DataBean.ListBean item) {
+        if(item.deliverModel==1) {
+            if(item.orderStatus!=1&&item.orderStatus!=7&&item.orderStatus!=11) {
+                if(!TextUtils.isEmpty(item.hllOrderId)&&!item.hllOrderId.equals("")) {
+                    tv_call.setVisibility(View.GONE);
 
-        if (orderDeliveryType == 1) {
-            if (item.orderStatus == 2) {
-//                iv_order_self_return.setVisibility(View.VISIBLE);
-//                iv_confirm_order_self.setVisibility(View.VISIBLE);
-//                iv_order_self_return.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        onClick.confirmSelfReturnOrder(item.orderId,helper.getLayoutPosition());
-//                    }
-//                });
-//                iv_confirm_order_self.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        onClick.confirmSelfOrder(item.orderId);
-//                    }
-//                });
-
-            } else {
-//                iv_order_self_return.setVisibility(View.GONE);
-//                iv_confirm_order_self.setVisibility(View.GONE);
+                }else {
+                    tv_call.setVisibility(View.VISIBLE);
+                }
             }
+        }else {
+            tv_call.setVisibility(View.GONE);
         }
-
-
     }
 
 
     public interface OnClick {
 
+        void callHuo(int deliveryMode,String orderId,String hllOrderId);
 
         void evaluateNowOnclick(int position,String orderId);
 
@@ -384,5 +395,6 @@ public class MySubOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBea
         void confirmSelfReturnOrder(String orderId, int pos);
 
     }
+
 
 }

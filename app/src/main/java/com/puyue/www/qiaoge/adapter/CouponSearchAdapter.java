@@ -21,6 +21,7 @@ import com.puyue.www.qiaoge.activity.flow.TagFlowLayout;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.CouponSearchDialog;
+import com.puyue.www.qiaoge.dialog.SurpDialog;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.SurpliListModel;
@@ -124,14 +125,34 @@ public class CouponSearchAdapter extends BaseQuickAdapter<ProductNormalModel.Dat
         tv_style.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(onclick!=null) {
-                    onclick.addDialog();
+                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+                    if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
+                        //已授权
+                        searchDialog = new CouponSearchDialog(mContext,item);
+                        searchDialog.show();
+                    }else{
+                        //未授权
+                        if(onclick!=null) {
+                            onclick.getPrice();
+                        }
+                    }
+                }else{
+                    //未登录
+                    if(onclick!=null) {
+                        onclick.addDialog();
+                    }
                 }
 
-                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-                    searchDialog = new CouponSearchDialog(mContext,item);
-                    searchDialog.show();
-                }
+
+
+//                if(onclick!=null) {
+//                    onclick.addDialog();
+//                }
+//
+//                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+//                    searchDialog = new CouponSearchDialog(mContext,item);
+//                    searchDialog.show();
+//                }
             }
         });
         rl_price.setOnClickListener(new View.OnClickListener() {

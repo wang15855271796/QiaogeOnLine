@@ -55,6 +55,7 @@ import com.puyue.www.qiaoge.api.cart.AddCartAPI;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.ClickCollectionAPI;
 import com.puyue.www.qiaoge.api.home.GetAllCommentListByPageAPI;
+import com.puyue.www.qiaoge.api.home.GetCustomerPhoneAPI;
 import com.puyue.www.qiaoge.api.home.GetRegisterShopAPI;
 import com.puyue.www.qiaoge.api.home.GetSpecialDetailAPI;
 import com.puyue.www.qiaoge.api.home.UpdateUserInvitationAPI;
@@ -84,6 +85,7 @@ import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
 import com.puyue.www.qiaoge.model.home.ChoiceSpecModel;
 import com.puyue.www.qiaoge.model.home.ClickCollectionModel;
 import com.puyue.www.qiaoge.model.home.GetAllCommentListByPageModel;
+import com.puyue.www.qiaoge.model.home.GetCustomerPhoneModel;
 import com.puyue.www.qiaoge.model.home.GetProductListModel;
 import com.puyue.www.qiaoge.model.home.GetRegisterShopModel;
 import com.puyue.www.qiaoge.model.home.HasCollectModel;
@@ -363,6 +365,7 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
         imageViewAdapter = new ImageViewAdapter(R.layout.item_imageview,detailList);
         recyclerViewImage.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerViewImage.setAdapter(imageViewAdapter);
+        getCustomerPhone();
     }
 
     @Override
@@ -831,6 +834,34 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
 
     }
 
+    /**
+     * 获取客服电话
+     */
+    private void getCustomerPhone() {
+        GetCustomerPhoneAPI.requestData(mContext)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GetCustomerPhoneModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(GetCustomerPhoneModel getCustomerPhoneModel) {
+                        if (getCustomerPhoneModel.isSuccess()) {
+                            cell = getCustomerPhoneModel.getData();
+                        } else {
+                            AppHelper.showMsg(mContext, getCustomerPhoneModel.getMessage());
+                        }
+                    }
+                });
+    }
     long start;
 
 

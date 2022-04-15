@@ -817,15 +817,19 @@ public class PaymentFragment extends DialogFragment {
                             if(payListModel.getData().get(0).getFlag().equals("0")) {
                                 tv_balance.setText(payListModel.getData().get(0).getChannelName()+"("+UserInfoHelper.getUserWalletAccount(getActivity())+")");
                                 payChannel = 1;
+                                jumpWx = payListModel.getData().get(0).getJumpWx();
                             }else if(payListModel.getData().get(0).getFlag().equals("1")){
                                 tv_balance.setText(payListModel.getData().get(0).getChannelName());
                                 payChannel = 2;
+                                jumpWx = payListModel.getData().get(0).getJumpWx();
                             }else if(payListModel.getData().get(0).getFlag().equals("2")){
                                 tv_balance.setText(payListModel.getData().get(0).getChannelName());
                                 payChannel = 3;
+                                jumpWx = payListModel.getData().get(0).getJumpWx();
                             }else if(payListModel.getData().get(0).getFlag().equals("3")){
                                 tv_balance.setText(payListModel.getData().get(0).getChannelName());
                                 payChannel = 16;
+                                jumpWx = payListModel.getData().get(0).getJumpWx();
                             }
 
                             payListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {

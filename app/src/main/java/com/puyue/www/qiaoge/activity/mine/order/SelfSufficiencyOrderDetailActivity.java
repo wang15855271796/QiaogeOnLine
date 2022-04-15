@@ -181,7 +181,6 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
 
     private String returnProductMainId = "";
     private String orderId;
-    String subId;
     private String orderState = "";
     private int orderStatusRequest;
     private Dialog mDialog;
@@ -424,7 +423,6 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
         examineTimeLinearLayout.setVisibility(View.GONE);
         ll_deliver.setVisibility(View.GONE);
 
-        subId = getIntent().getStringExtra("subId");
         orderId = getIntent().getStringExtra(AppConstant.ORDERID);
         orderState = getIntent().getStringExtra(AppConstant.ORDERSTATE);
         returnProductMainId = getIntent().getStringExtra(AppConstant.RETURNPRODUCTMAINID);

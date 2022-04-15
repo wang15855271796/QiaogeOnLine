@@ -77,7 +77,7 @@ public class CouponUseActivity extends BaseActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         couponUseAdapter = new CouponUseAdapter(R.layout.item_coupon_use,list);
         recyclerView.setAdapter(couponUseAdapter);
-
+        smartRefreshLayout.autoRefresh();
         if(type.equals("1")) {
             tv_desc.setText("以下商品可使用"+name);
         }else if(type.equals("2")) {

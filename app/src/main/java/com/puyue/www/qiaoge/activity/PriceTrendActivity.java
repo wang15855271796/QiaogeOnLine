@@ -97,7 +97,7 @@ public class PriceTrendActivity extends BaseActivity {
         getTrends(priceId,productId,month);
         List<String> dates = Arrays.asList(date);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext,RecyclerView.HORIZONTAL,false));
-        DateAdapter dateAdapter = new DateAdapter(R.layout.item_date,dates );
+        DateAdapter dateAdapter = new DateAdapter(R.layout.item_date,dates);
         recyclerView.setAdapter(dateAdapter);
         dateAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override

@@ -13,25 +13,32 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.CommonH6Activity;
+import com.puyue.www.qiaoge.activity.HuoHomeActivity;
 import com.puyue.www.qiaoge.adapter.mine.MySubOrdersItemAdapter;
 import com.puyue.www.qiaoge.api.cart.CancelOrderAPI;
 import com.puyue.www.qiaoge.api.cart.DeleteOrderAPI;
+import com.puyue.www.qiaoge.api.huolala.HuolalaAPI;
 import com.puyue.www.qiaoge.api.mine.order.ConfirmGetGoodsAPI;
 import com.puyue.www.qiaoge.api.mine.order.ConfirmOrderSelfAPI;
 import com.puyue.www.qiaoge.api.mine.order.CopyToCartAPI;
 import com.puyue.www.qiaoge.api.mine.order.MyOrderListAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.base.BaseModel;
+import com.puyue.www.qiaoge.dialog.HuoConnentionDialog;
 import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragments;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.model.HasConnectModel;
+import com.puyue.www.qiaoge.model.IsAuthModel;
 import com.puyue.www.qiaoge.model.OrdersModel;
 import com.puyue.www.qiaoge.model.cart.CancelOrderModel;
 import com.puyue.www.qiaoge.model.mine.order.CommonModel;
 import com.puyue.www.qiaoge.model.mine.order.ConfirmGetGoodsModel;
 import com.puyue.www.qiaoge.model.mine.order.CopyToCartModel;
 import com.puyue.www.qiaoge.model.mine.order.OrderEvaluateListModel;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -128,7 +135,12 @@ public class AllOrdersFragment extends BaseFragment {
         });
         subId = getArguments().getString("subId");
         if (orderDeliveryType == 0) {
-            mAdapterMyOrders = new MySubOrdersItemAdapter(R.layout.item_my_order,subId, mListResult, 0, orderDeliveryType, new MySubOrdersItemAdapter.OnClick() {
+            mAdapterMyOrders = new MySubOrdersItemAdapter(R.layout.item_my_order, mListResult, 0, orderDeliveryType, new MySubOrdersItemAdapter.OnClick() {
+                @Override
+                public void callHuo(int deliveryMode, String orderId, String hllOrderId) {
+                    HasConnect(orderId,hllOrderId);
+                }
+
                 @Override
                 public void evaluateNowOnclick(int position,String orderId) { // 立即评价
                     getComment(orderId);
@@ -269,8 +281,13 @@ public class AllOrdersFragment extends BaseFragment {
 
             });
         } else if (orderDeliveryType == 1) {
-            mAdapterMyOrders = new MySubOrdersItemAdapter(R.layout.item_my_order_self,subId,mListResult, 0, orderDeliveryType, new MySubOrdersItemAdapter.OnClick() {
+            mAdapterMyOrders = new MySubOrdersItemAdapter(R.layout.item_my_order_self,mListResult, 0, orderDeliveryType, new MySubOrdersItemAdapter.OnClick() {
 
+
+                @Override
+                public void callHuo(int deliveryMode, String orderId, String hllOrderId) {
+
+                }
 
                 @Override
                 public void evaluateNowOnclick(int position,String orderId) { // 立即评价
@@ -423,129 +440,6 @@ public class AllOrdersFragment extends BaseFragment {
             });
         }
 
-      /*  mAdapterMyOrders = new MyOrdersItemAdapter(R.layout.item_my_order, mListResult, 0, new MyOrdersItemAdapter.OnClick() {
-
-
-            @Override
-            public void evaluateNowOnclick(int position) { // 立即评价
-                MyOrdersModel.DataBean.ListBean listBean = mListResult.get(position);
-                requestEvaluate(listBean);
-            }
-
-            @Override
-            public void againBayOnclick(int position) { //再次购买
-
-                MyOrdersModel.DataBean.ListBean listBean = mListResult.get(position);
-                requestCopyToCart(listBean.orderId);
-            }
-
-            @Override
-            public void cancelOnclick(String orderId) {
-
-                final AlertDialog mDialog = new AlertDialog.Builder(getContext()).create();
-                mDialog.show();
-                mDialog.getWindow().setContentView(R.layout.dailog_cancel);
-                TextView mBtnCancel = (TextView) mDialog.getWindow().findViewById(R.id.btnCancel);
-                TextView mBtnOK = (TextView) mDialog.getWindow().findViewById(R.id.btnOK);
-
-                mBtnCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mDialog.dismiss();
-                    }
-                });
-
-
-                mBtnOK.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mDialog.dismiss();
-                        //取消订单的接口
-                        cancelOrder(orderId);
-                        //   mPtr.refreshComplete();
-                        //   mAdapterMyOrders.notifyDataSetChanged();
-                    }
-                });
-
-            }
-
-            @Override
-            public void deleteOnclick(String orderId) {
-                final AlertDialog mDialog = new AlertDialog.Builder(getContext()).create();
-                mDialog.show();
-                mDialog.getWindow().setContentView(R.layout.dialog_delete_order);
-                TextView mBtnCancel = (TextView) mDialog.getWindow().findViewById(R.id.btnCancel);
-                TextView mBtnOK = (TextView) mDialog.getWindow().findViewById(R.id.btnOK);
-
-                mBtnCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mDialog.dismiss();
-                    }
-                });
-
-
-                mBtnOK.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mDialog.dismiss();
-                        //取消订单的接口
-                        deleteOrder(orderId);
-                        //   mPtr.refreshComplete();
-                        //   mAdapterMyOrders.notifyDataSetChanged();
-                    }
-                });
-
-
-            }
-
-            @Override
-            public void imageGo(String orderId, String payAmount) {
-                Intent intent = new Intent(getActivity(), MyConfireOrdersActivity.class);
-                intent.putExtra("orderId", orderId);
-                intent.putExtra("remark", "");
-                intent.putExtra("payAmount", Double.parseDouble(payAmount));
-                intent.putExtra("flag", true);
-                intent.putExtra("orderDeliveryType",orderDeliveryType);
-                startActivity(intent);
-            }
-
-            @Override
-            public void requestConfirmGetGoods(String orderId) {
-                ConfirmGetGoodsAPI.reuqestConfirmGetGoods(getContext(), orderId)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<ConfirmGetGoodsModel>() {
-                            @Override
-                            public void onCompleted() {
-
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onNext(ConfirmGetGoodsModel confirmGetGoodsModel) {
-
-                                if (confirmGetGoodsModel.success) {
-                                    //确认收货成功
-                                    AppHelper.showMsg(mContext, "确认收货成功");
-                                    requestOrdersList(0);
-                                    mPtr.autoRefresh();
-                                    //刷新订单状态
-                                    //  getOrderDetail(orderId, orderState, returnProductMainId);
-                                } else {
-                                    AppHelper.showMsg(mContext, confirmGetGoodsModel.message);
-                                }
-                            }
-                        });
-            }
-
-
-        });*/
-
 
         mAdapterMyOrders.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -581,6 +475,126 @@ public class AllOrdersFragment extends BaseFragment {
         });
 //        requestOrdersList(0);
 
+    }
+
+    /**
+     * 判断是否有关联订单
+     * @param orderId
+     * @param hllOrderId
+     */
+    HuoConnentionDialog huoConnentionDialog;
+    private void HasConnect(String orderId, String hllOrderId) {
+        HuolalaAPI.getHasConnection(getContext(),orderId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<HasConnectModel>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(HasConnectModel hasConnectModel) {
+                        if(hasConnectModel.getCode()==1) {
+                            if(hasConnectModel.getData()!=null) {
+                                if(hasConnectModel.getData().getConnectHllOrder()==1) {
+                                    huoConnentionDialog = new HuoConnentionDialog(mActivity) {
+                                        @Override
+                                        public void Connect() {
+                                            getConnection(orderId,hasConnectModel.getData().getHllOrderId());
+                                        }
+
+                                        @Override
+                                        public void Next() {
+//                                            Intent intent = new Intent(mActivity, HuoHomeActivity.class);
+//                                            intent.putExtra("orderId",orderId);
+//                                            mActivity.startActivity(intent);
+//                                            mActivity.finish();
+                                            isAuth(orderId);
+                                            dismiss();
+                                        }
+                                    };
+                                    huoConnentionDialog.show();
+                                }else {
+                                    isAuth(orderId);
+//                                    Intent intent = new Intent(mActivity, HuoHomeActivity.class);
+//                                    intent.putExtra("orderId",orderId);
+//                                    mActivity.startActivity(intent);
+                                }
+                            }
+                        }else {
+                            ToastUtil.showErroMsg(mActivity,hasConnectModel.getMessage());
+                        }
+
+                    }
+                });
+    }
+
+    private void isAuth(String orderId) {
+        HuolalaAPI.isAuthorize(mActivity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<IsAuthModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(IsAuthModel isAuthModel) {
+                        if(isAuthModel.getCode()==1) {
+                            if(isAuthModel.getData()!=null) {
+                                if(isAuthModel.getData().isAuthorize()) {
+                                    startActivity(CommonH6Activity.getIntent(mActivity, CommonH6Activity.class,isAuthModel.getData().getAuthUrl(),orderId));
+                                }else {
+                                    Intent intentss = new Intent(mActivity, HuoHomeActivity.class);
+                                    intentss.putExtra("orderId",orderId);
+                                    startActivity(intentss);
+                                    mActivity.finish();
+                                }
+                            }
+
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,isAuthModel.getMessage());
+                        }
+                    }
+                });
+    }
+
+    private void getConnection(String orderId, String hllOrderId) {
+        HuolalaAPI.getConnection(mActivity, orderId,hllOrderId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+                        if(baseModel.code==1) {
+                            requestOrdersList(0);
+                            ToastUtil.showSuccessMsg(mActivity,baseModel.message);
+                            huoConnentionDialog.dismiss();
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,baseModel.message);
+                        }
+                    }
+                });
     }
 
     /**

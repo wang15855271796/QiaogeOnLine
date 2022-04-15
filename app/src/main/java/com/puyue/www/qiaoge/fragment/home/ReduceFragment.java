@@ -10,9 +10,11 @@ import android.widget.RelativeLayout;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.TopEvent;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
+import com.puyue.www.qiaoge.activity.mine.login.LogoutsEvent;
 import com.puyue.www.qiaoge.adapter.ReduceAdapter;
 import com.puyue.www.qiaoge.api.home.ProductListAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
+import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.BackEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.helper.AppHelper;
@@ -89,6 +91,13 @@ public class ReduceFragment extends BaseFragment {
         refreshLayout.setEnableLoadMore(false);
         rv_reduce.setLayoutManager(new MyGrideLayoutManager(mActivity,2));
         enjoyProduct = SharedPreferencesUtil.getString(mActivity, "priceType");
+        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+            type = "commonBuy";
+            getProductsList(pageNum,11,type);
+        }else {
+            type = "reduct";
+            getProductsList(pageNum,11,type);
+        }
         reduceAdapter = new ReduceAdapter(enjoyProduct,R.layout.item_team_list, list, new ReduceAdapter.Onclick() {
             @Override
             public void addDialog() {
@@ -109,13 +118,12 @@ public class ReduceFragment extends BaseFragment {
         });
         rv_reduce.setAdapter(reduceAdapter);
         rv_reduce.setLayoutManager(new GridLayoutManager(mActivity,2));
-        getProductsList(1,10,"reduct");
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 pageNum = 1;
                 list.clear();
-                getProductsList(1,pageSize,"reduct");
+                getProductsList(1,pageSize,type);
                 refreshLayout.finishRefresh();
             }
         });
@@ -126,7 +134,7 @@ public class ReduceFragment extends BaseFragment {
                 if (productNormalModel.getData()!=null) {
                     if(productNormalModel.getData().isHasNextPage()) {
                         pageNum++;
-                        getProductsList(pageNum, 10,"reduct");
+                        getProductsList(pageNum, 10,type);
                         refreshLayout.finishLoadMore();
 
 
@@ -232,6 +240,29 @@ public class ReduceFragment extends BaseFragment {
                         }
                     }
                 });
+    }
+
+    String type = "reduct";
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void logout(LogoutsEvent event) {
+        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+            type = "commonBuy";
+        }else {
+            type = "reduct";
+        }
+
+        refreshLayout.autoRefresh();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void logout(AddressEvent event) {
+        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+            type = "commonBuy";
+        }else {
+            type = "reduct";
+        }
+
+        refreshLayout.autoRefresh();
     }
 
 }

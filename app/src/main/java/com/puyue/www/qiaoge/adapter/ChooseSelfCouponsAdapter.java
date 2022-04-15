@@ -101,7 +101,6 @@ public class ChooseSelfCouponsAdapter extends BaseQuickAdapter<UserChooseDeductM
         });
 
         iv_select.setBackgroundResource(item.isFlags() ? R.mipmap.ic_pay_ok : R.mipmap.ic_pay_no);
-        Log.d("waassssssssssss....",item.isFlags()+"bbbb");
         if(item.getState().equals("ENABLED")){  // State== ENABLED   可用使用的优惠卷
             tv_amount.setTextColor(Color.parseColor("#F54022"));
             tv_user_factor.setTextColor(Color.parseColor("#333333"));

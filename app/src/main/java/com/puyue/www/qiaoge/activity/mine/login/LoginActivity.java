@@ -511,7 +511,7 @@ public class LoginActivity extends BaseSwipeActivity {
                         }
                     });
         }
-    }//cityName
+    }
 
     private void updateLogin() {
         AppHelper.showMsg(mContext, "登录成功");
@@ -531,6 +531,7 @@ public class LoginActivity extends BaseSwipeActivity {
         Intent intent = new Intent(mContext,HomeActivity.class);
         startActivity(intent);
         finish();
+        Log.d("dwdqd........","123");
     }
 
     /**
