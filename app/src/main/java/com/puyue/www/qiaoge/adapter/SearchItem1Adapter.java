@@ -165,7 +165,6 @@ public class SearchItem1Adapter extends BaseQuickAdapter<ExchangeProductModel.Da
                         }
                     }
                 });
-
             }
 
         });

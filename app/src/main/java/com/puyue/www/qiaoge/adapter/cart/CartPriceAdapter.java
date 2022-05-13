@@ -118,8 +118,10 @@ public class CartPriceAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
         tv_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int num = Integer.parseInt(et_num.getText().toString());
-                changeCartNum(prods,num,item.getProductCombinationPriceId(),textView);
+                if(et_num.getText().toString()!=null && !et_num.getText().toString().equals("")) {
+                    int num = Integer.parseInt(et_num.getText().toString());
+                    changeCartNum(prods,num,item.getProductCombinationPriceId(),textView);
+                }
             }
         });
     }
