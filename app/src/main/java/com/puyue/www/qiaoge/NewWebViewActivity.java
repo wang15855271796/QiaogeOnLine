@@ -56,6 +56,7 @@ import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.mine.NewWebModel;
 import com.puyue.www.qiaoge.model.mine.wallet.NewWebPhoneModel;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.view.CompatToolbar;
 import com.puyue.www.qiaoge.wxapi.MyWebView;
 import com.umeng.socialize.ShareAction;
@@ -311,6 +312,7 @@ public class NewWebViewActivity extends BaseSwipeActivity {
                 .add(AppConstant.APP_TYPE, "1")
                 .add(AppConstant.VERSION, AppHelper.getVersion(mContext))
                 .add(AppConstant.STIME, stime)
+                .add("wad", SharedPreferencesUtil.getInt(mActivity,"wad")+"")
                 .add(AppConstant.SIGN, AppSafeHelper.sign(stime))
                 .add(AppConstant.changeFlag,UserInfoHelper.getChangeFlag(mContext))
                 .add(AppConstant.AreaName,UserInfoHelper.getAreaName(mContext))
