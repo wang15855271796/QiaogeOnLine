@@ -786,6 +786,7 @@ public class CommonGoodsDetailActivity extends BaseActivity {
 
                             fl_container.setAdapter(chooseSpecAdapter);
 
+
                             //填充banner
                             images.clear();
 //                            mBanner.setBannerStyle(BannerConfig.NUM_INDICATOR);

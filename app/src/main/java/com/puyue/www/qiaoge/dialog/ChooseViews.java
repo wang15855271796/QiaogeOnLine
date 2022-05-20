@@ -55,131 +55,93 @@ public class ChooseViews extends LinearLayout {
      * @param context
      *            上下文
      */
-//    public LocationClient mLocationClient = null;
-//    private MyLocationListener myListener = new MyLocationListener();
+
     public ChooseViews(Activity context, ArrayList<CityChangeModel.DataBean> menuList) {
         super(context);
         this.menuItem = menuList;
         this.context = context;
-//        init(context);
+        init(context);
     }
     String city;
-//    public class MyLocationListener extends BDAbstractLocationListener {
-//        @Override
-//        public void onReceiveLocation(BDLocation location) {
-//            //此处的BDLocation为定位结果信息类，通过它的各种get方法可获取定位相关的全部结果
-//            //以下只列举部分获取地址相关的结果信息
-//            //更多结果信息获取说明，请参照类参考中BDLocation类中的说明
-//            //获取区县
-//            city = location.getCity();
-//            mLocationClient.stop();
-//            lav_activity_loading.setVisibility(View.GONE);
-//            lav_activity_loading.show();
-//        }
-//    }
+    private void init(final Activity context) {
 
-//    private void init(final Activity context) {
-//        mLocationClient = new LocationClient(getApplicationContext());
-//        //声明LocationClient类
-//        mLocationClient.registerLocationListener(myListener);
-//
-//        LocationClientOption option = new LocationClientOption();
-//
-//        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-//        option.setIsNeedAddress(true);
-////可选，是否需要地址信息，默认为不需要，即参数为false
-////如果开发者需要获得当前点的地址信息，此处必须为true
-//        option.setOpenGps(true);
-////可选，设置是否使用gps，默认false
-////使用高精度和仅用设备两种定位模式的，参数必须设置为true
-//
-//        option.setLocationNotify(true);
-////可选，设置是否当GPS有效时按照1S/1次频率输出GPS结果，默认false
-//
-//        option.setIgnoreKillProcess(true);
-//        mLocationClient.setLocOption(option);
-//
-//
-//        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
-//
-//        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        inflater.inflate(R.layout.view_regionss, this, true);
-//        lav_activity_loading = findViewById(R.id.lav_activity_loading);
-//        TextView tv_area = findViewById(R.id.tv_area);
-//        TextView tv_reset = findViewById(R.id.tv_reset);
-//        LinearLayout ll_all = findViewById(R.id.ll_all);
-//        String city = UserInfoHelper.getCity(context);
-//        tv_area.setText(city);
-//
-//        ll_all.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (mOnSelectListener != null) {
-//                    mOnSelectListener.cloese();
-//                    firstMenuListViewAdapter.setCustText("");
-//                    firstMenuListViewAdapter.notifyDataSetChanged();
-//                    secondMenuListViewAdapter.setCustText("");
-//                    secondMenuListViewAdapter.notifyDataSetChanged();
-//                }
-//            }
-//        });
-//        tv_reset.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mLocationClient.start();
-//                lav_activity_loading.setVisibility(View.GONE);
-//                lav_activity_loading.show();
-//            }
-//        });
-//        firstMenuListView = (ListView) findViewById(R.id.listView);
-//        secondMenuListView = (ListView) findViewById(R.id.listView2);
-//        View view = inflater.inflate(R.layout.footer_area,this,false);
-////        firstMenuListView.addHeaderView(view);
-////        secondMenuListView.addHeaderView(view);
-//        // setBackgroundDrawable(getResources().getDrawable(
-//        // R.drawable.choosearea_bg_left));
-//        // 初始化一级主菜单
-//        firstMenuListViewAdapter = new MenuItemsAdapter(context, menuItem,
-//                R.drawable.choose_eara_item_selector,
-//                R.drawable.choose_eara_item_selector);
-//        firstMenuListViewAdapter.setTextSize(17);
-//        firstMenuListViewAdapter.setSelectedPositionNoNotify(firstPosition, menuItem);
-//        firstMenuListView.setAdapter(firstMenuListViewAdapter);
-//        firstMenuListViewAdapter.setOnItemClickListener(new MenuItemAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, int position) {
-//                secondItem = menuItem.get(position).getCityNames();
-//
-//                // 通知适配器刷新
-//                secondMenuListViewAdapter.notifyDataSetChanged();
-//                secondMenuListViewAdapter.setSelectedPositionNoNotify(0, secondItem);
-//
-//                if (mOnSelectListener != null) {
-//                    mOnSelectListener.getValue(menuItem.get(position));
-//                }
-//
-//                secondMenuListViewAdapter.setOnItemClickListener(new MenuItemAdapter.OnItemClickListener() {
-//
-//                    @Override
-//                    public void onItemClick(View view, final int position) {
-//                        if (mOnSelectListener != null) {
-//                            mOnSelectListener.getValues(secondItem.get(position));
-//                        }
-//                    }
-//                });
-//
-//            }
-//        });
-//
-//
-//        // 初始化二级主菜单
-//        secondItem = menuItem.get(firstPosition).getCityNames();
-//        secondMenuListViewAdapter = new MenuSecondItemAdapter(context, secondItem, R.drawable.choose_eara_item_selector, R.drawable.choose_eara_item_selector);
-//        secondMenuListViewAdapter.setTextSize(15);
-//        secondMenuListViewAdapter.setSelectedPositionNoNotify(secondPosition, secondItem);
-//        secondMenuListView.setAdapter(secondMenuListViewAdapter);
-//
-//    }
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.view_regionss, this, true);
+        lav_activity_loading = findViewById(R.id.lav_activity_loading);
+        TextView tv_area = findViewById(R.id.tv_area);
+        TextView tv_reset = findViewById(R.id.tv_reset);
+        LinearLayout ll_all = findViewById(R.id.ll_all);
+        String city = UserInfoHelper.getCity(context);
+        tv_area.setText(city);
+
+        ll_all.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnSelectListener != null) {
+                    mOnSelectListener.cloese();
+                    firstMenuListViewAdapter.setCustText("");
+                    firstMenuListViewAdapter.notifyDataSetChanged();
+                    secondMenuListViewAdapter.setCustText("");
+                    secondMenuListViewAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+        tv_reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lav_activity_loading.setVisibility(View.GONE);
+                lav_activity_loading.show();
+            }
+        });
+        firstMenuListView = (ListView) findViewById(R.id.listView);
+        secondMenuListView = (ListView) findViewById(R.id.listView2);
+        View view = inflater.inflate(R.layout.footer_area,this,false);
+//        firstMenuListView.addHeaderView(view);
+//        secondMenuListView.addHeaderView(view);
+        // setBackgroundDrawable(getResources().getDrawable(
+        // R.drawable.choosearea_bg_left));
+        // 初始化一级主菜单
+        firstMenuListViewAdapter = new MenuItemsAdapter(context, menuItem,
+                R.drawable.choose_eara_item_selector,
+                R.drawable.choose_eara_item_selector);
+        firstMenuListViewAdapter.setTextSize(17);
+        firstMenuListViewAdapter.setSelectedPositionNoNotify(firstPosition, menuItem);
+        firstMenuListView.setAdapter(firstMenuListViewAdapter);
+        firstMenuListViewAdapter.setOnItemClickListener(new MenuItemAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                secondItem = menuItem.get(position).getCityNames();
+
+                // 通知适配器刷新
+                secondMenuListViewAdapter.notifyDataSetChanged();
+                secondMenuListViewAdapter.setSelectedPositionNoNotify(0, secondItem);
+
+                if (mOnSelectListener != null) {
+                    mOnSelectListener.getValue(menuItem.get(position));
+                }
+
+                secondMenuListViewAdapter.setOnItemClickListener(new MenuItemAdapter.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(View view, final int position) {
+                        if (mOnSelectListener != null) {
+                            mOnSelectListener.getValues(secondItem.get(position));
+                        }
+                    }
+                });
+
+            }
+        });
+
+
+        // 初始化二级主菜单
+        secondItem = menuItem.get(firstPosition).getCityNames();
+        secondMenuListViewAdapter = new MenuSecondItemAdapter(context, secondItem, R.drawable.choose_eara_item_selector, R.drawable.choose_eara_item_selector);
+        secondMenuListViewAdapter.setTextSize(15);
+        secondMenuListViewAdapter.setSelectedPositionNoNotify(secondPosition, secondItem);
+        secondMenuListView.setAdapter(secondMenuListViewAdapter);
+
+    }
 
     public void setCascadingMenuViewOnSelectListener(CascadingMenuViewOnSelectListener onSelectListener) {
         mOnSelectListener = onSelectListener;
