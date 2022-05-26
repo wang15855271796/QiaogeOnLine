@@ -1,0 +1,14 @@
+COMMAND=PREDEX_LIBRARY_TO_DEX_ARCHIVE
+FILE.path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\jetified-BaseRecyclerViewAdapterHelper-2.9.30.aar\1a25a08bd9110d0bc95d36ec26780c3b\jars\classes.jar
+FILE.hash=1e36b25ad5fe489256189c4b6bb39f25c45d1670b5830a4a8d1a123ed6172a7b
+DX_VERSION=1.16
+JUMBO_MODE=true
+OPTIMIZE=true
+DEXER_TOOL=D8
+CACHE_KEY_VERSION=4
+MIN_SDK_VERSION=19
+IS_DEBUGGABLE=true
+EXTRA_DEPENDENCIES[0].path=C:\Users\Administrator\AppData\Local\Android\Sdk\platforms\android-28\android.jar
+EXTRA_DEPENDENCIES[0].hash=d20853d289a5161d9cf1c1268d7923076487d4fa68c970b0733e2d5a0ccfc3c5
+EXTRA_DEPENDENCIES[1].path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\recyclerview-1.2.0-alpha02.aar\50955ba8c763188faa7ce2620ad76984\jars\classes.jar
+EXTRA_DEPENDENCIES[1].hash=bc9a52b05005e1fa2965d815879fea62dcba447c0a6823e297a3f7933bcae160

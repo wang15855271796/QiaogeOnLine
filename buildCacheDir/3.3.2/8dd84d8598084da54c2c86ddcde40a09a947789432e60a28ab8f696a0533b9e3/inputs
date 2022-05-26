@@ -1,0 +1,14 @@
+COMMAND=PREDEX_LIBRARY_TO_DEX_ARCHIVE
+FILE.path=C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.umeng.umsdk\utdid\1.5.2\d6f427045fd8014fb26ff5d31a11537c55036740\utdid-1.5.2.jar
+FILE.hash=0d4360e7ed47dfce4f428615fe1ee35f2282f0819a07fa84655bbc5130ff1f51
+DX_VERSION=1.16
+JUMBO_MODE=true
+OPTIMIZE=true
+DEXER_TOOL=D8
+CACHE_KEY_VERSION=4
+MIN_SDK_VERSION=19
+IS_DEBUGGABLE=true
+EXTRA_DEPENDENCIES[0].path=C:\Users\Administrator\AppData\Local\Android\Sdk\platforms\android-28\android.jar
+EXTRA_DEPENDENCIES[0].hash=d20853d289a5161d9cf1c1268d7923076487d4fa68c970b0733e2d5a0ccfc3c5
+EXTRA_DEPENDENCIES[1].path=C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\net.sf.kxml\kxml2\2.3.0\ccbc77a5fd907ef863c29f3596c6f54ffa4e9442\kxml2-2.3.0.jar
+EXTRA_DEPENDENCIES[1].hash=f264dd9f79a1fde10ce5ecc53221eff24be4c9331c830b7d52f2f08a7b633de2

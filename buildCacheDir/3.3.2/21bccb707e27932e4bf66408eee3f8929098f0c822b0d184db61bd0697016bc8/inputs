@@ -1,0 +1,14 @@
+COMMAND=PREDEX_LIBRARY_TO_DEX_ARCHIVE
+FILE.path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\exoplayer-hls-2.11.3.aar\854803c651f41ffa9d055e99d51f9fb9\jars\classes.jar
+FILE.hash=9f2d28f4dc379605149aab2091f04516ed29c9a67555313aa49c2903e33d888a
+DX_VERSION=1.16
+JUMBO_MODE=true
+OPTIMIZE=true
+DEXER_TOOL=D8
+CACHE_KEY_VERSION=4
+MIN_SDK_VERSION=19
+IS_DEBUGGABLE=true
+EXTRA_DEPENDENCIES[0].path=C:\Users\Administrator\AppData\Local\Android\Sdk\platforms\android-28\android.jar
+EXTRA_DEPENDENCIES[0].hash=d20853d289a5161d9cf1c1268d7923076487d4fa68c970b0733e2d5a0ccfc3c5
+EXTRA_DEPENDENCIES[1].path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\jetified-exoplayer-core-2.11.3.aar\93b9a523dc507b7e7312b952a5e07dda\jars\classes.jar
+EXTRA_DEPENDENCIES[1].hash=734b75a2eb24eede37b396c0e8a4ef1a3c2a1fdd788185c1faa47bf96ade6b1d

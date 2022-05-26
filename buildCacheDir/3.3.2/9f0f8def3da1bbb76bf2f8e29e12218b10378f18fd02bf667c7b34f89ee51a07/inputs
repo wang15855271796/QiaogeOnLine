@@ -1,0 +1,14 @@
+COMMAND=PREDEX_LIBRARY_TO_DEX_ARCHIVE
+FILE.path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\ijkplayer-exo-0.8.8.aar\8814129ac018005fadfb04909fd90f67\jars\classes.jar
+FILE.hash=85eed3bd3481504ecb1c647a60310b8e76b99b66920bd50b20652b40d5c3731c
+DX_VERSION=1.16
+JUMBO_MODE=true
+OPTIMIZE=true
+DEXER_TOOL=D8
+CACHE_KEY_VERSION=4
+MIN_SDK_VERSION=19
+IS_DEBUGGABLE=true
+EXTRA_DEPENDENCIES[0].path=C:\Users\Administrator\AppData\Local\Android\Sdk\platforms\android-28\android.jar
+EXTRA_DEPENDENCIES[0].hash=d20853d289a5161d9cf1c1268d7923076487d4fa68c970b0733e2d5a0ccfc3c5
+EXTRA_DEPENDENCIES[1].path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\ijkplayer-java-0.8.8.aar\d2a34876916ff174bf128f87f6edadbe\jars\classes.jar
+EXTRA_DEPENDENCIES[1].hash=57ced301f335fbb8d59e0f6ad2dd5e22bf7e994f20e1554c513568ac7cdd8942

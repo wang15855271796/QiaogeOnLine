@@ -1,0 +1,16 @@
+COMMAND=PREDEX_LIBRARY_TO_DEX_ARCHIVE
+FILE.path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\alicloud-httpdns-1.2.5.jar\345f4e173f87f84c5b377dab32eafb45\jetified-alicloud-httpdns-1.2.5.jar
+FILE.hash=44cd0a20f1b5a157b56dbe8c3a615530254ea8c63c7632a11b928f9a7dc275f3
+DX_VERSION=1.16
+JUMBO_MODE=true
+OPTIMIZE=true
+DEXER_TOOL=D8
+CACHE_KEY_VERSION=4
+MIN_SDK_VERSION=19
+IS_DEBUGGABLE=true
+EXTRA_DEPENDENCIES[0].path=C:\Users\Administrator\AppData\Local\Android\Sdk\platforms\android-28\android.jar
+EXTRA_DEPENDENCIES[0].hash=d20853d289a5161d9cf1c1268d7923076487d4fa68c970b0733e2d5a0ccfc3c5
+EXTRA_DEPENDENCIES[1].path=C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.umeng.umsdk\alicloud-utils\1.1.5\a9afca2de7820da004003340f184ba644be2f174\alicloud-utils-1.1.5.jar
+EXTRA_DEPENDENCIES[1].hash=4bd430b991112055396f0fea45c15ded396fd14e26f116048e822256eb9d40da
+EXTRA_DEPENDENCIES[2].path=C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.umeng.umsdk\alicloud_beacon\1.0.1\685d68c2dc7de48430eb80d1a470773cc9cde6b1\alicloud_beacon-1.0.1.jar
+EXTRA_DEPENDENCIES[2].hash=3573e4a02285b6c460f789efe03139bc09ba9860644f0c9a4f56283c0a5b263c

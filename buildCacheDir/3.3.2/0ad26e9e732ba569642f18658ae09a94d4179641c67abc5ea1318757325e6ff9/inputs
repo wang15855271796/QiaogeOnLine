@@ -1,0 +1,16 @@
+COMMAND=PREDEX_LIBRARY_TO_DEX_ARCHIVE
+FILE.path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\agoo-accs-3.3.9.7-open.jar\64dfa6577a16a5387855c6d171d50ecc\jetified-agoo-accs-3.3.9.7-open.jar
+FILE.hash=282039139302c706538701f9ca52b94f9a2d5270d840a9a41d1d881aa8ea3e82
+DX_VERSION=1.16
+JUMBO_MODE=true
+OPTIMIZE=true
+DEXER_TOOL=D8
+CACHE_KEY_VERSION=4
+MIN_SDK_VERSION=19
+IS_DEBUGGABLE=true
+EXTRA_DEPENDENCIES[0].path=C:\Users\Administrator\AppData\Local\Android\Sdk\platforms\android-28\android.jar
+EXTRA_DEPENDENCIES[0].hash=d20853d289a5161d9cf1c1268d7923076487d4fa68c970b0733e2d5a0ccfc3c5
+EXTRA_DEPENDENCIES[1].path=C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.umeng.umsdk\agoo_networksdk\3.5.5\3ebe993d5c24ac4b62a75d7e67f72b9d702de30d\agoo_networksdk-3.5.5.jar
+EXTRA_DEPENDENCIES[1].hash=aae32b3b04a994038335c5c8fae19cc9a56324d54eb40e71b267a6c0f4d42c37
+EXTRA_DEPENDENCIES[2].path=C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.umeng.umsdk\agoo_tnet4android\3.1.14.9\8ca19f6041a446965075045d977fa1199196fdac\agoo_tnet4android-3.1.14.9.jar
+EXTRA_DEPENDENCIES[2].hash=0878829e58d1e2f2215d782ab7257a4335be3f1a5e010b4ea6d60ce8193847dd

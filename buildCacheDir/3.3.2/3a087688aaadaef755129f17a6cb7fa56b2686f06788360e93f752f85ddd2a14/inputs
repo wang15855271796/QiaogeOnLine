@@ -1,0 +1,14 @@
+COMMAND=PREDEX_LIBRARY_TO_DEX_ARCHIVE
+FILE.path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\logging-interceptor-3.6.0.jar\1310aa45473e5c09bc631c1cd7af99b8\jetified-logging-interceptor-3.6.0.jar
+FILE.hash=26c8417b01b88b623fd6523df94453a2f578717211cedfe933ea4ff37f6910ff
+DX_VERSION=1.16
+JUMBO_MODE=true
+OPTIMIZE=true
+DEXER_TOOL=D8
+CACHE_KEY_VERSION=4
+MIN_SDK_VERSION=19
+IS_DEBUGGABLE=true
+EXTRA_DEPENDENCIES[0].path=C:\Users\Administrator\AppData\Local\Android\Sdk\platforms\android-28\android.jar
+EXTRA_DEPENDENCIES[0].hash=d20853d289a5161d9cf1c1268d7923076487d4fa68c970b0733e2d5a0ccfc3c5
+EXTRA_DEPENDENCIES[1].path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\okhttp-3.6.0.jar\5c9efd4444aa82fe6fecb3ea0c8d7183\jetified-okhttp-3.6.0.jar
+EXTRA_DEPENDENCIES[1].hash=b155288ea37036ef8028359e5f68711694e21a0aa89c0b5b69c59c2753151378

@@ -1,0 +1,14 @@
+COMMAND=PREDEX_LIBRARY_TO_DEX_ARCHIVE
+FILE.path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\converter-scalars-2.1.0.jar\b64afe832f01d5ad839378dd30c35e10\jetified-converter-scalars-2.1.0.jar
+FILE.hash=1f23896f280f6dd7178b2bd753b1c3c139f07a0b531fb8812897bc0d78f35080
+DX_VERSION=1.16
+JUMBO_MODE=true
+OPTIMIZE=true
+DEXER_TOOL=D8
+CACHE_KEY_VERSION=4
+MIN_SDK_VERSION=19
+IS_DEBUGGABLE=true
+EXTRA_DEPENDENCIES[0].path=C:\Users\Administrator\AppData\Local\Android\Sdk\platforms\android-28\android.jar
+EXTRA_DEPENDENCIES[0].hash=d20853d289a5161d9cf1c1268d7923076487d4fa68c970b0733e2d5a0ccfc3c5
+EXTRA_DEPENDENCIES[1].path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\retrofit-2.1.0.jar\0b36d0f178f1b0b765c2dcf3588d7527\jetified-retrofit-2.1.0.jar
+EXTRA_DEPENDENCIES[1].hash=7b3037b2c1392172c65e0c124c958b94f7c725ce9f81ee94601884f4d35e389c

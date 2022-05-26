@@ -1,11 +1,19 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\Qiaoges\StickyListHeaders_lib\AndroidManifest.xml:2:1-6:12
-INJECTED from D:\Qiaoges\StickyListHeaders_lib\AndroidManifest.xml:2:1-6:12
-INJECTED from D:\Qiaoges\StickyListHeaders_lib\AndroidManifest.xml:2:1-6:12
+ADDED from E:\Qiaoges\StickyListHeaders_lib\AndroidManifest.xml:2:1-6:12
+INJECTED from E:\Qiaoges\StickyListHeaders_lib\AndroidManifest.xml:2:1-6:12
+INJECTED from E:\Qiaoges\StickyListHeaders_lib\AndroidManifest.xml:2:1-6:12
 	package
-		ADDED from D:\Qiaoges\StickyListHeaders_lib\AndroidManifest.xml:3:5-61
-		INJECTED from D:\Qiaoges\StickyListHeaders_lib\AndroidManifest.xml
-		INJECTED from D:\Qiaoges\StickyListHeaders_lib\AndroidManifest.xml
+		ADDED from E:\Qiaoges\StickyListHeaders_lib\AndroidManifest.xml:3:5-61
+		INJECTED from E:\Qiaoges\StickyListHeaders_lib\AndroidManifest.xml
+		INJECTED from E:\Qiaoges\StickyListHeaders_lib\AndroidManifest.xml
 	xmlns:android
-		ADDED from D:\Qiaoges\StickyListHeaders_lib\AndroidManifest.xml:2:11-69
+		ADDED from E:\Qiaoges\StickyListHeaders_lib\AndroidManifest.xml:2:11-69
+uses-sdk
+INJECTED from E:\Qiaoges\StickyListHeaders_lib\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from E:\Qiaoges\StickyListHeaders_lib\AndroidManifest.xml
+INJECTED from E:\Qiaoges\StickyListHeaders_lib\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from E:\Qiaoges\StickyListHeaders_lib\AndroidManifest.xml
+		ADDED from E:\Qiaoges\StickyListHeaders_lib\AndroidManifest.xml
+		INJECTED from E:\Qiaoges\StickyListHeaders_lib\AndroidManifest.xml

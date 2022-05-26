@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -206,6 +207,7 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
 
                     @Override
                     public void onError(Throwable e) {
+                        Log.d("defewfdfsdf.....",e.getMessage()+"aaaaaaaa");
                     }
 
                     @Override
@@ -328,9 +330,7 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
                             Gson gson = new Gson();
                             pictureList = data.getPictureList();
                             pictureLists.addAll(data.getPictureList());
-//                            for (int i = 0; i < pictureLists.size(); i++) {
-//                                Log.d("wdadqwssss.....",pictureLists.get(i)+"bb");
-//                            }
+
                             returnPic = gson.toJson(pictureList);
                             GridLayoutManager manager = new GridLayoutManager(mContext,3);
 
@@ -455,7 +455,6 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
         pictureList.add(images.get(0).getCompressPath());
         shopImageViewAdapter.notifyDataSetChanged();
         List<MultipartBody.Part> parts = filesToMultipartBodyParts(picList);
-
         upImage(parts);
     }
 

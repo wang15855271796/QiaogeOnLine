@@ -1,0 +1,12 @@
+COMMAND=PREDEX_LIBRARY_TO_DEX_ARCHIVE
+FILE.path=C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.umeng.umsdk\agoo_tlog\3.0.0.17\a85b3ac878ae23d39de550e88c2642401a135135\agoo_tlog-3.0.0.17.jar
+FILE.hash=1a7f4c5b0e55b3505e429b60d0d8a37b583d8feaaf334fece60957b8f344b501
+DX_VERSION=1.16
+JUMBO_MODE=true
+OPTIMIZE=true
+DEXER_TOOL=D8
+CACHE_KEY_VERSION=4
+MIN_SDK_VERSION=19
+IS_DEBUGGABLE=true
+EXTRA_DEPENDENCIES[0].path=C:\Users\Administrator\AppData\Local\Android\Sdk\platforms\android-28\android.jar
+EXTRA_DEPENDENCIES[0].hash=d20853d289a5161d9cf1c1268d7923076487d4fa68c970b0733e2d5a0ccfc3c5

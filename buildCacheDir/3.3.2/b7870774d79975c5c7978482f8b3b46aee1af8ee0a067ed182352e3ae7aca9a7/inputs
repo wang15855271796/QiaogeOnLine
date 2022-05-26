@@ -1,0 +1,16 @@
+COMMAND=PREDEX_LIBRARY_TO_DEX_ARCHIVE
+FILE.path=C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.umeng.umsdk\push\6.2.0\24a340decf2b59c097108c6a1d9da83c1e3d5b5\push-6.2.0.jar
+FILE.hash=2b032d1282c8dbc02a634bc712a32a2837b95335026a5d5d36553437d75c89d1
+DX_VERSION=1.16
+JUMBO_MODE=true
+OPTIMIZE=true
+DEXER_TOOL=D8
+CACHE_KEY_VERSION=4
+MIN_SDK_VERSION=19
+IS_DEBUGGABLE=true
+EXTRA_DEPENDENCIES[0].path=C:\Users\Administrator\AppData\Local\Android\Sdk\platforms\android-28\android.jar
+EXTRA_DEPENDENCIES[0].hash=d20853d289a5161d9cf1c1268d7923076487d4fa68c970b0733e2d5a0ccfc3c5
+EXTRA_DEPENDENCIES[1].path=C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.umeng.umsdk\common\9.3.0\b41f476811112e81bfcd4c3b3730545125ff4aee\common-9.3.0.jar
+EXTRA_DEPENDENCIES[1].hash=296bf1d9074b044dd4b717ce78271ad3338ea0f7c1424ffe24488a0ecf19476d
+EXTRA_DEPENDENCIES[2].path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\agoo-accs-3.3.9.7-open.jar\64dfa6577a16a5387855c6d171d50ecc\jetified-agoo-accs-3.3.9.7-open.jar
+EXTRA_DEPENDENCIES[2].hash=282039139302c706538701f9ca52b94f9a2d5270d840a9a41d1d881aa8ea3e82

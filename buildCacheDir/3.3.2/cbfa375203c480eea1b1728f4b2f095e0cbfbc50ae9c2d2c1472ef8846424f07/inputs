@@ -1,0 +1,14 @@
+COMMAND=PREDEX_LIBRARY_TO_DEX_ARCHIVE
+FILE.path=C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\androidx.concurrent\concurrent-futures\1.0.0\c1e77e3ee6f4643b77496a1ddf7a2eef1aefdaa1\concurrent-futures-1.0.0.jar
+FILE.hash=5595a40e278a7b39fa78a09490e3d7f3faa95c7b01447148bd38b5ade0605c35
+DX_VERSION=1.16
+JUMBO_MODE=true
+OPTIMIZE=true
+DEXER_TOOL=D8
+CACHE_KEY_VERSION=4
+MIN_SDK_VERSION=19
+IS_DEBUGGABLE=true
+EXTRA_DEPENDENCIES[0].path=C:\Users\Administrator\AppData\Local\Android\Sdk\platforms\android-28\android.jar
+EXTRA_DEPENDENCIES[0].hash=d20853d289a5161d9cf1c1268d7923076487d4fa68c970b0733e2d5a0ccfc3c5
+EXTRA_DEPENDENCIES[1].path=C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.google.guava\listenablefuture\1.0\c949a840a6acbc5268d088e47b04177bf90b3cad\listenablefuture-1.0.jar
+EXTRA_DEPENDENCIES[1].hash=e4ad7607e5c0477c6f890ef26a49cb8d1bb4dffb650bab4502afee64644e3069

@@ -1,0 +1,16 @@
+COMMAND=PREDEX_LIBRARY_TO_DEX_ARCHIVE
+FILE.path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\jetified-FlycoTabLayout_Lib-2.1.2.aar\480483adcccf9ca0dbbcc2473a80c197\jars\classes.jar
+FILE.hash=f1e6d0e199a457332f5b48eeed70ad865d73ac4b05bc2e92d809f4a35a2ef235
+DX_VERSION=1.16
+JUMBO_MODE=true
+OPTIMIZE=true
+DEXER_TOOL=D8
+CACHE_KEY_VERSION=4
+MIN_SDK_VERSION=19
+IS_DEBUGGABLE=true
+EXTRA_DEPENDENCIES[0].path=C:\Users\Administrator\AppData\Local\Android\Sdk\platforms\android-28\android.jar
+EXTRA_DEPENDENCIES[0].hash=d20853d289a5161d9cf1c1268d7923076487d4fa68c970b0733e2d5a0ccfc3c5
+EXTRA_DEPENDENCIES[1].path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\fragment-1.1.0.aar\f8851d6fd4a266ddbc1f446f16de410c\jars\classes.jar
+EXTRA_DEPENDENCIES[1].hash=0abd3506a9af49752d638c9b5b7eee8a247d43831be7e5d5c62c85848fd8445e
+EXTRA_DEPENDENCIES[2].path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\viewpager-1.0.0.aar\1d3744264c85998cbd9a29416480e7ba\jars\classes.jar
+EXTRA_DEPENDENCIES[2].hash=14f7429cff9f2f50421a36b237a1de35d8a2c8deffcbe1e0163c6e51a2defe56

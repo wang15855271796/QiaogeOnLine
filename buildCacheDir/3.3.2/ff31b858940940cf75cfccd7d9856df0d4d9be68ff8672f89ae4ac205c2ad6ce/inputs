@@ -1,0 +1,14 @@
+COMMAND=PREDEX_LIBRARY_TO_DEX_ARCHIVE
+FILE.path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\legacy-support-core-ui-1.0.0.aar\8456eab17fa24fc7c142164a8af4d083\jars\classes.jar
+FILE.hash=7eeb161e8d06f465eb4a0c32e35175626d0f22318efd0cb647db72690563a448
+DX_VERSION=1.16
+JUMBO_MODE=true
+OPTIMIZE=true
+DEXER_TOOL=D8
+CACHE_KEY_VERSION=4
+MIN_SDK_VERSION=19
+IS_DEBUGGABLE=true
+EXTRA_DEPENDENCIES[0].path=C:\Users\Administrator\AppData\Local\Android\Sdk\platforms\android-28\android.jar
+EXTRA_DEPENDENCIES[0].hash=d20853d289a5161d9cf1c1268d7923076487d4fa68c970b0733e2d5a0ccfc3c5
+EXTRA_DEPENDENCIES[1].path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\drawerlayout-1.0.0.aar\e21391127ba2ee27b59f983fa2ce99b5\jars\classes.jar
+EXTRA_DEPENDENCIES[1].hash=2b4ee0b3f947a2605babbbf9f6a334db3bcec4a72f811a097ef4fbcd72eb0ce7

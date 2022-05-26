@@ -1,0 +1,16 @@
+COMMAND=PREDEX_LIBRARY_TO_DEX_ARCHIVE
+FILE.path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\jetified-AppbarLayoutBehavior-v1.0.2.aar\acb2b71d2239f33aa7d0ddff6440c7ba\jars\classes.jar
+FILE.hash=36a0dca5774cb9d8ddd1d14ffb728d6b97ec59b0fcdf8b23e57ed83c646667ec
+DX_VERSION=1.16
+JUMBO_MODE=true
+OPTIMIZE=true
+DEXER_TOOL=D8
+CACHE_KEY_VERSION=4
+MIN_SDK_VERSION=19
+IS_DEBUGGABLE=true
+EXTRA_DEPENDENCIES[0].path=C:\Users\Administrator\AppData\Local\Android\Sdk\platforms\android-28\android.jar
+EXTRA_DEPENDENCIES[0].hash=d20853d289a5161d9cf1c1268d7923076487d4fa68c970b0733e2d5a0ccfc3c5
+EXTRA_DEPENDENCIES[1].path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\material-1.0.0.aar\10d145844e75d24a03e434ee1b58d620\jars\classes.jar
+EXTRA_DEPENDENCIES[1].hash=f27ddb63f6e3ea5898412cb49930f232807d987bd8f2846c5a36414033e76a8e
+EXTRA_DEPENDENCIES[2].path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\coordinatorlayout-1.0.0.aar\003a2e6527c12516d585fe62b11863c8\jars\classes.jar
+EXTRA_DEPENDENCIES[2].hash=c4c45d05b7559bea09ba313ee759fe275f065ecada96027bcd6ab85b13f1e105

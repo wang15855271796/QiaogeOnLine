@@ -1,0 +1,14 @@
+COMMAND=PREDEX_LIBRARY_TO_DEX_ARCHIVE
+FILE.path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\transitionseverywhere-2.0.0-beta01.aar\de6b3910909ae28fc101344ca06a91d9\jars\classes.jar
+FILE.hash=903ce47b50cbf00702e8cc33fe0ec2265b2da55eb57920b7a7fdeb6f130a7256
+DX_VERSION=1.16
+JUMBO_MODE=true
+OPTIMIZE=true
+DEXER_TOOL=D8
+CACHE_KEY_VERSION=4
+MIN_SDK_VERSION=19
+IS_DEBUGGABLE=true
+EXTRA_DEPENDENCIES[0].path=C:\Users\Administrator\AppData\Local\Android\Sdk\platforms\android-28\android.jar
+EXTRA_DEPENDENCIES[0].hash=d20853d289a5161d9cf1c1268d7923076487d4fa68c970b0733e2d5a0ccfc3c5
+EXTRA_DEPENDENCIES[1].path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\transition-1.3.1.aar\7dec37e363fdf816fef5091c585c8a86\jars\classes.jar
+EXTRA_DEPENDENCIES[1].hash=4eb9c6efd2b592816c322f025986e0ffa552e6bb3e6a6a08ddd39f83644ff56c

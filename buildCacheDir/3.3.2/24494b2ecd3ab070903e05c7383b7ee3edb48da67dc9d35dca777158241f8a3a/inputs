@@ -1,0 +1,16 @@
+COMMAND=PREDEX_LIBRARY_TO_DEX_ARCHIVE
+FILE.path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\camera-lifecycle-1.0.0-beta03.aar\5719a2a0d16fffb55f90abd7ae0147e3\jars\classes.jar
+FILE.hash=c1fdc1894735212d3ebc829422ae809481a116b38ea6842f84d04b2ebb713084
+DX_VERSION=1.16
+JUMBO_MODE=true
+OPTIMIZE=true
+DEXER_TOOL=D8
+CACHE_KEY_VERSION=4
+MIN_SDK_VERSION=19
+IS_DEBUGGABLE=true
+EXTRA_DEPENDENCIES[0].path=C:\Users\Administrator\AppData\Local\Android\Sdk\platforms\android-28\android.jar
+EXTRA_DEPENDENCIES[0].hash=d20853d289a5161d9cf1c1268d7923076487d4fa68c970b0733e2d5a0ccfc3c5
+EXTRA_DEPENDENCIES[1].path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\camera-core-1.0.0-beta03.aar\52e30a475a954f344eaff67074f2bac3\jars\classes.jar
+EXTRA_DEPENDENCIES[1].hash=3fa8fdacead2f8c0ef7b729544533a3ab89d732be35d6c8704659741625c6065
+EXTRA_DEPENDENCIES[2].path=C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\androidx.arch.core\core-common\2.1.0\b3152fc64428c9354344bd89848ecddc09b6f07e\core-common-2.1.0.jar
+EXTRA_DEPENDENCIES[2].hash=fe1237bf029d063e7f29fe39aeaf73ef74c8b0a3658486fc29d3c54326653889

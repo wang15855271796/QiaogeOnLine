@@ -1,0 +1,16 @@
+COMMAND=PREDEX_LIBRARY_TO_DEX_ARCHIVE
+FILE.path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\jetified-SmartRefreshLayout-1.1.0.aar\c33c61ae202bb20de64e57df4031add9\jars\classes.jar
+FILE.hash=7f8b33d73c58fbac94ffc7612f5cc979d837da6c21c5c3d87c748b12b5cba84f
+DX_VERSION=1.16
+JUMBO_MODE=true
+OPTIMIZE=true
+DEXER_TOOL=D8
+CACHE_KEY_VERSION=4
+MIN_SDK_VERSION=19
+IS_DEBUGGABLE=true
+EXTRA_DEPENDENCIES[0].path=C:\Users\Administrator\AppData\Local\Android\Sdk\platforms\android-28\android.jar
+EXTRA_DEPENDENCIES[0].hash=d20853d289a5161d9cf1c1268d7923076487d4fa68c970b0733e2d5a0ccfc3c5
+EXTRA_DEPENDENCIES[1].path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\material-1.0.0.aar\10d145844e75d24a03e434ee1b58d620\jars\classes.jar
+EXTRA_DEPENDENCIES[1].hash=f27ddb63f6e3ea5898412cb49930f232807d987bd8f2846c5a36414033e76a8e
+EXTRA_DEPENDENCIES[2].path=C:\Users\Administrator\.gradle\caches\transforms-1\files-1.1\core-1.3.0-alpha02.aar\a45244183eb8d6df5feac4324c946b95\jars\classes.jar
+EXTRA_DEPENDENCIES[2].hash=a3a969b16f8de083e3d820ea622a69d52c53809161778accaf0e097e90a10836
