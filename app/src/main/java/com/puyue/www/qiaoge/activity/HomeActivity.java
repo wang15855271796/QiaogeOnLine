@@ -152,7 +152,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         //腾讯定位
             instance = TencentLocationManager.getInstance(QiaoGeApplication.getContext());
             TencentLocationRequest request = TencentLocationRequest.create();
-            request.setInterval(1000);
+            request.setInterval(30000*1000);
             request.setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_ADMIN_AREA);
             request.setAllowGPS(true);
             request.setIndoorLocationMode(true);
@@ -800,7 +800,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
 
     @Override
     public void onLocationChanged(TencentLocation location, int error, String reason) {
-        Log.d("dfesefsd........",error+"s");
+
         district = location.getDistrict();
         city = location.getCity();
         String province = location.getProvince();
@@ -830,33 +830,4 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     public void onStatusUpdate(String name, int status, String desc) {
 
     }
-
-
-//public class MyLocationListener extends BDAbstractLocationListener {
-//    @Override
-//    public void onReceiveLocation(BDLocation location) {
-//        //此处的BDLocation为定位结果信息类，通过它的各种get方法可获取定位相关的全部结果
-//        //以下只列举部分获取地址相关的结果信息
-//        //更多结果信息获取说明，请参照类参考中BDLocation类中的说明
-//        //获取区县
-//        district = location.getDistrict();
-//        city = location.getCity();
-//        String province = location.getProvince();
-//        UserInfoHelper.saveProvince(mContext, province);
-//        SharedPreferencesUtil.saveString(mActivity,"provinceName",province);
-//        UserInfoHelper.saveAreaName(mContext, district);
-//        UserInfoHelper.saveLocation(mContext,location.getAddrStr());
-//        isGet = true;
-////        if (type.equals("goHome")) {
-//            if (city != null) {
-//                UserInfoHelper.saveCity(mContext, city);
-//            } else {
-//                UserInfoHelper.saveCity(mContext, "");
-//            }
-////        }
-//        type = "";
-//        locationMessage = location.getAddrStr();    //获取详细地址信息
-//        switchTab(TAB_HOME);
-//    }
-//}
 }

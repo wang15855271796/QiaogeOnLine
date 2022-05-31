@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +21,9 @@ import androidx.core.content.ContextCompat;
 
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.base.BaseActivity;
+import com.puyue.www.qiaoge.dialog.AuthDialog;
+import com.puyue.www.qiaoge.dialog.PrivacySettingDialog;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import butterknife.BindView;
 
@@ -45,6 +50,9 @@ public class PrivacySetting extends BaseActivity implements View.OnClickListener
     TextView tv3;
     @BindView(R.id.tv4)
     TextView tv4;
+    @BindView(R.id.switch_button)
+    Switch switch_button;
+
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -73,6 +81,19 @@ public class PrivacySetting extends BaseActivity implements View.OnClickListener
         ll_root4.setOnClickListener(this);
         ll_root5.setOnClickListener(this);
         iv_back.setOnClickListener(this);
+
+        switch_button.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    ToastUtil.showSuccessMsg(mContext,"已开启");
+                }else {
+                    PrivacySettingDialog privacySettingDialog = new PrivacySettingDialog(mActivity);
+                    privacySettingDialog.show();
+                    ToastUtil.showSuccessMsg(mContext,"已关闭");
+                }
+            }
+        });
     }
 
     @Override

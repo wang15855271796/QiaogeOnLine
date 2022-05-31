@@ -74,34 +74,34 @@ public class CommonMethod {
     /*
      * 获取本机IP地址
      */
-    public static String getIpAdress(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo wifiNetworkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        if (wifiNetworkInfo.isConnected()) {
-            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-            int ipAddress = wifiInfo.getIpAddress();
-            String ip = (ipAddress & 0xFF) + "." + ((ipAddress >> 8) & 0xFF) + "." + ((ipAddress >> 16) & 0xFF) + "."
-                    + (ipAddress >> 24 & 0xFF);
-            return ip;
-        } else if (wifiNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
-            try {
-                for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
-                    NetworkInterface intf = en.nextElement();
-                    for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
-                        InetAddress inetAddress = enumIpAddr.nextElement();
-                        if (!inetAddress.isLoopbackAddress()) {
-                            return inetAddress.getHostAddress().toString();
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
-        return null;
-    }
+//    public static String getIpAdress(Context context) {
+//        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+//        NetworkInfo wifiNetworkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+//        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+//        if (wifiNetworkInfo.isConnected()) {
+//            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+//            int ipAddress = wifiInfo.getIpAddress();
+//            String ip = (ipAddress & 0xFF) + "." + ((ipAddress >> 8) & 0xFF) + "." + ((ipAddress >> 16) & 0xFF) + "."
+//                    + (ipAddress >> 24 & 0xFF);
+//            return ip;
+//        } else if (wifiNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+//            try {
+//                for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
+//                    NetworkInterface intf = en.nextElement();
+//                    for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
+//                        InetAddress inetAddress = enumIpAddr.nextElement();
+//                        if (!inetAddress.isLoopbackAddress()) {
+//                            return inetAddress.getHostAddress().toString();
+//                        }
+//                    }
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//        }
+//        return null;
+//    }
 
     /*
      * 获取APP版本号
