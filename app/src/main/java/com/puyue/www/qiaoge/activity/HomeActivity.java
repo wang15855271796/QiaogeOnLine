@@ -76,9 +76,8 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class HomeActivity extends BaseActivity implements CartFragment.FragmentInteraction, CartFragment.GoToMarket
-, TencentLocationListener
-{
+public class HomeActivity extends BaseActivity implements CartFragment.FragmentInteraction, CartFragment.GoToMarket,
+        TencentLocationListener {
     private static final String TAB_HOME = "tab_home";
     private static final String TAB_MARKET = "tab_market";
     private static final String TAB_CART = "tab_cart";
@@ -152,7 +151,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         //腾讯定位
             instance = TencentLocationManager.getInstance(QiaoGeApplication.getContext());
             TencentLocationRequest request = TencentLocationRequest.create();
-            request.setInterval(30000*1000);
+            request.setInterval(1000);
             request.setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_ADMIN_AREA);
             request.setAllowGPS(true);
             request.setIndoorLocationMode(true);
@@ -271,6 +270,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         UserInfoHelper.saveRegistionId(mContext, registrationID);
 //        mLocationClient.start();
 //        switchTab(TAB_HOME);
+
 }
 
     private void sendLocation() {

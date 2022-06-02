@@ -40,7 +40,6 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static com.umeng.commonsdk.stateless.UMSLEnvelopeBuild.mContext;
 
 /**
  * Created by ${王涛} on 2020/4/9
@@ -160,14 +159,14 @@ public class ReceivedOrdersFragment extends BaseFragment {
 
                                     if (confirmGetGoodsModel.success) {
                                         //确认收货成功
-                                        AppHelper.showMsg(mContext, "确认收货成功");
+                                        AppHelper.showMsg(mActivity, "确认收货成功");
                                         mPtr.autoRefresh();
                                         requestOrdersList(3);
 
                                         //刷新订单状态
                                         //  getOrderDetail(orderId, orderState, returnProductMainId);
                                     } else {
-                                        AppHelper.showMsg(mContext, confirmGetGoodsModel.message);
+                                        AppHelper.showMsg(mActivity, confirmGetGoodsModel.message);
                                     }
                                 }
                             });
@@ -241,14 +240,14 @@ public class ReceivedOrdersFragment extends BaseFragment {
 
                                     if (confirmGetGoodsModel.success) {
                                         //确认收货成功
-                                        AppHelper.showMsg(mContext, "确认收货成功");
+                                        AppHelper.showMsg(mActivity, "确认收货成功");
                                         mPtr.autoRefresh();
                                         requestOrdersList(3);
 
                                         //刷新订单状态
                                         //  getOrderDetail(orderId, orderState, returnProductMainId);
                                     } else {
-                                        AppHelper.showMsg(mContext, confirmGetGoodsModel.message);
+                                        AppHelper.showMsg(mActivity, confirmGetGoodsModel.message);
                                     }
                                 }
                             });

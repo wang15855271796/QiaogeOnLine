@@ -44,7 +44,6 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static com.umeng.commonsdk.stateless.UMSLEnvelopeBuild.mContext;
 
 /**
  * Created by Administrator on 2018/4/21.
@@ -386,7 +385,7 @@ public class DeliveryOrderFragment extends BaseFragment {
                     public void onNext(BaseModel baseModel) {
                         if (baseModel.success) {
                             //确认收货成功
-                            AppHelper.showMsg(mContext, "确认提货成功");
+                            AppHelper.showMsg(mActivity, "确认提货成功");
                             //刷新订单状态
                             mListResult.clear();
                             pageNum=1;
@@ -394,7 +393,7 @@ public class DeliveryOrderFragment extends BaseFragment {
 
                             requestOrdersList(2);
                         } else {
-                            AppHelper.showMsg(mContext, baseModel.message);
+                            AppHelper.showMsg(mActivity, baseModel.message);
                         }
                     }
                 });

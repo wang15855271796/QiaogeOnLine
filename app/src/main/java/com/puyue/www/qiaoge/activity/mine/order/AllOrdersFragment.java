@@ -51,9 +51,6 @@ import in.srain.cube.views.ptr.PtrHandler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-import static com.umeng.commonsdk.stateless.UMSLEnvelopeBuild.mContext;
-
 /**
  * Created by ${王涛} on 2020/4/9
  */
@@ -256,13 +253,13 @@ public class AllOrdersFragment extends BaseFragment {
 
                                     if (confirmGetGoodsModel.success) {
                                         //确认收货成功
-                                        AppHelper.showMsg(mContext, "确认收货成功");
+                                        AppHelper.showMsg(mActivity, "确认收货成功");
                                         requestOrdersList(0);
                                         mPtr.autoRefresh();
                                         //刷新订单状态
                                         //  getOrderDetail(orderId, orderState, returnProductMainId);
                                     } else {
-                                        AppHelper.showMsg(mContext, confirmGetGoodsModel.message);
+                                        AppHelper.showMsg(mActivity, confirmGetGoodsModel.message);
                                     }
                                 }
                             });
@@ -404,14 +401,14 @@ public class AllOrdersFragment extends BaseFragment {
 
                                     if (confirmGetGoodsModel.success) {
                                         //确认收货成功
-                                        AppHelper.showMsg(mContext, "确认收货成功");
+                                        AppHelper.showMsg(mActivity, "确认收货成功");
 
                                         mPtr.autoRefresh();
                                         requestOrdersList(0);
                                         //刷新订单状态
                                         //  getOrderDetail(orderId, orderState, returnProductMainId);
                                     } else {
-                                        AppHelper.showMsg(mContext, confirmGetGoodsModel.message);
+                                        AppHelper.showMsg(mActivity, confirmGetGoodsModel.message);
                                     }
                                 }
                             });
@@ -674,7 +671,7 @@ public class AllOrdersFragment extends BaseFragment {
                     public void onNext(BaseModel baseModel) {
                         if (baseModel.success) {
                             //确认收货成功
-                            AppHelper.showMsg(mContext, "确认提货成功");
+                            AppHelper.showMsg(mActivity, "确认提货成功");
                             //刷新订单状态
 
                             mListResult.clear();
@@ -683,7 +680,7 @@ public class AllOrdersFragment extends BaseFragment {
                             requestOrdersList(0);
 
                         } else {
-                            AppHelper.showMsg(mContext, baseModel.message);
+                            AppHelper.showMsg(mActivity, baseModel.message);
                         }
                     }
                 });
@@ -825,14 +822,14 @@ public class AllOrdersFragment extends BaseFragment {
                     public void onNext(CancelOrderModel cancelOrderModel) {
                         if (cancelOrderModel.success) {
                             //取消成功
-                            AppHelper.showMsg(mContext, "取消订单成功");
+                            AppHelper.showMsg(mActivity, "取消订单成功");
                             //mPtr.autoRefresh();
                             mPtr.autoRefresh();
                             requestOrdersList(1);
 
                             // getOrderDetail(orderId, orderState, returnProductMainId);
                         } else {
-                            AppHelper.showMsg(mContext, cancelOrderModel.message);
+                            AppHelper.showMsg(mActivity, cancelOrderModel.message);
                         }
                     }
 
@@ -859,7 +856,7 @@ public class AllOrdersFragment extends BaseFragment {
                     public void onNext(CancelOrderModel cancelOrderModel) {
                         if (cancelOrderModel.success) {
                             //删除成功
-                            AppHelper.showMsg(mContext, "删除订单成功");
+                            AppHelper.showMsg(mActivity, "删除订单成功");
 
                             // getOrderDetail(orderId, orderState, returnProductMainId);
                             //mPtr.autoRefresh();
@@ -868,7 +865,7 @@ public class AllOrdersFragment extends BaseFragment {
                             requestOrdersList(0);
 
                         } else {
-                            AppHelper.showMsg(mContext, cancelOrderModel.message);
+                            AppHelper.showMsg(mActivity, cancelOrderModel.message);
                         }
                     }
                 });

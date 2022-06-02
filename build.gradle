@@ -3,14 +3,18 @@
 buildscript {
 
     repositories {
-        mavenCentral()
-        maven { url'https://esri.jfrog.io/artifactory/arcgis' }
+//        mavenCentral()
+//        maven { url'https://esri.jfrog.io/artifactory/arcgis' }
+//        google()
+//
+////        maven { url 'https://maven.google.com' }
+//        maven { url "https://jitpack.io" }
+//        jcenter()
         google()
-
-//        maven { url 'https://maven.google.com' }
-        maven { url "https://jitpack.io" }
         jcenter()
-
+        maven { url 'https://jitpack.io' }
+        mavenCentral()
+        maven { url 'https://repo1.maven.org/maven2/' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.0'
@@ -26,21 +30,27 @@ buildscript {
 
 allprojects {
     repositories {
-        mavenCentral()
-//        flatDir {
-//            dirs 'libs'
-//        }
-//        jcenter()
+//        mavenCentral()
+////        flatDir {
+////            dirs 'libs'
+////        }
+////        jcenter()
+////        google()
+//        maven { url'https://esri.jfrog.io/artifactory/arcgis' }
 //        google()
-        maven { url'https://esri.jfrog.io/artifactory/arcgis' }
-        google()
 //        maven { url 'https://maven.aliyun.com/repository/google' }
 //        maven { url'http://maven.aliyun.com/nexus/content/repositories/releases/' }
 //        maven { url 'https://dl.bintray.com/umsdk/release' }
 //        maven { url 'https://maven.google.com' }
-        maven { url "https://jitpack.io" }
+//        maven { url "https://jitpack.io" }
+//
+//        jcenter()
 
+        google()
         jcenter()
+        maven { url 'https://jitpack.io' }
+        mavenCentral()
+        maven { url 'https://repo1.maven.org/maven2/' }
     }
 }
 

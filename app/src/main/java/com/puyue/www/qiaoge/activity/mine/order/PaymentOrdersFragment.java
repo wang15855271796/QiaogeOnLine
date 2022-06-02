@@ -45,8 +45,6 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static com.umeng.commonsdk.stateless.UMSLEnvelopeBuild.mContext;
-
 /**
  * Created by ${王涛} on 2020/4/9
  */
@@ -678,10 +676,10 @@ public class PaymentOrdersFragment extends BaseFragment {
                     public void onNext(CancelOrderModel cancelOrderModel) {
                         if (cancelOrderModel.success) {
                             //取消成功
-                            AppHelper.showMsg(mContext, "删除订单成功");
+                            AppHelper.showMsg(mActivity, "删除订单成功");
                             // getOrderDetail(orderId, orderState, returnProductMainId);
                         } else {
-                            AppHelper.showMsg(mContext, cancelOrderModel.message);
+                            AppHelper.showMsg(mActivity, cancelOrderModel.message);
                         }
                     }
                 });
@@ -707,14 +705,14 @@ public class PaymentOrdersFragment extends BaseFragment {
                     public void onNext(CancelOrderModel cancelOrderModel) {
                         if (cancelOrderModel.success) {
                             //取消成功
-                            AppHelper.showMsg(mContext, "取消订单成功");
+                            AppHelper.showMsg(mActivity, "取消订单成功");
                             // mPtr.autoRefresh();
                             mPtr.autoRefresh();
                             requestOrdersList(1);
 
                             // getOrderDetail(orderId, orderState, returnProductMainId);
                         } else {
-                            AppHelper.showMsg(mContext, cancelOrderModel.message);
+                            AppHelper.showMsg(mActivity, cancelOrderModel.message);
                         }
                     }
 

@@ -15,7 +15,6 @@ import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.umeng.socialize.weixin.view.WXCallbackActivity;
 import com.youth.banner.util.LogUtils;
 
 /**

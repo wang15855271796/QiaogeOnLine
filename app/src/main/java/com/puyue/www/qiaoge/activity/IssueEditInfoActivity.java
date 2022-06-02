@@ -298,7 +298,6 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
     List<String> pictureList;
     List<String> pictureLists = new ArrayList<>();
     InfoDetailIssueModel.DataBean data;
-    List<String> deletPic = new ArrayList<>();
     List<String> deletPics = new ArrayList<>();
     private void getCityList(String msgId) {
         InfoListAPI.InfoDetailIssue(mContext,msgId)

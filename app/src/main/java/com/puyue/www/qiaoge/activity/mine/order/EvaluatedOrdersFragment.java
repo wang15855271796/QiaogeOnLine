@@ -42,7 +42,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static com.umeng.commonsdk.stateless.UMSLEnvelopeBuild.mContext;
+
 
 /**
  * Created by ${王涛} on 2020/4/9

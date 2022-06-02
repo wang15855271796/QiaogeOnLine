@@ -39,7 +39,6 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static com.umeng.commonsdk.stateless.UMSLEnvelopeBuild.mContext;
 
 /**
  * Created by Administrator on 2018/4/21.

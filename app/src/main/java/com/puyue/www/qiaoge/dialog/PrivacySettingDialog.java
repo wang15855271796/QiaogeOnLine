@@ -2,6 +2,7 @@ package com.puyue.www.qiaoge.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -9,12 +10,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
-public class PrivacySettingDialog extends Dialog implements View.OnClickListener {
+public abstract class PrivacySettingDialog extends Dialog implements View.OnClickListener {
     Context mContext;
     TextView tv_sure;
     TextView tv_cancel;
-    TextView tv_get;
     public PrivacySettingDialog(@NonNull Context context) {
         super(context, R.style.promptDialog);
         setContentView(R.layout.dialog_privacy_dialog);
@@ -24,7 +25,6 @@ public class PrivacySettingDialog extends Dialog implements View.OnClickListener
     }
 
     private void initAction() {
-        tv_get = (TextView) findViewById(R.id.tv_get);
         tv_sure = (TextView) findViewById(R.id.tv_sure);
         tv_cancel = (TextView) findViewById(R.id.tv_cancel);
 
@@ -40,17 +40,18 @@ public class PrivacySettingDialog extends Dialog implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_cancle:
-                dismiss();
+            case R.id.tv_cancel:
+                close();
                 break;
 
             case R.id.tv_sure:
-                dismiss();
+                sure();
                 break;
 
         }
 
     }
 
-
+    public abstract void close();
+    public abstract void sure();
 }

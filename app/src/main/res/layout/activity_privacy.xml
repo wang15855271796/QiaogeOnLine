@@ -283,6 +283,7 @@
 
         <TextView
             android:id="@+id/tv_b"
+            android:textSize="@dimen/sp_12"
             android:layout_below="@+id/tv_a"
             android:layout_marginLeft="@dimen/size_12dp"
             android:text="关闭后，将无法根据您的兴趣爱好，购买习惯推荐"
@@ -292,14 +293,17 @@
         <TextView
             android:layout_below="@+id/tv_b"
             android:layout_marginLeft="@dimen/size_12dp"
+            android:textSize="@dimen/sp_12"
             android:text="您感兴趣的内容，建议保持开启状态"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <Switch
+        <ImageView
+            android:src="@mipmap/iv_opens"
             android:layout_marginTop="@dimen/size_24dp"
+            android:layout_marginRight="@dimen/size_20dp"
             android:layout_alignParentRight="true"
-            android:id="@+id/switch_button"
+            android:id="@+id/iv_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </RelativeLayout>

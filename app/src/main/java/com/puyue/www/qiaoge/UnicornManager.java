@@ -3,7 +3,6 @@ package com.puyue.www.qiaoge;
 import android.content.Context;
 import android.util.Log;
 
-import com.google.gson.Gson;
 import com.puyue.www.qiaoge.model.User;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.qiyukf.unicorn.api.ConsultSource;
@@ -11,7 +10,6 @@ import com.qiyukf.unicorn.api.UICustomization;
 import com.qiyukf.unicorn.api.Unicorn;
 import com.qiyukf.unicorn.api.UnreadCountChangeListener;
 import com.qiyukf.unicorn.api.YSFUserInfo;
-import com.qiyukf.unicorn.api.msg.UnicornMessage;
 import com.qiyukf.unicorn.api.pop.POPManager;
 import com.qiyukf.unicorn.api.pop.Session;
 
@@ -92,15 +90,15 @@ public class UnicornManager {
     /**
      * 设置用户信息(七鱼客服)
      */
-    public static void setUnicornUserInfo(User userBean) {
-        YSFUserInfo userInfo = new YSFUserInfo();
-        // App 的用户 ID
-        userInfo.userId = userBean.getId();
-        // CRM 扩展字段
-        userInfo.data = userInfoData(userBean.getName(),userBean.getPhone(), userBean.getHeadPortrait());
-        //东西
-        Unicorn.setUserInfo(userInfo);
-    }
+//    public static void setUnicornUserInfo(User userBean) {
+//        YSFUserInfo userInfo = new YSFUserInfo();
+//        // App 的用户 ID
+//        userInfo.userId = userBean.getId();
+//        // CRM 扩展字段
+//        userInfo.data = userInfoData(userBean.getName(),userBean.getPhone(), userBean.getHeadPortrait());
+//        //东西
+//        Unicorn.setUserInfo(userInfo);
+//    }
 
     /**
      * 构造用户信息
@@ -110,16 +108,16 @@ public class UnicornManager {
      * @param avatar 头像
      * @return
      */
-    private static String userInfoData(String name, String mobile, String avatar) {
-        List<YSFUser> mListUser = new ArrayList<>();
-        YSFUser rName = new YSFUser("real_name", name);
-        YSFUser rMoblie = new YSFUser("mobile_phone", mobile);
-        YSFUser rAvatar = new YSFUser("avatar", avatar);
-        mListUser.add(rName);
-        mListUser.add(rMoblie);
-        mListUser.add(rAvatar);
-        return new Gson().toJson(mListUser);
-    }
+//    private static String userInfoData(String name, String mobile, String avatar) {
+//        List<YSFUser> mListUser = new ArrayList<>();
+//        YSFUser rName = new YSFUser("real_name", name);
+//        YSFUser rMoblie = new YSFUser("mobile_phone", mobile);
+//        YSFUser rAvatar = new YSFUser("avatar", avatar);
+//        mListUser.add(rName);
+//        mListUser.add(rMoblie);
+//        mListUser.add(rAvatar);
+//        return new Gson().toJson(mListUser);
+//    }
 
     /**
      * 客服未读消息数变化监听
@@ -133,10 +131,10 @@ public class UnicornManager {
     /**
      * 获取最后一条消息
      */
-    public static UnicornMessage queryLastMessage() {
-        UnicornMessage message = Unicorn.queryLastMessage();
-        return message;
-    }
+//    public static UnicornMessage queryLastMessage() {
+//        UnicornMessage message = Unicorn.queryLastMessage();
+//        return message;
+//    }
 
     /**
      * 获取客服与商家消息列表

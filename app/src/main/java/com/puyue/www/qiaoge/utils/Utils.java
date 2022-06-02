@@ -102,9 +102,9 @@ public class Utils {
         return bitmap;
     }
 
-    public static Drawable bitmap2Drawable(final Bitmap bitmap) {
-        return bitmap == null ? null : new BitmapDrawable(anet.channel.util.Utils.getAppContext().getResources(), bitmap);
-    }
+//    public static Drawable bitmap2Drawable(final Bitmap bitmap) {
+//        return bitmap == null ? null : new BitmapDrawable(anet.channel.util.Utils.getAppContext().getResources(), bitmap);
+//    }
 
 
 

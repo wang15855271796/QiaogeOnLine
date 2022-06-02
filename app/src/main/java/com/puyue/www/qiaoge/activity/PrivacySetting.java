@@ -50,9 +50,9 @@ public class PrivacySetting extends BaseActivity implements View.OnClickListener
     TextView tv3;
     @BindView(R.id.tv4)
     TextView tv4;
-    @BindView(R.id.switch_button)
-    Switch switch_button;
-
+    @BindView(R.id.iv_switch)
+    ImageView iv_switch;
+    PrivacySettingDialog privacySettingDialog;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -73,6 +73,7 @@ public class PrivacySetting extends BaseActivity implements View.OnClickListener
 
     }
 
+    boolean isOpen = true;
     @Override
     public void setClickEvent() {
         ll_root1.setOnClickListener(this);
@@ -82,18 +83,35 @@ public class PrivacySetting extends BaseActivity implements View.OnClickListener
         ll_root5.setOnClickListener(this);
         iv_back.setOnClickListener(this);
 
-        switch_button.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        iv_switch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
-                    ToastUtil.showSuccessMsg(mContext,"已开启");
-                }else {
-                    PrivacySettingDialog privacySettingDialog = new PrivacySettingDialog(mActivity);
+            public void onClick(View v) {
+                if(isOpen) {
+                    privacySettingDialog = new PrivacySettingDialog(mActivity) {
+                        @Override
+                        public void close() {
+                            privacySettingDialog.dismiss();
+                            iv_switch.setImageResource(R.mipmap.iv_opens);
+                            isOpen = true;
+                        }
+
+                        @Override
+                        public void sure() {
+                            privacySettingDialog.dismiss();
+                            isOpen = false;
+                            iv_switch.setImageResource(R.mipmap.iv_closes);
+                            ToastUtil.showSuccessMsg(mContext,"已关闭");
+                        }
+                    };
                     privacySettingDialog.show();
-                    ToastUtil.showSuccessMsg(mContext,"已关闭");
+                }else {
+                    isOpen = true;
+                    iv_switch.setImageResource(R.mipmap.iv_opens);
+                    ToastUtil.showSuccessMsg(mContext,"已开启");
                 }
             }
         });
+
     }
 
     @Override

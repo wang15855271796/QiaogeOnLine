@@ -253,16 +253,6 @@ public class MyCollectionActivity extends BaseSwipeActivity implements View.OnCl
         });
     }
 
-    private void finshResfesh() {
-
-        RefreshState state = smart.getState();
-        if (state.isOpening && state.isHeader) {
-            smart.finishRefresh();
-        } else if (state.isOpening && state.isFooter) {
-            smart.finishLoadMore();
-        }
-    }
-
     /**
      * 获取角标数据
      */
