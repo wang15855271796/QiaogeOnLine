@@ -9,6 +9,28 @@
         android:name="com.barbecue.app.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
 
+
+<!--    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />-->
+<!--    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
+<!--    &lt;!&ndash; 访问精确位置的权限 &ndash;&gt;-->
+<!--    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
+<!--    &lt;!&ndash; 这个权限用于进行网络定位&ndash;&gt;-->
+<!--    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>-->
+<!--    &lt;!&ndash; 获取运营商信息，用于支持提供运营商信息相关的接口&ndash;&gt;-->
+<!--    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="com.barbecue.app.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -158,10 +180,27 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name="cn.jpush.android.service.PushService"
-            android:process=":multiprocess"
-            tools:node="replace" />
+<!--        <service-->
+<!--            android:name="cn.jpush.android.service.PushService"-->
+<!--            android:process=":multiprocess"-->
+<!--            tools:node="replace" />-->
+
+                <service
+                    android:name=".activity.UserService"
+                    android:process=":pushcore"
+                    android:exported="true">
+                    <intent-filter>
+                        <action android:name="cn.jiguang.user.service.action" />
+                    </intent-filter>
+                </service>
+
+                <receiver android:name=".activity.PushMessageReceiver"
+                    android:exported="true">
+                    <intent-filter>
+                        <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+                        <category android:name="com.barbecue.app"></category>
+                    </intent-filter>
+                </receiver>
 
         <activity android:name=".activity.OrderAddressListActivity"
             android:screenOrientation="portrait"

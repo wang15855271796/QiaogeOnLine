@@ -267,7 +267,6 @@ public class ReturnNumAdapter extends BaseQuickAdapter<ReturnOrderDetailModel.Da
                                 BigDecimal bg = new BigDecimal(s1);
                                 double f1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                                 total_price.setText(f1+"");
-                              //  total_price.setText(new BigDecimal(price).multiply(new BigDecimal(maxNum)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() - new BigDecimal(returnDetuctAmountModel.getData()).multiply(new BigDecimal(maxNum)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() + "");
                                 item.setItemPrice(Double.parseDouble(total_price.getText().toString()));
                             } else {
                                 total_price.setText(0 + "");

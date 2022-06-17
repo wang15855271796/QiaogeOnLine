@@ -53,7 +53,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="376dp"
                             app:banner_infinite_loop="false"
-                            app:layout_constraintTop_toTopOf="parent"/>
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
                             android:id="@+id/iv_send"

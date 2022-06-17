@@ -265,9 +265,9 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         guide = UserInfoHelper.getGuide(mActivity);
         UserInfoHelper.saveChangeFlag(mContext,0+"");
 
-        JPushInterface.init(this);
-        String registrationID = JPushInterface.getRegistrationID(this);
-        UserInfoHelper.saveRegistionId(mContext, registrationID);
+//        JPushInterface.init(this);
+//        String registrationID = JPushInterface.getRegistrationID(this);
+//        UserInfoHelper.saveRegistionId(mContext, registrationID);
 //        mLocationClient.start();
 //        switchTab(TAB_HOME);
 
@@ -800,7 +800,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
 
     @Override
     public void onLocationChanged(TencentLocation location, int error, String reason) {
-
+        Log.d("wdasddsa......",reason+"---"+location.getCity());
         district = location.getDistrict();
         city = location.getCity();
         String province = location.getProvince();
@@ -819,6 +819,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
 //        }
         type = "";
         locationMessage = location.getAddress();    //获取详细地址信息
+
         switchTab(TAB_HOME);
         instance.removeUpdates(this);
         if (token != null) {

@@ -24,6 +24,7 @@ import com.puyue.www.qiaoge.activity.view.VideoHolder;
 import com.puyue.www.qiaoge.model.PicVideoModel;
 import com.puyue.www.qiaoge.utils.Utils;
 import com.shuyu.gsyvideoplayer.GSYVideoADManager;
+import com.shuyu.gsyvideoplayer.listener.GSYVideoProgressListener;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.youth.banner.adapter.BannerAdapter;
 import com.youth.banner.util.BannerUtils;
@@ -85,6 +86,12 @@ public class PicVideoAdapter extends BannerAdapter<PicVideoModel.DatasBean, Recy
                 int screenTypeFull = GSYVideoType.SCREEN_TYPE_DEFAULT;
                 GSYVideoType.setShowType(screenTypeFull);
                 videoHolder.player.setThumbImageView(imageView);
+//                videoHolder.player.setGSYVideoProgressListener(new GSYVideoProgressListener() {
+//                    @Override
+//                    public void onProgress(int progress, int secProgress, int currentPosition, int duration) {
+//
+//                    }
+//                });
                 videoHolder.player.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

@@ -88,7 +88,6 @@ public abstract class AmountMaxDialog extends Dialog implements View.OnClickList
                 Cancle();
                 break;
         }
-
     }
 
     public abstract void Confirm();

@@ -13,10 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-
         <LinearLayout
-
+            android:id="@+id/ll_data"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -405,6 +403,16 @@
         </LinearLayout>
 
 
+<!--        <TextView-->
+<!--            android:id="@+id/tv_refresh"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_centerInParent="true"-->
+<!--            android:gravity="center_horizontal"-->
+<!--            android:drawablePadding="@dimen/dp_10"-->
+<!--            android:textSize="@dimen/size_20dp"-->
+<!--            android:drawableTop="@mipmap/ic_no_datas"-->
+<!--            android:text="点击重新刷新" />-->
     </RelativeLayout>
 
 

@@ -9,6 +9,8 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.multidex.MultiDexApplication;
+
+import android.os.Handler;
 import android.util.Log;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -56,7 +58,7 @@ public class QiaoGeApplication extends MultiDexApplication {
         super.onCreate();
         EventBus.getDefault().register(this);
         context = getApplicationContext();
-//        HookUtils.hookMacAddress("Z-Application",getApplicationContext());
+        HookUtils.hookMacAddress("Z-Application",getApplicationContext());
 
         disableAPIDialog();
 
@@ -134,6 +136,10 @@ public class QiaoGeApplication extends MultiDexApplication {
         api.registerApp("wxbc18d7b8fee86977");
         JPushInterface.setDebugMode(false);
         JPushInterface.init(this);
+        String registrationID = JPushInterface.getRegistrationID(getContext());
+        UserInfoHelper.saveRegistionId(getContext(), registrationID);
+
+
 
         {
 

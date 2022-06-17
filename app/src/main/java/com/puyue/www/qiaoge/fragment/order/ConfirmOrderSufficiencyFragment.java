@@ -12,7 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
-import com.amap.api.maps.AMap;
+//import com.amap.api.maps.AMap;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import androidx.fragment.app.Fragment;
@@ -222,7 +222,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
     private EditText et_name;
     private EditText et_phone;
 
-    AMap mBaiduMap;
+//    AMap mBaiduMap;
 //    private TextureMapView mMapView = null;
     MapView mMapView;
 //    private GeoCoder mCoder;

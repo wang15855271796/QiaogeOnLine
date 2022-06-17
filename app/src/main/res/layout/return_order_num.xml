@@ -37,13 +37,12 @@
             android:id="@+id/tv_spec_num_return"
             android:layout_width="40dp"
             android:layout_height="24dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
             android:drawableRight="@mipmap/spe_daosanjiao"
             android:gravity="center"
             android:padding="3dp"
             android:text="袋"
-            android:textSize="12dp"/>
+            android:textSize="12dp" />
 
 
     </RelativeLayout>
