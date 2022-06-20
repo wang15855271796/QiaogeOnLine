@@ -1,0 +1,29 @@
+R_DEF: Internal format may change without notice
+local
+drawable app_loading0
+drawable app_loading1
+drawable app_loading2
+drawable app_loading3
+drawable common_progress_cirle
+drawable header_loading0
+drawable header_loading1
+drawable header_loading2
+drawable header_loading3
+drawable header_yun_anim
+drawable loading_image
+drawable yun_anim
+id container
+id img
+id iv_progress
+id msg
+layout kaws_refresh_header
+layout yun_refresh_footer
+string app_name
+string listview_header_hint_normal
+string listview_header_hint_release
+string listview_header_last_time
+string listview_loading
+string nomore_loading
+string refresh_done
+string refreshing
+style common_mProgress_circle

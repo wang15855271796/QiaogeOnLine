@@ -340,13 +340,11 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
 
                                 @Override
                                 public void deletPic(int pos) {
-                                    Log.d("cdesfdsd.......",pictureLists.size()+"aa");
                                     String removes = pictureLists.remove(pos);
                                     deletPics.add(removes);
                                     shopImageViewAdapter.notifyDataSetChanged();
                                     Gson gson1 = new Gson();
                                     returnPic = gson1.toJson(pictureLists);
-                                    Log.d("cdesfdsd.......",pictureLists.size()+"bb");
                                 }
                             });
 

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -69,6 +70,7 @@ public class ConfirmNewOrderActivity extends BaseSwipeActivity implements Confir
         EventBus.getDefault().register(this);
         switchTab(TAB_DELIVER);
         setTranslucentStatus();
+
     }
 
     @Override

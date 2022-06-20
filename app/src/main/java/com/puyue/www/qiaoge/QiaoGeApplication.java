@@ -58,7 +58,7 @@ public class QiaoGeApplication extends MultiDexApplication {
         super.onCreate();
         EventBus.getDefault().register(this);
         context = getApplicationContext();
-        HookUtils.hookMacAddress("Z-Application",getApplicationContext());
+//        HookUtils.hookMacAddress("Z-Application",getApplicationContext());
 
         disableAPIDialog();
 

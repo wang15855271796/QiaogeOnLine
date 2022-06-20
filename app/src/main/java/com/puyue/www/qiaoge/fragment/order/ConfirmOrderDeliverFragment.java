@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -301,6 +302,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
         recyclerView1.setLayoutManager(new LinearLayoutManager(mActivity));
         recyclerView1.setAdapter(unOperateAdapter);
         requestCartBalance(NewgiftDetailNo, 0,disType);//NewgiftDetailNo
+
     }
 
     @Override
@@ -584,6 +586,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                     @Override
                     public void onNext(CartBalanceModel cartBalanceModel) {
                         if (cartBalanceModel.success) {
+
                             cModel = cartBalanceModel;
                             CartBalanceModel.DataBean data = cartBalanceModel.getData();
                             toRechargeAmount = cModel.getData().getToRechargeAmount();
@@ -593,6 +596,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                             systemList2.clear();
                             if(data.getSystemAddition()!=null&& data.getSystemAddition().size()>0) {
                                 for (int i = 0; i < data.getSystemAddition().size(); i++) {
+
                                     if(data.getSystemAddition().get(i).getType()==0) {
                                         systemList1.add(cartBalanceModel.getData().getSystemAddition().get(i));
                                     }else {
@@ -605,6 +609,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                                 rv_given.setLayoutManager(new LinearLayoutManager(mActivity));
                                 ConfirmGivenAdapter confirmGivenAdapter = new ConfirmGivenAdapter(R.layout.item_given,systemList1);
                                 rv_given.setAdapter(confirmGivenAdapter);
+
                             }
 
                             if(systemList2.size()>0) {

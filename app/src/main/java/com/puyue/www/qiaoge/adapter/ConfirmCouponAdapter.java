@@ -1,6 +1,7 @@
 package com.puyue.www.qiaoge.adapter;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,7 +30,6 @@ public class ConfirmCouponAdapter extends BaseQuickAdapter<CartBalanceModel.Data
 
         TextView tv_name = helper.getView(R.id.tv_name);
         tv_name.setText(item.getName());
-
         TextView tv_num = helper.getView(R.id.tv_num);
         tv_num.setText("*"+item.getSendNumDesc());
 

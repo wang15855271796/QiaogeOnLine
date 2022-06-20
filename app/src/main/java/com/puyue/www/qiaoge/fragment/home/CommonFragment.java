@@ -216,7 +216,6 @@ public class CommonFragment extends BaseFragment {
                             if(getCommonProductModel.getData().getList().size()>0) {
                                 list.addAll(getCommonProductModel.getData().getList());
                                 commonListAdapter.notifyDataSetChanged();
-                                Log.d("wfsdfdsfs.....",list.size()+"");
                             }
                         }else {
                             AppHelper.showMsg(mActivity,getCommonProductModel.getMessage());

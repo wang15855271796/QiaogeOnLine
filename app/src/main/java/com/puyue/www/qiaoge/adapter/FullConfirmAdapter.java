@@ -3,6 +3,7 @@ package com.puyue.www.qiaoge.adapter;
 import android.graphics.Color;
 import androidx.annotation.NonNull;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,7 +39,7 @@ public class FullConfirmAdapter extends BaseQuickAdapter<CartBalanceModel.DataBe
         }
         TextView tv_name = helper.getView(R.id.tv_name);
         tv_name.setText(item.getName());
-
+        Log.d("dwdsadada.....",item.getSendNumDesc()+"aa");
         TextView tv_num = helper.getView(R.id.tv_num);
         tv_num.setText("*"+item.getSendNumDesc());
 
