@@ -41,11 +41,9 @@ public class MarketGoodBrandAdapter extends RecyclerView.Adapter<MarketGoodBrand
     public void setStat() {
         for (MarketBeanModel bean:list) {
             bean.setState(false);
-
         }
 
         for (int i = 0; i < list.size(); i++) {
-//            holder.mTvContent.setText("");
             selectList.remove(list.get(i));
 
         }

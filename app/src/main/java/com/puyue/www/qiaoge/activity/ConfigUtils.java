@@ -101,8 +101,9 @@ public class ConfigUtils {
 
 
                 //授权页隐私栏：
-                .setAppPrivacyOne("闪验用户协议", "https://api.253.com/api_doc/yin-si-zheng-ce/wei-hu-wang-luo-an-quan-sheng-ming.html")  //设置开发者隐私条款1名称和URL(名称，url)
-                .setAppPrivacyTwo("闪验隐私政策", "https://api.253.com/api_doc/yin-si-zheng-ce/ge-ren-xin-xi-bao-hu-sheng-ming.html")  //设置开发者隐私条款2名称和URL(名称，url)
+//                .setAppPrivacyOne("闪验用户协议", "https://api.253.com/api_doc/yin-si-zheng-ce/wei-hu-wang-luo-an-quan-sheng-ming.html")  //设置开发者隐私条款1名称和URL(名称，url)
+//                .setAppPrivacyTwo("闪验隐私政策", "https://api.253.com/api_doc/yin-si-zheng-ce/ge-ren-xin-xi-bao-hu-sheng-ming.html")
+                .setAppPrivacyOne("翘歌隐私政策", "https://shaokao.qoger.com/apph5/html/yszc.html")//设置开发者隐私条款2名称和URL(名称，url)
                 .setAppPrivacyColor(0xff797894, 0xffFD641B)   //	设置隐私条款名称颜色(基础文字颜色，协议文字颜色)
                 .setPrivacyOffsetBottomY(20)//设置隐私条款相对于屏幕下边缘y偏
                 .setPrivacyState(false)

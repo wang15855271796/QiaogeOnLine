@@ -815,6 +815,13 @@ public class MarketsFragment extends BaseFragment {
                                 MarketBeanModel bean = new MarketBeanModel(marketSelectGoodModel.getData().get(i));
                                 mListBrand.add(bean);
                             }
+                            if(mListBrand!=null && mListBrand.size()>0) {
+                                mTvReresh.setVisibility(View.VISIBLE);
+                                mTvOk.setVisibility(View.VISIBLE);
+                            }else {
+                                mTvReresh.setVisibility(View.GONE);
+                                mTvOk.setVisibility(View.GONE);
+                            }
 
                             showGoodBrand();
 
@@ -845,6 +852,8 @@ public class MarketsFragment extends BaseFragment {
                 }
             }
         });
+
+
 
         mRyGetGoodName.setAdapter(mAdapterBrand);
 
