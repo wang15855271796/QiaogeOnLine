@@ -232,6 +232,8 @@ public class SnapUpCountDownTimerView1 extends LinearLayout {
         long timePoor = 0;
         if (isShow) {
             tv_state.setVisibility(VISIBLE);
+        }else {
+            tv_state.setVisibility(GONE);
         }
 
 

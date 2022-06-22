@@ -233,6 +233,8 @@ public class SnapUpCountDownTimerViewss extends LinearLayout {
         long timePoor = 0;
         if (isShow) {
             tv_state.setVisibility(VISIBLE);
+        }else {
+            tv_state.setVisibility(GONE);
         }
 
 
@@ -243,7 +245,7 @@ public class SnapUpCountDownTimerViewss extends LinearLayout {
                 tv_statReturn.setVisibility(VISIBLE);
                 tv_state.setVisibility(GONE);
             } else {
-                tv_state.setVisibility(VISIBLE);
+                tv_state.setVisibility(GONE);
                 tv_state.setText("距开始：");
             }
 

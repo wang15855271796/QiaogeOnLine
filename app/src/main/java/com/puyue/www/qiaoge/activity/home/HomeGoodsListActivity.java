@@ -8,7 +8,10 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -48,6 +51,8 @@ import com.puyue.www.qiaoge.model.home.SeckillListModel;
 import com.puyue.www.qiaoge.model.home.SpikeNewQueryModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.Time;
+import com.puyue.www.qiaoge.view.SnapUpCountDownTimerView1;
+import com.puyue.www.qiaoge.view.SnapUpCountDownTimerViewss;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -69,14 +74,10 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
 
     public TextView tv_num;
     private ImageView mIvBack;
-    private TextView mTvTitle;
     private RecyclerView mRvData;
     private RecyclerView mRvSpikeData;
-    RelativeLayout rl_bg;
-    RelativeLayout rl;
     //秒杀预告，特惠
-    private LinearLayout linearLayoutSpike;
-    TextView tv_call;
+    private RelativeLayout linearLayoutSpike;
     //秒杀活动
     private SpikeActiveNewAdapter mAdapterNewSpike;
     private List<SpikeNewQueryModel.DataBean> mListSpikeNew = new ArrayList<>();
@@ -84,17 +85,12 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
     private SpikeActiveQueryAdapter mAdapterSpikeQuery;
     //秒杀列表
     private List<SeckillListModel.DataBean.KillsBean> mListSeckill = new ArrayList<>();
-    private int currentPosition;
-    private String pageType;
+    private int currentPosition = 0;
     private RelativeLayout rl_good_cart;
-    private SpikeNewQueryModel spikeNewQueryModels;
-    private SeckillListModel seckillListModel1;
+    SnapUpCountDownTimerViewss snap;
+    TextView tv_desc;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
-        if (getIntent() != null && getIntent().getExtras() != null) {
-            Bundle bundle = getIntent().getExtras();
-            pageType = bundle.getString(AppConstant.PAGETYPE, null);
-        }
         return false;
     }
 
@@ -105,12 +101,10 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
     }
 
 
-
-
     @Override
     protected void onStop() {
         super.onStop();
-        long end = (System.currentTimeMillis()-start)/1000;
+        long end = (System.currentTimeMillis()-currentTime)/1000;
         long time = Time.getTime(end);
         getDatas(time);
 
@@ -146,14 +140,12 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
-        rl =  FVHelper.fv(this, R.id.rl);
+        tv_desc = FVHelper.fv(this, R.id.tv_desc);
+        snap = FVHelper.fv(this, R.id.snap);
         mIvBack = FVHelper.fv(this, R.id.iv_activity_back);
-        mTvTitle = FVHelper.fv(this, R.id.tv_activity_goods_list_title);
         tv_num = FVHelper.fv(this, R.id.tv_num);
-        tv_call =  FVHelper.fv(this, R.id.tv_call);
         mRvData = FVHelper.fv(this, R.id.rv_activity_goods_list);
         linearLayoutSpike = FVHelper.fv(this, R.id.linearLayout_spike);
-        rl_bg = FVHelper.fv(this, R.id.rl_bg);
         mRvSpikeData = FVHelper.fv(this, R.id.recyclerview_spike_content);
         rl_good_cart = FVHelper.fv(this, R.id.rl_good_cart);
         EventBus.getDefault().register(this);
@@ -168,17 +160,13 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
 
     @Override
     public void setViewData() {
-
         getCustomerPhone();
         getCartNum();
         judgePageType();//进行差异性的设置。
         getNewSpikeTool();
-        getState();
 
-
-    }
-
-    private void getState() {
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
     }
 
@@ -225,84 +213,12 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
         getCartNum();
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getCartNum(ChangeStatEvent event) {
-        getOther();
-    }
-
-    private void getOther() {
-        SpikeNewActiveQueryAPI.requestData(mContext)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SpikeNewQueryModel>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-
-                    @Override
-                    public void onNext(SpikeNewQueryModel spikeNewQueryModel) {
-                        if (spikeNewQueryModel.isSuccess()) {
-                            //请求列表数据
-                            other2(spikeNewQueryModel.getData().get(currentPosition).getActiveId());
-                        } else {
-                            AppHelper.showMsg(mContext, spikeNewQueryModel.getMessage());
-                        }
-
-                    }
-                });
-    }
-
-    private void other2(int activeId) {
-        SecKillMoreListAPI.requestMoreListData(mContext, activeId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SeckillListModel>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-
-                    @Override
-                    public void onNext(SeckillListModel seckillListModel) {
-                        if (seckillListModel.success) {
-                            if(seckillListModel.data.warnMe==0) {
-                                tv_call.setText("添加本场秒杀提醒");
-                                tv_call.setTextColor(Color.parseColor("#ffffff"));
-                                rl_bg.setBackgroundResource(R.drawable.shape_orange);
-                                SharedPreferencesUtil.saveInt(mContext,"warnMe",0);
-                            }else {
-                                tv_call.setText("取消提醒");
-                                tv_call.setTextColor(Color.parseColor("#FD641B"));
-                                rl_bg.setBackgroundResource(R.drawable.shape_oranges);
-                                SharedPreferencesUtil.saveInt(mContext,"warnMe",1);
-                            }
-                        } else {
-
-                            AppHelper.showMsg(mActivity, seckillListModel.message);
-
-                        }
-                    }
-                });
-
-    }
-
     @Override
     public void setClickEvent() {
-
         rl_good_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mActivity))) {
-//                    startActivity(new Intent(mContext, CartActivity.class));
                     startActivity(new Intent(mContext, HomeActivity.class));
                     EventBus.getDefault().post(new GoToCartFragmentEvent());
                 } else {
@@ -313,29 +229,17 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
 
             }
         });
-
-        rl_bg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getStat(spikeNewQueryModels.getData().get(currentPosition).getActiveId());
-
-            }
-        });
-
     }
 
     /**
      * 判断是哪种类型的页面
      **/
     private void judgePageType() {
-        mTvTitle.setText("限时秒杀");
         linearLayoutSpike.setVisibility(View.VISIBLE);
         mRvData.setLayoutManager(new LinearLayoutManager(mContext));
         mRvData.setBackgroundColor(Color.parseColor("#F5F5F5"));
 
     }
-
-
 
     /**
      * 秒杀专区更多-顶部
@@ -357,14 +261,18 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
                     public void onNext(SpikeNewQueryModel spikeNewQueryModel) {
                         if (spikeNewQueryModel.isSuccess()) {
                             mListSpikeNew.clear();
-                            spikeNewQueryModels = spikeNewQueryModel;
                             if (spikeNewQueryModel.getData() != null) {
                                 mListSpikeNew.addAll(spikeNewQueryModel.getData());
                                 //秒杀专区-顶部
                                 mAdapterNewSpike = new SpikeActiveNewAdapter(mContext, mListSpikeNew);
                                 mRvSpikeData.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false));
                                 mRvSpikeData.setAdapter(mAdapterNewSpike);
+                                List<SpikeNewQueryModel.DataBean> data = spikeNewQueryModel.getData();
 
+                                long startTime = data.get(currentPosition).getStartTime();
+                                long endTime = data.get(currentPosition).getEndTime();
+                                long currentTime = data.get(currentPosition).getCurrentTime();
+                                snap.setTime(false, currentTime, startTime,endTime);
                                 mAdapterNewSpike.setOnItemClickListener(new OnItemClickListener() {
                                     @Override
                                     public void onItemClick(View view, int position) {
@@ -372,7 +280,15 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
                                         spikeActiveQuery(mListSpikeNew.get(position).getActiveId());
                                         currentPosition = position;
                                         mAdapterNewSpike.notifyDataSetChanged();
-
+                                        long startTime = data.get(currentPosition).getStartTime();
+                                        long endTime = data.get(currentPosition).getEndTime();
+                                        long currentTime = data.get(currentPosition).getCurrentTime();
+                                        snap.setTime(false, currentTime, startTime,endTime);
+                                        if(data.get(currentPosition).getFlag()==1) {
+                                            tv_desc.setText("距离本场活动结束");
+                                        }else {
+                                            tv_desc.setText("距离本场活动开始");
+                                        }
                                     }
 
                                     @Override
@@ -416,12 +332,9 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
                     @Override
                     public void onNext(SeckillListModel seckillListModel) {
                         if (seckillListModel.success) {
-                            seckillListModel1 = seckillListModel;
-
                             mAdapterSpikeQuery = new SpikeActiveQueryAdapter(R.layout.spike_new_active_product, seckillListModel.data.kills, activeId, new SpikeActiveQueryAdapter.Onclick() {
                                 @Override
                                 public void tipClick() {
-//                                    showPhoneDialog(cell);
                                     AppHelper.ShowAuthDialog(mActivity,cell);
                                 }
                             });
@@ -430,18 +343,6 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
                             mListSeckill.clear();
                             if (seckillListModel.data.kills != null) {
                                 mListSeckill.addAll(seckillListModel.data.kills);
-                            }
-                            long currentTime = seckillListModel.data.currentTime;
-                            long startTime = seckillListModel.data.startTime;
-                            if(currentTime<startTime) {
-                                long differ = startTime - currentTime;
-                                if(differ> 300000) {
-                                    rl.setVisibility(View.VISIBLE);
-                                }else {
-                                    rl.setVisibility(View.GONE);
-                                }
-                            }else {
-                                rl.setVisibility(View.GONE);
                             }
 
                             mAdapterSpikeQuery.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -455,20 +356,6 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
 
                                 }
                             });
-
-//                            0未订阅   1已订阅
-
-                            if(seckillListModel.data.warnMe==0) {
-                                tv_call.setText("添加本场秒杀提醒");
-                                tv_call.setTextColor(Color.parseColor("#ffffff"));
-                                rl_bg.setBackgroundResource(R.drawable.shape_orange);
-                                SharedPreferencesUtil.saveInt(mContext,"warnMe",0);
-                            }else {
-                                tv_call.setText("取消提醒");
-                                tv_call.setTextColor(Color.parseColor("#FD641B"));
-                                rl_bg.setBackgroundResource(R.drawable.shape_oranges);
-                                SharedPreferencesUtil.saveInt(mContext,"warnMe",1);
-                            }
 
                             int flag = seckillListModel.data.flag;
                             UserInfoHelper.saveSpikePosition(mContext, String.valueOf(flag));
@@ -557,14 +444,8 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
                         int warnMe = SharedPreferencesUtil.getInt(mContext, "warnMe");
                         if(baseModel.success) {
                             if(warnMe == 0) {
-                                tv_call.setText("取消提醒");
-                                tv_call.setTextColor(Color.parseColor("#FD641B"));
-                                rl_bg.setBackgroundResource(R.drawable.shape_oranges);
                                 SharedPreferencesUtil.saveInt(mContext,"warnMe",1);
                             }else {
-                                tv_call.setText("添加本场秒杀提醒");
-                                tv_call.setTextColor(Color.parseColor("#ffffff"));
-                                rl_bg.setBackgroundResource(R.drawable.shape_orange);
                                 SharedPreferencesUtil.saveInt(mContext,"warnMe",0);
                             }
 
@@ -584,12 +465,11 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
         EventBus.getDefault().unregister(this);
 
     }
-    long start;
+    long currentTime;
     @Override
     protected void onResume() {
         super.onResume();
-//        isFirst = false;
-        start = System.currentTimeMillis();
+        currentTime = System.currentTimeMillis();
         getCustomerPhone();
     }
 

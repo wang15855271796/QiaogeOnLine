@@ -121,8 +121,8 @@
             <!--有数据时的界面-->
 
             <LinearLayout
-                android:id="@+id/ll_all"
                 android:visibility="gone"
+                android:id="@+id/ll_all"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -177,6 +177,110 @@
                     android:layout_height="0dp">
 
                 </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_style"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_46dp">
+
+                <LinearLayout
+                    android:layout_width="280dp"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:id="@+id/ll_all"
+                        android:gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="@dimen/size_46dp">
+
+                        <ImageView
+                            android:id="@+id/iv_all"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/tv_all_data"
+                            android:text="综合"
+                            android:textColor="#333333"
+                            android:layout_marginLeft="6dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_sale"
+                        android:gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="@dimen/size_46dp">
+
+                        <ImageView
+                            android:id="@+id/iv_sale"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/tv_sale"
+                            android:text="销量"
+                            android:textColor="#333333"
+                            android:layout_marginLeft="6dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_price"
+                        android:gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="@dimen/size_46dp">
+
+                        <ImageView
+                            android:id="@+id/iv_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:text="价格"
+                            android:textColor="#333333"
+                            android:id="@+id/tv_price"
+                            android:layout_marginLeft="6dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <ImageView
+                            android:id="@+id/iv_direction"
+                            android:src="@mipmap/icon_default"
+                            android:layout_marginLeft="@dimen/size_6dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+
+                    <View
+                        android:background="#D8D8D8"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="1dp"
+                        android:layout_height="12dp"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_all"
+                    android:text="全部"
+                    android:textColor="#FF5C00"
+                    android:layout_marginLeft="@dimen/size_25dp"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+
+                <ImageView
+                    android:layout_marginLeft="@dimen/size_5dp"
+                    android:src="@mipmap/ic_arrow_down"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
             </LinearLayout>
 
             <androidx.core.widget.NestedScrollView

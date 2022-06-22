@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/dp_10"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/ll_root"
-        android:background="@color/white"
+        android:layout_margin="@dimen/size_8dp"
+        android:background="@drawable/shape_white1"
         android:layout_width="match_parent"
         android:layout_height="145dp"
         android:orientation="horizontal"
@@ -19,15 +19,13 @@
             android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
             android:background="@color/white">
 
-            <ImageView
+            <com.puyue.www.qiaoge.RoundImageView
                 android:id="@+id/iv_item_spike_img"
-                android:layout_width="108dp"
-                android:layout_height="108dp"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginRight="5dp"
+                android:layout_width="104dp"
+                android:layout_height="104dp"
+                android:layout_marginLeft="@dimen/size_12dp"
                 android:scaleType="fitXY"
                />
 
@@ -61,7 +59,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/size_5dp"
+            android:layout_marginLeft="@dimen/size_8dp"
             android:layout_marginRight="@dimen/dp_10"
             android:orientation="vertical">
 
@@ -80,18 +78,46 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:maxLines="2"
-                    android:text="逊谈起降价时逊谈起降价时逊谈起降价时逊谈起降价时"
+                    android:text="逊谈起降价时逊谈起降"
                     android:textColor="@color/app_black"
-                    android:textSize="13dp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tv_item_spike_specification"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size_10dp"
+                    android:layout_marginTop="@dimen/size_5dp"
                     android:text="规格"
                     android:textColor="@color/color_C1C1C1"
-                    android:textSize="10dp" />
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:layout_marginTop="@dimen/size_5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_flag"
+                        android:layout_width="32dp"
+                        android:layout_height="12dp"
+                        android:src="@mipmap/icon_right" />
+
+                    <TextView
+                        android:id="@+id/tv_spread"
+                        tools:text="省10"
+                        android:visibility="gone"
+                        android:textSize="9sp"
+                        android:textColor="#FF5C00"
+                        android:paddingLeft="@dimen/size_2dp"
+                        android:paddingRight="@dimen/size_2dp"
+                        android:background="@drawable/shape_orange1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+
+
             </LinearLayout>
 
             <RelativeLayout
@@ -102,7 +128,7 @@
                 <RelativeLayout
                     android:id="@+id/lin"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/size_35dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_10"
                     android:orientation="horizontal">
 
@@ -110,17 +136,9 @@
                         android:id="@+id/tv_item_spike_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/app_name"
+                        tools:text="100"
                         android:textColor="@color/color_FF703C"
-                        android:textSize="15sp" />
-
-                    <ImageView
-                        android:id="@+id/iv_flag"
-                        android:layout_width="32dp"
-                        android:layout_height="12dp"
-                        android:layout_below="@+id/tv_item_spike_price"
-                        android:layout_marginTop="@dimen/size_5dp"
-                        android:src="@mipmap/icon_right" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/tv_item_spike_old_price"
@@ -130,7 +148,7 @@
                         android:layout_gravity="bottom"
                         android:layout_marginLeft="5dp"
                         android:layout_toRightOf="@id/tv_item_spike_price"
-                        android:text="@string/app_name"
+                        tools:text="200"
                         android:textColor="@color/color_747474"
                         android:textSize="10dp" />
 
@@ -141,6 +159,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/size_60dp"
                     android:layout_below="@+id/lin"
+                    android:gravity="center_vertical"
                     android:layout_centerVertical="true">
 
 
@@ -148,15 +167,13 @@
                         android:id="@+id/pb_item_spike"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="100dp"
-                        android:layout_height="10dp"
-                        android:layout_centerVertical="true"
-                        android:progressDrawable="@drawable/layerlist_goods_progress"  />
+                        android:layout_height="12dp"
+                        android:progressDrawable="@drawable/layerlist_goods_progress" />
 
                     <TextView
                         android:id="@+id/tv_item_spike_sales"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
                         android:layout_toRightOf="@+id/pb_item_spike"
                         android:gravity="right"
@@ -165,12 +182,10 @@
                         android:textSize="@dimen/size_8dp" />
 
                     <TextView
-                        android:visibility="gone"
                         android:id="@+id/addCar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
                         android:layout_marginRight="5dp"
                         android:background="@drawable/app_home_more"
                         android:paddingLeft="8dp"
@@ -179,14 +194,14 @@
                         android:paddingBottom="3dp"
                         android:text="立即加购"
                         android:textColor="@color/white"
-                        android:textSize="11dp" />
+                        android:textSize="11dp"
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/tv_sold_out"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
                         android:layout_marginRight="5dp"
                         android:background="@drawable/shape_grey"
                         android:paddingLeft="8dp"
@@ -198,7 +213,6 @@
                         android:textSize="11dp" />
 
                     <TextView
-                        android:visibility="gone"
                         android:id="@+id/tv_add_remind"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -212,25 +226,26 @@
                         android:paddingBottom="3dp"
                         android:text="立即加购"
                         android:textColor="@color/white"
-                        android:textSize="11dp" />
+                        android:textSize="11dp"
+                        android:visibility="gone" />
 
                     <RelativeLayout
-                        android:layout_centerVertical="true"
-                        android:visibility="gone"
                         android:id="@+id/rl_price"
-                        android:layout_alignParentRight="true"
-                        android:background="@drawable/shape_orange_radius_11"
                         android:layout_width="@dimen/size_70dp"
-                        android:layout_height="@dimen/size_26dp">
+                        android:layout_height="@dimen/size_26dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/shape_orange_radius_11"
+                        android:visibility="gone">
 
                         <TextView
-                            android:text="获取授权"
-                            android:textColor="#fff"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:layout_marginRight="@dimen/size_15dp"
-                            android:textSize="@dimen/size_12dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:text="获取授权"
+                            android:textColor="#fff"
+                            android:textSize="@dimen/size_12dp" />
 
                     </RelativeLayout>
 

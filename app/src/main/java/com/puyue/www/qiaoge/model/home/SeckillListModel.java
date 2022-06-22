@@ -67,6 +67,7 @@ public class SeckillListModel {
             public String flagUrl;
             public String notSend;
             public String selfOrNot;
+            public String spread;
         }
     }
 }

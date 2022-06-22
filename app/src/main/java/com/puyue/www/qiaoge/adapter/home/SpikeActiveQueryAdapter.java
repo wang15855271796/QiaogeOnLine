@@ -3,6 +3,8 @@ package com.puyue.www.qiaoge.adapter.home;
 import android.graphics.Color;
 import android.graphics.Paint;
 import androidx.annotation.Nullable;
+
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -15,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.api.cart.AddCartAPI;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
@@ -42,7 +45,7 @@ import rx.schedulers.Schedulers;
  */
 public class SpikeActiveQueryAdapter extends BaseQuickAdapter<SeckillListModel.DataBean.KillsBean, BaseViewHolder> {
 
-    private ImageView ivSpike;
+    private RoundImageView ivSpike;
     private TextView tvPrice;
     private TextView tvOldPrice;
     private TextView tvTitle;
@@ -68,6 +71,7 @@ public class SpikeActiveQueryAdapter extends BaseQuickAdapter<SeckillListModel.D
     protected void convert(BaseViewHolder helper, SeckillListModel.DataBean.KillsBean item) {
         ImageView iv_send = helper.getView(R.id.iv_send);
         ImageView iv_flag = helper.getView(R.id.iv_flag);
+        TextView tv_spread = helper.getView(R.id.tv_spread);
         ll_root = helper.getView(R.id.ll_root);
         rl_price = helper.getView(R.id.rl_price);
         tv_add_remind = helper.getView(R.id.tv_add_remind);
@@ -86,6 +90,11 @@ public class SpikeActiveQueryAdapter extends BaseQuickAdapter<SeckillListModel.D
         tvOldPrice.setText(item.oldPrice);
         tvPsc.setText(item.spec);
         tvSale.setText(item.sales);
+        if(!item.spread.equals("")&& !TextUtils.isEmpty(item.spread)) {
+            tv_spread.setVisibility(View.VISIBLE);
+        }else {
+            tv_spread.setVisibility(View.GONE);
+        }
         mProgressBar.setProgressDrawable(mContext.getResources().getDrawable(R.drawable.seckill_progress));
         mProgressBar.setProgress(Integer.parseInt(item.progress));
         tvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); //中划线

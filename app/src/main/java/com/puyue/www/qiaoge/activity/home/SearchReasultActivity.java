@@ -3,6 +3,7 @@ package com.puyue.www.qiaoge.activity.home;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -11,9 +12,13 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -89,6 +94,10 @@ public class SearchReasultActivity extends BaseSwipeActivity {
     LinearLayout ll_recommend;
     @BindView(R.id.ll_all)
     LinearLayout ll_all;
+    @BindView(R.id.tv_all)
+    TextView tv_all;
+    @BindView(R.id.ll_style)
+    LinearLayout ll_style;
     String searchWord;
     int pageNum = 1;
     int pageSize = 10;
@@ -99,8 +108,6 @@ public class SearchReasultActivity extends BaseSwipeActivity {
     SearchResultsModel searchResultsModel;
     //搜索集合
     private List<SearchResultsModel.DataBean.SearchProdBean.ListBean> searchList = new ArrayList<>();
-    private String priceType;
-    private String enjoyProduct;
     private String cell; // 客服电话
     private List<Fragment> mBaseFragment;
     @Override
@@ -118,9 +125,6 @@ public class SearchReasultActivity extends BaseSwipeActivity {
     public void findViewById() {
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
-
-
-        priceType = getIntent().getStringExtra("priceType");
         rl_num.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,6 +154,43 @@ public class SearchReasultActivity extends BaseSwipeActivity {
                 finish();
             }
         });
+
+        tv_all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPopWindow();
+            }
+        });
+    }
+
+    private void showPopWindow() {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_popup, null, false);
+        TextView tv_all_goods = (TextView) view.findViewById(R.id.tv_all_goods);
+        TextView tv_operate = (TextView) view.findViewById(R.id.tv_operate);
+        TextView tv_unOperate = (TextView) view.findViewById(R.id.tv_unOperate);
+        //1.构造一个PopupWindow，参数依次是加载的View，宽高
+        final PopupWindow popWindow = new PopupWindow(view,
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+        popWindow.setAnimationStyle(R.anim.anim_pop);  //设置加载动画
+
+        //这些为了点击非PopupWindow区域，PopupWindow会消失的，如果没有下面的
+        //代码的话，你会发现，当你把PopupWindow显示出来了，无论你按多少次后退键
+        //PopupWindow并不会关闭，而且退不出程序，加上下述代码可以解决这个问题
+        popWindow.setTouchable(true);
+        popWindow.setTouchInterceptor(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+                // 这里如果返回true的话，touch事件将被拦截
+                // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
+            }
+        });
+        popWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));    //要为popWindow设置一个背景才有效
+
+
+        //设置popupWindow显示的位置，参数依次是参照View，x轴的偏移量，y轴的偏移量
+        popWindow.showAsDropDown(ll_style, 1300, 0);
     }
 
     private void initFragment(String searchWord) {
@@ -304,7 +345,7 @@ public class SearchReasultActivity extends BaseSwipeActivity {
 
                             if(recommendModel.getData().getSearchProd()!=null) {
                                 if(recommendModel.getData().getSearchProd().getList().size()>0) {
-                                    ll_all.setVisibility(View.VISIBLE);
+                                    ll_all.setVisibility(View.GONE);
                                     lav_activity_loading.setVisibility(View.GONE);
                                 }else {
                                     ll_all.setVisibility(View.GONE);
