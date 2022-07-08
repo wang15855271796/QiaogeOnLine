@@ -12,11 +12,13 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
@@ -24,10 +26,14 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.tu.loadingdialog.LoadingDailog;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
+import com.puyue.www.qiaoge.adapter.SearchOperaAdapter;
+import com.puyue.www.qiaoge.adapter.home.SearchReasultAdapter;
 import com.puyue.www.qiaoge.adapter.home.SearchResultAdapter;
 import com.puyue.www.qiaoge.api.cart.GetCartNumAPI;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
@@ -56,6 +62,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -69,7 +76,7 @@ import rx.schedulers.Schedulers;
  * Created by WinSinMin on 2018/4/13.
  */
 
-public class SearchReasultActivity extends BaseSwipeActivity {
+public class SearchReasultActivity extends BaseSwipeActivity implements View.OnClickListener {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.ll_back)
@@ -98,16 +105,27 @@ public class SearchReasultActivity extends BaseSwipeActivity {
     TextView tv_all;
     @BindView(R.id.ll_style)
     LinearLayout ll_style;
+    @BindView(R.id.tv_sale)
+    TextView tv_sale;
+    @BindView(R.id.tv_price)
+    TextView tv_price;
+    @BindView(R.id.iv_direction)
+    ImageView iv_direction;
+    @BindView(R.id.ll_all_data)
+    LinearLayout ll_all_data;
+    @BindView(R.id.ll_price)
+    LinearLayout ll_price;
+    @BindView(R.id.ll_sale)
+    LinearLayout ll_sale;
+    @BindView(R.id.tv_all_data)
+    TextView tv_all_data;
     String searchWord;
     int pageNum = 1;
     int pageSize = 10;
     public View view;
     @BindView(R.id.lav_activity_loading)
     AVLoadingIndicatorView lav_activity_loading;
-    private SearchResultAdapter searchResultAdapter;
     SearchResultsModel searchResultsModel;
-    //搜索集合
-    private List<SearchResultsModel.DataBean.SearchProdBean.ListBean> searchList = new ArrayList<>();
     private String cell; // 客服电话
     private List<Fragment> mBaseFragment;
     @Override
@@ -144,8 +162,6 @@ public class SearchReasultActivity extends BaseSwipeActivity {
                 finish();
             }
         });
-
-
         tv_activity_result.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,23 +170,55 @@ public class SearchReasultActivity extends BaseSwipeActivity {
                 finish();
             }
         });
-
         tv_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showPopWindow();
             }
         });
+        ll_all_data.setOnClickListener(this);
+        ll_sale.setOnClickListener(this);
+        ll_price.setOnClickListener(this);
     }
+
+    PopupWindow popWindow;
+    SearchOperaAdapter searchOperaAdapter;
+    List<String> list = Arrays.asList("全部", "自营", "非自营");
 
     private void showPopWindow() {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_popup, null, false);
-        TextView tv_all_goods = (TextView) view.findViewById(R.id.tv_all_goods);
-        TextView tv_operate = (TextView) view.findViewById(R.id.tv_operate);
-        TextView tv_unOperate = (TextView) view.findViewById(R.id.tv_unOperate);
+        RecyclerView recyclerView =  (RecyclerView) view.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        searchOperaAdapter = new SearchOperaAdapter(R.layout.item_search_operate,list);
+        recyclerView.setAdapter(searchOperaAdapter);
+        searchOperaAdapter.notifyDataSetChanged();
         //1.构造一个PopupWindow，参数依次是加载的View，宽高
-        final PopupWindow popWindow = new PopupWindow(view,
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        if(popWindow==null) {
+            popWindow = new PopupWindow(view,
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        }
+
+        searchOperaAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                searchOperaAdapter.setOnItemPosition(position);
+                if(position==0) {
+                    isSelf = 0;
+                }else if(position==1) {
+                    isSelf = 1;
+                }else {
+                    isSelf = 2;
+                }
+                dialog.show();
+                pageNum = 1;
+                searchList.clear();
+                recommendList.clear();
+                getRecommendList(pageNum,pageSize);
+                popWindow.dismiss();
+
+                tv_all.setText(list.get(position));
+            }
+        });
 
         popWindow.setAnimationStyle(R.anim.anim_pop);  //设置加载动画
 
@@ -191,21 +239,6 @@ public class SearchReasultActivity extends BaseSwipeActivity {
 
         //设置popupWindow显示的位置，参数依次是参照View，x轴的偏移量，y轴的偏移量
         popWindow.showAsDropDown(ll_style, 1300, 0);
-    }
-
-    private void initFragment(String searchWord) {
-        mBaseFragment = new ArrayList<>();
-        mBaseFragment.add(AllGoodsFragment.getInstance(searchWord));
-        mBaseFragment.add(OperateFragment.getInstance(searchWord));
-        mBaseFragment.add(UnOperateFragment.getInstance(searchWord));
-
-    }
-
-
-    private void setListener() {
-        rg_group.setOnCheckedChangeListener(new MyOnCheckedChangeListener());
-        //设置默认选中框架页面
-        rg_group.check(R.id.rb_all);
     }
 
     private AlertDialog mDialog;
@@ -239,18 +272,25 @@ public class SearchReasultActivity extends BaseSwipeActivity {
 
 
 
+    LinearLayout ll_no_search;
+    private LoadingDailog dialog;
     @Override
     public void setViewData() {
         view = View.inflate(mContext, R.layout.item_head, null);
+        ll_no_search = view.findViewById(R.id.ll_no_search);
         searchWord = getIntent().getStringExtra(AppConstant.SEARCHWORD);
         tv_activity_result.setText(searchWord);
         getCartNum();
         getCustomerPhone();
         lav_activity_loading.setVisibility(View.VISIBLE);
         lav_activity_loading.show();
-        getRecommendList(1,pageSize);
-        initFragment(searchWord);
-        setListener();
+        getRecommendList(pageNum,pageSize);
+
+        LoadingDailog.Builder loadBuilder = new LoadingDailog.Builder(mContext)
+                .setMessage("获取数据中")
+                .setCancelable(false)
+                .setCancelOutside(false);
+        dialog = loadBuilder.create();
     }
 
     private void getCustomerPhone() {
@@ -324,8 +364,15 @@ public class SearchReasultActivity extends BaseSwipeActivity {
     /**
      * 获取推荐列表
      */
+    int isSelf = 0;
+    int saleDownFlag = 0;
+    int priceFlag = 0;
+    List<SearchResultsModel.DataBean.SearchProdBean.ListBean> searchList = new ArrayList<>();
+    List<SearchResultsModel.DataBean.RecommendProdBean> recommendList = new ArrayList<>();
+    SearchReasultAdapter searchReasultAdapter;
+    SearchResultAdapter searchResultAdapter;
     private void getRecommendList(int pageNum,int pageSize) {
-        RecommendApI.requestData(mContext,searchWord,pageNum,pageSize,0)
+        RecommendApI.requestData(mContext,searchWord,pageNum,pageSize,isSelf,saleDownFlag,priceFlag)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<SearchResultsModel>() {
@@ -335,146 +382,143 @@ public class SearchReasultActivity extends BaseSwipeActivity {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        dialog.dismiss();
                     }
 
                     @Override
                     public void onNext(SearchResultsModel recommendModel) {
-                        if (recommendModel.isSuccess()) {
-                            searchResultsModel = recommendModel;
+                        if (recommendModel.getCode()==1) {
+                            if(recommendModel.getData()!=null) {
+                                lav_activity_loading.setVisibility(View.GONE);
+                                dialog.dismiss();
+                                if(recommendModel.getData().getSearchProd()!=null && recommendModel.getData().getSearchProd().getList()!=null && recommendModel.getData().getSearchProd().getList().size()> 0) {
+                                    searchList.addAll(recommendModel.getData().getSearchProd().getList());
+                                    searchReasultAdapter = new SearchReasultAdapter(R.layout.item_noresult_recommend, searchList, new SearchReasultAdapter.Onclick() {
+                                        @Override
+                                        public void addDialog() {
 
-                            if(recommendModel.getData().getSearchProd()!=null) {
-                                if(recommendModel.getData().getSearchProd().getList().size()>0) {
-                                    ll_all.setVisibility(View.GONE);
-                                    lav_activity_loading.setVisibility(View.GONE);
-                                }else {
-                                    ll_all.setVisibility(View.GONE);
-                                    lav_activity_loading.setVisibility(View.VISIBLE);
-                                }
-                            }
-
-                            if(recommendModel.getData().getRecommendProd().size()!=0) {
-                                searchResultAdapter = new SearchResultAdapter(R.layout.item_noresult_recommend, recommendModel.getData().getRecommendProd(), new SearchResultAdapter.Onclick() {
-                                    @Override
-                                    public void addDialog() {
-                                        if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(SearchReasultActivity.this))) {
-
-                                        }else {
-                                            initDialog();
                                         }
-                                    }
 
-                                    @Override
-                                    public void getPrice() {
-//                                        showPhoneDialog(cell);
-                                        AppHelper.ShowAuthDialog(mActivity,cell);
-                                    }
-                                });
-                                lav_activity_loading.setVisibility(View.GONE);
-                                ll_recommend.setVisibility(View.VISIBLE);
-                                searchResultAdapter.addHeaderView(view);
-                                recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-                                recyclerView.setAdapter(searchResultAdapter);
+                                        @Override
+                                        public void getPrice() {
+
+                                        }
+                                    });
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+                                    recyclerView.setAdapter(searchReasultAdapter);
+                                    searchReasultAdapter.notifyDataSetChanged();
+                                    ll_no_search.setVisibility(View.GONE);
+                                    ll_style.setVisibility(View.VISIBLE);
+                                }
+                                if(recommendModel.getData().getRecommendProd()!=null && recommendModel.getData().getRecommendProd().size()>0) {
+                                    recommendList.addAll(recommendModel.getData().getRecommendProd());
+                                    searchResultAdapter = new SearchResultAdapter(R.layout.item_noresult_recommend, recommendList, new SearchResultAdapter.Onclick() {
+                                        @Override
+                                        public void addDialog() {
+
+                                        }
+
+                                        @Override
+                                        public void getPrice() {
+
+                                        }
+                                    });
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+                                    recyclerView.setAdapter(searchResultAdapter);
+                                    ll_no_search.setVisibility(View.VISIBLE);
+                                    searchResultAdapter.addHeaderView(view);
+                                    searchResultAdapter.notifyDataSetChanged();
+                                    ll_style.setVisibility(View.GONE);
+                                }
                             }else {
-                                ll_recommend.setVisibility(View.GONE);
                                 lav_activity_loading.setVisibility(View.GONE);
                             }
-
                         } else {
+                            dialog.dismiss();
                             AppHelper.showMsg(mContext, recommendModel.getMessage());
                             lav_activity_loading.setVisibility(View.GONE);
                         }
                     }
                 });
     }
-    CouponDialog couponDialog;
-    private void initDialog() {
-        couponDialog = new CouponDialog(mActivity) {
-            @Override
-            public void Login() {
-                startActivity(LoginActivity.getIntent(mActivity, LoginActivity.class));
-                dismiss();
-            }
-
-            @Override
-            public void Register() {
-                LoginUtil.initRegister(getContext());
-                dismiss();
-            }
-        };
-        couponDialog.show();
-    }
 
     @Override
     public void setClickEvent() {
 
     }
+
+    boolean isSale;
+    int isPrice = 0;
     private int position;
-    private class MyOnCheckedChangeListener implements RadioGroup.OnCheckedChangeListener {
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            switch (checkedId){
-                case R.id.rb_all:
-                    position = 0;
-                    rb_all.setTextColor(Color.parseColor("#FF5C00"));
-                    rb_operate.setTextColor(Color.parseColor("#666666"));
-                    rb_unOperate.setTextColor(Color.parseColor("#666666"));
-                    break;
-                case R.id.rb_operate:
-                    position = 1;
-                    rb_operate.setTextColor(Color.parseColor("#FF5C00"));
-                    rb_all.setTextColor(Color.parseColor("#666666"));
-                    rb_unOperate.setTextColor(Color.parseColor("#666666"));
-                    break;
-                case R.id.rb_unOperate:
-                    position = 2;
-                    rb_unOperate.setTextColor(Color.parseColor("#FF5C00"));
-                    rb_operate.setTextColor(Color.parseColor("#666666"));
-                    rb_all.setTextColor(Color.parseColor("#666666"));
-                    break;
-                default: //默认第一个(框架)
-                    position = 0;
-                    break;
-            }
-
-            //根据位置得到对应的Fragment
-            Fragment to = getFragment();
-            //替换到Fragment
-            switchFrament(mContent,to);
-
-        }
-    }
-
-    private Fragment getFragment() {
-        Fragment fragment = mBaseFragment.get(position);
-        return fragment;
-    }
-
-    private Fragment mContent;
-    private void switchFrament(Fragment from,Fragment to) {
-        if(from != to){ //才切换
-            mContent = to;
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction(); //开启事务
-            //判断to有没有被添加
-            if(!to.isAdded()){//to没有被添加
-                //1.from隐藏
-                if(from != null){
-                    ft.hide(from);
+    boolean isAll;
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ll_all_data:
+                pageNum = 1;
+                saleDownFlag = 0;
+                priceFlag = 0;
+                isSelf = 0;
+                searchList.clear();
+                recommendList.clear();
+                tv_sale.setTextColor(Color.parseColor("#333333"));
+                tv_price.setTextColor(Color.parseColor("#333333"));
+                if(!isAll) {
+                    tv_all_data.setTextColor(Color.parseColor("#FF5C00"));
+                }else {
+                    tv_all_data.setTextColor(Color.parseColor("#333333"));
                 }
-                //2.添加to
-                if(to != null){
-                    ft.add(R.id.fl_container,to).commit();
+                isAll = !isAll;
+                isSale = false;
+                dialog.show();
+                getRecommendList(pageNum,pageSize);
+                break;
+
+            case R.id.ll_sale:
+                pageNum = 1;
+                dialog.show();
+                tv_all_data.setTextColor(Color.parseColor("#333333"));
+                tv_price.setTextColor(Color.parseColor("#333333"));
+                searchList.clear();
+                recommendList.clear();
+                if(!isSale) {
+                    tv_sale.setTextColor(Color.parseColor("#FF5C00"));
+                    saleDownFlag = 1;
+                }else {
+                    saleDownFlag = 0;
+                    tv_sale.setTextColor(Color.parseColor("#333333"));
                 }
-            }else{ //to已经被添加
-                //1.from隐藏
-                if(from != null){
-                    ft.hide(from);
+                isSale = !isSale;
+                isAll = false;
+                getRecommendList(pageNum,pageSize);
+                break;
+
+            case R.id.ll_price:
+                pageNum = 1;
+                dialog.show();
+                isPrice++;
+                tv_sale.setTextColor(Color.parseColor("#333333"));
+                tv_all_data.setTextColor(Color.parseColor("#333333"));
+                searchList.clear();
+                recommendList.clear();
+                if(isPrice%3==0) {
+                    priceFlag = 0;
+                    tv_price.setTextColor(Color.parseColor("#333333"));
+                    iv_direction.setImageResource(R.mipmap.icon_default);
+                }else if(isPrice%3==1){
+                    priceFlag = 1;
+                    tv_price.setTextColor(Color.parseColor("#FF5C00"));
+                    iv_direction.setImageResource(R.mipmap.icon_search_up);
+                }else {
+                    priceFlag = 2;
+                    tv_price.setTextColor(Color.parseColor("#FF5C00"));
+                    iv_direction.setImageResource(R.mipmap.icon_search_down);
                 }
-                //2.显示to
-                if(to != null){
-                    ft.show(to).commit();
-                }
-            }
+
+                isAll = false;
+                isSale = false;
+                getRecommendList(pageNum,pageSize);
+                break;
         }
     }
 

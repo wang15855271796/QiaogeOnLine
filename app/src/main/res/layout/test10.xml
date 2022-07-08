@@ -72,9 +72,7 @@
                                     <RelativeLayout
                                         android:layout_marginTop="@dimen/size_35dp"
                                         android:layout_width="match_parent"
-                                        android:layout_height="200dp">
-
-                                    </RelativeLayout>
+                                        android:layout_height="200dp"/>
 
                                 </RelativeLayout>
 
@@ -99,13 +97,12 @@
 
                                     <com.puyue.www.qiaoge.banner.Banner
                                         android:id="@+id/banner"
-                                        android:layout_marginTop="@dimen/size_12dp"
-                                        android:layout_below="@+id/rv_recommend"
                                         android:layout_width="match_parent"
-                                        android:layout_height="142dp"
+                                        android:layout_height="120dp"
+                                        android:layout_below="@+id/rv_recommend"
                                         android:layout_marginLeft="@dimen/dp_10"
-                                        android:layout_marginRight="@dimen/dp_10"
-                                        />
+                                        android:layout_marginTop="@dimen/size_12dp"
+                                        android:layout_marginRight="@dimen/dp_10" />
 
                                 </RelativeLayout>
 
@@ -117,6 +114,40 @@
                                     android:layout_height="wrap_content">
 
                                     <include layout="@layout/home_tip_iv"/>
+
+                                    <com.frankfancode.marqueeview.MarqueeView
+                                        android:id="@+id/marquee"
+                                        android:visibility="gone"
+                                        android:background="@drawable/shape_white1"
+                                        android:layout_marginTop="@dimen/size_6dp"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/size_32dp"
+                                        android:layout_marginLeft="@dimen/dp_10"
+                                        android:layout_marginRight="@dimen/dp_10" />
+
+                                    <LinearLayout
+                                        android:orientation="vertical"
+                                        android:layout_marginTop="@dimen/dp_10"
+                                        android:layout_marginRight="@dimen/size_12dp"
+                                        android:layout_marginLeft="@dimen/size_12dp"
+                                        android:background="@drawable/shape_white1"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+
+                                        <androidx.recyclerview.widget.RecyclerView
+                                            android:id="@+id/rv_icon"
+                                            android:layout_marginTop="@dimen/dp_4"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="120dp"/>
+
+                                        <com.puyue.www.qiaoge.view.HIndicators
+                                            android:id="@+id/indicator"
+                                            android:layout_marginBottom="@dimen/size_5dp"
+                                            android:layout_gravity="center_horizontal"
+                                            android:layout_width="@dimen/size_22dp"
+                                            android:layout_height="@dimen/size_3dp" />
+
+                                    </LinearLayout>
 
                                     <RelativeLayout
                                         android:id="@+id/rl_huo"
@@ -140,51 +171,24 @@
 
                                         <TextView
                                             android:id="@+id/tv_look"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
                                             android:layout_alignParentRight="true"
-                                            android:text="去请查看"
-                                            android:textColor="#ffffff"
-                                            android:padding="@dimen/size_3dp"
-                                            android:background="@drawable/shape_orange"
+                                            android:layout_centerVertical="true"
                                             android:layout_marginRight="@dimen/size_15dp"
-                                            android:layout_centerVertical="true"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"/>
+                                            android:background="@drawable/shape_jianbian1"
+                                            android:paddingTop="@dimen/size_3dp"
+                                            android:paddingBottom="@dimen/size_3dp"
+                                            android:paddingLeft="8dp"
+                                            android:paddingRight="@dimen/size_8dp"
+                                            android:text="请查看"
+                                            android:textSize="@dimen/sp_12"
+                                            android:textColor="#ffffff" />
 
-                                        <ImageView
-                                            android:layout_centerVertical="true"
-                                            android:layout_marginRight="-20dp"
-                                            android:layout_toLeftOf="@+id/tv_look"
-                                            android:src="@mipmap/icon_huo_car"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"/>
                                     </RelativeLayout>
 
                                     <LinearLayout
-                                        android:orientation="vertical"
-                                        android:layout_marginTop="@dimen/dp_10"
-                                        android:layout_marginRight="@dimen/size_12dp"
-                                        android:layout_marginLeft="@dimen/size_12dp"
-                                        android:background="@drawable/shape_white1"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content">
-
-                                        <androidx.recyclerview.widget.RecyclerView
-                                            android:id="@+id/rv_icon"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content">
-
-                                        </androidx.recyclerview.widget.RecyclerView>
-
-                                        <com.puyue.www.qiaoge.view.HIndicators
-                                            android:id="@+id/indicator"
-                                            android:layout_marginBottom="@dimen/size_5dp"
-                                            android:layout_gravity="center_horizontal"
-                                            android:layout_width="@dimen/size_22dp"
-                                            android:layout_height="@dimen/size_3dp" />
-
-                                    </LinearLayout>
-
-                                    <LinearLayout
+                                        android:visibility="gone"
                                         android:id="@+id/ll_driver"
                                         android:orientation="vertical"
                                         android:layout_marginTop="@dimen/size_12dp"
@@ -203,6 +207,7 @@
 
                                         <com.taobao.library.VerticalBannerView
                                             android:id="@+id/verticalBanner"
+                                            android:visibility="gone"
                                             android:layout_width="match_parent"
                                             android:layout_height="80dp"
                                             app:animDuration="700"
@@ -225,14 +230,6 @@
 
                 </com.google.android.material.appbar.AppBarLayout>
 
-                <!--<LinearLayout-->
-                <!--boy:layout_behavior="@string/appbar_scrolling_view_behavior"-->
-                <!--android:orientation="vertical"-->
-                <!--android:background="#333333"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1500dp">-->
-
-                <!--</LinearLayout>-->
                 <FrameLayout
                     android:id="@+id/fl_container"
                     boy:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -432,9 +429,19 @@
                 </RelativeLayout>
             </RelativeLayout>
 
+            <com.frankfancode.marqueeview.MarqueeView
+                android:id="@+id/order_marquee"
+                android:layout_width="166dp"
+                android:visibility="gone"
+                android:layout_height="@dimen/size_46dp"
+                android:alpha="0.7"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_marginBottom="@dimen/size_25dp"
+                android:background="@drawable/shape_grey10" />
 
         </RelativeLayout>
-
 
 
 

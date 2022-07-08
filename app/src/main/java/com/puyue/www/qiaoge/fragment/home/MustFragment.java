@@ -124,7 +124,6 @@ public class MustFragment extends BaseFragment {
     @Override
     public void findViewById(View view) {
         bind = ButterKnife.bind(this, view);
-//        getCustomerPhone();
         emptyView = View.inflate(mActivity, R.layout.layout_empty, null);
         mustAdapter = new Must2Adapter(R.layout.item_team_list, list, new Must2Adapter.Onclick() {
             @Override

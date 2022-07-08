@@ -209,6 +209,15 @@ public class ProductNormalModel implements Serializable {
             private List<ProdPricesBean> prodPrices;
             String sendTimeTpl;
             String selfProd;
+            int hotProdFlag;
+
+            public int getHotProdFlag() {
+                return hotProdFlag;
+            }
+
+            public void setHotProdFlag(int hotProdFlag) {
+                this.hotProdFlag = hotProdFlag;
+            }
 
             public String getNotSend() {
                 return notSend;

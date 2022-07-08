@@ -746,7 +746,6 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
                                         tv_cut_down.start();
                                         tv_cut_down.setVisibility(View.VISIBLE);
 
-
                                     }else {
                                         tv_time.setVisibility(View.INVISIBLE);
                                         tv_cut_down.setVisibility(View.INVISIBLE);
@@ -757,9 +756,6 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
                             }else {
                                 mTvAddCar.setBackgroundResource(R.drawable.app_car);
                             }
-
-
-
 
                             tvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
                             mTvSub.setOnClickListener(new View.OnClickListener() {

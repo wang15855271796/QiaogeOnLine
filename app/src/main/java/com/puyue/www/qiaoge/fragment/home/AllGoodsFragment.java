@@ -103,7 +103,7 @@ public class AllGoodsFragment extends BaseFragment {
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 pageNum = 1;
                 refreshLayout.setEnableLoadMore(false);
-                getRecommendList(pageNum,getPageSize);
+//                getRecommendList(pageNum,getPageSize);
                 refreshLayout.finishRefresh();
 
             }
@@ -116,7 +116,7 @@ public class AllGoodsFragment extends BaseFragment {
                 if(searchProd != null) {
                     if(searchProd.isHasNextPage()) {
                         pageNum++;
-                        getRecommendList(pageNum,getPageSize);
+//                        getRecommendList(pageNum,getPageSize);
                         refreshLayout.finishLoadMore();      //加载完成
                     }else {
                         refreshLayout.finishLoadMoreWithNoMoreData();
@@ -168,40 +168,40 @@ public class AllGoodsFragment extends BaseFragment {
     }
 
 
-    private void getRecommendList(int pageNum,int pageSize) {
-        RecommendApI.requestData(mActivity,searchWord,pageNum,pageSize,0)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SearchResultsModel>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(SearchResultsModel recommendModel) {
-                        if (recommendModel.isSuccess()) {
-                            searchProd = recommendModel.getData().getSearchProd();
-                            list = recommendModel.getData().getSearchProd().getList();
-                            if(pageNum==1) {
-                                lists.clear();
-                                lists.addAll(list);
-                            }else {
-                                lists.addAll(list);
-                            }
-                            searchReasultAdapter.notifyDataSetChanged();
-                            smart.setEnableLoadMore(true);
-                        } else {
-                            AppHelper.showMsg(mActivity, recommendModel.getMessage());
-                            smart.setEnableLoadMore(true);
-                        }
-                    }
-                });
-    }
+//    private void getRecommendList(int pageNum,int pageSize) {
+//        RecommendApI.requestData(mActivity,searchWord,pageNum,pageSize,0)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<SearchResultsModel>() {
+//                    @Override
+//                    public void onCompleted() {
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(SearchResultsModel recommendModel) {
+//                        if (recommendModel.isSuccess()) {
+//                            searchProd = recommendModel.getData().getSearchProd();
+//                            list = recommendModel.getData().getSearchProd().getList();
+//                            if(pageNum==1) {
+//                                lists.clear();
+//                                lists.addAll(list);
+//                            }else {
+//                                lists.addAll(list);
+//                            }
+//                            searchReasultAdapter.notifyDataSetChanged();
+//                            smart.setEnableLoadMore(true);
+//                        } else {
+//                            AppHelper.showMsg(mActivity, recommendModel.getMessage());
+//                            smart.setEnableLoadMore(true);
+//                        }
+//                    }
+//                });
+//    }
     @Override
     public void setClickEvent() {
 

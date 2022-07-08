@@ -37,14 +37,18 @@ import com.bumptech.glide.Glide;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.HomeActivity;
-import com.puyue.www.qiaoge.adapter.FullDescDialog;
+import com.puyue.www.qiaoge.adapter.FullDescDialogAdapter;
 import com.puyue.www.qiaoge.adapter.market.PhotoViewAdapter;
 import com.puyue.www.qiaoge.api.cart.CartListAPI;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
+import com.puyue.www.qiaoge.dialog.CartFullDialog;
+import com.puyue.www.qiaoge.dialog.ErrorAuthDialog;
 import com.puyue.www.qiaoge.event.LogoutEvent;
 import com.puyue.www.qiaoge.fragment.home.CityEvent;
+import com.puyue.www.qiaoge.model.AuthModel;
 import com.puyue.www.qiaoge.model.CartFullModel;
+import com.puyue.www.qiaoge.model.CartFullsModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.PhotoViewPager;
 import com.puyue.www.qiaoge.view.datepicker.FingerFrameLayout;
@@ -210,7 +214,7 @@ public class AppHelper {
         IndexHomeAPI.getCode(context,code)
                 .subscribeOn(Schedulers.io())
                 .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BaseModel>() {
+                .subscribe(new Subscriber<AuthModel>() {
                     @Override
                     public void onCompleted() {
 
@@ -222,15 +226,23 @@ public class AppHelper {
                     }
 
                     @Override
-                    public void onNext(BaseModel indexInfoModel) {
-                        if (indexInfoModel.success) {
-                            ToastUtil.showSuccessMsg(context,indexInfoModel.message);
+                    public void onNext(AuthModel indexInfoModel) {
+                        if (indexInfoModel.getCode()==1) {
+                            ToastUtil.showSuccessMsg(context,indexInfoModel.getMessage());
                             Intent intent = new Intent(context,HomeActivity.class);//跳回首页
                             context.startActivity(intent);
                             EventBus.getDefault().post(new CityEvent());
                             mDialog.dismiss();
+                        }else if(indexInfoModel.getCode()==10005) {
+                            ErrorAuthDialog errorAuthDialog = new ErrorAuthDialog(context,indexInfoModel.getData()) {
+                                @Override
+                                public void Confirm(String amount) {
+
+                                }
+                            };
+                            errorAuthDialog.show();
                         }else {
-                            ToastUtil.showSuccessMsg(context,indexInfoModel.message);
+                            ToastUtil.showSuccessMsg(context,indexInfoModel.getMessage());
                         }
                     }
                 });
@@ -328,10 +340,10 @@ public class AppHelper {
     }
 
     private static void getFullDetail(Context context) {
-        CartListAPI.getFullDetail(context,0)
+        CartListAPI.getFullDetails(context,0)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<CartFullModel>() {
+                .subscribe(new Subscriber<CartFullsModel>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -342,25 +354,17 @@ public class AppHelper {
                     }
 
                     @Override
-                    public void onNext(CartFullModel cartFullModel) {
+                    public void onNext(CartFullsModel cartFullModel) {
                         if(cartFullModel.getCode()==1) {
-                            if(cartFullModel.getData()!=null&&cartFullModel.getData().size()>0) {
-                                mDialogAuth = new AlertDialog.Builder(context).create();
-                                mDialogAuth.show();
-                                mDialogAuth.getWindow().setContentView(R.layout.dialog_cart_full);
-                                mDialogAuth.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-                                mDialogAuth.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-                                RecyclerView recyclerView = mDialogAuth.getWindow().findViewById(R.id.recycleView);
-                                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-                                FullDescDialog fullDescDialog = new FullDescDialog(R.layout.item_full_cart,cartFullModel.getData());
-                                recyclerView.setAdapter(fullDescDialog);
-                                fullDescDialog.notifyDataSetChanged();
-                                mDialogAuth.getWindow().findViewById(R.id.tv_ok).setOnClickListener(new View.OnClickListener() {
+                            if(cartFullModel.getData()!=null&&cartFullModel.getData()!=null) {
+                                CartFullsModel.DataBean data = cartFullModel.getData();
+                                CartFullDialog cartFullDialog = new CartFullDialog(context,data) {
                                     @Override
-                                    public void onClick(View v) {
-                                        mDialogAuth.dismiss();
+                                    public void close() {
+                                        dismiss();
                                     }
-                                });
+                                };
+                                cartFullDialog.show();
                             }
                         }else {
                             ToastUtil.showSuccessMsg(context,cartFullModel.getMessage());

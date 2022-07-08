@@ -53,12 +53,16 @@ public class RecommendApI {
         Observable<SearchResultsModel> getData(@Field("productName") String productName,
                                                @Field("pageNum") int pageNum,
                                                @Field("pageSize") int pageSize,
-                                               @Field("isSelf") int isSelf);
+                                               @Field("isSelf") int isSelf,
+                                               @Field("saleDownFlag") int saleDownFlag,
+                                               @Field("priceFlag") int priceFlag
+                                           );
     }
 
-    public static Observable<SearchResultsModel> requestData(Context context, String productName, int pageNum, int pageSize,int isSelf) {
+    public static Observable<SearchResultsModel> requestData(Context context, String productName,
+                                                             int pageNum, int pageSize,int isSelf,int saleDownFlag,int priceFlag) {
         SearchResultService service = RestHelper.getBaseRetrofit(context).create(SearchResultService.class);
-        return service.getData(productName,pageNum,pageSize,isSelf);
+        return service.getData(productName,pageNum,pageSize,isSelf,saleDownFlag,priceFlag);
     }
 
     /**

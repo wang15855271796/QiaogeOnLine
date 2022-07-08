@@ -22,6 +22,7 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.adapter.FullCartAdapter;
 import com.puyue.www.qiaoge.api.cart.CartListAPI;
 import com.puyue.www.qiaoge.model.CartFullModel;
+import com.puyue.www.qiaoge.model.CartFullsModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.utils.Utils;
 
@@ -56,13 +57,14 @@ public class FullDialog extends Dialog {
     }
 
     //初始化布局
+    TextView tv_time;
     private void init() {
         if(view == null) {
             view = View.inflate(context, R.layout.full_dialog, null);
             view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             binder = ButterKnife.bind(this, view);
             setContentView(view);
-
+            tv_time = view.findViewById(R.id.tv_time);
             getWindow().setGravity(Gravity.BOTTOM);
             WindowManager.LayoutParams attributes = getWindow().getAttributes();
             attributes.width = Utils.getScreenWidth(context);
@@ -72,13 +74,12 @@ public class FullDialog extends Dialog {
         getFullDetail();
     }
 
-    List<CartFullModel.DataBean.SendProdsBean> sendProds = new ArrayList<>();
-    List<CartFullModel.DataBean> data = new ArrayList<>();
+    List<CartFullsModel.DataBean.DeductDetailBean> data = new ArrayList<>();
     private void getFullDetail() {
-        CartListAPI.getFullDetail(context,1)
+        CartListAPI.getFullDetails(context,1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<CartFullModel>() {
+                .subscribe(new Subscriber<CartFullsModel>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -89,15 +90,13 @@ public class FullDialog extends Dialog {
                     }
 
                     @Override
-                    public void onNext(CartFullModel cartFullModel) {
+                    public void onNext(CartFullsModel cartFullModel) {
                         if(cartFullModel.getCode()==1) {
-                            sendProds.clear();
-                            if(cartFullModel.getData()!=null&&cartFullModel.getData().size()>0) {
-                                data = cartFullModel.getData();
-                            }
-
+                            List<CartFullsModel.DataBean.DeductDetailBean> deductDetail = cartFullModel.getData().getDeductDetail();
+                            data.addAll(deductDetail);
+                            tv_time.setText(cartFullModel.getData().getStartTime()+"-"+cartFullModel.getData().getEndTime());
                             recycleView.setLayoutManager(new LinearLayoutManager(context));
-                            FullCartAdapter fullCartAdapter = new FullCartAdapter(R.layout.item_full_carts,deductInfo,data);
+                            FullCartAdapter fullCartAdapter = new FullCartAdapter(R.layout.item_full_carts,data);
                             recycleView.setAdapter(fullCartAdapter);
 
                         }else {

@@ -648,7 +648,9 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
             switch (view.getId()) {
                 case R.id.rl_distribution:
                     if(cModel!=null&&cModel.getData()!=null&&modeModel1!=null) {
-                        disDialog = new DisSelfDialog(mActivity,cModel.getData().getSendAmount(),0,modeModel1.getData().getHllBtn());
+                        if(disDialog == null) {
+                            disDialog = new DisSelfDialog(mActivity,cModel.getData().getSendAmount(),0,modeModel1.getData().getHllBtn());
+                        }
                         disDialog.show();
                     }
 
@@ -675,7 +677,9 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
                         AppHelper.showMsg(mActivity, "请选择配送服务");
                         buttonPay.setEnabled(true);
                         lav_activity_loading.hide();
-                        disDialog = new DisSelfDialog(mActivity,cModel.getData().getSendAmount(),1,modeModel1.getData().getHllBtn());
+                        if(disDialog == null) {
+                            disDialog = new DisSelfDialog(mActivity,cModel.getData().getSendAmount(),1,modeModel1.getData().getHllBtn());
+                        }
                         disDialog.show();
                         return;
                     }

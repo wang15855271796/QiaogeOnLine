@@ -97,7 +97,43 @@ public class ExchangeProductModel {
         private List<ProdPricesBean> prodPrices;
         String sendTimeTpl;
         String selfProd;
+        private List<String> topPic;
+        private List<String> detailPic;
+        private List<String> quarterPic;
+        private String prodVideoUrl;
 
+
+        public List<String> getTopPic() {
+            return topPic;
+        }
+
+        public void setTopPic(List<String> topPic) {
+            this.topPic = topPic;
+        }
+
+        public List<String> getDetailPic() {
+            return detailPic;
+        }
+
+        public void setDetailPic(List<String> detailPic) {
+            this.detailPic = detailPic;
+        }
+
+        public List<String> getQuarterPic() {
+            return quarterPic;
+        }
+
+        public void setQuarterPic(List<String> quarterPic) {
+            this.quarterPic = quarterPic;
+        }
+
+        public String getProdVideoUrl() {
+            return prodVideoUrl;
+        }
+
+        public void setProdVideoUrl(String prodVideoUrl) {
+            this.prodVideoUrl = prodVideoUrl;
+        }
 
         public String getSendTimeTpl() {
             return sendTimeTpl;
@@ -325,6 +361,15 @@ public class ExchangeProductModel {
             private String unitDesc;
             private String specialOffer;
             private String weight;
+            private String volumeWeight;
+
+            public String getVolumeWeight() {
+                return volumeWeight;
+            }
+
+            public void setVolumeWeight(String volumeWeight) {
+                this.volumeWeight = volumeWeight;
+            }
 
             public String getWeight() {
                 return weight;

@@ -12,28 +12,28 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.model.CartFullModel;
+import com.puyue.www.qiaoge.model.CartFullsModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FullCartAdapter extends BaseQuickAdapter<CartFullModel.DataBean, BaseViewHolder> {
-    String deductInfo;
-    List<CartFullModel.DataBean> dataBeans;
-    List<CartFullModel.DataBean.SendProdsBean> sendProd1 = new ArrayList<>();
-    List<CartFullModel.DataBean.SendProdsBean> sendProd2 = new ArrayList<>();
-    public FullCartAdapter(int layoutResId, String deductInfo, List<CartFullModel.DataBean> dataBeans) {
+public class FullCartAdapter extends BaseQuickAdapter<CartFullsModel.DataBean.DeductDetailBean, BaseViewHolder> {
+    List<CartFullsModel.DataBean.DeductDetailBean> dataBeans;
+    List<CartFullsModel.DataBean.DeductDetailBean.SendProdsBean> sendProd1 = new ArrayList<>();
+    List<CartFullsModel.DataBean.DeductDetailBean.SendProdsBean> sendProd2 = new ArrayList<>();
+    public FullCartAdapter(int layoutResId, List<CartFullsModel.DataBean.DeductDetailBean> dataBeans) {
         super(layoutResId, dataBeans);
-        this.deductInfo = deductInfo;
         this.dataBeans = dataBeans;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, CartFullModel.DataBean item) {
+    protected void convert(BaseViewHolder helper, CartFullsModel.DataBean.DeductDetailBean item) {
         TextView tv_desc = helper.getView(R.id.tv_desc);
+        TextView tv_given = helper.getView(R.id.tv_given);
         RecyclerView rv_coupon = helper.getView(R.id.rv_coupon);
         RecyclerView recyclerView = helper.getView(R.id.recycleView);
-        tv_desc.setText(item.getDeductInfo());
-
+        tv_desc.setText(item.getLimitInfo());
+        tv_given.setText(item.getDeductInfo());
         sendProd1 = new ArrayList<>();
         sendProd2 = new ArrayList<>();
         for (int i = 0; i < item.getSendProds().size(); i++) {

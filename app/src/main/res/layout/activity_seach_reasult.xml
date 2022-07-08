@@ -13,9 +13,9 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -42,8 +42,8 @@
 
 
                 <LinearLayout
-                    android:layout_width="0dp"
                     android:id="@+id/ll_activity_search_result"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginTop="@dimen/size_5dp"
@@ -60,8 +60,8 @@
                         android:layout_width="0dp"
                         android:layout_height="32dp"
                         android:layout_weight="1"
-                        android:drawablePadding="5dp"
                         android:background="@drawable/shape_shouye"
+                        android:drawablePadding="5dp"
                         android:hint="请输入商品名称"
                         android:imeOptions="actionSearch"
                         android:paddingLeft="10dp"
@@ -72,7 +72,6 @@
                         android:textSize="14dp" />
 
                     <TextView
-                        android:visibility="gone"
                         android:id="@+id/tv_search_cancel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -82,22 +81,23 @@
                         android:padding="5dp"
                         android:text="取消"
                         android:textColor="@color/color_333"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"
+                        android:visibility="gone" />
 
                     <RelativeLayout
                         android:id="@+id/rl_num"
-                        android:layout_alignParentRight="true"
                         android:layout_width="@dimen/size_60dp"
-                        android:layout_height="@dimen/size_48dp">
+                        android:layout_height="@dimen/size_48dp"
+                        android:layout_alignParentRight="true">
 
                         <ImageView
                             android:id="@+id/iv_carts"
-                            android:padding="5dp"
-                            android:layout_marginLeft="@dimen/size_15dp"
-                            android:layout_centerVertical="true"
-                            android:src="@mipmap/ic_tab_cart_unable"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/size_15dp"
+                            android:padding="5dp"
+                            android:src="@mipmap/ic_tab_cart_unable" />
 
                         <TextView
                             android:id="@+id/tv_num"
@@ -105,12 +105,12 @@
                             android:layout_height="15dp"
                             android:layout_marginTop="5dp"
                             android:layout_toRightOf="@+id/iv_carts"
-                            android:visibility="gone"
                             android:background="@drawable/shape_car_num"
                             android:gravity="center"
-                            tools:text="9"
                             android:textColor="@color/white"
-                            android:textSize="7dp" />
+                            android:textSize="7dp"
+                            android:visibility="gone"
+                            tools:text="9" />
 
                     </RelativeLayout>
 
@@ -121,65 +121,66 @@
             <!--有数据时的界面-->
 
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/ll_all"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <RadioGroup
                     android:id="@+id/rg_group"
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp">
+                    android:layout_height="30dp"
+                    android:orientation="horizontal">
 
                     <RadioButton
                         android:id="@+id/rb_all"
-                        android:button="@null"
-                        android:text="全部"
-                        android:textColor="#FF5C00"
-                        android:gravity="center"
+                        android:layout_width="@dimen/size_90dp"
+                        android:layout_height="@dimen/size_30dp"
                         android:layout_marginLeft="@dimen/size_12dp"
                         android:background="@drawable/shape_grey3"
-                        android:textSize="@dimen/size_15dp"
-                        android:layout_width="@dimen/size_90dp"
-                        android:layout_height="@dimen/size_30dp" />
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="全部"
+                        android:textColor="#FF5C00"
+                        android:textSize="@dimen/size_15dp" />
 
                     <RadioButton
                         android:id="@+id/rb_operate"
-                        android:button="@null"
-                        android:text="自营"
-                        android:textColor="#666666"
-                        android:gravity="center"
+                        android:layout_width="@dimen/size_90dp"
+                        android:layout_height="@dimen/size_30dp"
                         android:layout_marginLeft="@dimen/size_12dp"
                         android:background="@drawable/shape_grey3"
-                        android:textSize="@dimen/size_15dp"
-                        android:layout_width="@dimen/size_90dp"
-                        android:layout_height="@dimen/size_30dp" />
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="自营"
+                        android:textColor="#666666"
+                        android:textSize="@dimen/size_15dp" />
 
                     <RadioButton
                         android:id="@+id/rb_unOperate"
-                        android:button="@null"
-                        android:text="非自营"
-                        android:textColor="#666666"
-                        android:gravity="center"
+                        android:layout_width="@dimen/size_90dp"
+                        android:layout_height="@dimen/size_30dp"
                         android:layout_marginLeft="@dimen/size_12dp"
                         android:background="@drawable/shape_grey3"
-                        android:textSize="@dimen/size_15dp"
-                        android:layout_width="@dimen/size_90dp"
-                        android:layout_height="@dimen/size_30dp" />
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="非自营"
+                        android:textColor="#666666"
+                        android:textSize="@dimen/size_15dp" />
                 </RadioGroup>
 
                 <FrameLayout
-                    android:layout_weight="1"
                     android:id="@+id/fl_container"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp">
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
 
                 </FrameLayout>
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/ll_style"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_46dp">
@@ -189,119 +190,138 @@
                     android:layout_height="match_parent">
 
                     <LinearLayout
-                        android:id="@+id/ll_all"
-                        android:gravity="center"
+                        android:id="@+id/ll_all_data"
                         android:layout_width="0dp"
+                        android:layout_height="@dimen/size_46dp"
                         android:layout_weight="1"
-                        android:layout_height="@dimen/size_46dp">
+                        android:gravity="center">
 
                         <ImageView
                             android:id="@+id/iv_all"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content" />
 
                         <TextView
                             android:id="@+id/tv_all_data"
-                            android:text="综合"
-                            android:textColor="#333333"
-                            android:layout_marginLeft="6dp"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="6dp"
+                            android:text="综合"
+                            android:textColor="#333333" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/ll_sale"
-                        android:gravity="center"
                         android:layout_width="0dp"
+                        android:layout_height="@dimen/size_46dp"
                         android:layout_weight="1"
-                        android:layout_height="@dimen/size_46dp">
+                        android:gravity="center">
 
                         <ImageView
                             android:id="@+id/iv_sale"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content" />
 
                         <TextView
                             android:id="@+id/tv_sale"
-                            android:text="销量"
-                            android:textColor="#333333"
-                            android:layout_marginLeft="6dp"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="6dp"
+                            android:text="销量"
+                            android:textColor="#333333" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/ll_price"
-                        android:gravity="center"
                         android:layout_width="0dp"
+                        android:layout_height="@dimen/size_46dp"
                         android:layout_weight="1"
-                        android:layout_height="@dimen/size_46dp">
+                        android:gravity="center">
 
                         <ImageView
                             android:id="@+id/iv_price"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content" />
 
                         <TextView
-                            android:text="价格"
-                            android:textColor="#333333"
                             android:id="@+id/tv_price"
-                            android:layout_marginLeft="6dp"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="6dp"
+                            android:text="价格"
+                            android:textColor="#333333" />
 
                         <ImageView
                             android:id="@+id/iv_direction"
-                            android:src="@mipmap/icon_default"
-                            android:layout_marginLeft="@dimen/size_6dp"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/size_6dp"
+                            android:src="@mipmap/icon_default" />
                     </LinearLayout>
 
                     <View
-                        android:background="#D8D8D8"
-                        android:layout_gravity="center_vertical"
                         android:layout_width="1dp"
-                        android:layout_height="12dp"/>
+                        android:layout_height="12dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="#D8D8D8" />
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/tv_all"
-                    android:text="全部"
-                    android:textColor="#FF5C00"
-                    android:layout_marginLeft="@dimen/size_25dp"
-                    android:gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/size_18dp"
+                    android:gravity="center"
+                    android:text="全部"
+                    android:textColor="#FF5C00" />
 
                 <ImageView
-                    android:layout_marginLeft="@dimen/size_5dp"
-                    android:src="@mipmap/ic_arrow_down"
-                    android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/size_5dp"
+                    android:src="@mipmap/ic_arrow_down" />
 
             </LinearLayout>
 
-            <androidx.core.widget.NestedScrollView
+
+            <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                android:id="@+id/smart"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
+
+            <com.scwang.smartrefresh.header.MaterialHeader
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="?attr/actionBarSize"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+                <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+<!--            <androidx.core.widget.NestedScrollView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content">-->
 
                 <LinearLayout
                     android:id="@+id/ll_recommend"
-                    android:visibility="gone"
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                    </androidx.recyclerview.widget.RecyclerView>
+
 
                 </LinearLayout>
-            </androidx.core.widget.NestedScrollView>
+<!--            </androidx.core.widget.NestedScrollView>-->
 
         </LinearLayout>
 

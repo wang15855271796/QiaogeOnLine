@@ -64,9 +64,6 @@ public class AddressListActivity extends BaseSwipeActivity {
 
     private int defaultId = -1;
     private String orderId;
-
-
-    private boolean isChecked = false;
     private boolean isChanged = true;
 
     private String userAddress;
@@ -154,33 +151,6 @@ public class AddressListActivity extends BaseSwipeActivity {
                 } else if (flag.equals("delete")) {
                     showDeleteDialog(position);
                 } else if (flag.equals("edit")) {
-//                    startActivityForResult(EditAddressActivity.getIntent(mContext, EditAddressActivity.class, "edit", mListData.get(position).userName, mListData.get(position).contactPhone, mListData.get(position).shopName, (mListData.get(position).provinceName + " " + mListData.get(position).cityName + " " + mListData.get(position).areaName), mListData.get(position).detailAddress, "true", String.valueOf(mListData.get(position).id), mListData.get(position).provinceCode, mListData.get(position).cityCode, mListData.get(position).areaCode, orderId), 22);
-//                    for (int i = 0; i < mListData.size(); i++) {
-//                        if (i == position) {
-//                            if (mListData.get(i).isDefault == 1) {
-//                                //原来就是默认地址,这里点击没有效果,原来也设置了原来是默认地址这里就没有效果
-//                                defaultId = mListData.get(i).id;
-//                                requestEditDefaultAddress(mListData.get(i).id, orderId);
-//                                //点击原来的默认地址,不会有操作,跳出界面的时候也不会有调接口操作
-//
-//                            } else if (mListData.get(i).isDefault == 0) {
-//                                //原来不是默认地址,可以点击
-//                                //一旦点击,这个即变成默认地址了
-//                                //关键是,不能让用户点击一次就调一次接口重新刷新列表,需要在用户准备跳出这个界面的时候调接口
-//                                mListData.get(i).isDefault = 1;
-//                                //这里代表着切换了默认地址
-//                                defaultId = mListData.get(i).id;
-//                            }
-//                        } else {
-//                            mListData.get(i).isDefault = 0;
-//                        }
-//                    }
-//                    mAdapterAddress.notifyDataSetChanged();
-//                    if (defaultId != -1) {
-//                        //说明修改过默认地址,在退出界面的时候请求接口来
-//                        requestEditDefaultAddress(defaultId, orderId);
-//                    }
-//                    //跳转到编辑界面使用startActivityForResult,在完成操作之后回到地址列表的界面,重新请求一次地址列表的数据
                     if (mListData.get(position).isDefault == 1) {
                         //原本是默认地址
                         startActivityForResult(EditAddressActivity.getIntent(mContext, EditAddressActivity.class, "edit", mListData.get(position).userName, mListData.get(position).contactPhone, mListData.get(position).shopName, (mListData.get(position).provinceName + " " + mListData.get(position).cityName + " " + mListData.get(position).areaName), mListData.get(position).detailAddress, "true", String.valueOf(mListData.get(position).id), mListData.get(position).provinceCode, mListData.get(position).cityCode, mListData.get(position).areaCode, orderId), 22);
@@ -188,11 +158,6 @@ public class AddressListActivity extends BaseSwipeActivity {
                         //原本不是默认地址
                         startActivityForResult(EditAddressActivity.getIntent(mContext, EditAddressActivity.class, "edit", mListData.get(position).userName, mListData.get(position).contactPhone, mListData.get(position).shopName, (mListData.get(position).provinceName + " " + mListData.get(position).cityName + " " + mListData.get(position).areaName), mListData.get(position).detailAddress, "false", String.valueOf(mListData.get(position).id), mListData.get(position).provinceCode, mListData.get(position).cityCode, mListData.get(position).areaCode, orderId), 22);
                     }
-                } else if (flag.equals("order_address")) {
-                    //从确定订单来的这个界面,选择一个地址item,回到上个界面,上传地址id和订单id,重新刷新数据即可获取到新的地址
-                /*    Intent intent = new Intent();
-                    intent.putExtra("address_id", mListData.get(position).id);
-                    AddressListActivity.this.setResult(33, intent);*/
                 }
             }
 

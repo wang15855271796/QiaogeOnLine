@@ -333,8 +333,6 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
     @Override
     public void setViewData() {
         typeIntent = getIntent().getIntExtra("type", 1);
-        Window window = this.getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
         //获取数据
         if(num!=null) {

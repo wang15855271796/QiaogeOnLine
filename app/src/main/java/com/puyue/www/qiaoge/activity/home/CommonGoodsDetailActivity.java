@@ -11,6 +11,7 @@ import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.media.AudioManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.gyf.barlibrary.ImmersionBar;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.FullActiveActivity;
@@ -45,6 +47,8 @@ import com.puyue.www.qiaoge.adapter.PicVideoAdapter;
 import com.puyue.www.qiaoge.adapter.SupplierAdapter;
 import com.puyue.www.qiaoge.adapter.cart.ChooseSpecAdapter;
 import com.puyue.www.qiaoge.adapter.cart.ImageViewAdapter;
+import com.puyue.www.qiaoge.adapter.cart.ItemChooseAdapter;
+import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
 import com.puyue.www.qiaoge.adapter.market.GoodsRecommendAdapter;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.ClickCollectionAPI;
@@ -53,6 +57,7 @@ import com.puyue.www.qiaoge.api.home.GetProductDetailAPI;
 import com.puyue.www.qiaoge.api.mine.GetShareInfoAPI;
 import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.base.BaseModel;
+import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.ChooseDialog;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
@@ -65,6 +70,7 @@ import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.FVHelper;
 import com.puyue.www.qiaoge.helper.PublicRequestHelper;
+import com.puyue.www.qiaoge.helper.StatBarUtil;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
@@ -72,6 +78,7 @@ import com.puyue.www.qiaoge.model.PicVideoModel;
 import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
 import com.puyue.www.qiaoge.model.home.ChoiceSpecModel;
 import com.puyue.www.qiaoge.model.home.ClickCollectionModel;
+import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
 import com.puyue.www.qiaoge.model.home.GetAllCommentListByPageModel;
 import com.puyue.www.qiaoge.model.home.GetProductDetailModel;
 import com.puyue.www.qiaoge.model.home.GuessModel;
@@ -84,6 +91,7 @@ import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.FlowLayout;
 import com.puyue.www.qiaoge.view.NumIndicator;
 import com.puyue.www.qiaoge.view.StarBarView;
+import com.puyue.www.qiaoge.view.StatusBarUtil;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.umeng.socialize.ShareAction;
@@ -117,7 +125,7 @@ import rx.schedulers.Schedulers;
  * 普通商品详情
  */
 
-public class CommonGoodsDetailActivity extends BaseActivity {
+public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View.OnClickListener {
     private ImageView mIvBack;
     private Banner mBanner;
     private TextView mTvTitle;
@@ -192,30 +200,30 @@ public class CommonGoodsDetailActivity extends BaseActivity {
     TextView tv_detail;
     @BindView(R.id.iv_send)
     ImageView iv_send;
-    @BindView(R.id.rl_operate)
-    RelativeLayout rl_operate;
     @BindView(R.id.rl_unOperate)
     RelativeLayout rl_unOperate;
-    @BindView(R.id.tv_date)
-    TextView tv_date;
-    @BindView(R.id.tv_operate_date)
-    TextView tv_operate_date;
     @BindView(R.id.tv_full_desc)
     TextView tv_full_desc;
     @BindView(R.id.iv_operate)
     ImageView iv_operate;
-    @BindView(R.id.iv2)
-    ImageView iv2;
-    @BindView(R.id.tv_send_area)
-    TextView tv_send_area;
-    @BindView(R.id.tv_coupon_desc)
-    TextView tv_coupon_desc;
-    @BindView(R.id.rl_coupons)
-    RelativeLayout rl_coupons;
     @BindView(R.id.iv_sound)
     ImageView iv_sound;
     @BindView(R.id.rl_check)
     RelativeLayout rl_check;
+    @BindView(R.id.ll_coupon)
+    LinearLayout ll_coupon;
+    @BindView(R.id.ll_team_active)
+    LinearLayout ll_team_active;
+    @BindView(R.id.ll_full_active)
+    LinearLayout ll_full_active;
+    @BindView(R.id.ll_skill_active)
+    LinearLayout ll_skill_active;
+    @BindView(R.id.tv_skill)
+    TextView tv_skill;
+    @BindView(R.id.tv_team)
+    TextView tv_team;
+    @BindView(R.id.tv_full)
+    TextView tv_full;
     private AlertDialog mTypedialog;
     LinearLayout ll_service;
     TextView tv_price;
@@ -234,7 +242,6 @@ public class CommonGoodsDetailActivity extends BaseActivity {
     String priceType;
     private GetProductDetailModel models;
     RelativeLayout ll_desc;
-    RelativeLayout rl_date;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         if (getIntent() != null && getIntent().getExtras() != null) {
@@ -266,9 +273,10 @@ public class CommonGoodsDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_common_details);
     }
 
+
+
     @Override
     public void findViewById() {
-        rl_date = FVHelper.fv(this, R.id.rl_date);
         ll_desc = FVHelper.fv(this, R.id.ll_desc);
         tv_price =  FVHelper.fv(this, R.id.tv_price);
         ll_service = FVHelper.fv(this, R.id.ll_service);
@@ -307,8 +315,6 @@ public class CommonGoodsDetailActivity extends BaseActivity {
     public void setViewData() {
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
-        Window window = this.getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
         //获取数据
         if(num!=null) {
@@ -350,11 +356,9 @@ public class CommonGoodsDetailActivity extends BaseActivity {
         recyclerViewImage.setLayoutManager(new LinearLayoutManager(mActivity));
         recyclerViewImage.setAdapter(imageViewAdapter);
 
-        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
-            rl_date.setVisibility(View.GONE);
-        }else {
-            rl_date.setVisibility(View.VISIBLE);
-        }
+        ll_full_active.setOnClickListener(this);
+        ll_team_active.setOnClickListener(this);
+        ll_skill_active.setOnClickListener(this);
     }
 
     long start;
@@ -413,14 +417,6 @@ public class CommonGoodsDetailActivity extends BaseActivity {
 
             }
         });
-        rl_coupons.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext,FullActiveActivity.class);
-                intent.putExtra("fullId",models.getData().getFullId());
-                startActivity(intent);
-            }
-        });
 
 
         iv_sound.setOnClickListener(new View.OnClickListener() {
@@ -466,7 +462,7 @@ public class CommonGoodsDetailActivity extends BaseActivity {
             }
         });
 
-
+        ll_team_active.setOnClickListener(this);
 
     }
 
@@ -606,7 +602,9 @@ public class CommonGoodsDetailActivity extends BaseActivity {
     /**
      * 获取详情
      */
-
+    String skillId;
+    String fullId;
+    String teamId;
     private void getProductDetail(final int productId, String num, CommonGoodsDetailActivity commonGoodsDetailActivity) {
         GetProductDetailAPI.requestData(mContext,productId,num)
                 .subscribeOn(Schedulers.io())
@@ -635,20 +633,8 @@ public class CommonGoodsDetailActivity extends BaseActivity {
                             productName = model.getData().getProductName();
                             mTvTitle.setText(productName);
                             cell = model.getData().getCustomerPhone();
-                            if(models.getData().getDivFullGiftSendInfo()!=null&&!models.getData().getDivFullGiftSendInfo().equals("")) {
-                                rl_coupons.setVisibility(View.VISIBLE);
-                                tv_coupon_desc.setText(models.getData().getDivFullGiftSendInfo());
-                            }else {
-                                rl_coupons.setVisibility(View.GONE);
-                            }
                             if(model.getData().getFullGiftSendInfo()!=null&&model.getData().getFullGiftSendInfo().size()>0) {
                                 tv_full_desc.setText(model.getData().getFullGiftSendInfo().get(0));
-                            }
-                            if(models.getData().getSendTimeStr() == null||models.getData().getSendTimeStr().equals("")) {
-                                tv_date.setVisibility(View.GONE);
-                            }else {
-                                tv_date.setText(models.getData().getSendTimeStr());
-                                tv_date.setVisibility(View.VISIBLE);
                             }
 
                             if(models.getData().getQuarterPic()!=null&&models.getData().getQuarterPic().size()>0) {
@@ -656,6 +642,33 @@ public class CommonGoodsDetailActivity extends BaseActivity {
                             }else {
                                 rl_check.setVisibility(View.GONE);
                             }
+
+                            if(models.getData().getActives()!=null && models.getData().getActives().size()>0) {
+                                ll_coupon.setVisibility(View.VISIBLE);
+                            }else {
+                                ll_coupon.setVisibility(View.GONE);
+                            }
+
+                            if(models.getData().getActives()!=null&&models.getData().getActives().size()>0) {
+                                List<GetProductDetailModel.DataBean.ActivesBean> actives = models.getData().getActives();
+                                for (int i = 0; i < actives.size(); i++) {
+                                    if(actives.get(i).getActiveType()==2) {
+                                        ll_skill_active.setVisibility(View.VISIBLE);
+                                        tv_skill.setText(actives.get(i).getActiveName());
+                                        skillId = actives.get(i).getActiveId();
+                                    }else if(actives.get(i).getActiveType()==3) {
+                                        ll_team_active.setVisibility(View.VISIBLE);
+                                        tv_team.setText(actives.get(i).getActiveName());
+                                        teamId = actives.get(i).getActiveId();
+                                    }else {
+                                        ll_full_active.setVisibility(View.VISIBLE);
+                                        tv_full.setText(actives.get(i).getActiveName());
+                                        fullId = actives.get(i).getActiveId();
+                                    }
+                                }
+                            }
+
+
                             if (model.getData().isHasCollect()) {
                                 //已收藏
                                 mIvCollection.setImageResource(R.mipmap.icon_collection_fill);
@@ -675,13 +688,10 @@ public class CommonGoodsDetailActivity extends BaseActivity {
                                 }
                             });
 
-                            Glide.with(mContext).load(models.getData().getSelfProd()).into(iv2);
                             if("自营商品".equals(model.getData().getCompanyName())) {
-                                tv_date.setText(model.getData().getSendTimeStr());
                                 tv_address.setText(model.getData().getCompanyName()+"");
                             }else {
                                 tv_address.setText(model.getData().getCompanyName());
-                                tv_date.setText(model.getData().getSendTimeStr());
                             }
 
                             if(models.getData().getFullGiftSendInfo()!=null) {
@@ -699,23 +709,6 @@ public class CommonGoodsDetailActivity extends BaseActivity {
                                     iv_send.setVisibility(View.GONE);
                                 }
                             }
-
-                            if(models.getData().getAddress().equals("")) {
-                                tv_send_area.setText("杭州西湖区 >");
-                            }else {
-                                tv_send_area.setText(models.getData().getAddress()+" >");
-
-                            }
-                            tv_send_area.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent messageIntent = new Intent(mActivity, ChooseAddressActivity.class);
-                                    messageIntent.putExtra("cityName",models.getData().getCityName());
-                                    messageIntent.putExtra("areaName",models.getData().getAreaName());
-                                    messageIntent.putExtra("fromPage","1");
-                                    startActivity(messageIntent);
-                                }
-                            });
 
                             if(priceType.equals("1")) {
                                 mTvPrice.setText(model.getData().getMinMaxPrice());
@@ -757,45 +750,26 @@ public class CommonGoodsDetailActivity extends BaseActivity {
                                     productDescDialog.show();
                                 }
                             });
+
                             chooseSpecAdapter = new ChooseSpecAdapter(mContext,prodSpecs, new ChooseSpecAdapter.Onclick() {
                                 @Override
                                 public void addDialog(int position) {
-                                    if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-                                        if(priceType.equals("1")) {
-                                            if(UserInfoHelper.getUserType(mContext).equals(AppConstant.USER_TYPE_RETAIL)) {
-
-                                            }else {
-                                                chooseSpecAdapter.selectPosition(position);
-                                                if(chooseDialog==null){
-                                                    chooseDialog = new ChooseDialog(mContext, productId1,models,position);
-
-                                                }
-                                                chooseDialog.show();
-                                            }
-                                        }else {
-//                                            showPhoneDialog(cell);
-                                            AppHelper.ShowAuthDialog(mActivity,cell);
+                                    if(priceType.equals("1")) {
+                                        chooseSpecAdapter.selectPosition(position);
+                                        if(chooseDialog==null){
+                                            chooseDialog = new ChooseDialog(mContext, productId1,models,position);
                                         }
 
+                                        exchangeList(model.getData().getProdSpecs().get(position).getProductId(),commonGoodsDetailActivity);
+                                        chooseDialog.show();
                                     }else {
-                                        initDialog();
+                                        AppHelper.ShowAuthDialog(mActivity,cell);
                                     }
-
                                 }
                             });
 
                             fl_container.setAdapter(chooseSpecAdapter);
 
-
-                            //填充banner
-                            images.clear();
-//                            mBanner.setBannerStyle(BannerConfig.NUM_INDICATOR);
-//                            mBanner.setImageLoader(new GlideImageLoader());
-                            if(model.getData().getTopPic()!=null&&model.getData().getTopPic().size()>0) {
-                                images.addAll(model.getData().getTopPic());
-                            }else {
-                                images.add(model.getData().getDefaultPic());
-                            }
 
                             if(model.getData().getProdVideoUrl()!=null&&!model.getData().getProdVideoUrl().equals("")) {
                                 images.add(0,model.getData().getProdVideoUrl());
@@ -803,14 +777,6 @@ public class CommonGoodsDetailActivity extends BaseActivity {
                             }else {
                                 iv_sound.setVisibility(View.GONE);
                             }
-
-                            //banner设置点击监听
-                            mBanner.setOnBannerListener(new OnBannerListener() {
-                                @Override
-                                public void OnBannerClick(Object data, int position) {
-                                    AppHelper.showPhotoDetailDialog(mContext, images, position);
-                                }
-                            });
 
                             getProductList();
                             mTvAddCar.setEnabled(true);
@@ -823,23 +789,17 @@ public class CommonGoodsDetailActivity extends BaseActivity {
                                 ll_surp.setVisibility(View.GONE);
                             }
 
-                            if(images.size()>0) {
-                                for (int i = 0; i < images.size(); i++) {
-                                    if(model.getData().getProdVideoUrl()!=null&&!model.getData().getProdVideoUrl().equals("")) {
-                                        if(i==0) {
-                                            picVideo.add(new PicVideoModel.DatasBean(images.get(0),2));
-                                        }else {
-                                            picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
-                                        }
-                                    } else {
-                                        picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
-                                    }
+
+                            //banner设置点击监听
+                            mBanner.setOnBannerListener(new OnBannerListener() {
+                                @Override
+                                public void OnBannerClick(Object data, int position) {
+                                    AppHelper.showPhotoDetailDialog(mContext, images, position);
                                 }
-                            }else {
-                                for (int i = 0; i < images.size(); i++) {
-                                    picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
-                                }
-                            }
+                            });
+
+                            //填充banner
+                            fitBanner(models);
 
                             mBanner.addBannerLifecycleObserver(commonGoodsDetailActivity)
                                     .setAdapter(new PicVideoAdapter(mContext, picVideo))
@@ -872,6 +832,125 @@ public class CommonGoodsDetailActivity extends BaseActivity {
                     }
                 });
     }
+
+    private void exchangeList(int productId, CommonGoodsDetailActivity commonGoodsDetailActivity) {
+        GetProductDetailAPI.getExchangeList(mContext,productId,1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ExchangeProductModel>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ExchangeProductModel exchangeProductModel) {
+                        if(exchangeProductModel.getCode()==1) {
+                            if(exchangeProductModel.getData()!=null) {
+
+                                ExchangeProductModel.DataBean data = exchangeProductModel.getData();
+                                detailList.clear();
+                                detailList.addAll(data.getDetailPic());
+                                imageViewAdapter.notifyDataSetChanged();
+
+                                if(data.getQuarterPic()!=null && data.getQuarterPic().size()>0) {
+                                    rl_check.setVisibility(View.VISIBLE);
+                                }else {
+                                    rl_check.setVisibility(View.GONE);
+                                }
+
+
+                                images.clear();
+                                picVideo.clear();
+                                if(data.getTopPic()!=null && data.getTopPic().size()>0) {
+                                    images.addAll(data.getTopPic());
+                                }else {
+                                    images.add(data.getDefaultPic());
+                                }
+
+                                if(data.getProdVideoUrl()!=null&&!data.getProdVideoUrl().equals("")) {
+                                    images.add(0,data.getProdVideoUrl());
+                                    iv_sound.setVisibility(View.VISIBLE);
+                                }else {
+                                    iv_sound.setVisibility(View.GONE);
+                                }
+
+
+                                if(images.size()>0) {
+                                    for (int i = 0; i < images.size(); i++) {
+                                        if(data.getProdVideoUrl()!=null&&!data.getProdVideoUrl().equals("")) {
+                                            if(i==0) {
+                                                picVideo.add(new PicVideoModel.DatasBean(images.get(0),2));
+                                            }else {
+                                                picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
+                                            }
+                                        } else {
+                                            picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
+                                        }
+                                    }
+                                }else {
+                                    for (int i = 0; i < images.size(); i++) {
+                                        picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
+                                    }
+                                }
+
+                                mBanner.addBannerLifecycleObserver(commonGoodsDetailActivity)
+                                        .setAdapter(new PicVideoAdapter(mContext, picVideo))
+                                        .setIndicator(new NumIndicator(mContext))
+                                        .setIndicatorGravity(IndicatorConfig.Direction.RIGHT)
+                                        .addOnPageChangeListener(new OnPageChangeListener() {
+                                            @Override
+                                            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                                                stopVideo(position);
+                                            }
+
+                                            @Override
+                                            public void onPageSelected(int position) {
+                                                stopVideo(position);
+                                            }
+
+                                            @Override
+                                            public void onPageScrollStateChanged(int state) {
+
+                                            }
+                                        });
+
+                            }
+                        }else {
+                            ToastUtil.showErroMsg(mContext,exchangeProductModel.getMessage());
+                        }
+                    }
+                });
+    }
+
+    //banner数据
+    private void fitBanner(GetProductDetailModel model) {
+        images.clear();
+        if(model.getData().getTopPic()!=null&&model.getData().getTopPic().size()>0) {
+            images.addAll(model.getData().getTopPic());
+        }else {
+            images.add(model.getData().getDefaultPic());
+        }
+
+
+        if(images.size()>0) {
+            for (int i = 0; i < images.size(); i++) {
+                picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
+            }
+        }
+
+        if(model.getData().getProdVideoUrl()!=null && !model.getData().getProdVideoUrl().equals("")) {
+            picVideo.add(0,new PicVideoModel.DatasBean(model.getData().getProdVideoUrl(),2));
+        }
+
+    }
+
     StandardGSYVideoPlayer player;
     private void stopVideo(int position) {
         if (player == null) {
@@ -1102,124 +1181,6 @@ public class CommonGoodsDetailActivity extends BaseActivity {
                 });
     }
 
-    private ViewGroup createAnimLayout() {
-        ViewGroup rootView = (ViewGroup) this.getWindow().getDecorView();// 获得Window界面的最顶层
-        LinearLayout animLayout = new LinearLayout(this);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        animLayout.setLayoutParams(lp);
-        //animLayout.setId();
-        animLayout.setBackgroundResource(android.R.color.transparent);
-        rootView.addView(animLayout);
-        return animLayout;
-    }
-
-    private View addViewToAnimLayout(final ViewGroup vp, final View view, int[] location) {
-        int x = location[0];
-        int y = location[1];
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        lp.leftMargin = x;
-        lp.topMargin = y;
-        view.setLayoutParams(lp);
-        return view;
-    }
-
-    private ViewGroup anim_mask_layout;
-
-    public void setAnim(final View v, int[] start_location) {
-
-
-        anim_mask_layout = null;
-        anim_mask_layout = createAnimLayout();
-        anim_mask_layout.addView(v);
-
-        // 当前位置
-        float[] currentPosition = new float[2];
-        int[] controlPosition = new int[2];
-        View view = addViewToAnimLayout(anim_mask_layout, v, start_location);
-        int[] end_location = new int[2];// 存储动画结束位置的X,Y坐标
-        mIvCar.getLocationInWindow(end_location);// 将购物车的位置存储起来
-        controlPosition[0] = (start_location[0] + end_location[0]) / 2;
-        controlPosition[1] = ((start_location[1] + 100) / 2);
-
-        int total = 0;
-        for (int i = 0; i < account.size(); i++) {
-            if (account.get(i).totalNum != 0) {
-                total += account.get(i).totalNum;
-            }
-        }
-
-
-        Path path = new Path();
-        path.moveTo(start_location[0], start_location[1]);
-        path.quadTo(controlPosition[0], controlPosition[1], end_location[0], end_location[1]);
-        PathMeasure pathMeasure = new PathMeasure();
-        // false表示path路径不闭合
-        pathMeasure.setPath(path, false);
-        // ofFloat是一个生成器
-        ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, pathMeasure.getLength());
-        // 匀速线性插值器
-        valueAnimator.setInterpolator(new LinearInterpolator());
-        valueAnimator.setDuration(400);
-
-        valueAnimator.setRepeatCount(0);
-        // valueAnimator.setRepeatMode();
-        valueAnimator.addUpdateListener(animation -> {
-            float value = (Float) animation.getAnimatedValue();
-            pathMeasure.getPosTan(value, currentPosition, null);
-            buyImg.setX(currentPosition[0]);
-            buyImg.setY(currentPosition[1]);
-        });
-        valueAnimator.start();
-
-        valueAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                v.setVisibility(View.VISIBLE);
-
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                v.setVisibility(View.GONE);
-
-                valueAnimator.cancel();
-                animation.cancel();
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-
-            }
-        });
-
-        ObjectAnimator anim = ObjectAnimator//
-                .ofFloat(view, "scale", 1.0F, 1.5F, 1.0f)//
-                .setDuration(500);
-        anim.setStartDelay(1000);
-        anim.start();
-        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float cVal = (Float) animation.getAnimatedValue();
-                mIvCar.setScaleX(cVal);
-                mIvCar.setScaleY(cVal);
-            }
-        });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        //开始轮播
-//        mBanner.startAutoPlay();
-    }
 
     @Override
     protected void onStop() {
@@ -1450,5 +1411,28 @@ public class CommonGoodsDetailActivity extends BaseActivity {
         //刷新UI
         getCartNum();
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ll_full_active:
+                Intent intent = new Intent(mActivity,FullActiveActivity.class);
+                intent.putExtra("fullId",models.getData().getFullId());
+                startActivity(intent);
+                break;
+
+            case R.id.ll_team_active:
+                Intent intent2 = new Intent(mActivity,SpecialGoodDetailActivity.class);
+                intent2.putExtra("activeId",models.getData().getProductId());
+                startActivity(intent2);
+                break;
+
+            case R.id.ll_skill_active:
+                Intent intent3 = new Intent(mActivity, SeckillGoodActivity.class);
+                intent3.putExtra("activeId",models.getData().getProductId());
+                startActivity(intent3);
+                break;
+        }
     }
 }

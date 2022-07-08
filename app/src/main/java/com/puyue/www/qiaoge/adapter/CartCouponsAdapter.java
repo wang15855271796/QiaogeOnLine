@@ -13,19 +13,20 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.CouponUseActivity;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.model.CartFullModel;
+import com.puyue.www.qiaoge.model.CartFullsModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.util.List;
 
-public class CartCouponsAdapter extends BaseQuickAdapter<CartFullModel.DataBean.SendProdsBean, BaseViewHolder> {
+public class CartCouponsAdapter extends BaseQuickAdapter<CartFullsModel.DataBean.DeductDetailBean.SendProdsBean, BaseViewHolder> {
 
-    public CartCouponsAdapter(int layoutResId, @Nullable List<CartFullModel.DataBean.SendProdsBean> data) {
+    public CartCouponsAdapter(int layoutResId, @Nullable List<CartFullsModel.DataBean.DeductDetailBean.SendProdsBean> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, CartFullModel.DataBean.SendProdsBean item) {
+    protected void convert(BaseViewHolder helper, CartFullsModel.DataBean.DeductDetailBean.SendProdsBean item) {
         helper.setText(R.id.tv_amount,item.getAmount());
         helper.setText(R.id.tv_name,item.getName());
         helper.setText(R.id.tv_time,item.getDateTime());

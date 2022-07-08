@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.android.tu.loadingdialog.LoadingDailog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.xrecyclerview.XRecyclerView;
+import com.puyue.www.qiaoge.AutoPollRecyclerView;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
@@ -41,6 +42,7 @@ import com.puyue.www.qiaoge.activity.mine.login.LoginEvent;
 import com.puyue.www.qiaoge.activity.mine.login.LogoutsEvent;
 
 import com.puyue.www.qiaoge.adapter.FirstAdapter;
+import com.puyue.www.qiaoge.adapter.Test3Adapter;
 import com.puyue.www.qiaoge.adapter.market.MarketAlreadyGoodAdapter;
 import com.puyue.www.qiaoge.adapter.market.MarketGoodBrandAdapter;
 import com.puyue.www.qiaoge.adapter.market.MarketGoodsAdapter;
@@ -79,6 +81,7 @@ import com.puyue.www.qiaoge.model.market.MarketSelectGoodModel;
 import com.puyue.www.qiaoge.utils.LoginUtil;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.Time;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.FlowLayout;
 import com.puyue.www.qiaoge.view.selectmenu.MyListView;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -122,8 +125,6 @@ public class MarketsFragment extends BaseFragment {
     private MarketSecondAdapter mAdapterMarketSecond;
     //右侧adapter
     private MarketGoodsAdapter mAdapterMarketDetail;
-    //左侧分类model
-    private ClassIfyModel mModelMarketGoodsClassify;
     //右侧model
     private MarketRightModel mModelMarketGoods;
     private boolean select = false;
@@ -133,15 +134,11 @@ public class MarketsFragment extends BaseFragment {
 //    private LoadingDailog dialog;
     private String cell; // 客服电话
     private ImageView mIvNoData;
-    private LinearLayout llDialog;
-    private RecyclerView tvRvSelect;
-    private LinearLayout ll_up;
-    private TextView tv_blank;
+    private ImageView iv_no_data_prod;
     TextView tv_select_good;
     TextView tv_price;
     ImageView iv_tip;
 //    private SliderLayout mViewBanner;
-    private List<BannerModel.DataBean> mListBanner = new ArrayList<>();
     private LinearLayout mllMarket;
 //    private RelativeLayout mRlSelectGood;
     private RecyclerView mRyGetGoodName;
@@ -250,9 +247,9 @@ public class MarketsFragment extends BaseFragment {
     @Override
     public void findViewById(View view) {
         context = getActivity();
-
         EventBus.getDefault().register(this);
         ll_all = view.findViewById(R.id.ll_all);
+        iv_no_data_prod = view.findViewById(R.id.iv_no_data_prod);
         tv_select_good = view.findViewById(R.id.tv_select_good);
         iv_tip = view.findViewById(R.id.iv_tip);
         tv_price = view.findViewById(R.id.tv_price);
@@ -271,11 +268,10 @@ public class MarketsFragment extends BaseFragment {
         mRvDetail = ((XRecyclerView) view.findViewById(R.id.rv_market_detail));
         mIvNoData = ((ImageView) view.findViewById(R.id.iv_market_no_data));
         lav_activity_loading = view.findViewById(R.id.lav_activity_loading);
-        llDialog = ((LinearLayout) view.findViewById(R.id.dialog));
-        tvRvSelect = view.findViewById(R.id.recyclerView_select);
-        ll_up = view.findViewById(R.id.ll_up);
-        tv_blank = view.findViewById(R.id.tv_blank);
         mllMarket = view.findViewById(R.id.ll_market);
+
+
+
         ll_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -362,10 +358,12 @@ public class MarketsFragment extends BaseFragment {
                 pageNum = 1;
                 if(mModelMarketGoods.getData().getBrandProd().isHasNextPage()) {
                     hasPage = true;
-                    getDataThree();
+//                    getDataThree();
+                    getData();
                 }else {
                     hasPage = false;
-                    getDataThree();
+//                    getDataThree();
+                    getData();
                 }
             }
         });
@@ -373,7 +371,6 @@ public class MarketsFragment extends BaseFragment {
         firstAdapter = new FirstAdapter(R.layout.item_icons, mList);
         rv_cate.setAdapter(firstAdapter);
         rv_cate.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false));
-
         firstAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -384,13 +381,15 @@ public class MarketsFragment extends BaseFragment {
                 dialog.show();
                 pageNum = 1;
                 requestGoodsList(mList.get(position).getFirstId());
+                scrollPosition = 0;
+                selectPosition = position;
+                firstAdapter.selectPosition(position);
                 //点击一级分类时候隐藏品牌界面
                 ll_prod.setVisibility(View.GONE);
                 ll_select.setVisibility(View.VISIBLE);
                 if(mCustomPopWindow!=null) {
                     mCustomPopWindow.dissmiss();
                 }
-
             }
         });
         v_shadow.setOnClickListener(new View.OnClickListener() {
@@ -408,10 +407,12 @@ public class MarketsFragment extends BaseFragment {
                     pageNum = 1;
                     if(mModelMarketGoods.getData().getBrandProd().isHasNextPage()) {
                         hasPage = true;
-                        getDataThree();
+//                        getDataThree();
+                        getData();
                     }else {
                         hasPage = false;
-                        getDataThree();
+//                        getDataThree();
+                        getData();
                     }
                     return true;
                 }
@@ -428,20 +429,6 @@ public class MarketsFragment extends BaseFragment {
                 }
             }
         });
-
-        tv_blank.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (select) {
-                    llDialog.setVisibility(View.GONE);
-
-                }
-                select = false;
-            }
-        });
-        tv_blank.setBackgroundColor(Color.BLACK);
-        tv_blank.getBackground().setAlpha(100);
-
         tv_select_good.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -517,7 +504,8 @@ public class MarketsFragment extends BaseFragment {
                         minPrice = mEtLowPrice.getText().toString();
                         maxPrice = mEtHighPrice.getText().toString();
                         pageNum = 1;
-                        getDataTwo();
+//                        getDataTwo();
+                        getData();
 
                         popupWindow.dismiss();
 
@@ -568,31 +556,6 @@ public class MarketsFragment extends BaseFragment {
                 .setView(contentView)
                 .create()
                 .showAsDropDown(mLlSearch);
-//        mCustomPopWindow = new PopupWindow(getActivity());
-//        mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-//        View searchView = LayoutInflater.from(getActivity()).inflate(R.layout.cate_list, null);
-//        ImageView iv_close = searchView.findViewById(R.id.iv_close);
-//        RecyclerView recyclerView = searchView.findViewById(R.id.recyclerView);
-//        recyclerView.setLayoutManager(new GridLayoutManager(mContext,5));
-//        recyclerView.setAdapter(firstAdapter);
-//        iv_close.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                mCustomPopWindow.dissmiss();
-//                mask.setVisibility(View.GONE);
-//            }
-//        });
-//        mCustomPopWindow.setContentView(searchView);
-//        mCustomPopWindow.setBackgroundDrawable(new BitmapDrawable());
-////关闭事件
-//        mCustomPopWindow.setOnDismissListener(new popupDismissListener());
-//        mCustomPopWindow.getBackground().setAlpha(100);
-//        mCustomPopWindow.setOutsideTouchable(true);
-//        mCustomPopWindow.setTouchable(true);
-//        mCustomPopWindow.showAsDropDown(mLlSearch,0,0);
-//
-//        mCustomPopWindow.setBackgroundDrawable(new BitmapDrawable());
-//        mCustomPopWindow.setOnDismissListener(new popupDismissListener());
     }
 
     /**
@@ -620,7 +583,8 @@ public class MarketsFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String prodName = mListRecommendProd.get(position);
                 selectBrandName = prodName;
-                getDataThree();
+//                getDataThree();
+                getData();
                 et_goods.setText(selectBrandName);
                 dialog1.dismiss();
             }
@@ -646,54 +610,14 @@ public class MarketsFragment extends BaseFragment {
         @Override
         public void onDismiss() {
             backgroundAlpha(1f);
-//            et_goods.clearFocus();
             v_shadow.setVisibility(View.GONE);
         }
-
     }
-
-
 
     public void backgroundAlpha(float bgAlpha) {
         WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
         lp.alpha = bgAlpha; //0.0-1.0
         mActivity.getWindow().setAttributes(lp);
-    }
-
-    //筛选确定
-    private void sendSelectGoodTwo(String saleVolume, String priceUp,String priceDown, String newProduct, String brandName, String minPrices, String maxPrices) {
-        MarketGoodSelcetAPI.getClassifyRight(mActivity, pageNum, 12, mFirstCode, mSecondCode, saleVolume, priceUp,priceDown, newProduct, brandName, minPrices, maxPrices)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<MarketRightModel>() {
-                    @Override
-                    public void onCompleted() {
-                        mRvDetail.refreshComplete();
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        lav_activity_loading.hide();
-
-                    }
-
-                    @Override
-                    public void onNext(MarketRightModel marketGoodSelectModel) {
-                        if (marketGoodSelectModel.isSuccess()) {
-
-                            flag = true;
-                            mModelMarketGoods = marketGoodSelectModel;
-                            dialog.dismiss();
-                            updateMarketGoods();
-                            lav_activity_loading.hide();
-
-                        } else {
-                            lav_activity_loading.hide();
-                            AppHelper.showMsg(mActivity, marketGoodSelectModel.getMessage());
-                        }
-                    }
-                });
     }
 
     //筛选确定
@@ -705,7 +629,6 @@ public class MarketsFragment extends BaseFragment {
                     @Override
                     public void onCompleted() {
                         mRvDetail.refreshComplete();
-
                     }
 
                     @Override
@@ -717,9 +640,6 @@ public class MarketsFragment extends BaseFragment {
                     public void onNext(MarketRightModel marketGoodSelectModel) {
 
                         if (marketGoodSelectModel.isSuccess()) {
-                            selectBrandName = "";
-                            minPrice = "";
-                            maxPrice = "";
                             mModelMarketGoods = marketGoodSelectModel;
                             dialog.dismiss();
                             updateMarketGoods();
@@ -767,7 +687,6 @@ public class MarketsFragment extends BaseFragment {
     }
 
     private void showAlreadyGood(List<MarketAlreadyGoodModel.DataBean> listBeans) {
-
         mAlreadyAdapter = new MarketAlreadyGoodAdapter(R.layout.already_buy_good, listBeans);
         //1、RecyclerView 有自己默认的动画，去除默认动画
         mRyBuyName.setLayoutManager(new GridLayoutManager(mActivity, 2));
@@ -851,21 +770,12 @@ public class MarketsFragment extends BaseFragment {
 
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getMessages(GoToMarketEvent goToMarketEvent) {
-
-//        sendSelectGood("", "", "", "", "", "");
-    }
-
     //新改
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void cityEvent(CityEvent event) {
         //刷新UI
         lav_activity_loading.show();
-
         getSearchProd();
-//        getDataThree();
-//        getDataTwo();
         getData();
         requestGoodsList("");
     }
@@ -875,14 +785,13 @@ public class MarketsFragment extends BaseFragment {
         //刷新数据
         lav_activity_loading.show();
         getSearchProd();
-        getDataThree();
-        getDataTwo();
+        getData();
         requestGoodsList("");
-
     }
 
-
-    int choosePosition;
+    //滚动position
+    int scrollPosition = 0;
+    int selectPosition = 0;
     @Override
     public void setViewData() {
         lav_activity_loading.show();
@@ -972,7 +881,8 @@ public class MarketsFragment extends BaseFragment {
                 if (isCheck) {
                     pageNum = 1;
                     hasPage  = true;
-                    getDataTwo();
+//                    getDataTwo();
+                    getData();
                 } else {
                     pageNum = 1;
                     hasPage  = true;
@@ -982,40 +892,90 @@ public class MarketsFragment extends BaseFragment {
 
             @Override
             public void onLoadMore() {
-                if (isCheck) {
-//筛选
-                    if (hasPage) {
-                        pageNum++;
-                        getDataTwo();
-
-                    } else {
-                        hasPage = false;
-                        mRvDetail.noMoreLoading();
-                    }
+                if (hasPage) {
+                    pageNum++;
+                    getData();
                 } else {
-
-
-                    if (hasPage) {
-                        pageNum++;
-                        getData();
-
-                    } else {
+                    if(scrollPosition != mListSecondNow.size()-1) {
                         hasPage = false;
-                        mRvDetail.noMoreLoading();
+                        scrollPosition++;
+                        if(scrollPosition==2) {
+                            ll_select.setVisibility(View.GONE);
+                            ll_prod.setVisibility(View.VISIBLE);
+                        }else {
+                            ll_select.setVisibility(View.VISIBLE);
+                            ll_prod.setVisibility(View.GONE);
+                        }
+                        mAdapterMarketSecond.selectPosition(scrollPosition);
+                        dialog.show();
+                        mSecondCode = mListSecondNow.get(scrollPosition).getSecondId();
+                        getData();
+                    }else {
+                        scrollPosition = 0;
+                        if(mList.size()!=selectPosition+1) {
+                            selectPosition++;
+                            //左侧数据
+                            requestGoodsList("");
+
+                        }else {
+                            hasPage = false;
+                            scrollPosition = mListSecondNow.size()-1;
+                            mRvDetail.noMoreLoading(true);
+                        }
                     }
                 }
             }
         });
 
-
-        ll_up.setOnClickListener(new View.OnClickListener() {
+        rv_prod_detail.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
-            public void onClick(View v) {
-                if (select) {
-                    llDialog.setVisibility(View.GONE);
-
+            public void onRefresh() {
+                //刷新
+                if (isCheck) {
+                    pageNum = 1;
+                    getData();
+                    hasPage = true;
+                } else {
+                    pageNum = 1;
+                    getData();
+                    hasPage  = true;
                 }
-                select = false;
+
+            }
+
+            @Override
+            public void onLoadMore() {
+                if(hasPage) {
+                    pageNum++;
+                    getData();
+                }else {
+                    hasPage = false;
+                    scrollPosition++;
+                    mAdapterMarketSecond.selectPosition(scrollPosition);
+                    mSecondCode = -5;
+                    ll_prod.setVisibility(View.GONE);
+                    ll_select.setVisibility(View.VISIBLE);
+                    rv_prod_detail.noMoreLoading(true);
+                }
+//                if (isCheck) {
+//                    if (hasPage) {
+//                        pageNum++;
+////                        getDataThree();
+//                        getData();
+//                    } else {
+//                        hasPage = false;
+//                        rv_prod_detail.noMoreLoading(true);
+//                    }
+//                } else {
+//                    if (hasPage) {
+//                        pageNum++;
+////                        getDataThree();
+//                        getData();
+//                    } else {
+//                        hasPage = false;
+//                        rv_prod_detail.noMoreLoading(false);
+//                    }
+//                }
             }
         });
 
@@ -1026,77 +986,59 @@ public class MarketsFragment extends BaseFragment {
                 public void onItemClick(View view, int position) {
                     //在点击二级列表的时候,需要将样式修改过来,然后刷新三级详情列表数据
                     dialog.show();
+                    pageNum = 1;
                     minPrice = "";
                     maxPrice = "";
                     selectBrandName = "";
                     mSecondCode = mListSecondNow.get(position).getSecondId();
                     getData();
+                    scrollPosition = position;
                     mAdapterMarketSecond.selectPosition(position);
                     dialog.show();
-                        if (flag) {
-                            flag = false;
-                            hintKbTwo();
-                            dialog.show();
-//                            selectionPositon = position;
-//                            mAdapterMarketSecond.selectPosition(position);
-//                            mAdapterMarketSecond.selectId("");
-//                            mAdapterMarketSecond.notifyDataSetChanged();
-//                            if (mList.get(position).getSecondClassify() == null) {
-//                                mSecondCode = 0;
-//                            } else {
-//                                mSecondCode = mList.get(position).getSecondClassify().get(0).getSecondId();
-//                            }
-//                            mFirstCode = mList.get(position).getFirstId();
-                            if(position == 2) {
-                                mSecondCode = -5;
-                            }
-                            if (mSecondCode == -5) {
-                                ll_select.setVisibility(View.GONE);
-                                ll_prod.setVisibility(View.VISIBLE);
-                                getDataThree();
-                            } else {
-                                ll_select.setVisibility(View.VISIBLE);
-                                ll_prod.setVisibility(View.GONE);
-                                pageNum = 1;
-                                hasPage = true;
-                                getData();
-//                                if (isCheck) {
-//                                    pageNum = 1;
-//                                    hasPage = true;
-//                                    getDataTwo();
-//                                } else {
-//                                    pageNum = 1;
-//                                    hasPage = true;
-//                                    getData();
-//
-//                                }
-                            }
+                    if (flag) {
+                        flag = false;
+                        hintKbTwo();
+                        dialog.show();
+                        if(position == 2) {
+                            mSecondCode = -5;
                         }
-                }
 
+                        if (mSecondCode == -5) {
+                            ll_select.setVisibility(View.GONE);
+                            ll_prod.setVisibility(View.VISIBLE);
+                            getData();
+                        } else {
+                            ll_select.setVisibility(View.VISIBLE);
+                            ll_prod.setVisibility(View.GONE);
+                            pageNum = 1;
+                            hasPage = true;
+                            getData();
+                        }
+                    }
+                }
                 @Override
                 public void onItemLongClick(View view, int position) {
 
                 }
             });
 
-
-        mAdapterMarketSecond.setOnItemClickListeners(new MarketSecondAdapter.OnEventClickListener() {
-            @Override
-            public void onEventClick(int position, int secondId) {
-                dialog.show();
-                pageNum = 1;
-                minPrice = "";
-                maxPrice = "";
-                mSecondCode = secondId;
-                selectBrandName = "";
-                if (isCheck) {
-                    getDataTwo();
-                } else {
-                    getData();
-                }
-            }
-        });
+//        mAdapterMarketSecond.setOnItemClickListeners(new MarketSecondAdapter.OnEventClickListener() {
+//            @Override
+//            public void onEventClick(int position, int secondId) {
+//                dialog.show();
+//                pageNum = 1;
+//                minPrice = "";
+//                maxPrice = "";
+//                mSecondCode = secondId;
+//                selectBrandName = "";
+//                if (isCheck) {
+////                    getDataTwo();
+//                    getData();
+//                } else {
+//                    getData();
+//                }
+//            }
+//        });
         mAdapterMarketDetail = new MarketGoodsAdapter(R.layout.item_noresult_recommends, mListGoods, new MarketGoodsAdapter.Onclick() {
             @Override
             public void addDialog() {
@@ -1119,49 +1061,6 @@ public class MarketsFragment extends BaseFragment {
         prodAdapter = new ProdAdapter(R.layout.item_prod,mListProd);
         rv_prod_detail.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv_prod_detail.setAdapter(prodAdapter);
-        rv_prod_detail.setLoadingListener(new XRecyclerView.LoadingListener() {
-            @Override
-            public void onRefresh() {
-                //刷新
-                if (isCheck) {
-                    pageNum = 1;
-                    getDataThree();
-                    hasPage  = true;
-                } else {
-                    pageNum = 1;
-                    getDataThree();
-                    hasPage  = true;
-
-                }
-            }
-
-            @Override
-            public void onLoadMore() {
-                if (isCheck) {
-
-                    if (hasPage) {
-
-                        pageNum++;
-                        getDataThree();
-                    } else {
-                        hasPage = false;
-                        rv_prod_detail.noMoreLoading();
-
-                    }
-                } else {
-
-                    if (hasPage) {
-
-                        pageNum++;
-
-                        getDataThree();
-                    } else {
-                        hasPage = false;
-                        rv_prod_detail.noMoreLoading();
-                    }
-                }
-            }
-        });
         mRvSecond.setAdapter(mAdapterMarketSecond);
         mRvDetail.setAdapter(mAdapterMarketDetail);
 
@@ -1214,49 +1113,6 @@ public class MarketsFragment extends BaseFragment {
     }
 
     /**
-     * 品牌
-     * @param saleVolume
-     * @param priceUp
-     * @param newProduct
-     * @param brandName
-     * @param minPrices
-     * @param maxPrices
-     */
-    private void sendSelectGoodThree(String saleVolume, String priceUp, String priceDown,String newProduct, String brandName, String minPrices, String maxPrices) {
-        MarketGoodSelcetAPI.getClassifyRight(mActivity, pageNum, 4, mFirstCode, mSecondCode,
-                saleVolume, priceUp,priceDown, newProduct, brandName, minPrices, maxPrices)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<MarketRightModel>() {
-                    @Override
-                    public void onCompleted() {
-                        rv_prod_detail.refreshComplete();
-//                        ptr.refreshComplete();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        lav_activity_loading.hide();
-                    }
-
-                    @Override
-                    public void onNext(MarketRightModel marketGoodSelectModel) {
-                        mModelMarketGoods = marketGoodSelectModel;
-                        if (marketGoodSelectModel.isSuccess()) {
-
-                            flag = true;
-                            dialog.dismiss();
-                            upProdDate(marketGoodSelectModel);
-                            lav_activity_loading.hide();
-                        } else {
-                            AppHelper.showMsg(mActivity, marketGoodSelectModel.getMessage());
-                            lav_activity_loading.hide();
-                        }
-                    }
-                });
-    }
-
-    /**
      * 更新品牌
      * @param marketGoodSelectModel
      */
@@ -1295,31 +1151,37 @@ public class MarketsFragment extends BaseFragment {
     private void getDataTwo() {
         isCheck = true;
         if (Imposition == 0) {
-            sendSelectGoodTwo("", "", "", "",selectBrandName, minPrice, maxPrice);
+//            sendSelectGoodTwo("", "", "", "",selectBrandName, minPrice, maxPrice);
+            sendSelectGood("", "", "", "",selectBrandName, minPrice, maxPrice);
         } else if (Imposition == 1) {
-            sendSelectGoodTwo("", "1", "","", selectBrandName, minPrice, maxPrice);
+//            sendSelectGoodTwo("", "1", "","", selectBrandName, minPrice, maxPrice);
+            sendSelectGood("", "1", "","", selectBrandName, minPrice, maxPrice);
         } else if (Imposition == 2) {
-            sendSelectGoodTwo("1", "", "","", selectBrandName, minPrice, maxPrice);
+//            sendSelectGoodTwo("1", "", "","", selectBrandName, minPrice, maxPrice);
+            sendSelectGood("1", "", "","", selectBrandName, minPrice, maxPrice);
         } else if (Imposition == 3) {
-            sendSelectGoodTwo("", "", "1","", selectBrandName, minPrice, maxPrice);
+//            sendSelectGoodTwo("", "", "1","", selectBrandName, minPrice, maxPrice);
+            sendSelectGood("", "", "1","", selectBrandName, minPrice, maxPrice);
         } else {
-            sendSelectGoodTwo("", "", "","", selectBrandName, minPrice, maxPrice);
+//            sendSelectGoodTwo("", "", "","", selectBrandName, minPrice, maxPrice);
+            sendSelectGood("", "", "","", selectBrandName, minPrice, maxPrice);
         }
     }
 
     private void getData() {
         isCheck = false;
-        if (Imposition == 0) {
-            sendSelectGood("", "", "","", selectBrandName, minPrice, maxPrice);
-        } else if (Imposition == 1) {
-            sendSelectGood("", "1", "","", selectBrandName, minPrice, maxPrice);
-        } else if (Imposition == 2) {
-            sendSelectGood("1", "", "","", selectBrandName, minPrice, maxPrice);
-        } else if (Imposition == 3) {
-            sendSelectGood("", "", "1","", selectBrandName, minPrice, maxPrice);
-        } else {
-            sendSelectGood("", "", "", "",selectBrandName, minPrice, maxPrice);
-        }
+        sendSelectGood("", "", "", "",selectBrandName, minPrice, maxPrice);
+//        if (Imposition == 0) {
+//            sendSelectGood("", "", "","", selectBrandName, minPrice, maxPrice);
+//        } else if (Imposition == 1) {
+//            sendSelectGood("", "1", "","", selectBrandName, minPrice, maxPrice);
+//        } else if (Imposition == 2) {
+//            sendSelectGood("1", "", "","", selectBrandName, minPrice, maxPrice);
+//        } else if (Imposition == 3) {
+//            sendSelectGood("", "", "1","", selectBrandName, minPrice, maxPrice);
+//        } else {
+//
+//        }
     }
 
 
@@ -1343,16 +1205,82 @@ public class MarketsFragment extends BaseFragment {
 
                     @Override
                     public void onNext(ClassIfyModel marketGoodsModel) {
-                        mModelMarketGoodsClassify = marketGoodsModel;
-                        if (mModelMarketGoodsClassify.isSuccess()) {
-                            updateGoodsList(fromId);
+                        if (marketGoodsModel.getCode()==1) {
+                            if(marketGoodsModel.getData()!=null && marketGoodsModel.getData().size() >0) {
+                                List<ClassIfyModel.DataBean> data = marketGoodsModel.getData();
+
+                                if(fromId!="") {
+                                    //首页顶部切换过来
+                                    for (int i = 0; i < data.size(); i++) {
+                                        if(data.get(i).getFirstId().equals(fromId)) {
+                                            selectPosition = i;
+                                            rv_cate.scrollToPosition(i);
+                                        }
+                                    }
+                                    mAdapterMarketSecond.selectPosition(0);
+                                    mSecondCode = data.get(selectPosition).getSecondClassify().get(0).getSecondId();
+                                    mList.clear();
+                                    mList.addAll(data);
+
+                                    mListSecondNow.clear();
+                                    mListSecondNow.addAll(data.get(selectPosition).getSecondClassify());
+
+                                    mFirstCode = fromId;
+                                    for (int i = 0; i < mList.size(); i++) {
+                                        if(fromId == mList.get(i).getFirstId()) {
+                                            mSecondCode = mList.get(i).getSecondClassify().get(0).getSecondId();
+                                            firstAdapter.selectPosition(i);
+                                        }
+                                    }
+
+                                    getData();
+
+                                    mAdapterMarketSecond.notifyDataSetChanged();
+                                    firstAdapter.notifyDataSetChanged();
+                                }else {
+                                    //首页底部切换过来
+                                    mFirstCode = data.get(selectPosition).getFirstId();
+                                    mSecondCode = data.get(selectPosition).getSecondClassify().get(selectPosition).getSecondId();
+                                    mList.clear();
+                                    mList.addAll(data);
+                                    firstAdapter.selectPosition(0);
+                                    mListSecondNow.clear();
+                                    mListSecondNow.addAll(data.get(0).getSecondClassify());
+
+                                    getData();
+
+                                    mAdapterMarketSecond.notifyDataSetChanged();
+                                    firstAdapter.notifyDataSetChanged();
+                                }
+
+
+                                mFirstCode = data.get(selectPosition).getFirstId();
+                                mSecondCode =data.get(selectPosition).getSecondClassify().get(scrollPosition).getSecondId();
+
+                                mList.clear();
+                                mList.addAll(data);
+
+                                mListSecondNow.clear();
+                                mListSecondNow.addAll(data.get(selectPosition).getSecondClassify());
+
+                                firstAdapter.selectPosition(selectPosition);
+                                mAdapterMarketSecond.selectPosition(0);
+                                firstAdapter.notifyDataSetChanged();
+
+                                getData();
+                            }else {
+                                mListSecondNow.clear();
+                                mList.clear();
+                                mListGoods.clear();
+                                mListProd.clear();
+                                prodAdapter.notifyDataSetChanged();
+                                mAdapterMarketSecond.notifyDataSetChanged();
+                                firstAdapter.notifyDataSetChanged();
+                                mAdapterMarketDetail.notifyDataSetChanged();
+                            }
 
                         } else {
-                            if (marketGoodsModel.getCode() == AppConstant.ANOTHER_PLACE_LOGIN) {
-                                TwoDeviceHelper.logoutAndToHome(getActivity());
-                            } else {
-                                AppHelper.showMsg(mActivity, mModelMarketGoodsClassify.getMessage());
-                            }
+                            ToastUtil.showSuccessMsg(mActivity,marketGoodsModel.getMessage());
                         }
                     }
                 });
@@ -1363,122 +1291,177 @@ public class MarketsFragment extends BaseFragment {
      */
     int clicks = 0;
     private void updateGoodsList(String fromId) {
-        dialog.show();
-        if(clicks == 0) {
-            if(fromId.equals("")) {
-                mList.clear();
-                mList.addAll(mModelMarketGoodsClassify.getData());
-                mListSecondNow.clear();
-                mListSecondNow.addAll(mModelMarketGoodsClassify.getData().get(0).getSecondClassify());
-                mAdapterMarketSecond.notifyDataSetChanged();
-                mAdapterMarketSecond.selectPosition(0);
-                firstAdapter.notifyDataSetChanged();
-                mFirstCode = mModelMarketGoodsClassify.getData().get(0).getFirstId();
-                mSecondCode  = -1;
-                getData();
-
-            }else {
-                mList.clear();
-                mList.addAll(mModelMarketGoodsClassify.getData());
-                mListSecondNow.clear();
-
-                for (int i = 0; i < mModelMarketGoodsClassify.getData().size(); i++) {
-                    if(mModelMarketGoodsClassify.getData().get(i).getFirstId().equals(fromId)) {
-                        mListSecondNow.addAll(mModelMarketGoodsClassify.getData().get(i).getSecondClassify());
-                    }
-                }
-                mAdapterMarketSecond.selectPosition(0);
-                mAdapterMarketSecond.notifyDataSetChanged();
-                mFirstCode = fromId;
-                mSecondCode = -1;
-                for (int i = 0; i < mList.size(); i++) {
-                    if(fromId.equals(mList.get(i).getFirstId())) {
-                        firstAdapter.selectPosition(i);
-                        rv_cate.scrollToPosition(i);
+//        dialog.show();
+//        if(clicks == 0) {
+//            if(fromId.equals("")) {
+//                mList.clear();
+//                mList.addAll(mModelMarketGoodsClassify.getData());
+//                mListSecondNow.clear();
+//                mListSecondNow.addAll(mModelMarketGoodsClassify.getData().get(0).getSecondClassify());
+//                mAdapterMarketSecond.notifyDataSetChanged();
+//                mAdapterMarketSecond.selectPosition(0);
+//                firstAdapter.notifyDataSetChanged();
+//                mFirstCode = mModelMarketGoodsClassify.getData().get(0).getFirstId();
+//                mSecondCode  = -1;
+//                getData();
+//            }else {
+//                mList.clear();
+//                mList.addAll(mModelMarketGoodsClassify.getData());
+//                mListSecondNow.clear();
+//
+//                for (int i = 0; i < mModelMarketGoodsClassify.getData().size(); i++) {
+//                    if(mModelMarketGoodsClassify.getData().get(i).getFirstId().equals(fromId)) {
+//                        mListSecondNow.addAll(mModelMarketGoodsClassify.getData().get(i).getSecondClassify());
+//                    }
+//                }
+//                mAdapterMarketSecond.selectPosition(0);
+//                mAdapterMarketSecond.notifyDataSetChanged();
+//                mFirstCode = fromId;
+//                mSecondCode = -1;
+//                for (int i = 0; i < mList.size(); i++) {
+//                    if(fromId.equals(mList.get(i).getFirstId())) {
+//                        firstAdapter.selectPosition(i);
+//                        rv_cate.scrollToPosition(i);
+//                    }
+//                }
+//                getData();
+//
+//            }
+//        }else {
+//            if(!fromId.equals("")) {
+//                mList.clear();
+//                mList.addAll(mModelMarketGoodsClassify.getData());
+//                mListSecondNow.clear();
+//                for (int i = 0; i < mModelMarketGoodsClassify.getData().size(); i++) {
+//                    if(mModelMarketGoodsClassify.getData().get(i).getFirstId().equals(fromId)) {
+//                        mListSecondNow.addAll(mModelMarketGoodsClassify.getData().get(i).getSecondClassify());
+//                    }
+//                }
+//                mAdapterMarketSecond.selectPosition(0);
+//                mAdapterMarketSecond.notifyDataSetChanged();
+//                firstAdapter.notifyDataSetChanged();
+//                mFirstCode = fromId;
+//                mSecondCode  = -1;
+//                for (int i = 0; i < mList.size(); i++) {
+//                    if(fromId.equals(mList.get(i).getFirstId())) {
 //                        rv_cate.smoothScrollToPosition(i);
-                    }
-                }
-                getData();
-
-            }
-        }else {
-
-            if(!fromId.equals("")) {
-                mList.clear();
-                mList.addAll(mModelMarketGoodsClassify.getData());
-                mListSecondNow.clear();
-                for (int i = 0; i < mModelMarketGoodsClassify.getData().size(); i++) {
-                    if(mModelMarketGoodsClassify.getData().get(i).getFirstId().equals(fromId)) {
-                        mListSecondNow.addAll(mModelMarketGoodsClassify.getData().get(i).getSecondClassify());
-                    }
-                }
-                mAdapterMarketSecond.selectPosition(0);
-                mAdapterMarketSecond.notifyDataSetChanged();
-                firstAdapter.notifyDataSetChanged();
-                mFirstCode = fromId;
-                mSecondCode  = -1;
-                for (int i = 0; i < mList.size(); i++) {
-                    if(fromId.equals(mList.get(i).getFirstId())) {
-                        rv_cate.smoothScrollToPosition(i);
-                        firstAdapter.selectPosition(i);
-                    }
-                }
-                getData();
-            }else {
-
-                mList.clear();
-                mList.addAll(mModelMarketGoodsClassify.getData());
-                mListSecondNow.clear();
-                mListSecondNow.addAll(mModelMarketGoodsClassify.getData().get(0).getSecondClassify());
-                mAdapterMarketSecond.selectPosition(0);
-                mAdapterMarketSecond.notifyDataSetChanged();
-                firstAdapter.notifyDataSetChanged();
-                mFirstCode = mModelMarketGoodsClassify.getData().get(0).getFirstId();
-                mSecondCode  = -1;
-                firstAdapter.selectPosition(0);
-                getData();
-            }
-
-        }
-
+//                        firstAdapter.selectPosition(i);
+//                    }
+//                }
+//                getData();
+//            }else {
+//                mList.clear();
+//                mList.addAll(mModelMarketGoodsClassify.getData());
+//                mListSecondNow.clear();
+//                mListSecondNow.addAll(mModelMarketGoodsClassify.getData().get(0).getSecondClassify());
+//                mAdapterMarketSecond.selectPosition(0);
+//                mAdapterMarketSecond.notifyDataSetChanged();
+//                firstAdapter.notifyDataSetChanged();
+//                mFirstCode = mModelMarketGoodsClassify.getData().get(0).getFirstId();
+//                mSecondCode  = -1;
+//                firstAdapter.selectPosition(0);
+//                getData();
+//            }
+//        }
     }
-
-
     /**
      * 更新数据
      */
     private void updateMarketGoods() {
-
-        if (pageNum == 1) {
-            if (mModelMarketGoods.getData().getProdClassify() != null && mModelMarketGoods.getData().getProdClassify().getList().size() > 0) {
-                mRvDetail.setVisibility(View.VISIBLE);
+        Log.d("wdadsdsadwdas.......",mSecondCode+"");
+        if(mSecondCode != -5) {
+            if(mModelMarketGoods.getData().getProdClassify() != null && mModelMarketGoods.getData().getProdClassify().getList().size() > 0) {
                 mIvNoData.setVisibility(View.GONE);
-                mListGoods.clear();
-                mListGoods.addAll(mModelMarketGoods.getData().getProdClassify().getList());
-                mAdapterMarketDetail.notifyDataSetChanged();
-
-            } else {
+                mRvDetail.setVisibility(View.VISIBLE);
+                if(pageNum==1) {
+                    mListGoods.clear();
+                    mListGoods.addAll(mModelMarketGoods.getData().getProdClassify().getList());
+                    mAdapterMarketDetail.notifyDataSetChanged();
+                }else {
+                    mListGoods.addAll(mModelMarketGoods.getData().getProdClassify().getList());
+                    mAdapterMarketDetail.notifyDataSetChanged();
+                }
+            }else {
                 mRvDetail.setVisibility(View.GONE);
                 mIvNoData.setVisibility(View.VISIBLE);
-
             }
-        } else {
-            mListGoods.addAll(mModelMarketGoods.getData().getProdClassify().getList());
-            mAdapterMarketDetail.notifyDataSetChanged();
 
+            if (mModelMarketGoods.getData().getProdClassify().isHasNextPage()) {
+                hasPage = true;
+                mRvDetail.noMoreLoading(false);
+            } else {
+                hasPage = false;
+                mRvDetail.noMoreLoading(true);
+            }
+            mRvDetail.refreshComplete();
+        }else {
+            //产品
+            if(mModelMarketGoods.getData().getBrandProd() != null && mModelMarketGoods.getData().getBrandProd().getList().size()>0) {
+                mIvNoData.setVisibility(View.GONE);
+                rv_prod_detail.setVisibility(View.VISIBLE);
+                if(pageNum==1) {
+                    mListProd.clear();
+                    mListProd.addAll(mModelMarketGoods.getData().getBrandProd().getList());
+                    prodAdapter.notifyDataSetChanged();
+                }else {
+                    mListProd.addAll(mModelMarketGoods.getData().getBrandProd().getList());
+                    prodAdapter.notifyDataSetChanged();
+                }
+            }else {
+                rv_prod_detail.setVisibility(View.GONE);
+                mIvNoData.setVisibility(View.VISIBLE);
+            }
+
+            if (mModelMarketGoods.getData().getBrandProd().isHasNextPage()) {
+                hasPage = true;
+                rv_prod_detail.noMoreLoading(false);
+            } else {
+                hasPage = false;
+                rv_prod_detail.noMoreLoading(true);
+            }
+            rv_prod_detail.refreshComplete();
         }
 
-        if (mModelMarketGoods.getData().getProdClassify().isHasNextPage()) {
-            hasPage = true;
-        } else {
-            hasPage = false;
-        }
 
+
+//        if (pageNum == 1) {
+//            if (mModelMarketGoods.getData().getBrandProd() != null && mModelMarketGoods.getData().getBrandProd().getList().size()>0) {
+//                rv_prod_detail.setVisibility(View.VISIBLE);
+//                mIvNoData.setVisibility(View.GONE);
+//                mListProd.clear();
+//                mListProd.addAll(mModelMarketGoods.getData().getBrandProd().getList());
+//                prodAdapter.notifyDataSetChanged();
+//            } else {
+//                rv_prod_detail.setVisibility(View.GONE);
+//                mIvNoData.setVisibility(View.VISIBLE);
+//
+//            }
+//        } else {
+//            mListProd.addAll(mModelMarketGoods.getData().getBrandProd().getList());
+//            prodAdapter.notifyDataSetChanged();
+//        }
+
+
+//        if (pageNum == 1) {
+//            if (mModelMarketGoods.getData().getProdClassify() != null && mModelMarketGoods.getData().getProdClassify().getList().size() > 0) {
+//                mRvDetail.setVisibility(View.VISIBLE);
+//                mIvNoData.setVisibility(View.GONE);
+//                mListGoods.clear();
+//                mListGoods.addAll(mModelMarketGoods.getData().getProdClassify().getList());
+//                mAdapterMarketDetail.notifyDataSetChanged();
+//
+//            } else {
+//                mRvDetail.setVisibility(View.GONE);
+//                mIvNoData.setVisibility(View.VISIBLE);
+//            }
+//        } else {
+//            mListGoods.addAll(mModelMarketGoods.getData().getProdClassify().getList());
+//            mAdapterMarketDetail.notifyDataSetChanged();
+//        }
     }
 
     @Override
     public void setClickEvent() {
-
         mLlSearch.setOnClickListener(new NoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View view) {
@@ -1489,7 +1472,6 @@ public class MarketsFragment extends BaseFragment {
                 getActivity().startActivity(intent);
             }
         });
-
     }
 
     long start;
@@ -1498,18 +1480,12 @@ public class MarketsFragment extends BaseFragment {
         super.onResume();
         start = System.currentTimeMillis();
         String userMarketRefresh = UserInfoHelper.getUserMarketRefresh(getContext());
-//        dialog.show();
         if (StringHelper.notEmptyAndNull(userMarketRefresh)) {
 
         } else {
             pageNum = 1;
-
             UserInfoHelper.saveUserMarketRefresh(getContext(), "market_has_refresh");
         }
-
-
-//        mViewBanner.startAutoCycle(3000, 8000, true);
-
     }
 
     /**
@@ -1544,31 +1520,6 @@ public class MarketsFragment extends BaseFragment {
         });
     }
 
-
-    /**
-     * 获取客服电话
-     */
-    private void getCustomerPhone() {
-        PublicRequestHelper.getCustomerPhone(mActivity, new OnHttpCallBack<GetCustomerPhoneModel>() {
-            @Override
-            public void onSuccessful(GetCustomerPhoneModel getCustomerPhoneModel) {
-                if (getCustomerPhoneModel.isSuccess()) {
-                    cell = getCustomerPhoneModel.getData();
-                } else {
-                    AppHelper.showMsg(mActivity, getCustomerPhoneModel.getMessage());
-                }
-            }
-
-            @Override
-            public void onFaild(String errorMsg) {
-            }
-        });
-    }
-
-
-    List<String> list = new ArrayList<>();
-
-    List<String> list1 = new ArrayList<>();
     public interface onClick {
         void refreshCartNum(int pos);
     }
@@ -1578,8 +1529,6 @@ public class MarketsFragment extends BaseFragment {
         //刷新UI
         requestGoodsList("");
         getData();
-
-
     }
 
     @Override
@@ -1593,8 +1542,6 @@ public class MarketsFragment extends BaseFragment {
         //刷新UI
         requestGoodsList("");
         getData();
-
-
     }
 
 //    登录
@@ -1612,15 +1559,9 @@ public class MarketsFragment extends BaseFragment {
     public void change(FromIndexEvent fromIndexEvent) {
         fromId = fromIndexEvent.getId();
         requestGoodsList(fromId);
+        Log.d("wdasdasds.......",fromId+"aaa");
     }
 
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void change(BackEvent fromIndexEvent) {
-//        requestGoodsList(fromId);
-//        getData();
-//        getCustomerPhone();
-//
-//    }
     /**
      * 提示用户去登录还是注册的弹窗
      */
@@ -1634,11 +1575,91 @@ public class MarketsFragment extends BaseFragment {
 
             @Override
             public void Register() {
-//                startActivity(RegisterActivity.getIntent(mActivity, RegisterMessageActivity.class));
                 LoginUtil.initRegister(mActivity);
                 dismiss();
             }
         };
         couponDialog.show();
     }
+
+    /**
+     * 品牌
+     * @param saleVolume
+     * @param priceUp
+     * @param newProduct
+     * @param brandName
+     * @param minPrices
+     * @param maxPrices
+     */
+    private void sendSelectGoodThree(String saleVolume, String priceUp, String priceDown,String newProduct, String brandName, String minPrices, String maxPrices) {
+        MarketGoodSelcetAPI.getClassifyRight(mActivity, pageNum, 4, mFirstCode, mSecondCode,
+                        saleVolume, priceUp,priceDown, newProduct, brandName, minPrices, maxPrices)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<MarketRightModel>() {
+                    @Override
+                    public void onCompleted() {
+                        rv_prod_detail.refreshComplete();
+//                        ptr.refreshComplete();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        lav_activity_loading.hide();
+                    }
+
+                    @Override
+                    public void onNext(MarketRightModel marketGoodSelectModel) {
+                        mModelMarketGoods = marketGoodSelectModel;
+                        if (marketGoodSelectModel.isSuccess()) {
+
+                            flag = true;
+                            dialog.dismiss();
+                            upProdDate(marketGoodSelectModel);
+                            lav_activity_loading.hide();
+                        } else {
+                            AppHelper.showMsg(mActivity, marketGoodSelectModel.getMessage());
+                            lav_activity_loading.hide();
+                        }
+                    }
+                });
+    }
 }
+
+
+
+    //筛选确定
+//    private void sendSelectGoodTwo(String saleVolume, String priceUp,String priceDown, String newProduct, String brandName, String minPrices, String maxPrices) {
+//        MarketGoodSelcetAPI.getClassifyRight(mActivity, pageNum, 12, mFirstCode, mSecondCode, saleVolume, priceUp,priceDown, newProduct, brandName, minPrices, maxPrices)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<MarketRightModel>() {
+//                    @Override
+//                    public void onCompleted() {
+//                        mRvDetail.refreshComplete();
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        lav_activity_loading.hide();
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(MarketRightModel marketGoodSelectModel) {
+//                        if (marketGoodSelectModel.isSuccess()) {
+//
+//                            flag = true;
+//                            mModelMarketGoods = marketGoodSelectModel;
+//                            dialog.dismiss();
+//                            updateMarketGoods();
+//                            lav_activity_loading.hide();
+//
+//                        } else {
+//                            lav_activity_loading.hide();
+//                            AppHelper.showMsg(mActivity, marketGoodSelectModel.getMessage());
+//                        }
+//                    }
+//                });
+//    }

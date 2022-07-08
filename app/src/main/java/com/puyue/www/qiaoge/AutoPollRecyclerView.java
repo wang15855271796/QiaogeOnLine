@@ -2,8 +2,10 @@ package com.puyue.www.qiaoge;
 
 import android.content.Context;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 
 import java.lang.ref.WeakReference;
@@ -13,14 +15,16 @@ import java.lang.ref.WeakReference;
  */
 public class AutoPollRecyclerView extends RecyclerView {
 
-    private static final long TIME_AUTO_POLL = 2000;
+    private static final long TIME_AUTO_POLL = 3000;
     AutoPollTask autoPollTask;
     int index = 0;
     int lastX =0;
+    Context context;
     private boolean running; //标示是否正在自动轮询
     private boolean canRun;//标示是否可以自动轮询,可在不需要的是否置false
     public AutoPollRecyclerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
         autoPollTask = new AutoPollTask(this);
     }
     static class AutoPollTask implements Runnable {
@@ -34,12 +38,10 @@ public class AutoPollRecyclerView extends RecyclerView {
             AutoPollRecyclerView recyclerView = mReference.get();
             if (recyclerView != null && recyclerView.running &&recyclerView.canRun) {
                 recyclerView.smoothScrollToPosition(++recyclerView.index);
-
                 recyclerView.postDelayed(recyclerView.autoPollTask,recyclerView.TIME_AUTO_POLL);
             }
         }
     }
-
 
 
     //开启:如果正在运行,先停止->再开启
@@ -70,20 +72,18 @@ public class AutoPollRecyclerView extends RecyclerView {
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_OUTSIDE:
                 int nowX = (int) ev.getRawX();
-//                if(lastX-nowX>10) {
-//                    smoothScrollToPosition(++index);
-//
-//                }
-//
-//                if(nowX-lastX>10) {
-//                    smoothScrollToPosition(index ==0 ?0 : --index);
-//
-//                }
+                if(lastX-nowX>10) {
+                    smoothScrollToPosition(++index);
+
+                }
+
+                if(nowX-lastX>10) {
+                    smoothScrollToPosition(index ==0 ?0 : --index);
+                }
                 if (canRun)
                     start();
                 break;
         }
         return super.onTouchEvent(ev);
     }
-
 }

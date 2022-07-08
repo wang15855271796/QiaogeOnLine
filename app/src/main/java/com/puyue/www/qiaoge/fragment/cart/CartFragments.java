@@ -29,7 +29,6 @@ import com.puyue.www.qiaoge.activity.flow.TagAdapter;
 import com.puyue.www.qiaoge.activity.flow.TagFlowLayout;
 import com.puyue.www.qiaoge.activity.home.SearchReasultActivity;
 import com.puyue.www.qiaoge.activity.mine.order.ConfirmNewOrderActivity;
-import com.puyue.www.qiaoge.adapter.MarqueeAdapter;
 import com.puyue.www.qiaoge.adapter.Must2Adapter;
 import com.puyue.www.qiaoge.adapter.cart.CartAdapter;
 import com.puyue.www.qiaoge.api.cart.CartBalanceAPI;
@@ -564,10 +563,6 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                                             rl_reduce.setVisibility(View.GONE);
                                         }
                                     }
-
-
-
-
                                 }
 
                                 rl_reduce.setOnClickListener(new View.OnClickListener() {
@@ -584,7 +579,6 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                                         fullDialog.show();
                                     }
                                 });
-
                             }else {
                                 ll_scroll.setVisibility(View.GONE);
                             }

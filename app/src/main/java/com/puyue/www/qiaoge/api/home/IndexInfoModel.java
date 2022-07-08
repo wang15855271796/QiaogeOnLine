@@ -115,6 +115,15 @@ public class IndexInfoModel {
         String orderId;
         private HllTip hllTip;
         String companyName;
+        private List<NoticeInfoBean> noticeInfo;
+
+        public List<NoticeInfoBean> getNoticeInfo() {
+            return noticeInfo;
+        }
+
+        public void setNoticeInfo(List<NoticeInfoBean> noticeInfo) {
+            this.noticeInfo = noticeInfo;
+        }
 
         public String getCompanyName() {
             return companyName;
@@ -153,6 +162,52 @@ public class IndexInfoModel {
 
         public void setProvinceName(String provinceName) {
             this.provinceName = provinceName;
+        }
+
+        public static class NoticeInfoBean {
+            /**
+             * id : 141
+             * title : 的顶顶顶顶顶顶顶顶顶顶顶顶顶顶顶
+             * dateTime : 2021-08-19
+             * readFlag : 0
+             */
+
+            private int id;
+            private String title;
+            private String gmtCreateTime;
+            private String content;
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
+
+            public String getGmtCreateTime() {
+                return gmtCreateTime;
+            }
+
+            public void setGmtCreateTime(String gmtCreateTime) {
+                this.gmtCreateTime = gmtCreateTime;
+            }
+
+            public String getContent() {
+                return content;
+            }
+
+            public void setContent(String content) {
+                this.content = content;
+            }
         }
 
         @Override

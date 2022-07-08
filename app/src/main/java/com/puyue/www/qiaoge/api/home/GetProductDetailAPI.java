@@ -42,17 +42,6 @@ public class GetProductDetailAPI {
     }
 
 
-    private interface SearchExchageProductService {
-        @FormUrlEncoded
-        @POST(AppInterfaceAddress.EXCHANGEPRODUCT)
-        Observable<ExchangeProductModel> getData(@Field("productId") int productId, @Field("businessType") int businessType, @Field("companyId") String companyId);
-    }
-
-    public static Observable<ExchangeProductModel> searchExchangeList(Context context, int productId,int businessType,String companyId) {
-        SearchExchageProductService service = RestHelper.getBaseRetrofit(context).create(SearchExchageProductService.class);
-        return service.getData(productId,businessType,companyId);
-    }
-
     private interface GetProductDetailServicse {
         @FormUrlEncoded
         @POST(AppInterfaceAddress.GETPRODUCTDETAIL)
@@ -63,5 +52,4 @@ public class GetProductDetailAPI {
         GetProductDetailServicse service = RestHelper.getBaseRetrofit(context).create(GetProductDetailServicse.class);
         return service.getData(productMainId);
     }
-
 }

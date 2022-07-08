@@ -768,64 +768,65 @@ public class PaymentFragments extends DialogFragment {
 
                     @Override
                     public void onNext(PayListModel payListModel) {
-                        if (payListModel.success) {
-                            data = payListModel.getData();
+                        if (payListModel.getCode()==1) {
                             list.clear();
-                            list.addAll(data);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                            payListAdapter = new PayListAdapter(R.layout.item_pay_list,list);
-                            recyclerView.setAdapter(payListAdapter);
-
-
-                            if(payListModel.getData().get(0).getFlag().equals("0")) {
-                                tv_balance.setText(payListModel.getData().get(0).getChannelName()+"("+UserInfoHelper.getUserWalletAccount(getActivity())+")");
-                                payChannel = 1;
-                                jumpWx = payListModel.getData().get(0).getJumpWx();
-                            }else if(payListModel.getData().get(0).getFlag().equals("1")){
-                                tv_balance.setText(payListModel.getData().get(0).getChannelName());
-                                payChannel = 2;
-                                jumpWx = payListModel.getData().get(0).getJumpWx();
-                            }else if(payListModel.getData().get(0).getFlag().equals("2")){
-                                tv_balance.setText(payListModel.getData().get(0).getChannelName());
-                                payChannel = 3;
-                                jumpWx = payListModel.getData().get(0).getJumpWx();
-                            }else if(payListModel.getData().get(0).getFlag().equals("3")){
-                                tv_balance.setText(payListModel.getData().get(0).getChannelName());
-                                payChannel = 16;
-                                jumpWx = payListModel.getData().get(0).getJumpWx();
-                            }
-
-                            payListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                                    selectionPosition = position;
-                                    payListAdapter.selectionPosition(position);
-                                    payListAdapter.notifyDataSetChanged();
-
-                                    if(payListModel.getData().get(position).getFlag().equals("0")) {
-                                        payChannel = 1;
-                                        jumpWx = payListModel.getData().get(position).getJumpWx();
-                                    }else if(payListModel.getData().get(position).getFlag().equals("1")){
-                                        payChannel = 2;
-                                        jumpWx = payListModel.getData().get(position).getJumpWx();
-                                    }else if(payListModel.getData().get(position).getFlag().equals("2")){
-                                        payChannel = 3;
-                                        jumpWx = payListModel.getData().get(position).getJumpWx();
-                                    }else if(payListModel.getData().get(position).getFlag().equals("3")){
-                                        payChannel = 16;
-                                        jumpWx = payListModel.getData().get(position).getJumpWx();
-                                    }
-                                    if(payListModel.getData().get(position).getFlag().equals("0")) {
-                                        tv_balance.setText("余额"+"("+UserInfoHelper.getUserWalletAccount(getActivity())+")");
-                                    }else {
-                                        tv_balance.setText(data.get(position).getChannelName());
-                                    }
-                                    rePayDetail.startAnimation(slide_left_to_right);
-                                    rePayDetail.setVisibility(View.VISIBLE);
-                                    LinPayWay.startAnimation(slide_left_to_right);
-                                    LinPayWay.setVisibility(View.GONE);
+                            if(payListModel.getData()!=null && payListModel.getData().size()> 0) {
+                                data = payListModel.getData();
+                                list.addAll(data);
+                                if(data.get(0).getFlag().equals("0")) {
+                                    tv_balance.setText(data.get(0).getChannelName()+"("+UserInfoHelper.getUserWalletAccount(getActivity())+")");
+                                    payChannel = 1;
+                                    jumpWx = data.get(0).getJumpWx();
+                                }else if(data.get(0).getFlag().equals("1")){
+                                    tv_balance.setText(payListModel.getData().get(0).getChannelName());
+                                    payChannel = 2;
+                                    jumpWx = data.get(0).getJumpWx();
+                                }else if(data.get(0).getFlag().equals("2")){
+                                    tv_balance.setText(data.get(0).getChannelName());
+                                    payChannel = 3;
+                                    jumpWx = data.get(0).getJumpWx();
+                                }else if(data.get(0).getFlag().equals("3")){
+                                    tv_balance.setText(data.get(0).getChannelName());
+                                    payChannel = 16;
+                                    jumpWx = data.get(0).getJumpWx();
                                 }
-                            });
+
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                payListAdapter = new PayListAdapter(R.layout.item_pay_list,list);
+                                recyclerView.setAdapter(payListAdapter);
+
+                                payListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                        selectionPosition = position;
+                                        payListAdapter.selectionPosition(position);
+                                        payListAdapter.notifyDataSetChanged();
+
+                                        if(data.get(position).getFlag().equals("0")) {
+                                            payChannel = 1;
+                                            jumpWx = data.get(position).getJumpWx();
+                                        }else if(data.get(position).getFlag().equals("1")){
+                                            payChannel = 2;
+                                            jumpWx = data.get(position).getJumpWx();
+                                        }else if(data.get(position).getFlag().equals("2")){
+                                            payChannel = 3;
+                                            jumpWx = data.get(position).getJumpWx();
+                                        }else if(payListModel.getData().get(position).getFlag().equals("3")){
+                                            payChannel = 16;
+                                            jumpWx = data.get(position).getJumpWx();
+                                        }
+                                        if(data.get(position).getFlag().equals("0")) {
+                                            tv_balance.setText("余额"+"("+UserInfoHelper.getUserWalletAccount(getActivity())+")");
+                                        }else {
+                                            tv_balance.setText(data.get(position).getChannelName());
+                                        }
+                                        rePayDetail.startAnimation(slide_left_to_right);
+                                        rePayDetail.setVisibility(View.VISIBLE);
+                                        LinPayWay.startAnimation(slide_left_to_right);
+                                        LinPayWay.setVisibility(View.GONE);
+                                    }
+                                });
+                            }
 
                         } else {
                             AppHelper.showMsg(getContext(), payListModel.message);

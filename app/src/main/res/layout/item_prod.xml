@@ -10,18 +10,17 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_marginTop="5dp"
             android:id="@+id/tv_titlt"
-            android:text="翘歌"
-            android:layout_marginLeft="@dimen/size_8dp"
-            android:textColor="#333333"
-            android:textSize="16sp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/size_8dp"
+            android:layout_marginTop="5dp"
+            android:text="翘歌"
+            android:textColor="#333333"
+            android:textSize="16sp" />
 
         <RelativeLayout
             android:id="@+id/rl"
-            android:layout_below="@+id/tv_sale"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/size_20dp"
             android:layout_marginTop="@dimen/size_3dp"
@@ -43,14 +42,9 @@
 
     </RelativeLayout>
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewProd"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-    </androidx.recyclerview.widget.RecyclerView>
-
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

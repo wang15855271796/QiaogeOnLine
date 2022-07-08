@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.puyue.www.qiaoge.AutoPollRecyclerView
         android:id="@+id/rv_auto_view"
         android:padding="@dimen/size_8dp"
         android:layout_marginBottom="@dimen/size_5dp"
@@ -14,5 +14,5 @@
         android:layout_width="match_parent"
         android:layout_height="138dp">
 
-    </androidx.recyclerview.widget.RecyclerView>
+    </com.puyue.www.qiaoge.AutoPollRecyclerView>
 </LinearLayout>

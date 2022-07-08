@@ -6,6 +6,7 @@ import android.widget.FrameLayout;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
 import com.puyue.www.qiaoge.helper.RestHelper;
+import com.puyue.www.qiaoge.model.AreasModel;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -40,6 +41,19 @@ public class DefaultAddressAPI {
 
     public static Observable<BaseModel> getReceiveAddress(Context context, int addressId,String orderId) {
         Observable<BaseModel> editDefaultAddressObservable = RestHelper.getBaseRetrofit(context).create(ReceiveAddressService.class).setParams(addressId,orderId);
+        return editDefaultAddressObservable;
+    }
+
+    //获取详细地址
+    public interface GetAreaService {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Get_Area)
+        Observable<AreasModel> setParams(@Field("chooseCityName") String chooseCityName,
+                                         @Field("keyword") String keyword);
+    }
+
+    public static Observable<AreasModel> getArea(Context context, String chooseCityName,String keyword) {
+        Observable<AreasModel> editDefaultAddressObservable = RestHelper.getBaseRetrofit(context).create(GetAreaService.class).setParams(chooseCityName,keyword);
         return editDefaultAddressObservable;
     }
 }

@@ -16,7 +16,7 @@ public abstract class AuthDialog extends Dialog implements View.OnClickListener{
 
     Context mContext;
     TextView tv_sure;
-    TextView tv_cancel;
+    TextView iv_cancel;
     TextView tv_get;
     EditText et_authprize;
     public AuthDialog(@NonNull Context context) {
@@ -30,10 +30,10 @@ public abstract class AuthDialog extends Dialog implements View.OnClickListener{
     private void initAction() {
         tv_get = (TextView) findViewById(R.id.tv_get);
         tv_sure = (TextView) findViewById(R.id.tv_sure);
-        tv_cancel = (TextView) findViewById(R.id.tv_cancel);
+        iv_cancel = (TextView) findViewById(R.id.tv_cancel);
 
         tv_sure.setOnClickListener(this);
-        tv_cancel.setOnClickListener(this);
+        iv_cancel.setOnClickListener(this);
         tv_get.setOnClickListener(this);
 
     }
@@ -45,7 +45,7 @@ public abstract class AuthDialog extends Dialog implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_cancle:
+            case R.id.iv_cancel:
                 dismiss();
                 break;
 

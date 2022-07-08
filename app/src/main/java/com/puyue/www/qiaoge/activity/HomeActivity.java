@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -23,10 +25,12 @@ import android.widget.TextView;
 import com.chuanglan.shanyan_sdk.OneKeyLoginManager;
 import com.chuanglan.shanyan_sdk.listener.GetPhoneInfoListener;
 import com.chuanglan.shanyan_sdk.listener.InitListener;
+import com.puyue.www.qiaoge.AutoPollRecyclerView;
 import com.puyue.www.qiaoge.QiaoGeApplication;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LogoutsEvent;
+import com.puyue.www.qiaoge.adapter.Test3Adapter;
 import com.puyue.www.qiaoge.api.PostLoadAmountAPI;
 import com.puyue.www.qiaoge.api.SendJsPushAPI;
 import com.puyue.www.qiaoge.api.home.SendLocationAPI;
@@ -47,7 +51,9 @@ import com.puyue.www.qiaoge.event.setFragmentsEvent;
 import com.puyue.www.qiaoge.fragment.cart.CartFragment;
 import com.puyue.www.qiaoge.fragment.cart.CartFragments;
 import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
+import com.puyue.www.qiaoge.fragment.home.HomeFragment;
 import com.puyue.www.qiaoge.fragment.home.HomeFragment10;
+import com.puyue.www.qiaoge.fragment.home.HomeFragment2;
 import com.puyue.www.qiaoge.fragment.home.InfoFragment;
 import com.puyue.www.qiaoge.fragment.market.MarketsFragment;
 import com.puyue.www.qiaoge.fragment.mine.MineFragment;
@@ -128,7 +134,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     @Override
     public void onAttachFragment(Fragment fragment) {
         //重新让新的Fragment指向了原本未被销毁的fragment，它就是onAttach方法对应的Fragment对象
-        if (mTabHome == null && fragment instanceof HomeFragment10)
+        if (mTabHome == null && fragment instanceof HomeFragment)
             mTabHome = fragment;
         if (mTabMarket == null && fragment instanceof MarketsFragment)
             mTabMarket = fragment;
@@ -188,11 +194,11 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
             }
         });
         setContentView(R.layout.activity_home);
+
     }
 
     @Override
     public void findViewById() {
-//        iv_home_scroll = (ImageView) findViewById(R.id.iv_home_scroll);
         iv_info = (ImageView) findViewById(R.id.iv_info);
         tv_info = (TextView) findViewById(R.id.tv_info);
         ll_info = (LinearLayout) findViewById(R.id.ll_info);
@@ -230,47 +236,10 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         }
 
         token = AppConstant.TOKEN;
-//        mLocationClient = new LocationClient(getApplicationContext());
-//        //声明LocationClient类
-//        mLocationClient.registerLocationListener(myListener);
-
         EventBus.getDefault().post(new InitEvent());
-        //注册监听函数
-//        LocationClientOption option = new LocationClientOption();
-//
-//        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-//        option.setIsNeedAddress(true);
-////可选，是否需要地址信息，默认为不需要，即参数为false
-////如果开发者需要获得当前点的地址信息，此处必须为true
-//        option.setOpenGps(true);
-////可选，设置是否使用gps，默认false
-////使用高精度和仅用设备两种定位模式的，参数必须设置为true
-//
-//        option.setLocationNotify(true);
-////可选，设置是否当GPS有效时按照1S/1次频率输出GPS结果，默认false
-//
-//        option.setIgnoreKillProcess(true);
-//        mLocationClient.setLocOption(option);
 
-
-//        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
-        //传当前地址信息
-//        QueryHomePropup();
-
-//mLocationClient为第二步初始化过的LocationClient对象
-//需将配置好的LocationClientOption对象，通过setLocOption方法传递给LocationClient对象使用
-//更多LocationClientOption的配置，请参照类参考中LocationClientOption类的详细说明
-        //  SharedPreferences preferences = getSharedPreferences("isFirstUse", MODE_WORLD_READABLE);
-        //  UserInfoHelper.saveGuide(mActivity, "guide");
         guide = UserInfoHelper.getGuide(mActivity);
         UserInfoHelper.saveChangeFlag(mContext,0+"");
-
-//        JPushInterface.init(this);
-//        String registrationID = JPushInterface.getRegistrationID(this);
-//        UserInfoHelper.saveRegistionId(mContext, registrationID);
-//        mLocationClient.start();
-//        switchTab(TAB_HOME);
-
 }
 
     private void sendLocation() {
@@ -433,7 +402,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                 mLlMine.setSelected(false);
                 mTvHome.setVisibility(View.GONE);
                 if (mTabHome == null || isGet) {
-                    mTabHome = new HomeFragment10();
+                    mTabHome = new HomeFragment();
                     mFragmentTransaction.add(R.id.layout_home_container, mTabHome);
                     isGet = false;
                 } else {

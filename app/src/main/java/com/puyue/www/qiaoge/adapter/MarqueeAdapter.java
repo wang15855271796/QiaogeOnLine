@@ -15,7 +15,10 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.mine.MessageCenterActivity;
+import com.puyue.www.qiaoge.activity.mine.MessageDetailActivity;
 import com.puyue.www.qiaoge.api.cart.CartListAPI;
+import com.puyue.www.qiaoge.api.home.IndexInfoModel;
 import com.puyue.www.qiaoge.dialog.FullDialog;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.model.CartFullModel;
@@ -34,44 +37,30 @@ import rx.schedulers.Schedulers;
  */
 public class MarqueeAdapter extends RecyclerView.Adapter<MarqueeAdapter.ViewHolder>  {
 
-    List<CartGetReductModel.DataBean> data;
+    List<IndexInfoModel.DataBean.NoticeInfoBean> data;
     Activity activity;
-    CartGetReductModel.DataBean dataBean;
-    public void setData(List<CartGetReductModel.DataBean> data, int itemCount, FragmentActivity activity) {
+    IndexInfoModel.DataBean.NoticeInfoBean dataBean;
+    public void setData(List<IndexInfoModel.DataBean.NoticeInfoBean> data, FragmentActivity activity) {
         this.data = data;
         this.activity = activity;
-        int remainder = data.size() % itemCount;
-        if (remainder > 0) {
-            for (int i = 0; i >= itemCount; i++) {
-                this.data.remove(data.size()-1);
-            }
-        }
-        if (data.size() > itemCount) {
-            for (int i = 0; i < itemCount; i++) {
-                this.data.add(data.size(), data.get(i));
-            }
-        }
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.marque_item, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_marquee, null);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         dataBean = data.get(position);
-        holder.tv_notice.setText(dataBean.getDeductInfo());
-        holder.tv_notice.setOnClickListener(new View.OnClickListener() {
+        holder.tv_content.setText(dataBean.getContent());
+        holder.tv_content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(data.get(position).getType()==0) {
-                    AppHelper.showFullDialog(activity);
-                }else {
-                    FullDialog fullDialog = new FullDialog(activity);
-                    fullDialog.show();
-                }
+                Intent intent = new Intent(activity, MessageDetailActivity.class);
+                intent.putExtra("id",dataBean.getId());
+                activity.startActivity(intent);
             }
         });
     }
@@ -87,14 +76,11 @@ public class MarqueeAdapter extends RecyclerView.Adapter<MarqueeAdapter.ViewHold
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tv_notice;
-        TextView tv_desc;
-        LinearLayout ll_root;
+        TextView tv_content;
+
         public ViewHolder(View view) {
             super(view);
-            ll_root = view.findViewById(R.id.ll_root);
-            tv_desc = (TextView) view.findViewById(R.id.tv_desc);
-            tv_notice = (TextView) view.findViewById(R.id.tv_notice);
+            tv_content = (TextView) view.findViewById(R.id.tv_content);
         }
     }
 

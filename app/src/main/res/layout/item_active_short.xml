@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/ll_root"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/size_6dp"
+        android:layout_marginLeft="@dimen/size_6dp"
+        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="74dp"
+            android:layout_height="wrap_content">
+
+            <com.puyue.www.qiaoge.RoundImageView
+                android:id="@+id/iv_pic"
+                android:layout_width="74dp"
+                android:layout_height="74dp"/>
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv_not_send"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/icon_not_send2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_price"
+            tools:text="120"
+            android:lines="1"
+            android:ellipsize="end"
+            android:textColor="#FF2925"
+            android:textSize="@dimen/sp_14"
+            android:layout_marginTop="@dimen/size_3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/size_6dp"
+        android:layout_marginLeft="@dimen/size_6dp"
+        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="翘歌"
+            android:textStyle="bold"
+            android:lines="2"
+            android:id="@+id/tv_title"
+            android:ellipsize="end"
+            android:textSize="@dimen/sp_14"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_save_price"
+            tools:text="120"
+            android:textColor="#FF5C00"
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp"
+            android:lines="1"
+            android:ellipsize="end"
+            android:paddingLeft="@dimen/size_8dp"
+            android:paddingRight="@dimen/size_8dp"
+            android:background="@drawable/shape_yellow2"
+            android:textSize="@dimen/sp_12"
+            android:layout_marginTop="@dimen/size_3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -11,6 +11,7 @@ import com.puyue.www.qiaoge.event.PrivacyModel;
 import com.puyue.www.qiaoge.event.TurnModel;
 import com.puyue.www.qiaoge.event.TurnReceiveModel;
 import com.puyue.www.qiaoge.helper.RestHelper;
+import com.puyue.www.qiaoge.model.AuthModel;
 import com.puyue.www.qiaoge.model.ChangeCityModel;
 import com.puyue.www.qiaoge.model.CompanyListModel;
 import com.puyue.www.qiaoge.model.CouponListsModel;
@@ -328,11 +329,11 @@ public class IndexHomeAPI {
     private interface GetAuthorizeService {
         @FormUrlEncoded
         @POST(AppInterfaceAddress.Get_Authorize)
-        Observable<BaseModel> getData(@Field("authCode") String authCode);
+        Observable<AuthModel> getData(@Field("authCode") String authCode);
 
     }
 
-    public static Observable<BaseModel> getCode(Context context,String authCode) {
+    public static Observable<AuthModel> getCode(Context context, String authCode) {
         GetAuthorizeService spikeActiveQueryService = RestHelper.getBaseRetrofit(context).create(GetAuthorizeService.class);
         return spikeActiveQueryService.getData(authCode);
     }

@@ -62,7 +62,6 @@ public class CommonFragment extends BaseFragment {
     int pageNum = 1;
     int pageSize = 10;
     ProductNormalModel productNormalModel;
-    String flag = "commonBuy";
     View emptyView;
     CouponDialog couponDialog;
     String cell;

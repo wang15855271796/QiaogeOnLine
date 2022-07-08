@@ -157,8 +157,8 @@ public class CouponModels {
             private long startTime;
             private long endTime;
             private String startTimeStr;
-            private List<ActivesBean> actives;
 
+            private List<ActivesBean> actives;
             public String getTitle() {
                 return title;
             }
@@ -266,11 +266,11 @@ public class CouponModels {
                 private Object productMainId;
                 private Object productId;
                 private String defaultPic;
-                private Object productName;
+                private String productName;
                 private Object spec;
                 private Object sendGiftInfo;
                 private Object sendGiftType;
-                private Object minMaxPrice;
+                private String minMaxPrice;
                 private int inventory;
                 private String roleAmount;
                 private Object sendGiftPic;
@@ -283,6 +283,15 @@ public class CouponModels {
                 private String soldOutPic;
                 private String discount;
                 int notSend;
+                String spread;
+
+                public String getSpread() {
+                    return spread;
+                }
+
+                public void setSpread(String spread) {
+                    this.spread = spread;
+                }
 
                 public int getNotSend() {
                     return notSend;
@@ -316,11 +325,11 @@ public class CouponModels {
                     this.defaultPic = defaultPic;
                 }
 
-                public Object getProductName() {
+                public String getProductName() {
                     return productName;
                 }
 
-                public void setProductName(Object productName) {
+                public void setProductName(String productName) {
                     this.productName = productName;
                 }
 
@@ -348,11 +357,11 @@ public class CouponModels {
                     this.sendGiftType = sendGiftType;
                 }
 
-                public Object getMinMaxPrice() {
+                public String getMinMaxPrice() {
                     return minMaxPrice;
                 }
 
-                public void setMinMaxPrice(Object minMaxPrice) {
+                public void setMinMaxPrice(String minMaxPrice) {
                     this.minMaxPrice = minMaxPrice;
                 }
 
@@ -465,6 +474,7 @@ public class CouponModels {
             private Object startTimeStr;
             private List<ActivesBeanX> actives;
 
+
             public String getTitle() {
                 return title;
             }
@@ -547,11 +557,11 @@ public class CouponModels {
                 private Object productMainId;
                 private Object productId;
                 private String defaultPic;
-                private Object productName;
+                private String productName;
                 private Object spec;
                 private Object sendGiftInfo;
                 private Object sendGiftType;
-                private Object minMaxPrice;
+                private String minMaxPrice;
                 private int inventory;
                 private String roleAmount;
                 private Object sendGiftPic;
@@ -564,6 +574,15 @@ public class CouponModels {
                 private String soldOutPic;
                 private String discount;
                 int notSend;
+                String spread;
+
+                public String getSpread() {
+                    return spread;
+                }
+
+                public void setSpread(String spread) {
+                    this.spread = spread;
+                }
 
                 public int getNotSend() {
                     return notSend;
@@ -596,11 +615,11 @@ public class CouponModels {
                     this.defaultPic = defaultPic;
                 }
 
-                public Object getProductName() {
+                public String getProductName() {
                     return productName;
                 }
 
-                public void setProductName(Object productName) {
+                public void setProductName(String productName) {
                     this.productName = productName;
                 }
 
@@ -628,11 +647,11 @@ public class CouponModels {
                     this.sendGiftType = sendGiftType;
                 }
 
-                public Object getMinMaxPrice() {
+                public String getMinMaxPrice() {
                     return minMaxPrice;
                 }
 
-                public void setMinMaxPrice(Object minMaxPrice) {
+                public void setMinMaxPrice(String minMaxPrice) {
                     this.minMaxPrice = minMaxPrice;
                 }
 
@@ -743,6 +762,7 @@ public class CouponModels {
             private Object startTime;
             private Object endTime;
             private Object startTimeStr;
+
             private List<ActivesBeanXX> actives;
 
             @Override
@@ -857,6 +877,15 @@ public class CouponModels {
                 private String soldOutPic;
                 private Object discount;
                 int notSend;
+                String sendInfo;
+
+                public String getSendInfo() {
+                    return sendInfo;
+                }
+
+                public void setSendInfo(String sendInfo) {
+                    this.sendInfo = sendInfo;
+                }
 
                 public int getNotSend() {
                     return notSend;
@@ -1076,6 +1105,7 @@ public class CouponModels {
                         '}';
             }
 
+
             public String getTitle() {
                 return title;
             }
@@ -1158,11 +1188,11 @@ public class CouponModels {
                 private Object productMainId;
                 private Object productId;
                 private String defaultPic;
-                private Object productName;
+                private String productName;
                 private Object spec;
                 private Object sendGiftInfo;
                 private Object sendGiftType;
-                private Object minMaxPrice;
+                private String minMaxPrice;
                 private int inventory;
                 private String roleAmount;
                 private Object sendGiftPic;
@@ -1175,6 +1205,15 @@ public class CouponModels {
                 private String soldOutPic;
                 private String discount;
                 int notSend;
+                String spread;
+
+                public String getSpread() {
+                    return spread;
+                }
+
+                public void setSpread(String spread) {
+                    this.spread = spread;
+                }
 
                 public int getNotSend() {
                     return notSend;
@@ -1207,11 +1246,11 @@ public class CouponModels {
                     this.defaultPic = defaultPic;
                 }
 
-                public Object getProductName() {
+                public String getProductName() {
                     return productName;
                 }
 
-                public void setProductName(Object productName) {
+                public void setProductName(String productName) {
                     this.productName = productName;
                 }
 
@@ -1239,11 +1278,11 @@ public class CouponModels {
                     this.sendGiftType = sendGiftType;
                 }
 
-                public Object getMinMaxPrice() {
+                public String getMinMaxPrice() {
                     return minMaxPrice;
                 }
 
-                public void setMinMaxPrice(Object minMaxPrice) {
+                public void setMinMaxPrice(String minMaxPrice) {
                     this.minMaxPrice = minMaxPrice;
                 }
 

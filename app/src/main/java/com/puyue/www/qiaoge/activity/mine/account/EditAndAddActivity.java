@@ -27,6 +27,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
@@ -99,7 +100,7 @@ public class EditAndAddActivity extends BaseSwipeActivity {
     private EditText mEditStore;
     private TextView mTvArea;
     private AutoCompleteTextView keyWorldsView;
-    private LinearLayout mLlDefault;
+    private RelativeLayout mLlDefault;
     private CheckBox mCbDefault;
     private Button mBtnConfirm;
     private NestedScrollView mLlEditAddress;
@@ -114,18 +115,10 @@ public class EditAndAddActivity extends BaseSwipeActivity {
     private BaseModel mModelEditAddress;
     private boolean isDefaultNow = false;
     private boolean isLoaded = false;
-    //private PoiSearch poiSearch= PoiSearch.newInstance();
-//    private SuggestionSearch mSuggestionSearch;
-
-    private ArrayAdapter<String> sugAdapter = null;
-    private int loadIndex = 0;
-
-
     private SuggestAdressAdapter adressAdapter;
     private RecyclerView ry_suggest;
-    private TextView tv_target;
     TextView tv_edit_address_area;
-
+    ImageView iv_switch;
     //  省
     private List<AreaModel.DataBean> options1Items = new ArrayList<>();
     //  市
@@ -153,26 +146,6 @@ public class EditAndAddActivity extends BaseSwipeActivity {
         return intent;
     }
 
-    private final MyHandler handler = new MyHandler(this);
-
-    private static class MyHandler extends Handler {
-        private final WeakReference<EditAndAddActivity> mActivity;
-
-        public MyHandler(EditAndAddActivity activity) {
-            // TODO Auto-generated constructor stub
-            mActivity = new WeakReference<>(activity);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            EditAndAddActivity activity = mActivity.get();
-            if (activity != null) {
-                activity.handleMessage(msg);
-            }
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         handleExtra(savedInstanceState);
@@ -181,25 +154,24 @@ public class EditAndAddActivity extends BaseSwipeActivity {
 
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
-        mType = getIntent().getStringExtra(TYPE);
-        mUserName = getIntent().getStringExtra(USER_NAME);
-        mUserPhone = getIntent().getStringExtra(USER_PHONE);
-        mStoreName = getIntent().getStringExtra(STORE_NAME);
-        mArea = getIntent().getStringExtra(AREA);
-        mAddress = getIntent().getStringExtra(ADDRESS);
-        mDefault = getIntent().getStringExtra(DEFAULT);
-        mAddressId = getIntent().getStringExtra(ADDRESS_ID);
-        mProvinceCode = getIntent().getStringExtra(PROVINCE_CODE);
-        mCityCode = getIntent().getStringExtra(CITY_CODE);
-        mAreaCode = getIntent().getStringExtra(AREA_CODE);
-        orderId = getIntent().getStringExtra(ORDERID);
+        mType = savedInstanceState.getString(TYPE);
+        mUserName = savedInstanceState.getString(USER_NAME);
+        mUserPhone = savedInstanceState.getString(USER_PHONE);
+        mStoreName = savedInstanceState.getString(STORE_NAME);
+        mArea = savedInstanceState.getString(AREA);
+        mAddress = savedInstanceState.getString(ADDRESS);
+        mDefault = savedInstanceState.getString(DEFAULT);
+        mAddressId = savedInstanceState.getString(ADDRESS_ID);
+        mProvinceCode = savedInstanceState.getString(PROVINCE_CODE);
+        mCityCode = savedInstanceState.getString(CITY_CODE);
+        mAreaCode = savedInstanceState.getString(AREA_CODE);
+        orderId = savedInstanceState.getString(ORDERID);
         if (savedInstanceState != null) {
             mType = savedInstanceState.getString(TYPE);
             mUserName = savedInstanceState.getString(USER_NAME);
             mUserPhone = savedInstanceState.getString(USER_PHONE);
             mStoreName = savedInstanceState.getString(STORE_NAME);
             mArea = savedInstanceState.getString(AREA);
-
             mAddress = savedInstanceState.getString(ADDRESS);
             mDefault = savedInstanceState.getString(DEFAULT);
             mAddressId = savedInstanceState.getString(ADDRESS_ID);
@@ -208,6 +180,7 @@ public class EditAndAddActivity extends BaseSwipeActivity {
             mAreaCode = savedInstanceState.getString(AREA_CODE);
             orderId = savedInstanceState.getString(ORDERID);
         }
+
         return false;
     }
 
@@ -219,7 +192,7 @@ public class EditAndAddActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
-
+        iv_switch = (ImageView) findViewById(R.id.iv_switch);
         lav_activity_loading = (AVLoadingIndicatorView) findViewById(R.id.lav_activity_loading);
         mIvBack = (ImageView) findViewById(R.id.iv_edit_address_back);
         mEditName = (EditText) findViewById(R.id.edit_edit_address_name);
@@ -227,24 +200,30 @@ public class EditAndAddActivity extends BaseSwipeActivity {
         mEditStore = (EditText) findViewById(R.id.edit_edit_address_store);//店名选填
         mTvArea = (TextView) findViewById(R.id.tv_edit_address_area);
         keyWorldsView = (AutoCompleteTextView) findViewById(R.id.edit_edit_address_address);
-        mLlDefault = (LinearLayout) findViewById(R.id.ll_edit_address_default);
+        mLlDefault = (RelativeLayout) findViewById(R.id.ll_edit_address_default);
         mCbDefault = (CheckBox) findViewById(R.id.cb_edit_address_default);
         mBtnConfirm = (Button) findViewById(R.id.btn_edit_address_confirm);
-        //  mLlEditAddress = (NestedScrollView) findViewById(R.id.ll_edit_address);
         mTvTitle = (TextView) findViewById(R.id.tv_edit_address_title);
         ry_suggest = (RecyclerView) findViewById(R.id.ry_suggest);
         tv_edit_address_area = (TextView) findViewById(R.id.tv_edit_address_area);
-        tv_target = (TextView) findViewById(R.id.tv_target);
+
+        iv_switch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isOpen) {
+                    isOpen = false;
+                    iv_switch.setImageResource(R.mipmap.iv_closes);
+                }else {
+                    isOpen = true;
+                    iv_switch.setImageResource(R.mipmap.iv_opens);
+                }
+            }
+        });
     }
 
+    boolean isOpen;
     @Override
     public void setViewData() {
-        Log.d("dfdsfdsf...","q");
-        //   setTranslucentStatus();
-//        mSuggestionSearch = SuggestionSearch.newInstance();
-//        cityName=mArea;
-
-        //  mSuggestionSearch = SuggestionSearch.newInstance();
         mPicker.init(mContext);
         if (StringHelper.notEmptyAndNull(mType)) {
             if (mType.equals("add")) {
@@ -291,18 +270,9 @@ public class EditAndAddActivity extends BaseSwipeActivity {
 
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-                if (cs.length() <= 0) {
-                    ry_suggest.setVisibility(View.GONE);
-                    tv_target.setVisibility(View.GONE);
-                    return;
-                }
-
-                showSugDialog(cs);
 
             }
         });
-
-//        mSuggestionSearch.setOnGetSuggestionResultListener(this);
 
     }
     public void handleMessage(Message msg) {
@@ -337,50 +307,6 @@ public class EditAndAddActivity extends BaseSwipeActivity {
         adressAdapter.notifyDataSetChanged();
         ry_suggest.setVisibility(View.GONE);
 
-    }
-
-    private void showSugDialog(CharSequence cs) {
-        if (tv_edit_address_area.getText().toString()!=null&&!tv_edit_address_area.getText().toString().equals("")) {
-            suggestion(cs.toString());
-            /* 使用建议搜索服务获取建议列表，结果在onSuggestionResult()中更新 */
-//            mSuggestionSearch.requestSuggestion((new SuggestionSearchOption())
-//
-//                    .keyword(cs.toString())
-//                    .city(cityName));
-
-        }
-    }
-
-    protected void suggestion(String keyword) {
-        if (keyword.trim().length() == 0) {
-            ry_suggest.setVisibility(View.GONE);
-            return;
-        }
-        TencentSearch tencentSearch = new TencentSearch(this);
-        SuggestionParam suggestionParam = new SuggestionParam(keyword, tv_edit_address_area.getText().toString());
-        //suggestion也提供了filter()方法和region方法
-        //具体说明见文档，或者官网的webservice对应接口
-        tencentSearch.suggestion(suggestionParam, new HttpResponseListener<BaseObject>() {
-
-            @Override
-            public void onSuccess(int arg0, BaseObject arg1) {
-
-//                if (arg1 == null || etSearch.getText().toString().trim().length() == 0) {
-//                    lvSuggesion.setVisibility(View.GONE);
-//                    return;
-//                }
-
-                Message msg = new Message();
-                msg.what = 1000;
-                msg.obj = arg1;
-                handler.sendMessage(msg);
-
-            }
-
-            @Override
-            public void onFailure(int arg0, String arg1, Throwable arg2) {
-            }
-        });
     }
 
     @Override
@@ -491,7 +417,7 @@ public class EditAndAddActivity extends BaseSwipeActivity {
     };
 
     private void requestEditAddress() {
-        if (mCbDefault.isChecked()) {
+        if (isOpen) {
             //选为默认地址
             isDefault = 1;
         } else {
@@ -573,7 +499,7 @@ public class EditAndAddActivity extends BaseSwipeActivity {
     }
 
     private void requestAddAddress() {
-        if (mCbDefault.isChecked()) {
+        if (isOpen) {
             //选为默认地址
             isDefault = 1;
         } else {

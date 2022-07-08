@@ -76,7 +76,7 @@ public class CommonItemAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
         if(TextUtils.isEmpty(item.getWeight())||item.getWeight().equals("")) {
             tv_weight.setVisibility(View.GONE);
         }else {
-            tv_weight.setText("重量:"+"("+item.getWeight()+")");
+            tv_weight.setText(item.getVolumeWeight());
         }
         LinearLayout ll_trend = helper.getView(R.id.ll_trend);
         if(!item.getOldPrice().equals("")&&item.getOldPrice()!=null) {

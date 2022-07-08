@@ -604,6 +604,41 @@ public class DateUtils {
 	}
 
 	/**
+	 * 是否超过100个小时
+	 * @param beginDate
+	 * @param endDate
+	 * @return
+	 */
+	public static boolean isExceed100(long beginDate, long endDate) {
+		int hours = 0;
+		try {
+			long m = endDate - beginDate;
+			int s = (int) (m / 1000);
+			hours = s / 3600;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (hours > 100 || hours == 100) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static String getDay(long m) {
+		int hours = 0;
+		int s = (int) (m / 1000);
+		hours = s / 3600;
+		//几天
+		int day = hours / 24;
+		//几小时
+		int hours1 = hours - day * 24;
+		return day+"天"+hours1+"小时";
+	}
+
+	/**
 	 * 判断两个时间是否超过24个小时
 	 *
 	 * @param

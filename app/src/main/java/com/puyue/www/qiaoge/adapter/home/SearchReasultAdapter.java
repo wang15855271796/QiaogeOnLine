@@ -3,6 +3,7 @@ package com.puyue.www.qiaoge.adapter.home;
 import android.content.Intent;
 import androidx.annotation.Nullable;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -49,6 +50,7 @@ public class SearchReasultAdapter extends BaseQuickAdapter<SearchResultsModel.Da
 
     @Override
     protected void convert(BaseViewHolder helper, SearchResultsModel.DataBean.SearchProdBean.ListBean item) {
+        Log.d("Sfewdsffd.....","123");
         iv_operate = helper.getView(R.id.iv_operate);
         ImageView iv_no_data = helper.getView(R.id.iv_no_data);
         TextView tv_style = helper.getView(R.id.tv_style);
@@ -56,6 +58,7 @@ public class SearchReasultAdapter extends BaseQuickAdapter<SearchResultsModel.Da
         iv_type = helper.getView(R.id.iv_type);
         TagFlowLayout rv_spec = helper.getView(R.id.rv_spec);
         Glide.with(mContext).load(item.getSelfProd()).into(iv_operate);
+
         if(item.getFlag()==0) {
             Glide.with(mContext).load(item.getTypeUrl()).into(iv_no_data);
             iv_no_data.setVisibility(View.VISIBLE);

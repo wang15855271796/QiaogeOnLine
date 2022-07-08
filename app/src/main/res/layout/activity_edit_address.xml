@@ -4,7 +4,7 @@
     android:id="@+id/ll_edit_address"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FBFBFB"
+    android:background="#f5f5f5"
     android:fitsSystemWindows="true"
     android:scrollbars="vertical">
 
@@ -60,7 +60,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -211,9 +210,11 @@
                                     android:layout_width="130dp"
                                     android:layout_height="wrap_content"
                                     android:padding="10dp"
+                                    android:layout_gravity="center_vertical"
                                     android:text="详细地址"
                                     android:textColor="#ff232131"
                                     android:textSize="18dp" />
+
 
                                 <AutoCompleteTextView
                                     android:id="@+id/edit_edit_address_address"
@@ -222,70 +223,63 @@
                                     android:layout_marginRight="20dp"
                                     android:layout_weight="1"
                                     android:background="@null"
-                                    android:gravity="top"
+                                    android:gravity="center_vertical"
                                     android:hint="请输入详细地址"
-                                    android:maxLines="3"
                                     android:paddingTop="8dp"
                                     android:textColor="#232131"
                                     android:textColorHint="#D5D5D5"
                                     android:textSize="18dp" />
                             </LinearLayout>
-                        </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/tv_target"
-                            android:layout_marginTop="5dp"
-                            android:textSize="16dp"
-                            android:visibility="gone"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:text="附近目的地" />
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/app_line_size"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="20dp"
+                                android:background="@color/app_line_color" />
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/ry_suggest"
-                            android:layout_width="match_parent"
-                            android:layout_height="100dp"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginTop="10dp"
-                            android:visibility="gone"
-                            android:layout_marginRight="20dp">
-
-                        </androidx.recyclerview.widget.RecyclerView>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/app_line_size"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            android:background="@color/app_line_color" />
-
-                        <LinearLayout
-
-                            android:layout_marginTop="20dp"
-                            android:id="@+id/ll_edit_address_default"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="20dp">
-
-                            <CheckBox
-                                android:id="@+id/cb_edit_address_default"
-                                android:layout_width="15dp"
-                                android:layout_height="15dp"
-                                android:background="@drawable/app_checkbox_style"
-                                android:button="@null"
-
-                                android:clickable="false"
-                                android:enabled="false" />
-
-                            <TextView
+                            <RelativeLayout
+                                android:id="@+id/ll_edit_address_default"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="12dp"
-                                android:text="设为默认地址"
-                                android:textColor="#fff56d23"
-                                android:textSize="15dp" />
+                                android:orientation="horizontal"
+                                android:padding="20dp">
+
+                                <CheckBox
+                                    android:visibility="gone"
+                                    android:id="@+id/cb_edit_address_default"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:background="@drawable/app_checkbox_style"
+                                    android:button="@null"
+                                    android:clickable="false"
+                                    android:enabled="false" />
+
+                                <TextView
+                                    android:id="@+id/tv1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="设为默认地址"
+                                    android:textColor="#333333"
+                                    android:textSize="15dp" />
+
+                                <TextView
+                                    android:layout_width="264dp"
+                                    android:textColor="#999999"
+                                    android:textSize="@dimen/size_11dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/tv1"
+                                    android:text="在启动APP时将优先定位至默认地址，避免下单时选择错误地址" />
+
+                                <ImageView
+                                    android:id="@+id/iv_switch"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginTop="@dimen/size_24dp"
+                                    android:src="@mipmap/iv_closes" />
+                            </RelativeLayout>
+
                         </LinearLayout>
 
                     </LinearLayout>
@@ -309,14 +303,19 @@
                         android:textColor="@color/app_color_white"
                         android:textSize="18dp" />
                 </LinearLayout>
+
             </androidx.core.widget.NestedScrollView>
 
-
-
-
-
-
         </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:background="@drawable/shape_white1"
+            android:visibility="gone"
+            android:layout_marginTop="305dp"
+            android:layout_marginLeft="130dp"
+            android:layout_width="252dp"
+            android:layout_height="138dp"/>
 
         <com.wang.avi.AVLoadingIndicatorView
             android:id="@+id/lav_activity_loading"

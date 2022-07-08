@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/rl_notice"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/size_20dp"
+        android:paddingRight="@dimen/size_20dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_32dp">
+
+        <ImageView
+            android:id="@+id/iv_notice"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_notice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_notice_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_toRightOf="@+id/iv_notice"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="翘歌配送通知："
+            android:textColor="#333333" />
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/size_3dp"
+            android:layout_toRightOf="@+id/tv_notice_desc"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="因疫情影响，订单配送可能延误，部分地..."
+            android:textColor="#606060" />
+
+
+    </RelativeLayout>
+
+</LinearLayout>

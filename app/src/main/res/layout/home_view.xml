@@ -2,12 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:orientation="vertical"
-        android:id="@+id/rl_huos"
+        android:visibility="gone"
         android:background="@mipmap/bg_huo"
         android:layout_marginRight="@dimen/dp_10"
         android:layout_marginLeft="@dimen/dp_10"
@@ -48,8 +49,8 @@
     </RelativeLayout>
 
     <!--秒杀开始-->
+<!--    android:id="@+id/ll_skill"-->
     <LinearLayout
-        android:id="@+id/ll_skill"
         android:visibility="gone"
         android:orientation="vertical"
         android:layout_marginTop="@dimen/size_10dp"
@@ -113,8 +114,9 @@
 
         </RelativeLayout>
 
+<!--        android:id="@+id/rv_skill"-->
         <com.puyue.www.qiaoge.AutoPollRecyclerView
-            android:id="@+id/rv_skill"
+
             android:padding="@dimen/dp_10"
             android:background="@drawable/shape_white1"
             android:layout_marginLeft="5dp"
@@ -236,15 +238,15 @@
 
             </RelativeLayout>
 
-            <com.puyue.www.qiaoge.AutoPollRecyclerView
-                android:id="@+id/rv_team"
-                android:layout_marginRight="@dimen/size_5dp"
-                android:layout_marginLeft="@dimen/size_5dp"
-                android:background="@drawable/shape_white1"
-                android:layout_width="match_parent"
-                android:layout_height="137dp">
+<!--            <com.puyue.www.qiaoge.AutoPollRecyclerView-->
+<!--                android:id="@+id/rv_team"-->
+<!--                android:layout_marginRight="@dimen/size_5dp"-->
+<!--                android:layout_marginLeft="@dimen/size_5dp"-->
+<!--                android:background="@drawable/shape_white1"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="137dp">-->
 
-            </com.puyue.www.qiaoge.AutoPollRecyclerView>
+<!--            </com.puyue.www.qiaoge.AutoPollRecyclerView>-->
 
         </LinearLayout>
         <!--拼团开始-->
@@ -460,19 +462,363 @@
         </RelativeLayout>
 
     </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_skill"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_height="144dp">
+
+            <LinearLayout
+                android:id="@+id/ll_skill_bg"
+                android:background="@mipmap/bg_skills"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="限时秒杀"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="@dimen/size_5dp"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/sp_16"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <com.puyue.www.qiaoge.view.SnapUpCountDownTimerView3
+                    android:id="@+id/snap1"
+                    android:visibility="gone"
+                    android:background="@drawable/shape_jianbian1"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="@dimen/size_5dp"
+                    android:paddingLeft="@dimen/size_5dp"
+                    android:paddingRight="@dimen/size_5dp"
+                    android:gravity="center_horizontal"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="@dimen/size_20dp"/>
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_skill_time1"
+                    android:text="10天20小时"
+                    android:textColor="#ffffff"
+                    android:layout_marginLeft="@dimen/size_2dp"
+                    android:layout_marginRight="@dimen/size_2dp"
+                    android:paddingBottom="@dimen/size_2dp"
+                    android:paddingTop="@dimen/size_2dp"
+                    android:paddingLeft="@dimen/size_2dp"
+                    android:paddingRight="@dimen/size_2dp"
+                    android:textSize="10sp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/shape_jianbian1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <com.puyue.www.qiaoge.AutoPollRecyclerView
+                android:id="@+id/rv_skill"
+                android:background="#ffffff"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+
+<!--    满赠2    -->
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_full1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/size_7dp"
+            android:orientation="vertical"
+            android:layout_height="144dp">
+
+            <LinearLayout
+                android:id="@+id/ll_full_bg1"
+                android:background="@mipmap/bg_fulls"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="满赠特惠"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="@dimen/size_6dp"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/sp_16"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="好礼赠不停！"
+                    android:textColor="#ffffff"
+                    android:layout_marginLeft="@dimen/size_5dp"
+                    android:textSize="@dimen/dp_10"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <com.puyue.www.qiaoge.AutoPollRecyclerView
+                android:background="#ffffff"
+                android:id="@+id/rv_full1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_marginLeft="@dimen/size_7dp"
+            android:id="@+id/ll_full"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_height="144dp">
+
+            <LinearLayout
+                android:id="@+id/ll_full_bg"
+                android:background="@mipmap/bg_fulls"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="满赠特惠"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="@dimen/size_5dp"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/sp_16"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="好礼赠不停！"
+                    android:textColor="#ffffff"
+                    android:layout_marginLeft="@dimen/size_5dp"
+                    android:textSize="@dimen/dp_10"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <com.puyue.www.qiaoge.AutoPollRecyclerView
+                android:id="@+id/rv_full"
+                android:background="#ffffff"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+
+
+        <!--  隐藏 组合2 -->
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_team1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/size_6dp"
+            android:layout_height="144dp">
+
+            <LinearLayout
+                android:id="@+id/ll_team_bg1"
+                android:background="@mipmap/bg_team"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="组合购买"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="@dimen/size_6dp"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/sp_16"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="好礼赠不停！"
+                    android:textColor="#ffffff"
+                    android:layout_marginLeft="@dimen/size_5dp"
+                    android:textSize="@dimen/dp_10"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <com.puyue.www.qiaoge.AutoPollRecyclerView
+                android:background="#ffffff"
+                android:id="@+id/rv_team1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+
+        <!--   抵扣2 -->
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_discount1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/size_7dp"
+            android:orientation="vertical"
+            android:layout_height="144dp">
+
+            <LinearLayout
+                android:id="@+id/ll_discount_bg1"
+                android:background="@mipmap/bg_discount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="折扣专区"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="@dimen/size_6dp"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/sp_16"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="好礼赠不停！"
+                    android:textColor="#ffffff"
+                    android:layout_marginLeft="@dimen/size_5dp"
+                    android:textSize="@dimen/dp_10"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <com.puyue.www.qiaoge.AutoPollRecyclerView
+                android:background="#ffffff"
+                android:id="@+id/rv_discount1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/size_6dp"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_team"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_height="144dp">
+
+            <LinearLayout
+                android:id="@+id/ll_team_bg"
+                android:background="@mipmap/bg_team"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="组合购买"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="@dimen/size_5dp"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/sp_16"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="好礼赠不停！"
+                    android:textColor="#ffffff"
+                    android:layout_marginLeft="@dimen/size_5dp"
+                    android:textSize="@dimen/dp_10"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <com.puyue.www.qiaoge.AutoPollRecyclerView
+                android:id="@+id/rv_team"
+                android:background="#ffffff"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_discount"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/size_7dp"
+            android:orientation="vertical"
+            android:layout_height="144dp">
+
+            <LinearLayout
+                android:id="@+id/ll_discount_bg"
+                android:background="@mipmap/bg_discount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="折扣专区"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="@dimen/size_5dp"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/sp_16"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="好礼赠不停！"
+                    android:textColor="#ffffff"
+                    android:layout_marginLeft="@dimen/size_5dp"
+                    android:textSize="@dimen/dp_10"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <com.puyue.www.qiaoge.AutoPollRecyclerView
+                android:id="@+id/rv_discount"
+                android:background="#ffffff"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
     <!--热销-->
     <LinearLayout
         android:id="@+id/ll_hot"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_marginBottom="@dimen/dp_10"
-        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginTop="@dimen/size_6dp"
         android:orientation="vertical"
-        android:layout_marginRight="@dimen/size_12dp"
-        android:layout_marginLeft="@dimen/size_12dp"
+        android:layout_marginRight="@dimen/size_10dp"
+        android:layout_marginLeft="@dimen/size_10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <RelativeLayout
+            android:visibility="gone"
             android:gravity="center_vertical"
             android:background="@drawable/shape_coupon_grey"
             android:layout_width="match_parent"
@@ -524,7 +870,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <!--热销-->
             <RelativeLayout
                 android:id="@+id/rl_hot"
@@ -533,7 +878,6 @@
                 android:layout_height="wrap_content">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_hot"
                     android:visibility="gone"
                     android:layout_marginRight="@dimen/size_12dp"
                     android:layout_marginTop="@dimen/size_12dp"
@@ -558,8 +902,77 @@
 
             </RelativeLayout>
 
-
         </RelativeLayout>
+
+        <!-- 热销 -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:visibility="visible"
+                android:layout_width="300dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_height="134dp">
+
+                <LinearLayout
+                    android:background="@mipmap/bg_hot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="热销榜单"
+                        android:textStyle="bold"
+                        android:layout_marginLeft="@dimen/size_6dp"
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/sp_16"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:background="#ffffff"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:background="#ffffff"
+                        android:id="@+id/rv_hot"
+                        android:visibility="gone"
+                        android:layout_marginRight="@dimen/size_3dp"
+                        android:layout_marginLeft="@dimen/size_3dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <ImageView
+                        android:id="@+id/iv_empty_hot"
+                        android:scaleType="fitXY"
+                        android:visibility="gone"
+                        android:layout_centerHorizontal="true"
+                        android:src="@mipmap/icon_empty_hot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_huos"
+                android:layout_marginLeft="@dimen/size_6dp"
+                android:layout_width="114dp"
+                android:layout_height="134dp">
+
+                <ImageView
+                    android:src="@mipmap/icon_huo_lala"
+                    android:layout_width="wrap_content"
+                    android:layout_height="134dp"/>
+            </RelativeLayout>
+        </LinearLayout>
 
     </LinearLayout>
 

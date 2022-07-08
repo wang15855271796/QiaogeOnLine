@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="#f2f2f2"
+    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
@@ -283,35 +284,7 @@
                                 android:layout_height="8dp"
                                 android:background="@color/app_bg_gray" />
 
-                            <!--自营产品-->
-                            <RelativeLayout
-                                android:visibility="gone"
-                                android:id="@+id/rl_operate"
-                                android:gravity="center_vertical"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/size_48dp">
-
-
-                                <ImageView
-                                    android:id="@+id/iv2"
-                                    android:layout_toRightOf="@+id/iv"
-                                    android:src="@mipmap/icon_operate"
-                                    android:layout_marginLeft="@dimen/size_15dp"
-                                    android:layout_width="@dimen/size_32dp"
-                                    android:layout_height="12dp" />
-
-                                <TextView
-                                    android:textSize="@dimen/sp_12"
-                                    android:id="@+id/tv_operate_date"
-                                    android:textColor="#292621"
-                                    android:layout_marginLeft="@dimen/size_85dp"
-                                    android:text="现在下单，预计明天(9月20日)开始配送"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content" />
-
-                            </RelativeLayout>
-
-                            <!--非自营产品-->
+                            <!--规格-->
                             <RelativeLayout
                                 android:layout_marginRight="@dimen/dp_10"
                                 android:layout_marginLeft="@dimen/dp_10"
@@ -321,127 +294,174 @@
                                 android:layout_height="wrap_content">
 
                                 <RelativeLayout
+                                    android:id="@+id/rl_spec"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content">
 
                                     <TextView
-                                        android:text="选择"
                                         android:id="@+id/tv"
-                                        android:layout_marginTop="@dimen/size_17dp"
-                                        android:layout_marginLeft="@dimen/size_12dp"
-                                        android:textColor="#333333"
-                                        android:textSize="14sp"
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content" />
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="@dimen/size_12dp"
+                                        android:layout_marginTop="@dimen/size_17dp"
+                                        android:text="选择"
+                                        android:textColor="#333333"
+                                        android:textSize="14sp" />
 
                                     <TextView
-                                        android:text="规格分类"
-                                        android:layout_marginTop="@dimen/size_17dp"
-                                        android:layout_marginLeft="@dimen/size_20dp"
-                                        android:layout_toRightOf="@+id/tv"
-                                        android:textColor="#333333"
-                                        android:textSize="14sp"
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content" />
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="@dimen/size_20dp"
+                                        android:layout_marginTop="@dimen/size_17dp"
+                                        android:layout_toRightOf="@+id/tv"
+                                        android:text="规格分类"
+                                        android:textColor="#333333"
+                                        android:textSize="14sp" />
 
                                     <com.puyue.www.qiaoge.view.FlowLayout
                                         android:id="@+id/fl_container"
-                                        android:layout_marginLeft="@dimen/size_47dp"
-                                        android:layout_below="@+id/tv"
-                                        android:layout_marginBottom="@dimen/dp_10"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@+id/tv"
+                                        android:layout_marginLeft="@dimen/size_47dp"
+                                        android:layout_marginBottom="@dimen/dp_10">
 
                                     </com.puyue.www.qiaoge.view.FlowLayout>
 
-                                    <RelativeLayout
-                                        android:visibility="gone"
-                                        android:id="@+id/rl_date"
-                                        android:orientation="vertical"
-                                        android:layout_marginTop="@dimen/size_17dp"
-                                        android:layout_below="@+id/fl_container"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content">
-
-                                        <TextView
-                                            android:text="送至"
-                                            android:id="@+id/tv2"
-                                            android:layout_marginLeft="@dimen/size_12dp"
-                                            android:textColor="#333333"
-                                            android:textSize="14sp"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content" />
-
-                                        <TextView
-                                            android:id="@+id/tv_send_area"
-                                            android:text="杭州翘歌网络"
-                                            android:layout_marginLeft="@dimen/size_20dp"
-                                            android:layout_toRightOf="@+id/tv2"
-                                            android:textColor="#333333"
-                                            android:textSize="14sp"
-                                            android:layout_marginRight="@dimen/size_12dp"
-                                            android:layout_alignParentRight="true"
-                                            android:drawableRight="@mipmap/ic_address_icon"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content" />
-
-                                        <TextView
-                                            android:layout_below="@+id/tv_send_area"
-                                            android:id="@+id/tv_date"
-                                            android:layout_marginBottom="@dimen/size_18dp"
-                                            android:layout_centerVertical="true"
-                                            android:textSize="@dimen/sp_12"
-                                            android:textColor="#333333"
-                                            android:layout_marginTop="@dimen/dp_10"
-                                            android:layout_marginLeft="@dimen/size_59dp"
-                                            android:text="现在下单，预计明天(9月20日)开始配送"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content" />
-
-                                    </RelativeLayout>
-
-
-                                    <RelativeLayout
-                                        android:visibility="gone"
-                                        android:id="@+id/rl_coupons"
-                                        android:layout_below="@+id/rl_date"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content">
-
-                                        <TextView
-                                            android:text="优惠"
-                                            android:id="@+id/tv1"
-                                            android:layout_marginLeft="@dimen/size_12dp"
-                                            android:textColor="#333333"
-                                            android:textSize="14sp"
-                                            android:layout_marginBottom="@dimen/size_5dp"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content" />
-
-                                        <TextView
-                                            tools:text="规格分类规格分类规格分类规格分类规格分类规格分类规格分类规格分类"
-                                            android:lines="1"
-                                            android:ellipsize="end"
-                                            android:id="@+id/tv_coupon_desc"
-                                            android:layout_marginLeft="@dimen/size_20dp"
-                                            android:layout_toRightOf="@+id/tv1"
-                                            android:textColor="#FF2925"
-                                            android:layout_marginRight="@dimen/size_25dp"
-                                            android:textSize="14sp"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content" />
-
-                                        <ImageView
-                                            android:src="@mipmap/rightarrow"
-                                            android:layout_marginRight="@dimen/size_13dp"
-                                            android:layout_alignParentRight="true"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content" />
-
-                                    </RelativeLayout>
                                 </RelativeLayout>
 
+                                <LinearLayout
+                                    android:id="@+id/ll_coupon"
+                                    android:layout_below="@+id/rl_spec"
+                                    android:layout_width="match_parent"
+                                    android:orientation="vertical"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:text="优惠"
+                                        android:layout_marginLeft="@dimen/size_12dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"/>
+
+                                    <LinearLayout
+                                        android:id="@+id/ll_full"
+                                        android:layout_marginBottom="@dimen/sp_12"
+                                        android:layout_marginLeft="@dimen/size_12dp"
+                                        android:orientation="vertical"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+
+                                        <LinearLayout
+                                            android:visibility="gone"
+                                            android:layout_marginBottom="@dimen/dp_10"
+                                            android:id="@+id/ll_full_active"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content">
+
+                                            <TextView
+                                                android:text="满赠"
+                                                android:textColor="#ffffff"
+                                                android:textSize="@dimen/dp_10"
+                                                android:padding="@dimen/size_2dp"
+                                                android:background="@drawable/shape_green_detail"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"/>
+                                            <TextView
+                                                android:lines="1"
+                                                android:id="@+id/tv_full"
+                                                android:textColor="#333333"
+                                                android:layout_marginLeft="@dimen/dp_10"
+                                                android:ellipsize="end"
+                                                android:text="满800元赠送一包小三角薯饼舒适…"
+                                                android:layout_width="0dp"
+                                                android:layout_weight="1"
+                                                android:layout_height="wrap_content"/>
+
+                                            <ImageView
+                                                android:layout_marginRight="@dimen/dp_10"
+                                                android:layout_gravity="center_vertical"
+                                                android:gravity="right"
+                                                android:src="@mipmap/rightarrow"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"/>
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:visibility="gone"
+                                            android:layout_marginBottom="@dimen/dp_10"
+                                            android:id="@+id/ll_skill_active"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content">
+
+                                            <TextView
+                                                android:text="秒杀"
+                                                android:textColor="#ffffff"
+                                                android:textSize="@dimen/dp_10"
+                                                android:padding="@dimen/size_2dp"
+                                                android:background="@drawable/shape_green_detail"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"/>
+                                            <TextView
+                                                android:lines="1"
+                                                android:id="@+id/tv_skill"
+                                                android:textColor="#333333"
+                                                android:layout_marginLeft="@dimen/dp_10"
+                                                android:ellipsize="end"
+                                                android:text="满800元赠送一包小三角薯饼舒适…"
+                                                android:layout_width="0dp"
+                                                android:layout_weight="1"
+                                                android:layout_height="wrap_content"/>
+
+                                            <ImageView
+                                                android:layout_marginRight="@dimen/dp_10"
+                                                android:layout_gravity="center_vertical"
+                                                android:gravity="right"
+                                                android:src="@mipmap/rightarrow"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"/>
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:visibility="gone"
+                                            android:id="@+id/ll_team_active"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content">
+
+                                            <TextView
+                                                android:text="组合"
+                                                android:textColor="#ffffff"
+                                                android:textSize="@dimen/dp_10"
+                                                android:padding="@dimen/size_2dp"
+                                                android:background="@drawable/shape_green_detail"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"/>
+
+                                            <TextView
+                                                android:lines="1"
+                                                android:id="@+id/tv_team"
+                                                android:textColor="#333333"
+                                                android:layout_marginLeft="@dimen/dp_10"
+                                                android:ellipsize="end"
+                                                android:text="满800元赠送一包小三角薯饼舒适…"
+                                                android:layout_width="0dp"
+                                                android:layout_weight="1"
+                                                android:layout_height="wrap_content"/>
+
+                                            <ImageView
+                                                android:layout_marginRight="@dimen/dp_10"
+                                                android:layout_gravity="center_vertical"
+                                                android:gravity="right"
+                                                android:src="@mipmap/rightarrow"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"/>
+                                        </LinearLayout>
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
                             </RelativeLayout>
+
 
                         </LinearLayout>
 

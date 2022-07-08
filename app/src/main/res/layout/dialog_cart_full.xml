@@ -1,54 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_marginLeft="@dimen/size_47dp"
-    android:layout_marginRight="@dimen/size_47dp"
-    android:layout_gravity="center_vertical"
-    android:background="@drawable/app_my_wallet_bg"
-    android:layout_height="240dp">
+    android:layout_width="300dp"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:layout_height="wrap_content">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="190dp"
-        android:layout_gravity="center_vertical"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:drawablePadding="@dimen/size_5dp"
-            android:drawableRight="@mipmap/icon_right"
-            android:drawableLeft="@mipmap/icon_left"
-            android:textColor="#333333"
-            android:textStyle="bold"
-            android:id="@+id/tv"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/size_11dp"
-            android:textSize="@dimen/sp_16"
-            android:layout_centerHorizontal="true"
-            android:text="满减优惠"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:background="@mipmap/car_coupon"
+            android:layout_width="300dp"
+            android:layout_height="@dimen/size_85dp"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycleView"
-            android:layout_marginRight="@dimen/size_30dp"
-            android:layout_marginLeft="@dimen/size_30dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/size_12dp"
+        <LinearLayout
+            android:orientation="vertical"
+            android:background="#ffffff"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_marginTop="@dimen/dp_10"
+                android:textSize="@dimen/sp_12"
+                android:layout_marginLeft="@dimen/size_15dp"
+                android:textColor="#FF5C00"
+                android:id="@+id/tv_desc"
+                android:text="活动时间："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_marginLeft="@dimen/size_15dp"
+                android:textSize="@dimen/sp_12"
+                android:textColor="#FF5C00"
+                android:layout_marginTop="@dimen/size_3dp"
+                android:id="@+id/tv_time"
+                android:text="2022-06-08 13:20:49-2022-06-09 13:20:48"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_num"
+                android:text="7天内可享"
+                android:textColor="#FF5C00"
+                android:textSize="@dimen/sp_12"
+                android:layout_marginLeft="@dimen/size_15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_marginLeft="@dimen/size_15dp"
+                android:layout_marginRight="@dimen/size_15dp"
+                android:layout_marginTop="@dimen/size_5dp"
+                android:background="@drawable/shape_orange14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_ok"
+                android:layout_marginLeft="@dimen/size_36dp"
+                android:layout_marginRight="@dimen/size_36dp"
+                android:layout_marginBottom="@dimen/dp_10"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_height="@dimen/size_45dp"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:background="@drawable/shape_jianbian"
+                android:text="我知道了"
+                android:textColor="#ffffff"
+                android:textSize="14sp" />
+        </LinearLayout>
 
     </LinearLayout>
 
-    <TextView
-        android:layout_alignParentBottom="true"
-        android:id="@+id/tv_ok"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_45dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="我知道了"
-        android:textColor="#FF2925"
-        android:textSize="14sp" />
 
-</RelativeLayout>
+
+</LinearLayout>

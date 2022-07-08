@@ -57,7 +57,6 @@ public class ReduceFragment extends BaseFragment {
     String enjoyProduct;
     int pageNum = 1;
     int pageSize = 10;
-    View emptyView;
     @Override
     public int setLayoutId() {
         return R.layout.fragment_reduce;

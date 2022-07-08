@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.puyue.www.qiaoge.AutoPollRecyclerView;
 import com.puyue.www.qiaoge.R;
 
 import com.puyue.www.qiaoge.adapter.Test3Adapter;
@@ -26,7 +27,7 @@ import butterknife.ButterKnife;
 public class TestActivity extends BaseActivity {
 
     @BindView(R.id.rv_auto_view)
-    RecyclerView rv_auto_view;
+    AutoPollRecyclerView rv_auto_view;
     List<String> string = new ArrayList<>();
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
@@ -45,26 +46,12 @@ public class TestActivity extends BaseActivity {
         for (int i = 0; i < 6; i++) {
             string.add("string");
         }
-//        PagerSnapHelper snapFull = new PagerSnapHelper();
 
-        PagerSnapHelper snapFull = new PagerSnapHelper();
-        Test3Adapter test3Adapter = new Test3Adapter(R.layout.test13,string);
+        Test3Adapter test3Adapter = new Test3Adapter();
         rv_auto_view.setAdapter(test3Adapter);
-//        new GridPagerSnapHelper(1,2).attachToRecyclerView(rv_auto_view);
-//        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext,2);
-        snapFull.attachToRecyclerView(rv_auto_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true);
         rv_auto_view.setLayoutManager(layoutManager);
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
-            @Override
-            public void run() {
-                rv_auto_view.smoothScrollToPosition(layoutManager.findFirstVisibleItemPosition() + 1);
-            }
-        }, 2000, 2000, TimeUnit.MILLISECONDS);
-
-
-
+        rv_auto_view.start();
         test3Adapter.notifyDataSetChanged();
     }
 

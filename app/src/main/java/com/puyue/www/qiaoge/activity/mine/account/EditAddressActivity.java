@@ -4,6 +4,7 @@ package com.puyue.www.qiaoge.activity.mine.account;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.core.widget.NestedScrollView;
@@ -17,7 +18,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -28,26 +32,38 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lljjcoder.style.citypickerview.CityPickerView;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.HomeActivity;
+import com.puyue.www.qiaoge.adapter.AddAddressAdapter;
+import com.puyue.www.qiaoge.adapter.SearchOperaAdapter;
 import com.puyue.www.qiaoge.adapter.mine.SuggestAdressAdapter;
 import com.puyue.www.qiaoge.api.home.CityChangeAPI;
 import com.puyue.www.qiaoge.api.mine.address.AddAddressAPI;
 import com.puyue.www.qiaoge.api.mine.address.AddressListAPI;
 import com.puyue.www.qiaoge.api.mine.address.AreaModel;
+import com.puyue.www.qiaoge.api.mine.address.DefaultAddressAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
+import com.puyue.www.qiaoge.dialog.PrivacySettingDialog;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.BackEvent;
+import com.puyue.www.qiaoge.fragment.home.CityEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
+import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
+import com.puyue.www.qiaoge.model.AreasModel;
 import com.puyue.www.qiaoge.model.IsShowModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.tencent.lbssearch.TencentSearch;
 import com.tencent.lbssearch.httpresponse.BaseObject;
 import com.tencent.lbssearch.httpresponse.HttpResponseListener;
@@ -100,11 +116,13 @@ public class EditAddressActivity extends BaseSwipeActivity  {
     private EditText mEditStore;
     private TextView mTvArea;
     private AutoCompleteTextView keyWorldsView;
-    private LinearLayout mLlDefault;
+    private RelativeLayout mLlDefault;
     private CheckBox mCbDefault;
     private Button mBtnConfirm;
     private NestedScrollView mLlEditAddress;
     private TextView mTvTitle;
+    ImageView iv_switch;
+    RecyclerView recyclerView;
     //申明对象
     private CityPickerView mPicker = new CityPickerView();
     private String proviceCode;
@@ -127,9 +145,6 @@ public class EditAddressActivity extends BaseSwipeActivity  {
     private int loadIndex = 0;
 
     private boolean isLoaded = false;
-    private SuggestAdressAdapter adressAdapter;
-    private RecyclerView ry_suggest;
-    private TextView tv_target;
     TextView tv_edit_address_area;
 
     private String cityName;
@@ -152,7 +167,6 @@ public class EditAddressActivity extends BaseSwipeActivity  {
             // TODO Auto-generated method stub
             EditAddressActivity activity = mActivity.get();
             if (activity != null) {
-                activity.handleMessage(msg);
             }
         }
     }
@@ -210,6 +224,11 @@ public class EditAddressActivity extends BaseSwipeActivity  {
             mAreaCode = savedInstanceState.getString(AREA_CODE);
             orderId = savedInstanceState.getString(ORDERID);
         }
+        if(mDefault.equals("false")) {
+            isOpen = false;
+        }else {
+            isOpen = true;
+        }
         return false;
     }
 
@@ -221,6 +240,7 @@ public class EditAddressActivity extends BaseSwipeActivity  {
 
     @Override
     public void findViewById() {
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         lav_activity_loading =  (AVLoadingIndicatorView) findViewById(R.id.lav_activity_loading);
         tv_edit_address_area = (TextView) findViewById(R.id.tv_edit_address_area);
         mIvBack = (ImageView) findViewById(R.id.iv_edit_address_back);
@@ -229,49 +249,17 @@ public class EditAddressActivity extends BaseSwipeActivity  {
         mEditStore = (EditText) findViewById(R.id.edit_edit_address_store);//店名选填
         mTvArea = (TextView) findViewById(R.id.tv_edit_address_area);
         keyWorldsView = (AutoCompleteTextView) findViewById(R.id.edit_edit_address_address);
-        mLlDefault = (LinearLayout) findViewById(R.id.ll_edit_address_default);
+        mLlDefault = (RelativeLayout) findViewById(R.id.ll_edit_address_default);
         mCbDefault = (CheckBox) findViewById(R.id.cb_edit_address_default);
         mBtnConfirm = (Button) findViewById(R.id.btn_edit_address_confirm);
         //  mLlEditAddress = (NestedScrollView) findViewById(R.id.ll_edit_address);
         mTvTitle = (TextView) findViewById(R.id.tv_edit_address_title);
-        ry_suggest = (RecyclerView) findViewById(R.id.ry_suggest);
-        tv_target = (TextView) findViewById(R.id.tv_target);
-    }
-
-    public void handleMessage(Message msg) {
-        switch (msg.what) {
-            case 1000:
-                showAutoComplete((SuggestionResultObject)msg.obj);
-                break;
-
-            default:
-                break;
-        }
-    }
-
-    /**
-     * 显示完整ListView
-     * @param obj
-     */
-    protected void showAutoComplete(SuggestionResultObject obj) {
-        if (obj.data.size() == 0) {
-            ry_suggest.setVisibility(View.GONE);
-            return;
-        }
-        adressAdapter = new SuggestAdressAdapter(obj.data, mContext, new SuggestAdressAdapter.onClick() {
-            @Override
-            public void setLocation(int pos) {
-
-            }
-        });
-        ry_suggest.setLayoutManager(new LinearLayoutManager(mContext));
-        ry_suggest.setAdapter(adressAdapter);
-        adressAdapter.notifyDataSetChanged();
-        ry_suggest.setVisibility(View.GONE);
-
+        iv_switch = (ImageView) findViewById(R.id.iv_switch);
     }
 
 
+
+    boolean isOpen;
     @Override
     public void setViewData() {
         cityName=mArea;
@@ -312,49 +300,45 @@ public class EditAddressActivity extends BaseSwipeActivity  {
 
         keyWorldsView.addTextChangedListener(new TextWatcher() {
             @Override
-            public void afterTextChanged(Editable arg0) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
             }
 
             @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
             }
 
             @Override
-            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-                if (cs.length() <= 0) {
-                    ry_suggest.setVisibility(View.GONE);
-                    tv_target.setVisibility(View.GONE);
-                    return;
+            public void afterTextChanged(Editable editable) {
+                if(keyWorldsView.getText().length()> 4 || keyWorldsView.getText().length() == 4) {
+                    getArea(cityName,keyWorldsView.getText().toString());
+                    recyclerView.setVisibility(View.VISIBLE);
+                }else {
+                    recyclerView.setVisibility(View.GONE);
                 }
-                showSugDialog(cs);
             }
         });
-    }
 
-    protected void suggestion(String keyword) {
-        if (keyword.trim().length() == 0) {
-            ry_suggest.setVisibility(View.GONE);
-            return;
+        if(isOpen) {
+            iv_switch.setImageResource(R.mipmap.iv_opens);
+        }else {
+            iv_switch.setImageResource(R.mipmap.iv_closes);
         }
-        TencentSearch tencentSearch = new TencentSearch(this);
-        SuggestionParam suggestionParam = new SuggestionParam(keyword, tv_edit_address_area.getText().toString());
-        //suggestion也提供了filter()方法和region方法
-        //具体说明见文档，或者官网的webservice对应接口
-        tencentSearch.suggestion(suggestionParam, new HttpResponseListener<BaseObject>() {
-
+        iv_switch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess(int arg0, BaseObject arg1) {
-                Message msg = new Message();
-                msg.what = 1000;
-                msg.obj = arg1;
-                handler.sendMessage(msg);
-
-            }
-
-            @Override
-            public void onFailure(int arg0, String arg1, Throwable arg2) {
+            public void onClick(View v) {
+                if(isOpen) {
+                    isOpen = false;
+                    iv_switch.setImageResource(R.mipmap.iv_closes);
+                }else {
+                    isOpen = true;
+                    iv_switch.setImageResource(R.mipmap.iv_opens);
+                }
             }
         });
+
+
     }
 
     private void selectCity() {
@@ -404,7 +388,6 @@ public class EditAddressActivity extends BaseSwipeActivity  {
                     childrenBean.setName("");
                     city_AreaList.add(childrenBean);
                 } else {
-
                     List<AreaModel.DataBean.ChildrenBeanX.ChildrenBean> children = data.get(i).getChildren().get(c).getChildren();
                     city_AreaList.addAll(children);
                     province_AreaList.add(city_AreaList);
@@ -424,11 +407,6 @@ public class EditAddressActivity extends BaseSwipeActivity  {
         isLoaded = true;
     }
 
-    private void showSugDialog(CharSequence cs) {
-        if (tv_edit_address_area.getText().toString()!=null&&!tv_edit_address_area.getText().toString().equals("")) {
-            suggestion(cs.toString());
-        }
-    }
 
     @Override
     public void setClickEvent() {
@@ -500,25 +478,11 @@ public class EditAddressActivity extends BaseSwipeActivity  {
                 }
             } else if (view == mTvArea) {
                 hintKbTwo();
-//                selectCity();
                 if(isLoaded) {
                     showPickerView();
                 }
 
             } else if (view == mBtnConfirm) {
-                //在这里点击确定了,判断数据是否完整,完整才能请求接口
-                //请求接口反成功之后,调用onResult,finish这个activity
-                //回到上个地址列表页,重新请求一次地址列表数据
-//                if(TextUtils.isEmpty(cityName1)&&TextUtils.isEmpty(areaName1)) {
-//                    UserInfoHelper.saveCity(mActivity,cityName);
-//                    UserInfoHelper.saveAreaName(mActivity,ar);
-//                }else {
-//                    UserInfoHelper.saveChangeFlag(mActivity,"0");
-//                    UserInfoHelper.saveCity(mActivity,cityName1);
-//                    UserInfoHelper.saveAreaName(mActivity,areaName1);
-//                }
-
-
                 if (mEditPhone.getText().toString().length() == 11) {
                     lav_activity_loading.setVisibility(View.VISIBLE);
                     lav_activity_loading.show();
@@ -591,7 +555,8 @@ public class EditAddressActivity extends BaseSwipeActivity  {
                         options3Items.get(options1).get(options2).get(options3);
                 tv_edit_address_area.setText(tx);
                 tv_edit_address_area.setTextColor(Color.parseColor("#333333"));
-                cityName1 = options2Items.get(options1).get(options2)+"";
+                cityName = options2Items.get(options1).get(options2)+"";
+
                 areaName1 = options3Items.get(options1).get(options2).get(options3)+"";
             }
         })
@@ -607,7 +572,7 @@ public class EditAddressActivity extends BaseSwipeActivity  {
     }
 
     private void requestEditAddress() {
-        if (mCbDefault.isChecked()) {
+        if (isOpen) {
             //选为默认地址
             isDefault = 1;
         } else {
@@ -660,7 +625,7 @@ public class EditAddressActivity extends BaseSwipeActivity  {
     }
 
     private void requestAddAddress() {
-        if (mCbDefault.isChecked()) {
+        if (isOpen) {
             //选为默认地址
             isDefault = 1;
         } else {
@@ -707,6 +672,45 @@ public class EditAddressActivity extends BaseSwipeActivity  {
                 });
     }
 
+    private void getArea(String cityName, String keyWords) {
+        DefaultAddressAPI.getArea(mContext, cityName, keyWords)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<AreasModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(AreasModel areasModel) {
+                        if(areasModel.getCode()==1) {
+                            if(areasModel.getData()!=null) {
+                                recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+                                AddAddressAdapter addAddressAdapter = new AddAddressAdapter(R.layout.item_address_area,areasModel.getData());
+                                recyclerView.setAdapter(addAddressAdapter);
+                                addAddressAdapter.notifyDataSetChanged();
+                                addAddressAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                        keyWorldsView.setText(areasModel.getData().get(position).getDetailAddress());
+                                        recyclerView.setVisibility(View.GONE);
+                                    }
+                                });
+                            }else {
+                                ToastUtil.showErroMsg(mContext,areasModel.getMessage());
+                            }
+                        }
+                    }
+                });
+    }
+
+    PopupWindow popWindow;
 
     //此方法只是关闭软键盘
     private void hintKbTwo() {
@@ -772,85 +776,6 @@ public class EditAddressActivity extends BaseSwipeActivity  {
         }
         return super.onKeyDown(keyCode, event);
     }
-
-    @Override
-    protected void onDestroy() {
-//        mSuggestionSearch.destroy();
-        super.onDestroy();
-    }
-
-    /**
-     * 响应城市内搜索按钮点击事件
-     *
-     * @param v 检索Button
-     */
-    public void searchButtonProcess(View v) {
-        // searchType = 1;
-
-        // String citystr = editCity.getText().toString();
-        String keystr = keyWorldsView.getText().toString();
-
-      /*  mSuggestionSearch.searchInCity((new PoiCitySearchOption())
-                .city("杭州市")
-                .keyword(keystr)
-                .pageNum(loadIndex)
-                .scope(1));*/
-
-        /**
-         * 在您的项目中，keyword为随您的输入变化的值
-         */
-//        mSuggestionSearch.requestSuggestion(new SuggestionSearchOption()
-//                .city("杭州市")
-//
-//                .keyword(keystr)
-//                .citylimit(true)
-//        );
-
-    }
-
-
-    /**
-     * 获取在线建议搜索结果，得到requestSuggestion返回的搜索结果
-     *
-     *
-     */
-//    @Override
-//    public void onGetSuggestionResult(SuggestionResult res) {
-//        Log.d("sddddddeedeee....","ssss");
-//        if (res == null || res.getAllSuggestions() == null) {
-//            //permission_unfinished
-//            return;
-//        }
-//
-//        List<String> suggest = new ArrayList<>();
-//
-//        for (SuggestionResult.SuggestionInfo info : res.getAllSuggestions()) {
-//            if (info.key != null) {
-//                suggest.add(info.key);
-//            }
-//        }
-//        ry_suggest.setVisibility(View.VISIBLE);
-//        tv_target.setVisibility(View.VISIBLE);
-//
-//        //adressAdapter=new SuggestAdressAdapter(R.layout.suggest_address,suggest);
-//        adressAdapter = new SuggestAdressAdapter(suggest, mContext, new SuggestAdressAdapter.onClick() {
-//            @Override
-//            public void setLocation(int pos) {
-//                if (suggest.get(pos) != null) {
-//                    keyWorldsView.setText(suggest.get(pos));
-//                }
-//            }
-//        });
-//        ry_suggest.setLayoutManager(new LinearLayoutManager(mContext));
-//        ry_suggest.setAdapter(adressAdapter);
-//        adressAdapter.notifyDataSetChanged();
-//
-//     /*   sugAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line,
-//                suggest);
-//        keyWorldsView.setAdapter(sugAdapter);
-//        sugAdapter.notifyDataSetChanged();*/
-//    }
-
 
     protected void setTranslucentStatus() {
         // 5.0以上系统状态栏透明

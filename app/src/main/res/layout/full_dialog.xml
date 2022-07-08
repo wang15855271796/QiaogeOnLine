@@ -7,10 +7,28 @@
     android:layout_height="514dp"
     android:orientation="vertical">
 
-    <View
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="vertical"
         android:background="@mipmap/cart_bg"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size_54dp"/>
+        android:layout_height="@dimen/size_54dp">
+
+        <TextView
+            android:text="满赠优惠"
+            android:textColor="#FF2925"
+            android:textSize="@dimen/size_18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:text="2020/10/12"
+            android:textSize="@dimen/size_11dp"
+            android:textColor="#333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 
     <LinearLayout
         android:background="#f2f2f2"
@@ -22,18 +40,6 @@
             android:id="@+id/recycleView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-
-<!--        <LinearLayout-->
-<!--            android:background="#333333"-->
-<!--            android:layout_marginTop="@dimen/size_13dp"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent">-->
-<!--            -->
-<!--            -->
-<!--        </LinearLayout>-->
-
-
-
 
     </LinearLayout>
 

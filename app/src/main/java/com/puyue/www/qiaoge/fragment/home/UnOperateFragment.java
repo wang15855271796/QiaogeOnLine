@@ -100,7 +100,7 @@ public class UnOperateFragment extends BaseFragment {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 pageNum = 1;
-                getRecommendList(pageNum,PageSize);
+//                getRecommendList(pageNum,PageSize);
                 smart.finishRefresh();
             }
         });
@@ -112,7 +112,7 @@ public class UnOperateFragment extends BaseFragment {
                 if(searchProd != null) {
                     if(searchProd.isHasNextPage()) {
                         pageNum++;
-                        getRecommendList(pageNum,PageSize);
+//                        getRecommendList(pageNum,PageSize);
                         refreshLayout.finishLoadMore();      //加载完成
                     }else {
                         refreshLayout.finishLoadMoreWithNoMoreData();
@@ -162,39 +162,39 @@ public class UnOperateFragment extends BaseFragment {
     }
 
 
-    private void getRecommendList(int pageNum,int pageSize) {
-        RecommendApI.requestData(mActivity,searchWord,pageNum,pageSize,2)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SearchResultsModel>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(SearchResultsModel recommendModel) {
-                        if (recommendModel.isSuccess()) {
-                            searchProd = recommendModel.getData().getSearchProd();
-                            list = recommendModel.getData().getSearchProd().getList();
-                            if(pageNum==1) {
-                                lists.clear();
-                                lists.addAll(list);
-                            }else {
-                                lists.addAll(list);
-                            }
-                            searchReasultAdapter.notifyDataSetChanged();
-
-                        } else {
-                            AppHelper.showMsg(mActivity, recommendModel.getMessage());
-                        }
-                    }
-                });
-    }
+//    private void getRecommendList(int pageNum,int pageSize) {
+//        RecommendApI.requestData(mActivity,searchWord,pageNum,pageSize,2)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<SearchResultsModel>() {
+//                    @Override
+//                    public void onCompleted() {
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(SearchResultsModel recommendModel) {
+//                        if (recommendModel.isSuccess()) {
+//                            searchProd = recommendModel.getData().getSearchProd();
+//                            list = recommendModel.getData().getSearchProd().getList();
+//                            if(pageNum==1) {
+//                                lists.clear();
+//                                lists.addAll(list);
+//                            }else {
+//                                lists.addAll(list);
+//                            }
+//                            searchReasultAdapter.notifyDataSetChanged();
+//
+//                        } else {
+//                            AppHelper.showMsg(mActivity, recommendModel.getMessage());
+//                        }
+//                    }
+//                });
+//    }
     @Override
     public void setClickEvent() {
 

@@ -13,18 +13,19 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.model.CartFullModel;
+import com.puyue.www.qiaoge.model.CartFullsModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
 import java.util.List;
 
-public class FullCartsAdapter extends BaseQuickAdapter<CartFullModel.DataBean.SendProdsBean, BaseViewHolder> {
+public class FullCartsAdapter extends BaseQuickAdapter<CartFullsModel.DataBean.DeductDetailBean.SendProdsBean, BaseViewHolder> {
 
-    public FullCartsAdapter(int layoutResId, @Nullable List<CartFullModel.DataBean.SendProdsBean> data) {
+    public FullCartsAdapter(int layoutResId, @Nullable List<CartFullsModel.DataBean.DeductDetailBean.SendProdsBean> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, CartFullModel.DataBean.SendProdsBean item) {
+    protected void convert(BaseViewHolder helper, CartFullsModel.DataBean.DeductDetailBean.SendProdsBean item) {
         helper.setText(R.id.tv_name,item.getName());
         helper.setText(R.id.tv_spec,item.getSpec());
         helper.setText(R.id.tv_num,item.getSendNum());

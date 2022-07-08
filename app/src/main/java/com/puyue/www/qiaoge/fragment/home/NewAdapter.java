@@ -13,6 +13,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
+import com.puyue.www.qiaoge.adapter.home.HotProductActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.NewDialog;
 import com.puyue.www.qiaoge.helper.StringHelper;
@@ -37,6 +38,8 @@ public class NewAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
     TextView tv_price;
     ImageView iv_operate;
     ImageView iv_next;
+    View v_champion;
+    TextView tv_champion;
     public NewAdapter(int layoutResId, @Nullable List<ProductNormalModel.DataBean.ListBean> activeList, Onclick onclick) {
         super(layoutResId, activeList);
         this.activesBean = activeList;
@@ -45,6 +48,8 @@ public class NewAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
 
     @Override
     protected void convert(BaseViewHolder helper, ProductNormalModel.DataBean.ListBean item) {
+        tv_champion = helper.getView(R.id.tv_champion);
+        v_champion = helper.getView(R.id.v_champion);
         iv_next = helper.getView(R.id.iv_next);
         iv_operate = helper.getView(R.id.iv_operate);
         tv_desc = helper.getView(R.id.tv_desc);
@@ -63,6 +68,23 @@ public class NewAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
                 iv_send.setVisibility(View.GONE);
             }
         }
+
+        if(item.getHotProdFlag()==1) {
+            //1热销
+            tv_champion.setVisibility(View.VISIBLE);
+            v_champion.setVisibility(View.VISIBLE);
+        }else {
+            tv_champion.setVisibility(View.GONE);
+            v_champion.setVisibility(View.GONE);
+        }
+
+        tv_champion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, HotProductActivity.class);
+                mContext.startActivity(intent);
+            }
+        });
 
         Glide.with(mContext).load(item.getDefaultPic()).into(iv_pic);
         helper.setText(R.id.tv_name,item.getProductName());

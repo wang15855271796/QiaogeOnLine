@@ -6,69 +6,51 @@
     android:gravity="center_vertical"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_gravity="center"
-        android:background="@drawable/orange_bg"
-        android:layout_width="305dp"
-        android:layout_height="360dp">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:text="恭喜你获得"
-            android:textSize="18sp"
-            android:id="@+id/tv"
-            android:textColor="#fff"
-            android:layout_marginTop="@dimen/size_15dp"
-            android:layout_centerHorizontal="true"
+        <ImageView
+            android:src="@mipmap/coupon_head"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
-        <TextView
-            android:id="@+id/tv1"
-            android:text="翘歌优惠券"
-            android:textSize="24sp"
-            android:textColor="#fff"
-            android:textStyle="bold"
-            android:layout_below="@+id/tv"
-            android:layout_marginTop="@dimen/size_10dp"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_below="@+id/tv1"
-            android:layout_marginTop="@dimen/size_5dp"
-            android:layout_marginBottom="@dimen/size_60dp"
+        <LinearLayout
+            android:orientation="vertical"
+            android:background="@drawable/shape_red3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_width="match_parent"
+                android:layout_height="275dp"/>
 
-        </androidx.recyclerview.widget.RecyclerView>
-
-        <ImageView
-            android:layout_alignParentBottom="true"
-            android:src="@mipmap/icon_oval"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/tv_use"
-            android:text="立即使用"
-            android:padding="@dimen/size_20dp"
-            android:textColor="#fff"
-            android:textSize="@dimen/size_14dp"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_use"
+                android:text="立即使用"
+                android:layout_gravity="center_horizontal"
+                android:paddingLeft="@dimen/size_86dp"
+                android:paddingRight="@dimen/size_86dp"
+                android:paddingTop="@dimen/size_12dp"
+                android:paddingBottom="@dimen/size_12dp"
+                android:layout_marginBottom="@dimen/size_12dp"
+                android:textColor="#FF2925"
+                android:background="@drawable/shape_jianbian"
+                android:textSize="@dimen/size_14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/iv_close"
         android:layout_marginTop="@dimen/size_30dp"
         android:layout_gravity="center_horizontal"
-        android:src="@mipmap/iv_close_inform"
+        android:src="@mipmap/coupon_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

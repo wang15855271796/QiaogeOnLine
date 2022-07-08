@@ -122,6 +122,17 @@ public class GetProductDetailModel {
         int fullId;
         String prodVideoUrl;
         private List<String> quarterPic;
+
+        List<ActivesBean> actives;
+
+        public List<ActivesBean> getActives() {
+            return actives;
+        }
+
+        public void setActives(List<ActivesBean> actives) {
+            this.actives = actives;
+        }
+
         @Override
         public String toString() {
             return "DataBean{" +
@@ -447,6 +458,40 @@ public class GetProductDetailModel {
 
         public void setTopPic(List<String> topPic) {
             this.topPic = topPic;
+        }
+
+        public static class ActivesBean {
+            /**
+             * productId : 9179
+             * spec : 450ml
+             */
+            private int activeType;
+            private String activeId;
+            private String activeName;
+
+            public int getActiveType() {
+                return activeType;
+            }
+
+            public void setActiveType(int activeType) {
+                this.activeType = activeType;
+            }
+
+            public String getActiveId() {
+                return activeId;
+            }
+
+            public void setActiveId(String activeId) {
+                this.activeId = activeId;
+            }
+
+            public String getActiveName() {
+                return activeName;
+            }
+
+            public void setActiveName(String activeName) {
+                this.activeName = activeName;
+            }
         }
 
         public static class ProdSpecsBean {

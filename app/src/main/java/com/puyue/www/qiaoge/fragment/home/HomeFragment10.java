@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
+
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -193,8 +195,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     RelativeLayout rl_team;
     @BindView(R.id.rl2)
     RelativeLayout rl2;
-//    @BindView(R.id.ll1)
-//    LinearLayout ll1;
     @BindView(R.id.indicator)
     HIndicators indicator;
     @BindView(R.id.rv_icon)
@@ -343,8 +343,8 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     RelativeLayout rl_bar;
     @BindView(R.id.ll_parent_top)
     RelativeLayout ll_parent_top;
-    @BindView(R.id.ll_hot)
-    LinearLayout ll_hot;
+    @BindView(R.id.rl_hot)
+    RelativeLayout rl_hot;
     @BindView(R.id.ll_coupon)
     LinearLayout ll_coupon;
     @BindView(R.id.tv_full_title)
@@ -371,6 +371,14 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     RelativeLayout rl_huo;
     @BindView(R.id.rl_huos)
     RelativeLayout rl_huos;
+//    @BindView(R.id.vp_skill)
+//    ViewPager2 vp_skill;
+//    @BindView(R.id.vp_team)
+//    ViewPager2 vp_team;
+//    @BindView(R.id.vp_discount)
+//    ViewPager2 vp_discount;
+//    @BindView(R.id.vp_full)
+    ViewPager2 vp_full;
     List<String> list = new ArrayList<>();
     private static final float ENDMARGINLEFT = 50;
     private static final float ENDMARGINTOP = 5;
@@ -1075,17 +1083,12 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                             List<ProductNormalModel.DataBean.ListBean> list = getCommonProductModel.getData().getList();
                             listBeans.addAll(list);
                             if(listBeans.size()>0) {
-                                ll_hot.setVisibility(View.VISIBLE);
+                                rl_hot.setVisibility(View.VISIBLE);
                             }else {
-                                ll_hot.setVisibility(View.GONE);
+                                rl_hot.setVisibility(View.GONE);
                             }
                             if (listBeans.size() == 1) {
                                 hotAdapter = new HotAdapter(R.layout.item_common_lists, listBeans, new HotAdapter.Onclick() {
-                                    @Override
-                                    public void addDialog() {
-
-                                    }
-
                                     @Override
                                     public void tipClick() {
                                         AppHelper.ShowAuthDialog(mActivity,cell);
@@ -1099,10 +1102,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                 rv_hot1.setVisibility(View.GONE);
                                 rv_hot.setVisibility(View.VISIBLE);
                                 hotAdapter = new HotAdapter(R.layout.item_coupon_lists, listBeans, new HotAdapter.Onclick() {
-                                    @Override
-                                    public void addDialog() {
-
-                                    }
 
                                     @Override
                                     public void tipClick() {
@@ -1115,11 +1114,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                 rv_hot1.setVisibility(View.VISIBLE);
                                 rv_hot.setVisibility(View.GONE);
                                 hotAdapter = new HotAdapter(R.layout.item_coupon_listss, listBeans, new HotAdapter.Onclick() {
-                                    @Override
-                                    public void addDialog() {
-
-                                    }
-
                                     @Override
                                     public void tipClick() {
                                         AppHelper.ShowAuthDialog(mActivity,cell);
@@ -1218,36 +1212,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                             }else {
                                 privacysDialog.show();
                             }
-
-//                            couponListModels = indexInfoModel.getData();
-//                            if(couponListModels.getUserPopup()!=null) {
-//                                if(couponListModels.getUserPopup().getGifts()!=null) {
-//                                    lists = couponListModels.getUserPopup().getGifts();
-//                                    couponListDialog = new CouponListDialog(mActivity, couponListModels);
-//                                    if (lists.size() > 0) {
-//                                        couponListDialog.show();
-//                                    } else {
-//                                        couponListDialog.dismiss();
-//                                    }
-//                                }
-//                            }
-//
-//                            if(indexInfoModel.getData().getHomePopup()!=null) {
-//                                homePropup = indexInfoModel.getData().getHomePopup();
-//                                homeActivityDialog = new HomeActivityDialog(mActivity,homePropup);
-//                                homeActivityDialog.show();
-//
-//                            }else {
-//                                homeActivityDialog.dismiss();
-//                            }
-//
-//                            if (privacyModel.getData().getOpen().equals("1")) {
-//                                privacyDialog.show();
-//                            } else {
-//                                privacyDialog.dismiss();
-//                                couponListAdapter.notifyDataSetChanged();
-//                            }
-
                         } else {
                             AppHelper.showMsg(mActivity, privacyModel.getMessage());
                         }
@@ -1509,7 +1473,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                 lav_activity_loading.hide();
                                 getSpikeList();
                                 if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
-                                    ll_hot.setVisibility(View.GONE);
+                                    rl_hot.setVisibility(View.GONE);
                                 }else {
                                     getHot(1, 10, "hot");
                                 }

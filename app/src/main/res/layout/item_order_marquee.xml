@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="166dp"
+    android:id="@+id/ll_root"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_marginLeft="@dimen/size_12dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_46dp">
+
+        <RelativeLayout
+            android:id="@+id/rl_pic"
+            android:layout_width="@dimen/size_40dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_pic"
+                android:layout_centerInParent="true"
+                android:layout_width="@dimen/size_32dp"
+                android:layout_height="@dimen/size_32dp"
+                android:src="@mipmap/icon_orders" />
+
+            <TextView
+                android:id="@+id/tv_position"
+                android:text="1/5"
+                android:textSize="8sp"
+                android:layout_marginTop="@dimen/size_30dp"
+                android:layout_centerHorizontal="true"
+                android:textColor="#ffffff"
+                android:paddingRight="@dimen/dp_4"
+                android:paddingLeft="@dimen/dp_4"
+                android:background="@drawable/shape_yellow3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/rl_pic">
+
+            <TextView
+                android:id="@+id/tv_order_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="订单待支付"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/sp_14"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_order_state"
+                android:text="12:00下单"
+                android:textColor="#ffffff"
+                android:textSize="10sp" />
+
+            <com.puyue.www.qiaoge.view.SnapUpCountDownTimerView4
+                android:id="@+id/snap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_order_state"
+                android:layout_marginRight="@dimen/size_5dp"
+                android:layout_toRightOf="@+id/tv_time" />
+
+            <TextView
+                android:id="@+id/tv_pay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_order_state"
+                android:layout_marginLeft="@dimen/size_5dp"
+                android:layout_toRightOf="@+id/tv_time"
+                android:text="sds"
+                android:textColor="#ffffff"
+                android:textSize="10sp"
+                android:visibility="gone" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/size_5dp"
+                android:src="@mipmap/ic_arrow_right" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</LinearLayout>
