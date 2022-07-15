@@ -45,32 +45,37 @@ public class VpSkillAdapter extends RecyclerView.Adapter<VpSkillAdapter.BaseView
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
-        CouponModels.DataBean.SpikeBean.ActivesBean activesBean = actives.get(position % actives.size());
-        if(!TextUtils.isEmpty(activesBean.getSpread()) && !activesBean.getSpread().equals("")) {
-            holder.tv_save_price.setText(activesBean.getSpread());
-            holder.tv_save_price.setBackgroundResource(R.drawable.shape_yellow2);
-        }else {
-            holder.tv_save_price.setBackgroundResource(R.drawable.shape_white);
-        }
-
-        holder.tv_price.setText(activesBean.getPrice());
-        holder.tv_title.setText(activesBean.getActiveName());
-
-        Glide.with(mContext).load(activesBean.getDefaultPic()).into(holder.iv_pic);
-
-        if(activesBean.getNotSend()==1) {
-            holder.iv_not_send.setVisibility(View.VISIBLE);
-        }else {
-            holder.iv_not_send.setVisibility(View.GONE);
-        }
-
-        holder.ll_root.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, HomeGoodsListActivity.class);
-                mContext.startActivity(intent);
+        try {
+            CouponModels.DataBean.SpikeBean.ActivesBean activesBean = actives.get(position % actives.size());
+            if(!TextUtils.isEmpty(activesBean.getSpread()) && !activesBean.getSpread().equals("")) {
+                holder.tv_save_price.setText(activesBean.getSpread());
+                holder.tv_save_price.setBackgroundResource(R.drawable.shape_yellow2);
+            }else {
+                holder.tv_save_price.setBackgroundResource(R.drawable.shape_white);
             }
-        });
+
+            holder.tv_price.setText(activesBean.getPrice());
+            holder.tv_title.setText(activesBean.getActiveName());
+
+            Glide.with(mContext).load(activesBean.getDefaultPic()).into(holder.iv_pic);
+
+            if(activesBean.getNotSend()==1) {
+                holder.iv_not_send.setVisibility(View.VISIBLE);
+            }else {
+                holder.iv_not_send.setVisibility(View.GONE);
+            }
+
+            holder.ll_root.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, HomeGoodsListActivity.class);
+                    mContext.startActivity(intent);
+                }
+            });
+        }catch (Exception e) {
+
+        }
+
     }
 
     @Override

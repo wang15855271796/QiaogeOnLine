@@ -68,16 +68,16 @@
 
             </LinearLayout>
 
-<!--            <com.puyue.www.qiaoge.AutoPollRecyclerView-->
-<!--                android:id="@+id/rv_skill"-->
-<!--                android:background="#ffffff"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"/>-->
-            <com.frankfancode.marqueeview.MarqueeView
+            <com.puyue.www.qiaoge.AutoPollRecyclerView
                 android:id="@+id/rv_skill"
+                android:background="#ffffff"
                 android:layout_width="match_parent"
-                android:layout_height="106dp"
-                android:background="#ffffff" />
+                android:layout_height="match_parent"/>
+<!--            <com.frankfancode.marqueeview.MarqueeView-->
+<!--                android:id="@+id/rv_skill"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="106dp"-->
+<!--                android:background="#ffffff" />-->
         </LinearLayout>
 
         <!--    满赠2    -->

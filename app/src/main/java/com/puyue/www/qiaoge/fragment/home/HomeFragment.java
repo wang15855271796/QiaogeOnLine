@@ -343,7 +343,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     @BindView(R.id.rl_huos)
     RelativeLayout rl_huos;
     @BindView(R.id.rv_skill)
-    MarqueeView rv_skill;
+    AutoPollRecyclerView rv_skill;
     @BindView(R.id.rv_team1)
     AutoPollRecyclerView rv_team1;
     @BindView(R.id.ll_discount1)
@@ -687,7 +687,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 isShow();
                 getOrder();
                 getBaseLists();
-//                getSpikeList();
+                getSpikeList();
                 getCustomerPhone();
                 getMessage();
                 getHot(1, 10, "hot");
@@ -915,44 +915,44 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 //        LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
         ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger = new ScrollSpeedLinearLayoutManger(mActivity);
         scrollSpeedLinearLayoutManger.setOrientation(RecyclerView.HORIZONTAL);
-//        rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger);
+        rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger);
 
         rv_skill.setAdapter(vpSkillAdapter);
         if(dataActive.getSpike().getActives().size()>1) {
-            rv_skill.startScroll();
+            rv_skill.start();
         }
 
 //        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-        VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives());
-        ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger1 = new ScrollSpeedLinearLayoutManger(mActivity);
-        scrollSpeedLinearLayoutManger1.setOrientation(RecyclerView.HORIZONTAL);
-        rv_full.setLayoutManager(scrollSpeedLinearLayoutManger1);
-        rv_full.setAdapter(vpFullAdapter);
-        if(dataActive.getFullGift().getActives().size()>1) {
-            rv_full.start();
-        }
+//        VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives());
+//        ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger1 = new ScrollSpeedLinearLayoutManger(mActivity);
+//        scrollSpeedLinearLayoutManger1.setOrientation(RecyclerView.HORIZONTAL);
+//        rv_full.setLayoutManager(scrollSpeedLinearLayoutManger1);
+//        rv_full.setAdapter(vpFullAdapter);
+//        if(dataActive.getFullGift().getActives().size()>1) {
+//            rv_full.start();
+//        }
 
 
 //        LinearLayoutManager linearLayoutManager4 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-        VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives());
-        ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger2 = new ScrollSpeedLinearLayoutManger(mActivity);
-        scrollSpeedLinearLayoutManger2.setOrientation(RecyclerView.HORIZONTAL);
-        rv_team.setLayoutManager(scrollSpeedLinearLayoutManger2);
-        rv_team.setAdapter(vpTeamAdapter);
-        if(dataActive.getTeam().getActives().size()>1) {
-            rv_team.start();
-        }
+//        VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives());
+//        ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger2 = new ScrollSpeedLinearLayoutManger(mActivity);
+//        scrollSpeedLinearLayoutManger2.setOrientation(RecyclerView.HORIZONTAL);
+//        rv_team.setLayoutManager(scrollSpeedLinearLayoutManger2);
+//        rv_team.setAdapter(vpTeamAdapter);
+//        if(dataActive.getTeam().getActives().size()>1) {
+//            rv_team.start();
+//        }
 
 
 //        LinearLayoutManager linearLayoutManager5 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-        ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger3 = new ScrollSpeedLinearLayoutManger(mActivity);
-        scrollSpeedLinearLayoutManger3.setOrientation(RecyclerView.HORIZONTAL);
-        VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives());
-        rv_discount.setLayoutManager(scrollSpeedLinearLayoutManger3);
-        rv_discount.setAdapter(vpDiscountAdapter);
-        if(dataActive.getSpecial().getActives().size()>1) {
-            rv_discount.start();
-        }
+//        ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger3 = new ScrollSpeedLinearLayoutManger(mActivity);
+//        scrollSpeedLinearLayoutManger3.setOrientation(RecyclerView.HORIZONTAL);
+//        VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives());
+//        rv_discount.setLayoutManager(scrollSpeedLinearLayoutManger3);
+//        rv_discount.setAdapter(vpDiscountAdapter);
+//        if(dataActive.getSpecial().getActives().size()>1) {
+//            rv_discount.start();
+//        }
 
     }
 
