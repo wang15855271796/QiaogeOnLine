@@ -48,7 +48,6 @@ public class FullCartAdapter extends BaseQuickAdapter<CartFullsModel.DataBean.De
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         FullCartsAdapter fullCartsAdapter = new FullCartsAdapter(R.layout.item_fulls_cart,sendProd1);
         recyclerView.setAdapter(fullCartsAdapter);
-
         //优惠券
         CartCouponsAdapter couponsAdapter = new CartCouponsAdapter(R.layout.item_cart_coupon,sendProd2);
         rv_coupon.setAdapter(couponsAdapter);

@@ -28,6 +28,8 @@ public class OrderMarqueeAdapter extends RecyclerView.Adapter<OrderMarqueeAdapte
     List<OrderModel.DataBean> data;
     Activity activity;
     OrderModel.DataBean dataBean;
+
+
     public void setData(List<OrderModel.DataBean> data, FragmentActivity activity) {
         this.data = data;
         this.activity = activity;

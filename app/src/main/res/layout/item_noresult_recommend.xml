@@ -171,20 +171,20 @@
                     android:layout_height="@dimen/size_20dp">
 
                     <ImageView
-                        android:layout_centerVertical="true"
                         android:id="@+id/iv_operate"
-                        android:layout_marginLeft="@dimen/size_15dp"
-                        tools:src="@mipmap/icon_operate"
                         android:layout_width="@dimen/size_32dp"
-                        android:layout_height="@dimen/size_12dp" />
+                        android:layout_height="@dimen/size_12dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/size_15dp"
+                        tools:src="@mipmap/icon_operate" />
 
                     <ImageView
                         android:id="@+id/iv_type"
+                        android:layout_width="@dimen/size_32dp"
+                        android:layout_height="@dimen/size_12dp"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@+id/iv_operate"
-                        tools:src="@mipmap/icon_operate"
-                        android:layout_width="@dimen/size_32dp"
-                        android:layout_height="@dimen/size_12dp" />
+                        tools:src="@mipmap/icon_operate" />
 
                     <RelativeLayout
                         android:visibility="gone"
@@ -212,16 +212,16 @@
 
                 <TextView
                     android:id="@+id/tv_style"
-                    android:textColor="#999999"
-                    android:text="展开全部规则"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/size_25dp"
                     android:layout_below="@+id/rv_spec"
+                    android:layout_marginLeft="@dimen/size_15dp"
+                    android:layout_marginTop="@dimen/dp_10"
                     android:layout_toRightOf="@+id/rl"
                     android:drawablePadding="@dimen/size_5dp"
-                    android:layout_marginLeft="@dimen/size_15dp"
-                    android:textSize="@dimen/dp_10"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/size_25dp"/>
+                    android:text="展开全部规则"
+                    android:textColor="#999999"
+                    android:textSize="@dimen/dp_10" />
 
             </RelativeLayout>
 

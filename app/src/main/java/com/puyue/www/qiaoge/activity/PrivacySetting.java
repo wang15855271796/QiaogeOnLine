@@ -21,7 +21,6 @@ import androidx.core.content.ContextCompat;
 
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.base.BaseActivity;
-import com.puyue.www.qiaoge.dialog.AuthDialog;
 import com.puyue.www.qiaoge.dialog.PrivacySettingDialog;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 

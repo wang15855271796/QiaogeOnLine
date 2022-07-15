@@ -17,7 +17,6 @@ import com.puyue.www.qiaoge.activity.home.CouponDetailActivity;
 import com.puyue.www.qiaoge.activity.home.HomeGoodsListActivity;
 import com.puyue.www.qiaoge.activity.home.TeamDetailActivity;
 import com.puyue.www.qiaoge.activity.mine.coupons.MyCouponsActivity;
-import com.puyue.www.qiaoge.adapter.home.ReductionProductActivity;
 import com.puyue.www.qiaoge.api.home.IndexInfoModel;
 import com.puyue.www.qiaoge.api.home.PopupViewHomeAPI;
 import com.puyue.www.qiaoge.helper.AppHelper;
@@ -141,8 +140,8 @@ public class HomeActivityDialog extends Dialog {
                                     context.startActivity(intent2);
                                     break;
                                 case "priceDown": //降价页面
-                                    Intent intent3 = new Intent(context, ReductionProductActivity.class);
-                                    context.startActivity(intent3);
+//                                    Intent intent3 = new Intent(context, ReductionProductActivity.class);
+//                                    context.startActivity(intent3);
                                     break;
                                 case "disable":
                                     Intent intent1 = new Intent(context, HomeActivity.class);

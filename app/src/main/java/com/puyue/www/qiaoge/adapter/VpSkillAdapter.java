@@ -46,7 +46,7 @@ public class VpSkillAdapter extends RecyclerView.Adapter<VpSkillAdapter.BaseView
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
         CouponModels.DataBean.SpikeBean.ActivesBean activesBean = actives.get(position % actives.size());
-        if(TextUtils.isEmpty(activesBean.getSpread()) && !activesBean.getSpread().equals("")) {
+        if(!TextUtils.isEmpty(activesBean.getSpread()) && !activesBean.getSpread().equals("")) {
             holder.tv_save_price.setText(activesBean.getSpread());
             holder.tv_save_price.setBackgroundResource(R.drawable.shape_yellow2);
         }else {

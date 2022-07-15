@@ -170,7 +170,6 @@ public class MarketsFragment extends BaseFragment {
     private String saleVolume = "";
     private String priceUp = "";
     private String newProduct = "";
-    private int Imposition = 0;
     private boolean isCheck = false;
     private boolean hasPage = true;
     EditText et_goods;
@@ -295,7 +294,6 @@ public class MarketsFragment extends BaseFragment {
                     selectBrandName = "";
                     minPrice = "";
                     maxPrice = "";
-                    Imposition = 1;
                     iv_tip.setImageResource(R.mipmap.icon_grey);
                     sendSelectGood(saleVolume, priceUp,priceDown, newProduct, selectBrandName, minPrice, maxPrice);
                 }else if(styles%3==1) {
@@ -307,7 +305,6 @@ public class MarketsFragment extends BaseFragment {
                     selectBrandName = "";
                     minPrice = "";
                     maxPrice = "";
-                    Imposition = 1;
                     iv_tip.setImageResource(R.mipmap.icon_top);
                     sendSelectGood(saleVolume, priceUp,priceDown, newProduct, selectBrandName, minPrice, maxPrice);
                 }else {
@@ -319,7 +316,6 @@ public class MarketsFragment extends BaseFragment {
                     selectBrandName = "";
                     minPrice = "";
                     maxPrice = "";
-                    Imposition = 1;
                     iv_tip.setImageResource(R.mipmap.icon_bt);
                     sendSelectGood(saleVolume, priceUp,priceDown, newProduct, selectBrandName, minPrice, maxPrice);
                 }
@@ -339,7 +335,6 @@ public class MarketsFragment extends BaseFragment {
                 saleNum++;
                 tv_price.setTextColor(Color.parseColor("#333333"));
                 iv_tip.setImageResource(R.mipmap.icon_grey);
-                Imposition = 2;
                 priceUp = "";
                 pageNum =1;
                 priceDown = "";
@@ -358,11 +353,9 @@ public class MarketsFragment extends BaseFragment {
                 pageNum = 1;
                 if(mModelMarketGoods.getData().getBrandProd().isHasNextPage()) {
                     hasPage = true;
-//                    getDataThree();
                     getData();
                 }else {
                     hasPage = false;
-//                    getDataThree();
                     getData();
                 }
             }
@@ -532,8 +525,6 @@ public class MarketsFragment extends BaseFragment {
         }
     }
 
-
-
     CustomPopWindow mCustomPopWindow;
     private void shopListView() {
         View contentView = LayoutInflater.from(context).inflate(R.layout.cate_list,null);
@@ -583,7 +574,6 @@ public class MarketsFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String prodName = mListRecommendProd.get(position);
                 selectBrandName = prodName;
-//                getDataThree();
                 getData();
                 et_goods.setText(selectBrandName);
                 dialog1.dismiss();
@@ -606,7 +596,6 @@ public class MarketsFragment extends BaseFragment {
 
 
     class popupDismissListener implements PopupWindow.OnDismissListener {
-
         @Override
         public void onDismiss() {
             backgroundAlpha(1f);
@@ -662,12 +651,10 @@ public class MarketsFragment extends BaseFragment {
                 .subscribe(new Subscriber<MarketAlreadyGoodModel>() {
                     @Override
                     public void onCompleted() {
-//                        ptr.refreshComplete();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-//                        ptr.refreshComplete();
                     }
 
                     @Override
@@ -795,68 +782,6 @@ public class MarketsFragment extends BaseFragment {
     @Override
     public void setViewData() {
         lav_activity_loading.show();
-
-        ArrayList<String> titles = new ArrayList<>();
-        titles.add("综合排序");
-        ArrayList<String> contentThree = new ArrayList<>();
-        contentThree.add("综合排序");
-        contentThree.add("价格排序");
-        contentThree.add("销量排序");
-        contentThree.add("新品");
-        MyListView myListView2 = new MyListView(mActivity, contentThree);
-        viewList.add(0, myListView2);
-
-        myListView2.setOnSelectListener(new MyListView.OnSelectListener() {
-            @Override
-            public void getValue(String value, int position) {
-
-                pageNum = 1;
-                Log.i("dda", "getValue: " + mRvSecond.getWidth() + mActivity.getWindowManager().getDefaultDisplay().getWidth());
-                if (value.equals("价格排序")) {
-                    priceUp = "1";
-                    saleVolume = "";
-                    newProduct = "";
-                    selectBrandName = "";
-                    minPrice = "";
-                    maxPrice = "";
-                    Imposition = 1;
-
-//                    sendSelectGood(saleVolume, priceUp, newProduct, selectBrandName, minPrice, maxPrice);
-                } else if (value.equals("销量排序")) {
-                    saleVolume = "1";
-                    Imposition = 2;
-                    priceUp = "";
-                    newProduct = "";
-                    minPrice = "";
-                    maxPrice = "";
-                    selectBrandName = "";
-
-//                    sendSelectGood(saleVolume, priceUp, newProduct, selectBrandName, minPrice, maxPrice);
-                } else if (value.equals("新品")) {
-                    newProduct = "1";
-                    priceUp = "";
-                    saleVolume = "";
-                    selectBrandName = "";
-                    minPrice = "";
-                    Imposition = 3;
-                    maxPrice = "";
-
-//                    sendSelectGood(saleVolume, priceUp, newProduct, selectBrandName, minPrice, maxPrice);
-                } else {
-                    Imposition = 0;
-                    newProduct = "";
-                    priceUp = "";
-                    saleVolume = "";
-                    selectBrandName = "";
-                    minPrice = "";
-                    maxPrice = "";
-//                    sendSelectGood("", "", "", "", "", "");
-                }
-
-
-            }
-        });
-
         //获取banner
         getSearchProd();
 
@@ -957,30 +882,10 @@ public class MarketsFragment extends BaseFragment {
                     ll_select.setVisibility(View.VISIBLE);
                     rv_prod_detail.noMoreLoading(true);
                 }
-//                if (isCheck) {
-//                    if (hasPage) {
-//                        pageNum++;
-////                        getDataThree();
-//                        getData();
-//                    } else {
-//                        hasPage = false;
-//                        rv_prod_detail.noMoreLoading(true);
-//                    }
-//                } else {
-//                    if (hasPage) {
-//                        pageNum++;
-////                        getDataThree();
-//                        getData();
-//                    } else {
-//                        hasPage = false;
-//                        rv_prod_detail.noMoreLoading(false);
-//                    }
-//                }
             }
         });
 
         mAdapterMarketSecond = new MarketSecondAdapter(R.layout.item_left_classify, mListSecondNow);
-
         mAdapterMarketSecond.setOnItemClickListener(new OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
@@ -1021,24 +926,6 @@ public class MarketsFragment extends BaseFragment {
 
                 }
             });
-
-//        mAdapterMarketSecond.setOnItemClickListeners(new MarketSecondAdapter.OnEventClickListener() {
-//            @Override
-//            public void onEventClick(int position, int secondId) {
-//                dialog.show();
-//                pageNum = 1;
-//                minPrice = "";
-//                maxPrice = "";
-//                mSecondCode = secondId;
-//                selectBrandName = "";
-//                if (isCheck) {
-////                    getDataTwo();
-//                    getData();
-//                } else {
-//                    getData();
-//                }
-//            }
-//        });
         mAdapterMarketDetail = new MarketGoodsAdapter(R.layout.item_noresult_recommends, mListGoods, new MarketGoodsAdapter.Onclick() {
             @Override
             public void addDialog() {
@@ -1053,12 +940,11 @@ public class MarketsFragment extends BaseFragment {
 
             @Override
             public void getPrice() {
-//                showPhoneDialog(cell);
                 AppHelper.ShowAuthDialog(mActivity,SharedPreferencesUtil.getString(mActivity,"mobile"));
             }
         });
-
         prodAdapter = new ProdAdapter(R.layout.item_prod,mListProd);
+
         rv_prod_detail.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv_prod_detail.setAdapter(prodAdapter);
         mRvSecond.setAdapter(mAdapterMarketSecond);
@@ -1098,92 +984,10 @@ public class MarketsFragment extends BaseFragment {
                 });
     }
 
-    private void getDataThree() {
-        if (Imposition == 0) {
-            sendSelectGoodThree("", "", "","", selectBrandName, minPrice, maxPrice);
-        } else if (Imposition == 1) {
-            sendSelectGoodThree("", "1", "","", selectBrandName, minPrice, maxPrice);
-        } else if (Imposition == 2) {
-            sendSelectGoodThree("1", "", "","", selectBrandName, minPrice, maxPrice);
-        } else if (Imposition == 3) {
-            sendSelectGoodThree("", "", "1","", selectBrandName, minPrice, maxPrice);
-        } else {
-            sendSelectGoodThree("", "", "","", selectBrandName, minPrice, maxPrice);
-        }
-    }
-
-    /**
-     * 更新品牌
-     * @param marketGoodSelectModel
-     */
-    private void upProdDate(MarketRightModel marketGoodSelectModel) {
-        if (pageNum == 1) {
-            if (marketGoodSelectModel.getData().getBrandProd() != null && marketGoodSelectModel.getData().getBrandProd().getList().size()>0) {
-                rv_prod_detail.setVisibility(View.VISIBLE);
-                mIvNoData.setVisibility(View.GONE);
-                mListProd.clear();
-                mListProd.addAll(marketGoodSelectModel.getData().getBrandProd().getList());
-                prodAdapter.notifyDataSetChanged();
-            } else {
-                rv_prod_detail.setVisibility(View.GONE);
-                mIvNoData.setVisibility(View.VISIBLE);
-
-            }
-        } else {
-
-            mListProd.addAll(marketGoodSelectModel.getData().getBrandProd().getList());
-            prodAdapter.notifyDataSetChanged();
-
-        }
-
-
-        if (marketGoodSelectModel.getData().getBrandProd().isHasNextPage()) {
-            hasPage = true;
-        } else {
-            hasPage = false;
-        }
-
-
-    }
-
-
-
-    private void getDataTwo() {
-        isCheck = true;
-        if (Imposition == 0) {
-//            sendSelectGoodTwo("", "", "", "",selectBrandName, minPrice, maxPrice);
-            sendSelectGood("", "", "", "",selectBrandName, minPrice, maxPrice);
-        } else if (Imposition == 1) {
-//            sendSelectGoodTwo("", "1", "","", selectBrandName, minPrice, maxPrice);
-            sendSelectGood("", "1", "","", selectBrandName, minPrice, maxPrice);
-        } else if (Imposition == 2) {
-//            sendSelectGoodTwo("1", "", "","", selectBrandName, minPrice, maxPrice);
-            sendSelectGood("1", "", "","", selectBrandName, minPrice, maxPrice);
-        } else if (Imposition == 3) {
-//            sendSelectGoodTwo("", "", "1","", selectBrandName, minPrice, maxPrice);
-            sendSelectGood("", "", "1","", selectBrandName, minPrice, maxPrice);
-        } else {
-//            sendSelectGoodTwo("", "", "","", selectBrandName, minPrice, maxPrice);
-            sendSelectGood("", "", "","", selectBrandName, minPrice, maxPrice);
-        }
-    }
-
     private void getData() {
         isCheck = false;
         sendSelectGood("", "", "", "",selectBrandName, minPrice, maxPrice);
-//        if (Imposition == 0) {
-//            sendSelectGood("", "", "","", selectBrandName, minPrice, maxPrice);
-//        } else if (Imposition == 1) {
-//            sendSelectGood("", "1", "","", selectBrandName, minPrice, maxPrice);
-//        } else if (Imposition == 2) {
-//            sendSelectGood("1", "", "","", selectBrandName, minPrice, maxPrice);
-//        } else if (Imposition == 3) {
-//            sendSelectGood("", "", "1","", selectBrandName, minPrice, maxPrice);
-//        } else {
-//
-//        }
     }
-
 
     /**
      * 请求左侧数据集合
@@ -1206,9 +1010,10 @@ public class MarketsFragment extends BaseFragment {
                     @Override
                     public void onNext(ClassIfyModel marketGoodsModel) {
                         if (marketGoodsModel.getCode()==1) {
+                            mList.clear();
+                            mListSecondNow.clear();
                             if(marketGoodsModel.getData()!=null && marketGoodsModel.getData().size() >0) {
                                 List<ClassIfyModel.DataBean> data = marketGoodsModel.getData();
-
                                 if(fromId!="") {
                                     //首页顶部切换过来
                                     for (int i = 0; i < data.size(); i++) {
@@ -1219,10 +1024,8 @@ public class MarketsFragment extends BaseFragment {
                                     }
                                     mAdapterMarketSecond.selectPosition(0);
                                     mSecondCode = data.get(selectPosition).getSecondClassify().get(0).getSecondId();
-                                    mList.clear();
-                                    mList.addAll(data);
 
-                                    mListSecondNow.clear();
+                                    mList.addAll(data);
                                     mListSecondNow.addAll(data.get(selectPosition).getSecondClassify());
 
                                     mFirstCode = fromId;
@@ -1234,21 +1037,19 @@ public class MarketsFragment extends BaseFragment {
                                     }
 
                                     getData();
-
                                     mAdapterMarketSecond.notifyDataSetChanged();
                                     firstAdapter.notifyDataSetChanged();
                                 }else {
                                     //首页底部切换过来
+                                    mList.clear();
+                                    mListSecondNow.clear();
                                     mFirstCode = data.get(selectPosition).getFirstId();
                                     mSecondCode = data.get(selectPosition).getSecondClassify().get(selectPosition).getSecondId();
-                                    mList.clear();
                                     mList.addAll(data);
                                     firstAdapter.selectPosition(0);
-                                    mListSecondNow.clear();
                                     mListSecondNow.addAll(data.get(0).getSecondClassify());
-
                                     getData();
-
+                                    Log.d("wdasdwdas........",mFirstCode+"--"+mSecondCode);
                                     mAdapterMarketSecond.notifyDataSetChanged();
                                     firstAdapter.notifyDataSetChanged();
                                 }
@@ -1290,85 +1091,10 @@ public class MarketsFragment extends BaseFragment {
      * 初始化列表数据
      */
     int clicks = 0;
-    private void updateGoodsList(String fromId) {
-//        dialog.show();
-//        if(clicks == 0) {
-//            if(fromId.equals("")) {
-//                mList.clear();
-//                mList.addAll(mModelMarketGoodsClassify.getData());
-//                mListSecondNow.clear();
-//                mListSecondNow.addAll(mModelMarketGoodsClassify.getData().get(0).getSecondClassify());
-//                mAdapterMarketSecond.notifyDataSetChanged();
-//                mAdapterMarketSecond.selectPosition(0);
-//                firstAdapter.notifyDataSetChanged();
-//                mFirstCode = mModelMarketGoodsClassify.getData().get(0).getFirstId();
-//                mSecondCode  = -1;
-//                getData();
-//            }else {
-//                mList.clear();
-//                mList.addAll(mModelMarketGoodsClassify.getData());
-//                mListSecondNow.clear();
-//
-//                for (int i = 0; i < mModelMarketGoodsClassify.getData().size(); i++) {
-//                    if(mModelMarketGoodsClassify.getData().get(i).getFirstId().equals(fromId)) {
-//                        mListSecondNow.addAll(mModelMarketGoodsClassify.getData().get(i).getSecondClassify());
-//                    }
-//                }
-//                mAdapterMarketSecond.selectPosition(0);
-//                mAdapterMarketSecond.notifyDataSetChanged();
-//                mFirstCode = fromId;
-//                mSecondCode = -1;
-//                for (int i = 0; i < mList.size(); i++) {
-//                    if(fromId.equals(mList.get(i).getFirstId())) {
-//                        firstAdapter.selectPosition(i);
-//                        rv_cate.scrollToPosition(i);
-//                    }
-//                }
-//                getData();
-//
-//            }
-//        }else {
-//            if(!fromId.equals("")) {
-//                mList.clear();
-//                mList.addAll(mModelMarketGoodsClassify.getData());
-//                mListSecondNow.clear();
-//                for (int i = 0; i < mModelMarketGoodsClassify.getData().size(); i++) {
-//                    if(mModelMarketGoodsClassify.getData().get(i).getFirstId().equals(fromId)) {
-//                        mListSecondNow.addAll(mModelMarketGoodsClassify.getData().get(i).getSecondClassify());
-//                    }
-//                }
-//                mAdapterMarketSecond.selectPosition(0);
-//                mAdapterMarketSecond.notifyDataSetChanged();
-//                firstAdapter.notifyDataSetChanged();
-//                mFirstCode = fromId;
-//                mSecondCode  = -1;
-//                for (int i = 0; i < mList.size(); i++) {
-//                    if(fromId.equals(mList.get(i).getFirstId())) {
-//                        rv_cate.smoothScrollToPosition(i);
-//                        firstAdapter.selectPosition(i);
-//                    }
-//                }
-//                getData();
-//            }else {
-//                mList.clear();
-//                mList.addAll(mModelMarketGoodsClassify.getData());
-//                mListSecondNow.clear();
-//                mListSecondNow.addAll(mModelMarketGoodsClassify.getData().get(0).getSecondClassify());
-//                mAdapterMarketSecond.selectPosition(0);
-//                mAdapterMarketSecond.notifyDataSetChanged();
-//                firstAdapter.notifyDataSetChanged();
-//                mFirstCode = mModelMarketGoodsClassify.getData().get(0).getFirstId();
-//                mSecondCode  = -1;
-//                firstAdapter.selectPosition(0);
-//                getData();
-//            }
-//        }
-    }
     /**
      * 更新数据
      */
     private void updateMarketGoods() {
-        Log.d("wdadsdsadwdas.......",mSecondCode+"");
         if(mSecondCode != -5) {
             if(mModelMarketGoods.getData().getProdClassify() != null && mModelMarketGoods.getData().getProdClassify().getList().size() > 0) {
                 mIvNoData.setVisibility(View.GONE);
@@ -1389,13 +1115,16 @@ public class MarketsFragment extends BaseFragment {
             if (mModelMarketGoods.getData().getProdClassify().isHasNextPage()) {
                 hasPage = true;
                 mRvDetail.noMoreLoading(false);
+                Log.d("asdwdsdas.......","a1111");
             } else {
                 hasPage = false;
                 mRvDetail.noMoreLoading(true);
+                Log.d("asdwdsdas.......","b1111");
             }
             mRvDetail.refreshComplete();
         }else {
             //产品
+
             if(mModelMarketGoods.getData().getBrandProd() != null && mModelMarketGoods.getData().getBrandProd().getList().size()>0) {
                 mIvNoData.setVisibility(View.GONE);
                 rv_prod_detail.setVisibility(View.VISIBLE);
@@ -1414,50 +1143,16 @@ public class MarketsFragment extends BaseFragment {
 
             if (mModelMarketGoods.getData().getBrandProd().isHasNextPage()) {
                 hasPage = true;
+                Log.d("asdwdsdas.......","a2222");
                 rv_prod_detail.noMoreLoading(false);
+
             } else {
                 hasPage = false;
+                Log.d("asdwdsdas.......","b2222");
                 rv_prod_detail.noMoreLoading(true);
             }
             rv_prod_detail.refreshComplete();
         }
-
-
-
-//        if (pageNum == 1) {
-//            if (mModelMarketGoods.getData().getBrandProd() != null && mModelMarketGoods.getData().getBrandProd().getList().size()>0) {
-//                rv_prod_detail.setVisibility(View.VISIBLE);
-//                mIvNoData.setVisibility(View.GONE);
-//                mListProd.clear();
-//                mListProd.addAll(mModelMarketGoods.getData().getBrandProd().getList());
-//                prodAdapter.notifyDataSetChanged();
-//            } else {
-//                rv_prod_detail.setVisibility(View.GONE);
-//                mIvNoData.setVisibility(View.VISIBLE);
-//
-//            }
-//        } else {
-//            mListProd.addAll(mModelMarketGoods.getData().getBrandProd().getList());
-//            prodAdapter.notifyDataSetChanged();
-//        }
-
-
-//        if (pageNum == 1) {
-//            if (mModelMarketGoods.getData().getProdClassify() != null && mModelMarketGoods.getData().getProdClassify().getList().size() > 0) {
-//                mRvDetail.setVisibility(View.VISIBLE);
-//                mIvNoData.setVisibility(View.GONE);
-//                mListGoods.clear();
-//                mListGoods.addAll(mModelMarketGoods.getData().getProdClassify().getList());
-//                mAdapterMarketDetail.notifyDataSetChanged();
-//
-//            } else {
-//                mRvDetail.setVisibility(View.GONE);
-//                mIvNoData.setVisibility(View.VISIBLE);
-//            }
-//        } else {
-//            mListGoods.addAll(mModelMarketGoods.getData().getProdClassify().getList());
-//            mAdapterMarketDetail.notifyDataSetChanged();
-//        }
     }
 
     @Override
@@ -1559,7 +1254,6 @@ public class MarketsFragment extends BaseFragment {
     public void change(FromIndexEvent fromIndexEvent) {
         fromId = fromIndexEvent.getId();
         requestGoodsList(fromId);
-        Log.d("wdasdasds.......",fromId+"aaa");
     }
 
     /**
@@ -1581,85 +1275,4 @@ public class MarketsFragment extends BaseFragment {
         };
         couponDialog.show();
     }
-
-    /**
-     * 品牌
-     * @param saleVolume
-     * @param priceUp
-     * @param newProduct
-     * @param brandName
-     * @param minPrices
-     * @param maxPrices
-     */
-    private void sendSelectGoodThree(String saleVolume, String priceUp, String priceDown,String newProduct, String brandName, String minPrices, String maxPrices) {
-        MarketGoodSelcetAPI.getClassifyRight(mActivity, pageNum, 4, mFirstCode, mSecondCode,
-                        saleVolume, priceUp,priceDown, newProduct, brandName, minPrices, maxPrices)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<MarketRightModel>() {
-                    @Override
-                    public void onCompleted() {
-                        rv_prod_detail.refreshComplete();
-//                        ptr.refreshComplete();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        lav_activity_loading.hide();
-                    }
-
-                    @Override
-                    public void onNext(MarketRightModel marketGoodSelectModel) {
-                        mModelMarketGoods = marketGoodSelectModel;
-                        if (marketGoodSelectModel.isSuccess()) {
-
-                            flag = true;
-                            dialog.dismiss();
-                            upProdDate(marketGoodSelectModel);
-                            lav_activity_loading.hide();
-                        } else {
-                            AppHelper.showMsg(mActivity, marketGoodSelectModel.getMessage());
-                            lav_activity_loading.hide();
-                        }
-                    }
-                });
-    }
 }
-
-
-
-    //筛选确定
-//    private void sendSelectGoodTwo(String saleVolume, String priceUp,String priceDown, String newProduct, String brandName, String minPrices, String maxPrices) {
-//        MarketGoodSelcetAPI.getClassifyRight(mActivity, pageNum, 12, mFirstCode, mSecondCode, saleVolume, priceUp,priceDown, newProduct, brandName, minPrices, maxPrices)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Subscriber<MarketRightModel>() {
-//                    @Override
-//                    public void onCompleted() {
-//                        mRvDetail.refreshComplete();
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        lav_activity_loading.hide();
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(MarketRightModel marketGoodSelectModel) {
-//                        if (marketGoodSelectModel.isSuccess()) {
-//
-//                            flag = true;
-//                            mModelMarketGoods = marketGoodSelectModel;
-//                            dialog.dismiss();
-//                            updateMarketGoods();
-//                            lav_activity_loading.hide();
-//
-//                        } else {
-//                            lav_activity_loading.hide();
-//                            AppHelper.showMsg(mActivity, marketGoodSelectModel.getMessage());
-//                        }
-//                    }
-//                });
-//    }

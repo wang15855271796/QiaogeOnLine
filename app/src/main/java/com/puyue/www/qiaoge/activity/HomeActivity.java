@@ -240,6 +240,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
 
         guide = UserInfoHelper.getGuide(mActivity);
         UserInfoHelper.saveChangeFlag(mContext,0+"");
+        switchTab(TAB_HOME);
 }
 
     private void sendLocation() {
@@ -635,9 +636,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     @Override
     protected void onResume() {
         super.onResume();
-
         getCartNum();
-
         if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
             sendRegistionId();
             if (!isSend) {
@@ -769,7 +768,6 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
 
     @Override
     public void onLocationChanged(TencentLocation location, int error, String reason) {
-        Log.d("wdasddsa......",reason+"---"+location.getCity());
         district = location.getDistrict();
         city = location.getCity();
         String province = location.getProvince();
@@ -779,13 +777,11 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         SharedPreferencesUtil.saveString(mContext,"lat",location.getLatitude()+"");
         SharedPreferencesUtil.saveString(mContext,"lon",location.getLongitude()+"");
         isGet = true;
-//        if (type.equals("goHome")) {
-            if (city != null) {
-                UserInfoHelper.saveCity(mContext, city);
-            } else {
-                UserInfoHelper.saveCity(mContext, "");
-            }
-//        }
+        if (city != null) {
+            UserInfoHelper.saveCity(mContext, city);
+        } else {
+            UserInfoHelper.saveCity(mContext, "");
+        }
         type = "";
         locationMessage = location.getAddress();    //获取详细地址信息
 

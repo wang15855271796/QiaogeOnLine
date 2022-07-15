@@ -69,10 +69,7 @@ public abstract class CityDialog extends Dialog implements View.OnClickListener 
                 UserInfoHelper.saveAreaName(mContext, areaNames.get(position).getAreaName());
                 SharedPreferencesUtil.saveInt(mContext,"isClick",1);
                 UserInfoHelper.saveChangeFlag(mContext,1+"");
-                Intent intent = new Intent(mContext,HomeActivity.class);//跳回首页
-                mContext.setResult(104,intent);
                 EventBus.getDefault().post(new CityEvent());
-                mContext.startActivity(intent);
                 mContext.finish();
 
             }

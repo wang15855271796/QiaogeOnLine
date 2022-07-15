@@ -44,6 +44,7 @@ import com.puyue.www.qiaoge.api.mine.login.LoginAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.event.LogoutEvent;
+import com.puyue.www.qiaoge.fragment.home.CityEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
@@ -526,12 +527,12 @@ public class LoginActivity extends BaseSwipeActivity {
         //登录成功,登录状态有变化,需要让
         EventBus.getDefault().post(new LogoutsEvent());
         EventBus.getDefault().post(new LogoutEvent());
+        EventBus.getDefault().post(new CityEvent());
         UserInfoHelper.saveUserHomeRefresh(mContext, "");
         UserInfoHelper.saveUserMarketRefresh(mContext, "");
         Intent intent = new Intent(mContext,HomeActivity.class);
         startActivity(intent);
         finish();
-        Log.d("dwdqd........","123");
     }
 
     /**

@@ -454,12 +454,22 @@
 
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="@dimen/public_space_value_120"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginTop="25dp"
                                 android:layout_marginRight="10dp"
-                                android:background="@drawable/mine_bg_round"
+                                android:background="@mipmap/shape_mine_white"
                                 android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="16dp"
+                                    android:layout_marginTop="20dp"
+                                    android:text="我的订单"
+                                    android:textColor="#333333"
+                                    android:textSize="16dp"
+                                    android:textStyle="bold" />
 
 
                                 <LinearLayout
@@ -479,7 +489,6 @@
                                         android:layout_height="wrap_content">
 
                                         <LinearLayout
-                                            android:background="@drawable/mine_order_bg"
                                             android:layout_marginRight="@dimen/size_5dp"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/size_45dp"
@@ -631,10 +640,12 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
+                                android:layout_marginRight="@dimen/dp_10"
+                                android:layout_marginLeft="@dimen/dp_10"
                                 android:layout_marginTop="10dp"
                                 android:layout_marginBottom="20dp"
                                 android:layout_weight="1"
-                                android:background="@color/white"
+                                android:background="@mipmap/shape_mine_white"
                                 android:orientation="vertical">
 
                                 <LinearLayout
@@ -643,7 +654,6 @@
                                     android:layout_marginLeft="10dp"
                                     android:layout_marginTop="10dp"
                                     android:layout_marginRight="10dp"
-                                    android:background="@drawable/mine_bg_round"
                                     android:orientation="vertical">
 
                                     <TextView

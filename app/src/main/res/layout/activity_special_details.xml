@@ -140,14 +140,14 @@
 
                             <TextView
                                 android:id="@+id/tv_time"
-                                tools:text="12月12日12:12:59开抢 "
-                                android:layout_marginRight="@dimen/size_10dp"
-                                android:textColor="#FF1D29"
-                                android:textSize="12sp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_alignBaseline="@+id/tv_name"
                                 android:layout_alignParentRight="true"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                                android:layout_marginRight="@dimen/size_5dp"
+                                android:textColor="#FF1D29"
+                                android:textSize="11sp"
+                                tools:text="12月12日00时00分00秒开抢 " />
 
                             <com.puyue.www.qiaoge.view.SnapUpCountDownTimerView1
                                 android:visibility="gone"

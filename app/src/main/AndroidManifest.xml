@@ -224,6 +224,7 @@
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <!--  -->
         <activity android:name=".activity.mine.login.LoginActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
         <activity android:name=".activity.OrderAddAddressActivity"
@@ -267,8 +268,6 @@
         <activity android:name=".adapter.home.CommonProductActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".adapter.home.ReductionProductActivity"
-            android:screenOrientation="portrait" />
         <activity android:name=".fragment.mine.IntelliGencyActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.mine.login.DcloudActvity"

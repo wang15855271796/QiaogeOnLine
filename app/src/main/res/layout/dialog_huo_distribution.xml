@@ -52,8 +52,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_name"
-                android:layout_marginTop="@dimen/size_5dp"
                 android:layout_marginLeft="@dimen/size_20dp"
+                android:layout_marginTop="@dimen/size_5dp"
                 android:text="(200免配送费)"
                 android:textColor="#999999"
                 android:textSize="@dimen/sp_14" />
@@ -79,7 +79,7 @@
             android:layout_height="@dimen/size_60dp">
 
             <TextView
-                android:id="@+id/tv2"
+                android:id="@+id/tv_name2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/size_20dp"
@@ -88,13 +88,47 @@
                 android:textSize="@dimen/sp_16" />
 
             <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_unOpen"
+                android:layout_marginLeft="@dimen/size_20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_name2"
+                android:layout_marginTop="@dimen/size_5dp"
+                android:text="(暂未开启货拉拉配送服务)"
+                android:textColor="#999999"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
                 android:id="@+id/tv_huo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv2"
+                android:layout_below="@+id/tv_name2"
                 android:layout_marginLeft="@dimen/size_20dp"
                 android:layout_marginTop="@dimen/size_5dp"
-                android:text="(订单支付后，买家自己呼叫货拉拉)"
+                android:text="(订单支付后,"
+                android:textColor="#999999"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/tv_call"
+                android:layout_toRightOf="@+id/tv_huo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_name2"
+                android:layout_marginTop="@dimen/size_5dp"
+                android:text="买家自己呼叫货拉拉"
+                android:textColor="#FF5C00"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/tv_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_name2"
+                android:layout_marginTop="@dimen/size_5dp"
+                android:layout_toRightOf="@+id/tv_call"
+                android:text=")"
                 android:textColor="#999999"
                 android:textSize="@dimen/sp_14" />
 

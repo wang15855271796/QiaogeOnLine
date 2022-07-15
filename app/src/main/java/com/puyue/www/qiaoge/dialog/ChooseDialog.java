@@ -27,6 +27,8 @@ import com.puyue.www.qiaoge.adapter.cart.SearchSpecAdapter;
 import com.puyue.www.qiaoge.api.cart.GetCartNumAPI;
 import com.puyue.www.qiaoge.api.home.GetProductDetailAPI;
 import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
+import com.puyue.www.qiaoge.event.RefreshEvent;
+import com.puyue.www.qiaoge.event.RefreshVideoEvent;
 import com.puyue.www.qiaoge.event.UpDateNumEvent10;
 import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
@@ -209,12 +211,12 @@ public class ChooseDialog extends Dialog implements View.OnClickListener {
                 searchSpecAdapter.selectPosition(position);
                 int productId = exchangeProductModels.getData().getProdSpecs().get(position).getProductId();
                 exchangeList(productId);
+                EventBus.getDefault().post(new RefreshVideoEvent(productId,position));
             }
         });
         if(model!=null) {
             searchSpecAdapter = new SearchSpecAdapter(context,model.getData().getProdSpecs());
             fl_container.setAdapter(searchSpecAdapter);
-//            searchSpecAdapter.selectPosition(pos);
         }
 
     }

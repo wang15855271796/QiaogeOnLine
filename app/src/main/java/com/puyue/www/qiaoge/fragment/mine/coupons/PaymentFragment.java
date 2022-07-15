@@ -57,6 +57,7 @@ import com.puyue.www.qiaoge.model.cart.CheckPayPwdModel;
 import com.puyue.www.qiaoge.model.cart.GetPayResultModel;
 import com.puyue.www.qiaoge.model.cart.OrderPayModel;
 import com.puyue.www.qiaoge.model.mine.AccountCenterModel;
+import com.puyue.www.qiaoge.utils.DateUtils;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 
@@ -359,26 +360,36 @@ public class PaymentFragment extends DialogFragment {
 
                             } else if (payChannel == 2&&orderPayModel.data.payType==2) {
                                 //支付宝支付 已经改好了
-                                SharedPreferencesUtil.saveString(getContext(),"payKey","2");
-                                aliPay(orderPayModel.data.payToken);
+                                if(DateUtils.isZhiFuBao(getActivity())) {
+                                    SharedPreferencesUtil.saveString(getContext(),"payKey","2");
+                                    aliPay(orderPayModel.data.payToken);
+                                }
+
                             } else if (payChannel == 3&&jumpWx==1) {
                                 //微信支付(小程序)1
-                                SharedPreferencesUtil.saveString(getContext(),"payKey","3");
-                                Intent lan = getActivity().getPackageManager().getLaunchIntentForPackage("com.tencent.mm");
-                                Intent t2 = new Intent(Intent.ACTION_MAIN);
-                                t2.addCategory(Intent.CATEGORY_LAUNCHER);
-                                t2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                t2.setComponent(lan.getComponent());
-                                startActivity(t2);
-                                weChatPay(orderPayModel.data.payToken);
+                                if(DateUtils.isWeixin(getActivity())) {
+                                    SharedPreferencesUtil.saveString(getContext(),"payKey","3");
+                                    Intent lan = getActivity().getPackageManager().getLaunchIntentForPackage("com.tencent.mm");
+                                    Intent t2 = new Intent(Intent.ACTION_MAIN);
+                                    t2.addCategory(Intent.CATEGORY_LAUNCHER);
+                                    t2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    t2.setComponent(lan.getComponent());
+                                    startActivity(t2);
+                                    weChatPay(orderPayModel.data.payToken);
+                                }
+
                             }else if(payChannel == 3&&jumpWx==0) {
                                 //微信支付
-                                SharedPreferencesUtil.saveString(getContext(),"payKey","3");
-                                weChatPay2(orderPayModel.data.payToken);
+                                if(DateUtils.isWeixin(getActivity())) {
+                                    SharedPreferencesUtil.saveString(getContext(),"payKey","3");
+                                    weChatPay2(orderPayModel.data.payToken);
+                                }
                             }else if(orderPayModel.data.payType==14&&payChannel == 2) {
                                 //银联
-                                SharedPreferencesUtil.saveString(getContext(),"payKey","4");
-                                payAliPay(orderPayModel.data.payToken);
+                                if(DateUtils.isZhiFuBao(getActivity())) {
+                                    SharedPreferencesUtil.saveString(getContext(),"payKey","4");
+                                    payAliPay(orderPayModel.data.payToken);
+                                }
                             }
 
                             lav_activity_loading.setVisibility(View.GONE);

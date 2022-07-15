@@ -57,7 +57,7 @@ public class VpFullAdapter extends RecyclerView.Adapter<VpFullAdapter.BaseViewHo
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
         CouponModels.DataBean.FullGiftBean.ActivesBeanXX activesBeanXX = actives.get(position % actives.size());
-        if(TextUtils.isEmpty(activesBeanXX.getSendInfo()) && !activesBeanXX.getSendInfo().equals("")) {
+        if(!TextUtils.isEmpty(activesBeanXX.getSendInfo()) && !activesBeanXX.getSendInfo().equals("")) {
             holder.tv_save_price.setText(activesBeanXX.getSendInfo());
             holder.tv_save_price.setBackgroundResource(R.drawable.shape_yellow2);
         }else {

@@ -180,7 +180,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/ll_style"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_46dp">
@@ -207,7 +206,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="6dp"
                             android:text="综合"
-                            android:textColor="#333333" />
+                            android:textColor="#FF5C00" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -266,21 +265,29 @@
                         android:background="#D8D8D8" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_all"
+                <LinearLayout
+                    android:id="@+id/ll_all_choose"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/size_18dp"
-                    android:gravity="center"
-                    android:text="全部"
-                    android:textColor="#FF5C00" />
+                    android:layout_height="match_parent">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/size_5dp"
-                    android:src="@mipmap/ic_arrow_down" />
+                    <TextView
+                        android:id="@+id/tv_all"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/size_18dp"
+                        android:gravity="center"
+                        android:text="全部"
+                        android:textColor="#333333" />
+
+                    <ImageView
+                        android:id="@+id/iv_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/size_5dp"
+                        android:src="@mipmap/icon_arrow_down" />
+                </LinearLayout>
+
 
             </LinearLayout>
 
@@ -307,9 +314,6 @@
 
             </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-<!--            <androidx.core.widget.NestedScrollView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content">-->
 
                 <LinearLayout
                     android:id="@+id/ll_recommend"
@@ -318,10 +322,7 @@
                     android:orientation="vertical"
                     android:visibility="gone">
 
-
-
                 </LinearLayout>
-<!--            </androidx.core.widget.NestedScrollView>-->
 
         </LinearLayout>
 

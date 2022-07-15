@@ -339,12 +339,12 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                     startActivity(intents);
                     break;
                 case R.id.linearLayoutAddressHead: // 地址切换
-                    ChooseAddressDialog chooseAddressDialog = new ChooseAddressDialog(getContext(),orderId);
+                    ChooseAddressDialog chooseAddressDialog = new ChooseAddressDialog(getActivity(),orderId);
                     chooseAddressDialog.show();
 
                     break;
                 case R.id.LinearLayoutAddress: // 添加地址
-                    ChooseAddressDialog chooseAddressDialog1 = new ChooseAddressDialog(getContext(),orderId);
+                    ChooseAddressDialog chooseAddressDialog1 = new ChooseAddressDialog(getActivity(),orderId);
                     chooseAddressDialog1.show();
 //                    Intent intent1 = AddressListActivity.getIntent(mActivity, AddressListsActivity.class);
 //                    intent1.putExtra("mineAddress", "mineAddress");

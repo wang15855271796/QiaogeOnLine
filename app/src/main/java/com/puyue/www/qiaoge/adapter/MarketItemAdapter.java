@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import androidx.annotation.Nullable;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -73,10 +74,11 @@ public class MarketItemAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
             rl_desc.setVisibility(View.VISIBLE);
         }
         TextView tv_weight = helper.getView(R.id.tv_weight);
-        if(TextUtils.isEmpty(item.getWeight())||item.getWeight().equals("")) {
+        if(TextUtils.isEmpty(item.getVolumeWeight())||item.getVolumeWeight().equals("")) {
             tv_weight.setVisibility(View.GONE);
         }else {
-            tv_weight.setText("重量:"+"("+item.getWeight()+")");
+            tv_weight.setVisibility(View.VISIBLE);
+            tv_weight.setText(item.getVolumeWeight());
         }
         tv_price = helper.getView(R.id.tv_price);
         tv_price.setText(item.getPrice());

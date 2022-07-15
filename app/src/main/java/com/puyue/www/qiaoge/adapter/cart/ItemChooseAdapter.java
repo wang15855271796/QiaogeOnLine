@@ -77,11 +77,13 @@ public class ItemChooseAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
             rl_desc.setVisibility(View.VISIBLE);
         }
         TextView tv_weight = helper.getView(R.id.tv_weight);
-        if(TextUtils.isEmpty(item.getWeight())||item.getWeight().equals("")) {
+        if(TextUtils.isEmpty(item.getVolumeWeight()) && item.getVolumeWeight().equals("")) {
             tv_weight.setVisibility(View.GONE);
         }else {
-            tv_weight.setText("重量:"+"("+item.getWeight()+")");
+            tv_weight.setVisibility(View.VISIBLE);
+            tv_weight.setText(item.getVolumeWeight());
         }
+
         LinearLayout ll_trend = helper.getView(R.id.ll_trend);
         tv_price = helper.getView(R.id.tv_price);
         tv_price.setText(item.getPrice());

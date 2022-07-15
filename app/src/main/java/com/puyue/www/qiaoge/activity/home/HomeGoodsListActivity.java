@@ -268,27 +268,20 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
                                 mRvSpikeData.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false));
                                 mRvSpikeData.setAdapter(mAdapterNewSpike);
                                 List<SpikeNewQueryModel.DataBean> data = spikeNewQueryModel.getData();
-
+                                if(data.get(currentPosition).getFlag()==1) {
+                                    tv_desc.setText("距离本场活动结束");
+                                }else {
+                                    tv_desc.setText("距离本场活动开始");
+                                }
                                 long startTime = data.get(currentPosition).getStartTime();
                                 long endTime = data.get(currentPosition).getEndTime();
                                 long currentTime = data.get(currentPosition).getCurrentTime();
                                 snap.setTime(false, currentTime, startTime,endTime);
+                                snap.start();
                                 mAdapterNewSpike.setOnItemClickListener(new OnItemClickListener() {
                                     @Override
                                     public void onItemClick(View view, int position) {
-                                        mAdapterNewSpike.selectPosition(position);
-                                        spikeActiveQuery(mListSpikeNew.get(position).getActiveId());
-                                        currentPosition = position;
-                                        mAdapterNewSpike.notifyDataSetChanged();
-                                        long startTime = data.get(currentPosition).getStartTime();
-                                        long endTime = data.get(currentPosition).getEndTime();
-                                        long currentTime = data.get(currentPosition).getCurrentTime();
-                                        snap.setTime(false, currentTime, startTime,endTime);
-                                        if(data.get(currentPosition).getFlag()==1) {
-                                            tv_desc.setText("距离本场活动结束");
-                                        }else {
-                                            tv_desc.setText("距离本场活动开始");
-                                        }
+                                        getNewSpikeTwo(position);
                                     }
 
                                     @Override
@@ -310,7 +303,42 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
                 });
     }
 
+    private void getNewSpikeTwo(int pos) {
+        SpikeNewActiveQueryAPI.requestData(mContext)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<SpikeNewQueryModel>() {
+                    @Override
+                    public void onCompleted() {
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(SpikeNewQueryModel spikeNewQueryModel) {
+                        if (spikeNewQueryModel.isSuccess()) {
+                            if (spikeNewQueryModel.getData() != null) {
+                                List<SpikeNewQueryModel.DataBean> data = spikeNewQueryModel.getData();
+                                mAdapterNewSpike.selectPosition(pos);
+                                spikeActiveQuery(mListSpikeNew.get(pos).getActiveId());
+                                currentPosition = pos;
+
+                                long startTime = data.get(currentPosition).getStartTime();
+                                long endTime = data.get(currentPosition).getEndTime();
+                                long currentTime = data.get(currentPosition).getCurrentTime();
+                                snap.setTime(false, currentTime, startTime,endTime);
+                                snap.start();
+                                mAdapterNewSpike.notifyDataSetChanged();
+                            }
+                        } else {
+                            AppHelper.showMsg(mContext, spikeNewQueryModel.getMessage());
+                        }
+
+                    }
+                });
+    }
     /**
      * 秒杀-更多-列表
      */

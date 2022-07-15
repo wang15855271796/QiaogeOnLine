@@ -44,7 +44,7 @@ public class VpTeamAdapter extends RecyclerView.Adapter<VpTeamAdapter.BaseViewHo
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
         CouponModels.DataBean.TeamBean.ActivesBeanX activesBeanX = actives.get(position % actives.size());
-        if(TextUtils.isEmpty(activesBeanX.getSpread()) && !activesBeanX.getSpread().equals("")) {
+        if(!TextUtils.isEmpty(activesBeanX.getSpread()) && !activesBeanX.getSpread().equals("")) {
             holder.tv_save_price.setText(activesBeanX.getSpread());
             holder.tv_save_price.setBackgroundResource(R.drawable.shape_yellow2);
         }else {

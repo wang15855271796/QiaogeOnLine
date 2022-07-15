@@ -62,7 +62,8 @@
                         android:id="@+id/tv_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="新增地址" />
+                        android:text="新增地址"
+                        android:textColor="#FF5C00" />
 
                 </RelativeLayout>
 
@@ -227,26 +228,38 @@
                 android:background="#fff"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="48dp">
+                android:layout_height="@dimen/size_60dp">
 
-                <ImageView
-                    android:src="@mipmap/icon_address"
-                    android:layout_marginLeft="@dimen/dp_10"
+                <LinearLayout
+                    android:layout_marginLeft="@dimen/size_16dp"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
                     android:layout_width="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="match_parent">
 
-                <TextView
-                    tools:text="杭州市"
-                    android:id="@+id/tv_area"
-                    android:textColor="#333333"
-                    android:textSize="@dimen/sp_14"
-                    android:drawablePadding="@dimen/size_5dp"
-                    android:layout_marginLeft="@dimen/size_10dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:text="当前区域"
+                        android:textColor="#999999"
+                        android:textSize="13sp"
+                        android:drawablePadding="@dimen/size_5dp"
+                        android:layout_marginLeft="@dimen/size_5dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
-                    android:layout_height="wrap_content" />
+                    <TextView
+                        tools:text="杭州市"
+                        android:id="@+id/tv_area"
+                        android:textColor="#333333"
+                        android:drawableLeft="@mipmap/icon_address"
+                        android:textSize="@dimen/size_15dp"
+                        android:drawablePadding="@dimen/size_5dp"
+                        android:layout_marginLeft="@dimen/size_5dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
 
                 <TextView
                     android:layout_weight="1"
@@ -272,9 +285,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-
-
                     <LinearLayout
+                        android:visibility="gone"
                         android:orientation="vertical"
                         android:background="#f5f5f5"
                         android:layout_width="match_parent"
@@ -321,38 +333,36 @@
 
                     </LinearLayout>
 
-
-
                     <RelativeLayout
+                        android:layout_marginTop="@dimen/size_20dp"
                         android:orientation="horizontal"
                         android:background="@color/white"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_60dp">
 
                         <TextView
-                            android:text="收货地址"
-                            android:layout_centerVertical="true"
-                            android:textColor="#999999"
-                            android:layout_marginLeft="@dimen/dp_10"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/size_16dp"
+                            android:text="我的收货地址"
+                            android:textColor="#999999" />
 
                         <TextView
                             android:id="@+id/tv_add_area"
-                            android:layout_centerVertical="true"
-                            android:text="+  新建地址"
-                            android:textColor="#FF680A"
-                            android:layout_marginRight="@dimen/size_20dp"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginLeft="@dimen/dp_10"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:layout_marginRight="@dimen/size_20dp"
+                            android:text="+  新建地址"
+                            android:textColor="#FF680A" />
 
 
                     </RelativeLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
-
                         android:id="@+id/recyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">

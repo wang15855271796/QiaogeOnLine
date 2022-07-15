@@ -411,7 +411,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
             tv_distribution.setText(disTributionEvent.getDesc());
             disType = disTributionEvent.getType();
         }else {
-            tv_distribution.setText("");
+            tv_distribution.setText(disTributionEvent.getDesc());
             disType = disTributionEvent.getType();
         }
     }

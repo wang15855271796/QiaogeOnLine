@@ -191,6 +191,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                 list.clear();
                 getCartLists();
                 getProductsList();
+                getScrollData();
                 smart.finishRefresh();
             }
         });
@@ -587,8 +588,6 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                 });
     }
 
-
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -892,7 +891,9 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     //新改
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void changes(CityEvent cityEvent) {
+        list.clear();
         getProductsList();
+        getScrollData();
     }
     //按钮状态
     @Subscribe(threadMode = ThreadMode.MAIN)

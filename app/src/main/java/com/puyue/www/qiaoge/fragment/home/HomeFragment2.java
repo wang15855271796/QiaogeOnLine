@@ -1638,7 +1638,7 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener 
 
                                 getCustomerPhone();
                                 isShow();
-                                getOrder();
+//                                getOrder();
                                 if(data.getNoticeInfo()!=null && data.getNoticeInfo().size()> 0) {
                                     MarqueeAdapter marqueeAdapter = new MarqueeAdapter();
                                     marqueeAdapter.setData(data.getNoticeInfo(),getActivity());
@@ -1862,38 +1862,38 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener 
      * 订单状态
      */
     OrderMarqueeAdapter marqueeAdapter;
-    private void getOrder() {
-        IndexHomeAPI.indexOrder(mActivity)
-                .subscribeOn(Schedulers.io())
-                .observeOn(mainThread())
-                .subscribe(new Subscriber<OrderModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-
-                    @Override
-                    public void onNext(OrderModel indexInfoModel) {
-                        if (indexInfoModel.getCode()==1) {
-                            if(indexInfoModel.getData()!=null && indexInfoModel.getData().size() > 0) {
-                                marqueeAdapter = new OrderMarqueeAdapter();
-                                marqueeAdapter.setData(indexInfoModel.getData(),mActivity);
-                                order_marquee.setAdapter(marqueeAdapter);
-                                order_marquee.setVisibility(View.VISIBLE);
-                                order_marquee.startScroll();
-                            }else {
-                                order_marquee.setVisibility(View.GONE);
-                            }
-                        }else {
-                            order_marquee.setVisibility(View.GONE);
-                        }
-                    }
-                });
-    }
+//    private void getOrder() {
+//        IndexHomeAPI.indexOrder(mActivity)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(mainThread())
+//                .subscribe(new Subscriber<OrderModel>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                    }
+//
+//                    @Override
+//                    public void onNext(OrderModel indexInfoModel) {
+//                        if (indexInfoModel.getCode()==1) {
+//                            if(indexInfoModel.getData()!=null && indexInfoModel.getData().size() > 0) {
+//                                marqueeAdapter = new OrderMarqueeAdapter();
+//                                marqueeAdapter.setData(indexInfoModel.getData(),mActivity);
+//                                order_marquee.setAdapter(marqueeAdapter);
+//                                order_marquee.setVisibility(View.VISIBLE);
+//                                order_marquee.startScroll();
+//                            }else {
+//                                order_marquee.setVisibility(View.GONE);
+//                            }
+//                        }else {
+//                            order_marquee.setVisibility(View.GONE);
+//                        }
+//                    }
+//                });
+//    }
 
     /**
      * 热卖集合

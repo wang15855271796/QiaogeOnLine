@@ -65,6 +65,7 @@ import com.puyue.www.qiaoge.dialog.ProductDescDialog;
 import com.puyue.www.qiaoge.dialog.PromoteDialog;
 import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
+import com.puyue.www.qiaoge.event.RefreshVideoEvent;
 import com.puyue.www.qiaoge.fragment.cart.NumEvent;
 import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
@@ -194,8 +195,8 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
     TextView tv_city;
     @BindView(R.id.tv_change)
     TextView tv_change;
-    @BindView(R.id.rl_coupon)
-    RelativeLayout rl_coupon;
+    @BindView(R.id.rl_coupon1)
+    RelativeLayout rl_coupon1;
     @BindView(R.id.tv_detail)
     TextView tv_detail;
     @BindView(R.id.iv_send)
@@ -210,14 +211,18 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
     ImageView iv_sound;
     @BindView(R.id.rl_check)
     RelativeLayout rl_check;
-    @BindView(R.id.ll_coupon)
-    LinearLayout ll_coupon;
+    @BindView(R.id.rl_coupon)
+    RelativeLayout rl_coupon;
     @BindView(R.id.ll_team_active)
     LinearLayout ll_team_active;
     @BindView(R.id.ll_full_active)
     LinearLayout ll_full_active;
     @BindView(R.id.ll_skill_active)
     LinearLayout ll_skill_active;
+    @BindView(R.id.ll_dis_active)
+    LinearLayout ll_dis_active;
+    @BindView(R.id.tv_dis)
+    TextView tv_dis;
     @BindView(R.id.tv_skill)
     TextView tv_skill;
     @BindView(R.id.tv_team)
@@ -359,6 +364,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
         ll_full_active.setOnClickListener(this);
         ll_team_active.setOnClickListener(this);
         ll_skill_active.setOnClickListener(this);
+        ll_dis_active.setOnClickListener(this);
     }
 
     long start;
@@ -605,6 +611,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
     String skillId;
     String fullId;
     String teamId;
+    String disId;
     private void getProductDetail(final int productId, String num, CommonGoodsDetailActivity commonGoodsDetailActivity) {
         GetProductDetailAPI.requestData(mContext,productId,num)
                 .subscribeOn(Schedulers.io())
@@ -644,9 +651,9 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
                             }
 
                             if(models.getData().getActives()!=null && models.getData().getActives().size()>0) {
-                                ll_coupon.setVisibility(View.VISIBLE);
+                                rl_coupon1.setVisibility(View.VISIBLE);
                             }else {
-                                ll_coupon.setVisibility(View.GONE);
+                                rl_coupon1.setVisibility(View.GONE);
                             }
 
                             if(models.getData().getActives()!=null&&models.getData().getActives().size()>0) {
@@ -660,6 +667,10 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
                                         ll_team_active.setVisibility(View.VISIBLE);
                                         tv_team.setText(actives.get(i).getActiveName());
                                         teamId = actives.get(i).getActiveId();
+                                    }else if(actives.get(i).getActiveType()==11) {
+                                        ll_dis_active.setVisibility(View.VISIBLE);
+                                        tv_dis.setText(actives.get(i).getActiveName());
+                                        disId = actives.get(i).getActiveId();
                                     }else {
                                         ll_full_active.setVisibility(View.VISIBLE);
                                         tv_full.setText(actives.get(i).getActiveName());
@@ -1410,28 +1421,46 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
     public void messageEventBuss(ReduceNumEvent event) {
         //刷新UI
         getCartNum();
+    }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void messageEventBuss(RefreshVideoEvent event) {
+        chooseSpecAdapter.selectPosition(event.getPos());
+        exchangeList(event.getProductId(),CommonGoodsDetailActivity.this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.ll_dis_active:
+                Intent intent0 = new Intent(mActivity,SpecialGoodDetailActivity.class);
+                intent0.putExtra("num","-1");
+                intent0.putExtra(AppConstant.ACTIVEID,Integer.parseInt(disId));
+                intent0.putExtra("priceType",SharedPreferencesUtil.getString(mContext,"priceType"));
+                startActivity(intent0);
+                break;
+
             case R.id.ll_full_active:
                 Intent intent = new Intent(mActivity,FullActiveActivity.class);
-                intent.putExtra("fullId",models.getData().getFullId());
+                intent.putExtra("fullId",Integer.parseInt(fullId));
                 startActivity(intent);
                 break;
 
             case R.id.ll_team_active:
                 Intent intent2 = new Intent(mActivity,SpecialGoodDetailActivity.class);
-                intent2.putExtra("activeId",models.getData().getProductId());
+                intent2.putExtra("num","-1");
+                intent2.putExtra("priceType", SharedPreferencesUtil.getString(mContext,"priceType"));
+                intent2.putExtra("activeId",Integer.parseInt(teamId));
                 startActivity(intent2);
                 break;
 
             case R.id.ll_skill_active:
                 Intent intent3 = new Intent(mActivity, SeckillGoodActivity.class);
-                intent3.putExtra("activeId",models.getData().getProductId());
+                intent3.putExtra("num","-1");
+                intent3.putExtra("priceType", SharedPreferencesUtil.getString(mContext,"priceType"));
+                intent3.putExtra("activeId",Integer.parseInt(skillId));
                 startActivity(intent3);
+
                 break;
         }
     }

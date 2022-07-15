@@ -141,15 +141,6 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
         }
 
 
-        tv_add_area.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mActivity,EditAddressActivity.class);
-                intent.putExtra("type","add");
-                startActivity(intent);
-            }
-        });
-
         rl_choose_company.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -310,6 +301,7 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
             case R.id.rl_empty:
                 Intent intents = new Intent(mActivity,EditAddressActivity.class);
                 intents.putExtra("type","add");
+                intents.putExtra("default","false");
                 startActivity(intents);
                 break;
 
@@ -322,8 +314,9 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
                 break;
 
             case R.id.tv_address:
-                Intent intent = new Intent(mActivity,AddressListActivity.class);
-                intent.putExtra("mineAddress", "mineAddress");
+                Intent intent = new Intent(mActivity,EditAddressActivity.class);
+                intent.putExtra("default","false");
+                intent.putExtra("type","add");
                 startActivity(intent);
                 break;
 

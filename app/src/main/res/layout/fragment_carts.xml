@@ -83,18 +83,18 @@
                         android:layout_height="@dimen/size_40dp">
 
                         <TextView
-                            android:layout_marginLeft="@dimen/dp_10"
                             android:id="@+id/tv_reduce"
-                            android:textColor="#FF6F08"
-                            android:lines="1"
-                            android:ellipsize="end"
-                            android:drawablePadding="@dimen/size_5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/dp_10"
                             android:drawableLeft="@mipmap/icon_notice"
                             android:drawableRight="@mipmap/fenlei_rigth_huangse"
-                            android:layout_centerVertical="true"
-                            tools:text="系统维护停服升级公告系统维护停服升级公告"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:drawablePadding="@dimen/size_5dp"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:textColor="#FF6F08"
+                            tools:text="系统维护停服升级公告系统维护停服升级公告" />
                     </RelativeLayout>
 
                     <RelativeLayout

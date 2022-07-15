@@ -31,7 +31,7 @@ public class AutoPollRecyclerView extends RecyclerView {
         private final WeakReference<AutoPollRecyclerView> mReference;
         //使用弱引用持有外部类引用->防止内存泄漏
         public AutoPollTask(AutoPollRecyclerView reference) {
-            this.mReference = new WeakReference<AutoPollRecyclerView>(reference);
+            this.mReference = new WeakReference<>(reference);
         }
         @Override
         public void run() {

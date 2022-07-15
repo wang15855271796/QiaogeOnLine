@@ -12,12 +12,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.activity.TestActivity;
-import com.puyue.www.qiaoge.activity.home.HomeGoodsListActivity;
-import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
-import com.puyue.www.qiaoge.adapter.home.CommonProductActivity;
-import com.puyue.www.qiaoge.adapter.home.HotProductActivity;
-import com.puyue.www.qiaoge.adapter.home.ReductionProductActivity;
+
 import com.puyue.www.qiaoge.api.home.IndexInfoModel;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.CouponDialog;

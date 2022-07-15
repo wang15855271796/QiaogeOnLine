@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import com.google.android.material.appbar.AppBarLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,7 +48,6 @@ import com.puyue.www.qiaoge.adapter.TeamAdapter;
 import com.puyue.www.qiaoge.adapter.home.CommonAdapter;
 import com.puyue.www.qiaoge.adapter.home.CommonProductActivity;
 import com.puyue.www.qiaoge.adapter.home.HotProductActivity;
-import com.puyue.www.qiaoge.adapter.home.ReductionProductActivity;
 import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.api.home.IndexInfoModel;
@@ -1266,8 +1264,8 @@ public class HomeFragmentss extends BaseFragment {
                         Intent intent = new Intent(getActivity(), CommonProductActivity.class);
                         startActivity(intent);
                     } else if (AppConstant.DEDUCT_PROD.equals(banners.get(position).getProdPage())) {
-                        Intent intent = new Intent(getActivity(), ReductionProductActivity.class);
-                        startActivity(intent);
+//                        Intent intent = new Intent(getActivity(), ReductionProductActivity.class);
+//                        startActivity(intent);
                     } else if (AppConstant.SPECIAL_PROD.equals(banners.get(position).getProdPage())) {
                         Intent intent = new Intent(getActivity(), CouponDetailActivity.class);
                         startActivity(intent);

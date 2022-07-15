@@ -151,18 +151,24 @@
             android:layout_marginTop="@dimen/size_6dp"
             android:layout_height="@dimen/public_space_value_0.5"/>
 
-        <TextView
-            android:id="@+id/tv_champion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:id="@+id/ll_champion"
             android:layout_below="@+id/v_champion"
-            android:drawableLeft="@mipmap/icon_champion"
-            android:drawablePadding="2dp"
-            android:layout_marginTop="@dimen/size_6dp"
-            android:text="热销TOP榜单"
-            android:layout_marginLeft="@dimen/size_13dp"
-            android:textColor="#FFBB12"
-            android:textSize="@dimen/ysf_text_size_11" />
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_20dp">
+
+            <TextView
+                android:id="@+id/tv_champion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/size_13dp"
+                android:drawableLeft="@mipmap/icon_champion"
+                android:drawablePadding="2dp"
+                android:text="热销TOP榜单 >"
+                android:textColor="#FFBB12"
+                android:textSize="@dimen/ysf_text_size_11" />
+        </LinearLayout>
+
 
         <ImageView
             android:id="@+id/iv_send"

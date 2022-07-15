@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.RoundImageView;
+import com.puyue.www.qiaoge.activity.home.CouponDetailActivity;
 import com.puyue.www.qiaoge.activity.home.SpecialGoodDetailActivity;
 import com.puyue.www.qiaoge.activity.home.TeamDetailActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
@@ -47,7 +48,7 @@ public class VpDiscountAdapter extends RecyclerView.Adapter<VpDiscountAdapter.Ba
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
         CouponModels.DataBean.SpecialBean.ActivesBeanX activesBeanX = actives.get(position % actives.size());
-        if(TextUtils.isEmpty(activesBeanX.getSpread()) && !activesBeanX.getSpread().equals("")) {
+        if(!TextUtils.isEmpty(activesBeanX.getSpread()) && !activesBeanX.getSpread().equals("")) {
             holder.tv_save_price.setText(activesBeanX.getSpread());
             holder.tv_save_price.setBackgroundResource(R.drawable.shape_yellow2);
         }else {
@@ -66,10 +67,7 @@ public class VpDiscountAdapter extends RecyclerView.Adapter<VpDiscountAdapter.Ba
         holder.ll_root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, SpecialGoodDetailActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra(AppConstant.ACTIVEID,activesBeanX.getActiveId());
-                intent.putExtra("priceType", SharedPreferencesUtil.getString(mContext,"priceType"));
+                Intent intent = new Intent(mContext, CouponDetailActivity.class);
                 mContext.startActivity(intent);
             }
         });

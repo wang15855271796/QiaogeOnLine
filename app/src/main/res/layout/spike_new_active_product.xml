@@ -100,7 +100,7 @@
                         android:id="@+id/iv_flag"
                         android:layout_width="32dp"
                         android:layout_height="12dp"
-                        android:src="@mipmap/icon_right" />
+                        tools:src="@mipmap/icon_right" />
 
                     <TextView
                         android:id="@+id/tv_spread"
@@ -108,7 +108,8 @@
                         android:visibility="gone"
                         android:textSize="9sp"
                         android:textColor="#FF5C00"
-                        android:paddingLeft="@dimen/size_2dp"
+                        android:paddingLeft="2dp"
+                        android:layout_marginLeft="@dimen/size_3dp"
                         android:paddingRight="@dimen/size_2dp"
                         android:background="@drawable/shape_orange1"
                         android:layout_width="wrap_content"
@@ -157,20 +158,19 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/size_60dp"
-                    android:layout_below="@+id/lin"
-                    android:gravity="center_vertical"
-                    android:layout_centerVertical="true">
-
+                    android:layout_height="@dimen/size_30dp"
+                    android:layout_below="@+id/lin">
 
                     <ProgressBar
                         android:id="@+id/pb_item_spike"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="100dp"
+                        android:layout_centerVertical="true"
                         android:layout_height="12dp"
                         android:progressDrawable="@drawable/layerlist_goods_progress" />
 
                     <TextView
+                        android:layout_centerVertical="true"
                         android:id="@+id/tv_item_spike_sales"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -186,6 +186,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginRight="5dp"
                         android:background="@drawable/app_home_more"
                         android:paddingLeft="8dp"
@@ -203,6 +204,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="5dp"
+                        android:layout_centerVertical="true"
                         android:background="@drawable/shape_grey"
                         android:paddingLeft="8dp"
                         android:paddingTop="3dp"

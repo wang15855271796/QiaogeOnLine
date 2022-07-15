@@ -50,8 +50,8 @@ public class DisDialog extends Dialog {
     TextView tv_name;
     @BindView(R.id.tv_huo)
     TextView tv_huo;
-    @BindView(R.id.tv2)
-    TextView tv2;
+    @BindView(R.id.tv_name2)
+    TextView tv_name2;
     @BindView(R.id.rl_cb1)
     RelativeLayout rl_cb1;
     @BindView(R.id.rl_cb2)
@@ -60,6 +60,12 @@ public class DisDialog extends Dialog {
     ImageView iv_choose1;
     @BindView(R.id.iv_choose2)
     ImageView iv_choose2;
+    @BindView(R.id.tv_tip)
+    TextView tv_tip;
+    @BindView(R.id.tv_unOpen)
+    TextView tv_unOpen;
+    @BindView(R.id.tv_call)
+    TextView tv_call;
     String sendAmount;
     int hllBtn;
     int type;
@@ -102,29 +108,49 @@ public class DisDialog extends Dialog {
         tv_name.setText("翘歌配送");
 
         if(hllBtn==1) {
-            tv2.setTextColor(Color.parseColor("#999999"));
-            tv_huo.setText("(暂未开启货拉拉配送服务)");
+            tv_name2.setTextColor(Color.parseColor("#999999"));
+            tv_huo.setVisibility(View.GONE);
+            tv_tip.setVisibility(View.GONE);
+            tv_call.setVisibility(View.GONE);
+            tv_unOpen.setVisibility(View.VISIBLE);
         }else {
-            tv2.setTextColor(Color.parseColor("#333333"));
-            tv_huo.setText("(订单支付后，用户自己发起配送服务)");
+            tv_name2.setTextColor(Color.parseColor("#333333"));
+            tv_huo.setVisibility(View.VISIBLE);
+            tv_tip.setVisibility(View.VISIBLE);
+            tv_call.setVisibility(View.VISIBLE);
+            tv_unOpen.setVisibility(View.GONE);
+//            tv_huo.setText("(订单支付后，用户自己发起配送服务)");
         }
 
         rl_cb1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(isCb1) {
+                    tv_name2.setTextColor(Color.parseColor("#333333"));
+                    tv_huo.setTextColor(Color.parseColor("#333333"));
                     isCb1 = false;
                     rl_cb1.setBackgroundResource(R.drawable.shape_grey9);
                     iv_choose1.setVisibility(View.GONE);
+                    tv_name.setTextColor(Color.parseColor("#333333"));
+                    tv_price.setTextColor(Color.parseColor("#999999"));
                     if(isCb2) {
                         iv_choose2.setVisibility(View.GONE);
+                        tv_tip.setTextColor(Color.parseColor("#999999"));
                         rl_cb2.setBackgroundResource(R.drawable.shape_grey9);
+                        tv_name2.setTextColor(Color.parseColor("#333333"));
+                        tv_huo.setTextColor(Color.parseColor("#999999"));
                     }
                 }else {
                     isCb1 = true;
                     isCb2 = false;
                     rl_cb1.setBackgroundResource(R.drawable.shape_orange14);
+                    tv_name.setTextColor(Color.parseColor("#FF5C00"));
+                    tv_price.setTextColor(Color.parseColor("#FF5C00"));
                     rl_cb2.setBackgroundResource(R.drawable.shape_grey9);
+                    tv_name.setTextColor(Color.parseColor("#FF5C00"));
+                    tv_name2.setTextColor(Color.parseColor("#333333"));
+                    tv_tip.setTextColor(Color.parseColor("#999999"));
+                    tv_huo.setTextColor(Color.parseColor("#999999"));
                     iv_choose1.setVisibility(View.VISIBLE);
                     iv_choose2.setVisibility(View.GONE);
                     EventBus.getDefault().post(new DisTributionEvent("翘歌配送",0));
@@ -136,21 +162,32 @@ public class DisDialog extends Dialog {
         rl_cb2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                tv_name.setTextColor(Color.parseColor("#333333"));
+                tv_price.setTextColor(Color.parseColor("#999999"));
                 if(isCb2) {
                     isCb2 = false;
                     iv_choose2.setVisibility(View.VISIBLE);
+                    tv_name2.setTextColor(Color.parseColor("#333333"));
+                    tv_tip.setTextColor(Color.parseColor("#999999"));
+                    tv_huo.setTextColor(Color.parseColor("#333333"));
                     rl_cb2.setBackgroundResource(R.drawable.shape_grey9);
+                    iv_choose2.setVisibility(View.GONE);
                     if(isCb1) {
                         iv_choose1.setVisibility(View.GONE);
                         rl_cb1.setBackgroundResource(R.drawable.shape_grey9);
+                        tv_name.setTextColor(Color.parseColor("#333333"));
+                        tv_price.setTextColor(Color.parseColor("#999999"));
                     }
                 }else {
                     isCb2 = true;
                     isCb1 = false;
-                    EventBus.getDefault().post(new DisTributionEvent("我自己叫货拉拉",1));
+                    EventBus.getDefault().post(new DisTributionEvent("买家自己呼叫货拉拉",1));
                     dismiss();
                     rl_cb1.setBackgroundResource(R.drawable.shape_grey9);
                     rl_cb2.setBackgroundResource(R.drawable.shape_orange14);
+                    tv_name2.setTextColor(Color.parseColor("#FF5C00"));
+                    tv_tip.setTextColor(Color.parseColor("#FF5C00"));
+                    tv_huo.setTextColor(Color.parseColor("#FF5C00"));
                     iv_choose1.setVisibility(View.GONE);
                     iv_choose2.setVisibility(View.VISIBLE);
                 }
@@ -163,12 +200,17 @@ public class DisDialog extends Dialog {
     public void getDistribution(DisTributionSelfEvent disTributionEvent) {
         isCb2 = true;
         isCb1 = false;
-        EventBus.getDefault().post(new DisTributionEvent("我自己叫货拉拉",1));
+        EventBus.getDefault().post(new DisTributionEvent("买家自己呼叫货拉拉",1));
         dismiss();
         rl_cb1.setBackgroundResource(R.drawable.shape_grey9);
         rl_cb2.setBackgroundResource(R.drawable.shape_orange14);
         iv_choose1.setVisibility(View.GONE);
         iv_choose2.setVisibility(View.VISIBLE);
+        tv_name2.setTextColor(Color.parseColor("#FF5C00"));
+        tv_tip.setTextColor(Color.parseColor("#FF5C00"));
+        tv_huo.setTextColor(Color.parseColor("#FF5C00"));
+        tv_tip.setTextColor(Color.parseColor("#FF5C00"));
+        tv_name.setTextColor(Color.parseColor("#333333"));
+        tv_price.setTextColor(Color.parseColor("#999999"));
     }
-
 }

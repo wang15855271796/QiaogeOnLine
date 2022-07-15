@@ -2,7 +2,6 @@ package com.puyue.www.qiaoge.fragment.home;
 
 import android.animation.IntEvaluator;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -45,7 +44,6 @@ import com.puyue.www.qiaoge.activity.ChooseCompanyActivity;
 import com.puyue.www.qiaoge.activity.CommonH6Activity;
 import com.puyue.www.qiaoge.activity.FullListActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
-import com.puyue.www.qiaoge.activity.HuoDetailActivity;
 import com.puyue.www.qiaoge.activity.HuoHomeActivity;
 import com.puyue.www.qiaoge.activity.TopEvent;
 import com.puyue.www.qiaoge.activity.home.ChangeCityActivity;
@@ -79,7 +77,6 @@ import com.puyue.www.qiaoge.adapter.TeamAdapter;
 import com.puyue.www.qiaoge.adapter.home.CommonAdapter;
 import com.puyue.www.qiaoge.adapter.home.CommonProductActivity;
 import com.puyue.www.qiaoge.adapter.home.HotProductActivity;
-import com.puyue.www.qiaoge.adapter.home.ReductionProductActivity;
 import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.CityChangeAPI;
@@ -134,7 +131,6 @@ import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
 import com.puyue.www.qiaoge.model.home.GetCustomerPhoneModel;
 import com.puyue.www.qiaoge.model.home.HomeNewRecommendModel;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
-import com.puyue.www.qiaoge.model.home.SearchResultsModel;
 import com.puyue.www.qiaoge.model.mine.UpdateModel;
 import com.puyue.www.qiaoge.model.mine.order.HomeBaseModel;
 import com.puyue.www.qiaoge.utils.DateUtils;
@@ -161,9 +157,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -1699,8 +1692,8 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                         Intent intent = new Intent(getActivity(), CommonProductActivity.class);
                         startActivity(intent);
                     } else if (AppConstant.DEDUCT_PROD.equals(banners.get(position).getProdPage())) {
-                        Intent intent = new Intent(getActivity(), ReductionProductActivity.class);
-                        startActivity(intent);
+//                        Intent intent = new Intent(getActivity(), ReductionProductActivity.class);
+//                        startActivity(intent);
                     } else if (AppConstant.SPECIAL_PROD.equals(banners.get(position).getProdPage())) {
                         Intent intent = new Intent(getActivity(), CouponDetailActivity.class);
                         startActivity(intent);

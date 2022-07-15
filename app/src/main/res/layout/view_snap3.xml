@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:text="0"
             android:textColor="#ffffff"
-            android:textSize="12dp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_hour_unit"
@@ -51,7 +51,7 @@
             android:layout_marginLeft="1dp"
             android:text="0"
             android:textColor="#ffffff"
-            android:textSize="12dp" />
+            android:textSize="12sp"  />
     </LinearLayout>
 
 
@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:text="0"
             android:textColor="#ffffff"
-            android:textSize="12dp" />
+            android:textSize="12sp"  />
 
         <TextView
             android:id="@+id/tv_min_unit"
@@ -87,7 +87,7 @@
             android:layout_marginLeft="1dp"
             android:text="0"
             android:textColor="#ffffff"
-            android:textSize="12dp" />
+            android:textSize="12sp" />
     </LinearLayout>
 
 
@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:text="0"
             android:textColor="#ffffff"
-            android:textSize="12dp" />
+            android:textSize="12sp"  />
 
         <TextView
             android:id="@+id/tv_sec_unit"
@@ -125,7 +125,7 @@
             android:layout_marginLeft="1dp"
             android:text="0"
             android:textColor="#ffffff"
-            android:textSize="12dp" />
+            android:textSize="12sp"  />
     </LinearLayout>
 
 

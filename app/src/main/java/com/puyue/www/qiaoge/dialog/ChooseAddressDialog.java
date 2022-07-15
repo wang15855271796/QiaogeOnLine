@@ -23,6 +23,7 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.home.ChangeCityActivity;
 import com.puyue.www.qiaoge.activity.mine.account.AddressListActivity;
 import com.puyue.www.qiaoge.activity.mine.account.AddressListsActivity;
+import com.puyue.www.qiaoge.activity.mine.account.EditAddressActivity;
 import com.puyue.www.qiaoge.activity.mine.account.EditAndAddActivity;
 
 import com.puyue.www.qiaoge.adapter.ChooseAddresssAdapter;
@@ -49,7 +50,7 @@ import rx.schedulers.Schedulers;
  */
 public class ChooseAddressDialog extends Dialog {
 
-    Context mContext;
+    Activity mContext;
     ImageView iv_close;
     View view;
     AddressModel mModelAddress;
@@ -65,7 +66,7 @@ public class ChooseAddressDialog extends Dialog {
     TextView tv1;
     private AddressModel.DataBean dataBean;
     public String changeAddress;
-    public ChooseAddressDialog(@NonNull Context context, String orderId) {
+    public ChooseAddressDialog(@NonNull Activity context, String orderId) {
         super(context, R.style.dialog);
         mContext = context;
         this.orderId = orderId;
@@ -90,13 +91,11 @@ public class ChooseAddressDialog extends Dialog {
         rl_add_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "add", "",
-                        "", "", "", "", "false",
-                        "", "", "", "", orderId));
-//                Intent intent1 = AddressListActivity.getIntent(mContext, AddressListsActivity.class);
-//                intent1.putExtra("mineAddress", "mineAddress");
-//                mContext.startActivity(intent1);
-
+//                Intent intent = new Intent(mContext,AddressListActivity.class);
+//                mContext.startActivity(intent);
+                mContext.startActivityForResult(EditAddressActivity.getIntent(mContext, EditAddressActivity.class, "add", "", "", "", "", "", "false", "", "", "", "", orderId), 11);
+//                mContext.startActivity(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "add", "", "", "", "", "", "false", "", "", "", "", orderId));
+//                mContext.startActivityForResult(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "add", "", "", "", "", "", "false", "", "", "", "", ""),11);
                 dismiss();
             }
         });

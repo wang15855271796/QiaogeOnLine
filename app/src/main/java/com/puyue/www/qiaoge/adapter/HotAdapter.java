@@ -33,6 +33,7 @@ public class HotAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
     List<ProductNormalModel.DataBean.ListBean> activesBean;
     TextView tv_price;
     Onclick onclick;
+    ImageView iv_not_send;
     public HotAdapter(int layoutResId, @Nullable List<ProductNormalModel.DataBean.ListBean> activeList,Onclick onclick) {
         super(layoutResId, activeList);
         this.activesBean = activeList;
@@ -45,6 +46,7 @@ public class HotAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
         iv_order = helper.getView(R.id.iv_order);
         tv_price = helper.getView(R.id.tv_price);
         tv_price.setText(item.getMinMaxPrice());
+        iv_not_send = helper.getView(R.id.iv_not_send);
         Glide.with(mContext).load(item.getDefaultPic()).into(iv_pic);
 
         if(activesBean.size()>=3) {
@@ -60,9 +62,28 @@ public class HotAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
             }else {
                 iv_order.setVisibility(View.GONE);
             }
-
         }else {
-            iv_order.setVisibility(View.GONE);
+            if(activesBean.size()==1) {
+                iv_order.setVisibility(View.VISIBLE);
+                iv_order.setImageResource(R.mipmap.icon_one);
+            }else if(activesBean.size()==2) {
+                if(helper.getAdapterPosition()==0) {
+                    iv_order.setVisibility(View.VISIBLE);
+                    iv_order.setImageResource(R.mipmap.icon_one);
+                }else if(helper.getAdapterPosition()==1) {
+                    iv_order.setVisibility(View.VISIBLE);
+                    iv_order.setImageResource(R.mipmap.icon_two);
+                }
+            }
+        }
+
+        if(item.getNotSend()!=null) {
+            if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
+                iv_not_send.setImageResource(R.mipmap.icon_not_send2);
+                iv_not_send.setVisibility(View.VISIBLE);
+            }else {
+                iv_not_send.setVisibility(View.GONE);
+            }
         }
 
         if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
@@ -72,7 +93,7 @@ public class HotAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
                 tv_price.setText("价格授权后可见");
             }
         }else {
-            tv_price.setText("价格授权后可见");
+            tv_price.setText(item.getMinMaxPrice());
         }
 
         tv_price.setOnClickListener(new View.OnClickListener() {

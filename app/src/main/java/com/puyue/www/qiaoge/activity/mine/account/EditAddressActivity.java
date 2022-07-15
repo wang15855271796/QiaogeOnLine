@@ -150,9 +150,7 @@ public class EditAddressActivity extends BaseSwipeActivity  {
     private String cityName;
     private String orderId;
     private String areaName1;
-    private String cityName1;
-
-    private final MyHandler handler = new MyHandler(this);
+    seatchWatch seatchWatch = new seatchWatch();
 
     private static class MyHandler extends Handler {
         private final WeakReference<EditAddressActivity> mActivity;
@@ -298,27 +296,7 @@ public class EditAddressActivity extends BaseSwipeActivity  {
         selectCity();
         /* 当输入关键字变化时，动态更新建议列表 */
 
-        keyWorldsView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if(keyWorldsView.getText().length()> 4 || keyWorldsView.getText().length() == 4) {
-                    getArea(cityName,keyWorldsView.getText().toString());
-                    recyclerView.setVisibility(View.VISIBLE);
-                }else {
-                    recyclerView.setVisibility(View.GONE);
-                }
-            }
-        });
+        keyWorldsView.addTextChangedListener(seatchWatch);
 
         if(isOpen) {
             iv_switch.setImageResource(R.mipmap.iv_opens);
@@ -690,7 +668,7 @@ public class EditAddressActivity extends BaseSwipeActivity  {
                     @Override
                     public void onNext(AreasModel areasModel) {
                         if(areasModel.getCode()==1) {
-                            if(areasModel.getData()!=null) {
+                            if(areasModel.getData()!=null && areasModel.getData().size()>0) {
                                 recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
                                 AddAddressAdapter addAddressAdapter = new AddAddressAdapter(R.layout.item_address_area,areasModel.getData());
                                 recyclerView.setAdapter(addAddressAdapter);
@@ -700,11 +678,14 @@ public class EditAddressActivity extends BaseSwipeActivity  {
                                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                         keyWorldsView.setText(areasModel.getData().get(position).getDetailAddress());
                                         recyclerView.setVisibility(View.GONE);
+
                                     }
                                 });
                             }else {
-                                ToastUtil.showErroMsg(mContext,areasModel.getMessage());
+                                recyclerView.setVisibility(View.GONE);
                             }
+                        }else {
+                            ToastUtil.showErroMsg(mContext,areasModel.getMessage());
                         }
                     }
                 });
@@ -788,6 +769,27 @@ public class EditAddressActivity extends BaseSwipeActivity  {
             window.setStatusBarColor(Color.TRANSPARENT);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+    }
+
+    private class seatchWatch implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            if(keyWorldsView.getText().toString().length()> 4 || keyWorldsView.getText().toString().length() == 4) {
+                getArea(cityName,keyWorldsView.getText().toString());
+                recyclerView.setVisibility(View.VISIBLE);
+            }else {
+                recyclerView.setVisibility(View.GONE);
+            }
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
         }
     }
 }

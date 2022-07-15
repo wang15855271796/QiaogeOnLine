@@ -1,15 +1,20 @@
 package com.puyue.www.qiaoge.helper;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
+import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.wang.avi.AVLoadingIndicatorView;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
@@ -19,7 +24,10 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
+import okio.Buffer;
+import okio.BufferedSource;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -156,6 +164,28 @@ public class RestHelper {
                             .build();
                 }
                 Response response = chain.proceed(request);
+//                ResponseBody responseBody = response.body();
+//                if (responseBody != null) {
+//                    BufferedSource source = responseBody.source();
+//                    source.request(Long.MAX_VALUE); // Buffer the entire body.
+//                    Buffer buffer = source.buffer();
+//
+//                    try {
+//
+//                        String result = buffer.clone().readString(StandardCharsets.UTF_8);
+//
+//                        JSONObject jsonObject = new JSONObject(result);
+//
+//                        int code = jsonObject.getInt("code");
+//                        if(code==-10001) {
+//                            Intent intent = new Intent(context, LoginActivity.class);
+//                            context.startActivity(intent);
+//                        }
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+
                 if (NetWorkHelper.isNetworkAvailable(context)) {
                     int maxAge = 0 * 60;
                     // 有网络时 设置缓存超时时间0个小时

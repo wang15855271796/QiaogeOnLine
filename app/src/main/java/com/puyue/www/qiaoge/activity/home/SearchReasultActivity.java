@@ -32,6 +32,7 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
+import com.puyue.www.qiaoge.activity.view.ChoosePopWindow;
 import com.puyue.www.qiaoge.adapter.SearchOperaAdapter;
 import com.puyue.www.qiaoge.adapter.home.SearchReasultAdapter;
 import com.puyue.www.qiaoge.adapter.home.SearchResultAdapter;
@@ -39,6 +40,7 @@ import com.puyue.www.qiaoge.api.cart.GetCartNumAPI;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
+import com.puyue.www.qiaoge.dialog.CatePopWindow;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
 import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
@@ -51,10 +53,15 @@ import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.PublicRequestHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.listener.PopWindowListener;
 import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
 import com.puyue.www.qiaoge.model.home.GetCustomerPhoneModel;
 import com.puyue.www.qiaoge.model.home.SearchResultsModel;
 import com.puyue.www.qiaoge.utils.LoginUtil;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -67,6 +74,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -119,6 +130,12 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
     LinearLayout ll_sale;
     @BindView(R.id.tv_all_data)
     TextView tv_all_data;
+    @BindView(R.id.smart)
+    SmartRefreshLayout smart;
+    @BindView(R.id.iv_arrow)
+    ImageView iv_arrow;
+    @BindView(R.id.ll_all_choose)
+    LinearLayout ll_all_choose;
     String searchWord;
     int pageNum = 1;
     int pageSize = 10;
@@ -128,6 +145,7 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
     SearchResultsModel searchResultsModel;
     private String cell; // 客服电话
     private List<Fragment> mBaseFragment;
+    SearchResultsModel recommendModels;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
 
@@ -139,6 +157,7 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
         setContentView(R.layout.activity_seach_reasult);
     }
 
+    boolean isClickOpen = false;
     @Override
     public void findViewById() {
         ButterKnife.bind(this);
@@ -170,7 +189,8 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                 finish();
             }
         });
-        tv_all.setOnClickListener(new View.OnClickListener() {
+
+        ll_all_choose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showPopWindow();
@@ -179,29 +199,71 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
         ll_all_data.setOnClickListener(this);
         ll_sale.setOnClickListener(this);
         ll_price.setOnClickListener(this);
+
+        smart.autoRefresh();
+        smart.setEnableLoadMore(false);
+        smart.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                searchList.clear();
+                pageNum = 1;
+                getRecommendList();
+                refreshLayout.finishRefresh();
+            }
+        });
+
+        smart.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshLayout) {
+                if(recommendModels!=null && recommendModels.getData()!=null && recommendModels.getData().getSearchProd()!=null) {
+                    if(recommendModels.getData().getSearchProd().isHasNextPage()) {
+                        pageNum++;
+                        getRecommendList();
+                        refreshLayout.finishLoadMore();
+                    }else {
+                        refreshLayout.finishLoadMoreWithNoMoreData();
+                    }
+                }
+            }
+        });
     }
 
-    PopupWindow popWindow;
-    SearchOperaAdapter searchOperaAdapter;
     List<String> list = Arrays.asList("全部", "自营", "非自营");
-
+    boolean isOpen = false;
+    ChoosePopWindow choosePopWindow;
     private void showPopWindow() {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_popup, null, false);
-        RecyclerView recyclerView =  (RecyclerView) view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        searchOperaAdapter = new SearchOperaAdapter(R.layout.item_search_operate,list);
-        recyclerView.setAdapter(searchOperaAdapter);
-        searchOperaAdapter.notifyDataSetChanged();
-        //1.构造一个PopupWindow，参数依次是加载的View，宽高
-        if(popWindow==null) {
-            popWindow = new PopupWindow(view,
-                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        if(choosePopWindow==null) {
+            choosePopWindow = new ChoosePopWindow(mActivity,list);
         }
-
-        searchOperaAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        choosePopWindow.setTouchable(true);
+        choosePopWindow.setTouchInterceptor(new View.OnTouchListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                searchOperaAdapter.setOnItemPosition(position);
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+                // 这里如果返回true的话，touch事件将被拦截
+                // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
+            }
+        });
+        choosePopWindow.setAnimationStyle(R.anim.anim_pop);  //设置加载动画
+        choosePopWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        choosePopWindow.setPopWindowListener(new PopWindowListener() {
+            @Override
+            public void getCateStyle(String cate,int position) {
+                saleDownFlag = 0;
+                priceFlag = 0;
+                tv_all_data.setTextColor(Color.parseColor("#333333"));
+                tv_sale.setTextColor(Color.parseColor("#333333"));
+                tv_price.setTextColor(Color.parseColor("#333333"));
+                iv_direction.setImageResource(R.mipmap.icon_default);
+                Log.d("dwwdasdas......",isOpen+"aa");
+                if(!isOpen) {
+                    iv_arrow.setImageResource(R.mipmap.ic_arrow_up);
+                    isOpen = true;
+                }else {
+                    iv_arrow.setImageResource(R.mipmap.ic_arrow_down);
+                    isOpen = false;
+                }
+
                 if(position==0) {
                     isSelf = 0;
                 }else if(position==1) {
@@ -213,32 +275,40 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                 pageNum = 1;
                 searchList.clear();
                 recommendList.clear();
-                getRecommendList(pageNum,pageSize);
-                popWindow.dismiss();
-
+                getRecommendList();
+                choosePopWindow.dismiss();
                 tv_all.setText(list.get(position));
+                tv_all.setTextColor(Color.parseColor("#FF5C00"));
             }
         });
 
-        popWindow.setAnimationStyle(R.anim.anim_pop);  //设置加载动画
-
-        //这些为了点击非PopupWindow区域，PopupWindow会消失的，如果没有下面的
-        //代码的话，你会发现，当你把PopupWindow显示出来了，无论你按多少次后退键
-        //PopupWindow并不会关闭，而且退不出程序，加上下述代码可以解决这个问题
-        popWindow.setTouchable(true);
-        popWindow.setTouchInterceptor(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return false;
-                // 这里如果返回true的话，touch事件将被拦截
-                // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
+        Log.d("dwwdasdas......",isOpen+"bb");
+        if(!choosePopWindow.isShowing()) {
+            choosePopWindow.showAsDropDown(ll_style,1300,0);
+            if(isOpen) {
+                iv_arrow.setImageResource(R.mipmap.ic_arrow_up);
+            }else {
+                iv_arrow.setImageResource(R.mipmap.icon_arrow_down);
             }
-        });
-        popWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));    //要为popWindow设置一个背景才有效
+
+            isOpen = true;
+        }else {
+            isOpen = false;
+            choosePopWindow.dismiss();
+            if(isOpen) {
+                iv_arrow.setImageResource(R.mipmap.ic_arrow_up);
+            }else {
+                iv_arrow.setImageResource(R.mipmap.icon_arrow_down);
+            }
+        }
 
 
-        //设置popupWindow显示的位置，参数依次是参照View，x轴的偏移量，y轴的偏移量
-        popWindow.showAsDropDown(ll_style, 1300, 0);
+//        if(isOpen) {
+//            iv_arrow.setImageResource(R.mipmap.ic_arrow_up);
+//
+//        }else {
+//            iv_arrow.setImageResource(R.mipmap.ic_arrow_down);
+//        }
     }
 
     private AlertDialog mDialog;
@@ -284,13 +354,13 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
         getCustomerPhone();
         lav_activity_loading.setVisibility(View.VISIBLE);
         lav_activity_loading.show();
-        getRecommendList(pageNum,pageSize);
 
         LoadingDailog.Builder loadBuilder = new LoadingDailog.Builder(mContext)
                 .setMessage("获取数据中")
                 .setCancelable(false)
                 .setCancelOutside(false);
         dialog = loadBuilder.create();
+
     }
 
     private void getCustomerPhone() {
@@ -371,13 +441,14 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
     List<SearchResultsModel.DataBean.RecommendProdBean> recommendList = new ArrayList<>();
     SearchReasultAdapter searchReasultAdapter;
     SearchResultAdapter searchResultAdapter;
-    private void getRecommendList(int pageNum,int pageSize) {
+    private void getRecommendList() {
         RecommendApI.requestData(mContext,searchWord,pageNum,pageSize,isSelf,saleDownFlag,priceFlag)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<SearchResultsModel>() {
                     @Override
                     public void onCompleted() {
+
                     }
 
                     @Override
@@ -388,7 +459,9 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                     @Override
                     public void onNext(SearchResultsModel recommendModel) {
                         if (recommendModel.getCode()==1) {
+                            smart.setEnableLoadMore(true);
                             if(recommendModel.getData()!=null) {
+                                recommendModels = recommendModel;
                                 lav_activity_loading.setVisibility(View.GONE);
                                 dialog.dismiss();
                                 if(recommendModel.getData().getSearchProd()!=null && recommendModel.getData().getSearchProd().getList()!=null && recommendModel.getData().getSearchProd().getList().size()> 0) {
@@ -410,6 +483,7 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                                     ll_no_search.setVisibility(View.GONE);
                                     ll_style.setVisibility(View.VISIBLE);
                                 }
+
                                 if(recommendModel.getData().getRecommendProd()!=null && recommendModel.getData().getRecommendProd().size()>0) {
                                     recommendList.addAll(recommendModel.getData().getRecommendProd());
                                     searchResultAdapter = new SearchResultAdapter(R.layout.item_noresult_recommend, recommendList, new SearchResultAdapter.Onclick() {
@@ -449,7 +523,6 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
 
     boolean isSale;
     int isPrice = 0;
-    private int position;
     boolean isAll;
     @Override
     public void onClick(View view) {
@@ -463,6 +536,8 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                 recommendList.clear();
                 tv_sale.setTextColor(Color.parseColor("#333333"));
                 tv_price.setTextColor(Color.parseColor("#333333"));
+                tv_all.setTextColor(Color.parseColor("#333333"));
+                iv_arrow.setImageResource(R.mipmap.icon_default);
                 if(!isAll) {
                     tv_all_data.setTextColor(Color.parseColor("#FF5C00"));
                 }else {
@@ -471,12 +546,14 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                 isAll = !isAll;
                 isSale = false;
                 dialog.show();
-                getRecommendList(pageNum,pageSize);
+                getRecommendList();
                 break;
 
             case R.id.ll_sale:
                 pageNum = 1;
                 dialog.show();
+                iv_arrow.setImageResource(R.mipmap.icon_default);
+                tv_all.setTextColor(Color.parseColor("#333333"));
                 tv_all_data.setTextColor(Color.parseColor("#333333"));
                 tv_price.setTextColor(Color.parseColor("#333333"));
                 searchList.clear();
@@ -490,13 +567,15 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                 }
                 isSale = !isSale;
                 isAll = false;
-                getRecommendList(pageNum,pageSize);
+                getRecommendList();
                 break;
 
             case R.id.ll_price:
                 pageNum = 1;
                 dialog.show();
                 isPrice++;
+                iv_arrow.setImageResource(R.mipmap.icon_default);
+                tv_all.setTextColor(Color.parseColor("#333333"));
                 tv_sale.setTextColor(Color.parseColor("#333333"));
                 tv_all_data.setTextColor(Color.parseColor("#333333"));
                 searchList.clear();
@@ -517,7 +596,7 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
 
                 isAll = false;
                 isSale = false;
-                getRecommendList(pageNum,pageSize);
+                getRecommendList();
                 break;
         }
     }

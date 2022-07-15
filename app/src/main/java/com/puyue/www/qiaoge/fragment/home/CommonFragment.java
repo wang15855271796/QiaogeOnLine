@@ -7,8 +7,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
@@ -107,7 +110,7 @@ public class CommonFragment extends BaseFragment {
         });
         emptyView = View.inflate(mActivity, R.layout.layout_empty, null);
         commonListAdapter.setEmptyView(emptyView);
-        recyclerView.setLayoutManager(new GridLayoutManager(mActivity,2));
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayout.VERTICAL));
         recyclerView.setAdapter(commonListAdapter);
 
 

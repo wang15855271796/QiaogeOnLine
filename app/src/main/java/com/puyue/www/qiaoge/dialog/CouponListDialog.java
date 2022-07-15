@@ -9,10 +9,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.xrecyclerview.DensityUtil;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.adapter.CouponListAdapter;
@@ -38,14 +40,12 @@ public class CouponListDialog extends Dialog {
     public RecyclerView recyclerView;
     ImageView iv_close;
     TextView tv_use;
-    private LinearLayout rootview;
     IndexInfoModel.DataBean couponListModel;
     private CouponListAdapter couponListAdapter;
     public CouponListDialog(@NonNull Context context, IndexInfoModel.DataBean couponListModel) {
         super(context, R.style.promptDialog);
         setContentView(R.layout.dialog_coupon_list);
         mContext = context;
-
         this.couponListModel = couponListModel;
         initView();
         initAction();
@@ -56,9 +56,20 @@ public class CouponListDialog extends Dialog {
         tv_use = (TextView) findViewById(R.id.tv_use);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         iv_close = (ImageView) findViewById(R.id.iv_close);
+
+        ViewGroup.LayoutParams lp = recyclerView.getLayoutParams();
+        if(couponListModel.getUserPopup().getGifts().size()==1) {
+            lp.height = DensityUtil.dip2px(90 * 1,mContext);
+        }else if(couponListModel.getUserPopup().getGifts().size()==2) {
+            lp.height = DensityUtil.dip2px(180 * 1,mContext);
+        }else {
+            lp.height = DensityUtil.dip2px(275 * 1,mContext);
+        }
+
         couponListAdapter = new CouponListAdapter(R.layout.item_home_coupon_list,couponListModel.getUserPopup().getGifts());
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setAdapter(couponListAdapter);
+        recyclerView.setLayoutParams(lp);
         tv_use.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

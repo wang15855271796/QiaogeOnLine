@@ -14,7 +14,7 @@ import java.util.List;
 
 public class SearchOperaAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
-    int pos = 0;
+    int pos = -1;
     public SearchOperaAdapter(int layoutResId, @Nullable List<String> data) {
         super(layoutResId, data);
     }

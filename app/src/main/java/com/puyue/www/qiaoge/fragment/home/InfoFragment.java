@@ -4,6 +4,8 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -132,6 +134,7 @@ public class InfoFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 mask.setVisibility(View.VISIBLE);
+
                 if(catePopWindow==null) {
                     catePopWindow = new CatePopWindow(mActivity,strings);
                 }

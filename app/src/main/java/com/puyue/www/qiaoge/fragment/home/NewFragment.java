@@ -6,8 +6,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -115,7 +117,7 @@ public class NewFragment extends BaseFragment {
             }
         });
         newAdapter.setEmptyView(emptyView);
-        recyclerView.setLayoutManager(new MyGrideLayoutManager(mActivity,2));
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayout.VERTICAL));
         recyclerView.setAdapter(newAdapter);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override

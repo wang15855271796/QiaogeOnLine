@@ -70,33 +70,6 @@ public class SpikeActiveNewAdapter extends RecyclerView.Adapter<SpikeActiveNewAd
             e.printStackTrace();
         }
 
-
-//        if(flag==0) {
-//            //未开始
-//            holder.snap.setVisibility(View.GONE);
-//            exceed2 = DateUtils.isExceed2(currents, starts);
-//            if(exceed2) {
-//                holder.tv_desc.setVisibility(View.VISIBLE);
-//                holder.tv_desc.setText(data.get(position).getDateDesc());
-//                holder.snap.setVisibility(View.GONE);
-//            }else {
-//                if(startTime !=0&& endTime !=0) {
-//                    holder.snap.setVisibility(View.VISIBLE);
-//                    holder.snap.setTime(true, l, this.startTime, this.endTime);
-//                    holder.snap.changeBackGround(ContextCompat.getColor(context, R.color.white));
-//                    holder.snap.changeTypeColor(ContextCompat.getColor(context, R.color.color_F6551A));
-//                    holder.snap.start();
-//                }else {
-//                    holder.snap.setVisibility(View.GONE);
-//                }
-//            }
-//
-//        }else {
-//            holder.snap.setVisibility(View.VISIBLE);
-//            holder.snap.setTime(true,l, this.startTime, this.endTime);
-//            holder.snap.start();
-//        }
-
         if (selectPosition == position) {
             holder.tv_time.setAlpha(1.0f);
             holder.tv_desc.setAlpha(1.0f);
@@ -120,7 +93,7 @@ public class SpikeActiveNewAdapter extends RecyclerView.Adapter<SpikeActiveNewAd
         }
 
         holder.tv_time.setText(data.get(position).getDateTime());
-        holder.tv_desc.setText(data.get(position).getDateDesc());
+        holder.tv_desc.setText(data.get(position).getTimeDesc());
     }
 
     @Override

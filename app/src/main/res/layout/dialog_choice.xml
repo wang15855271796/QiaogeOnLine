@@ -91,12 +91,12 @@
 
             <ImageView
                 android:id="@+id/iv_pic"
+                android:layout_width="@dimen/size_32dp"
+                android:layout_height="12dp"
+                android:layout_below="@+id/tv_price"
                 android:layout_marginTop="@dimen/size_7dp"
                 android:layout_toRightOf="@+id/iv_operate"
-                android:layout_below="@+id/tv_price"
-                tools:src="@mipmap/icon_next"
-                android:layout_width="@dimen/size_32dp"
-                android:layout_height="12dp" />
+                tools:src="@mipmap/icon_next" />
 
 
 

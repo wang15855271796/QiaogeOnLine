@@ -7,8 +7,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
@@ -138,32 +141,14 @@ public class MustFragment extends BaseFragment {
 
             @Override
             public void tipClick() {
-//                showPhoneDialog(cell);
                 AppHelper.ShowAuthDialog(mActivity,SharedPreferencesUtil.getString(mActivity,"mobile"));
             }
         });
-        recyclerView.setLayoutManager(new GridLayoutManager(mActivity,2));
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayout.VERTICAL));
         recyclerView.setAdapter(mustAdapter);
-
         mustAdapter.setEmptyView(emptyView);
     }
 
-    private void getCustomerPhone() {
-        PublicRequestHelper.getCustomerPhone(mActivity, new OnHttpCallBack<GetCustomerPhoneModel>() {
-            @Override
-            public void onSuccessful(GetCustomerPhoneModel getCustomerPhoneModel) {
-                if (getCustomerPhoneModel.isSuccess()) {
-                    cell = getCustomerPhoneModel.getData();
-                } else {
-                    AppHelper.showMsg(mActivity, getCustomerPhoneModel.getMessage());
-                }
-            }
-
-            @Override
-            public void onFaild(String errorMsg) {
-            }
-        });
-    }
 
     /**
      * 弹出电话号码
@@ -226,7 +211,6 @@ public class MustFragment extends BaseFragment {
 
                     @Override
                     public void onNext(ProductNormalModel getCommonProductModel) {
-                        Log.d("wfdrffewfwffdfd.......","123456");
                         if (getCommonProductModel.isSuccess()) {
                             productModels = getCommonProductModel;
                             mustAdapter.notifyDataSetChanged();
@@ -240,18 +224,6 @@ public class MustFragment extends BaseFragment {
                     }
                 });
     }
-
-
-//    /**
-//     * 接收地址切换时的授权处理
-//     * @param event
-//     */
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void getPriceType(CityEvent event) {
-////        getCustomerPhone();
-//        getProductsList(pageNum,pageSize);
-//    }
-
 
     @Override
     public void setViewData() {

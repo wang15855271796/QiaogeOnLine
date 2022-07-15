@@ -10,16 +10,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:textColor="#333333"
-            android:id="@+id/tv_title"
-            android:textStyle="bold"
-            android:textSize="@dimen/size_15dp"
-            android:layout_marginLeft="@dimen/size_15dp"
-            android:layout_marginTop="@dimen/dp_10"
-            tools:text="杭州翘歌网络科技有限公司"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_default"
+                android:text="默认"
+                android:visibility="gone"
+                android:textColor="#FF5C00"
+                android:padding="@dimen/public_space_value_1"
+                android:background="@drawable/shape_orange15"
+                android:layout_marginLeft="@dimen/size_16dp"
+                android:layout_marginTop="@dimen/dp_10"
+                android:textSize="@dimen/ysf_text_size_11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_toRightOf="@+id/tv_default"
+                android:textColor="#333333"
+                android:id="@+id/tv_title"
+                android:textStyle="bold"
+                android:layout_marginLeft="@dimen/size_16dp"
+                android:textSize="@dimen/size_15dp"
+                android:layout_marginTop="@dimen/dp_10"
+                tools:text="杭州翘歌网络科技有限公司"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -27,19 +46,21 @@
 
             <TextView
                 android:id="@+id/tv_address"
-                android:layout_marginLeft="@dimen/size_15dp"
-                tools:text="这里写的是客户店铺的详细地址，详细的地址"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_height="wrap_content" />
+                android:layout_marginLeft="@dimen/size_16dp"
+                tools:text="这里写的是客户店铺的详细地址，详细的地址" />
 
             <ImageView
+                android:visibility="gone"
                 android:id="@+id/iv_choose"
-                android:layout_marginRight="@dimen/size_20dp"
+                android:src="@mipmap/icon_gous"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_marginRight="@dimen/size_20dp" />
 
         </RelativeLayout>
 
@@ -48,13 +69,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_marginLeft="@dimen/size_15dp"
-            android:layout_marginTop="5dp"
-            tools:text="桃子"
-            android:id="@+id/tv_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/size_16dp"
+                android:layout_marginTop="5dp"
+                tools:text="桃子" />
 
             <TextView
                 android:id="@+id/tv_phone"

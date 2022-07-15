@@ -184,45 +184,45 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    tools:text="新手"
-                    android:visibility="gone"
                     android:id="@+id/tv_coupon_style"
-                    android:textColor="#ffffff"
-                    android:paddingTop="@dimen/size_2dp"
-                    android:paddingBottom="@dimen/size_2dp"
-                    android:paddingLeft="@dimen/size_15dp"
-                    android:paddingRight="@dimen/size_15dp"
-                    android:background="@drawable/shape_red_two"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_red_two"
+                    android:paddingLeft="@dimen/size_15dp"
+                    android:paddingTop="@dimen/size_2dp"
+                    android:paddingRight="@dimen/size_15dp"
+                    android:paddingBottom="@dimen/size_2dp"
+                    android:textColor="#ffffff"
+                    android:visibility="gone"
+                    tools:text="新手" />
 
                 <TextView
-                    android:text="￥"
                     android:id="@+id/tv_tip"
-                    android:textColor="#F54022"
-                    android:layout_marginTop="@dimen/size_20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/tv_amount"
                     android:layout_alignBottom="@+id/tv_amount"
                     android:layout_marginLeft="@dimen/size_18dp"
-                    android:layout_alignBaseline="@+id/tv_amount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_marginTop="@dimen/size_20dp"
+                    android:text="￥"
+                    android:textColor="#F54022" />
 
                 <TextView
-                    android:layout_marginTop="@dimen/size_20dp"
                     android:id="@+id/tv_amount"
-                    android:textColor="#F54022"
-                    tools:text="12"
-                    android:layout_toRightOf="@+id/tv_tip"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/size_30dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_20dp"
+                    android:layout_toRightOf="@+id/tv_tip"
+                    android:textColor="#F54022"
+                    android:textSize="@dimen/size_30dp"
+                    android:textStyle="bold"
+                    tools:text="12" />
 
                 <LinearLayout
                     android:id="@+id/ll"
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/size_23dp"
+                    android:layout_marginLeft="@dimen/dp_10"
                     android:layout_toRightOf="@+id/tv_amount"
                     android:orientation="vertical">
 
@@ -248,70 +248,76 @@
                         android:textStyle="bold"
                         tools:text="200元无门槛消费券" />
 
-                    <TextView
-                        android:id="@+id/tv_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/size_15dp"
-                        android:textColor="#FF2925"
-                        android:textSize="10dp"
-                        tools:text="2020.7.30  8:00—2020.7.31  9:00" />
                 </LinearLayout>
 
                 <TextView
-                    android:text="去凑单"
-                    android:id="@+id/tv_put"
-                    android:visibility="gone"
-                    android:textSize="@dimen/sp_12"
-                    android:textColor="#F54022"
-                    android:paddingBottom="@dimen/dp_4"
-                    android:paddingTop="@dimen/dp_4"
-                    android:paddingLeft="@dimen/dp_10"
-                    android:paddingRight="@dimen/dp_10"
-                    android:background="@drawable/shape_f54022"
-                    android:layout_marginRight="@dimen/size_20dp"
-                    android:layout_marginTop="@dimen/size_15dp"
-                    android:layout_alignParentRight="true"
+                    android:id="@+id/tv_time"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginTop="@dimen/size_5dp"
+                    android:layout_toRightOf="@+id/tv_amount"
+                    android:textColor="#FF2925"
+                    android:textSize="10dp"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    tools:text="2020.7.30  8:00—2020.7.31  9:00" />
 
                 <TextView
-                    android:text="立即使用"
-                    android:id="@+id/tv_use"
-                    android:visibility="gone"
-                    android:textSize="@dimen/sp_12"
-                    android:textColor="#F54022"
-                    android:background="@drawable/shape_f54022"
-                    android:paddingBottom="@dimen/dp_4"
-                    android:paddingTop="@dimen/dp_4"
-                    android:paddingLeft="@dimen/dp_10"
-                    android:paddingRight="@dimen/dp_10"
-                    android:layout_marginRight="@dimen/size_10dp"
-                    android:layout_marginTop="@dimen/size_15dp"
-                    android:layout_alignParentRight="true"
+                    android:id="@+id/tv_put"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/size_15dp"
+                    android:layout_marginRight="@dimen/size_20dp"
+                    android:background="@drawable/shape_f54022"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingTop="@dimen/dp_4"
+                    android:paddingRight="@dimen/dp_10"
+                    android:paddingBottom="@dimen/dp_4"
+                    android:text="去凑单"
+                    android:textColor="#F54022"
+                    android:textSize="@dimen/sp_12"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_use"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/size_15dp"
+                    android:layout_marginRight="@dimen/size_10dp"
+                    android:background="@drawable/shape_f54022"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingTop="@dimen/dp_4"
+                    android:paddingRight="@dimen/dp_10"
+                    android:paddingBottom="@dimen/dp_4"
+                    android:text="立即使用"
+                    android:textColor="#F54022"
+                    android:textSize="@dimen/sp_12"
+                    android:visibility="gone" />
 
 
                 <ImageView
                     android:id="@+id/iv_status"
-                    android:visibility="gone"
-                    android:layout_marginRight="@dimen/size_19dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="@dimen/size_15dp"
+                    android:layout_marginRight="@dimen/size_19dp"
                     android:src="@mipmap/ic_user"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:visibility="gone" />
 
                 <View
                     android:id="@+id/v"
-                    android:layout_marginRight="@dimen/size_18dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/size_3dp"
+                    android:layout_below="@+id/tv_time"
                     android:layout_marginLeft="@dimen/size_18dp"
                     android:layout_marginTop="@dimen/size_8dp"
-                    android:layout_below="@+id/ll"
-                    android:background="@drawable/app_my_coupons"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/size_3dp"/>
+                    android:layout_marginRight="@dimen/size_18dp"
+                    android:background="@drawable/app_my_coupons" />
 
             </RelativeLayout>
 

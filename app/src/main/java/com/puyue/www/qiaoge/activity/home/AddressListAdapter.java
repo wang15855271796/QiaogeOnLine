@@ -2,6 +2,8 @@ package com.puyue.www.qiaoge.activity.home;
 
 import androidx.annotation.Nullable;
 
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -23,6 +25,9 @@ public class AddressListAdapter extends BaseQuickAdapter<AddressModel.DataBean,B
     @Override
     protected void convert(BaseViewHolder helper, AddressModel.DataBean item) {
         TextView tv_title = helper.getView(R.id.tv_title);
+        ImageView iv_choose = helper.getView(R.id.iv_choose);
+
+        TextView tv_default = helper.getView(R.id.tv_default);
         TextView tv_name = helper.getView(R.id.tv_name);
         TextView tv_address = helper.getView(R.id.tv_address);
         TextView tv_phone = helper.getView(R.id.tv_phone);
@@ -30,5 +35,13 @@ public class AddressListAdapter extends BaseQuickAdapter<AddressModel.DataBean,B
         tv_name.setText(item.userName);
         tv_address.setText(item.detailAddress);
         tv_phone.setText(item.contactPhone);
+
+        if(item.isDefault==1) {
+            tv_default.setVisibility(View.VISIBLE);
+            iv_choose.setVisibility(View.VISIBLE);
+        }else {
+            iv_choose.setVisibility(View.GONE);
+            tv_default.setVisibility(View.GONE);
+        }
     }
 }

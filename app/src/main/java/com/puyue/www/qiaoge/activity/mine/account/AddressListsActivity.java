@@ -282,45 +282,7 @@ public class AddressListsActivity extends BaseSwipeActivity {
         mIvBack.setOnClickListener(new NoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View view) {
-                if (mineToAddress.equals("mineAddress")) {
-                    if (defaultId != -1) {
-
-
-                        //说明修改过默认地址,在退出界面的时候请求接口来
-                        requestEditDefaultAddress(defaultId, orderId);
-
-                    }
-                    finish();
-                } else {
-                    if (!isChanged) {
-                        defaultId = 1;
-                        //说明修改过默认地址,在退出界面的时候请求接口来
-                        Intent intent = new Intent();
-                        intent.putExtra("orderId", orderId);
-                        AddressListsActivity.this.setResult(39, intent);
-                        defaultId = -1;
-                        finish();
-
-                    }
-                    if (defaultId != -1) {
-
-                        if (userAddress.equals(changeAddress)) {
-
-                        } else {
-                            //说明修改过默认地址,在退出界面的时候请求接口来
-                            requestEditDefaultAddress(defaultId, orderId);
-                            Intent intent = new Intent();
-                            intent.putExtra("orderId", orderId);
-                            AddressListsActivity.this.setResult(39, intent);
-                        }
-
-                    }
-
-
-                    finish();
-                }
-
-
+                finish();
             }
         });
         mBtnAdd.setOnClickListener(new NoDoubleClickListener() {

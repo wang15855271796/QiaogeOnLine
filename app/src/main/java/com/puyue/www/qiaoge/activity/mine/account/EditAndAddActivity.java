@@ -83,7 +83,7 @@ public class EditAndAddActivity extends BaseSwipeActivity {
     public static final String AREA_CODE = "area_code";
     public static final String ORDERID = "orderId";
     AVLoadingIndicatorView lav_activity_loading;
-    private String mType;
+    private String mType = "";
     private String mUserName;
     private String mUserPhone;
     private String mStoreName;
@@ -126,7 +126,6 @@ public class EditAndAddActivity extends BaseSwipeActivity {
     //  区
     private ArrayList<ArrayList<ArrayList<AreaModel.DataBean.ChildrenBeanX.ChildrenBean>>> options3Items = new ArrayList<>();
 
-    private String cityName;
     private String orderId;
     public static Intent getIntent(Context context, Class<?> cls, String type, String userName, String userPhone, String storeName, String area, String address, String defaultOr, String addressId, String proviceCode, String cityCode, String areaCode, String orderId) {
         Intent intent = new Intent();

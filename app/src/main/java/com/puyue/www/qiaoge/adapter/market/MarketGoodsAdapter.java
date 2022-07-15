@@ -3,6 +3,7 @@ package com.puyue.www.qiaoge.adapter.market;
 import android.content.Intent;
 import androidx.annotation.Nullable;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -46,6 +47,7 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
     private TextView tv_price;
     ImageView iv_after_next;
     ImageView iv_operate;
+    RelativeLayout rl_spec;
     public MarketGoodsAdapter( int layoutResId, @Nullable List<MarketRightModel.DataBean.ProdClassifyBean.ListBean> data, Onclick onclick) {
         super(layoutResId, data);
         this.onclick = onclick;
@@ -56,15 +58,18 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
     protected void convert(BaseViewHolder helper, MarketRightModel.DataBean.ProdClassifyBean.ListBean item) {
         int businessType = item.getBusinessType();
         ImageView iv_send = helper.getView(R.id.iv_send);
+        RelativeLayout rl_spec = helper.getView(R.id.rl_spec);
         TextView tv_style = helper.getView(R.id.tv_style);
         iv_after_next = helper.getView(R.id.iv_after_next);
         TagFlowLayout rv_spec = helper.getView(R.id.rv_spec);
         iv_operate = helper.getView(R.id.iv_operate);
         RelativeLayout rl_price = helper.getView(R.id.rl_price);
         TextView tv_desc = helper.getView(R.id.tv_desc);
+        tv_price = helper.getView(R.id.tv_price);
         ImageView iv_no_data = helper.getView(R.id.iv_no_data);
         iv_type = helper.getView(R.id.iv_type);
-
+        tv_price.setTextColor(Color.parseColor("#FF2925"));
+        rl_spec.setBackgroundResource(R.drawable.shape_red_orders);
         if(item.getNotSend()!=null) {
             if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
                 iv_send.setImageResource(R.mipmap.icon_not_send2);
@@ -93,7 +98,6 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
             }
             iv_no_data.setVisibility(View.GONE);
         }
-        RelativeLayout rl_spec = helper.getView(R.id.rl_spec);
         ll_group = helper.getView(R.id.ll_group);
         ll_group.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +118,6 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
 
         fl_container = helper.getView(R.id.fl_container);
         helper.setText(R.id.tv_name,item.getProductName());
-        tv_price = helper.getView(R.id.tv_price);
         helper.setText(R.id.tv_sale,item.getSalesVolume());
         helper.setText(R.id.tv_price,item.getMinMaxPrice());
 

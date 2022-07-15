@@ -330,135 +330,177 @@
 
                                 </RelativeLayout>
 
-                                <LinearLayout
-                                    android:id="@+id/ll_coupon"
+                                <RelativeLayout
+                                    android:id="@+id/rl_coupon1"
                                     android:layout_below="@+id/rl_spec"
                                     android:layout_width="match_parent"
                                     android:orientation="vertical"
                                     android:layout_height="wrap_content">
 
                                     <TextView
-                                        android:text="优惠"
-                                        android:layout_marginLeft="@dimen/size_12dp"
+                                        android:id="@+id/tv_desc"
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"/>
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="@dimen/size_12dp"
+                                        android:text="优惠" />
 
                                     <LinearLayout
                                         android:id="@+id/ll_full"
-                                        android:layout_marginBottom="@dimen/sp_12"
-                                        android:layout_marginLeft="@dimen/size_12dp"
-                                        android:orientation="vertical"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="@dimen/size_19dp"
+                                        android:layout_marginBottom="@dimen/sp_12"
+                                        android:layout_toRightOf="@+id/tv_desc"
+                                        android:orientation="vertical">
+
 
                                         <LinearLayout
-                                            android:visibility="gone"
-                                            android:layout_marginBottom="@dimen/dp_10"
                                             android:id="@+id/ll_full_active"
                                             android:layout_width="match_parent"
-                                            android:layout_height="wrap_content">
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="@dimen/dp_10"
+                                            android:visibility="gone">
 
                                             <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:background="@drawable/shape_green_detail"
+                                                android:padding="@dimen/size_2dp"
                                                 android:text="满赠"
                                                 android:textColor="#ffffff"
-                                                android:textSize="@dimen/dp_10"
-                                                android:padding="@dimen/size_2dp"
-                                                android:background="@drawable/shape_green_detail"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"/>
+                                                android:textSize="@dimen/dp_10" />
+
                                             <TextView
-                                                android:lines="1"
                                                 android:id="@+id/tv_full"
-                                                android:textColor="#333333"
-                                                android:layout_marginLeft="@dimen/dp_10"
-                                                android:ellipsize="end"
-                                                android:text="满800元赠送一包小三角薯饼舒适…"
                                                 android:layout_width="0dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginLeft="@dimen/dp_10"
                                                 android:layout_weight="1"
-                                                android:layout_height="wrap_content"/>
+                                                android:ellipsize="end"
+                                                android:lines="1"
+                                                android:text="满800元赠送一包小三角薯饼舒适…"
+                                                android:textColor="#333333" />
 
                                             <ImageView
-                                                android:layout_marginRight="@dimen/dp_10"
-                                                android:layout_gravity="center_vertical"
-                                                android:gravity="right"
-                                                android:src="@mipmap/rightarrow"
                                                 android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"/>
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center_vertical"
+                                                android:layout_marginRight="@dimen/dp_10"
+                                                android:gravity="right"
+                                                android:src="@mipmap/rightarrow" />
                                         </LinearLayout>
 
                                         <LinearLayout
-                                            android:visibility="gone"
-                                            android:layout_marginBottom="@dimen/dp_10"
                                             android:id="@+id/ll_skill_active"
                                             android:layout_width="match_parent"
-                                            android:layout_height="wrap_content">
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="@dimen/dp_10"
+                                            android:visibility="gone">
 
                                             <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:background="@drawable/shape_green_detail"
+                                                android:padding="@dimen/size_2dp"
                                                 android:text="秒杀"
                                                 android:textColor="#ffffff"
-                                                android:textSize="@dimen/dp_10"
-                                                android:padding="@dimen/size_2dp"
-                                                android:background="@drawable/shape_green_detail"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"/>
+                                                android:textSize="@dimen/dp_10" />
+
                                             <TextView
-                                                android:lines="1"
                                                 android:id="@+id/tv_skill"
-                                                android:textColor="#333333"
-                                                android:layout_marginLeft="@dimen/dp_10"
-                                                android:ellipsize="end"
-                                                android:text="满800元赠送一包小三角薯饼舒适…"
                                                 android:layout_width="0dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginLeft="@dimen/dp_10"
                                                 android:layout_weight="1"
-                                                android:layout_height="wrap_content"/>
+                                                android:ellipsize="end"
+                                                android:lines="1"
+                                                android:text="满800元赠送一包小三角薯饼舒适…"
+                                                android:textColor="#333333" />
 
                                             <ImageView
-                                                android:layout_marginRight="@dimen/dp_10"
-                                                android:layout_gravity="center_vertical"
-                                                android:gravity="right"
-                                                android:src="@mipmap/rightarrow"
                                                 android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"/>
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center_vertical"
+                                                android:layout_marginRight="@dimen/dp_10"
+                                                android:gravity="right"
+                                                android:src="@mipmap/rightarrow" />
                                         </LinearLayout>
 
                                         <LinearLayout
-                                            android:visibility="gone"
+                                            android:layout_marginBottom="@dimen/dp_10"
                                             android:id="@+id/ll_team_active"
                                             android:layout_width="match_parent"
-                                            android:layout_height="wrap_content">
+                                            android:layout_height="wrap_content"
+                                            android:visibility="gone">
 
                                             <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:background="@drawable/shape_green_detail"
+                                                android:padding="@dimen/size_2dp"
                                                 android:text="组合"
                                                 android:textColor="#ffffff"
-                                                android:textSize="@dimen/dp_10"
-                                                android:padding="@dimen/size_2dp"
-                                                android:background="@drawable/shape_green_detail"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"/>
+                                                android:textSize="@dimen/dp_10" />
 
                                             <TextView
-                                                android:lines="1"
                                                 android:id="@+id/tv_team"
-                                                android:textColor="#333333"
-                                                android:layout_marginLeft="@dimen/dp_10"
-                                                android:ellipsize="end"
-                                                android:text="满800元赠送一包小三角薯饼舒适…"
                                                 android:layout_width="0dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginLeft="@dimen/dp_10"
                                                 android:layout_weight="1"
-                                                android:layout_height="wrap_content"/>
+                                                android:ellipsize="end"
+                                                android:lines="1"
+                                                android:text="满800元赠送一包小三角薯饼舒适…"
+                                                android:textColor="#333333" />
 
                                             <ImageView
-                                                android:layout_marginRight="@dimen/dp_10"
-                                                android:layout_gravity="center_vertical"
-                                                android:gravity="right"
-                                                android:src="@mipmap/rightarrow"
                                                 android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"/>
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center_vertical"
+                                                android:layout_marginRight="@dimen/dp_10"
+                                                android:gravity="right"
+                                                android:src="@mipmap/rightarrow" />
+                                        </LinearLayout>
+
+                                        <!--  折扣   -->
+                                        <LinearLayout
+                                            android:id="@+id/ll_dis_active"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:visibility="gone">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:background="@drawable/shape_green_detail"
+                                                android:padding="@dimen/size_2dp"
+                                                android:text="折扣"
+                                                android:textColor="#ffffff"
+                                                android:textSize="@dimen/dp_10" />
+
+                                            <TextView
+                                                android:id="@+id/tv_dis"
+                                                android:layout_width="0dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginLeft="@dimen/dp_10"
+                                                android:layout_weight="1"
+                                                android:ellipsize="end"
+                                                android:lines="1"
+                                                android:text="满800元赠送一包小三角薯饼舒适…"
+                                                android:textColor="#333333" />
+
+                                            <ImageView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center_vertical"
+                                                android:layout_marginRight="@dimen/dp_10"
+                                                android:gravity="right"
+                                                android:src="@mipmap/rightarrow" />
                                         </LinearLayout>
 
                                     </LinearLayout>
 
-                                </LinearLayout>
+                                </RelativeLayout>
 
                             </RelativeLayout>
 

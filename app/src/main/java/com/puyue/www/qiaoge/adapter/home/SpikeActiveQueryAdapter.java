@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import androidx.annotation.Nullable;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -92,8 +93,11 @@ public class SpikeActiveQueryAdapter extends BaseQuickAdapter<SeckillListModel.D
         tvSale.setText(item.sales);
         if(!item.spread.equals("")&& !TextUtils.isEmpty(item.spread)) {
             tv_spread.setVisibility(View.VISIBLE);
+            tv_spread.setText(item.spread);
+            tv_spread.setBackgroundResource(R.drawable.shape_orange1);
         }else {
             tv_spread.setVisibility(View.GONE);
+            tv_spread.setBackgroundResource(R.drawable.shape_white1);
         }
         mProgressBar.setProgressDrawable(mContext.getResources().getDrawable(R.drawable.seckill_progress));
         mProgressBar.setProgress(Integer.parseInt(item.progress));
@@ -110,14 +114,26 @@ public class SpikeActiveQueryAdapter extends BaseQuickAdapter<SeckillListModel.D
                 iv_send.setVisibility(View.GONE);
             }
         }
+
+//        if(item.progress.equals("0")) {
+//            tvSale.setVisibility(View.GONE);
+//            mProgressBar.setVisibility(View.GONE);
+//        }else {
+//            tvSale.setVisibility(View.GONE);
+//            mProgressBar.setVisibility(View.GONE);
+//        }
+
         if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
             if(Integer.parseInt(spikeFlag)==0) {
                 //未开始
                 tv_add_remind.setVisibility(View.GONE);
+                mProgressBar.setVisibility(View.GONE);
+                tvSale.setVisibility(View.GONE);
             }else {
                 // 已开始
                 ivSoldOut.setVisibility(View.GONE);
-
+                mProgressBar.setVisibility(View.VISIBLE);
+                tvSale.setVisibility(View.VISIBLE);
                 if(item.soldOut==0) {
                     ivSoldOut.setVisibility(View.GONE);
                     tv_add_remind.setVisibility(View.VISIBLE);

@@ -41,8 +41,8 @@ public class DisSelfDialog extends Dialog {
     TextView tv_name;
     @BindView(R.id.tv_huo)
     TextView tv_huo;
-    @BindView(R.id.tv2)
-    TextView tv2;
+    @BindView(R.id.tv_name2)
+    TextView tv_name2;
     @BindView(R.id.rl_cb1)
     RelativeLayout rl_cb1;
     @BindView(R.id.rl_cb2)
@@ -79,11 +79,11 @@ public class DisSelfDialog extends Dialog {
         tv_name.setText("到仓自提");
         tv_price.setVisibility(View.GONE);
         if(hllBtn==1) {
-            tv2.setTextColor(Color.parseColor("#999999"));
-            tv_huo.setText("(暂未开启货拉拉配送服务)");
+            tv_name2.setTextColor(Color.parseColor("#999999"));
+//            tv_huo.setText("(暂未开启货拉拉配送服务)");
         }else {
-            tv2.setTextColor(Color.parseColor("#333333"));
-            tv_huo.setText("(订单支付后，用户自己发起配送服务)");
+            tv_name2.setTextColor(Color.parseColor("#333333"));
+//            tv_huo.setText("(订单支付后，用户自己发起配送服务)");
         }
 
         rl_cb1.setOnClickListener(new View.OnClickListener() {
@@ -126,8 +126,8 @@ public class DisSelfDialog extends Dialog {
                 }else {
                     isCb2 = true;
                     isCb1 = false;
-                    EventBus.getDefault().post(new DisTributionSelfEvent("我自己叫货拉拉",1));
-                    EventBus.getDefault().post(new DisTributionEvent("我自己叫货拉拉",1));
+                    EventBus.getDefault().post(new DisTributionSelfEvent("买家自己呼叫货拉拉",1));
+                    EventBus.getDefault().post(new DisTributionEvent("买家自己呼叫货拉拉",1));
                     EventBus.getDefault().post(new RefreshEvent());
                     dismiss();
                     rl_cb1.setBackgroundResource(R.drawable.shape_grey9);

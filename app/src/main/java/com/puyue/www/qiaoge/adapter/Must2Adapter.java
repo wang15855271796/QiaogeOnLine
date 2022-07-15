@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -41,6 +42,7 @@ public class Must2Adapter extends BaseQuickAdapter<ProductNormalModel.DataBean.L
     ImageView iv_next;
     View v_champion;
     TextView tv_champion;
+    LinearLayout ll_champion;
     public Must2Adapter(int layoutResId, @Nullable List<ProductNormalModel.DataBean.ListBean> activeList, Onclick onclick) {
         super(layoutResId, activeList);
         this.activesBean = activeList;
@@ -52,6 +54,7 @@ public class Must2Adapter extends BaseQuickAdapter<ProductNormalModel.DataBean.L
     @Override
     protected void convert(BaseViewHolder helper, ProductNormalModel.DataBean.ListBean item) {
         tv_champion = helper.getView(R.id.tv_champion);
+        ll_champion = helper.getView(R.id.ll_champion);
         v_champion = helper.getView(R.id.v_champion);
         iv_next = helper.getView(R.id.iv_next);
         iv_next = helper.getView(R.id.iv_next);
@@ -88,7 +91,7 @@ public class Must2Adapter extends BaseQuickAdapter<ProductNormalModel.DataBean.L
             v_champion.setVisibility(View.GONE);
         }
 
-        tv_champion.setOnClickListener(new View.OnClickListener() {
+        ll_champion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, HotProductActivity.class);

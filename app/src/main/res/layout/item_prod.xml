@@ -21,30 +21,36 @@
 
         <RelativeLayout
             android:id="@+id/rl"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/size_20dp"
-            android:layout_marginTop="@dimen/size_3dp"
-            android:background="@drawable/shape_orange_radius_11"
             android:layout_width="@dimen/size_52dp"
-            android:layout_height="@dimen/size_26dp">
+            android:layout_height="@dimen/size_26dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/size_3dp"
+            android:layout_marginRight="@dimen/size_20dp"
+            android:background="@drawable/shape_orange_radius_11">
 
             <TextView
                 android:id="@+id/tv_expand"
-                android:text="选规格"
-                android:textColor="#fff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="@dimen/size_15dp"
-                android:textSize="@dimen/size_11dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:text="选规格"
+                android:textColor="#fff"
+                android:textSize="@dimen/size_11dp" />
 
         </RelativeLayout>
 
     </RelativeLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewProd"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewProd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </androidx.core.widget.NestedScrollView>
+
 
 </LinearLayout>

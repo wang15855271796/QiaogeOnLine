@@ -184,7 +184,7 @@ public class AppHelper {
 
         mDialog.getWindow().setContentView(R.layout.dialog_authorize);
         TextView tv_sure = mDialog.getWindow().findViewById(R.id.tv_sure);
-        TextView tv_cancel = mDialog.getWindow().findViewById(R.id.tv_cancel);
+        ImageView iv_cancel = mDialog.getWindow().findViewById(R.id.iv_cancel);
         TextView tv_get = mDialog.getWindow().findViewById(R.id.tv_get);
         EditText et_authprize = mDialog.getWindow().findViewById(R.id.et_authprize);
         mDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -195,7 +195,7 @@ public class AppHelper {
             }
         });
 
-        tv_cancel.setOnClickListener(new View.OnClickListener() {
+        iv_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mDialog.dismiss();

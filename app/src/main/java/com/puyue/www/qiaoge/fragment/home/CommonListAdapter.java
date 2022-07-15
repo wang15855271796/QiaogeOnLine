@@ -4,6 +4,7 @@ import android.content.Intent;
 import androidx.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -40,6 +41,7 @@ public class CommonListAdapter extends BaseQuickAdapter<ProductNormalModel.DataB
     ImageView iv_next;
     View v_champion;
     TextView tv_champion;
+    LinearLayout ll_champion;
     public CommonListAdapter(int layoutResId, @Nullable List<ProductNormalModel.DataBean.ListBean> activeList, Onclick onclick) {
         super(layoutResId, activeList);
         this.activesBean = activeList;
@@ -49,6 +51,9 @@ public class CommonListAdapter extends BaseQuickAdapter<ProductNormalModel.DataB
     @Override
     protected void convert(BaseViewHolder helper, ProductNormalModel.DataBean.ListBean item) {
         iv_next = helper.getView(R.id.iv_next);
+        ll_champion = helper.getView(R.id.ll_champion);
+        v_champion = helper.getView(R.id.v_champion);
+        tv_champion =  helper.getView(R.id.tv_champion);
         iv_operate = helper.getView(R.id.iv_operate);
         tv_desc = helper.getView(R.id.tv_desc);
         tv_price = helper.getView(R.id.tv_price);
@@ -80,7 +85,7 @@ public class CommonListAdapter extends BaseQuickAdapter<ProductNormalModel.DataB
             v_champion.setVisibility(View.GONE);
         }
 
-        tv_champion.setOnClickListener(new View.OnClickListener() {
+        ll_champion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, HotProductActivity.class);

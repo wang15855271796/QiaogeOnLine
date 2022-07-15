@@ -4,7 +4,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.puyue.www.qiaoge.R;
@@ -54,7 +57,6 @@ public class ReduceFragment extends BaseFragment {
     SmartRefreshLayout refreshLayout;
     @BindView(R.id.rl_empty)
     RelativeLayout rl_empty;
-    String enjoyProduct;
     int pageNum = 1;
     int pageSize = 10;
     @Override
@@ -89,7 +91,6 @@ public class ReduceFragment extends BaseFragment {
     public void setViewData() {
         refreshLayout.setEnableLoadMore(false);
         rv_reduce.setLayoutManager(new MyGrideLayoutManager(mActivity,2));
-        enjoyProduct = SharedPreferencesUtil.getString(mActivity, "priceType");
         if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
             type = "commonBuy";
             getProductsList(pageNum,11,type);
@@ -97,7 +98,7 @@ public class ReduceFragment extends BaseFragment {
             type = "reduct";
             getProductsList(pageNum,11,type);
         }
-        reduceAdapter = new ReduceAdapter(enjoyProduct,R.layout.item_team_list, list, new ReduceAdapter.Onclick() {
+        reduceAdapter = new ReduceAdapter(R.layout.item_team_list, list, new ReduceAdapter.Onclick() {
             @Override
             public void addDialog() {
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mActivity))) {
@@ -116,7 +117,7 @@ public class ReduceFragment extends BaseFragment {
             }
         });
         rv_reduce.setAdapter(reduceAdapter);
-        rv_reduce.setLayoutManager(new GridLayoutManager(mActivity,2));
+        rv_reduce.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayout.VERTICAL));
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {

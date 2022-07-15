@@ -2,6 +2,8 @@ package com.puyue.www.qiaoge.fragment.market;
 
 import android.content.Intent;
 import androidx.annotation.Nullable;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,7 +33,6 @@ class ProdInnerAdapter extends BaseQuickAdapter<MarketRightModel.DataBean.BrandP
 
     @Override
     protected void convert(BaseViewHolder helper, MarketRightModel.DataBean.BrandProdBean.ListBeanX.ProdClassifyBean.ListBean item) {
-        helper.setText(R.id.tv_name,item.getProductName());
         helper.setText(R.id.tv_sale,item.getSalesVolume());
         ImageView iv_operate = helper.getView(R.id.iv_operate);
         TextView tv_price = helper.getView(R.id.tv_price);
@@ -72,6 +73,6 @@ class ProdInnerAdapter extends BaseQuickAdapter<MarketRightModel.DataBean.BrandP
                 .apply(new RequestOptions().placeholder(R.mipmap.ic_launcher))
                 .apply(new RequestOptions().placeholder(iv_pic.getDrawable()).skipMemoryCache(false).dontAnimate())
                 .into(iv_pic);
-
     }
+
 }
