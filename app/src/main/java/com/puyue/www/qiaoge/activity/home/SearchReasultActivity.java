@@ -158,6 +158,7 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
     }
 
     boolean isClickOpen = false;
+    int num = 1;
     @Override
     public void findViewById() {
         ButterKnife.bind(this);
@@ -229,7 +230,6 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
     }
 
     List<String> list = Arrays.asList("全部", "自营", "非自营");
-    boolean isOpen = false;
     ChoosePopWindow choosePopWindow;
     private void showPopWindow() {
         if(choosePopWindow==null) {
@@ -255,13 +255,12 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                 tv_sale.setTextColor(Color.parseColor("#333333"));
                 tv_price.setTextColor(Color.parseColor("#333333"));
                 iv_direction.setImageResource(R.mipmap.icon_default);
-                Log.d("dwwdasdas......",isOpen+"aa");
-                if(!isOpen) {
-                    iv_arrow.setImageResource(R.mipmap.ic_arrow_up);
-                    isOpen = true;
+                isClickOpen = true;
+                num++;
+                if(isClickOpen) {
+                    iv_arrow.setImageResource(R.mipmap.ic_arrow_down);
                 }else {
                     iv_arrow.setImageResource(R.mipmap.ic_arrow_down);
-                    isOpen = false;
                 }
 
                 if(position==0) {
@@ -282,33 +281,23 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
             }
         });
 
-        Log.d("dwwdasdas......",isOpen+"bb");
         if(!choosePopWindow.isShowing()) {
+            Log.d("dwwdasdas......","aaa");
+            if(!isClickOpen) {
+                iv_arrow.setImageResource(R.mipmap.icon_arrow_up);
+            }else {
+                iv_arrow.setImageResource(R.mipmap.ic_arrow_up);
+            }
             choosePopWindow.showAsDropDown(ll_style,1300,0);
-            if(isOpen) {
-                iv_arrow.setImageResource(R.mipmap.ic_arrow_up);
-            }else {
-                iv_arrow.setImageResource(R.mipmap.icon_arrow_down);
-            }
-
-            isOpen = true;
         }else {
-            isOpen = false;
-            choosePopWindow.dismiss();
-            if(isOpen) {
-                iv_arrow.setImageResource(R.mipmap.ic_arrow_up);
-            }else {
+            Log.d("dwwdasdas......","bbb");
+            if(!isClickOpen) {
                 iv_arrow.setImageResource(R.mipmap.icon_arrow_down);
+            }else {
+                iv_arrow.setImageResource(R.mipmap.ic_arrow_down);
             }
+            choosePopWindow.dismiss();
         }
-
-
-//        if(isOpen) {
-//            iv_arrow.setImageResource(R.mipmap.ic_arrow_up);
-//
-//        }else {
-//            iv_arrow.setImageResource(R.mipmap.ic_arrow_down);
-//        }
     }
 
     private AlertDialog mDialog;
@@ -383,9 +372,19 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.d("swdwdsds....","123");
         EventBus.getDefault().unregister(this);
+
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("swdwdsds....","123456");
+        if(choosePopWindow!=null) {
+            choosePopWindow.dismiss();
+        }
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getTotal(UpDateNumEvent8 upDateNumEvent) {
@@ -547,11 +546,17 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                 isSale = false;
                 dialog.show();
                 getRecommendList();
+                if(choosePopWindow!=null) {
+                    choosePopWindow.dismiss();
+                }
                 break;
 
             case R.id.ll_sale:
                 pageNum = 1;
                 dialog.show();
+                if(choosePopWindow!=null) {
+                    choosePopWindow.dismiss();
+                }
                 iv_arrow.setImageResource(R.mipmap.icon_default);
                 tv_all.setTextColor(Color.parseColor("#333333"));
                 tv_all_data.setTextColor(Color.parseColor("#333333"));
@@ -574,6 +579,9 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                 pageNum = 1;
                 dialog.show();
                 isPrice++;
+                if(choosePopWindow!=null) {
+                    choosePopWindow.dismiss();
+                }
                 iv_arrow.setImageResource(R.mipmap.icon_default);
                 tv_all.setTextColor(Color.parseColor("#333333"));
                 tv_sale.setTextColor(Color.parseColor("#333333"));

@@ -4,7 +4,7 @@
     android:id="@+id/ll_root"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
-    android:layout_height="wrap_content">
+    android:layout_height="106dp">
 
     <LinearLayout
         android:orientation="vertical"

@@ -18,7 +18,7 @@
             android:layout_marginTop="@dimen/size_6dp"
             android:visibility="gone"
             android:id="@+id/ll_skill"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_height="144dp">
@@ -72,7 +72,7 @@
                 android:id="@+id/rv_skill"
                 android:background="#ffffff"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="106dp"/>
 <!--            <com.frankfancode.marqueeview.MarqueeView-->
 <!--                android:id="@+id/rv_skill"-->
 <!--                android:layout_width="match_parent"-->
@@ -131,7 +131,7 @@
             android:layout_marginTop="@dimen/size_6dp"
             android:layout_marginLeft="@dimen/size_7dp"
             android:id="@+id/ll_full"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_height="144dp">

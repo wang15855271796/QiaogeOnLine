@@ -119,7 +119,6 @@ public class EditAddressActivity extends BaseSwipeActivity  {
     private RelativeLayout mLlDefault;
     private CheckBox mCbDefault;
     private Button mBtnConfirm;
-    private NestedScrollView mLlEditAddress;
     private TextView mTvTitle;
     ImageView iv_switch;
     RecyclerView recyclerView;
@@ -133,17 +132,12 @@ public class EditAddressActivity extends BaseSwipeActivity  {
     private BaseModel mModelEditAddress;
     private boolean isDefaultNow = false;
     AVLoadingIndicatorView lav_activity_loading;
-    //private PoiSearch poiSearch= PoiSearch.newInstance();
-//    private SuggestionSearch mSuggestionSearch;
     //  省
     private List<AreaModel.DataBean> options1Items = new ArrayList<>();
     //  市
     private ArrayList<ArrayList<AreaModel.DataBean.ChildrenBeanX>> options2Items = new ArrayList<>();
     //  区
     private ArrayList<ArrayList<ArrayList<AreaModel.DataBean.ChildrenBeanX.ChildrenBean>>> options3Items = new ArrayList<>();
-    private ArrayAdapter<String> sugAdapter = null;
-    private int loadIndex = 0;
-
     private boolean isLoaded = false;
     TextView tv_edit_address_area;
 
@@ -151,23 +145,6 @@ public class EditAddressActivity extends BaseSwipeActivity  {
     private String orderId;
     private String areaName1;
     seatchWatch seatchWatch = new seatchWatch();
-
-    private static class MyHandler extends Handler {
-        private final WeakReference<EditAddressActivity> mActivity;
-
-        public MyHandler(EditAddressActivity activity) {
-            // TODO Auto-generated constructor stub
-            mActivity = new WeakReference<>(activity);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            EditAddressActivity activity = mActivity.get();
-            if (activity != null) {
-            }
-        }
-    }
 
     public static Intent getIntent(Context context, Class<?> cls, String type, String userName, String userPhone, String storeName, String area, String address, String defaultOr, String addressId, String proviceCode, String cityCode, String areaCode,String orderId) {
         Intent intent = new Intent();

@@ -6,10 +6,11 @@
     android:id="@+id/ll_root"
     android:layout_marginTop="@dimen/size_5dp"
     android:layout_marginLeft="@dimen/size_5dp"
-    android:layout_height="wrap_content">
+    android:layout_height="106dp">
 
     <RelativeLayout
         android:layout_width="78dp"
+        android:layout_marginTop="@dimen/size_6dp"
         android:layout_height="wrap_content">
 
         <com.puyue.www.qiaoge.RoundImageView
@@ -26,8 +27,8 @@
             android:layout_height="wrap_content"/>
     </RelativeLayout>
 
-
     <LinearLayout
+        android:layout_marginTop="@dimen/size_6dp"
         android:orientation="vertical"
         android:layout_marginLeft="@dimen/size_12dp"
         android:layout_width="wrap_content"

@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ScrollSpeedLinearLayoutManger extends LinearLayoutManager {
 
-    private float MILLISECONDS_PER_INCH = 0.8f;
+    private float MILLISECONDS_PER_INCH = 2.0f;
     private Context contxt;
     public ScrollSpeedLinearLayoutManger(Context context) {
         super(context);

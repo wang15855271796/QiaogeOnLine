@@ -144,33 +144,27 @@ public class EditAndAddActivity extends BaseSwipeActivity {
         intent.putExtra(ORDERID, orderId);
         return intent;
     }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        handleExtra(savedInstanceState);
-        super.onCreate(savedInstanceState);
-    }
-
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
-        mType = savedInstanceState.getString(TYPE);
-        mUserName = savedInstanceState.getString(USER_NAME);
-        mUserPhone = savedInstanceState.getString(USER_PHONE);
-        mStoreName = savedInstanceState.getString(STORE_NAME);
-        mArea = savedInstanceState.getString(AREA);
-        mAddress = savedInstanceState.getString(ADDRESS);
-        mDefault = savedInstanceState.getString(DEFAULT);
-        mAddressId = savedInstanceState.getString(ADDRESS_ID);
-        mProvinceCode = savedInstanceState.getString(PROVINCE_CODE);
-        mCityCode = savedInstanceState.getString(CITY_CODE);
-        mAreaCode = savedInstanceState.getString(AREA_CODE);
-        orderId = savedInstanceState.getString(ORDERID);
+        mType = getIntent().getStringExtra(TYPE);
+        mUserName = getIntent().getStringExtra(USER_NAME);
+        mUserPhone = getIntent().getStringExtra(USER_PHONE);
+        mStoreName = getIntent().getStringExtra(STORE_NAME);
+        mArea = getIntent().getStringExtra(AREA);
+        mAddress = getIntent().getStringExtra(ADDRESS);
+        mDefault = getIntent().getStringExtra(DEFAULT);
+        mAddressId = getIntent().getStringExtra(ADDRESS_ID);
+        mProvinceCode = getIntent().getStringExtra(PROVINCE_CODE);
+        mCityCode = getIntent().getStringExtra(CITY_CODE);
+        mAreaCode = getIntent().getStringExtra(AREA_CODE);
+        orderId = getIntent().getStringExtra(ORDERID);
         if (savedInstanceState != null) {
             mType = savedInstanceState.getString(TYPE);
             mUserName = savedInstanceState.getString(USER_NAME);
             mUserPhone = savedInstanceState.getString(USER_PHONE);
             mStoreName = savedInstanceState.getString(STORE_NAME);
             mArea = savedInstanceState.getString(AREA);
+
             mAddress = savedInstanceState.getString(ADDRESS);
             mDefault = savedInstanceState.getString(DEFAULT);
             mAddressId = savedInstanceState.getString(ADDRESS_ID);
@@ -179,10 +173,19 @@ public class EditAndAddActivity extends BaseSwipeActivity {
             mAreaCode = savedInstanceState.getString(AREA_CODE);
             orderId = savedInstanceState.getString(ORDERID);
         }
-
+        if(mDefault.equals("false")) {
+            isOpen = false;
+        }else {
+            isOpen = true;
+        }
         return false;
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        handleExtra(savedInstanceState);
+        super.onCreate(savedInstanceState);
+    }
     @Override
     public void setContentView() {
         setContentView(R.layout.activity_edit_address);

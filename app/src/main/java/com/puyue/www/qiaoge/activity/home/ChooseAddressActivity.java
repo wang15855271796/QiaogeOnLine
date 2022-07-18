@@ -66,8 +66,6 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
     private AddressModel mModelAddress;
     @BindView(R.id.tv_area_default)
     TextView tv_area_default;
-    @BindView(R.id.tv_add_area)
-    TextView tv_add_area;
     @BindView(R.id.tv_area)
     TextView tv_area;
     @BindView(R.id.rl_empty)

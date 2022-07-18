@@ -51,7 +51,6 @@ import rx.schedulers.Schedulers;
 public class ChooseAddressDialog extends Dialog {
 
     Activity mContext;
-    ImageView iv_close;
     View view;
     AddressModel mModelAddress;
     private int defaultId = -1;
@@ -91,11 +90,7 @@ public class ChooseAddressDialog extends Dialog {
         rl_add_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(mContext,AddressListActivity.class);
-//                mContext.startActivity(intent);
                 mContext.startActivityForResult(EditAddressActivity.getIntent(mContext, EditAddressActivity.class, "add", "", "", "", "", "", "false", "", "", "", "", orderId), 11);
-//                mContext.startActivity(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "add", "", "", "", "", "", "false", "", "", "", "", orderId));
-//                mContext.startActivityForResult(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "add", "", "", "", "", "", "false", "", "", "", "", ""),11);
                 dismiss();
             }
         });
@@ -137,7 +132,9 @@ public class ChooseAddressDialog extends Dialog {
                                     public void jump(int position) {
                                         dataBean = data0.get(position);
                                         mContext.startActivity(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "edit",
-                                                dataBean.userName, dataBean.contactPhone, dataBean.shopName, (dataBean.provinceName + " " + dataBean.cityName + " " + dataBean.areaName), dataBean.detailAddress, "true", String.valueOf(dataBean.id), dataBean.provinceCode,
+                                                dataBean.userName, dataBean.contactPhone, dataBean.shopName,
+                                                (dataBean.provinceName + " " + dataBean.cityName + " " + dataBean.areaName),
+                                                dataBean.detailAddress, "true", String.valueOf(dataBean.id), dataBean.provinceCode,
                                                 dataBean.cityCode,dataBean.areaCode, orderId));
                                         dismiss();
                                     }

@@ -8,6 +8,8 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 
+import com.tencent.mm.opensdk.utils.Log;
+
 import java.lang.ref.WeakReference;
 
 /**
@@ -25,6 +27,7 @@ public class AutoPollRecyclerView extends RecyclerView {
     public AutoPollRecyclerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
+
         autoPollTask = new AutoPollTask(this);
     }
     static class AutoPollTask implements Runnable {
@@ -35,6 +38,7 @@ public class AutoPollRecyclerView extends RecyclerView {
         }
         @Override
         public void run() {
+
             AutoPollRecyclerView recyclerView = mReference.get();
             if (recyclerView != null && recyclerView.running &&recyclerView.canRun) {
                 recyclerView.smoothScrollToPosition(++recyclerView.index);
@@ -46,6 +50,7 @@ public class AutoPollRecyclerView extends RecyclerView {
 
     //开启:如果正在运行,先停止->再开启
     public void start() {
+        index = 0;
         removeCallbacks(autoPollTask);
         if (running)
             stop();

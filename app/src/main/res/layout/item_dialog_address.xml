@@ -73,12 +73,12 @@
 
         <ImageView
             android:id="@+id/iv_edit"
-            android:layout_marginRight="@dimen/size_15dp"
-            android:layout_alignParentRight="true"
-            android:padding="@dimen/size_10dp"
-            android:src="@mipmap/icon_address_edit"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/size_15dp"
+            android:padding="@dimen/size_10dp"
+            android:src="@mipmap/icon_address_edit" />
 
     </RelativeLayout>
     <View
