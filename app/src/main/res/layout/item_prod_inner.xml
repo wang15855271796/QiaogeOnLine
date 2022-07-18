@@ -20,17 +20,17 @@
             android:layout_height="@dimen/size_82dp" />
 
         <TextView
-            android:singleLine="true"
-            android:ellipsize="end"
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_pic"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="2dp"
-            android:layout_below="@+id/iv_pic"
-            android:id="@+id/tv_name"
-            android:textSize="9sp"
-            android:textColor="#676767"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:text="翘歌玉米蔬菜猪..."
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textColor="#676767"
+            android:textSize="9sp" />
 
         <TextView
             android:layout_marginLeft="12dp"
