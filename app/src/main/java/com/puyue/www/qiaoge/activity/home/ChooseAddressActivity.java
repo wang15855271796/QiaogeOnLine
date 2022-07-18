@@ -109,7 +109,6 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
     public void findViewById() {
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
-//        mSuggestionSearch = SuggestionSearch.newInstance();
         SharedPreferencesUtil.saveInt(mActivity,"isClick",0);
         tv_tip.setOnClickListener(this);
         iv_back.setOnClickListener(this);
@@ -177,23 +176,6 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
                             UserInfoHelper.saveCity(mActivity,list.get(position).getCityName());
                             UserInfoHelper.saveAreaName(mActivity,list.get(position).getAreaName());
                             UserInfoHelper.saveChangeFlag(mActivity,"0");
-
-//                            if(fromPage.equals("0")) {
-//                                if(areaName.equals(list.get(position).getAreaName())) {
-//                                    finish();
-//                                }else {
-//                                    SharedPreferencesUtil.saveInt(mContext,"isClick",1);
-//                                    UserInfoHelper.saveChangeFlag(mContext,1+"");
-                            //接口新改
-//                                Intent intent = new Intent(mContext,HomeActivity.class);//跳回首页
-//                                mActivity.setResult(104,intent);
-//                                mContext.startActivity(intent);
-//                                EventBus.getDefault().post(new setFragmentEvent());
-//                                    EventBus.getDefault().post(new setFragmentsEvent());
-//                                    finish();
-//                                    EventBus.getDefault().post(new CityEvent());
-//                                }
-//                            }else {
                             if(areaName.equals(list.get(position).getAreaName())) {
                                 finish();
                             }else {
@@ -202,7 +184,6 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
                                 //接口新改
                                 Intent intent = new Intent(mContext,HomeActivity.class);//跳回首页
                                 mContext.startActivity(intent);
-//                                    EventBus.getDefault().post(new setFragmentEvent());
                                 EventBus.getDefault().post(new CityEvent());
                                 finish();
                             }

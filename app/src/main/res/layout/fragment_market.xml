@@ -204,14 +204,11 @@
                                         android:layout_height="match_parent"
                                         android:orientation="vertical">
 
-
                                         <com.example.xrecyclerview.XRecyclerView
                                             android:id="@+id/rv_market_detail"
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"
                                             android:background="@color/app_color_white" />
-
-                                        <!--</in.srain.cube.views.ptr.PtrClassicFrameLayout>-->
 
                                         <ImageView
                                             android:id="@+id/iv_market_no_data"
@@ -231,8 +228,6 @@
                                             android:src="@mipmap/ic_no_data"
                                             android:visibility="gone" />
                                     </LinearLayout>
-
-                                    <!--</android.support.v4.widget.NestedScrollView>-->
 
                                 </LinearLayout>
 
@@ -283,8 +278,6 @@
                                             android:text="搜索"
                                             android:textColor="@color/color_333"
                                             android:textSize="13sp" />
-
-
                                     </LinearLayout>
 
                                     <RelativeLayout
