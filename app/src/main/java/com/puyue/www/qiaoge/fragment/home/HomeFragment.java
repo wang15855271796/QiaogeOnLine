@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -308,8 +309,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     LinearLayout ll_skill;
     @BindView(R.id.rv_hot)
     RecyclerView rv_hot;
-    @BindView(R.id.rv_hot1)
-    RecyclerView rv_hot1;
     @BindView(R.id.tv_coupon_more)
     TextView tv_coupon_more;
     @BindView(R.id.verticalBanner)
@@ -919,6 +918,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         rv_skill.setAdapter(vpSkillAdapter);
         if(dataActive.getSpike().getActives().size()>1) {
             rv_skill.start();
+        }else {
+            rv_skill.stop();
         }
 
 //        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
@@ -929,6 +930,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         rv_full.setAdapter(vpFullAdapter);
         if(dataActive.getFullGift().getActives().size()>1) {
             rv_full.start();
+        }else {
+            rv_full.stop();
         }
 
 
@@ -940,6 +943,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         rv_team.setAdapter(vpTeamAdapter);
         if(dataActive.getTeam().getActives().size()>1) {
             rv_team.start();
+        }else {
+            rv_team.stop();
         }
 
 
@@ -951,6 +956,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         rv_discount.setAdapter(vpDiscountAdapter);
         if(dataActive.getSpecial().getActives().size()>1) {
             rv_discount.start();
+        }else {
+            rv_discount.stop();
         }
 
     }
@@ -974,6 +981,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rv_discount.setAdapter(vpDiscountAdapter);
             if(dataActive.getSpecial().getActives().size()>1) {
                 rv_discount.start();
+            }else {
+                rv_discount.stop();
             }
         }
 
@@ -989,15 +998,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
             VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_special,dataActive.getTeam().getActives());
 
-//            Test3Adapter test3Adapter = new Test3Adapter();
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger5 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger5.setOrientation(scrollSpeedLinearLayoutManger5.VERTICAL);
             rv_team.setLayoutManager(scrollSpeedLinearLayoutManger5);
             rv_team.setAdapter(vpTeamAdapter);
             if(dataActive.getTeam().getActives().size()>1) {
                 rv_team.start();
+            }else {
+                rv_team.stop();
             }
-            vpTeamAdapter.notifyDataSetChanged();
         }
 
         if(dataActive.getFullGift()!=null) {
@@ -1018,6 +1027,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rv_full.setAdapter(vpFullAdapter);
             if(dataActive.getFullGift().getActives().size()>1) {
                 rv_full.start();
+            }else {
+                rv_full.stop();
             }
         }
 
@@ -1035,11 +1046,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 //            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger7 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger7.setOrientation(RecyclerView.VERTICAL);
-//            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger7);
-//            rv_skill.setAdapter(vpSkillAdapter);
-//            if(dataActive.getSpike().getActives().size()>1) {
-//                rv_skill.start();
-//            }
+            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger7);
+            rv_skill.setAdapter(vpSkillAdapter);
+            if(dataActive.getSpike().getActives().size()>1) {
+                rv_skill.start();
+            }else {
+                rv_skill.stop();
+            }
         }
     }
 
@@ -1061,11 +1074,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 //            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger8 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger8.setOrientation(RecyclerView.VERTICAL);
-//            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger8);
-//            rv_skill.setAdapter(vpSkillAdapter);
-//            if(dataActive.getSpike().getActives().size()>1) {
-//                rv_skill.start();
-//            }
+            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger8);
+            rv_skill.setAdapter(vpSkillAdapter);
+            if(dataActive.getSpike().getActives().size()>1) {
+                rv_skill.start();
+            }else {
+                rv_skill.stop();
+            }
 
             VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives());
 //            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
@@ -1075,6 +1090,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rv_full.setAdapter(vpFullAdapter);
             if(dataActive.getFullGift().getActives().size()>1) {
                 rv_full.start();
+            }else {
+                rv_full.stop();
             }
         }
 
@@ -1094,11 +1111,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 //            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger10 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger10.setOrientation(RecyclerView.VERTICAL);
-//            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger10);
-//            rv_skill.setAdapter(vpSkillAdapter);
-//            if(dataActive.getSpike().getActives().size()>1) {
-//                rv_skill.start();
-//            }
+            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger10);
+            rv_skill.setAdapter(vpSkillAdapter);
+            if(dataActive.getSpike().getActives().size()>1) {
+                rv_skill.start();
+            }else {
+                rv_skill.stop();
+            }
 
 //            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger11 = new ScrollSpeedLinearLayoutManger(mActivity);
@@ -1108,6 +1127,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rv_team1.setAdapter(vpTeamAdapter);
             if(dataActive.getTeam().getActives().size()>1) {
                 rv_team1.start();
+            }else {
+                rv_team1.stop();
             }
         }
 
@@ -1128,11 +1149,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 //            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger12 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger12.setOrientation(RecyclerView.VERTICAL);
-//            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger12);
-//            rv_skill.setAdapter(vpSkillAdapter);
-//            if(dataActive.getSpike().getActives().size()>1) {
-//                rv_skill.start();
-//            }
+            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger12);
+            rv_skill.setAdapter(vpSkillAdapter);
+            if(dataActive.getSpike().getActives().size()>1) {
+                rv_skill.start();
+            }else {
+                rv_skill.stop();
+            }
 
 //            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger13 = new ScrollSpeedLinearLayoutManger(mActivity);
@@ -1142,6 +1165,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rv_discount1.setAdapter(vpDiscountAdapter);
             if(dataActive.getSpecial().getActives().size()>1) {
                 rv_discount1.start();
+            }else {
+                rv_discount1.stop();
             }
         }
 
@@ -1166,6 +1191,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rv_full1.setAdapter(vpFullAdapter);
             if(dataActive.getFullGift().getActives().size()>1) {
                 rv_full1.start();
+            }else {
+                rv_full1.stop();
             }
 
 //            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
@@ -1176,6 +1203,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rv_team1.setAdapter(vpTeamAdapter);
             if(dataActive.getTeam().getActives().size()>1) {
                 rv_team1.start();
+            }else {
+                rv_team1.stop();
             }
         }
 
@@ -1201,6 +1230,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rv_full1.setAdapter(vpFullAdapter);
             if(dataActive.getFullGift().getActives().size()>1) {
                 rv_full1.start();
+            }else {
+                rv_full1.stop();
             }
 
 //            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
@@ -1211,6 +1242,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rv_discount1.setAdapter(vpDiscountAdapter);
             if(dataActive.getSpecial().getActives().size()>1) {
                 rv_discount1.start();
+            }else {
+                rv_discount1.stop();
             }
         }
 
@@ -1234,6 +1267,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rv_team.setAdapter(vpTeamAdapter);
             if(dataActive.getTeam().getActives().size()>1) {
                 rv_team.start();
+            }else {
+                rv_team.stop();
             }
 
 //            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
@@ -1244,6 +1279,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rv_discount.setAdapter(vpDiscountAdapter);
             if(dataActive.getSpecial().getActives().size()>1) {
                 rv_discount.start();
+            }else {
+                rv_discount.stop();
             }
         }
     }
@@ -1272,6 +1309,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rv_full.setAdapter(vpFullAdapter);
             if(dataActive.getFullGift().getActives().size()>1) {
                 rv_full.start();
+            }else {
+                rv_full.stop();
             }
 
 //            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
@@ -1282,6 +1321,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rv_team.setAdapter(vpTeamAdapter);
             if(dataActive.getTeam().getActives().size()>1) {
                 rv_team.start();
+            }else {
+                rv_team.stop();
             }
 
 //            LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
@@ -1292,6 +1333,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rv_discount.setAdapter(vpDiscountAdapter);
             if(dataActive.getSpecial().getActives().size()>1) {
                 rv_discount.start();
+            }else {
+                rv_discount.stop();
             }
         }
 
@@ -1313,11 +1356,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 //            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger23 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger23.setOrientation(RecyclerView.VERTICAL);
-//            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger23);
-//            rv_skill.setAdapter(vpSkillAdapter);
-//            if(dataActive.getSpike().getActives().size()>1) {
-//                rv_skill.start();
-//            }
+            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger23);
+            rv_skill.setAdapter(vpSkillAdapter);
+            if(dataActive.getSpike().getActives().size()>1) {
+                rv_skill.start();
+            }else {
+                rv_skill.stop();
+            }
 
 //            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger24 = new ScrollSpeedLinearLayoutManger(mActivity);
@@ -1327,9 +1372,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rv_team.setAdapter(vpTeamAdapter);
             if(dataActive.getTeam().getActives().size()>1) {
                 rv_team.start();
+            }else {
+                rv_team.stop();
             }
 
 //            LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+            Log.d("wdsda.........",dataActive.getSpecial().getActives().size()+"aa");
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger25 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger25.setOrientation(RecyclerView.VERTICAL);
             VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives());
@@ -1337,6 +1385,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rv_discount.setAdapter(vpDiscountAdapter);
             if(dataActive.getSpecial().getActives().size()>1) {
                 rv_discount.start();
+            }else {
+                rv_discount.stop();
             }
         }
 
@@ -1358,11 +1408,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 //            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger26 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger26.setOrientation(RecyclerView.VERTICAL);
-//            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger26);
-//            rv_skill.setAdapter(vpSkillAdapter);
-//            if(dataActive.getSpike().getActives().size()>1) {
-//                rv_skill.start();
-//            }
+            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger26);
+            rv_skill.setAdapter(vpSkillAdapter);
+            if(dataActive.getSpike().getActives().size()>1) {
+                rv_skill.start();
+            }else {
+                rv_skill.stop();
+            }
 
             VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives());
 //            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
@@ -1372,6 +1424,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rv_full.setAdapter(vpFullAdapter);
             if(dataActive.getFullGift().getActives().size()>1) {
                 rv_full.start();
+            }else {
+                rv_full.stop();
             }
 
 //            LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
@@ -1382,6 +1436,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rv_discount.setAdapter(vpDiscountAdapter);
             if(dataActive.getSpecial().getActives().size()>1) {
                 rv_discount.start();
+            }else {
+                rv_discount.stop();
             }
         }
 
@@ -1404,11 +1460,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 //            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger29 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger29.setOrientation(RecyclerView.VERTICAL);
-//            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger29);
-//            rv_skill.setAdapter(vpSkillAdapter);
-//            if(dataActive.getSpike().getActives().size()>1) {
-//                rv_skill.start();
-//            }
+            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger29);
+            rv_skill.setAdapter(vpSkillAdapter);
+            if(dataActive.getSpike().getActives().size()>1) {
+                rv_skill.start();
+            }else {
+                rv_skill.stop();
+            }
 
             VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives());
 //            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
@@ -1418,6 +1476,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rv_full.setAdapter(vpFullAdapter);
             if(dataActive.getFullGift().getActives().size()>1) {
                 rv_full.start();
+            }else {
+                rv_full.stop();
             }
 
 //            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
@@ -1428,6 +1488,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rv_team.setAdapter(vpTeamAdapter);
             if(dataActive.getTeam().getActives().size()>1) {
                 rv_team.start();
+            }else {
+                rv_team.stop();
             }
         }
     }
@@ -1593,15 +1655,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
     long start;
     @Override
-    public void onResume() {
-        super.onResume();
-        start = System.currentTimeMillis();
-        getCartNum();
-    }
-
-
-
-    @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if(hidden&&SharedPreferencesUtil.getString(mActivity,"index1").equals("1")&&SharedPreferencesUtil.getString(mActivity,"index2").equals("1")) {
@@ -1615,9 +1668,17 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
 
     @Override
+    public void onResume() {
+        super.onResume();
+        start = System.currentTimeMillis();
+        getCartNum();
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
         banner.stopAutoPlay();
+
 //        rv_skill.stop();
 //        rv_team.stop();
 //        rv_team1.stop();
@@ -2212,9 +2273,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        if(null != rv_team){
-            rv_team.stop();
-        }
     }
 
 

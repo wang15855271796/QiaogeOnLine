@@ -37,10 +37,12 @@ public class MarketSecondAdapter extends BaseQuickAdapter<ClassIfyModel.DataBean
     @Override
     protected void convert(BaseViewHolder helper, ClassIfyModel.DataBean.SecondClassifyBean item) {
         iv_icon = helper.getView(R.id.iv_icon);
+        LinearLayout rl_bg = helper.getView(R.id.rl_bg);
         View iv_point = helper.getView(R.id.iv_point);
         if(helper.getAdapterPosition()==1) {
             iv_icon.setImageResource(R.mipmap.icon_hot);
             iv_icon.setVisibility(View.VISIBLE);
+
         }else if(helper.getAdapterPosition()==2){
             iv_icon.setImageResource(R.mipmap.icon_tip);
             iv_icon.setVisibility(View.VISIBLE);
@@ -55,9 +57,7 @@ public class MarketSecondAdapter extends BaseQuickAdapter<ClassIfyModel.DataBean
         }
 
         TextView tv_name = helper.getView(R.id.tv_name);
-        LinearLayout rl_bg = helper.getView(R.id.rl_bg);
         tv_name.setText(item.getName());
-        RelativeLayout rl = helper.getView(R.id.rl);
         if(selectPosition == helper.getLayoutPosition()) {
             iv_point.setBackgroundColor(Color.parseColor("#FF2925"));
             tv_name.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
@@ -70,133 +70,6 @@ public class MarketSecondAdapter extends BaseQuickAdapter<ClassIfyModel.DataBean
             tv_name.setTextColor(Color.parseColor("#333333"));
             rl_bg.setBackgroundColor(Color.parseColor("#f3f3f3"));
         }
-//        RecyclerView recyclerView = helper.getView(R.id.recyclerViews);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-//        InnerAdapter innerAdapter = new InnerAdapter(R.layout.item_inner,item.getSecondClassify());
-//        if(fromId.equals("")) {
-//            if(selectPosition==helper.getLayoutPosition()) {
-//                tv_name.setTextColor(Color.parseColor("#333333"));
-//                tv_name.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-//                tv_name.setTextSize(14);
-//                if(pos != helper.getLayoutPosition()) {
-//                    pos = helper.getLayoutPosition();
-//
-//                    if(item.getSecondClassify()==null) {
-//                        recyclerView.setVisibility(View.GONE);
-//                    }else {
-//                        if(opens) {
-//                            if(recyclerView.getVisibility()==View.VISIBLE) {
-//                                recyclerView.setVisibility(View.GONE);
-//
-//                            }else {
-//                                recyclerView.setVisibility(View.VISIBLE);
-//                            }
-//                            opens = false;
-//                        }else {
-//                            recyclerView.setVisibility(View.VISIBLE);
-//                            open = true;
-//
-//                        }
-//                    }
-//                }else {
-//                    pos = helper.getLayoutPosition();
-//                    if(item.getSecondClassify()==null) {
-//                        recyclerView.setVisibility(View.GONE);
-//                    }else {
-//                        if(open) {
-//                            recyclerView.setVisibility(View.GONE);
-//                            open = false;
-//                        }else {
-//                            recyclerView.setVisibility(View.VISIBLE);
-//                            open = true;
-//                        }
-//                    }
-//                }
-//
-//
-//                rl_bg.setBackgroundResource(R.drawable.hh);
-//                rl.setVisibility(View.GONE);
-//                rl_bg.setPadding(0,0,0,0);
-//
-//            }else {
-////                recyclerView.setVisibility(View.GONE);
-////                rl.setVisibility(View.VISIBLE);
-////                rl_bg.setBackgroundColor(Color.parseColor("#ffffff"));
-////                tv_name.setTextColor(Color.parseColor("#676767"));
-////                tv_name.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-////                tv_name.setTextSize(12);
-////                rl.setBackgroundColor(Color.parseColor("#F8F8F8"));
-//
-//                recyclerView.setVisibility(View.GONE);
-//                rl.setVisibility(View.VISIBLE);
-//                rl_bg.setBackgroundColor(Color.parseColor("#00000000"));
-//                tv_name.setTextColor(Color.parseColor("#676767"));
-//                tv_name.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-//                tv_name.setTextSize(12);
-//                rl.setBackgroundColor(Color.parseColor("#f4f4f4"));
-//
-//            }
-//        }else {
-//            if(fromId.equals(item.getFirstId()+"")) {
-//                int layoutPosition = helper.getLayoutPosition();
-//                tv_name.setTextColor(Color.parseColor("#333333"));
-//                tv_name.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-//                tv_name.setTextSize(14);
-//                rl_bg.setBackgroundResource(R.drawable.hh);
-//                rl.setVisibility(View.GONE);
-//                rl_bg.setPadding(0,0,0,0);
-//                if(item.getSecondClassify()==null) {
-//                    onPositionListener.getPos(layoutPosition, fromId,0);
-//                }else {
-//                    onPositionListener.getPos(layoutPosition,fromId,item.getSecondClassify().get(0).getSecondId());
-//                }
-//                if(pos != helper.getLayoutPosition()) {
-//                    pos = helper.getLayoutPosition();
-//                    if(item.getSecondClassify()==null) {
-//                        recyclerView.setVisibility(View.GONE);
-//
-//                    }else {
-//                        recyclerView.setVisibility(View.VISIBLE);
-//                        opens = true;
-//                        //-----------------
-//
-//                    }
-//                }else {
-//                    recyclerView.setVisibility(View.VISIBLE);
-//                    opens = true;
-//
-//                }
-//
-//            }else {
-//                Log.d("wdadasssdrrrrr....","7777");
-//                recyclerView.setVisibility(View.GONE);
-//                rl.setVisibility(View.VISIBLE);
-//                rl_bg.setBackgroundColor(Color.parseColor("#00000000"));
-//                tv_name.setTextColor(Color.parseColor("#676767"));
-//                tv_name.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-//                tv_name.setTextSize(12);
-//                rl.setBackgroundColor(Color.parseColor("#f4f4f4"));
-//
-//            }
-//    }
-
-
-//        recyclerView.setAdapter(innerAdapter);
-//        innerAdapter.setOnItemChildClickListener(new OnItemChildClickListener() {
-//            @Override
-//            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-//                switch (view.getId()) {
-//                    case R.id.ll_bg:
-//
-//                        innerAdapter.selectPosition(position);
-//                        if(mOnEventClickListener!=null) {
-//                            mOnEventClickListener.onEventClick(position,item.getSecondClassify().get(position).getSecondId());
-//                        }
-//                        break;
-//                }
-//
-//            }
-//        });
 
         if (onItemClickListener != null) {
             rl_bg.setOnClickListener(new View.OnClickListener() {
@@ -209,10 +82,6 @@ public class MarketSecondAdapter extends BaseQuickAdapter<ClassIfyModel.DataBean
         }
     }
 
-    public void selectId(String fromId) {
-        this.fromId = fromId;
-        notifyDataSetChanged();
-    }
 
     public interface OnPositionListener {
         void getPos(int position,String firstId,int secondId);

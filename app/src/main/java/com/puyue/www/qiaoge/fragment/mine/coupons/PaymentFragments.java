@@ -245,8 +245,6 @@ public class PaymentFragments extends DialogFragment {
         if(outTradeNo!=null&&jumpWx==0) {
             getPayResult(outTradeNo);
         }
-
-
     }
 
     // 支付

@@ -282,7 +282,6 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
         });
 
         if(!choosePopWindow.isShowing()) {
-            Log.d("dwwdasdas......","aaa");
             if(!isClickOpen) {
                 iv_arrow.setImageResource(R.mipmap.icon_arrow_up);
             }else {
@@ -290,7 +289,6 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
             }
             choosePopWindow.showAsDropDown(ll_style,1300,0);
         }else {
-            Log.d("dwwdasdas......","bbb");
             if(!isClickOpen) {
                 iv_arrow.setImageResource(R.mipmap.icon_arrow_down);
             }else {
@@ -372,7 +370,6 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d("swdwdsds....","123");
         EventBus.getDefault().unregister(this);
 
     }
@@ -380,7 +377,6 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d("swdwdsds....","123456");
         if(choosePopWindow!=null) {
             choosePopWindow.dismiss();
         }

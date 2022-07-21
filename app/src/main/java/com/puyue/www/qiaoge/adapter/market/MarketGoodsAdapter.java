@@ -47,7 +47,6 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
     private TextView tv_price;
     ImageView iv_after_next;
     ImageView iv_operate;
-    RelativeLayout rl_spec;
     public MarketGoodsAdapter( int layoutResId, @Nullable List<MarketRightModel.DataBean.ProdClassifyBean.ListBean> data, Onclick onclick) {
         super(layoutResId, data);
         this.onclick = onclick;
@@ -179,19 +178,6 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
                         onclick.addDialog();
                     }
                 }
-
-
-
-
-//                if(onclick!=null) {
-//                    onclick.addDialog();
-//                }
-//
-//                if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-//                    marketGialog = new MarketGialog(mContext, item);
-//                    marketGialog.show();
-//
-//                }
             }
         });
         TextView tv_choose_spec = helper.getView(R.id.tv_choose_spec);

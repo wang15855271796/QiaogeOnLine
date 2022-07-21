@@ -222,18 +222,18 @@ public class AppHelper {
 
                     @Override
                     public void onError(Throwable e) {
-
                     }
 
                     @Override
                     public void onNext(AuthModel indexInfoModel) {
+
                         if (indexInfoModel.getCode()==1) {
                             ToastUtil.showSuccessMsg(context,indexInfoModel.getMessage());
                             Intent intent = new Intent(context,HomeActivity.class);//跳回首页
                             context.startActivity(intent);
                             EventBus.getDefault().post(new CityEvent());
                             mDialog.dismiss();
-                        }else if(indexInfoModel.getCode()==10005) {
+                        }else if(indexInfoModel.getCode()==100005) {
                             ErrorAuthDialog errorAuthDialog = new ErrorAuthDialog(context,indexInfoModel.getData()) {
                                 @Override
                                 public void Confirm(String amount) {

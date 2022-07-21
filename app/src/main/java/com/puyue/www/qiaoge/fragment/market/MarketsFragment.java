@@ -84,6 +84,10 @@ import com.puyue.www.qiaoge.utils.Time;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.FlowLayout;
 import com.puyue.www.qiaoge.view.selectmenu.MyListView;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -593,7 +597,6 @@ public class MarketsFragment extends BaseFragment {
         }
     }
 
-
     class popupDismissListener implements PopupWindow.OnDismissListener {
         @Override
         public void onDismiss() {
@@ -616,7 +619,7 @@ public class MarketsFragment extends BaseFragment {
                 .subscribe(new Subscriber<MarketRightModel>() {
                     @Override
                     public void onCompleted() {
-                        mRvDetail.refreshComplete();
+//                        mRvDetail.refreshComplete();
                     }
 
                     @Override
@@ -773,7 +776,6 @@ public class MarketsFragment extends BaseFragment {
         //刷新数据
         lav_activity_loading.show();
         getSearchProd();
-        getData();
         requestGoodsList("");
     }
 
@@ -804,15 +806,9 @@ public class MarketsFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 //刷新
-                if (isCheck) {
-                    pageNum = 1;
-                    hasPage  = true;
-                    getData();
-                } else {
-                    pageNum = 1;
-                    hasPage  = true;
-                    getData();
-                }
+                pageNum = 1;
+                hasPage  = true;
+                getData();
             }
 
             @Override
@@ -821,6 +817,7 @@ public class MarketsFragment extends BaseFragment {
                     pageNum++;
                     getData();
                 } else {
+                    pageNum = 1;
                     if(scrollPosition != mListSecondNow.size()-1) {
                         hasPage = false;
                         scrollPosition++;
@@ -855,15 +852,9 @@ public class MarketsFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 //刷新
-                if (isCheck) {
-                    pageNum = 1;
-                    getData();
-                    hasPage = true;
-                } else {
-                    pageNum = 1;
-                    getData();
-                    hasPage  = true;
-                }
+                pageNum = 1;
+                getData();
+                hasPage = true;
 
             }
 
@@ -1019,7 +1010,6 @@ public class MarketsFragment extends BaseFragment {
                     @Override
                     public void onNext(ClassIfyModel marketGoodsModel) {
                         if (marketGoodsModel.getCode()==1) {
-
                             mList.clear();
                             mListSecondNow.clear();
                             if(marketGoodsModel.getData()!=null && marketGoodsModel.getData().size() >0) {
@@ -1056,7 +1046,6 @@ public class MarketsFragment extends BaseFragment {
                                     firstAdapter.notifyDataSetChanged();
 
                                 }
-
 
 //                                mFirstCode = data.get(selectPosition).getFirstId();
 //                                mSecondCode =data.get(selectPosition).getSecondClassify().get(scrollPosition).getSecondId();
@@ -1105,6 +1094,7 @@ public class MarketsFragment extends BaseFragment {
                 if(pageNum==1) {
                     mListGoods.clear();
                     mListGoods.addAll(mModelMarketGoods.getData().getProdClassify().getList());
+                    mAdapterMarketDetail.setNewData(mListGoods);
                     mAdapterMarketDetail.notifyDataSetChanged();
                 }else {
                     mListGoods.addAll(mModelMarketGoods.getData().getProdClassify().getList());
@@ -1143,12 +1133,9 @@ public class MarketsFragment extends BaseFragment {
             if (mModelMarketGoods.getData().getBrandProd().isHasNextPage()) {
                 hasPage = true;
                 rv_prod_detail.noMoreLoading(false);
-                Log.d("wdasdwds.....","11111");
             } else {
                 hasPage = false;
                 rv_prod_detail.noMoreLoading(true);
-
-                Log.d("wdasdwds.....","22222");
             }
             rv_prod_detail.refreshComplete();
         }

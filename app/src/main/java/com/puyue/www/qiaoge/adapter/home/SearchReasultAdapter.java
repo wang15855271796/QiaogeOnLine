@@ -50,7 +50,6 @@ public class SearchReasultAdapter extends BaseQuickAdapter<SearchResultsModel.Da
 
     @Override
     protected void convert(BaseViewHolder helper, SearchResultsModel.DataBean.SearchProdBean.ListBean item) {
-        Log.d("Sfewdsffd.....","123");
         iv_operate = helper.getView(R.id.iv_operate);
         ImageView iv_no_data = helper.getView(R.id.iv_no_data);
         TextView tv_style = helper.getView(R.id.tv_style);

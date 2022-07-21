@@ -66,26 +66,26 @@ public class AutoPollRecyclerView extends RecyclerView {
     public boolean onTouchEvent(MotionEvent ev) {
         switch (ev.getAction()){
             case MotionEvent.ACTION_DOWN:
+                Log.d("sdwdddddddddd....",index+"aaa");
                 lastX = (int) ev.getRawX();
-                if (running)
-                    stop();
-
                 if (running)
                     stop();
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_OUTSIDE:
-                int nowX = (int) ev.getRawX();
-                if(lastX-nowX>10) {
-                    smoothScrollToPosition(++index);
+                Log.d("sdwdddddddddd....",index+"bbb");
+//                int nowX = (int) ev.getRawX();
+//                if(lastX-nowX>10) {
+//                    smoothScrollToPosition(++index);
+//
+//                }
 
-                }
-
-                if(nowX-lastX>10) {
-                    smoothScrollToPosition(index ==0 ?0 : --index);
-                }
-                if (canRun)
+//                if(nowX-lastX>10) {
+//                    smoothScrollToPosition(index ==0 ?0 : --index);
+//                }
+//                if (canRun)
+                index = 0;
                     start();
                 break;
         }

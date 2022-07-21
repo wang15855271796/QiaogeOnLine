@@ -239,7 +239,6 @@ public class SnapUpCountDownTimerViews extends LinearLayout {
 
 
         if (nowTime < startTime) {
-            Log.d("desfsdf.....","1");
             //实时小于开始时间,活动未开始
             if (type == 1) {
                 tvTimeTipe.setVisibility(VISIBLE);
@@ -253,7 +252,6 @@ public class SnapUpCountDownTimerViews extends LinearLayout {
             timePoor = startTime - nowTime;
             changeTimeType(timePoor);
         } else if (nowTime > endTime) {
-            Log.d("desfsdf.....","2");
             if (type == 1) {
                 tv_state.setText("");
 
@@ -263,7 +261,6 @@ public class SnapUpCountDownTimerViews extends LinearLayout {
             setTime(0, 0, 0);
 
         } else {
-            Log.d("desfsdf.....","3");
             if (type == 1) {
                 tv_state.setText("");
             } else {
@@ -401,7 +398,6 @@ public class SnapUpCountDownTimerViews extends LinearLayout {
      * 将毫秒差转化为时分秒
      */
     private void changeTimeType(long timePoor) {
-        Log.d("sfsfsf....",timePoor+"");
         if (timePoor <= 60000) {
             //时间差小于60秒
             setTime(0, 0, (int) timePoor / 1000);

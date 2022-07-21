@@ -190,7 +190,6 @@ public class CouponsNotUseFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getList(CityEvent cityEvent) {
-        Log.d("wfsdfdfdsf.......","qwwe");
 //        requestMyCoupons();
         ptrClassicFrameLayout.autoRefresh();
     }
