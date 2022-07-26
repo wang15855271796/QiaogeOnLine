@@ -153,10 +153,10 @@ public class AddressListActivity extends BaseSwipeActivity {
                 } else if (flag.equals("edit")) {
                     if (mListData.get(position).isDefault == 1) {
                         //原本是默认地址
-                        startActivityForResult(EditAddressActivity.getIntent(mContext, EditAddressActivity.class, "edit", mListData.get(position).userName, mListData.get(position).contactPhone, mListData.get(position).shopName, (mListData.get(position).provinceName + " " + mListData.get(position).cityName + " " + mListData.get(position).areaName), mListData.get(position).detailAddress, "true", String.valueOf(mListData.get(position).id), mListData.get(position).provinceCode, mListData.get(position).cityCode, mListData.get(position).areaCode, orderId), 22);
+                        startActivityForResult(EditAddressActivity.getIntent(mContext, EditAddressActivity.class, "edit", mListData.get(position).userName, mListData.get(position).contactPhone, mListData.get(position).shopName, mListData.get(position).cityName, mListData.get(position).detailAddress, "true", String.valueOf(mListData.get(position).id), mListData.get(position).provinceCode, mListData.get(position).cityCode, mListData.get(position).areaCode, orderId), 22);
                     } else if (mListData.get(position).isDefault == 0) {
                         //原本不是默认地址
-                        startActivityForResult(EditAddressActivity.getIntent(mContext, EditAddressActivity.class, "edit", mListData.get(position).userName, mListData.get(position).contactPhone, mListData.get(position).shopName, (mListData.get(position).provinceName + " " + mListData.get(position).cityName + " " + mListData.get(position).areaName), mListData.get(position).detailAddress, "false", String.valueOf(mListData.get(position).id), mListData.get(position).provinceCode, mListData.get(position).cityCode, mListData.get(position).areaCode, orderId), 22);
+                        startActivityForResult(EditAddressActivity.getIntent(mContext, EditAddressActivity.class, "edit", mListData.get(position).userName, mListData.get(position).contactPhone, mListData.get(position).shopName, mListData.get(position).cityName, mListData.get(position).detailAddress, "false", String.valueOf(mListData.get(position).id), mListData.get(position).provinceCode, mListData.get(position).cityCode, mListData.get(position).areaCode, orderId), 22);
                     }
                 }
             }

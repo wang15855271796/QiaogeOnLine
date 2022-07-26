@@ -123,7 +123,6 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 requestEditDefaultAddress(list.get(position).id,null,position);
                 areaName = getIntent().getStringExtra("areaName");
-
                 finish();
             }
         });
@@ -180,17 +179,13 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
                                 finish();
                             }else {
                                 SharedPreferencesUtil.saveInt(mContext,"isClick",1);
-                                UserInfoHelper.saveChangeFlag(mContext,1+"");
+                                UserInfoHelper.saveChangeFlag(mContext,0+"");
                                 //接口新改
                                 Intent intent = new Intent(mContext,HomeActivity.class);//跳回首页
                                 mContext.startActivity(intent);
                                 EventBus.getDefault().post(new CityEvent());
                                 finish();
                             }
-//                            }
-
-
-
                         } else {
                             AppHelper.showMsg(mContext, baseModel.message);
                         }

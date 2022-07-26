@@ -194,7 +194,6 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
             }
         });
         setContentView(R.layout.activity_home);
-
     }
 
     @Override
@@ -220,7 +219,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         mTvMine = (TextView) findViewById(R.id.tv_tab_bar_mine_title);
         mTvCarNum = (TextView) findViewById(R.id.tv_home_car_number);
         rootview = findViewById(R.id.rootview);
-
+        switchTab(TAB_HOME);
     }
 
 
@@ -240,7 +239,6 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
 
         guide = UserInfoHelper.getGuide(mActivity);
         UserInfoHelper.saveChangeFlag(mContext,0+"");
-        switchTab(TAB_HOME);
 }
 
     private void sendLocation() {
@@ -784,8 +782,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         }
         type = "";
         locationMessage = location.getAddress();    //获取详细地址信息
-
-        switchTab(TAB_HOME);
+//        switchTab(TAB_HOME);
         instance.removeUpdates(this);
         if (token != null) {
             sendLocation();

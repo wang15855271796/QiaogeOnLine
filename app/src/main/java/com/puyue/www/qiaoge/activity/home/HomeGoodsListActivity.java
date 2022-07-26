@@ -324,7 +324,11 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
                                 mAdapterNewSpike.selectPosition(pos);
                                 spikeActiveQuery(mListSpikeNew.get(pos).getActiveId());
                                 currentPosition = pos;
-
+                                if(data.get(currentPosition).getFlag()==1) {
+                                    tv_desc.setText("距离本场活动结束");
+                                }else {
+                                    tv_desc.setText("距离本场活动开始");
+                                }
                                 long startTime = data.get(currentPosition).getStartTime();
                                 long endTime = data.get(currentPosition).getEndTime();
                                 long currentTime = data.get(currentPosition).getCurrentTime();

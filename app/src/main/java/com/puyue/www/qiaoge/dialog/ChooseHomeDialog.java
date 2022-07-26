@@ -135,7 +135,7 @@ public class ChooseHomeDialog extends Dialog {
                                     @Override
                                     public void jump(int position) {
                                         dataBean = data0.get(position);
-                                        mContext.startActivity(EditAddressActivity.getIntent(mContext, EditAddressActivity.class, "edit", dataBean.userName, dataBean.contactPhone, dataBean.shopName, (dataBean.provinceName + " " + dataBean.cityName + " " + dataBean.areaName), dataBean.detailAddress, "false", String.valueOf(dataBean.id), dataBean.provinceCode,
+                                        mContext.startActivity(EditAddressActivity.getIntent(mContext, EditAddressActivity.class, "edit", dataBean.userName, dataBean.contactPhone, dataBean.shopName, dataBean.cityName, dataBean.detailAddress, "false", String.valueOf(dataBean.id), dataBean.provinceCode,
                                                 dataBean.cityCode,dataBean.areaCode, orderId));
                                         dismiss();
                                     }

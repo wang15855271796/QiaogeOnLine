@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
@@ -133,6 +134,7 @@ public class XRecyclerView extends RecyclerView {
             loadMoreComplete();
         } else {
             mRefreshHeader.refreshComplate();
+
         }
     }
 
@@ -146,6 +148,7 @@ public class XRecyclerView extends RecyclerView {
     @Override
     public void onScrollStateChanged(int state) {
         super.onScrollStateChanged(state);
+//        Log.d("wdasdw..........",state+"---"+mLoadingListener+"---"+isLoadingData+"---"+loadingMoreEnabled);
         //滚动是否停止 是否有监听 是否需要加载更多 没有正在加载数据
         if (state == RecyclerView.SCROLL_STATE_IDLE && mLoadingListener != null && !isLoadingData && loadingMoreEnabled) {
             LayoutManager layoutManager = getLayoutManager();
@@ -159,8 +162,8 @@ public class XRecyclerView extends RecyclerView {
             } else {
                 lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
             }
-            if (layoutManager.getChildCount() > 0
-                    && lastVisibleItemPosition >= layoutManager.getItemCount() - 1 && layoutManager.getItemCount() > layoutManager.getChildCount() && !isnomore && mRefreshHeader.getState() < YunRefreshHeader.STATE_REFRESHING) {
+
+            if (layoutManager.getChildCount() > 0 && lastVisibleItemPosition >= layoutManager.getItemCount() - 1 && layoutManager.getItemCount() > layoutManager.getChildCount() && !isnomore && mRefreshHeader.getState() < YunRefreshHeader.STATE_REFRESHING) {
 
                 View footView = mFootViews.get(0);
                 isLoadingData = true;
@@ -171,6 +174,7 @@ public class XRecyclerView extends RecyclerView {
                 }
                 if (CheckNetwork.isNetworkConnected(getContext())) {
                     mLoadingListener.onLoadMore();
+
                 } else {
                     postDelayed(new Runnable() {
                         @Override
@@ -179,6 +183,8 @@ public class XRecyclerView extends RecyclerView {
                         }
                     }, 1000);
                 }
+            }else {
+                mLoadingListener.onLoadMore();
             }
         }
 

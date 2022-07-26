@@ -26,7 +26,6 @@ public class MarketSecondAdapter extends BaseQuickAdapter<ClassIfyModel.DataBean
     OnEventClickListener mOnEventClickListener;
     com.puyue.www.qiaoge.listener.OnItemClickListener onItemClickListener;
     private ImageView iv_icon;
-    String fromId = "";
 
     public MarketSecondAdapter(int layoutResId, @Nullable List<ClassIfyModel.DataBean.SecondClassifyBean> data) {
         super(layoutResId, data);

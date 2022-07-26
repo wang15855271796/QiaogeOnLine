@@ -813,10 +813,12 @@ public class MarketsFragment extends BaseFragment {
 
             @Override
             public void onLoadMore() {
+
                 if (hasPage) {
                     pageNum++;
                     getData();
                 } else {
+                    Log.d("wdasdsdw.........",hasPage+"aaa");
                     pageNum = 1;
                     if(scrollPosition != mListSecondNow.size()-1) {
                         hasPage = false;
@@ -848,6 +850,8 @@ public class MarketsFragment extends BaseFragment {
                 }
             }
         });
+
+
         rv_prod_detail.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
@@ -860,18 +864,19 @@ public class MarketsFragment extends BaseFragment {
 
             @Override
             public void onLoadMore() {
-                Log.d("wdasdwds.....","33333");
                 if(hasPage) {
                     pageNum++;
                     getData();
                 }else {
+                    pageNum = 1;
                     hasPage = false;
                     scrollPosition++;
                     mAdapterMarketSecond.selectPosition(scrollPosition);
-                    mSecondCode = -5;
+                    mSecondCode = mListSecondNow.get(scrollPosition).getSecondId();;
                     ll_prod.setVisibility(View.GONE);
                     ll_select.setVisibility(View.VISIBLE);
                     rv_prod_detail.noMoreLoading(true);
+                    getData();
                 }
             }
         });

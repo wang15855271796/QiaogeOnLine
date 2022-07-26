@@ -140,13 +140,14 @@ public class MapOrderMessageActivity extends BaseSwipeActivity {
         tv_send_order = findViewById(R.id.tv_send_order);
         iv_back = findViewById(R.id.iv_back);
         mapss = supportMapFragment.getMap();
-
+        
     }
 
 
 
     @Override
     public void setViewData() {
+
         orderId = getIntent().getStringExtra("orderId");
         timer.schedule(task, 0, 60 * 1000);
         //获取物流信息
@@ -225,19 +226,34 @@ public class MapOrderMessageActivity extends BaseSwipeActivity {
                             payTime = getOrderDriverModel.getData().getPayTime();
                             receiveTime = getOrderDriverModel.getData().getReceiveTime();
                             sendTime = getOrderDriverModel.getData().getSendTime();
-                            finishTime = getOrderDriverModel.getData().getFinishTime()+"s";
-                            tv_wait_order.setText(returnDate(payTime));
-                            tv_wait_send_date.setText(returnDate(receiveTime));
-                            tv_already_send_date.setText(returnDate(sendTime));
-                            tv_wait_month.setText(returnMonth(payTime));
-                            tv_wait_send_month.setText(returnMonth(receiveTime));
-                            tv_already_send_month.setText(returnMonth(sendTime));
-                            tv_driver_name.setText("配送员：" + getOrderDriverModel.getData().getDriverName());
-                            tv_driver_phone.setText(getOrderDriverModel.getData().getDriverPhone());
-                            tv_send_month.setText(returnMonth(sendTime));
-                            tv_send_date.setText(returnDate(sendTime));
+                            finishTime = getOrderDriverModel.getData().getFinishTime();
+                            if(null!=receiveTime) {
+                                tv_wait_send_date.setText(returnDate(receiveTime));
+                                tv_wait_send_month.setText(returnMonth(receiveTime));
+                            }
 
-                            if (finishTime != null) {
+                            if(null!=sendTime) {
+                                tv_already_send_date.setText(returnDate(sendTime));
+                                tv_already_send_month.setText(returnMonth(sendTime));
+                                tv_send_month.setText(returnMonth(sendTime));
+                                tv_send_date.setText(returnDate(sendTime));
+                            }
+                            if(null!=payTime) {
+                                tv_wait_order.setText(returnDate(payTime));
+                                tv_wait_month.setText(returnMonth(payTime));
+                            }
+
+                            if(null!=getOrderDriverModel.getData().getDriverName()) {
+                                tv_driver_name.setText("配送员：" + getOrderDriverModel.getData().getDriverName());
+                            }
+
+
+                            if(null!=getOrderDriverModel.getData().getDriverPhone()) {
+                                tv_driver_phone.setText(getOrderDriverModel.getData().getDriverPhone());
+                            }
+
+
+                            if (null!= finishTime) {
                                 //  tv_send_date.setText(returnDate(finishTime));
                                 tv_confirm_date.setText(returnDate(finishTime));
                                 // tv_send_month.setText(returnMonth(finishTime));
@@ -258,9 +274,7 @@ public class MapOrderMessageActivity extends BaseSwipeActivity {
 
                             listBeans.clear();
                             addressDetail = getOrderDriverModel.getData().getAddressDetail();
-
                             listBeans.addAll(getOrderDriverModel.getData().getUserLocationVOList());
-
                             showPoint();
                             if(getOrderDriverModel.getData().getUserLocationVOList()!=null&&getOrderDriverModel.getData().getAddressDetail()!=null) {
                                 geocoder(getOrderDriverModel.getData().getUserLocationVOList(),getOrderDriverModel.getData().getAddressDetail());
@@ -316,7 +330,6 @@ public class MapOrderMessageActivity extends BaseSwipeActivity {
 
             @Override
             public void onFailure(int i, String s, Throwable throwable) {
-                Log.d("xsdfsfef......",i+s+"123");
             }
         });
 
@@ -395,12 +408,14 @@ public class MapOrderMessageActivity extends BaseSwipeActivity {
 //                                0f));
 //                //移动地图
 //                mapss.moveCamera(cameraSigma);
+                Log.d("wdsdsdddddddd.....","111");
                 getWalkingRoute(userLocationVOList,latLng);
             }
 
             @Override
             public void onFailure(int arg0, String arg1, Throwable arg2) {
-                Log.e("test", "error code:" + arg0 + ", msg:" + arg1);
+                Log.d("wdsdsdddddddd.....","222");
+//                Log.e("test", "error code:" + arg0 + ", msg:" + arg1);
             }
         });
     }

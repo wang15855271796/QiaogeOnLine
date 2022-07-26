@@ -29,6 +29,7 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -857,6 +858,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         if(dataActive.getSpike()!=null) {
             num++;
         }
+        Log.d("wdasadsa....",num+"aa");
         switch (num) {
             case 0:
                 ll_two.setVisibility(View.GONE);
@@ -1184,7 +1186,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_team_bg1.setBackgroundResource(R.mipmap.bg_team);
 
             VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives());
-//            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger14 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger14.setOrientation(RecyclerView.VERTICAL);
             rv_full1.setLayoutManager(scrollSpeedLinearLayoutManger14);
@@ -1195,7 +1196,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 rv_full1.stop();
             }
 
-//            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger15 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger15.setOrientation(RecyclerView.VERTICAL);
             VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives());
@@ -1284,7 +1284,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             }
         }
     }
-
 
     private void getThree(CouponModels.DataBean dataActive) {
         //秒杀为空
@@ -1678,14 +1677,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     public void onStop() {
         super.onStop();
         banner.stopAutoPlay();
-
-//        rv_skill.stop();
-//        rv_team.stop();
-//        rv_team1.stop();
-//        rv_discount.stop();
-//        rv_discount1.stop();
-//        rv_full.stop();
-//        rv_full1.stop();
         if(SharedPreferencesUtil.getString(mActivity,"index").equals("1")) {
             long end = (System.currentTimeMillis()-start)/1000;
             long time = Time.getTime(end);
@@ -1994,22 +1985,26 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                                 classifyLists = indexInfoModel.getData().getClassifyList();
                                 classifyList.addAll(classifyLists);
                                 rvIconAdapter = new RvIconAdapter(R.layout.item_home_icon,classifyList);
+                                ViewGroup.LayoutParams lp = rv_icon.getLayoutParams();
                                 if(classifyList.size()>0) {
                                     rv_icon.setVisibility(View.VISIBLE);
                                     if(classifyList.size()==5||classifyList.size()==9||classifyList.size()==10) {
                                         GridLayoutManager gridLayoutManager1 = new GridLayoutManager(mActivity,5);
                                         rv_icon.setLayoutManager(gridLayoutManager1);
                                         rv_icon.setAdapter(rvIconAdapter);
+                                        lp.height = DensityUtil.dip2px(60 * 1,getActivity());
                                         indicator.setVisibility(View.GONE);
                                     }else if(classifyList.size()<=4||classifyList.size()<=8 &&classifyList.size()!=5){
                                         GridLayoutManager gridLayoutManager2 = new GridLayoutManager(mActivity,4);
                                         rv_icon.setLayoutManager(gridLayoutManager2);
                                         rv_icon.setAdapter(rvIconAdapter);
+                                        lp.height = DensityUtil.dip2px(60 * 1,getActivity());
                                         indicator.setVisibility(View.GONE);
                                     }else {
                                         GridLayoutManager gridLayoutManager = new GridLayoutManager(mActivity, 2, RecyclerView.HORIZONTAL, false);
                                         rv_icon.setLayoutManager(gridLayoutManager);
                                         rv_icon.setAdapter(rvIconAdapter);
+                                        lp.height = DensityUtil.dip2px(120 * 1,getActivity());
                                         indicator.setVisibility(View.VISIBLE);
                                     }
                                 }else {
@@ -2017,7 +2012,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                                     indicator.setVisibility(View.GONE);
                                 }
 
-
+                                rv_icon.setLayoutParams(lp);
                                 if(data.getHllTip()!=null) {
                                     HuoOrderDialog huoOrderDialog = new HuoOrderDialog(mActivity,data);
                                     huoOrderDialog.show();
@@ -2081,7 +2076,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                     intent.putExtra("URL", banners.get(position).getLinkSrc());
                     intent.putExtra("TYPE", 2);
                     intent.putExtra("name", "");
-//                    Log.d("wsdsssssssss.........", banners.get(position).getLinkSrc());
                     startActivity(intent);
                 } else if (showType == 2 || banners.get(position).getDetailPic() != null) {
                     //图片
@@ -2097,9 +2091,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                     } else if (AppConstant.COMMON_PROD.equals(banners.get(position).getProdPage())) {
                         Intent intent = new Intent(getActivity(), CommonProductActivity.class);
                         startActivity(intent);
+//                        appbar.setExpanded(false);
+//                        getCommonStateTop();
+//                        switchCommon();
                     } else if (AppConstant.DEDUCT_PROD.equals(banners.get(position).getProdPage())) {
-//                        Intent intent = new Intent(getActivity(), ReductionProductActivity.class);
-//                        startActivity(intent);
+                        appbar.setExpanded(false);
+                        getReduceStateTop();
+                        switchReduce();
                     } else if (AppConstant.SPECIAL_PROD.equals(banners.get(position).getProdPage())) {
                         Intent intent = new Intent(getActivity(), CouponDetailActivity.class);
                         startActivity(intent);
@@ -2139,7 +2137,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                     int businessId = Integer.parseInt(banners.get(position).getBusinessId());
                     if (businessType.equals("2")) {
                         Intent intent = new Intent(getActivity(), SeckillGoodActivity.class);
-//                        intent.putExtra(AppConstant.NUM,businessId);
                         intent.putExtra("num", "-1");
                         intent.putExtra("priceType", SharedPreferencesUtil.getString(mActivity, "priceType"));
                         intent.putExtra(AppConstant.ACTIVEID, businessId);
@@ -2324,7 +2321,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                     startActivityForResult(intents, 101);
 //                    Intent intent2 = new Intent(getActivity(), TestActivity.class);
 //                    startActivity(intent2);
-
+//                    appbar.setExpanded(false);
+//                    getReduceStateTop();
+//                    switchReduce();
                 } else {
                     initDialog();
                 }
@@ -2368,7 +2367,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("swdasdwdas........",requestCode+"aaaa");
         if (requestCode == 101) {
             if (resultCode == 102) {
                 int newPosition = data.getIntExtra("NewPosition", 5);//NewPosition
@@ -2601,7 +2599,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
                     tv_title4.setTextColor(Color.parseColor("#999999"));
                     tv_title4.setBackgroundResource(R.drawable.shape_white);
-
+                    getNewState();
                     switchNew();
                     break;
 
@@ -2623,33 +2621,18 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
                     tv_title4.setTextColor(Color.parseColor("#999999"));
                     tv_title4.setBackgroundResource(R.drawable.shape_white);
-
+                    getMustState();
                     switchMust();
                     break;
 
                 case R.id.rb_reduce:
-                    position = 2;
-                    rb_reduce.setTextColor(Color.parseColor("#FF5C00"));
-                    rb_common.setTextColor(Color.parseColor("#333333"));
-                    rb_must_common.setTextColor(Color.parseColor("#333333"));
-                    rb_new.setTextColor(Color.parseColor("#333333"));
-                    tv_title2.setTextColor(Color.parseColor("#999999"));
-                    tv_title2.setBackgroundResource(R.drawable.shape_white);
-
-                    tv_title1.setTextColor(Color.parseColor("#999999"));
-                    tv_title1.setBackgroundResource(R.drawable.shape_white);
-
-                    tv_title3.setTextColor(Color.parseColor("#ffffff"));
-                    tv_title3.setBackgroundResource(R.drawable.shape_greenss);
-
-                    tv_title4.setTextColor(Color.parseColor("#999999"));
-                    tv_title4.setBackgroundResource(R.drawable.shape_white);
-
+                    getReduceState();
                     switchReduce();
                     break;
 
                 case R.id.rb_common:
                     position = 3;
+                    getCommonState();
                     rb_reduce.setTextColor(Color.parseColor("#333333"));
                     rb_common.setTextColor(Color.parseColor("#FF5C00"));
                     rb_must_common.setTextColor(Color.parseColor("#333333"));
@@ -2674,6 +2657,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         }
     }
 
+
+
     private void setListener() {
         rg_new.setOnCheckedChangeListener(new HomeFragment.MyOnCheckedChangeListener());
         rg_new_top.setOnCheckedChangeListener(new HomeFragment.MyTopOnCheckedChangeListener());
@@ -2686,96 +2671,23 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             switch (checkedId) {
                 case R.id.rb_new_top:
-                    position = 1;
-                    rb_new_top.setChecked(true);
-                    rb_new.setChecked(true);
-                    rb_reduce.setChecked(false);
-                    rb_common.setChecked(false);
-                    rb_must_common.setChecked(false);
-                    rb_info_top.setTextColor(Color.parseColor("#333333"));
-                    rb_common_top.setTextColor(Color.parseColor("#333333"));
-                    rb_must_common_top.setTextColor(Color.parseColor("#333333"));
-                    rb_new_top.setTextColor(Color.parseColor("#FF5C00"));
-                    v2s.setVisibility(View.VISIBLE);
-                    if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
-                        v4s.setVisibility(View.INVISIBLE);
-                        v1s.setVisibility(View.GONE);
-                        v3s.setVisibility(View.GONE);
-                    }else {
-                        v4s.setVisibility(View.INVISIBLE);
-                        v1s.setVisibility(View.INVISIBLE);
-                        v3s.setVisibility(View.INVISIBLE);
-                    }
+                   getNewStateTop();
 
                     switchNew();
                     break;
 
                 case R.id.rb_must_common_top:
-                    position = 0;
-                    Log.d("efsdfew.....","d");
-                    rb_must_common_top.setChecked(true);
-                    rb_new.setChecked(false);
-                    rb_reduce.setChecked(false);
-                    rb_common.setChecked(false);
-                    rb_must_common.setChecked(true);
-                    rb_info_top.setTextColor(Color.parseColor("#333333"));
-                    rb_common_top.setTextColor(Color.parseColor("#333333"));
-                    rb_must_common_top.setTextColor(Color.parseColor("#333333"));
-                    rb_new_top.setTextColor(Color.parseColor("#FF5C00"));
-
-                    v4s.setVisibility(View.INVISIBLE);
-                    v1s.setVisibility(View.INVISIBLE);
-                    v3s.setVisibility(View.INVISIBLE);
-                    v2s.setVisibility(View.VISIBLE);
+                    getMustStateTop();
                     switchMust();
                     break;
 
                 case R.id.rb_info_top:
-                    rb_info_top.setChecked(true);
-
-                    rb_new.setChecked(false);
-                    rb_reduce.setChecked(true);
-                    rb_common.setChecked(false);
-                    rb_must_common.setChecked(false);
-
-                    position = 2;
-                    rb_info_top.setTextColor(Color.parseColor("#FF5C00"));
-                    rb_common_top.setTextColor(Color.parseColor("#333333"));
-                    rb_must_common_top.setTextColor(Color.parseColor("#333333"));
-                    rb_new_top.setTextColor(Color.parseColor("#333333"));
-
-                    if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
-                        v4s.setVisibility(View.GONE);
-                        v1s.setVisibility(View.INVISIBLE);
-                        v2s.setVisibility(View.GONE);
-                    }else {
-                        v4s.setVisibility(View.INVISIBLE);
-                        v1s.setVisibility(View.INVISIBLE);
-                        v2s.setVisibility(View.INVISIBLE);
-                    }
-
-
-                    v3s.setVisibility(View.VISIBLE);
+                    getReduceStateTop();
                     switchReduce();
                     break;
 
                 case R.id.rb_common_top:
-                    rb_common_top.setChecked(true);
-
-                    rb_new.setChecked(false);
-                    rb_reduce.setChecked(false);
-                    rb_common.setChecked(true);
-                    rb_must_common.setChecked(false);
-                    position = 3;
-                    rb_info_top.setTextColor(Color.parseColor("#333333"));
-                    rb_common_top.setTextColor(Color.parseColor("#FF5C00"));
-                    rb_must_common_top.setTextColor(Color.parseColor("#333333"));
-                    rb_new_top.setTextColor(Color.parseColor("#333333"));
-
-                    v4s.setVisibility(View.VISIBLE);
-                    v1s.setVisibility(View.INVISIBLE);
-                    v2s.setVisibility(View.INVISIBLE);
-                    v3s.setVisibility(View.INVISIBLE);
+                    getCommonStateTop();
                     switchCommon();
                     break;
             }
@@ -2890,4 +2802,169 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         fragmentTransaction.commitAllowingStateLoss();
     }
 
+    private void getMustState() {
+        position = 0;
+        rb_reduce.setTextColor(Color.parseColor("#333333"));
+        rb_common.setTextColor(Color.parseColor("#333333"));
+        rb_new.setTextColor(Color.parseColor("#333333"));
+        rb_must_common.setTextColor(Color.parseColor("#FF5C00"));
+
+        tv_title2.setTextColor(Color.parseColor("#ffffff"));
+        tv_title2.setBackgroundResource(R.drawable.shape_greenss);
+
+        tv_title1.setTextColor(Color.parseColor("#999999"));
+        tv_title1.setBackgroundResource(R.drawable.shape_white);
+
+        tv_title3.setTextColor(Color.parseColor("#999999"));
+        tv_title3.setBackgroundResource(R.drawable.shape_white);
+
+        tv_title4.setTextColor(Color.parseColor("#999999"));
+        tv_title4.setBackgroundResource(R.drawable.shape_white);
+    }
+
+    private void getNewState() {
+        position = 1;
+        rb_reduce.setTextColor(Color.parseColor("#333333"));
+        rb_common.setTextColor(Color.parseColor("#333333"));
+        rb_must_common.setTextColor(Color.parseColor("#333333"));
+        rb_new.setTextColor(Color.parseColor("#FF5C00"));
+        tv_title1.setTextColor(Color.parseColor("#ffffff"));
+        tv_title1.setBackgroundResource(R.drawable.shape_greenss);
+
+        tv_title2.setTextColor(Color.parseColor("#999999"));
+        tv_title2.setBackgroundResource(R.drawable.shape_white);
+
+        tv_title3.setTextColor(Color.parseColor("#999999"));
+        tv_title3.setBackgroundResource(R.drawable.shape_white);
+
+        tv_title4.setTextColor(Color.parseColor("#999999"));
+        tv_title4.setBackgroundResource(R.drawable.shape_white);
+    }
+
+    private void getReduceState() {
+        position = 2;
+        rb_reduce.setTextColor(Color.parseColor("#FF5C00"));
+        rb_common.setTextColor(Color.parseColor("#333333"));
+        rb_must_common.setTextColor(Color.parseColor("#333333"));
+        rb_new.setTextColor(Color.parseColor("#333333"));
+        tv_title2.setTextColor(Color.parseColor("#999999"));
+        tv_title2.setBackgroundResource(R.drawable.shape_white);
+
+        tv_title1.setTextColor(Color.parseColor("#999999"));
+        tv_title1.setBackgroundResource(R.drawable.shape_white);
+
+        tv_title3.setTextColor(Color.parseColor("#ffffff"));
+        tv_title3.setBackgroundResource(R.drawable.shape_greenss);
+
+        tv_title4.setTextColor(Color.parseColor("#999999"));
+        tv_title4.setBackgroundResource(R.drawable.shape_white);
+    }
+
+    private void getCommonState() {
+        position = 3;
+        rb_reduce.setTextColor(Color.parseColor("#333333"));
+        rb_common.setTextColor(Color.parseColor("#FF5C00"));
+        rb_must_common.setTextColor(Color.parseColor("#333333"));
+        rb_new.setTextColor(Color.parseColor("#333333"));
+        rb_reduce.setTextColor(Color.parseColor("#333333"));
+
+        tv_title2.setTextColor(Color.parseColor("#999999"));
+        tv_title2.setBackgroundResource(R.drawable.shape_white);
+
+        tv_title1.setTextColor(Color.parseColor("#999999"));
+        tv_title1.setBackgroundResource(R.drawable.shape_white);
+
+        tv_title3.setTextColor(Color.parseColor("#999999"));
+        tv_title3.setBackgroundResource(R.drawable.shape_white);
+
+        tv_title4.setTextColor(Color.parseColor("#ffffff"));
+        tv_title4.setBackgroundResource(R.drawable.shape_greenss);
+    }
+
+//    -------------------------------
+    private void getMustStateTop() {
+        position = 0;
+        rb_must_common_top.setChecked(true);
+        rb_new.setChecked(false);
+        rb_reduce.setChecked(false);
+        rb_common.setChecked(false);
+        rb_must_common.setChecked(true);
+        rb_info_top.setTextColor(Color.parseColor("#333333"));
+        rb_common_top.setTextColor(Color.parseColor("#333333"));
+        rb_must_common_top.setTextColor(Color.parseColor("#333333"));
+        rb_new_top.setTextColor(Color.parseColor("#FF5C00"));
+
+        v4s.setVisibility(View.INVISIBLE);
+        v1s.setVisibility(View.INVISIBLE);
+        v3s.setVisibility(View.INVISIBLE);
+        v2s.setVisibility(View.VISIBLE);
+}
+
+    private void getNewStateTop() {
+        position = 1;
+        rb_new_top.setChecked(true);
+        rb_new.setChecked(true);
+        rb_reduce.setChecked(false);
+        rb_common.setChecked(false);
+        rb_must_common.setChecked(false);
+        rb_info_top.setTextColor(Color.parseColor("#333333"));
+        rb_common_top.setTextColor(Color.parseColor("#333333"));
+        rb_must_common_top.setTextColor(Color.parseColor("#333333"));
+        rb_new_top.setTextColor(Color.parseColor("#FF5C00"));
+        v2s.setVisibility(View.VISIBLE);
+        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+            v4s.setVisibility(View.INVISIBLE);
+            v1s.setVisibility(View.GONE);
+            v3s.setVisibility(View.GONE);
+        }else {
+            v4s.setVisibility(View.INVISIBLE);
+            v1s.setVisibility(View.INVISIBLE);
+            v3s.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void getReduceStateTop() {
+        rb_info_top.setChecked(true);
+
+        rb_new.setChecked(false);
+        rb_reduce.setChecked(true);
+        rb_common.setChecked(false);
+        rb_must_common.setChecked(false);
+
+        position = 2;
+        rb_info_top.setTextColor(Color.parseColor("#FF5C00"));
+        rb_common_top.setTextColor(Color.parseColor("#333333"));
+        rb_must_common_top.setTextColor(Color.parseColor("#333333"));
+        rb_new_top.setTextColor(Color.parseColor("#333333"));
+
+        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+            v4s.setVisibility(View.GONE);
+            v1s.setVisibility(View.INVISIBLE);
+            v2s.setVisibility(View.GONE);
+        }else {
+            v4s.setVisibility(View.INVISIBLE);
+            v1s.setVisibility(View.INVISIBLE);
+            v2s.setVisibility(View.INVISIBLE);
+        }
+
+        v3s.setVisibility(View.VISIBLE);
+    }
+
+    private void getCommonStateTop() {
+        rb_common_top.setChecked(true);
+        rb_new.setChecked(false);
+        rb_reduce.setChecked(false);
+        rb_common.setChecked(true);
+        rb_must_common.setChecked(false);
+        position = 3;
+        rb_info_top.setTextColor(Color.parseColor("#333333"));
+        rb_common_top.setTextColor(Color.parseColor("#FF5C00"));
+        rb_must_common_top.setTextColor(Color.parseColor("#333333"));
+        rb_new_top.setTextColor(Color.parseColor("#333333"));
+
+        v4s.setVisibility(View.VISIBLE);
+        v1s.setVisibility(View.INVISIBLE);
+        v2s.setVisibility(View.INVISIBLE);
+        v3s.setVisibility(View.INVISIBLE);
+    }
 }

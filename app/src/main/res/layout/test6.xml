@@ -4,15 +4,8 @@
     android:orientation="vertical"
     android:layout_height="match_parent">
 
-    <com.puyue.www.qiaoge.AutoPollRecyclerView
-        android:id="@+id/rv_auto_view"
-        android:padding="@dimen/size_8dp"
-        android:layout_marginBottom="@dimen/size_5dp"
-        android:layout_marginRight="@dimen/size_5dp"
-        android:layout_marginLeft="@dimen/size_5dp"
-        android:background="@drawable/shape_white1"
+    <TextView
+        android:text="ss"
         android:layout_width="match_parent"
-        android:layout_height="138dp">
-
-    </com.puyue.www.qiaoge.AutoPollRecyclerView>
+        android:layout_height="match_parent"/>
 </LinearLayout>

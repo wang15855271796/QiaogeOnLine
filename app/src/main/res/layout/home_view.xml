@@ -54,13 +54,12 @@
                     android:id="@+id/tv_skill_time1"
                     android:text="10天20小时"
                     android:textColor="#ffffff"
-                    android:layout_marginLeft="@dimen/size_2dp"
                     android:layout_marginRight="@dimen/size_2dp"
                     android:paddingBottom="@dimen/size_2dp"
                     android:paddingTop="@dimen/size_2dp"
                     android:paddingLeft="@dimen/size_2dp"
                     android:paddingRight="@dimen/size_2dp"
-                    android:textSize="10sp"
+                    android:textSize="9sp"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/shape_jianbian1"
                     android:layout_width="wrap_content"
@@ -73,18 +72,15 @@
                 android:background="#ffffff"
                 android:layout_width="match_parent"
                 android:layout_height="106dp"/>
-<!--            <com.frankfancode.marqueeview.MarqueeView-->
-<!--                android:id="@+id/rv_skill"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="106dp"-->
-<!--                android:background="#ffffff" />-->
+
         </LinearLayout>
 
         <!--    满赠2    -->
         <LinearLayout
+            android:layout_marginTop="@dimen/size_6dp"
             android:visibility="gone"
             android:id="@+id/ll_full1"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_marginLeft="@dimen/size_7dp"
             android:orientation="vertical"
@@ -177,7 +173,7 @@
             android:visibility="gone"
             android:layout_marginTop="@dimen/size_6dp"
             android:id="@+id/ll_team1"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_marginLeft="@dimen/size_6dp"
@@ -224,7 +220,7 @@
             android:visibility="gone"
             android:layout_marginTop="@dimen/size_6dp"
             android:id="@+id/ll_discount1"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_marginLeft="@dimen/size_7dp"
             android:orientation="vertical"

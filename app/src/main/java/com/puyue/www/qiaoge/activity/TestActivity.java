@@ -1,12 +1,8 @@
 package com.puyue.www.qiaoge.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.PagerSnapHelper;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.puyue.www.qiaoge.AutoPollRecyclerView;
 import com.puyue.www.qiaoge.R;
 
 import com.puyue.www.qiaoge.adapter.Test3Adapter;
@@ -26,9 +22,6 @@ import butterknife.ButterKnife;
  */
 public class TestActivity extends BaseActivity {
 
-    @BindView(R.id.rv_auto_view)
-    AutoPollRecyclerView rv_auto_view;
-    List<String> string = new ArrayList<>();
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -41,99 +34,21 @@ public class TestActivity extends BaseActivity {
 
     @Override
     public void findViewById() {
-        ButterKnife.bind(this);
 
-        for (int i = 0; i < 6; i++) {
-            string.add("string");
-        }
-
-        Test3Adapter test3Adapter = new Test3Adapter();
-        rv_auto_view.setAdapter(test3Adapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true);
-        rv_auto_view.setLayoutManager(layoutManager);
-        rv_auto_view.start();
-        test3Adapter.notifyDataSetChanged();
     }
 
     @Override
     public void setViewData() {
-
-
+        String tip = "您的账号存在一定风险，需要企业二次审核后方可使用，可联系宁波翘歌网络科技有限公司（公司名称）进行处理。";
+        String companyName =  "宁波翘歌网络科技有限公司（公司名称）";
+        int index = tip.lastIndexOf(companyName);
+        String begin = tip.substring(0,index);
+        String end = tip.substring(index+companyName.length());
+        Log.d("wdasdasd........",begin+companyName+end);
     }
 
     @Override
     public void setClickEvent() {
 
     }
-//    @BindView(R.id.rv1)
-//    RecyclerView rv1;
-//    @BindView(R.id.bt)
-//    Button bt;
-//    List<String> list = new ArrayList<>();
-//    @Override
-//    public boolean handleExtra(Bundle savedInstanceState) {
-//        return false;
-//    }
-//
-//    @Override
-//    public void setContentView() {
-//        setContentView(R.layout.test4);
-//    }
-//
-//    @Override
-//    public void findViewById() {
-//        ButterKnife.bind(this);
-//
-////        for (int i = 0; i < 100; i++) {
-////            list.add("123");
-////        }
-//        requestGoodsList("");
-////        MyAdapter myAdapter = new MyAdapter(mActivity,list);
-////        rv1.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false));
-////        rv1.setAdapter(myAdapter);
-//
-////        bt.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View v) {
-////                rv1.smoothScrollToPosition(20);
-////            }
-////        });
-//    }
-//
-//    @Override
-//    public void setViewData() {
-//
-//    }
-//
-//    @Override
-//    public void setClickEvent() {
-//
-//    }
-//
-//    private void requestGoodsList(String fromId) {
-//        MarketGoodsClassifyAPI.getClassifys(getContext())
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Subscriber<ClassIfyModel>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(ClassIfyModel marketGoodsModel) {
-//                        rv1.setLayoutManager(new LinearLayoutManager(mActivity,LinearLayoutManager.HORIZONTAL,false));
-//                        List<ClassIfyModel.DataBean> data = marketGoodsModel.getData();
-//                        FirstAdapter firstAdapter = new FirstAdapter(R.layout.item_icons, data);
-//                        rv1.setAdapter(firstAdapter);
-//
-//                    }
-//                });
-//    }
-
 }

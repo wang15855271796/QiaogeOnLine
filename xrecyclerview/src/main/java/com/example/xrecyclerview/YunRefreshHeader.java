@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -71,6 +72,7 @@ public class YunRefreshHeader extends LinearLayout implements BaseRefreshHeader 
 
     private void setState(int state) {
         if (state == mState) return;
+
         switch (state) {
             case STATE_NORMAL:
                 if (animationDrawable.isRunning()) {

@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_height="160dp">
 
 
     <RelativeLayout
         android:orientation="vertical"
-        android:layout_marginRight="@dimen/size_12dp"
         android:layout_width="match_parent"
         android:layout_height="160dp">
 
@@ -80,4 +80,376 @@
         </RelativeLayout>
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/ll_group"
+                android:orientation="vertical"
+                android:scrollbars="none"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
+
+                    <RelativeLayout
+                        android:id="@+id/rl"
+                        android:layout_marginLeft="@dimen/size_10dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/iv_head"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:scaleType="fitXY" />
+
+                        <TextView
+                            android:id="@+id/tv_sale"
+                            android:textColor="#666"
+                            android:textSize="12sp"
+                            tools:text="销量：300"
+                            android:layout_below="@+id/iv_head"
+                            android:drawablePadding="@dimen/size_5dp"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/size_25dp"/>
+
+
+                        <ImageView
+                            android:id="@+id/iv_no_data"
+                            android:layout_centerInParent="true"
+                            android:layout_width="@dimen/size_45dp"
+                            android:layout_height="@dimen/size_20dp" />
+
+                        <ImageView
+                            android:visibility="gone"
+                            android:id="@+id/iv_send"
+                            android:layout_marginLeft="@dimen/size_5dp"
+                            android:layout_marginTop="@dimen/size_5dp"
+                            android:src="@mipmap/icon_not_send2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="13dp"
+                        android:layout_marginRight="@dimen/size_12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="热狗香肠真棒热狗香肠"
+                        android:layout_toRightOf="@+id/rl"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="#333333" />
+
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/tv_spec"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/sp_12"
+                        tools:text="规格：300g/500g/800g"
+                        android:layout_below="@+id/tv_name"
+                        android:layout_marginLeft="@dimen/size_12dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_toRightOf="@+id/rl"
+                        android:textColor="#666"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/tv_stock_total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="库存：300"
+                        android:layout_below="@+id/tv_name"
+                        android:layout_marginLeft="@dimen/size_12dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_toLeftOf="@+id/iv_close"
+                        android:layout_toRightOf="@+id/rl"
+                        android:textColor="#666"
+                        android:textSize="12sp" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_stock_total"
+                        android:layout_toRightOf="@+id/rl"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginRight="-5dp"
+                            android:layout_toLeftOf="@+id/iv_close"
+                            android:layout_toRightOf="@+id/rl"
+                            android:text="￥100.00—￥100.00"
+                            android:textColor="#FF680A"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/tv_desc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/size_12dp"
+                            android:text="价格授权后可见"
+                            android:textColor="#FF680A"
+                            android:textSize="@dimen/sp_14"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+
+                    <!-- 图标区域 -->
+                    <RelativeLayout
+                        android:id="@+id/rl_icon"
+                        android:layout_toRightOf="@+id/rl"
+                        android:layout_marginLeft="@dimen/size_5dp"
+                        android:layout_below="@+id/ll_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/size_20dp">
+
+                        <ImageView
+                            android:layout_centerVertical="true"
+                            android:id="@+id/iv_operate"
+                            android:layout_toRightOf="@+id/iv_next"
+                            tools:src="@mipmap/icon_operate"
+                            android:layout_width="@dimen/size_24dp"
+                            android:layout_height="@dimen/size_12dp" />
+
+                        <ImageView
+                            android:id="@+id/iv_type"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/size_3dp"
+                            android:layout_toRightOf="@+id/iv_operate"
+                            tools:src="@mipmap/icon_operate"
+                            android:layout_width="@dimen/size_24dp"
+                            android:layout_height="@dimen/size_12dp" />
+
+                        <TextView
+                            tools:text="我买过的"
+                            android:layout_centerVertical="true"
+                            android:id="@+id/tv_buy"
+                            android:paddingLeft="@dimen/public_space_value_3"
+                            android:paddingRight="@dimen/public_space_value_2"
+                            android:layout_marginLeft="@dimen/size_3dp"
+                            android:background="@drawable/shape_orange_shop"
+                            android:textColor="#FF670A"
+                            android:textSize="@dimen/dp_10"
+                            android:layout_toRightOf="@+id/iv_type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <!-- 规格,获取授权 -->
+                        <RelativeLayout
+                            android:id="@+id/rl1"
+                            android:layout_alignParentRight="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <RelativeLayout
+                                android:id="@+id/rl_spec"
+                                android:layout_marginRight="@dimen/size_5dp"
+                                android:background="@drawable/shape_orange_radius_11"
+                                android:layout_width="@dimen/size_50dp"
+                                android:layout_height="@dimen/size_20dp">
+
+                                <TextView
+                                    android:id="@+id/tv_choose_spec"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:layout_marginRight="@dimen/size_10dp"
+                                    android:text="选规格"
+                                    android:textColor="#fff"
+                                    android:textSize="@dimen/size_12dp" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/rl_price"
+                                android:visibility="gone"
+                                android:layout_marginRight="@dimen/size_5dp"
+                                android:background="@drawable/shape_orange_radius_11"
+                                android:layout_width="@dimen/size_60dp"
+                                android:layout_height="@dimen/size_26dp">
+
+                                <TextView
+                                    android:text="获取授权"
+                                    android:textColor="#fff"
+                                    android:layout_centerInParent="true"
+                                    android:layout_marginRight="@dimen/size_10dp"
+                                    android:textSize="@dimen/size_12dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+
+                            </RelativeLayout>
+
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+
+                    <com.puyue.www.qiaoge.activity.flow.TagFlowLayout
+                        android:id="@+id/rv_spec"
+                        android:layout_marginLeft="@dimen/size_5dp"
+                        android:layout_below="@+id/rl_icon"
+                        android:layout_toRightOf="@+id/rl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/size_5dp"
+                        app:is_limit="true"
+                        app:limit_line_count="3"
+                        app:max_select="1">
+
+                    </com.puyue.www.qiaoge.activity.flow.TagFlowLayout>
+
+                    <!-- 规格,获取授权 -->
+                    <!--                <RelativeLayout-->
+                    <!--                    android:id="@+id/rl1"-->
+                    <!--                    android:layout_marginTop="@dimen/size_20dp"-->
+                    <!--                    android:layout_alignParentRight="true"-->
+                    <!--                    android:layout_below="@+id/ll_price"-->
+                    <!--                    android:layout_width="wrap_content"-->
+                    <!--                    android:layout_height="wrap_content">-->
+
+                    <!--                    <RelativeLayout-->
+                    <!--                        android:id="@+id/rl_spec"-->
+                    <!--                        android:layout_marginRight="@dimen/size_5dp"-->
+                    <!--                        android:background="@drawable/shape_orange_radius_11"-->
+                    <!--                        android:layout_width="@dimen/size_50dp"-->
+                    <!--                        android:layout_height="@dimen/size_20dp">-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:id="@+id/tv_choose_spec"-->
+                    <!--                            android:text="选规格"-->
+                    <!--                            android:textColor="#fff"-->
+                    <!--                            android:layout_centerInParent="true"-->
+                    <!--                            android:layout_marginRight="@dimen/size_10dp"-->
+                    <!--                            android:textSize="@dimen/size_12dp"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content" />-->
+
+                    <!--                    </RelativeLayout>-->
+
+                    <!--                    <RelativeLayout-->
+                    <!--                        android:id="@+id/rl_price"-->
+                    <!--                        android:visibility="gone"-->
+                    <!--                        android:layout_marginRight="@dimen/size_10dp"-->
+                    <!--                        android:background="@drawable/shape_orange_radius_11"-->
+                    <!--                        android:layout_width="@dimen/size_70dp"-->
+                    <!--                        android:layout_height="@dimen/size_26dp">-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:text="获取授权"-->
+                    <!--                            android:textColor="#fff"-->
+                    <!--                            android:layout_centerInParent="true"-->
+                    <!--                            android:layout_marginRight="@dimen/size_10dp"-->
+                    <!--                            android:textSize="@dimen/size_12dp"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content" />-->
+
+                    <!--                    </RelativeLayout>-->
+
+                    <!--                </RelativeLayout>-->
+
+                    <TextView
+                        android:layout_below="@+id/rv_spec"
+                        android:id="@+id/tv_style"
+                        android:textColor="#999999"
+                        android:text="查看全部规则>"
+                        android:layout_toRightOf="@+id/rl"
+                        android:drawablePadding="@dimen/size_5dp"
+                        android:layout_marginLeft="@dimen/size_5dp"
+                        android:textSize="10sp"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/size_25dp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+
+                    <ImageView
+                        android:id="@+id/iv_icon"
+                        android:visibility="gone"
+                        android:layout_marginTop="13dp"
+                        android:src="@mipmap/icon_arrow_light_down"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:text="规格："
+                        android:id="@+id/tv1"
+                        android:visibility="gone"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_toRightOf="@+id/iv_icon"
+                        android:textColor="#333333"
+                        android:textSize="@dimen/dp_10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <com.puyue.www.qiaoge.activity.flow.TagFlowLayout
+                        android:visibility="gone"
+                        android:layout_toRightOf="@+id/tv1"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_width="160dp"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_height="wrap_content"
+                        app:is_limit="true"
+                        app:tag_gravity="right"
+                        app:limit_line_count="1"
+                        app:max_select="1"/>
+
+
+                </RelativeLayout>
+
+
+                <View
+                    android:background="#eeeeee"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="@dimen/size_12dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"/>
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+    </LinearLayout>
+
 </LinearLayout>

@@ -526,7 +526,7 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                 pageNum = 1;
                 saleDownFlag = 0;
                 priceFlag = 0;
-                isSelf = 0;
+//                isSelf = 0;
                 searchList.clear();
                 recommendList.clear();
                 tv_sale.setTextColor(Color.parseColor("#333333"));

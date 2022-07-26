@@ -89,6 +89,7 @@ public class MustFragment extends BaseFragment {
         if(!EventBus.getDefault().isRegistered(this)) {//加上判断
             EventBus.getDefault().register(this);
         }
+        getProductsList(pageNum,pageSize);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {

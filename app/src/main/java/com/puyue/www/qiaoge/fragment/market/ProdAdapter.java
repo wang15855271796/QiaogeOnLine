@@ -2,6 +2,7 @@ package com.puyue.www.qiaoge.fragment.market;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -42,9 +43,9 @@ public class ProdAdapter extends BaseQuickAdapter<MarketRightModel.DataBean.Bran
         ViewGroup.LayoutParams lp = recyclerViewProd.getLayoutParams();
         lp.height = DensityUtil.dip2px(150 * 1,mContext);
         recyclerViewProd.setLayoutManager(new GridLayoutManager(mContext,3));
+
         prodInnerAdapter = new ProdInnerAdapter(R.layout.item_prod_inner,list);
         recyclerViewProd.setAdapter(prodInnerAdapter);
-
 
         if(list.size()>3 ) {
             tv_expand.setVisibility(View.VISIBLE);
@@ -53,7 +54,6 @@ public class ProdAdapter extends BaseQuickAdapter<MarketRightModel.DataBean.Bran
             tv_expand.setVisibility(View.GONE);
             helper.getView(R.id.rl).setVisibility(View.GONE);
         }
-
 
         rl.setOnClickListener(new View.OnClickListener() {
             @Override

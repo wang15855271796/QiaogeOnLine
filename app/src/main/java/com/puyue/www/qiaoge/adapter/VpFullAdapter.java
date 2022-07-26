@@ -85,7 +85,7 @@ public class VpFullAdapter extends RecyclerView.Adapter<VpFullAdapter.BaseViewHo
 
     @Override
     public int getItemCount() {
-        return Integer.MAX_VALUE;
+        return actives.size();
 
     }
 

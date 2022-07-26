@@ -71,7 +71,7 @@ public class VpTeamAdapter extends RecyclerView.Adapter<VpTeamAdapter.BaseViewHo
 
     @Override
     public int getItemCount() {
-        return Integer.MAX_VALUE;
+        return actives.size();
 
     }
 

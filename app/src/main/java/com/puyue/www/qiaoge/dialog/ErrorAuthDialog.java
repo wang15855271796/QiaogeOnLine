@@ -39,7 +39,15 @@ public abstract class ErrorAuthDialog extends Dialog implements View.OnClickList
         tv_phone = (TextView) findViewById(R.id.tv_phone);
         tv_desc = (TextView) findViewById(R.id.tv_desc);
         tv_ok.setOnClickListener(this);
-        tv_desc.setText(data.getTip());
+        String tip = data.getTip();
+        String companyName = data.getCompanyName();
+        int index = tip.lastIndexOf(companyName);
+        String begin = tip.substring(0,index);
+        String end = tip.substring(index+companyName.length());
+        String desc = begin + companyName + end;
+        SpannableStringBuilder spannableStringBuilder = StringSpecialHelper.buildSpanColorStyle(desc,index,
+                companyName.length(), Color.parseColor("#ff5c00"));
+        tv_desc.setText(spannableStringBuilder);
         tv_phone.setText("客服热线("+data.getOnlineTime()+")");
     }
 

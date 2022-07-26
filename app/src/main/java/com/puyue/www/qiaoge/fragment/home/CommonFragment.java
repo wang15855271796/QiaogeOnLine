@@ -92,6 +92,7 @@ public class CommonFragment extends BaseFragment {
 
         bind = ButterKnife.bind(this, view);
         refreshLayout.setEnableLoadMore(false);
+        getProductsList(1,pageSize,"commonBuy");
         commonListAdapter = new CommonListAdapter(R.layout.item_team_list, list, new CommonListAdapter.Onclick() {
             @Override
             public void addDialog() {
@@ -137,23 +138,6 @@ public class CommonFragment extends BaseFragment {
                         refreshLayout.finishLoadMoreWithNoMoreData();
                     }
                 }
-            }
-        });
-    }
-
-    private void getCustomerPhone() {
-        PublicRequestHelper.getCustomerPhone(mActivity, new OnHttpCallBack<GetCustomerPhoneModel>() {
-            @Override
-            public void onSuccessful(GetCustomerPhoneModel getCustomerPhoneModel) {
-                if (getCustomerPhoneModel.isSuccess()) {
-                    cell = getCustomerPhoneModel.getData();
-                } else {
-                    AppHelper.showMsg(mActivity, getCustomerPhoneModel.getMessage());
-                }
-            }
-
-            @Override
-            public void onFaild(String errorMsg) {
             }
         });
     }
