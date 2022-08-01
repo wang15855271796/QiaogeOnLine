@@ -20,6 +20,7 @@ import com.puyue.www.qiaoge.model.FullCouponListModel;
 import com.puyue.www.qiaoge.model.FullDetailModel;
 import com.puyue.www.qiaoge.model.GetCompanyModel;
 import com.puyue.www.qiaoge.model.HomeBannerModel;
+import com.puyue.www.qiaoge.model.JudegModel;
 import com.puyue.www.qiaoge.model.ModeModel;
 import com.puyue.www.qiaoge.model.OrderModel;
 import com.puyue.www.qiaoge.model.SendModel;
@@ -325,17 +326,28 @@ public class IndexHomeAPI {
     /**
      * 获取授权
      */
-
     private interface GetAuthorizeService {
         @FormUrlEncoded
         @POST(AppInterfaceAddress.Get_Authorize)
         Observable<AuthModel> getData(@Field("authCode") String authCode);
-
     }
 
     public static Observable<AuthModel> getCode(Context context, String authCode) {
         GetAuthorizeService spikeActiveQueryService = RestHelper.getBaseRetrofit(context).create(GetAuthorizeService.class);
         return spikeActiveQueryService.getData(authCode);
+    }
+
+    /**
+     * 授权前判定
+     */
+    private interface JudgeService {
+        @POST(AppInterfaceAddress.Judge)
+        Observable<AuthModel> getData();
+    }
+
+    public static Observable<AuthModel> getJudge(Context context) {
+        JudgeService readService = RestHelper.getBaseRetrofit(context).create(JudgeService.class);
+        return readService.getData();
     }
 
     /**

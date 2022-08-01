@@ -668,8 +668,6 @@ public class EditAddressActivity extends BaseSwipeActivity  {
                 });
     }
 
-    PopupWindow popWindow;
-
     //此方法只是关闭软键盘
     private void hintKbTwo() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

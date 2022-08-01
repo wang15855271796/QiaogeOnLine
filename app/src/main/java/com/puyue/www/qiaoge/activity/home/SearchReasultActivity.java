@@ -210,6 +210,7 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                 pageNum = 1;
                 getRecommendList();
                 refreshLayout.finishRefresh();
+                refreshLayout.setNoMoreData(false);
             }
         });
 
@@ -249,12 +250,12 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
         choosePopWindow.setPopWindowListener(new PopWindowListener() {
             @Override
             public void getCateStyle(String cate,int position) {
-                saleDownFlag = 0;
-                priceFlag = 0;
-                tv_all_data.setTextColor(Color.parseColor("#333333"));
-                tv_sale.setTextColor(Color.parseColor("#333333"));
-                tv_price.setTextColor(Color.parseColor("#333333"));
-                iv_direction.setImageResource(R.mipmap.icon_default);
+//                saleDownFlag = 0;
+//                priceFlag = 0;
+//                tv_all_data.setTextColor(Color.parseColor("#333333"));
+//                tv_sale.setTextColor(Color.parseColor("#333333"));
+//                tv_price.setTextColor(Color.parseColor("#333333"));
+//                iv_direction.setImageResource(R.mipmap.icon_default);
                 isClickOpen = true;
                 num++;
                 if(isClickOpen) {
@@ -274,6 +275,13 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                 pageNum = 1;
                 searchList.clear();
                 recommendList.clear();
+                if(null!=searchReasultAdapter) {
+                    searchReasultAdapter.notifyDataSetChanged();
+                }
+
+                if(null!=searchResultAdapter) {
+                    searchResultAdapter.notifyDataSetChanged();
+                }
                 getRecommendList();
                 choosePopWindow.dismiss();
                 tv_all.setText(list.get(position));
@@ -348,6 +356,20 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                 .setCancelOutside(false);
         dialog = loadBuilder.create();
 
+        searchReasultAdapter = new SearchReasultAdapter(R.layout.item_noresult_recommend, searchList, new SearchReasultAdapter.Onclick() {
+            @Override
+            public void addDialog() {
+
+            }
+
+            @Override
+            public void getPrice() {
+
+            }
+        });
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        recyclerView.setAdapter(searchReasultAdapter);
+
     }
 
     private void getCustomerPhone() {
@@ -367,30 +389,7 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
         });
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
 
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if(choosePopWindow!=null) {
-            choosePopWindow.dismiss();
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getTotal(UpDateNumEvent8 upDateNumEvent) {
-        getCartNum();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getTotals(UpDateNumEvent7 upDateNumEvent) {
-        getCartNum();
-    }
 
 
     /**
@@ -460,26 +459,19 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                                 lav_activity_loading.setVisibility(View.GONE);
                                 dialog.dismiss();
                                 if(recommendModel.getData().getSearchProd()!=null && recommendModel.getData().getSearchProd().getList()!=null && recommendModel.getData().getSearchProd().getList().size()> 0) {
+                                    smart.setEnableLoadMore(true);
+                                    smart.setEnableRefresh(true);
                                     searchList.addAll(recommendModel.getData().getSearchProd().getList());
-                                    searchReasultAdapter = new SearchReasultAdapter(R.layout.item_noresult_recommend, searchList, new SearchReasultAdapter.Onclick() {
-                                        @Override
-                                        public void addDialog() {
-
-                                        }
-
-                                        @Override
-                                        public void getPrice() {
-
-                                        }
-                                    });
-                                    recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-                                    recyclerView.setAdapter(searchReasultAdapter);
-                                    searchReasultAdapter.notifyDataSetChanged();
                                     ll_no_search.setVisibility(View.GONE);
                                     ll_style.setVisibility(View.VISIBLE);
+                                    searchReasultAdapter.notifyDataSetChanged();
+
+
                                 }
 
                                 if(recommendModel.getData().getRecommendProd()!=null && recommendModel.getData().getRecommendProd().size()>0) {
+                                    smart.setEnableLoadMore(false);
+                                    smart.setEnableRefresh(false);
                                     recommendList.addAll(recommendModel.getData().getRecommendProd());
                                     searchResultAdapter = new SearchResultAdapter(R.layout.item_noresult_recommend, recommendList, new SearchResultAdapter.Onclick() {
                                         @Override
@@ -497,7 +489,7 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                                     ll_no_search.setVisibility(View.VISIBLE);
                                     searchResultAdapter.addHeaderView(view);
                                     searchResultAdapter.notifyDataSetChanged();
-                                    ll_style.setVisibility(View.GONE);
+                                    ll_style.setVisibility(View.VISIBLE);
                                 }
                             }else {
                                 lav_activity_loading.setVisibility(View.GONE);
@@ -526,13 +518,26 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                 pageNum = 1;
                 saleDownFlag = 0;
                 priceFlag = 0;
-//                isSelf = 0;
                 searchList.clear();
                 recommendList.clear();
+                if(null!=searchReasultAdapter) {
+                    searchReasultAdapter.notifyDataSetChanged();
+                }
+
+                if(null!=searchResultAdapter) {
+                    searchResultAdapter.notifyDataSetChanged();
+                }
+
                 tv_sale.setTextColor(Color.parseColor("#333333"));
                 tv_price.setTextColor(Color.parseColor("#333333"));
-                tv_all.setTextColor(Color.parseColor("#333333"));
-                iv_arrow.setImageResource(R.mipmap.icon_default);
+                if(isClickOpen) {
+                    iv_arrow.setImageResource(R.mipmap.ic_arrow_down);
+                    tv_all.setTextColor(Color.parseColor("#FF5C00"));
+                }else {
+                    iv_arrow.setImageResource(R.mipmap.icon_arrow_down);
+                    tv_all.setTextColor(Color.parseColor("#333333"));
+                }
+
                 if(!isAll) {
                     tv_all_data.setTextColor(Color.parseColor("#FF5C00"));
                 }else {
@@ -553,12 +558,25 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                 if(choosePopWindow!=null) {
                     choosePopWindow.dismiss();
                 }
-                iv_arrow.setImageResource(R.mipmap.icon_default);
-                tv_all.setTextColor(Color.parseColor("#333333"));
+
+                if(isClickOpen) {
+                    tv_all.setTextColor(Color.parseColor("#FF5C00"));
+                    iv_arrow.setImageResource(R.mipmap.ic_arrow_down);
+                }else {
+                    tv_all.setTextColor(Color.parseColor("#333333"));
+                    iv_arrow.setImageResource(R.mipmap.icon_arrow_down);
+                }
                 tv_all_data.setTextColor(Color.parseColor("#333333"));
                 tv_price.setTextColor(Color.parseColor("#333333"));
                 searchList.clear();
                 recommendList.clear();
+                if(null!=searchReasultAdapter) {
+                    searchReasultAdapter.notifyDataSetChanged();
+                }
+
+                if(null!=searchResultAdapter) {
+                    searchResultAdapter.notifyDataSetChanged();
+                }
                 if(!isSale) {
                     tv_sale.setTextColor(Color.parseColor("#FF5C00"));
                     saleDownFlag = 1;
@@ -578,22 +596,37 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                 if(choosePopWindow!=null) {
                     choosePopWindow.dismiss();
                 }
-                iv_arrow.setImageResource(R.mipmap.icon_default);
-                tv_all.setTextColor(Color.parseColor("#333333"));
+
+                if(isClickOpen) {
+                    tv_all.setTextColor(Color.parseColor("#FF5C00"));
+                    iv_arrow.setImageResource(R.mipmap.ic_arrow_down);
+                }else {
+                    tv_all.setTextColor(Color.parseColor("#333333"));
+                    iv_arrow.setImageResource(R.mipmap.icon_arrow_down);
+                }
+
                 tv_sale.setTextColor(Color.parseColor("#333333"));
                 tv_all_data.setTextColor(Color.parseColor("#333333"));
                 searchList.clear();
                 recommendList.clear();
+                if(null!=searchReasultAdapter) {
+                    searchReasultAdapter.notifyDataSetChanged();
+                }
+
+                if(null!=searchResultAdapter) {
+                    searchResultAdapter.notifyDataSetChanged();
+                }
+
                 if(isPrice%3==0) {
                     priceFlag = 0;
                     tv_price.setTextColor(Color.parseColor("#333333"));
                     iv_direction.setImageResource(R.mipmap.icon_default);
                 }else if(isPrice%3==1){
-                    priceFlag = 1;
+                    priceFlag = 2;
                     tv_price.setTextColor(Color.parseColor("#FF5C00"));
                     iv_direction.setImageResource(R.mipmap.icon_search_up);
                 }else {
-                    priceFlag = 2;
+                    priceFlag = 1;
                     tv_price.setTextColor(Color.parseColor("#FF5C00"));
                     iv_direction.setImageResource(R.mipmap.icon_search_down);
                 }
@@ -604,5 +637,28 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                 break;
         }
     }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(choosePopWindow!=null) {
+            choosePopWindow.dismiss();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getTotal(UpDateNumEvent8 upDateNumEvent) {
+        getCartNum();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getTotals(UpDateNumEvent7 upDateNumEvent) {
+        getCartNum();
+    }
 }

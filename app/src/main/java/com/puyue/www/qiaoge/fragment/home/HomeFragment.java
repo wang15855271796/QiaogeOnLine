@@ -2378,18 +2378,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 }
             }
         }
-
-//        if (requestCode == 104) {
-//            skillList.clear();
-//            skillAdvList.clear();
-//            getBaseLists();
-//            getSpikeList();
-//            EventBus.getDefault().post(new BackEvent());
-//        }
-//
-//        if (requestCode == 105) {
-//            refreshLayout.autoRefresh();
-//        }
     }
 
     MyOrderNumModel mModelMyOrderNum;
@@ -2484,7 +2472,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loginEvent(LogoutsEvent event) {
         //刷新UI
-        Log.d("efsdfse.......","qwe");
         refreshLayout.autoRefresh();
         if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
             getStyle();

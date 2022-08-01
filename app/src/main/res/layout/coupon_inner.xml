@@ -109,23 +109,23 @@
 
         <ImageView
             android:id="@+id/iv_flag"
-            android:layout_marginTop="@dimen/size_5dp"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_toRightOf="@+id/iv_pic"
-            android:layout_below="@+id/tv_price"
-            tools:src="@mipmap/icon_right"
             android:layout_width="32dp"
-            android:layout_height="12dp"/>
+            android:layout_height="12dp"
+            android:layout_below="@+id/tv_price"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginTop="@dimen/size_5dp"
+            android:layout_toRightOf="@+id/iv_pic"
+            tools:src="@mipmap/icon_right" />
 
         <ProgressBar
             android:id="@+id/pb"
-            android:layout_toRightOf="@+id/iv_pic"
-            android:layout_below="@+id/iv_flag"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_marginTop="@dimen/size_5dp"
             android:layout_width="100dp"
-            android:layout_marginLeft="@dimen/dp_10"
             android:layout_height="10dp"
+            android:layout_below="@+id/iv_flag"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginTop="@dimen/size_5dp"
+            android:layout_toRightOf="@+id/iv_pic"
             android:progressDrawable="@drawable/shape_red" />
 
 

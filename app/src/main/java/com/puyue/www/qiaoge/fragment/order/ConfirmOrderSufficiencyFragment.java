@@ -20,6 +20,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -129,7 +131,7 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ConfirmOrderSufficiencyFragment extends BaseFragment implements TencentLocationListener {
+public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     TagsFlowLayout recyclerView_un;
@@ -355,18 +357,30 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
         });
     }
 
-    TencentMap map;
     TencentLocationManager instance;
     @Override
     public void setViewData() {
         EventBus.getDefault().register(this);
         instance = TencentLocationManager.getInstance(QiaoGeApplication.getContext());
-        TencentLocationRequest request = TencentLocationRequest.create();
-        request.setInterval(100000);
-        request.setRequestLevel(TencentLocationRequest. REQUEST_LEVEL_POI);
-        request.setAllowGPS(true);
-        request.setIndoorLocationMode(true);
-        instance.requestLocationUpdates(request, this);
+//        TencentLocationRequest request = TencentLocationRequest.create();
+//        request.setInterval(1000);
+//        request.setRequestLevel(TencentLocationRequest. REQUEST_LEVEL_POI);
+//        request.setAllowGPS(true);
+//        request.setIndoorLocationMode(true);
+        TencentLocationListener mLocationListener = new TencentLocationListener() {
+            @Override
+            public void onLocationChanged(TencentLocation location, int i, String s) {
+
+            }
+
+            @Override
+            public void onStatusUpdate(String s, int i, String s1) {
+
+            }
+        };
+        instance.requestSingleFreshLocation(null, mLocationListener, Looper.getMainLooper());
+
+//        instance.requestLocationUpdates(request, this);
 
         ll_self_sufficiency.setVisibility(View.GONE);
         final Calendar mCalendar = Calendar.getInstance();
@@ -1155,15 +1169,15 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment implements Ten
     }
     GoToConfirmDeliver mlisenter;
 
-    @Override
-    public void onLocationChanged(TencentLocation tencentLocation, int i, String s) {
-
-    }
-
-    @Override
-    public void onStatusUpdate(String s, int i, String s1) {
-
-    }
+//    @Override
+//    public void onLocationChanged(TencentLocation tencentLocation, int i, String s) {
+//        instance.removeUpdates(this);
+//    }
+//
+//    @Override
+//    public void onStatusUpdate(String s, int i, String s1) {
+//
+//    }
 
     public interface GoToConfirmDeliver {
         void jumpConfirmDeliver();

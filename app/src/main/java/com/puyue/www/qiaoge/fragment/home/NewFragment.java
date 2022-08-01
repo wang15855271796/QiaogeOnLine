@@ -112,7 +112,6 @@ public class NewFragment extends BaseFragment {
 
             @Override
             public void tipClick() {
-//                showPhoneDialog(cell);
                 AppHelper.ShowAuthDialog(mActivity,SharedPreferencesUtil.getString(mActivity,"mobile"));
             }
         });

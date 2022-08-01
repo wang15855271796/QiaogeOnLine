@@ -49,6 +49,8 @@ public class FullDialog extends Dialog {
     public Unbinder binder;
     @BindView(R.id.recycleView)
     RecyclerView recycleView;
+    @BindView(R.id.iv_close)
+    ImageView iv_close;
     String deductInfo;
     public FullDialog(Activity activity) {
         super(activity, R.style.dialog);
@@ -70,7 +72,12 @@ public class FullDialog extends Dialog {
             attributes.width = Utils.getScreenWidth(context);
             getWindow().setAttributes(attributes);
         }
-
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
         getFullDetail();
     }
 

@@ -165,15 +165,15 @@
                         android:id="@+id/pb_item_spike"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="100dp"
-                        android:layout_centerVertical="true"
                         android:layout_height="12dp"
+                        android:layout_centerVertical="true"
                         android:progressDrawable="@drawable/layerlist_goods_progress" />
 
                     <TextView
-                        android:layout_centerVertical="true"
                         android:id="@+id/tv_item_spike_sales"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
                         android:layout_toRightOf="@+id/pb_item_spike"
                         android:gravity="right"
@@ -203,8 +203,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="5dp"
                         android:layout_centerVertical="true"
+                        android:layout_marginRight="5dp"
                         android:background="@drawable/shape_grey"
                         android:paddingLeft="8dp"
                         android:paddingTop="3dp"

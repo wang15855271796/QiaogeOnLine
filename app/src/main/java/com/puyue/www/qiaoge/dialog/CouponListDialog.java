@@ -63,7 +63,7 @@ public class CouponListDialog extends Dialog {
         }else if(couponListModel.getUserPopup().getGifts().size()==2) {
             lp.height = DensityUtil.dip2px(180 * 1,mContext);
         }else {
-            lp.height = DensityUtil.dip2px(275 * 1,mContext);
+            lp.height = DensityUtil.dip2px(255 * 1,mContext);
         }
 
         couponListAdapter = new CouponListAdapter(R.layout.item_home_coupon_list,couponListModel.getUserPopup().getGifts());

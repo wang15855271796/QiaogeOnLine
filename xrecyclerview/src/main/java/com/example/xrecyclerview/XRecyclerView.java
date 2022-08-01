@@ -162,8 +162,9 @@ public class XRecyclerView extends RecyclerView {
             } else {
                 lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
             }
-
-            if (layoutManager.getChildCount() > 0 && lastVisibleItemPosition >= layoutManager.getItemCount() - 1 && layoutManager.getItemCount() > layoutManager.getChildCount() && !isnomore && mRefreshHeader.getState() < YunRefreshHeader.STATE_REFRESHING) {
+            if (layoutManager.getChildCount() > 0 && lastVisibleItemPosition >= layoutManager.getItemCount() - 1
+                    && layoutManager.getItemCount() > layoutManager.getChildCount() || layoutManager.getItemCount() == layoutManager.getChildCount()
+                    && !isnomore && mRefreshHeader.getState() < YunRefreshHeader.STATE_REFRESHING) {
 
                 View footView = mFootViews.get(0);
                 isLoadingData = true;
@@ -184,7 +185,7 @@ public class XRecyclerView extends RecyclerView {
                     }, 1000);
                 }
             }else {
-                mLoadingListener.onLoadMore();
+//                mLoadingListener.onLoadMore();
             }
         }
 

@@ -33,13 +33,16 @@ import android.widget.TextView;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lljjcoder.style.citypickerview.CityPickerView;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.adapter.AddAddressAdapter;
 import com.puyue.www.qiaoge.adapter.mine.SuggestAdressAdapter;
 import com.puyue.www.qiaoge.api.home.CityChangeAPI;
 import com.puyue.www.qiaoge.api.mine.address.AddAddressAPI;
 import com.puyue.www.qiaoge.api.mine.address.AddressListAPI;
 import com.puyue.www.qiaoge.api.mine.address.AreaModel;
+import com.puyue.www.qiaoge.api.mine.address.DefaultAddressAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.event.AddressEvent;
@@ -47,8 +50,10 @@ import com.puyue.www.qiaoge.event.BackEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
+import com.puyue.www.qiaoge.model.AreasModel;
 import com.puyue.www.qiaoge.model.IsShowModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.tencent.lbssearch.TencentSearch;
 import com.tencent.lbssearch.httpresponse.BaseObject;
 import com.tencent.lbssearch.httpresponse.HttpResponseListener;
@@ -117,6 +122,7 @@ public class EditAndAddActivity extends BaseSwipeActivity {
     private boolean isLoaded = false;
     private SuggestAdressAdapter adressAdapter;
     private RecyclerView ry_suggest;
+    private RecyclerView recyclerView;
     TextView tv_edit_address_area;
     ImageView iv_switch;
     //  省
@@ -194,6 +200,7 @@ public class EditAndAddActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         iv_switch = (ImageView) findViewById(R.id.iv_switch);
         lav_activity_loading = (AVLoadingIndicatorView) findViewById(R.id.lav_activity_loading);
         mIvBack = (ImageView) findViewById(R.id.iv_edit_address_back);
@@ -272,7 +279,12 @@ public class EditAndAddActivity extends BaseSwipeActivity {
 
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-
+                if(keyWorldsView.getText().toString().length()> 4 || keyWorldsView.getText().toString().length() == 4) {
+                    getArea(mArea,keyWorldsView.getText().toString());
+                    recyclerView.setVisibility(View.VISIBLE);
+                }else {
+                    recyclerView.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -381,8 +393,6 @@ public class EditAndAddActivity extends BaseSwipeActivity {
                 }
             } else if (view == mTvArea) {
                 hintKbTwo();
-//                展示省市区选择器
-//                selectCity();
                 if(isLoaded) {
                     showPickerView();
                 }
@@ -573,6 +583,47 @@ public class EditAndAddActivity extends BaseSwipeActivity {
                             parseData(areaModel.getData());
                         } else {
                             AppHelper.showMsg(mContext, areaModel.getMessage());
+                        }
+                    }
+                });
+    }
+
+    private void getArea(String cityName, String keyWords) {
+        DefaultAddressAPI.getArea(mContext, cityName, keyWords)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<AreasModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(AreasModel areasModel) {
+                        if(areasModel.getCode()==1) {
+                            if(areasModel.getData()!=null && areasModel.getData().size()>0) {
+                                recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+                                AddAddressAdapter addAddressAdapter = new AddAddressAdapter(R.layout.item_address_area,areasModel.getData());
+                                recyclerView.setAdapter(addAddressAdapter);
+                                addAddressAdapter.notifyDataSetChanged();
+                                addAddressAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                        keyWorldsView.setText(areasModel.getData().get(position).getDetailAddress());
+                                        recyclerView.setVisibility(View.GONE);
+
+                                    }
+                                });
+                            }else {
+                                recyclerView.setVisibility(View.GONE);
+                            }
+                        }else {
+                            ToastUtil.showErroMsg(mContext,areasModel.getMessage());
                         }
                     }
                 });

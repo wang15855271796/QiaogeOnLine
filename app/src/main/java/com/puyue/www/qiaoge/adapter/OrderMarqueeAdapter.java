@@ -61,16 +61,20 @@ public class OrderMarqueeAdapter extends RecyclerView.Adapter<OrderMarqueeAdapte
         holder.ll_root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(dataBean.getOrderStatus()==1) {
-                    Intent intent = new Intent(activity, NewOrderDetailActivity.class);
-                    intent.putExtra("account","0");
-                    intent.putExtra(AppConstant.ORDERID, dataBean.getOrderId());
-                    activity.startActivity(intent);
-                }else {
-                    Intent intent1 = new Intent(activity, MapOrderMessageActivity.class);
-                    intent1.putExtra("orderId", dataBean.getOrderId());
-                    activity.startActivity(intent1);
-                }
+                Intent intent = new Intent(activity, NewOrderDetailActivity.class);
+                intent.putExtra("account","0");
+                intent.putExtra(AppConstant.ORDERID, dataBean.getOrderId());
+                activity.startActivity(intent);
+//                if(dataBean.getOrderStatus()==1) {
+//                    Intent intent = new Intent(activity, NewOrderDetailActivity.class);
+//                    intent.putExtra("account","0");
+//                    intent.putExtra(AppConstant.ORDERID, dataBean.getOrderId());
+//                    activity.startActivity(intent);
+//                }else {
+//                    Intent intent1 = new Intent(activity, MapOrderMessageActivity.class);
+//                    intent1.putExtra("orderId", dataBean.getOrderId());
+//                    activity.startActivity(intent1);
+//                }
             }
         });
     }

@@ -49,6 +49,7 @@ import com.puyue.www.qiaoge.fragment.home.CityEvent;
 import com.puyue.www.qiaoge.model.AuthModel;
 import com.puyue.www.qiaoge.model.CartFullModel;
 import com.puyue.www.qiaoge.model.CartFullsModel;
+import com.puyue.www.qiaoge.model.JudegModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.PhotoViewPager;
 import com.puyue.www.qiaoge.view.datepicker.FingerFrameLayout;
@@ -175,13 +176,47 @@ public class AppHelper {
     }
 
     public static void ShowAuthDialog(Activity context,String cell) {
+        getJudge(context,cell);
+    }
+
+    private static void getJudge(Context context, String cell) {
+        IndexHomeAPI.getJudge(context)
+                .subscribeOn(Schedulers.io())
+                .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<AuthModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(AuthModel judegModel) {
+                        if (judegModel.getCode()==1) {
+                            getInputDialog(context,cell);
+                        }else if(judegModel.getCode()==100005) {
+                            ErrorAuthDialog errorAuthDialog = new ErrorAuthDialog(context,judegModel.getData()) {
+                                @Override
+                                public void Confirm(String amount) {
+
+                                }
+                            };
+                            errorAuthDialog.show();
+                        }
+                    }
+                });
+    }
+
+    private static void getInputDialog(Context context, String cell) {
         AlertDialog mDialog = new AlertDialog.Builder(context).create();
         mDialog.show();
         Window window = mDialog.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
                 | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-
         mDialog.getWindow().setContentView(R.layout.dialog_authorize);
         TextView tv_sure = mDialog.getWindow().findViewById(R.id.tv_sure);
         ImageView iv_cancel = mDialog.getWindow().findViewById(R.id.iv_cancel);
@@ -234,6 +269,7 @@ public class AppHelper {
                             EventBus.getDefault().post(new CityEvent());
                             mDialog.dismiss();
                         }else if(indexInfoModel.getCode()==100005) {
+                            mDialog.dismiss();
                             ErrorAuthDialog errorAuthDialog = new ErrorAuthDialog(context,indexInfoModel.getData()) {
                                 @Override
                                 public void Confirm(String amount) {

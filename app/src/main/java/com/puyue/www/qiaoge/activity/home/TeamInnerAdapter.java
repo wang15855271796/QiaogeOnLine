@@ -3,8 +3,11 @@ package com.puyue.www.qiaoge.activity.home;
 import android.content.Intent;
 import android.graphics.Paint;
 import androidx.annotation.Nullable;
+
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -54,6 +57,7 @@ public class TeamInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.Data
     private TextView tv_coupon;
     RelativeLayout rl_price;
     TextView tv_price;
+    ProgressBar progress;
     public TeamInnerAdapter(int layoutResId, @Nullable List<TeamActiveQueryModel.DataBean.ActivesBean> data, Team1Adapter.Onclick onclick) {
         super(layoutResId, data);
         this.onclick = onclick;
@@ -62,6 +66,9 @@ public class TeamInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.Data
     @Override
     protected void convert(BaseViewHolder helper, TeamActiveQueryModel.DataBean.ActivesBean item) {
         ImageView iv_send = helper.getView(R.id.iv_send);
+        TextView tv_remain =  helper.getView(R.id.tv_remain);
+        tv_remain.setText(item.getRemainNum());
+        progress = helper.getView(R.id.progress);
         rl_price = helper.getView(R.id.rl_price);
         tv_price = helper.getView(R.id.tv_price);
         tv_old_price = helper.getView(R.id.tv_old_price);
@@ -70,7 +77,8 @@ public class TeamInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.Data
         rl_root = helper.getView(R.id.rl_root);
         tv_add = helper.getView(R.id.tv_add);
         rl_coupon = helper.getView(R.id.rl_coupon);
-
+        progress.setProgressDrawable(mContext.getResources().getDrawable(R.drawable.seckill_progress));
+        progress.setProgress(Integer.parseInt(item.getProgress()));
         if(item.getNotSend()!=null) {
             if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
                 iv_send.setImageResource(R.mipmap.icon_not_send2);
@@ -195,33 +203,6 @@ public class TeamInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.Data
                     }
                 });
     }
-//    private void addCar(int businessId, int businessType, int totalNum) {
-//        AddCartAPI.requestData(mContext, businessId, businessType,totalNum)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Subscriber<AddCartModel>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(AddCartModel addCartModel) {
-//                        if (addCartModel.success) {
-//                            AppHelper.showMsg(mContext, "成功加入购物车");
-//                            EventBus.getDefault().post(new ReduceNumEvent());
-//                        } else {
-//                            AppHelper.showMsg(mContext, addCartModel.message);
-//                        }
-//
-//                    }
-//                });
-//    }
 
     private void addCar(int businessId,int businessType, int totalNum) {
         AddCartAPI.requestData(mContext,businessType, businessId, totalNum)

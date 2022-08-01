@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Looper;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -82,8 +83,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class HomeActivity extends BaseActivity implements CartFragment.FragmentInteraction, CartFragment.GoToMarket,
-        TencentLocationListener {
+public class HomeActivity extends BaseActivity implements CartFragment.FragmentInteraction, CartFragment.GoToMarket{
     private static final String TAB_HOME = "tab_home";
     private static final String TAB_MARKET = "tab_market";
     private static final String TAB_CART = "tab_cart";
@@ -99,9 +99,6 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     private LinearLayout mLlHome;
     LinearLayout ll_info;
     private ImageView mIvHome;
-//    ImageView iv_home_scroll;
-    ImageView iv_home1;
-    ImageView iv_home2;
     private TextView mTvHome;
     private LinearLayout mLlMarket;
     private ImageView mIvMarket;
@@ -116,10 +113,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     private TextView tv_info;
     private long mExitTime = 0;
     private TextView mTvCarNum;
-    // 弹窗
-    private LinearLayout rootview;
-//    public LocationClient mLocationClient = null;
-//    private MyLocationListener myListener = new MyLocationListener();
+    private ImageView iv_home;
     private String token;
     private String locationMessage = "";
     private String guide;
@@ -154,14 +148,14 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
 
         @Override
     public void setContentView() {
-        //腾讯定位
+            //腾讯定位
             instance = TencentLocationManager.getInstance(QiaoGeApplication.getContext());
-            TencentLocationRequest request = TencentLocationRequest.create();
-            request.setInterval(1000);
-            request.setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_ADMIN_AREA);
-            request.setAllowGPS(true);
-            request.setIndoorLocationMode(true);
-            instance.requestLocationUpdates(request, this);
+//            TencentLocationRequest request = TencentLocationRequest.create();
+//            request.setInterval(1000);
+//            request.setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_ADMIN_AREA);
+//            request.setAllowGPS(true);
+//            request.setIndoorLocationMode(true);
+//            instance.requestLocationUpdates(request, this);
             //showSystemParameter();
         //在使用SDK各组件之前初始化context信息，传入ApplicationContext
 
@@ -175,6 +169,37 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         //自4.3.0起，百度地图SDK所有接口均支持百度坐标和国测局坐标，用此方法设置您使用的坐标类型.
         //包括BD09LL和GCJ02两种坐标，默认是BD09LL坐标。
 //        SDKInitializer.setCoordType(CoordType.BD09LL);
+
+        TencentLocationListener mLocationListener = new TencentLocationListener() {
+            @Override
+            public void onLocationChanged(TencentLocation location, int i, String s) {
+                district = location.getDistrict();
+                city = location.getCity();
+                String province = location.getProvince();
+                UserInfoHelper.saveProvince(mContext, province);
+                SharedPreferencesUtil.saveString(mActivity,"provinceName",province);
+                UserInfoHelper.saveAreaName(mContext, district);
+                SharedPreferencesUtil.saveString(mContext,"lat",location.getLatitude()+"");
+                SharedPreferencesUtil.saveString(mContext,"lon",location.getLongitude()+"");
+                isGet = true;
+                if (city != null) {
+                    UserInfoHelper.saveCity(mContext, city);
+                } else {
+                    UserInfoHelper.saveCity(mContext, "");
+                }
+                type = "";
+                locationMessage = location.getAddress();    //获取详细地址信息
+                switchTab(TAB_HOME);
+                if (token != null) {
+                    sendLocation();
+                }
+            }
+
+            @Override
+            public void onStatusUpdate(String s, int i, String s1) {
+            }
+        };
+        instance.requestSingleFreshLocation(null, mLocationListener, Looper.getMainLooper());
 
         OneKeyLoginManager.getInstance().init(getApplicationContext(), "cuRwbnsv", new InitListener() {
                           @Override
@@ -193,33 +218,30 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
 
             }
         });
+
         setContentView(R.layout.activity_home);
+
     }
 
     @Override
     public void findViewById() {
+        iv_home = (ImageView) findViewById(R.id.iv_home);
         iv_info = (ImageView) findViewById(R.id.iv_info);
         tv_info = (TextView) findViewById(R.id.tv_info);
         ll_info = (LinearLayout) findViewById(R.id.ll_info);
         mLlHome = (LinearLayout) findViewById(R.id.layout_tab_bar_home);
         mIvHome = (ImageView) findViewById(R.id.iv_tab_bar_home_icon);
-
         mTvHome = (TextView) findViewById(R.id.tv_tab_bar_home_title);
-
         mLlMarket = (LinearLayout) findViewById(R.id.layout_tab_bar_market);
         mIvMarket = (ImageView) findViewById(R.id.iv_tab_bar_market_icon);
         mTvMarket = (TextView) findViewById(R.id.tv_tab_bar_market_title);
-
         mLlCart = (LinearLayout) findViewById(R.id.layout_tab_bar_cart);
         mIvCart = (ImageView) findViewById(R.id.iv_tab_bar_cart_icon);
         mTvCart = (TextView) findViewById(R.id.tv_tab_bar_cart_title);
-
         mLlMine = (LinearLayout) findViewById(R.id.layout_tab_bar_mine);
         mIvMine = (ImageView) findViewById(R.id.iv_tab_bar_mine_icon);
         mTvMine = (TextView) findViewById(R.id.tv_tab_bar_mine_title);
         mTvCarNum = (TextView) findViewById(R.id.tv_home_car_number);
-        rootview = findViewById(R.id.rootview);
-        switchTab(TAB_HOME);
     }
 
 
@@ -233,12 +255,15 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         if (getIntent() != null) {
             type = getIntent().getStringExtra("go_home");
         }
-
         token = AppConstant.TOKEN;
         EventBus.getDefault().post(new InitEvent());
-
         guide = UserInfoHelper.getGuide(mActivity);
         UserInfoHelper.saveChangeFlag(mContext,0+"");
+        mTvHome.setVisibility(View.GONE);
+        mIvHome.setVisibility(View.GONE);
+        iv_home.setVisibility(View.VISIBLE);
+        UserInfoHelper.saveAreaName(mContext, "上城区");
+        switchTab(TAB_HOME);
 }
 
     private void sendLocation() {
@@ -279,10 +304,10 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void change1(changeEvent changeEvent) {
         if(changeEvent.isB()) {
-            mIvHome.setImageResource(R.mipmap.icon_go_top);
+            iv_home.setImageResource(R.mipmap.icon_go_top);
             SharedPreferencesUtil.saveBoolean(mActivity,"isScroll",true);
         }else {
-            mIvHome.setImageResource(R.mipmap.ic_tab_home_enable);
+            iv_home.setImageResource(R.mipmap.ic_tab_home_enable);
             SharedPreferencesUtil.saveBoolean(mActivity,"isScroll",false);
         }
     }
@@ -299,12 +324,20 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         public void onNoDoubleClick(View view) {
             if (view == mLlHome) {
                 switchTab(TAB_HOME);
-                Window window = getWindow();
-                window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
+//                Window window = getWindow();
+//                window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                mTvHome.setVisibility(View.GONE);
+                mIvHome.setVisibility(View.GONE);
+                iv_home.setVisibility(View.VISIBLE);
             } else if (view == mLlMarket&&!mLlMarket.isSelected()) {
                 switchTab(TAB_MARKET);
+                mTvHome.setVisibility(View.VISIBLE);
+                mIvHome.setVisibility(View.VISIBLE);
+                iv_home.setVisibility(View.GONE);
             } else if (view == mLlCart&&!mLlCart.isSelected())  {
+                mTvHome.setVisibility(View.VISIBLE);
+                mIvHome.setVisibility(View.VISIBLE);
+                iv_home.setVisibility(View.GONE);
                 //从首页判断用户没有登录跳转到登录界面,登录成功回来的时候要重新请求数据,
                 //由于是从首页和商城页点击进入的登录界面,回到原来界面的时候需要首页刷新或者商城界面刷新分类和细节数据
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
@@ -312,11 +345,12 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                     Window window = getWindow();
                     window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                 } else {
-//                    AppHelper.showMsg(mContext, "请先登录");
-//                    startActivity(LoginActivity.getIntent(mContext, LoginActivity.class));
                     initDialog();
                 }
             } else if (view == mLlMine&&!mLlMine.isSelected()) {
+                mTvHome.setVisibility(View.VISIBLE);
+                mIvHome.setVisibility(View.VISIBLE);
+                iv_home.setVisibility(View.GONE);
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     switchTab(TAB_MINE);
                     Window window = getWindow();
@@ -325,6 +359,9 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                     initDialog();
                 }
             }else if(view == ll_info&&!ll_info.isSelected()) {
+                mTvHome.setVisibility(View.VISIBLE);
+                mIvHome.setVisibility(View.VISIBLE);
+                iv_home.setVisibility(View.GONE);
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     switchTab(TAB_INFO);
                     Window window = getWindow();
@@ -354,8 +391,6 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     }
 
     private void switchTab(String tab) {
-
-//        mLocationClient.stop();
         //开始事务
         mFragmentTransaction = getSupportFragmentManager().beginTransaction();
         //隐藏所有的Fragment
@@ -375,9 +410,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
             mFragmentTransaction.hide(mTabMine);
         }
         //重置所有的tabStyle
-        mIvHome.setImageResource(R.mipmap.ic_tab_home_unable);
-        mTvHome.setVisibility(View.GONE);
-        mTvHome.setTextColor(getResources().getColor(R.color.app_color_bottom_gray));
+        iv_home.setImageResource(R.mipmap.ic_tab_home_enable);
         mIvMarket.setImageResource(R.mipmap.ic_tab_goods_unable);
         mTvMarket.setTextColor(getResources().getColor(R.color.app_color_bottom_gray));
         mIvCart.setImageResource(R.mipmap.ic_tab_cart_unable);
@@ -389,17 +422,10 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         //切换被选中的tab
         switch (tab) {
             case TAB_HOME:
-
                 boolean isScroll = SharedPreferencesUtil.getBoolean(mActivity, "isScroll");
                 SharedPreferencesUtil.saveString(mActivity,"index1","1");
                 SharedPreferencesUtil.saveString(mActivity,"index","1");
                 SharedPreferencesUtil.saveString(mActivity,"index2","2");
-                mLlMarket.setSelected(false);
-                ll_info.setSelected(false);
-                mLlHome.setSelected(true);
-                mLlCart.setSelected(false);
-                mLlMine.setSelected(false);
-                mTvHome.setVisibility(View.GONE);
                 if (mTabHome == null || isGet) {
                     mTabHome = new HomeFragment();
                     mFragmentTransaction.add(R.id.layout_home_container, mTabHome);
@@ -410,12 +436,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
 
                 if(isScroll) {
                     EventBus.getDefault().postSticky(new TopEvent(true));
-                    mIvHome.setImageResource(R.mipmap.icon_go_top);
-                }else {
-                    mIvHome.setImageResource(R.mipmap.ic_tab_home_enable);
                 }
-
-                mTvHome.setTextColor(getResources().getColor(R.color.app_tab_selected));
 
                 if (EasyPermissions.hasPermissions(this,params)) {//检查是否获取该权限
                     //全部允许
@@ -430,19 +451,6 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                 SharedPreferencesUtil.saveString(mActivity,"index2","1");
                 SharedPreferencesUtil.saveString(mActivity,"index","2");
                 SharedPreferencesUtil.saveString(mActivity,"index1","1");
-                mTvHome.setVisibility(View.VISIBLE);
-                mLlMarket.setSelected(true);
-                ll_info.setSelected(false);
-                mLlHome.setSelected(false);
-                mLlCart.setSelected(false);
-                mLlMine.setSelected(false);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mIvHome.setImageResource(R.mipmap.ic_tab_home_unable);
-                    }
-                },1/1000);
-
                 if (mTabMarket == null) {
                     mTabMarket = new MarketsFragment();
                     mFragmentTransaction.add(R.id.layout_home_container, mTabMarket);
@@ -451,38 +459,21 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                     mFragmentTransaction.show(mTabMarket);
                 }
 
-
                 mIvMarket.setImageResource(R.mipmap.ic_tab_goods_enable);
                 mTvMarket.setTextColor(getResources().getColor(R.color.app_tab_selected));
                 getCartPoductNum();
-
 
                 break;
             case TAB_CART:
                 SharedPreferencesUtil.saveString(mActivity,"index2","1");
                 SharedPreferencesUtil.saveString(mActivity,"index","3");
                 SharedPreferencesUtil.saveString(mActivity,"index1","1");
-                mLlMarket.setSelected(false);
-                ll_info.setSelected(false);
-                mLlHome.setSelected(false);
-                mLlCart.setSelected(true);
-                mLlMine.setSelected(false);
-                mTvHome.setVisibility(View.VISIBLE);
-
                 if (mTabCart == null) {
                     mTabCart = new CartFragments();
                     mFragmentTransaction.add(R.id.layout_home_container, mTabCart);
                 } else {
                     mFragmentTransaction.show(mTabCart);
-
                 }
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mIvHome.setImageResource(R.mipmap.ic_tab_home_unable);
-                    }
-                },1/1000);
 
                 mIvCart.setImageResource(R.mipmap.ic_tab_cart_enable);
                 mTvCart.setTextColor(getResources().getColor(R.color.app_tab_selected));
@@ -492,20 +483,6 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                 SharedPreferencesUtil.saveString(mActivity,"index2","1");
                 SharedPreferencesUtil.saveString(mActivity,"index","5");
                 SharedPreferencesUtil.saveString(mActivity,"index1","1");
-                mLlMarket.setSelected(false);
-                ll_info.setSelected(false);
-                mLlHome.setSelected(false);
-                mLlCart.setSelected(false);
-                mLlMine.setSelected(true);
-
-                mTvHome.setVisibility(View.VISIBLE);
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mIvHome.setImageResource(R.mipmap.ic_tab_home_unable);
-                    }
-                },1/1000);
 
                 if (mTabMine == null) {
                     mTabMine = new MineFragment();
@@ -523,21 +500,6 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                 SharedPreferencesUtil.saveString(mActivity,"index2","1");
                 SharedPreferencesUtil.saveString(mActivity,"index","4");
                 SharedPreferencesUtil.saveString(mActivity,"index1","1");
-                mLlMarket.setSelected(false);
-                ll_info.setSelected(true);
-                mLlHome.setSelected(false);
-                mLlCart.setSelected(false);
-                mLlMine.setSelected(false);
-
-                mTvHome.setVisibility(View.VISIBLE);
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mIvHome.setImageResource(R.mipmap.ic_tab_home_unable);
-                    }
-                },1/1000);
-
 
                 if (mTabInfo == null) {
                     mTabInfo = new InfoFragment();
@@ -764,33 +726,34 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         switchTab(TAB_MARKET);
     }
 
-    @Override
-    public void onLocationChanged(TencentLocation location, int error, String reason) {
-        district = location.getDistrict();
-        city = location.getCity();
-        String province = location.getProvince();
-        UserInfoHelper.saveProvince(mContext, province);
-        SharedPreferencesUtil.saveString(mActivity,"provinceName",province);
-        UserInfoHelper.saveAreaName(mContext, district);
-        SharedPreferencesUtil.saveString(mContext,"lat",location.getLatitude()+"");
-        SharedPreferencesUtil.saveString(mContext,"lon",location.getLongitude()+"");
-        isGet = true;
-        if (city != null) {
-            UserInfoHelper.saveCity(mContext, city);
-        } else {
-            UserInfoHelper.saveCity(mContext, "");
-        }
-        type = "";
-        locationMessage = location.getAddress();    //获取详细地址信息
+//    @Override
+//    public void onLocationChanged(TencentLocation location, int error, String reason) {
+//        district = location.getDistrict();
+//        city = location.getCity();
+//        String province = location.getProvince();
+//        UserInfoHelper.saveProvince(mContext, province);
+//        SharedPreferencesUtil.saveString(mActivity,"provinceName",province);
+//        UserInfoHelper.saveAreaName(mContext, district);
+//        SharedPreferencesUtil.saveString(mContext,"lat",location.getLatitude()+"");
+//        SharedPreferencesUtil.saveString(mContext,"lon",location.getLongitude()+"");
+//        isGet = true;
+//        if (city != null) {
+//            UserInfoHelper.saveCity(mContext, city);
+//        } else {
+//            UserInfoHelper.saveCity(mContext, "");
+//        }
+//        type = "";
+//        locationMessage = location.getAddress();    //获取详细地址信息
 //        switchTab(TAB_HOME);
-        instance.removeUpdates(this);
-        if (token != null) {
-            sendLocation();
-        }
-    }
+//        Log.d("wddwdwdd....","123");
+//        instance.removeUpdates(this);
+//        if (token != null) {
+//            sendLocation();
+//        }
+//    }
 
-    @Override
-    public void onStatusUpdate(String name, int status, String desc) {
-
-    }
+//    @Override
+//    public void onStatusUpdate(String name, int status, String desc) {
+//
+//    }
 }

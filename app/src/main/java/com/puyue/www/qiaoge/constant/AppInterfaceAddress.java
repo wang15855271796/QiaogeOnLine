@@ -16,6 +16,10 @@ public class AppInterfaceAddress {
 //    queryReturnProdIsContainFullGift
 
     /**
+     *授权前判定
+     */
+    public static final String Judge = "user/authorizeJudge";
+    /**
      *新订单确认接口 结算
      */
     public static final String Settle = "commonOrder/getBtnOpenInfo";

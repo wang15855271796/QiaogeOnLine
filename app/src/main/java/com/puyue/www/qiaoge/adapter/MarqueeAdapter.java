@@ -55,6 +55,7 @@ public class MarqueeAdapter extends RecyclerView.Adapter<MarqueeAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         dataBean = data.get(position);
         holder.tv_content.setText(dataBean.getContent());
+        holder.tv_notice_desc.setText(dataBean.getTitle());
         holder.tv_content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,9 +78,10 @@ public class MarqueeAdapter extends RecyclerView.Adapter<MarqueeAdapter.ViewHold
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView tv_content;
-
+        TextView tv_notice_desc;
         public ViewHolder(View view) {
             super(view);
+            tv_notice_desc = (TextView) view.findViewById(R.id.tv_notice_desc);
             tv_content = (TextView) view.findViewById(R.id.tv_content);
         }
     }

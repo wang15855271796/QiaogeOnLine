@@ -115,14 +115,6 @@ public class SpikeActiveQueryAdapter extends BaseQuickAdapter<SeckillListModel.D
             }
         }
 
-//        if(item.progress.equals("0")) {
-//            tvSale.setVisibility(View.GONE);
-//            mProgressBar.setVisibility(View.GONE);
-//        }else {
-//            tvSale.setVisibility(View.GONE);
-//            mProgressBar.setVisibility(View.GONE);
-//        }
-
         if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
             if(Integer.parseInt(spikeFlag)==0) {
                 //未开始
@@ -189,26 +181,6 @@ public class SpikeActiveQueryAdapter extends BaseQuickAdapter<SeckillListModel.D
             }
         });
 
-
-//        if(Integer.parseInt(spikeFlag)==0) {
-//            //未开始
-//            tv_add_remind.setVisibility(View.GONE);
-//        }else {
-//            // 已开始
-//            ivSoldOut.setVisibility(View.GONE);
-//
-//            if(item.soldOut==0) {
-//                ivSoldOut.setVisibility(View.GONE);
-//                tv_add_remind.setVisibility(View.VISIBLE);
-//            }else {
-//                ivSoldOut.setVisibility(View.VISIBLE);
-//                tv_add_remind.setVisibility(View.GONE);
-//            }
-//        }
-
-
-
-
         if (Integer.parseInt(spikeFlag) == 0) {
             //秒杀预告
             ivSoldOut.setVisibility(View.GONE);
@@ -252,33 +224,6 @@ public class SpikeActiveQueryAdapter extends BaseQuickAdapter<SeckillListModel.D
                     }
                 });
     }
-//    private void addCar(int businessId,int businessType, int totalNum) {
-//        AddCartAPI.requestData(mContext,businessType, businessId, totalNum)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Subscriber<AddCartModel>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(AddCartModel addCartModel) {
-//                        if (addCartModel.success) {
-//                            AppHelper.showMsg(mContext, "成功加入购物车");
-//                            EventBus.getDefault().post(new ReduceNumEvent());
-//                        } else {
-//                            AppHelper.showMsg(mContext, addCartModel.message);
-//                        }
-//
-//                    }
-//                });
-//    }
 
     private void addCar(int businessId,int businessType, int totalNum) {
         AddCartAPI.requestData(mContext,businessType, businessId, totalNum)

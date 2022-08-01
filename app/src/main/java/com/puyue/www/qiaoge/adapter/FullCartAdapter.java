@@ -1,5 +1,7 @@
 package com.puyue.www.qiaoge.adapter;
 
+import android.graphics.Color;
+import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.helper.StringSpecialHelper;
 import com.puyue.www.qiaoge.model.CartFullModel;
 import com.puyue.www.qiaoge.model.CartFullsModel;
 
@@ -32,7 +35,17 @@ public class FullCartAdapter extends BaseQuickAdapter<CartFullsModel.DataBean.De
         TextView tv_given = helper.getView(R.id.tv_given);
         RecyclerView rv_coupon = helper.getView(R.id.rv_coupon);
         RecyclerView recyclerView = helper.getView(R.id.recycleView);
-        tv_desc.setText(item.getLimitInfo());
+        if("无限制".equals(item.getLimitInfo())) {
+            tv_desc.setText(item.getLimitInfo());
+        }else {
+            tv_desc.setText(item.getLimitInfo());
+//            String limitInfo = item.getLimitInfo();
+//            String startStr = limitInfo.substring(0,);
+//            SpannableStringBuilder spannableStringBuilder = StringSpecialHelper.buildSpanColorStyle(item.getLimitInfo(), 17,
+//                    8, Color.parseColor("#3483FF"));
+//            tv_desc.setText(spannableStringBuilder);
+        }
+
         tv_given.setText(item.getDeductInfo());
         sendProd1 = new ArrayList<>();
         sendProd2 = new ArrayList<>();

@@ -154,6 +154,7 @@ public class TeamActiveQueryModel {
             private String remainNum;
             String discount;
             String notSend;
+            String selfProd;
             @Override
             public String toString() {
                 return "ActivesBean{" +
@@ -169,6 +170,14 @@ public class TeamActiveQueryModel {
                         ", remainNum='" + remainNum + '\'' +
                         ", discount='" + discount + '\'' +
                         '}';
+            }
+
+            public String getSelfProd() {
+                return selfProd;
+            }
+
+            public void setSelfProd(String selfProd) {
+                this.selfProd = selfProd;
             }
 
             public String getSelfOrNot() {

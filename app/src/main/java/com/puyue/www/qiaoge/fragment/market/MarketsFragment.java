@@ -30,7 +30,6 @@ import android.widget.TextView;
 import com.android.tu.loadingdialog.LoadingDailog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.xrecyclerview.XRecyclerView;
-import com.puyue.www.qiaoge.AutoPollRecyclerView;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
@@ -168,7 +167,6 @@ public class MarketsFragment extends BaseFragment {
     private List<MarketAlreadyGoodModel.DataBean> mListAlreadyGood = new ArrayList<>();
     private MarketAlreadyGoodAdapter mAlreadyAdapter;
     private PopupWindow popupWindow;
-    private ArrayList<View> viewList = new ArrayList<>();
     RecyclerView rv_cate;
     private String saleVolume = "";
     private String priceUp = "";
@@ -403,11 +401,9 @@ public class MarketsFragment extends BaseFragment {
                     pageNum = 1;
                     if(mModelMarketGoods.getData().getBrandProd().isHasNextPage()) {
                         hasPage = true;
-//                        getDataThree();
                         getData();
                     }else {
                         hasPage = false;
-//                        getDataThree();
                         getData();
                     }
                     return true;
@@ -500,7 +496,6 @@ public class MarketsFragment extends BaseFragment {
                         minPrice = mEtLowPrice.getText().toString();
                         maxPrice = mEtHighPrice.getText().toString();
                         pageNum = 1;
-//                        getDataTwo();
                         getData();
 
                         popupWindow.dismiss();
@@ -619,7 +614,7 @@ public class MarketsFragment extends BaseFragment {
                 .subscribe(new Subscriber<MarketRightModel>() {
                     @Override
                     public void onCompleted() {
-//                        mRvDetail.refreshComplete();
+
                     }
 
                     @Override
@@ -631,11 +626,14 @@ public class MarketsFragment extends BaseFragment {
                     public void onNext(MarketRightModel marketGoodSelectModel) {
 
                         if (marketGoodSelectModel.getCode()==1) {
-                            mModelMarketGoods = marketGoodSelectModel;
-                            dialog.dismiss();
-                            updateMarketGoods();
-                            lav_activity_loading.hide();
-                            flag = true;
+                            if(marketGoodSelectModel.getData()!=null) {
+                                mModelMarketGoods = marketGoodSelectModel;
+                                dialog.dismiss();
+                                updateMarketGoods();
+                                lav_activity_loading.hide();
+                                flag = true;
+                            }
+
                         } else {
                             AppHelper.showMsg(mActivity, marketGoodSelectModel.getMessage());
                             lav_activity_loading.hide();
@@ -813,12 +811,10 @@ public class MarketsFragment extends BaseFragment {
 
             @Override
             public void onLoadMore() {
-
                 if (hasPage) {
                     pageNum++;
                     getData();
                 } else {
-                    Log.d("wdasdsdw.........",hasPage+"aaa");
                     pageNum = 1;
                     if(scrollPosition != mListSecondNow.size()-1) {
                         hasPage = false;
@@ -835,6 +831,7 @@ public class MarketsFragment extends BaseFragment {
                         mSecondCode = mListSecondNow.get(scrollPosition).getSecondId();
                         getData();
                     }else {
+
                         scrollPosition = 0;
                         if(mList.size()!=selectPosition+1) {
                             selectPosition++;
@@ -908,26 +905,6 @@ public class MarketsFragment extends BaseFragment {
                         pageNum = 1;
                         hasPage = true;
                         getData();
-                    }
-                    if (flag) {
-//                        flag = false;
-//                        hintKbTwo();
-//                        dialog.show();
-//                        if(position == 2) {
-//                            mSecondCode = -5;
-//                        }
-//
-//                        if (mSecondCode == -5) {
-//                            ll_select.setVisibility(View.GONE);
-//                            ll_prod.setVisibility(View.VISIBLE);
-//                            getData();
-//                        } else {
-//                            ll_select.setVisibility(View.VISIBLE);
-//                            ll_prod.setVisibility(View.GONE);
-//                            pageNum = 1;
-//                            hasPage = true;
-//                            getData();
-//                        }
                     }
                 }
                 @Override
@@ -1020,7 +997,6 @@ public class MarketsFragment extends BaseFragment {
                             if(marketGoodsModel.getData()!=null && marketGoodsModel.getData().size() >0) {
                                 List<ClassIfyModel.DataBean> data = marketGoodsModel.getData();
                                 mList.addAll(data);
-                                mListSecondNow.addAll(data.get(selectPosition).getSecondClassify());
                                 if(fromId!="") {
                                     //首页顶部切换过来
                                     for (int i = 0; i < mList.size(); i++) {
@@ -1033,6 +1009,7 @@ public class MarketsFragment extends BaseFragment {
                                     }
                                     mFirstCode = fromId;
                                     mAdapterMarketSecond.selectPosition(0);
+                                    mListSecondNow.addAll(data.get(selectPosition).getSecondClassify());
                                     getData();
                                     mAdapterMarketSecond.notifyDataSetChanged();
                                     firstAdapter.notifyDataSetChanged();
@@ -1044,28 +1021,13 @@ public class MarketsFragment extends BaseFragment {
                                     mSecondCode = data.get(selectPosition).getSecondClassify().get(0).getSecondId();
                                     mList.addAll(data);
                                     firstAdapter.selectPosition(selectPosition);
-                                    mListSecondNow.addAll(data.get(0).getSecondClassify());
+                                    mListSecondNow.addAll(data.get(selectPosition).getSecondClassify());
                                     getData();
                                     mAdapterMarketSecond.selectPosition(0);
                                     mAdapterMarketSecond.notifyDataSetChanged();
                                     firstAdapter.notifyDataSetChanged();
 
                                 }
-
-//                                mFirstCode = data.get(selectPosition).getFirstId();
-//                                mSecondCode =data.get(selectPosition).getSecondClassify().get(scrollPosition).getSecondId();
-//
-//                                mList.clear();
-//                                mList.addAll(data);
-//
-//                                mListSecondNow.clear();
-//                                mListSecondNow.addAll(data.get(selectPosition).getSecondClassify());
-//
-//                                firstAdapter.selectPosition(selectPosition);
-//                                mAdapterMarketSecond.selectPosition(0);
-//                                firstAdapter.notifyDataSetChanged();
-//
-//                                getData();
                             }else {
                                 mListSecondNow.clear();
                                 mList.clear();

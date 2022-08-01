@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/size_63dp"
     android:background="@color/app_color_white"
     android:orientation="horizontal">
 
@@ -17,19 +17,28 @@
         android:paddingTop="10dp">
 
         <ImageView
+            android:visibility="gone"
             android:id="@+id/iv_tab_bar_home_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_tab_home_unable" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_tab_bar_home_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="3dp"
             android:text="首页"
             android:textColor="#d1d1d1"
             android:textSize="12dp" />
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/iv_home"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:src="@mipmap/ic_tab_home_enable" />
     </LinearLayout>
 
     <LinearLayout
@@ -51,7 +60,7 @@
             android:id="@+id/tv_tab_bar_market_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="3dp"
             android:text="商品"
             android:textColor="#d1d1d1"
             android:textSize="12dp" />
@@ -87,7 +96,7 @@
                     android:id="@+id/tv_tab_bar_cart_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="3dp"
                     android:text="购物车"
                     android:textColor="#d1d1d1"
                     android:textSize="12dp" />
@@ -131,7 +140,7 @@
             android:id="@+id/tv_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="3dp"
             android:text="行业信息"
             android:textColor="#d1d1d1"
             android:textSize="12dp" />
@@ -156,7 +165,7 @@
             android:id="@+id/tv_tab_bar_mine_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="3dp"
             android:text="我的"
             android:textColor="#d1d1d1"
             android:textSize="12dp" />

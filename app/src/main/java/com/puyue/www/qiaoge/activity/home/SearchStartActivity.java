@@ -404,7 +404,7 @@ public class SearchStartActivity extends BaseSwipeActivity implements View.OnFoc
                                         Intent intent = new Intent(mContext,SearchReasultActivity.class);
                                         UserInfoHelper.saveUserContent(mContext, data.get(position).getKeyBegin()+data.get(position).getKey()+data.get(position).getKeyEnd());
                                         UserInfoHelper.saveUserHistory(mContext, data.get(position).getKeyBegin()+data.get(position).getKey()+data.get(position).getKeyEnd());
-                                        intent.putExtra(AppConstant.SEARCHWORD,data.get(position).getKey()+data.get(position).getKeyBegin()+data.get(position).getKeyEnd());
+                                        intent.putExtra(AppConstant.SEARCHWORD,data.get(position).getKeyBegin()+data.get(position).getKey()+data.get(position).getKeyEnd());
                                         mContext.startActivity(intent);
                                         savaHistory(data.get(position).getKeyBegin()+data.get(position).getKey()+data.get(position).getKeyEnd());
                                         finish();
