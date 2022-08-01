@@ -348,8 +348,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     TextView tv_small_coupon_title;
     @BindView(R.id.tv_small_hot_title)
     TextView tv_small_hot_title;
-    @BindView(R.id.tv_hot_title)
-    TextView tv_hot_title;
     @BindView(R.id.rl_more5)
     RelativeLayout rl_more5;
     @BindView(R.id.tv_time)
@@ -362,8 +360,8 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     TextView tv_order_num;
     @BindView(R.id.rl_huo)
     RelativeLayout rl_huo;
-    @BindView(R.id.rl_huos)
-    RelativeLayout rl_huos;
+//    @BindView(R.id.rl_huos)
+//    RelativeLayout rl_huos;
 //    @BindView(R.id.vp_skill)
 //    ViewPager2 vp_skill;
 //    @BindView(R.id.vp_team)
@@ -710,7 +708,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
         tv_coupon_more.setOnClickListener(this);
         rl_address.setOnClickListener(null);
         rl_huo.setOnClickListener(this);
-        rl_huos.setOnClickListener(this);
+//        rl_huos.setOnClickListener(this);
         lav_activity_loading.show();
         requestUpdate();
         refreshLayout.autoRefresh();
@@ -1892,12 +1890,12 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                     startActivity(intentsss);
                 }
                 break;
-            case R.id.rl_huos:
-                isAuth();
-//                Intent intentss = new Intent(mActivity, HuoHomeActivity.class);
-//                intentss.putExtra("orderId","");
-//                startActivity(intentss);
-                break;
+//            case R.id.rl_huos:
+//                isAuth();
+////                Intent intentss = new Intent(mActivity, HuoHomeActivity.class);
+////                intentss.putExtra("orderId","");
+////                startActivity(intentss);
+//                break;
             case R.id.tv_search:
                 Intent intent = new Intent(mActivity, SearchStartActivity.class);
                 intent.putExtra(AppConstant.SEARCHTYPE, AppConstant.HOME_SEARCH);

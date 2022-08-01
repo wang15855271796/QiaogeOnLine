@@ -19,7 +19,10 @@ import com.bumptech.glide.Glide;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.activity.home.TeamDetailActivity;
+import com.puyue.www.qiaoge.helper.StringHelper;
+import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.CouponModels;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
 import java.util.List;
 
@@ -27,10 +30,12 @@ public class VpTeamAdapter extends RecyclerView.Adapter<VpTeamAdapter.BaseViewHo
     Context mContext;
     int layoutResId;
     List<CouponModels.DataBean.TeamBean.ActivesBeanX> actives;
-    public VpTeamAdapter(Context context, int layoutResId, List<CouponModels.DataBean.TeamBean.ActivesBeanX> actives) {
+    Onclick onclick;
+    public VpTeamAdapter(Context context, int layoutResId, List<CouponModels.DataBean.TeamBean.ActivesBeanX> actives,Onclick onclick) {
         this.mContext = context;
         this.layoutResId = layoutResId;
         this.actives = actives;
+        this.onclick = onclick;
     }
 
 
@@ -50,7 +55,26 @@ public class VpTeamAdapter extends RecyclerView.Adapter<VpTeamAdapter.BaseViewHo
         }else {
             holder.tv_save_price.setBackgroundResource(R.drawable.shape_white);
         }
-        holder.tv_price.setText(activesBeanX.getPrice());
+
+        if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+            if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
+                holder.tv_price.setText(activesBeanX.getPrice());
+            }else {
+                holder.tv_price.setText("价格授权后可见");
+            }
+        }else {
+            holder.tv_price.setText(activesBeanX.getMinMaxPrice());
+        }
+
+        holder.tv_price.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(onclick!=null) {
+                    onclick.tipClick();
+                }
+            }
+        });
+
         holder.tv_title.setText(activesBeanX.getActiveName());
         Glide.with(mContext).load(activesBeanX.getDefaultPic()).into(holder.iv_pic);
 
@@ -71,7 +95,7 @@ public class VpTeamAdapter extends RecyclerView.Adapter<VpTeamAdapter.BaseViewHo
 
     @Override
     public int getItemCount() {
-        return actives.size();
+        return Integer.MAX_VALUE;
 
     }
 
@@ -94,4 +118,7 @@ public class VpTeamAdapter extends RecyclerView.Adapter<VpTeamAdapter.BaseViewHo
         }
     }
 
+    public interface Onclick {
+        void tipClick();
+    }
 }

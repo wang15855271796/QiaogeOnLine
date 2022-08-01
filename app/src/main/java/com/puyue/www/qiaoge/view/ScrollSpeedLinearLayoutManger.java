@@ -16,6 +16,10 @@ public class ScrollSpeedLinearLayoutManger extends LinearLayoutManager {
         super(context);
         this.contxt = context;
     }
+    public ScrollSpeedLinearLayoutManger(Context context,int ori,boolean flag) {
+        super(context);
+        this.contxt = context;
+    }
 
     @Override
     public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int position) {

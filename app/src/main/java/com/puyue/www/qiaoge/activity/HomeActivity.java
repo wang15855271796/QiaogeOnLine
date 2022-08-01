@@ -199,6 +199,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
             public void onStatusUpdate(String s, int i, String s1) {
             }
         };
+
         instance.requestSingleFreshLocation(null, mLocationListener, Looper.getMainLooper());
 
         OneKeyLoginManager.getInstance().init(getApplicationContext(), "cuRwbnsv", new InitListener() {

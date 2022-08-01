@@ -26,13 +26,5 @@ public class AreaAdapter extends BaseQuickAdapter<CityChangeModel.DataBean.CityN
     protected void convert(BaseViewHolder helper, CityChangeModel.DataBean.CityNamesBean.AreaNamesBean item) {
         TextView tv_city = helper.getView(R.id.tv_city);
         tv_city.setText(item.getAreaName());
-
-//        tv_city.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                UserInfoHelper.saveCity(mContext, item.getAreaName());
-//
-//            }
-//        });
     }
 }

@@ -40,10 +40,12 @@ public class VpFullAdapter extends RecyclerView.Adapter<VpFullAdapter.BaseViewHo
     Context mContext;
     int layoutResId;
     List<CouponModels.DataBean.FullGiftBean.ActivesBeanXX> actives;
-    public VpFullAdapter(Context context, int layoutResId, List<CouponModels.DataBean.FullGiftBean.ActivesBeanXX> actives) {
+    Onclick onclick;
+    public VpFullAdapter(Context context, int layoutResId, List<CouponModels.DataBean.FullGiftBean.ActivesBeanXX> actives,Onclick onclick) {
         this.mContext = context;
         this.layoutResId = layoutResId;
         this.actives = actives;
+        this.onclick = onclick;
     }
 
 
@@ -64,7 +66,15 @@ public class VpFullAdapter extends RecyclerView.Adapter<VpFullAdapter.BaseViewHo
             holder.tv_save_price.setBackgroundResource(R.drawable.shape_white);
         }
 
-        holder.tv_price.setText(activesBeanXX.getMinMaxPrice());
+        if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+            if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
+                holder.tv_price.setText(activesBeanXX.getMinMaxPrice());
+            }else {
+                holder.tv_price.setText("价格授权后可见");
+            }
+        }else {
+            holder.tv_price.setText(activesBeanXX.getMinMaxPrice());
+        }
         holder.tv_title.setText(activesBeanXX.getProductName());
         Glide.with(mContext).load(activesBeanXX.getDefaultPic()).into(holder.iv_pic);
 
@@ -73,6 +83,16 @@ public class VpFullAdapter extends RecyclerView.Adapter<VpFullAdapter.BaseViewHo
         }else {
             holder.iv_not_send.setVisibility(View.GONE);
         }
+
+        holder.tv_price.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(onclick!=null) {
+                    onclick.tipClick();
+                }
+            }
+        });
+
 
         holder.ll_root.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +105,7 @@ public class VpFullAdapter extends RecyclerView.Adapter<VpFullAdapter.BaseViewHo
 
     @Override
     public int getItemCount() {
-        return actives.size();
+        return Integer.MAX_VALUE;
 
     }
 
@@ -106,6 +126,11 @@ public class VpFullAdapter extends RecyclerView.Adapter<VpFullAdapter.BaseViewHo
             tv_save_price = (TextView) view.findViewById(R.id.tv_save_price);
 
         }
+    }
+
+
+    public interface Onclick {
+        void tipClick();
     }
 
 }

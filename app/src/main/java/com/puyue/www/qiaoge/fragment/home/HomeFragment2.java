@@ -309,8 +309,8 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener 
     TextView tv_order_num;
     @BindView(R.id.rl_huo)
     RelativeLayout rl_huo;
-    @BindView(R.id.rl_huos)
-    RelativeLayout rl_huos;
+//    @BindView(R.id.rl_huos)
+//    RelativeLayout rl_huos;
     @BindView(R.id.rv_skill)
     AutoPollRecyclerView rv_skill;
     @BindView(R.id.rv_team1)
@@ -646,7 +646,7 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener 
         tv_coupon_more.setOnClickListener(this);
         rl_address.setOnClickListener(null);
         rl_huo.setOnClickListener(this);
-        rl_huos.setOnClickListener(this);
+//        rl_huos.setOnClickListener(this);
         lav_activity_loading.show();
 //        requestUpdate();
         refreshLayout.autoRefresh();
@@ -1124,480 +1124,480 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener 
 
         switch (num) {
             case 1:
-                getOne(dataActive);
+//                getOne(dataActive);
                 break;
 
             case 2:
-                getTwo(dataActive);
+//                getTwo(dataActive);
                 break;
 
             case 3:
-                getThree(dataActive);
+//                getThree(dataActive);
                 break;
 
             case 4:
-                getFour(dataActive);
+//                getFour(dataActive);
                 break;
         }
 
     }
-
-    private void getFour(CouponModels.DataBean dataActive) {
-        ll_team.setVisibility(View.VISIBLE);
-        ll_discount.setVisibility(View.VISIBLE);
-        ll_full.setVisibility(View.VISIBLE);
-        ll_skill.setVisibility(View.VISIBLE);
-        ll_discount_bg.setBackgroundResource(R.mipmap.bg_discount);
-        ll_team_bg.setBackgroundResource(R.mipmap.bg_team);
-        ll_full_bg.setBackgroundResource(R.mipmap.bg_fulls);
-        ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills);
-        VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives());
-//        LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-        ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger = new ScrollSpeedLinearLayoutManger(mActivity);
-        scrollSpeedLinearLayoutManger.setOrientation(RecyclerView.HORIZONTAL);
-        rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger);
-        rv_skill.setAdapter(vpSkillAdapter);
-        if(dataActive.getSpike().getActives().size()>0) {
-            rv_skill.start();
-        }
-
-        VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives());
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-        ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger1 = new ScrollSpeedLinearLayoutManger(mActivity);
-        scrollSpeedLinearLayoutManger1.setOrientation(RecyclerView.HORIZONTAL);
-        rv_full.setLayoutManager(scrollSpeedLinearLayoutManger1);
-        rv_full.setAdapter(vpFullAdapter);
-        if(dataActive.getFullGift().getActives().size()>0) {
-            rv_full.start();
-        }
-
-
-        VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives());
-//        LinearLayoutManager linearLayoutManager4 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-        ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger2 = new ScrollSpeedLinearLayoutManger(mActivity);
-        scrollSpeedLinearLayoutManger2.setOrientation(RecyclerView.HORIZONTAL);
-        rv_team.setLayoutManager(scrollSpeedLinearLayoutManger2);
-        rv_team.setAdapter(vpTeamAdapter);
-        if(dataActive.getTeam().getActives().size()>0) {
-            rv_team.start();
-        }
-
-
-//        LinearLayoutManager linearLayoutManager5 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-        ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger3 = new ScrollSpeedLinearLayoutManger(mActivity);
-        scrollSpeedLinearLayoutManger3.setOrientation(RecyclerView.HORIZONTAL);
-        VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives());
-        rv_discount.setLayoutManager(scrollSpeedLinearLayoutManger3);
-        rv_discount.setAdapter(vpDiscountAdapter);
-        if(dataActive.getSpecial().getActives().size()>0) {
-            rv_discount.start();
-        }
-
-    }
-
-    private void getOne(CouponModels.DataBean dataActive) {
-        if(dataActive.getSpecial()!=null) {
-            ll_discount.setVisibility(View.VISIBLE);
-            ll_discount_bg.setBackgroundResource(R.mipmap.bg_discount_long);
-
-//            LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger4 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger4.setOrientation(RecyclerView.HORIZONTAL);
-            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_special,dataActive.getSpecial().getActives());
-            rv_discount.setLayoutManager(scrollSpeedLinearLayoutManger4);
-            rv_discount.setAdapter(vpDiscountAdapter);
-            if(dataActive.getSpecial().getActives().size()>1) {
-                rv_discount.start();
-            }
-        }
-
-        if(dataActive.getTeam()!=null) {
-            ll_team.setVisibility(View.VISIBLE);
-            ll_team_bg.setBackgroundResource(R.mipmap.bg_team_long);
-
-            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.VERTICAL,false);
-////            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_special,dataActive.getTeam().getActives());
 //
-            Test3Adapter test3Adapter = new Test3Adapter();
-//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger5 = new ScrollSpeedLinearLayoutManger(mActivity);
-//            scrollSpeedLinearLayoutManger5.setOrientation(scrollSpeedLinearLayoutManger5.VERTICAL);
-            rv_team.setLayoutManager(linearLayoutManager1);
-            rv_team.setAdapter(test3Adapter);
-            if(dataActive.getTeam().getActives().size()>1) {
-                rv_team.start();
-            }
-            test3Adapter.notifyDataSetChanged();
-        }
-
-        if(dataActive.getFullGift()!=null) {
-            ll_full.setVisibility(View.VISIBLE);
-            ll_full_bg.setBackgroundResource(R.mipmap.bg_fulls_long);
-            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_special,dataActive.getFullGift().getActives());
-//            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger6 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger6.setOrientation(RecyclerView.HORIZONTAL);
-            rv_full.setLayoutManager(scrollSpeedLinearLayoutManger6);
-            rv_full.setAdapter(vpFullAdapter);
-            if(dataActive.getFullGift().getActives().size()>1) {
-                rv_full.start();
-            }
-        }
-
-        if(dataActive.getSpike()!=null) {
-            ll_skill.setVisibility(View.VISIBLE);
-            ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills_long);
-            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_special,dataActive.getSpike().getActives());
-//            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger7 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger7.setOrientation(RecyclerView.HORIZONTAL);
-            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger7);
-            rv_skill.setAdapter(vpSkillAdapter);
-            if(dataActive.getSpike().getActives().size()>1) {
-                rv_skill.start();
-            }
-        }
-    }
-
-    private void getTwo(CouponModels.DataBean dataActive) {
-        //秒杀和满赠
-        if(dataActive.getSpike()!=null && dataActive.getFullGift()!=null) {
-            ll_skill.setVisibility(View.VISIBLE);
-            ll_full.setVisibility(View.VISIBLE);
-
-            ll_full_bg.setBackgroundResource(R.mipmap.bg_fulls);
-            ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills);
-
-            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives());
-//            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger8 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger8.setOrientation(RecyclerView.HORIZONTAL);
-            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger8);
-            rv_skill.setAdapter(vpSkillAdapter);
-            if(dataActive.getSpike().getActives().size()>1) {
-                rv_skill.start();
-            }
-
-            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives());
-//            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger9 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger9.setOrientation(RecyclerView.HORIZONTAL);
-            rv_full.setLayoutManager(scrollSpeedLinearLayoutManger9);
-            rv_full.setAdapter(vpFullAdapter);
-            if(dataActive.getFullGift().getActives().size()>1) {
-                rv_full.start();
-            }
-        }
-
-        //秒杀和组合
-        if(dataActive.getSpike()!=null && dataActive.getTeam()!=null) {
-            ll_skill.setVisibility(View.VISIBLE);
-            ll_team1.setVisibility(View.VISIBLE);
-            ll_team_bg1.setBackgroundResource(R.mipmap.bg_team);
-            ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills);
-            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives());
-//            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger10 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger10.setOrientation(RecyclerView.HORIZONTAL);
-            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger10);
-            rv_skill.setAdapter(vpSkillAdapter);
-            if(dataActive.getSpike().getActives().size()>1) {
-                rv_skill.start();
-            }
-
-//            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger11 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger11.setOrientation(RecyclerView.HORIZONTAL);
-            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives());
-            rv_team1.setLayoutManager(scrollSpeedLinearLayoutManger11);
-            rv_team1.setAdapter(vpTeamAdapter);
-            if(dataActive.getTeam().getActives().size()>1) {
-                rv_team1.start();
-            }
-        }
-
-        //秒杀和折扣
-        if(dataActive.getSpike()!=null && dataActive.getSpecial()!=null) {
-            ll_skill.setVisibility(View.VISIBLE);
-            ll_discount1.setVisibility(View.VISIBLE);
-
-            ll_discount_bg1.setBackgroundResource(R.mipmap.bg_discount);
-            ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills);
-
-            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives());
-//            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger12 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger12.setOrientation(RecyclerView.HORIZONTAL);
-            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger12);
-            rv_skill.setAdapter(vpSkillAdapter);
-            if(dataActive.getSpike().getActives().size()>1) {
-                rv_skill.start();
-            }
-
-//            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger13 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger13.setOrientation(RecyclerView.HORIZONTAL);
-            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives());
-            rv_discount1.setLayoutManager(scrollSpeedLinearLayoutManger13);
-            rv_discount1.setAdapter(vpDiscountAdapter);
-            if(dataActive.getSpecial().getActives().size()>1) {
-                rv_discount1.start();
-            }
-        }
-
-        //满赠和组合
-        if(dataActive.getFullGift()!=null && dataActive.getTeam()!=null) {
-            ll_full1.setVisibility(View.VISIBLE);
-            ll_team1.setVisibility(View.VISIBLE);
-
-            ll_full_bg1.setBackgroundResource(R.mipmap.bg_fulls);
-            ll_team_bg1.setBackgroundResource(R.mipmap.bg_team);
-
-            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives());
-//            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger14 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger14.setOrientation(RecyclerView.HORIZONTAL);
-            rv_full1.setLayoutManager(scrollSpeedLinearLayoutManger14);
-            rv_full1.setAdapter(vpFullAdapter);
-            if(dataActive.getFullGift().getActives().size()>1) {
-                rv_full1.start();
-            }
-
-//            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger15 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger15.setOrientation(RecyclerView.HORIZONTAL);
-            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives());
-            rv_team1.setLayoutManager(scrollSpeedLinearLayoutManger15);
-            rv_team1.setAdapter(vpTeamAdapter);
-            if(dataActive.getTeam().getActives().size()>1) {
-                rv_team1.start();
-            }
-        }
-
-        //满赠和折扣
-        if(dataActive.getFullGift()!=null && dataActive.getSpecial()!=null) {
-            ll_full1.setVisibility(View.VISIBLE);
-            ll_discount1.setVisibility(View.VISIBLE);
-
-            ll_full_bg1.setBackgroundResource(R.mipmap.bg_fulls);
-            ll_discount_bg1.setBackgroundResource(R.mipmap.bg_discount);
-
-
-            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives());
-//            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger16 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger16.setOrientation(RecyclerView.HORIZONTAL);
-            rv_full1.setLayoutManager(scrollSpeedLinearLayoutManger16);
-            rv_full1.setAdapter(vpFullAdapter);
-            if(dataActive.getFullGift().getActives().size()>1) {
-                rv_full1.start();
-            }
-
-//            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger17 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger17.setOrientation(RecyclerView.HORIZONTAL);
-            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives());
-            rv_discount1.setLayoutManager(scrollSpeedLinearLayoutManger17);
-            rv_discount1.setAdapter(vpDiscountAdapter);
-            if(dataActive.getSpecial().getActives().size()>1) {
-                rv_discount1.start();
-            }
-        }
-
-        //组合和折扣
-        if(dataActive.getTeam()!=null && dataActive.getSpecial()!=null) {
-            ll_team.setVisibility(View.VISIBLE);
-            ll_discount.setVisibility(View.VISIBLE);
-
-            ll_team_bg.setBackgroundResource(R.mipmap.bg_team);
-            ll_discount_bg.setBackgroundResource(R.mipmap.bg_discount);
-            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives());
-//            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger18 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger18.setOrientation(RecyclerView.HORIZONTAL);
-            rv_team.setLayoutManager(scrollSpeedLinearLayoutManger18);
-            rv_team.setAdapter(vpTeamAdapter);
-            if(dataActive.getTeam().getActives().size()>1) {
-                rv_team.start();
-            }
-
-//            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger19 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger19.setOrientation(RecyclerView.HORIZONTAL);
-            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives());
-            rv_discount.setLayoutManager(scrollSpeedLinearLayoutManger19);
-            rv_discount.setAdapter(vpDiscountAdapter);
-            if(dataActive.getSpecial().getActives().size()>1) {
-                rv_discount.start();
-            }
-        }
-    }
-
-
-    private void getThree(CouponModels.DataBean dataActive) {
-        //秒杀为空
-        if(dataActive.getSpike()==null && dataActive.getTeam()!=null && dataActive.getSpecial()!=null && dataActive.getFullGift()!=null) {
-            ll_team.setVisibility(View.VISIBLE);
-            ll_discount.setVisibility(View.VISIBLE);
-            ll_full.setVisibility(View.VISIBLE);
-
-            ll_full_bg.setBackgroundResource(R.mipmap.bg_fulls_long);
-            ll_team_bg.setBackgroundResource(R.mipmap.bg_team);
-            ll_discount_bg.setBackgroundResource(R.mipmap.bg_discount);
-
-            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_special,dataActive.getFullGift().getActives());
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger20 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger20.setOrientation(RecyclerView.HORIZONTAL);
-//            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            rv_full.setLayoutManager(scrollSpeedLinearLayoutManger20);
-            rv_full.setAdapter(vpFullAdapter);
-            if(dataActive.getFullGift().getActives().size()>1) {
-                rv_full.start();
-            }
-
-//            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger21 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger21.setOrientation(RecyclerView.HORIZONTAL);
-            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives());
-            rv_team.setLayoutManager(scrollSpeedLinearLayoutManger21);
-            rv_team.setAdapter(vpTeamAdapter);
-            if(dataActive.getTeam().getActives().size()>1) {
-                rv_team.start();
-            }
-
-//            LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger22 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger22.setOrientation(RecyclerView.HORIZONTAL);
-            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives());
-            rv_discount.setLayoutManager(scrollSpeedLinearLayoutManger22);
-            rv_discount.setAdapter(vpDiscountAdapter);
-            if(dataActive.getSpecial().getActives().size()>1) {
-                rv_discount.start();
-            }
-        }
-
-        //满赠为空
-        if(dataActive.getFullGift()==null && dataActive.getSpike()!=null && dataActive.getTeam()!=null && dataActive.getSpecial()!=null) {
-            ll_team.setVisibility(View.VISIBLE);
-            ll_discount.setVisibility(View.VISIBLE);
-            ll_skill.setVisibility(View.VISIBLE);
-
-            ll_team_bg.setBackgroundResource(R.mipmap.bg_team);
-            ll_discount_bg.setBackgroundResource(R.mipmap.bg_discount);
-            ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills_long);
-
-            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_special,dataActive.getSpike().getActives());
-//            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger23 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger23.setOrientation(RecyclerView.HORIZONTAL);
-            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger23);
-            rv_skill.setAdapter(vpSkillAdapter);
-            if(dataActive.getSpike().getActives().size()>1) {
-                rv_skill.start();
-            }
-
-//            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger24 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger24.setOrientation(RecyclerView.HORIZONTAL);
-            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives());
-            rv_team.setLayoutManager(scrollSpeedLinearLayoutManger24);
-            rv_team.setAdapter(vpTeamAdapter);
-            if(dataActive.getTeam().getActives().size()>1) {
-                rv_team.start();
-            }
-
-//            LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger25 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger25.setOrientation(RecyclerView.HORIZONTAL);
-            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives());
-            rv_discount.setLayoutManager(scrollSpeedLinearLayoutManger25);
-            rv_discount.setAdapter(vpDiscountAdapter);
-            if(dataActive.getSpecial().getActives().size()>1) {
-                rv_discount.start();
-            }
-        }
-
-        //组合为空
-        if(dataActive.getTeam()==null && dataActive.getSpike()!=null && dataActive.getSpecial()!=null && dataActive.getFullGift()!=null) {
-            ll_full.setVisibility(View.VISIBLE);
-            ll_skill.setVisibility(View.VISIBLE);
-            ll_discount.setVisibility(View.VISIBLE);
-
-            ll_full_bg.setBackgroundResource(R.mipmap.bg_fulls);
-            ll_discount_bg.setBackgroundResource(R.mipmap.bg_discount_long);
-            ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills);
-
-            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives());
-//            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger26 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger26.setOrientation(RecyclerView.HORIZONTAL);
-            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger26);
-            rv_skill.setAdapter(vpSkillAdapter);
-            if(dataActive.getSpike().getActives().size()>1) {
-                rv_skill.start();
-            }
-
-            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives());
-//            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger27 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger27.setOrientation(RecyclerView.HORIZONTAL);
-            rv_full.setLayoutManager(scrollSpeedLinearLayoutManger27);
-            rv_full.setAdapter(vpFullAdapter);
-            if(dataActive.getFullGift().getActives().size()>1) {
-                rv_full.start();
-            }
-
-//            LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger28 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger28.setOrientation(RecyclerView.HORIZONTAL);
-            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_special,dataActive.getSpecial().getActives());
-            rv_discount.setLayoutManager(scrollSpeedLinearLayoutManger28);
-            rv_discount.setAdapter(vpDiscountAdapter);
-            if(dataActive.getSpecial().getActives().size()>1) {
-                rv_discount.start();
-            }
-        }
-
-        //折扣为空
-        if(dataActive.getSpecial()==null && dataActive.getSpike()!=null && dataActive.getTeam()!=null && dataActive.getFullGift()!=null) {
-            ll_full.setVisibility(View.VISIBLE);
-            ll_skill.setVisibility(View.VISIBLE);
-            ll_team.setVisibility(View.VISIBLE);
-
-            ll_full_bg.setBackgroundResource(R.mipmap.bg_fulls);
-            ll_team_bg.setBackgroundResource(R.mipmap.bg_team_long);
-            ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills);
-
-            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives());
-//            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger29 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger29.setOrientation(RecyclerView.HORIZONTAL);
-            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger29);
-            rv_skill.setAdapter(vpSkillAdapter);
-            if(dataActive.getSpike().getActives().size()>1) {
-                rv_skill.start();
-            }
-
-            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives());
-//            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger30 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger30.setOrientation(RecyclerView.HORIZONTAL);
-            rv_full.setLayoutManager(scrollSpeedLinearLayoutManger30);
-            rv_full.setAdapter(vpFullAdapter);
-            if(dataActive.getFullGift().getActives().size()>1) {
-                rv_full.start();
-            }
-
-//            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger31 = new ScrollSpeedLinearLayoutManger(mActivity);
-            scrollSpeedLinearLayoutManger31.setOrientation(RecyclerView.HORIZONTAL);
-            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_special,dataActive.getTeam().getActives());
-            rv_team.setLayoutManager(scrollSpeedLinearLayoutManger31);
-            rv_team.setAdapter(vpTeamAdapter);
-            if(dataActive.getTeam().getActives().size()>1) {
-                rv_team.start();
-            }
-        }
-    }
+//    private void getFour(CouponModels.DataBean dataActive) {
+//        ll_team.setVisibility(View.VISIBLE);
+//        ll_discount.setVisibility(View.VISIBLE);
+//        ll_full.setVisibility(View.VISIBLE);
+//        ll_skill.setVisibility(View.VISIBLE);
+//        ll_discount_bg.setBackgroundResource(R.mipmap.bg_discount);
+//        ll_team_bg.setBackgroundResource(R.mipmap.bg_team);
+//        ll_full_bg.setBackgroundResource(R.mipmap.bg_fulls);
+//        ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills);
+//        VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives());
+////        LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//        ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger = new ScrollSpeedLinearLayoutManger(mActivity);
+//        scrollSpeedLinearLayoutManger.setOrientation(RecyclerView.HORIZONTAL);
+//        rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger);
+//        rv_skill.setAdapter(vpSkillAdapter);
+//        if(dataActive.getSpike().getActives().size()>0) {
+//            rv_skill.start();
+//        }
+//
+//        VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives());
+////        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//        ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger1 = new ScrollSpeedLinearLayoutManger(mActivity);
+//        scrollSpeedLinearLayoutManger1.setOrientation(RecyclerView.HORIZONTAL);
+//        rv_full.setLayoutManager(scrollSpeedLinearLayoutManger1);
+//        rv_full.setAdapter(vpFullAdapter);
+//        if(dataActive.getFullGift().getActives().size()>0) {
+//            rv_full.start();
+//        }
+//
+//
+//        VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives());
+////        LinearLayoutManager linearLayoutManager4 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//        ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger2 = new ScrollSpeedLinearLayoutManger(mActivity);
+//        scrollSpeedLinearLayoutManger2.setOrientation(RecyclerView.HORIZONTAL);
+//        rv_team.setLayoutManager(scrollSpeedLinearLayoutManger2);
+//        rv_team.setAdapter(vpTeamAdapter);
+//        if(dataActive.getTeam().getActives().size()>0) {
+//            rv_team.start();
+//        }
+//
+//
+////        LinearLayoutManager linearLayoutManager5 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//        ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger3 = new ScrollSpeedLinearLayoutManger(mActivity);
+//        scrollSpeedLinearLayoutManger3.setOrientation(RecyclerView.HORIZONTAL);
+//        VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives());
+//        rv_discount.setLayoutManager(scrollSpeedLinearLayoutManger3);
+//        rv_discount.setAdapter(vpDiscountAdapter);
+//        if(dataActive.getSpecial().getActives().size()>0) {
+//            rv_discount.start();
+//        }
+//
+//    }
+//
+//    private void getOne(CouponModels.DataBean dataActive) {
+//        if(dataActive.getSpecial()!=null) {
+//            ll_discount.setVisibility(View.VISIBLE);
+//            ll_discount_bg.setBackgroundResource(R.mipmap.bg_discount_long);
+//
+////            LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger4 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger4.setOrientation(RecyclerView.HORIZONTAL);
+//            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_special,dataActive.getSpecial().getActives());
+//            rv_discount.setLayoutManager(scrollSpeedLinearLayoutManger4);
+//            rv_discount.setAdapter(vpDiscountAdapter);
+//            if(dataActive.getSpecial().getActives().size()>1) {
+//                rv_discount.start();
+//            }
+//        }
+//
+//        if(dataActive.getTeam()!=null) {
+//            ll_team.setVisibility(View.VISIBLE);
+//            ll_team_bg.setBackgroundResource(R.mipmap.bg_team_long);
+//
+//            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.VERTICAL,false);
+//////            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_special,dataActive.getTeam().getActives());
+////
+//            Test3Adapter test3Adapter = new Test3Adapter();
+////            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger5 = new ScrollSpeedLinearLayoutManger(mActivity);
+////            scrollSpeedLinearLayoutManger5.setOrientation(scrollSpeedLinearLayoutManger5.VERTICAL);
+//            rv_team.setLayoutManager(linearLayoutManager1);
+//            rv_team.setAdapter(test3Adapter);
+//            if(dataActive.getTeam().getActives().size()>1) {
+//                rv_team.start();
+//            }
+//            test3Adapter.notifyDataSetChanged();
+//        }
+//
+//        if(dataActive.getFullGift()!=null) {
+//            ll_full.setVisibility(View.VISIBLE);
+//            ll_full_bg.setBackgroundResource(R.mipmap.bg_fulls_long);
+//            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_special,dataActive.getFullGift().getActives());
+////            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger6 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger6.setOrientation(RecyclerView.HORIZONTAL);
+//            rv_full.setLayoutManager(scrollSpeedLinearLayoutManger6);
+//            rv_full.setAdapter(vpFullAdapter);
+//            if(dataActive.getFullGift().getActives().size()>1) {
+//                rv_full.start();
+//            }
+//        }
+//
+//        if(dataActive.getSpike()!=null) {
+//            ll_skill.setVisibility(View.VISIBLE);
+//            ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills_long);
+//            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_special,dataActive.getSpike().getActives());
+////            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger7 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger7.setOrientation(RecyclerView.HORIZONTAL);
+//            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger7);
+//            rv_skill.setAdapter(vpSkillAdapter);
+//            if(dataActive.getSpike().getActives().size()>1) {
+//                rv_skill.start();
+//            }
+//        }
+//    }
+//
+//    private void getTwo(CouponModels.DataBean dataActive) {
+//        //秒杀和满赠
+//        if(dataActive.getSpike()!=null && dataActive.getFullGift()!=null) {
+//            ll_skill.setVisibility(View.VISIBLE);
+//            ll_full.setVisibility(View.VISIBLE);
+//
+//            ll_full_bg.setBackgroundResource(R.mipmap.bg_fulls);
+//            ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills);
+//
+//            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives());
+////            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger8 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger8.setOrientation(RecyclerView.HORIZONTAL);
+//            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger8);
+//            rv_skill.setAdapter(vpSkillAdapter);
+//            if(dataActive.getSpike().getActives().size()>1) {
+//                rv_skill.start();
+//            }
+//
+//            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives());
+////            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger9 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger9.setOrientation(RecyclerView.HORIZONTAL);
+//            rv_full.setLayoutManager(scrollSpeedLinearLayoutManger9);
+//            rv_full.setAdapter(vpFullAdapter);
+//            if(dataActive.getFullGift().getActives().size()>1) {
+//                rv_full.start();
+//            }
+//        }
+//
+//        //秒杀和组合
+//        if(dataActive.getSpike()!=null && dataActive.getTeam()!=null) {
+//            ll_skill.setVisibility(View.VISIBLE);
+//            ll_team1.setVisibility(View.VISIBLE);
+//            ll_team_bg1.setBackgroundResource(R.mipmap.bg_team);
+//            ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills);
+//            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives());
+////            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger10 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger10.setOrientation(RecyclerView.HORIZONTAL);
+//            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger10);
+//            rv_skill.setAdapter(vpSkillAdapter);
+//            if(dataActive.getSpike().getActives().size()>1) {
+//                rv_skill.start();
+//            }
+//
+////            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger11 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger11.setOrientation(RecyclerView.HORIZONTAL);
+//            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives());
+//            rv_team1.setLayoutManager(scrollSpeedLinearLayoutManger11);
+//            rv_team1.setAdapter(vpTeamAdapter);
+//            if(dataActive.getTeam().getActives().size()>1) {
+//                rv_team1.start();
+//            }
+//        }
+//
+//        //秒杀和折扣
+//        if(dataActive.getSpike()!=null && dataActive.getSpecial()!=null) {
+//            ll_skill.setVisibility(View.VISIBLE);
+//            ll_discount1.setVisibility(View.VISIBLE);
+//
+//            ll_discount_bg1.setBackgroundResource(R.mipmap.bg_discount);
+//            ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills);
+//
+//            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives());
+////            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger12 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger12.setOrientation(RecyclerView.HORIZONTAL);
+//            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger12);
+//            rv_skill.setAdapter(vpSkillAdapter);
+//            if(dataActive.getSpike().getActives().size()>1) {
+//                rv_skill.start();
+//            }
+//
+////            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger13 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger13.setOrientation(RecyclerView.HORIZONTAL);
+//            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives());
+//            rv_discount1.setLayoutManager(scrollSpeedLinearLayoutManger13);
+//            rv_discount1.setAdapter(vpDiscountAdapter);
+//            if(dataActive.getSpecial().getActives().size()>1) {
+//                rv_discount1.start();
+//            }
+//        }
+//
+//        //满赠和组合
+//        if(dataActive.getFullGift()!=null && dataActive.getTeam()!=null) {
+//            ll_full1.setVisibility(View.VISIBLE);
+//            ll_team1.setVisibility(View.VISIBLE);
+//
+//            ll_full_bg1.setBackgroundResource(R.mipmap.bg_fulls);
+//            ll_team_bg1.setBackgroundResource(R.mipmap.bg_team);
+//
+//            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives());
+////            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger14 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger14.setOrientation(RecyclerView.HORIZONTAL);
+//            rv_full1.setLayoutManager(scrollSpeedLinearLayoutManger14);
+//            rv_full1.setAdapter(vpFullAdapter);
+//            if(dataActive.getFullGift().getActives().size()>1) {
+//                rv_full1.start();
+//            }
+//
+////            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger15 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger15.setOrientation(RecyclerView.HORIZONTAL);
+//            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives());
+//            rv_team1.setLayoutManager(scrollSpeedLinearLayoutManger15);
+//            rv_team1.setAdapter(vpTeamAdapter);
+//            if(dataActive.getTeam().getActives().size()>1) {
+//                rv_team1.start();
+//            }
+//        }
+//
+//        //满赠和折扣
+//        if(dataActive.getFullGift()!=null && dataActive.getSpecial()!=null) {
+//            ll_full1.setVisibility(View.VISIBLE);
+//            ll_discount1.setVisibility(View.VISIBLE);
+//
+//            ll_full_bg1.setBackgroundResource(R.mipmap.bg_fulls);
+//            ll_discount_bg1.setBackgroundResource(R.mipmap.bg_discount);
+//
+//
+//            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives());
+////            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger16 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger16.setOrientation(RecyclerView.HORIZONTAL);
+//            rv_full1.setLayoutManager(scrollSpeedLinearLayoutManger16);
+//            rv_full1.setAdapter(vpFullAdapter);
+//            if(dataActive.getFullGift().getActives().size()>1) {
+//                rv_full1.start();
+//            }
+//
+////            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger17 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger17.setOrientation(RecyclerView.HORIZONTAL);
+//            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives());
+//            rv_discount1.setLayoutManager(scrollSpeedLinearLayoutManger17);
+//            rv_discount1.setAdapter(vpDiscountAdapter);
+//            if(dataActive.getSpecial().getActives().size()>1) {
+//                rv_discount1.start();
+//            }
+//        }
+//
+//        //组合和折扣
+//        if(dataActive.getTeam()!=null && dataActive.getSpecial()!=null) {
+//            ll_team.setVisibility(View.VISIBLE);
+//            ll_discount.setVisibility(View.VISIBLE);
+//
+//            ll_team_bg.setBackgroundResource(R.mipmap.bg_team);
+//            ll_discount_bg.setBackgroundResource(R.mipmap.bg_discount);
+//            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives());
+////            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger18 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger18.setOrientation(RecyclerView.HORIZONTAL);
+//            rv_team.setLayoutManager(scrollSpeedLinearLayoutManger18);
+//            rv_team.setAdapter(vpTeamAdapter);
+//            if(dataActive.getTeam().getActives().size()>1) {
+//                rv_team.start();
+//            }
+//
+////            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger19 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger19.setOrientation(RecyclerView.HORIZONTAL);
+//            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives());
+//            rv_discount.setLayoutManager(scrollSpeedLinearLayoutManger19);
+//            rv_discount.setAdapter(vpDiscountAdapter);
+//            if(dataActive.getSpecial().getActives().size()>1) {
+//                rv_discount.start();
+//            }
+//        }
+//    }
+//
+//
+//    private void getThree(CouponModels.DataBean dataActive) {
+//        //秒杀为空
+//        if(dataActive.getSpike()==null && dataActive.getTeam()!=null && dataActive.getSpecial()!=null && dataActive.getFullGift()!=null) {
+//            ll_team.setVisibility(View.VISIBLE);
+//            ll_discount.setVisibility(View.VISIBLE);
+//            ll_full.setVisibility(View.VISIBLE);
+//
+//            ll_full_bg.setBackgroundResource(R.mipmap.bg_fulls_long);
+//            ll_team_bg.setBackgroundResource(R.mipmap.bg_team);
+//            ll_discount_bg.setBackgroundResource(R.mipmap.bg_discount);
+//
+//            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_special,dataActive.getFullGift().getActives());
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger20 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger20.setOrientation(RecyclerView.HORIZONTAL);
+////            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            rv_full.setLayoutManager(scrollSpeedLinearLayoutManger20);
+//            rv_full.setAdapter(vpFullAdapter);
+//            if(dataActive.getFullGift().getActives().size()>1) {
+//                rv_full.start();
+//            }
+//
+////            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger21 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger21.setOrientation(RecyclerView.HORIZONTAL);
+//            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives());
+//            rv_team.setLayoutManager(scrollSpeedLinearLayoutManger21);
+//            rv_team.setAdapter(vpTeamAdapter);
+//            if(dataActive.getTeam().getActives().size()>1) {
+//                rv_team.start();
+//            }
+//
+////            LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger22 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger22.setOrientation(RecyclerView.HORIZONTAL);
+//            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives());
+//            rv_discount.setLayoutManager(scrollSpeedLinearLayoutManger22);
+//            rv_discount.setAdapter(vpDiscountAdapter);
+//            if(dataActive.getSpecial().getActives().size()>1) {
+//                rv_discount.start();
+//            }
+//        }
+//
+//        //满赠为空
+//        if(dataActive.getFullGift()==null && dataActive.getSpike()!=null && dataActive.getTeam()!=null && dataActive.getSpecial()!=null) {
+//            ll_team.setVisibility(View.VISIBLE);
+//            ll_discount.setVisibility(View.VISIBLE);
+//            ll_skill.setVisibility(View.VISIBLE);
+//
+//            ll_team_bg.setBackgroundResource(R.mipmap.bg_team);
+//            ll_discount_bg.setBackgroundResource(R.mipmap.bg_discount);
+//            ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills_long);
+//
+//            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_special,dataActive.getSpike().getActives());
+////            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger23 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger23.setOrientation(RecyclerView.HORIZONTAL);
+//            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger23);
+//            rv_skill.setAdapter(vpSkillAdapter);
+//            if(dataActive.getSpike().getActives().size()>1) {
+//                rv_skill.start();
+//            }
+//
+////            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger24 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger24.setOrientation(RecyclerView.HORIZONTAL);
+//            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives());
+//            rv_team.setLayoutManager(scrollSpeedLinearLayoutManger24);
+//            rv_team.setAdapter(vpTeamAdapter);
+//            if(dataActive.getTeam().getActives().size()>1) {
+//                rv_team.start();
+//            }
+//
+////            LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger25 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger25.setOrientation(RecyclerView.HORIZONTAL);
+//            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives());
+//            rv_discount.setLayoutManager(scrollSpeedLinearLayoutManger25);
+//            rv_discount.setAdapter(vpDiscountAdapter);
+//            if(dataActive.getSpecial().getActives().size()>1) {
+//                rv_discount.start();
+//            }
+//        }
+//
+//        //组合为空
+//        if(dataActive.getTeam()==null && dataActive.getSpike()!=null && dataActive.getSpecial()!=null && dataActive.getFullGift()!=null) {
+//            ll_full.setVisibility(View.VISIBLE);
+//            ll_skill.setVisibility(View.VISIBLE);
+//            ll_discount.setVisibility(View.VISIBLE);
+//
+//            ll_full_bg.setBackgroundResource(R.mipmap.bg_fulls);
+//            ll_discount_bg.setBackgroundResource(R.mipmap.bg_discount_long);
+//            ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills);
+//
+//            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives());
+////            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger26 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger26.setOrientation(RecyclerView.HORIZONTAL);
+//            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger26);
+//            rv_skill.setAdapter(vpSkillAdapter);
+//            if(dataActive.getSpike().getActives().size()>1) {
+//                rv_skill.start();
+//            }
+//
+//            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives());
+////            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger27 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger27.setOrientation(RecyclerView.HORIZONTAL);
+//            rv_full.setLayoutManager(scrollSpeedLinearLayoutManger27);
+//            rv_full.setAdapter(vpFullAdapter);
+//            if(dataActive.getFullGift().getActives().size()>1) {
+//                rv_full.start();
+//            }
+//
+////            LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger28 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger28.setOrientation(RecyclerView.HORIZONTAL);
+//            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_special,dataActive.getSpecial().getActives());
+//            rv_discount.setLayoutManager(scrollSpeedLinearLayoutManger28);
+//            rv_discount.setAdapter(vpDiscountAdapter);
+//            if(dataActive.getSpecial().getActives().size()>1) {
+//                rv_discount.start();
+//            }
+//        }
+//
+//        //折扣为空
+//        if(dataActive.getSpecial()==null && dataActive.getSpike()!=null && dataActive.getTeam()!=null && dataActive.getFullGift()!=null) {
+//            ll_full.setVisibility(View.VISIBLE);
+//            ll_skill.setVisibility(View.VISIBLE);
+//            ll_team.setVisibility(View.VISIBLE);
+//
+//            ll_full_bg.setBackgroundResource(R.mipmap.bg_fulls);
+//            ll_team_bg.setBackgroundResource(R.mipmap.bg_team_long);
+//            ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills);
+//
+//            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives());
+////            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger29 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger29.setOrientation(RecyclerView.HORIZONTAL);
+//            rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger29);
+//            rv_skill.setAdapter(vpSkillAdapter);
+//            if(dataActive.getSpike().getActives().size()>1) {
+//                rv_skill.start();
+//            }
+//
+//            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives());
+////            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger30 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger30.setOrientation(RecyclerView.HORIZONTAL);
+//            rv_full.setLayoutManager(scrollSpeedLinearLayoutManger30);
+//            rv_full.setAdapter(vpFullAdapter);
+//            if(dataActive.getFullGift().getActives().size()>1) {
+//                rv_full.start();
+//            }
+//
+////            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+//            ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger31 = new ScrollSpeedLinearLayoutManger(mActivity);
+//            scrollSpeedLinearLayoutManger31.setOrientation(RecyclerView.HORIZONTAL);
+//            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_special,dataActive.getTeam().getActives());
+//            rv_team.setLayoutManager(scrollSpeedLinearLayoutManger31);
+//            rv_team.setAdapter(vpTeamAdapter);
+//            if(dataActive.getTeam().getActives().size()>1) {
+//                rv_team.start();
+//            }
+//        }
+//    }
 
     /**
      * 获取首页信息

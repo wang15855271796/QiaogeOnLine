@@ -80,17 +80,17 @@
                 android:layout_height="@dimen/size_64dp">
 
                 <TextView
-                    android:drawablePadding="@dimen/size_5dp"
-                    android:drawableLeft="@mipmap/icon_address_green"
-                    android:layout_marginLeft="@dimen/size_16dp"
-                    android:layout_centerVertical="true"
                     android:id="@+id/tv_choose"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/size_16dp"
+                    android:drawableLeft="@mipmap/icon_address_green"
+                    android:drawablePadding="@dimen/size_5dp"
                     android:gravity="center_vertical"
                     android:text="切换为城市版"
                     android:textColor="#17BD60"
-                    android:textSize="@dimen/ysf_text_size_16sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:textSize="@dimen/ysf_text_size_16sp" />
 
             </RelativeLayout>
 

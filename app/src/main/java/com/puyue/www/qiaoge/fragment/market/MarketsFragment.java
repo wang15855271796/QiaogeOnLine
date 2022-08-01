@@ -816,6 +816,8 @@ public class MarketsFragment extends BaseFragment {
                     getData();
                 } else {
                     pageNum = 1;
+                    mListGoods.clear();
+                    mAdapterMarketDetail.notifyDataSetChanged();
                     if(scrollPosition != mListSecondNow.size()-1) {
                         hasPage = false;
                         scrollPosition++;
@@ -865,6 +867,8 @@ public class MarketsFragment extends BaseFragment {
                     pageNum++;
                     getData();
                 }else {
+                    mListGoods.clear();
+                    mAdapterMarketDetail.notifyDataSetChanged();
                     pageNum = 1;
                     hasPage = false;
                     scrollPosition++;
@@ -891,6 +895,8 @@ public class MarketsFragment extends BaseFragment {
                     mSecondCode = mListSecondNow.get(position).getSecondId();
                     scrollPosition = position;
                     mAdapterMarketSecond.selectPosition(position);
+                    mListGoods.clear();
+                    mAdapterMarketDetail.notifyDataSetChanged();
                     if(position == 2) {
                         mSecondCode = -5;
                     }

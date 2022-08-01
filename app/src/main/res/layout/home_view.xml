@@ -2,9 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:orientation="vertical">
 
 
     <LinearLayout
@@ -354,6 +352,8 @@
                 android:background="#ffffff"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
+
+
         </LinearLayout>
 
     </LinearLayout>
@@ -361,7 +361,6 @@
     <!--热销-->
     <LinearLayout
         android:id="@+id/ll_hot"
-        android:visibility="visible"
         android:layout_marginBottom="@dimen/dp_10"
         android:layout_marginTop="@dimen/size_6dp"
         android:orientation="vertical"
@@ -370,95 +369,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <RelativeLayout
-            android:visibility="gone"
-            android:gravity="center_vertical"
-            android:background="@drawable/shape_coupon_grey"
-            android:layout_width="match_parent"
-            android:layout_height="58dp">
-
-            <TextView
-                android:layout_marginTop="@dimen/dp_10"
-                android:textStyle="bold"
-                android:layout_marginLeft="@dimen/size_15dp"
-                android:textSize="@dimen/sp_16"
-                android:textColor="#FF7F4B34"
-                android:id="@+id/tv_hot_title"
-                android:text="热销TOP榜单"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_marginLeft="@dimen/size_15dp"
-                android:textColor="#666666"
-                android:textSize="@dimen/sp_12"
-                android:id="@+id/tv_small_hot_title"
-                android:text="大众认可，品质好货"
-                android:layout_below="@+id/tv_hot_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/tv_coupon_more"
-                android:text="查看更多>"
-                android:textColor="#999999"
-                android:textSize="@dimen/sp_12"
-                android:paddingRight="@dimen/size_5dp"
-                android:paddingLeft="@dimen/size_5dp"
-                android:background="@drawable/shape_white"
-                android:layout_marginLeft="@dimen/size_15dp"
-                android:layout_below="@+id/tv_hot_title"
-                android:layout_toRightOf="@+id/tv_small_hot_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <ImageView
-                android:src="@mipmap/bg_hot"
-                android:layout_alignParentRight="true"
-                android:layout_width="140dp"
-                android:layout_height="match_parent" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <!--热销-->
-            <RelativeLayout
-                android:id="@+id/rl_hot"
-                android:background="@drawable/shape_coupon_greys"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:visibility="gone"
-                    android:layout_marginRight="@dimen/size_12dp"
-                    android:layout_marginTop="@dimen/size_12dp"
-                    android:layout_marginBottom="@dimen/size_12dp"
-                    android:layout_centerVertical="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/size_100dp">
-
-                </androidx.recyclerview.widget.RecyclerView>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_hot1"
-                    android:visibility="gone"
-                    android:layout_marginRight="@dimen/size_12dp"
-                    android:layout_marginTop="@dimen/size_12dp"
-                    android:layout_marginBottom="@dimen/size_12dp"
-                    android:layout_centerVertical="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="155dp">
-
-                </androidx.recyclerview.widget.RecyclerView>
-
-            </RelativeLayout>
-
-        </RelativeLayout>
 
         <!-- 热销 -->
         <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_city"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -513,19 +428,20 @@
 
             </LinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/rl_huos"
+            <ImageView
+                android:id="@+id/iv_huo"
                 android:layout_marginLeft="@dimen/size_6dp"
-                android:layout_width="114dp"
-                android:layout_height="134dp">
-
-                <ImageView
-                    android:src="@mipmap/icon_huo_lala"
-                    android:layout_width="wrap_content"
-                    android:layout_height="134dp"/>
-            </RelativeLayout>
+                android:layout_width="wrap_content"
+                android:layout_height="134dp"
+                android:src="@mipmap/icon_huo_lala" />
         </LinearLayout>
 
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/iv_huo_company"
+            android:src="@mipmap/icon_hot_huo"
+            android:layout_width="match_parent"
+            android:layout_height="134dp"/>
     </LinearLayout>
 
 </LinearLayout>

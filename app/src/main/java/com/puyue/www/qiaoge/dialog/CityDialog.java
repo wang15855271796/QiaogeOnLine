@@ -7,10 +7,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.android.tu.loadingdialog.LoadingDailog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.HomeActivity;
@@ -42,6 +45,7 @@ public abstract class CityDialog extends Dialog implements View.OnClickListener 
     ImageView iv_close;
     List<CityChangeModel.DataBean.CityNamesBean.AreaNamesBean> areaNames;
     String flag;
+    private LoadingDailog dialog;
     public CityDialog(String flag, Activity context, List<CityChangeModel.DataBean.CityNamesBean.AreaNamesBean> areaNames) {
         super(context, R.style.promptDialog);
         setContentView(R.layout.dialog_city);
@@ -59,19 +63,30 @@ public abstract class CityDialog extends Dialog implements View.OnClickListener 
         recyclerView.setLayoutManager(new GridLayoutManager(mContext,3));
         AreaAdapter areaAdapter = new AreaAdapter(R.layout.item_citys,areaNames);
         recyclerView.setAdapter(areaAdapter);
+        //切换左边导航时的加载数据弹窗
+        LoadingDailog.Builder loadBuilder = new LoadingDailog.Builder(getContext())
+                .setMessage("切换数据中")
+                .setCancelable(false)
+                .setCancelOutside(true);
+        dialog = loadBuilder.create();
 
         areaAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 isShow();
-                Confirm();
                 dismiss();
                 UserInfoHelper.saveAreaName(mContext, areaNames.get(position).getAreaName());
                 SharedPreferencesUtil.saveInt(mContext,"isClick",1);
                 UserInfoHelper.saveChangeFlag(mContext,1+"");
                 EventBus.getDefault().post(new CityEvent());
-                mContext.finish();
-
+                dialog.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Confirm();
+                        dialog.dismiss();
+                    }
+                },1200);
             }
         });
 

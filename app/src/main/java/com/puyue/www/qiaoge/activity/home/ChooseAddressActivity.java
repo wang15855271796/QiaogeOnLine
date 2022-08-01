@@ -4,12 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.android.tu.loadingdialog.LoadingDailog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.AddCompanyActivity;
@@ -105,6 +109,7 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
         setContentView(R.layout.choose_activity);
     }
 
+    LoadingDailog dialog;
     @Override
     public void findViewById() {
         ButterKnife.bind(this);
@@ -118,12 +123,18 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setAdapter(addressListAdapter);
         fromPage = getIntent().getStringExtra("fromPage");
+        LoadingDailog.Builder loadBuilder = new LoadingDailog.Builder(mContext)
+                .setMessage("切换数据中")
+                .setCancelable(false)
+                .setCancelOutside(true);
+        dialog = loadBuilder.create();
         addressListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                dialog.show();
                 requestEditDefaultAddress(list.get(position).id,null,position);
                 areaName = getIntent().getStringExtra("areaName");
-                finish();
+
             }
         });
 
@@ -174,18 +185,21 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
                             UserInfoHelper.saveProvince(mActivity,list.get(position).getProvinceName());
                             UserInfoHelper.saveCity(mActivity,list.get(position).getCityName());
                             UserInfoHelper.saveAreaName(mActivity,list.get(position).getAreaName());
-                            UserInfoHelper.saveChangeFlag(mActivity,"0");
-                            if(areaName.equals(list.get(position).getAreaName())) {
-                                finish();
-                            }else {
-                                SharedPreferencesUtil.saveInt(mContext,"isClick",1);
-                                UserInfoHelper.saveChangeFlag(mContext,0+"");
-                                //接口新改
-                                Intent intent = new Intent(mContext,HomeActivity.class);//跳回首页
-                                mContext.startActivity(intent);
-                                EventBus.getDefault().post(new CityEvent());
-                                finish();
-                            }
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if(areaName.equals(list.get(position).getAreaName())) {
+                                        UserInfoHelper.saveChangeFlag(mActivity,"0");
+                                        finish();
+                                    }else {
+                                        SharedPreferencesUtil.saveInt(mContext,"isClick",1);
+                                        UserInfoHelper.saveChangeFlag(mContext,1+"");
+                                        finish();
+                                    }
+                                }
+                            },1200);
+                            EventBus.getDefault().post(new CityEvent());
+
                         } else {
                             AppHelper.showMsg(mContext, baseModel.message);
                         }

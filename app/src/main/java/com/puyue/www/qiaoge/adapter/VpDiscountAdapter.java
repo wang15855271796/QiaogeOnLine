@@ -22,6 +22,8 @@ import com.puyue.www.qiaoge.activity.home.CouponDetailActivity;
 import com.puyue.www.qiaoge.activity.home.SpecialGoodDetailActivity;
 import com.puyue.www.qiaoge.activity.home.TeamDetailActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
+import com.puyue.www.qiaoge.helper.StringHelper;
+import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.CouponModels;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
@@ -31,10 +33,12 @@ public class VpDiscountAdapter extends RecyclerView.Adapter<VpDiscountAdapter.Ba
     Context mContext;
     int layoutResId;
     List<CouponModels.DataBean.SpecialBean.ActivesBeanX> actives;
-    public VpDiscountAdapter(Context context, int layoutResId, List<CouponModels.DataBean.SpecialBean.ActivesBeanX> actives) {
+    Onclick onclick;
+    public VpDiscountAdapter(Context context, int layoutResId, List<CouponModels.DataBean.SpecialBean.ActivesBeanX> actives,Onclick onclick) {
         this.mContext = context;
         this.layoutResId = layoutResId;
         this.actives = actives;
+        this.onclick = onclick;
     }
 
 
@@ -54,7 +58,18 @@ public class VpDiscountAdapter extends RecyclerView.Adapter<VpDiscountAdapter.Ba
         }else {
             holder.tv_save_price.setBackgroundResource(R.drawable.shape_white);
         }
-        holder.tv_price.setText(activesBeanX.getPrice());
+
+        if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+            if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
+                holder.tv_price.setText(activesBeanX.getPrice());
+            }else {
+                holder.tv_price.setText("价格授权后可见");
+            }
+        }else {
+            holder.tv_price.setText(activesBeanX.getMinMaxPrice());
+        }
+
+
         holder.tv_title.setText(activesBeanX.getActiveName());
         Glide.with(mContext).load(activesBeanX.getDefaultPic()).into(holder.iv_pic);
 
@@ -63,6 +78,15 @@ public class VpDiscountAdapter extends RecyclerView.Adapter<VpDiscountAdapter.Ba
         }else {
             holder.iv_not_send.setVisibility(View.GONE);
         }
+
+        holder.tv_price.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(onclick!=null) {
+                    onclick.tipClick();
+                }
+            }
+        });
 
         holder.ll_root.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,5 +119,9 @@ public class VpDiscountAdapter extends RecyclerView.Adapter<VpDiscountAdapter.Ba
             tv_save_price = (TextView) view.findViewById(R.id.tv_save_price);
             iv_not_send = (ImageView) view.findViewById(R.id.iv_not_send);
         }
+    }
+
+    public interface Onclick {
+        void tipClick();
     }
 }

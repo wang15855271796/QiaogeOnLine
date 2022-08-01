@@ -38,7 +38,6 @@ public class AutoPollRecyclerView extends RecyclerView {
         }
         @Override
         public void run() {
-
             AutoPollRecyclerView recyclerView = mReference.get();
             if (recyclerView != null && recyclerView.running &&recyclerView.canRun) {
                 recyclerView.smoothScrollToPosition(++recyclerView.index);
@@ -66,15 +65,15 @@ public class AutoPollRecyclerView extends RecyclerView {
     public boolean onTouchEvent(MotionEvent ev) {
         switch (ev.getAction()){
             case MotionEvent.ACTION_DOWN:
-                Log.d("sdwdddddddddd....",index+"aaa");
                 lastX = (int) ev.getRawX();
-                if (running)
+                if (running) {
                     stop();
+                }
+
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_OUTSIDE:
-                Log.d("sdwdddddddddd....",index+"bbb");
 //                int nowX = (int) ev.getRawX();
 //                if(lastX-nowX>10) {
 //                    smoothScrollToPosition(++index);
@@ -89,6 +88,6 @@ public class AutoPollRecyclerView extends RecyclerView {
                     start();
                 break;
         }
-        return super.onTouchEvent(ev);
+        return true;
     }
 }

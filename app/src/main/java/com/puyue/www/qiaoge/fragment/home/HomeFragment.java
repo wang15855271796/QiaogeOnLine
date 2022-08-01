@@ -16,6 +16,7 @@ import com.frankfancode.marqueeview.MarqueeView;
 import com.google.android.material.appbar.AppBarLayout;
 
 import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.viewpager.widget.ViewPager;
@@ -310,10 +311,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     LinearLayout ll_skill;
     @BindView(R.id.rv_hot)
     RecyclerView rv_hot;
-    @BindView(R.id.tv_coupon_more)
-    TextView tv_coupon_more;
-    @BindView(R.id.verticalBanner)
-    VerticalBannerView verticalBanner;
     @BindView(R.id.appbar)
     AppBarLayout appbar;
     @BindView(R.id.ll_scroll)
@@ -330,18 +327,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     RelativeLayout rl_bar;
     @BindView(R.id.ll_parent_top)
     RelativeLayout ll_parent_top;
-    @BindView(R.id.tv_small_hot_title)
-    TextView tv_small_hot_title;
-    @BindView(R.id.tv_hot_title)
-    TextView tv_hot_title;
     @BindView(R.id.tv_look)
     TextView tv_look;
     @BindView(R.id.tv_order_num)
     TextView tv_order_num;
     @BindView(R.id.rl_huo)
     RelativeLayout rl_huo;
-    @BindView(R.id.rl_huos)
-    RelativeLayout rl_huos;
+    @BindView(R.id.iv_huo)
+    ImageView iv_huo;
     @BindView(R.id.rv_skill)
     AutoPollRecyclerView rv_skill;
     @BindView(R.id.rv_team1)
@@ -396,6 +389,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     LinearLayout ll_two;
     @BindView(R.id.ll_one)
     LinearLayout ll_one;
+    @BindView(R.id.iv_huo_company)
+    ImageView iv_huo_company;
+    @BindView(R.id.ll_city)
+    LinearLayout ll_city;
     List<String> list = new ArrayList<>();
     private static final float ENDMARGINLEFT = 50;
     private static final float ENDMARGINTOP = 5;
@@ -501,6 +498,22 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
                 scrollLength = Math.abs(scroll_height - bar_height);
                 topHeight = DensityUtil.dip2px(scrollLength, mActivity);
+
+
+                appbar.post(new Runnable() {
+                    @Override public void run() {
+                        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) appbar.getLayoutParams();
+                        AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) layoutParams.getBehavior();
+
+                        behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
+                            @Override
+                            public boolean canDrag(@NonNull AppBarLayout appBarLayout) {
+                                return true;
+                            }
+                        });
+                    }
+                });
+
 
                 appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
                     @Override
@@ -666,10 +679,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         tv_city.setOnClickListener(this);
         rl_message.setOnClickListener(this);
         tv_search.setOnClickListener(this);
-        tv_coupon_more.setOnClickListener(this);
         rl_address.setOnClickListener(null);
         rl_huo.setOnClickListener(this);
-        rl_huos.setOnClickListener(this);
+        iv_huo.setOnClickListener(this);
+        iv_huo_company.setOnClickListener(this);
         lav_activity_loading.show();
         requestUpdate();
         refreshLayout.autoRefresh();
@@ -734,11 +747,18 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                     }
                 });
     }
+
+    VpFullAdapter.Onclick onclick;
+    VpDiscountAdapter.Onclick onclickDis;
+    VpTeamAdapter.Onclick onclickTeam;
+    VpSkillAdapter.Onclick onclickSkill;
     @Override
     public void setViewData() {
         //判断用户是否选择了企业
         if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
             getStyle();
+            ll_city.setVisibility(View.GONE);
+            iv_huo_company.setVisibility(View.VISIBLE);
             rb_new.setText("热销商品");
             tv_title1.setText("超值人气");
             tv_title3.setText("专宠好物");
@@ -755,6 +775,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rb_common_top.setVisibility(View.GONE);
             rg_new.check(R.id.rb_new);
         }else {
+            ll_city.setVisibility(View.VISIBLE);
+            iv_huo_company.setVisibility(View.GONE);
             rb_reduce.setText("降价商品");
             rb_new.setText("新品上市");
             tv_title1.setText("上新立荐");
@@ -770,6 +792,44 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rb_common.setVisibility(View.VISIBLE);
             rb_common_top.setVisibility(View.VISIBLE);
             rg_new.check(R.id.rb_must_common);
+        }
+
+        onclick = new VpFullAdapter.Onclick() {
+            @Override
+            public void tipClick() {
+                getPriceDialog();
+            }
+        };
+
+        onclickDis = new VpDiscountAdapter.Onclick() {
+            @Override
+            public void tipClick() {
+                getPriceDialog();
+            }
+        };
+
+        onclickTeam = new VpTeamAdapter.Onclick() {
+            @Override
+            public void tipClick() {
+                getPriceDialog();
+            }
+        };
+
+        onclickSkill = new VpSkillAdapter.Onclick() {
+            @Override
+            public void tipClick() {
+                getPriceDialog();
+            }
+        };
+    }
+
+    private void getPriceDialog() {
+        if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mActivity))) {
+            if(!SharedPreferencesUtil.getString(mActivity,"priceType").equals("1")) {
+                AppHelper.ShowAuthDialog(mActivity,cell);
+            }
+        }else {
+            initDialog();
         }
     }
 
@@ -858,7 +918,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         if(dataActive.getSpike()!=null) {
             num++;
         }
-        Log.d("wdasadsa....",num+"aa");
         switch (num) {
             case 0:
                 ll_two.setVisibility(View.GONE);
@@ -912,8 +971,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         ll_team_bg.setBackgroundResource(R.mipmap.bg_team);
         ll_full_bg.setBackgroundResource(R.mipmap.bg_fulls);
         ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills);
-        VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives());
-//        LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+        VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives(),onclickSkill);
         ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger = new ScrollSpeedLinearLayoutManger(mActivity);
         scrollSpeedLinearLayoutManger.setOrientation(RecyclerView.VERTICAL);
         rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger);
@@ -924,8 +982,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rv_skill.stop();
         }
 
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-        VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives());
+        VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity, R.layout.item_active_short, dataActive.getFullGift().getActives(), onclick);
         ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger1 = new ScrollSpeedLinearLayoutManger(mActivity);
         scrollSpeedLinearLayoutManger1.setOrientation(RecyclerView.VERTICAL);
         rv_full.setLayoutManager(scrollSpeedLinearLayoutManger1);
@@ -937,23 +994,21 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         }
 
 
-//        LinearLayoutManager linearLayoutManager4 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
-        VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives());
+        VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives(),onclickTeam);
         ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger2 = new ScrollSpeedLinearLayoutManger(mActivity);
         scrollSpeedLinearLayoutManger2.setOrientation(RecyclerView.VERTICAL);
         rv_team.setLayoutManager(scrollSpeedLinearLayoutManger2);
         rv_team.setAdapter(vpTeamAdapter);
+
         if(dataActive.getTeam().getActives().size()>1) {
             rv_team.start();
         }else {
             rv_team.stop();
         }
 
-
-//        LinearLayoutManager linearLayoutManager5 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
         ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger3 = new ScrollSpeedLinearLayoutManger(mActivity);
         scrollSpeedLinearLayoutManger3.setOrientation(RecyclerView.VERTICAL);
-        VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives());
+        VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives(),onclickDis);
         rv_discount.setLayoutManager(scrollSpeedLinearLayoutManger3);
         rv_discount.setAdapter(vpDiscountAdapter);
         if(dataActive.getSpecial().getActives().size()>1) {
@@ -975,10 +1030,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_discount1.setVisibility(View.GONE);
             ll_discount_bg.setBackgroundResource(R.mipmap.bg_discount_long);
 
-//            LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger4 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger4.setOrientation(RecyclerView.VERTICAL);
-            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_special,dataActive.getSpecial().getActives());
+            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_special,dataActive.getSpecial().getActives(),onclickDis);
             rv_discount.setLayoutManager(scrollSpeedLinearLayoutManger4);
             rv_discount.setAdapter(vpDiscountAdapter);
             if(dataActive.getSpecial().getActives().size()>1) {
@@ -998,7 +1052,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_discount1.setVisibility(View.GONE);
             ll_team_bg.setBackgroundResource(R.mipmap.bg_team_long);
 
-            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_special,dataActive.getTeam().getActives());
+            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_special,dataActive.getTeam().getActives(),onclickTeam);
 
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger5 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger5.setOrientation(scrollSpeedLinearLayoutManger5.VERTICAL);
@@ -1021,8 +1075,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_discount1.setVisibility(View.GONE);
 
             ll_full_bg.setBackgroundResource(R.mipmap.bg_fulls_long);
-            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_special,dataActive.getFullGift().getActives());
-//            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_special,dataActive.getFullGift().getActives(),onclick);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger6 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger6.setOrientation(RecyclerView.VERTICAL);
             rv_full.setLayoutManager(scrollSpeedLinearLayoutManger6);
@@ -1044,8 +1097,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_discount1.setVisibility(View.GONE);
 
             ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills_long);
-            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_special,dataActive.getSpike().getActives());
-//            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_special,dataActive.getSpike().getActives(),onclickSkill);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger7 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger7.setOrientation(RecyclerView.VERTICAL);
             rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger7);
@@ -1072,8 +1124,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_full_bg.setBackgroundResource(R.mipmap.bg_fulls);
             ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills);
 
-            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives());
-//            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives(),onclickSkill);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger8 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger8.setOrientation(RecyclerView.VERTICAL);
             rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger8);
@@ -1084,8 +1135,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 rv_skill.stop();
             }
 
-            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives());
-//            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives(),onclick);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger9 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger9.setOrientation(RecyclerView.VERTICAL);
             rv_full.setLayoutManager(scrollSpeedLinearLayoutManger9);
@@ -1109,8 +1159,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
             ll_team_bg1.setBackgroundResource(R.mipmap.bg_team);
             ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills);
-            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives());
-//            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives(),onclickSkill);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger10 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger10.setOrientation(RecyclerView.VERTICAL);
             rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger10);
@@ -1121,10 +1170,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 rv_skill.stop();
             }
 
-//            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger11 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger11.setOrientation(RecyclerView.VERTICAL);
-            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives());
+            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives(),onclickTeam);
             rv_team1.setLayoutManager(scrollSpeedLinearLayoutManger11);
             rv_team1.setAdapter(vpTeamAdapter);
             if(dataActive.getTeam().getActives().size()>1) {
@@ -1147,8 +1195,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_discount_bg1.setBackgroundResource(R.mipmap.bg_discount);
             ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills);
 
-            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives());
-//            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives(),onclickSkill);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger12 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger12.setOrientation(RecyclerView.VERTICAL);
             rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger12);
@@ -1159,10 +1206,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 rv_skill.stop();
             }
 
-//            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger13 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger13.setOrientation(RecyclerView.VERTICAL);
-            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives());
+            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives(),onclickDis);
             rv_discount1.setLayoutManager(scrollSpeedLinearLayoutManger13);
             rv_discount1.setAdapter(vpDiscountAdapter);
             if(dataActive.getSpecial().getActives().size()>1) {
@@ -1185,7 +1231,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_full_bg1.setBackgroundResource(R.mipmap.bg_fulls);
             ll_team_bg1.setBackgroundResource(R.mipmap.bg_team);
 
-            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives());
+            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives(),onclick);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger14 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger14.setOrientation(RecyclerView.VERTICAL);
             rv_full1.setLayoutManager(scrollSpeedLinearLayoutManger14);
@@ -1198,7 +1244,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger15 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger15.setOrientation(RecyclerView.VERTICAL);
-            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives());
+            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives(),onclickTeam);
             rv_team1.setLayoutManager(scrollSpeedLinearLayoutManger15);
             rv_team1.setAdapter(vpTeamAdapter);
             if(dataActive.getTeam().getActives().size()>1) {
@@ -1222,8 +1268,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_discount_bg1.setBackgroundResource(R.mipmap.bg_discount);
 
 
-            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives());
-//            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives(),onclick);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger16 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger16.setOrientation(RecyclerView.VERTICAL);
             rv_full1.setLayoutManager(scrollSpeedLinearLayoutManger16);
@@ -1234,10 +1279,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 rv_full1.stop();
             }
 
-//            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger17 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger17.setOrientation(RecyclerView.VERTICAL);
-            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives());
+            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives(),onclickDis);
             rv_discount1.setLayoutManager(scrollSpeedLinearLayoutManger17);
             rv_discount1.setAdapter(vpDiscountAdapter);
             if(dataActive.getSpecial().getActives().size()>1) {
@@ -1259,8 +1303,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
             ll_team_bg.setBackgroundResource(R.mipmap.bg_team);
             ll_discount_bg.setBackgroundResource(R.mipmap.bg_discount);
-            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives());
-//            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives(),onclickTeam);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger18 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger18.setOrientation(RecyclerView.VERTICAL);
             rv_team.setLayoutManager(scrollSpeedLinearLayoutManger18);
@@ -1271,10 +1314,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 rv_team.stop();
             }
 
-//            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger19 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger19.setOrientation(RecyclerView.VERTICAL);
-            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives());
+            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives(),onclickDis);
             rv_discount.setLayoutManager(scrollSpeedLinearLayoutManger19);
             rv_discount.setAdapter(vpDiscountAdapter);
             if(dataActive.getSpecial().getActives().size()>1) {
@@ -1300,10 +1342,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_team_bg.setBackgroundResource(R.mipmap.bg_team);
             ll_discount_bg.setBackgroundResource(R.mipmap.bg_discount);
 
-            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_special,dataActive.getFullGift().getActives());
+            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_special,dataActive.getFullGift().getActives(),onclick);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger20 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger20.setOrientation(RecyclerView.VERTICAL);
-//            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             rv_full.setLayoutManager(scrollSpeedLinearLayoutManger20);
             rv_full.setAdapter(vpFullAdapter);
             if(dataActive.getFullGift().getActives().size()>1) {
@@ -1312,10 +1353,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 rv_full.stop();
             }
 
-//            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger21 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger21.setOrientation(RecyclerView.VERTICAL);
-            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives());
+            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives(),onclickTeam);
             rv_team.setLayoutManager(scrollSpeedLinearLayoutManger21);
             rv_team.setAdapter(vpTeamAdapter);
             if(dataActive.getTeam().getActives().size()>1) {
@@ -1324,10 +1364,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 rv_team.stop();
             }
 
-//            LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger22 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger22.setOrientation(RecyclerView.VERTICAL);
-            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives());
+            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives(),onclickDis);
             rv_discount.setLayoutManager(scrollSpeedLinearLayoutManger22);
             rv_discount.setAdapter(vpDiscountAdapter);
             if(dataActive.getSpecial().getActives().size()>1) {
@@ -1351,7 +1390,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_discount_bg.setBackgroundResource(R.mipmap.bg_discount);
             ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills_long);
 
-            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_special,dataActive.getSpike().getActives());
+            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_special,dataActive.getSpike().getActives(),onclickSkill);
 //            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger23 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger23.setOrientation(RecyclerView.VERTICAL);
@@ -1363,10 +1402,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 rv_skill.stop();
             }
 
-//            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger24 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger24.setOrientation(RecyclerView.VERTICAL);
-            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives());
+            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives(),onclickTeam);
             rv_team.setLayoutManager(scrollSpeedLinearLayoutManger24);
             rv_team.setAdapter(vpTeamAdapter);
             if(dataActive.getTeam().getActives().size()>1) {
@@ -1375,11 +1413,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 rv_team.stop();
             }
 
-//            LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             Log.d("wdsda.........",dataActive.getSpecial().getActives().size()+"aa");
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger25 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger25.setOrientation(RecyclerView.VERTICAL);
-            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives());
+            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_short,dataActive.getSpecial().getActives(),onclickDis);
             rv_discount.setLayoutManager(scrollSpeedLinearLayoutManger25);
             rv_discount.setAdapter(vpDiscountAdapter);
             if(dataActive.getSpecial().getActives().size()>1) {
@@ -1403,7 +1440,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_discount_bg.setBackgroundResource(R.mipmap.bg_discount_long);
             ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills);
 
-            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives());
+            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives(),onclickSkill);
 //            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger26 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger26.setOrientation(RecyclerView.VERTICAL);
@@ -1415,8 +1452,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 rv_skill.stop();
             }
 
-            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives());
-//            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives(),onclick);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger27 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger27.setOrientation(RecyclerView.VERTICAL);
             rv_full.setLayoutManager(scrollSpeedLinearLayoutManger27);
@@ -1427,10 +1463,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 rv_full.stop();
             }
 
-//            LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger28 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger28.setOrientation(RecyclerView.VERTICAL);
-            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_special,dataActive.getSpecial().getActives());
+            VpDiscountAdapter vpDiscountAdapter = new VpDiscountAdapter(mActivity,R.layout.item_active_special,dataActive.getSpecial().getActives(),onclickDis);
             rv_discount.setLayoutManager(scrollSpeedLinearLayoutManger28);
             rv_discount.setAdapter(vpDiscountAdapter);
             if(dataActive.getSpecial().getActives().size()>1) {
@@ -1455,8 +1490,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_team_bg.setBackgroundResource(R.mipmap.bg_team_long);
             ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills);
 
-            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives());
-//            LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives(),onclickSkill);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger29 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger29.setOrientation(RecyclerView.VERTICAL);
             rv_skill.setLayoutManager(scrollSpeedLinearLayoutManger29);
@@ -1467,8 +1501,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 rv_skill.stop();
             }
 
-            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives());
-//            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
+            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives(),onclick);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger30 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger30.setOrientation(RecyclerView.VERTICAL);
             rv_full.setLayoutManager(scrollSpeedLinearLayoutManger30);
@@ -1479,10 +1512,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 rv_full.stop();
             }
 
-//            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity,RecyclerView.HORIZONTAL,false);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger31 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger31.setOrientation(RecyclerView.VERTICAL);
-            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_special,dataActive.getTeam().getActives());
+            VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_special,dataActive.getTeam().getActives(),onclickTeam);
             rv_team.setLayoutManager(scrollSpeedLinearLayoutManger31);
             rv_team.setAdapter(vpTeamAdapter);
             if(dataActive.getTeam().getActives().size()>1) {
@@ -1845,6 +1877,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     /**
      * 获取首页信息
      */
+    MarqueeAdapter marqueeAdapters;
     private void getBaseLists() {
         IndexHomeAPI.getIndexInfo(mActivity)
                 .subscribeOn(Schedulers.io())
@@ -1876,9 +1909,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                                 lav_activity_loading.hide();
 
                                 if(data.getNoticeInfo()!=null && data.getNoticeInfo().size()> 0) {
-                                    MarqueeAdapter marqueeAdapter = new MarqueeAdapter();
-                                    marqueeAdapter.setData(data.getNoticeInfo(),getActivity());
-                                    marqueeView.setAdapter(marqueeAdapter);
+                                    marqueeAdapters = new MarqueeAdapter();
+                                    marqueeAdapters.setData(data.getNoticeInfo(),getActivity());
+                                    marqueeView.setAdapter(marqueeAdapters);
                                     marqueeView.setVisibility(View.VISIBLE);
                                     marqueeView.startScroll();
                                 }else {
@@ -2289,7 +2322,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                     startActivity(intentsss);
                 }
                 break;
-            case R.id.rl_huos:
+            case R.id.iv_huo:
+                isAuth();
+                break;
+
+            case R.id.iv_huo_company:
                 isAuth();
                 break;
             case R.id.tv_search:
@@ -2357,10 +2394,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 chooseAddressDialog.show();
                 break;
 
-            case R.id.tv_coupon_more:
-                Intent intent6 = new Intent(mActivity,HotProductActivity.class);
-                startActivity(intent6);
-                break;
         }
     }
 
@@ -2475,6 +2508,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         refreshLayout.autoRefresh();
         if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
             getStyle();
+            ll_city.setVisibility(View.GONE);
+            iv_huo_company.setVisibility(View.VISIBLE);
             rb_new.setText("热销商品");
             tv_title1.setText("超值人气");
             tv_title3.setText("专宠好物");
@@ -2491,6 +2526,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rb_common_top.setVisibility(View.GONE);
             rg_new.check(R.id.rb_new);
         }else {
+            ll_city.setVisibility(View.VISIBLE);
+            iv_huo_company.setVisibility(View.GONE);
             rb_reduce.setText("降价商品");
             rb_new.setText("新品上市");
             tv_title1.setText("上新立荐");
@@ -2515,6 +2552,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         refreshLayout.autoRefresh();
         if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
             getStyle();
+            ll_city.setVisibility(View.GONE);
+            iv_huo_company.setVisibility(View.VISIBLE);
             rb_new.setText("热销商品");
             tv_title1.setText("超值人气");
             tv_title3.setText("专宠好物");
@@ -2531,6 +2570,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rb_common_top.setVisibility(View.GONE);
             rg_new.check(R.id.rb_new);
         }else {
+            ll_city.setVisibility(View.VISIBLE);
+            iv_huo_company.setVisibility(View.GONE);
+            iv_huo.setImageResource(R.mipmap.icon_huo_lala);
             rb_reduce.setText("降价商品");
             rb_new.setText("新品上市");
             tv_title1.setText("上新立荐");

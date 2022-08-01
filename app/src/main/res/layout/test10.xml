@@ -187,34 +187,6 @@
 
                                     </RelativeLayout>
 
-                                    <LinearLayout
-                                        android:visibility="gone"
-                                        android:id="@+id/ll_driver"
-                                        android:orientation="vertical"
-                                        android:layout_marginTop="@dimen/size_12dp"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="80dp">
-
-                                        <LinearLayout
-                                            android:orientation="vertical"
-                                            android:background="@drawable/shape_white1"
-                                            android:layout_width="match_parent"
-                                            android:layout_marginRight="@dimen/size_12dp"
-                                            android:layout_marginLeft="@dimen/size_12dp"
-                                            android:layout_height="wrap_content">
-
-                                        </LinearLayout>
-
-                                        <com.taobao.library.VerticalBannerView
-                                            android:id="@+id/verticalBanner"
-                                            android:visibility="gone"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="80dp"
-                                            app:animDuration="700"
-                                            app:gap="2000"/>
-
-                                    </LinearLayout>
-
                                     <include layout="@layout/home_view"/>
 
                                 </LinearLayout>
@@ -226,7 +198,6 @@
                     </RelativeLayout>
 
                     <include layout="@layout/view_barss"/>
-
 
                 </com.google.android.material.appbar.AppBarLayout>
 

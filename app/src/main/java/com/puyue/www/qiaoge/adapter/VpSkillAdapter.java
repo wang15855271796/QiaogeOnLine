@@ -20,7 +20,10 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.activity.home.HomeGoodsListActivity;
 import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
+import com.puyue.www.qiaoge.helper.StringHelper;
+import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.CouponModels;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
 import java.util.List;
 
@@ -29,10 +32,12 @@ public class VpSkillAdapter extends RecyclerView.Adapter<VpSkillAdapter.BaseView
     Context mContext;
     int layoutResId;
     List<CouponModels.DataBean.SpikeBean.ActivesBean> actives;
-    public VpSkillAdapter(Context context, int layoutResId, List<CouponModels.DataBean.SpikeBean.ActivesBean> actives) {
+    Onclick onclick;
+    public VpSkillAdapter(Context context, int layoutResId, List<CouponModels.DataBean.SpikeBean.ActivesBean> actives,Onclick onclick) {
         this.mContext = context;
         this.layoutResId = layoutResId;
         this.actives = actives;
+        this.onclick = onclick;
     }
 
 
@@ -53,7 +58,28 @@ public class VpSkillAdapter extends RecyclerView.Adapter<VpSkillAdapter.BaseView
             holder.tv_save_price.setBackgroundResource(R.drawable.shape_white);
         }
 
-        holder.tv_price.setText(activesBean.getPrice());
+//        holder.tv_price.setText(activesBean.getPrice());
+        if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+            if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
+                holder.tv_price.setText(activesBean.getPrice());
+            }else {
+                holder.tv_price.setText("价格授权后可见");
+            }
+        }else {
+            holder.tv_price.setText(activesBean.getMinMaxPrice());
+        }
+
+        holder.tv_price.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("wdwqdads....","1233");
+                if(onclick!=null) {
+                    Log.d("wdwqdads....","1233333");
+                    onclick.tipClick();
+                }
+            }
+        });
+
         holder.tv_title.setText(activesBean.getActiveName());
 
         Glide.with(mContext).load(activesBean.getDefaultPic()).into(holder.iv_pic);
@@ -99,4 +125,7 @@ public class VpSkillAdapter extends RecyclerView.Adapter<VpSkillAdapter.BaseView
     }
 
 
+    public interface Onclick {
+        void tipClick();
+    }
 }

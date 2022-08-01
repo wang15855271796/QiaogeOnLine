@@ -53,7 +53,7 @@ public class MarqueeAdapter extends RecyclerView.Adapter<MarqueeAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        dataBean = data.get(position);
+        dataBean = data.get(position % data.size());
         holder.tv_content.setText(dataBean.getContent());
         holder.tv_notice_desc.setText(dataBean.getTitle());
         holder.tv_content.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +71,7 @@ public class MarqueeAdapter extends RecyclerView.Adapter<MarqueeAdapter.ViewHold
         if (data == null || data.size() == 0) {
             return 0;
         } else {
-            return data.size();
+            return Integer.MAX_VALUE;
         }
     }
 
