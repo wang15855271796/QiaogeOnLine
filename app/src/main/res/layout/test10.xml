@@ -415,9 +415,6 @@
                 android:layout_marginBottom="@dimen/size_25dp"
                 android:background="@drawable/shape_grey10" />
 
-            <com.puyue.www.qiaoge.view.MarqueeView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
 
         </RelativeLayout>
 

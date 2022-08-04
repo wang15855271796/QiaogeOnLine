@@ -263,9 +263,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     @BindView(R.id.ll_line)
     LinearLayout ll_line;
     @BindView(R.id.rv_team)
-    MarqueeView rv_team;
+    com.puyue.www.qiaoge.view.MarqueeView rv_team;
     @BindView(R.id.rv_discount)
-    MarqueeView rv_discount;
+    com.puyue.www.qiaoge.view.MarqueeView rv_discount;
     @BindView(R.id.v1s)
     View v1s;
     @BindView(R.id.v2s)
@@ -305,7 +305,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     @BindView(R.id.ll_bgc)
     RelativeLayout ll_bgc;
     @BindView(R.id.rv_full)
-    MarqueeView rv_full;
+    com.puyue.www.qiaoge.view.MarqueeView rv_full;
     @BindView(R.id.rg_new)
     RadioGroup rg_new;
     @BindView(R.id.rg_new_top)
@@ -339,17 +339,17 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     @BindView(R.id.iv_huo)
     ImageView iv_huo;
     @BindView(R.id.rv_skill)
-    MarqueeView rv_skill;
+    com.puyue.www.qiaoge.view.MarqueeView rv_skill;
     @BindView(R.id.rv_team1)
-    MarqueeView rv_team1;
+    com.puyue.www.qiaoge.view.MarqueeView rv_team1;
     @BindView(R.id.ll_discount1)
     LinearLayout ll_discount1;
     @BindView(R.id.ll_full1)
     LinearLayout ll_full1;
     @BindView(R.id.rv_full1)
-    MarqueeView rv_full1;
+    com.puyue.www.qiaoge.view.MarqueeView rv_full1;
     @BindView(R.id.rv_discount1)
-    MarqueeView rv_discount1;
+    com.puyue.www.qiaoge.view.MarqueeView rv_discount1;
     @BindView(R.id.ll_skill_bg)
     LinearLayout ll_skill_bg;
     @BindView(R.id.ll_team_bg)

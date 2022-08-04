@@ -6,6 +6,7 @@
     android:layout_height="wrap_content">
 
     <RelativeLayout
+        android:id="@+id/rl_prod"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -40,12 +41,15 @@
 
         </RelativeLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_below="@+id/tv_titlt"
+            android:layout_marginTop="@dimen/size_20dp"
+            android:id="@+id/recyclerViewProd"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </RelativeLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewProd"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+
 
 
 </LinearLayout>

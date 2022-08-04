@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.flow.CustView;
 import com.puyue.www.qiaoge.activity.flow.FlowLayout;
 import com.puyue.www.qiaoge.activity.flow.TagAdapter;
 import com.puyue.www.qiaoge.activity.flow.TagFlowLayout;
@@ -60,7 +61,7 @@ public class SearchStartActivity extends BaseSwipeActivity implements View.OnFoc
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.fl_search)
-    TagFlowLayout fl_search;
+    CustView fl_search;
     @BindView(R.id.tv_arrow)
     TextView tv_arrow;
     @BindView(R.id.searchView)

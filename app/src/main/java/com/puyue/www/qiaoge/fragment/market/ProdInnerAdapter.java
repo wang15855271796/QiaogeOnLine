@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -19,6 +20,7 @@ import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.util.List;
 
@@ -43,7 +45,7 @@ class ProdInnerAdapter extends BaseQuickAdapter<MarketRightModel.DataBean.BrandP
         if(item.getNotSend()!=null) {
             if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
                 iv_send.setImageResource(R.mipmap.icon_not_send2);
-                iv_send.setVisibility(View.VISIBLE);
+
             }else {
                 iv_send.setVisibility(View.GONE);
             }

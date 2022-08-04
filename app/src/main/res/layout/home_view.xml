@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
 
@@ -65,9 +66,10 @@
 
             </LinearLayout>
 
-            <com.frankfancode.marqueeview.MarqueeView
+            <com.puyue.www.qiaoge.view.MarqueeView
                 android:id="@+id/rv_skill"
                 android:background="#ffffff"
+                app:standDuration="2500"
                 android:layout_width="match_parent"
                 android:layout_height="106dp" />
 
@@ -112,9 +114,10 @@
 
             </LinearLayout>
 
-            <com.frankfancode.marqueeview.MarqueeView
+            <com.puyue.www.qiaoge.view.MarqueeView
                 android:background="#ffffff"
                 android:id="@+id/rv_full1"
+                app:standDuration="3000"
                 android:layout_width="match_parent"
                 android:layout_height="106dp"/>
 
@@ -160,9 +163,10 @@
 
             </LinearLayout>
 
-            <com.frankfancode.marqueeview.MarqueeView
+            <com.puyue.www.qiaoge.view.MarqueeView
                 android:id="@+id/rv_full"
                 android:background="#ffffff"
+                app:standDuration="3000"
                 android:layout_width="match_parent"
                 android:layout_height="106dp"/>
         </LinearLayout>
@@ -208,9 +212,10 @@
 
             </LinearLayout>
 
-            <com.frankfancode.marqueeview.MarqueeView
+            <com.puyue.www.qiaoge.view.MarqueeView
                 android:background="#ffffff"
                 android:id="@+id/rv_team1"
+                app:standDuration="3500"
                 android:layout_width="match_parent"
                 android:layout_height="106dp"/>
         </LinearLayout>
@@ -253,9 +258,10 @@
                     android:layout_height="wrap_content"/>
             </LinearLayout>
 
-            <com.frankfancode.marqueeview.MarqueeView
+            <com.puyue.www.qiaoge.view.MarqueeView
                 android:background="#ffffff"
                 android:id="@+id/rv_discount1"
+                app:standDuration="4000"
                 android:layout_width="match_parent"
                 android:layout_height="106dp"/>
         </LinearLayout>
@@ -306,9 +312,10 @@
 
             </LinearLayout>
 
-            <com.frankfancode.marqueeview.MarqueeView
+            <com.puyue.www.qiaoge.view.MarqueeView
                 android:id="@+id/rv_team"
                 android:background="#ffffff"
+                app:standDuration="3500"
                 android:layout_width="match_parent"
                 android:layout_height="106dp"/>
         </LinearLayout>
@@ -349,9 +356,10 @@
                     android:layout_height="wrap_content"/>
             </LinearLayout>
 
-            <com.frankfancode.marqueeview.MarqueeView
+            <com.puyue.www.qiaoge.view.MarqueeView
                 android:id="@+id/rv_discount"
                 android:background="#ffffff"
+                app:standDuration="4000"
                 android:layout_width="match_parent"
                 android:layout_height="106dp"/>
 

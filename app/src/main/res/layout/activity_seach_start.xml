@@ -157,15 +157,23 @@
 
 
     <com.puyue.www.qiaoge.activity.flow.TagFlowLayout
-            android:id="@+id/fl_search"
+            android:id="@+id/fl_search1"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
             app:is_limit="true"
             app:limit_line_count="2"
-            app:max_select="1">
+            app:max_select="1"/>
 
-        </com.puyue.www.qiaoge.activity.flow.TagFlowLayout>
+    <com.puyue.www.qiaoge.activity.flow.CustView
+        android:id="@+id/fl_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        app:is_limit="true"
+        app:limit_line_count="2"
+        app:max_select="1"/>
 
     <TextView
         android:id="@+id/tv_arrow"
@@ -211,7 +219,5 @@
         android:id="@+id/recyclerView"
         android:layout_marginTop="27dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </androidx.recyclerview.widget.RecyclerView>
+        android:layout_height="match_parent"/>
 </LinearLayout>

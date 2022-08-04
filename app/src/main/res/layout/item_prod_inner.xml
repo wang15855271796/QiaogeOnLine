@@ -8,16 +8,18 @@
 
 
     <RelativeLayout
+        android:id="@+id/rl_prod"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="160dp">
 
         <ImageView
-            android:layout_marginLeft="12dp"
             android:id="@+id/iv_pic"
-            android:src="@mipmap/ic_launcher"
+            android:scaleType="fitXY"
             android:layout_width="@dimen/size_82dp"
-            android:layout_height="@dimen/size_82dp" />
+            android:layout_height="@dimen/size_82dp"
+            android:layout_marginLeft="12dp"
+            android:src="@mipmap/ic_launcher" />
 
         <TextView
             android:id="@+id/tv_name"
