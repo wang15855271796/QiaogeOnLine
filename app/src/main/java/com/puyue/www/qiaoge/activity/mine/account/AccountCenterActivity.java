@@ -1,7 +1,10 @@
 package com.puyue.www.qiaoge.activity.mine.account;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -10,10 +13,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.NewWebViewActivity;
+import com.puyue.www.qiaoge.QiaoGeApplication;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.CommonH5Activity;
 import com.puyue.www.qiaoge.activity.PrivacySetting;
 import com.puyue.www.qiaoge.activity.cart.CompetActivity;
+import com.puyue.www.qiaoge.activity.mine.login.LogoutsEvent;
 import com.puyue.www.qiaoge.api.mine.AccountCenterAPI;
 import com.puyue.www.qiaoge.api.mine.LogoutAPI;
 import com.puyue.www.qiaoge.api.mine.login.LoginAPI;
@@ -27,10 +32,15 @@ import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.mine.AccountCenterModel;
 import com.puyue.www.qiaoge.utils.EnCodeUtil;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
+import com.tencent.map.geolocation.TencentLocation;
+import com.tencent.map.geolocation.TencentLocationListener;
+import com.tencent.map.geolocation.TencentLocationManager;
 
 import org.greenrobot.eventbus.EventBus;
 
+import pub.devrel.easypermissions.EasyPermissions;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -239,6 +249,7 @@ public class AccountCenterActivity extends BaseSwipeActivity {
                 });
     }
 
+    String[] params = { Manifest.permission.ACCESS_COARSE_LOCATION};
     private void requestLogout() {
         LogoutAPI.requestLogout(mContext)
                 .subscribeOn(Schedulers.io())
@@ -258,7 +269,27 @@ public class AccountCenterActivity extends BaseSwipeActivity {
                     public void onNext(BaseModel baseModel) {
                         mModelLogout = baseModel;
                         if (mModelLogout.success) {
-                            logoutAndToHome(mContext, -10000);
+                            if (EasyPermissions.hasPermissions(getApplicationContext(),params)) {//检查是否获取该权限
+                                logoutAndToHomes(mContext, -10000);
+                                //全部允许
+                            } else {//第二次请求
+                                //存在不允许的权限  对话框为什么一会出来一会不出来
+                                UserInfoHelper.saveAreaName(mContext, "上城区");
+                                UserInfoHelper.saveCity(mActivity, "杭州市");
+                                //清空UserId
+                                    UserInfoHelper.saveUserId(mContext, "");
+                                    UserInfoHelper.saveUserType(mContext, "");
+                                    SharedPreferencesUtil.saveInt(mActivity,"wad",0);
+                                    UserInfoHelper.saveUserHomeRefresh(mContext, "");
+                                    UserInfoHelper.saveUserMarketRefresh(mContext, "");
+                                    UserInfoHelper.saveChangeFlag(mActivity,"0");
+                                    EventBus.getDefault().post(new LogoutsEvent());
+                                    finish();
+
+                                EasyPermissions.requestPermissions(this, "需要加载必要的权限。", 1, params);
+                            }
+
+
                         } else {
                             AppHelper.showMsg(mContext, mModelLogout.message);
                         }
@@ -266,6 +297,42 @@ public class AccountCenterActivity extends BaseSwipeActivity {
                 });
         DialogHelper.dismissLogoutDialog();
     }
+
+    TencentLocationManager instance;
+    public void logoutAndToHomes(Context context, int mStateCode) {
+        instance = TencentLocationManager.getInstance(QiaoGeApplication.getContext());
+        instance.requestSingleFreshLocation(null, mLocationListener, Looper.getMainLooper());
+        //清空UserId
+        if (mStateCode == -10000 || mStateCode == -10001) {
+            UserInfoHelper.saveUserId(context, "");
+            UserInfoHelper.saveUserType(context, "");
+            SharedPreferencesUtil.saveInt(mActivity,"wad",0);
+            UserInfoHelper.saveUserHomeRefresh(context, "");
+            UserInfoHelper.saveUserMarketRefresh(context, "");
+            UserInfoHelper.saveChangeFlag(mActivity,"0");
+            EventBus.getDefault().post(new LogoutsEvent());
+            finish();
+        }
+    }
+
+    TencentLocationListener mLocationListener = new TencentLocationListener() {
+        @Override
+        public void onLocationChanged(TencentLocation location, int i, String s) {
+            ToastUtil.showSuccessMsg(mContext,s);
+            String district = location.getDistrict();
+            String city = location.getCity();
+            String province = location.getProvince();
+            UserInfoHelper.saveProvince(mContext, province);
+            SharedPreferencesUtil.saveString(mActivity,"provinceName",province);
+            UserInfoHelper.saveAreaName(mContext, district);
+            UserInfoHelper.saveCity(mActivity, city);
+        }
+
+        @Override
+        public void onStatusUpdate(String s, int i, String s1) {
+        }
+
+    };
 
     @Override
     protected void onResume() {

@@ -185,13 +185,13 @@ public class MarqueeView extends LinearLayout {
     }
 
 
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            return true;
-        }
-        return super.onInterceptTouchEvent(ev);
-    }
+//    @Override
+//    public boolean onInterceptTouchEvent(MotionEvent ev) {
+//        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+//            return true;
+//        }
+//        return super.onInterceptTouchEvent(ev);
+//    }
 
 
     @Override

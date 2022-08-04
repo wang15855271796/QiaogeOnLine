@@ -40,8 +40,6 @@ public class CityChangeAdapter extends BaseQuickAdapter<CityChangeModel.DataBean
         this.flag = flag;
     }
 
-
-
     @Override
     protected void convert(BaseViewHolder helper, CityChangeModel.DataBean item) {
         tv_province=helper.getView(R.id.tv_province);

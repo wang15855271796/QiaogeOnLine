@@ -6,9 +6,9 @@
     xmlns:boy="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootview"
-    xmlns:wheelSurfView="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/smart"
@@ -82,11 +82,14 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="200dp" />
 
+
                                 <RelativeLayout
                                     android:id="@+id/rl_head"
                                     android:layout_marginTop="110dp"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content">
+
+
                                     <!--顶部的六种推荐-->
                                     <androidx.recyclerview.widget.RecyclerView
                                         android:id="@+id/rv_recommend"
@@ -411,6 +414,10 @@
                 android:layout_marginRight="@dimen/dp_10"
                 android:layout_marginBottom="@dimen/size_25dp"
                 android:background="@drawable/shape_grey10" />
+
+            <com.puyue.www.qiaoge.view.MarqueeView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
         </RelativeLayout>
 

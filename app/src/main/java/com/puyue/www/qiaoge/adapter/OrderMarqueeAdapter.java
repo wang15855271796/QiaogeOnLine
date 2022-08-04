@@ -2,6 +2,7 @@ package com.puyue.www.qiaoge.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,18 +64,9 @@ public class OrderMarqueeAdapter extends RecyclerView.Adapter<OrderMarqueeAdapte
             public void onClick(View view) {
                 Intent intent = new Intent(activity, NewOrderDetailActivity.class);
                 intent.putExtra("account","0");
-                intent.putExtra(AppConstant.ORDERID, dataBean.getOrderId());
+                intent.putExtra(AppConstant.ORDERID, data.get(position % data.size()).getOrderId());
+//                Log.d("wdasdwdasd......",position+"----"+position % data.size());
                 activity.startActivity(intent);
-//                if(dataBean.getOrderStatus()==1) {
-//                    Intent intent = new Intent(activity, NewOrderDetailActivity.class);
-//                    intent.putExtra("account","0");
-//                    intent.putExtra(AppConstant.ORDERID, dataBean.getOrderId());
-//                    activity.startActivity(intent);
-//                }else {
-//                    Intent intent1 = new Intent(activity, MapOrderMessageActivity.class);
-//                    intent1.putExtra("orderId", dataBean.getOrderId());
-//                    activity.startActivity(intent1);
-//                }
             }
         });
     }

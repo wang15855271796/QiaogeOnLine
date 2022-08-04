@@ -9,11 +9,19 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Looper;
 import android.view.KeyEvent;
 
 import com.gyf.barlibrary.ImmersionBar;
+import com.puyue.www.qiaoge.QiaoGeApplication;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
+import com.tencent.map.geolocation.TencentLocation;
+import com.tencent.map.geolocation.TencentLocationListener;
+import com.tencent.map.geolocation.TencentLocationManager;
 
 import butterknife.ButterKnife;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -30,7 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity  {
     protected Resources mResources;
     protected Bundle mBundle;
     private ImmersionBar mImmersionBar;
-
+    TencentLocationManager instance;
     public static Intent getIntent(Context context, Class<?> cls) {
         Intent intent = new Intent();
         intent.setClass(context, cls);
@@ -43,8 +51,8 @@ public abstract class BaseActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         mContext = this;
         mActivity = this;
-
-
+//        instance = TencentLocationManager.getInstance(QiaoGeApplication.getContext());
+//        instance.requestSingleFreshLocation(null, mLocationListener, Looper.getMainLooper());
         setContentView();
 
         mResources = this.getResources();
@@ -62,7 +70,16 @@ public abstract class BaseActivity extends AppCompatActivity  {
 
     }
 
-
+//    TencentLocationListener mLocationListener = new TencentLocationListener() {
+//        @Override
+//        public void onLocationChanged(TencentLocation location, int i, String s) {
+//            ToastUtil.showSuccessMsg(mContext,s);
+//        }
+//
+//        @Override
+//        public void onStatusUpdate(String s, int i, String s1) {
+//        }
+//    };
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         if (newConfig.fontScale != 1)//非默认值

@@ -1,13 +1,13 @@
 package com.puyue.www.qiaoge.adapter;
 
 import android.content.Intent;
-import androidx.annotation.Nullable;
-
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -24,10 +24,7 @@ import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
 import java.util.List;
 
-/**
- * Created by ${王涛} on 2021/3/7
- */
-public class Must2Adapter extends BaseQuickAdapter<ProductNormalModel.DataBean.ListBean,BaseViewHolder> {
+public class MustAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.ListBean, BaseViewHolder> {
     private ImageView iv_pic;
     List<ProductNormalModel.DataBean.ListBean> activesBean;
     private ImageView iv_add;
@@ -43,12 +40,11 @@ public class Must2Adapter extends BaseQuickAdapter<ProductNormalModel.DataBean.L
     View v_champion;
     TextView tv_champion;
     LinearLayout ll_champion;
-    public Must2Adapter(int layoutResId, @Nullable List<ProductNormalModel.DataBean.ListBean> activeList, Onclick onclick) {
-        super(layoutResId, activeList);
-        this.activesBean = activeList;
+
+    public MustAdapter(int layoutResId, @Nullable List<ProductNormalModel.DataBean.ListBean> data,Onclick onclick) {
+        super(layoutResId, data);
+        this.activesBean = data;
         this.onclick = onclick;
-
-
     }
 
     @Override
@@ -91,14 +87,20 @@ public class Must2Adapter extends BaseQuickAdapter<ProductNormalModel.DataBean.L
             v_champion.setVisibility(View.GONE);
         }
 
-        ll_champion.setVisibility(View.GONE);
+        ll_champion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, HotProductActivity.class);
+                mContext.startActivity(intent);
+            }
+        });
 
         rl_group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, CommonGoodsDetailActivity.class);
                 intent.putExtra(AppConstant.ACTIVEID,item.getProductMainId());
-                intent.putExtra("priceType",SharedPreferencesUtil.getString(mContext,"priceType"));
+                intent.putExtra("priceType", SharedPreferencesUtil.getString(mContext,"priceType"));
                 mContext.startActivity(intent);
             }
         });
@@ -152,5 +154,4 @@ public class Must2Adapter extends BaseQuickAdapter<ProductNormalModel.DataBean.L
         void addDialog();
         void tipClick();
     }
-
 }

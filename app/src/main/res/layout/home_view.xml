@@ -65,11 +65,11 @@
 
             </LinearLayout>
 
-            <com.puyue.www.qiaoge.AutoPollRecyclerView
+            <com.frankfancode.marqueeview.MarqueeView
                 android:id="@+id/rv_skill"
                 android:background="#ffffff"
                 android:layout_width="match_parent"
-                android:layout_height="106dp"/>
+                android:layout_height="106dp" />
 
         </LinearLayout>
 
@@ -112,11 +112,13 @@
 
             </LinearLayout>
 
-            <com.puyue.www.qiaoge.AutoPollRecyclerView
+            <com.frankfancode.marqueeview.MarqueeView
                 android:background="#ffffff"
                 android:id="@+id/rv_full1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="106dp"/>
+
+
         </LinearLayout>
 
 
@@ -158,11 +160,11 @@
 
             </LinearLayout>
 
-            <com.puyue.www.qiaoge.AutoPollRecyclerView
+            <com.frankfancode.marqueeview.MarqueeView
                 android:id="@+id/rv_full"
                 android:background="#ffffff"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="106dp"/>
         </LinearLayout>
 
 
@@ -206,11 +208,11 @@
 
             </LinearLayout>
 
-            <com.puyue.www.qiaoge.AutoPollRecyclerView
+            <com.frankfancode.marqueeview.MarqueeView
                 android:background="#ffffff"
                 android:id="@+id/rv_team1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="106dp"/>
         </LinearLayout>
 
         <!--   抵扣2 -->
@@ -251,11 +253,11 @@
                     android:layout_height="wrap_content"/>
             </LinearLayout>
 
-            <com.puyue.www.qiaoge.AutoPollRecyclerView
+            <com.frankfancode.marqueeview.MarqueeView
                 android:background="#ffffff"
                 android:id="@+id/rv_discount1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="106dp"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -304,11 +306,11 @@
 
             </LinearLayout>
 
-            <com.puyue.www.qiaoge.AutoPollRecyclerView
+            <com.frankfancode.marqueeview.MarqueeView
                 android:id="@+id/rv_team"
                 android:background="#ffffff"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="106dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -347,11 +349,11 @@
                     android:layout_height="wrap_content"/>
             </LinearLayout>
 
-            <com.puyue.www.qiaoge.AutoPollRecyclerView
+            <com.frankfancode.marqueeview.MarqueeView
                 android:id="@+id/rv_discount"
                 android:background="#ffffff"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="106dp"/>
 
 
         </LinearLayout>

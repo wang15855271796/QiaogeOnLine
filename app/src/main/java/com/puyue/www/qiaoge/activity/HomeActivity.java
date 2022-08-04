@@ -67,6 +67,7 @@ import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
 import com.puyue.www.qiaoge.model.home.GetAddressModel;
 import com.puyue.www.qiaoge.utils.LoginUtil;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.StatusBarUtil;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
@@ -149,7 +150,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         @Override
     public void setContentView() {
             //腾讯定位
-            instance = TencentLocationManager.getInstance(QiaoGeApplication.getContext());
+        instance = TencentLocationManager.getInstance(QiaoGeApplication.getContext());
 //            TencentLocationRequest request = TencentLocationRequest.create();
 //            request.setInterval(1000);
 //            request.setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_ADMIN_AREA);
@@ -169,37 +170,6 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         //自4.3.0起，百度地图SDK所有接口均支持百度坐标和国测局坐标，用此方法设置您使用的坐标类型.
         //包括BD09LL和GCJ02两种坐标，默认是BD09LL坐标。
 //        SDKInitializer.setCoordType(CoordType.BD09LL);
-
-        TencentLocationListener mLocationListener = new TencentLocationListener() {
-            @Override
-            public void onLocationChanged(TencentLocation location, int i, String s) {
-                district = location.getDistrict();
-                city = location.getCity();
-                String province = location.getProvince();
-                UserInfoHelper.saveProvince(mContext, province);
-                SharedPreferencesUtil.saveString(mActivity,"provinceName",province);
-                UserInfoHelper.saveAreaName(mContext, district);
-                SharedPreferencesUtil.saveString(mContext,"lat",location.getLatitude()+"");
-                SharedPreferencesUtil.saveString(mContext,"lon",location.getLongitude()+"");
-                isGet = true;
-                if (city != null) {
-                    UserInfoHelper.saveCity(mContext, city);
-                } else {
-                    UserInfoHelper.saveCity(mContext, "");
-                }
-                type = "";
-                locationMessage = location.getAddress();    //获取详细地址信息
-                switchTab(TAB_HOME);
-                if (token != null) {
-                    sendLocation();
-                }
-            }
-
-            @Override
-            public void onStatusUpdate(String s, int i, String s1) {
-            }
-        };
-
         instance.requestSingleFreshLocation(null, mLocationListener, Looper.getMainLooper());
 
         OneKeyLoginManager.getInstance().init(getApplicationContext(), "cuRwbnsv", new InitListener() {
@@ -216,13 +186,43 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
             public void getPhoneInfoStatus(int code, String result) {
                 //预取号回调
                 Log.e("VVV", "预取号： code==" + code + "   result==" + result);
-
             }
         });
 
         setContentView(R.layout.activity_home);
 
     }
+
+    TencentLocationListener mLocationListener = new TencentLocationListener() {
+        @Override
+        public void onLocationChanged(TencentLocation location, int i, String s) {
+            ToastUtil.showSuccessMsg(mContext,s);
+            district = location.getDistrict();
+            city = location.getCity();
+            String province = location.getProvince();
+            UserInfoHelper.saveProvince(mContext, province);
+            SharedPreferencesUtil.saveString(mActivity,"provinceName",province);
+            UserInfoHelper.saveAreaName(mContext, district);
+            SharedPreferencesUtil.saveString(mContext,"lat",location.getLatitude()+"");
+            SharedPreferencesUtil.saveString(mContext,"lon",location.getLongitude()+"");
+            isGet = true;
+            if (city != null) {
+                UserInfoHelper.saveCity(mContext, city);
+            } else {
+                UserInfoHelper.saveCity(mContext, "");
+            }
+            type = "";
+            locationMessage = location.getAddress();    //获取详细地址信息
+            switchTab(TAB_HOME);
+            if (token != null) {
+                sendLocation();
+            }
+        }
+
+        @Override
+        public void onStatusUpdate(String s, int i, String s1) {
+        }
+    };
 
     @Override
     public void findViewById() {

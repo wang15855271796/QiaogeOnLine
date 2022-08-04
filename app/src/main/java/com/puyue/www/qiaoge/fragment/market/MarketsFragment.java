@@ -62,7 +62,6 @@ import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.FromIndexEvent;
-import com.puyue.www.qiaoge.event.GoToMarketEvent;
 import com.puyue.www.qiaoge.event.LogoutEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.fragment.home.CityEvent;
@@ -174,7 +173,6 @@ public class MarketsFragment extends BaseFragment {
     private boolean isCheck = false;
     private boolean hasPage = true;
     EditText et_goods;
-    View mask;
     LinearLayout ll_select;
     LinearLayout ll_prod;
     private ProdAdapter prodAdapter;
@@ -213,7 +211,6 @@ public class MarketsFragment extends BaseFragment {
             long time = Time.getTime(end);
             getDatas(time);
         }
-
     }
 
 
@@ -325,7 +322,6 @@ public class MarketsFragment extends BaseFragment {
         tv_sale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if(saleNum%2==0) {
                     tv_sale.setTextColor(Color.parseColor("#F6391A"));
                     saleVolume = "1";
@@ -347,6 +343,7 @@ public class MarketsFragment extends BaseFragment {
                 sendSelectGood(saleVolume, priceUp,priceDown, newProduct, selectBrandName, minPrice, maxPrice);
             }
         });
+
         tv_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -381,6 +378,9 @@ public class MarketsFragment extends BaseFragment {
                 //点击一级分类时候隐藏品牌界面
                 ll_prod.setVisibility(View.GONE);
                 ll_select.setVisibility(View.VISIBLE);
+                mListGoods.clear();
+                mAdapterMarketDetail.notifyDataSetChanged();
+
                 if(mCustomPopWindow!=null) {
                     mCustomPopWindow.dissmiss();
                 }
@@ -757,7 +757,6 @@ public class MarketsFragment extends BaseFragment {
 
     }
 
-    //新改
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void cityEvent(CityEvent event) {
         //刷新UI
@@ -772,6 +771,7 @@ public class MarketsFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN,sticky=true)
     public void update(AddressEvent event) {
         //刷新数据
+        selectPosition = 0;
         lav_activity_loading.show();
         getSearchProd();
         requestGoodsList("");
@@ -816,9 +816,9 @@ public class MarketsFragment extends BaseFragment {
                     getData();
                 } else {
                     pageNum = 1;
-                    mListGoods.clear();
-                    mAdapterMarketDetail.notifyDataSetChanged();
                     if(scrollPosition != mListSecondNow.size()-1) {
+                        mListGoods.clear();
+                        mAdapterMarketDetail.notifyDataSetChanged();
                         hasPage = false;
                         scrollPosition++;
                         if(scrollPosition==2) {
@@ -832,18 +832,19 @@ public class MarketsFragment extends BaseFragment {
                         dialog.show();
                         mSecondCode = mListSecondNow.get(scrollPosition).getSecondId();
                         getData();
-                    }else {
 
+                    }else {
                         scrollPosition = 0;
                         if(mList.size()!=selectPosition+1) {
                             selectPosition++;
                             //左侧数据
                             requestGoodsList("");
-
+                            Log.d("swfewdwd........","bbb");
                         }else {
                             hasPage = false;
                             scrollPosition = mListSecondNow.size()-1;
                             mRvDetail.noMoreLoading(true);
+                            Log.d("swfewdwd........","ccc");
                         }
                     }
                 }
@@ -869,6 +870,8 @@ public class MarketsFragment extends BaseFragment {
                 }else {
                     mListGoods.clear();
                     mAdapterMarketDetail.notifyDataSetChanged();
+                    mListProd.clear();
+                    prodAdapter.notifyDataSetChanged();
                     pageNum = 1;
                     hasPage = false;
                     scrollPosition++;
@@ -896,6 +899,8 @@ public class MarketsFragment extends BaseFragment {
                     scrollPosition = position;
                     mAdapterMarketSecond.selectPosition(position);
                     mListGoods.clear();
+                    mListProd.clear();
+                    prodAdapter.notifyDataSetChanged();
                     mAdapterMarketDetail.notifyDataSetChanged();
                     if(position == 2) {
                         mSecondCode = -5;
@@ -974,7 +979,7 @@ public class MarketsFragment extends BaseFragment {
 
     private void getData() {
         isCheck = false;
-        sendSelectGood("", "", "", "",selectBrandName, minPrice, maxPrice);
+        sendSelectGood(saleVolume, priceUp, priceDown, newProduct,selectBrandName, minPrice, maxPrice);
     }
 
     /**
@@ -1013,6 +1018,7 @@ public class MarketsFragment extends BaseFragment {
                                             firstAdapter.selectPosition(i);
                                         }
                                     }
+
                                     mFirstCode = fromId;
                                     mAdapterMarketSecond.selectPosition(0);
                                     mListSecondNow.addAll(data.get(selectPosition).getSecondClassify());
@@ -1032,13 +1038,14 @@ public class MarketsFragment extends BaseFragment {
                                     mAdapterMarketSecond.selectPosition(0);
                                     mAdapterMarketSecond.notifyDataSetChanged();
                                     firstAdapter.notifyDataSetChanged();
-
+                                    Log.d("sfefdsfsda....","123");
                                 }
                             }else {
                                 mListSecondNow.clear();
                                 mList.clear();
                                 mListGoods.clear();
                                 mListProd.clear();
+                                Log.d("swfewdwd........","ccc");
                                 prodAdapter.notifyDataSetChanged();
                                 mAdapterMarketSecond.notifyDataSetChanged();
                                 firstAdapter.notifyDataSetChanged();
@@ -1081,9 +1088,11 @@ public class MarketsFragment extends BaseFragment {
             if (mModelMarketGoods.getData().getProdClassify().isHasNextPage()) {
                 hasPage = true;
                 mRvDetail.noMoreLoading(false);
+                Log.d("wwweddsds.....","ddd");
             } else {
                 hasPage = false;
                 mRvDetail.noMoreLoading(true);
+                Log.d("wwweddsds.....","eee");
             }
             mRvDetail.refreshComplete();
         }else {
@@ -1102,6 +1111,7 @@ public class MarketsFragment extends BaseFragment {
                 rv_prod_detail.setVisibility(View.GONE);
                 mIvNoData.setVisibility(View.VISIBLE);
             }
+
 
             if (mModelMarketGoods.getData().getBrandProd().isHasNextPage()) {
                 hasPage = true;
@@ -1204,13 +1214,15 @@ public class MarketsFragment extends BaseFragment {
         //刷新UI
         requestGoodsList("");
         getData();
-
-
     }
 
     String fromId;
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
     public void change(FromIndexEvent fromIndexEvent) {
+        if(null!=ll_select && null!=ll_prod) {
+            ll_select.setVisibility(View.VISIBLE);
+            ll_prod.setVisibility(View.GONE);
+        }
         fromId = fromIndexEvent.getId();
         requestGoodsList(fromId);
     }

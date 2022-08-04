@@ -271,6 +271,12 @@ public class EditAndAddActivity extends BaseSwipeActivity {
         keyWorldsView.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable arg0) {
+                if(keyWorldsView.getText().toString().length()> 4 || keyWorldsView.getText().toString().length() == 4) {
+                    getArea(mArea,keyWorldsView.getText().toString());
+                    recyclerView.setVisibility(View.VISIBLE);
+                }else {
+                    recyclerView.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -279,12 +285,7 @@ public class EditAndAddActivity extends BaseSwipeActivity {
 
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-                if(keyWorldsView.getText().toString().length()> 4 || keyWorldsView.getText().toString().length() == 4) {
-                    getArea(mArea,keyWorldsView.getText().toString());
-                    recyclerView.setVisibility(View.VISIBLE);
-                }else {
-                    recyclerView.setVisibility(View.GONE);
-                }
+
             }
         });
 

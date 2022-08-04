@@ -21,6 +21,7 @@ import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.activity.mine.login.RegisterActivity;
 import com.puyue.www.qiaoge.activity.mine.login.RegisterMessageActivity;
 import com.puyue.www.qiaoge.adapter.Must2Adapter;
+import com.puyue.www.qiaoge.adapter.MustAdapter;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
@@ -63,9 +64,7 @@ public class MustFragment extends BaseFragment {
     RecyclerView recyclerView;
     @BindView(R.id.smart)
     SmartRefreshLayout refreshLayout;
-    Must2Adapter mustAdapter;
-    private String cell; // 客服电话
-    String flag = "common";
+    MustAdapter mustAdapter;
     View emptyView;
     CouponDialog couponDialog;
     int pageNum = 1;
@@ -129,7 +128,7 @@ public class MustFragment extends BaseFragment {
     public void findViewById(View view) {
         bind = ButterKnife.bind(this, view);
         emptyView = View.inflate(mActivity, R.layout.layout_empty, null);
-        mustAdapter = new Must2Adapter(R.layout.item_team_list, list, new Must2Adapter.Onclick() {
+        mustAdapter = new MustAdapter(R.layout.item_team_list, list, new MustAdapter.Onclick() {
             @Override
             public void addDialog() {
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mActivity))) {

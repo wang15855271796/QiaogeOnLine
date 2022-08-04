@@ -60,7 +60,7 @@ public class MarqueeAdapter extends RecyclerView.Adapter<MarqueeAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(activity, MessageDetailActivity.class);
-                intent.putExtra("id",dataBean.getId());
+                intent.putExtra("id",data.get(position % data.size()).getId());
                 activity.startActivity(intent);
             }
         });
@@ -85,9 +85,4 @@ public class MarqueeAdapter extends RecyclerView.Adapter<MarqueeAdapter.ViewHold
             tv_content = (TextView) view.findViewById(R.id.tv_content);
         }
     }
-
-
-
-
-
 }

@@ -291,11 +291,62 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/ll_no_search"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp">
+
+                    <TextView
+                        android:text="没有搜索结果"
+                        android:textSize="@dimen/size_21dp"
+                        android:textColor="#333"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="换个关键词试试吧"
+                        android:textSize="@dimen/size_12dp"
+                        android:textColor="#333"
+                        android:layout_marginTop="@dimen/size_9dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+                </LinearLayout>
+
+                <View
+                    android:background="#f6f6f6"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/size_1dp"/>
+
+                <TextView
+                    android:text="推荐商品"
+                    android:layout_marginLeft="@dimen/size_15dp"
+                    android:textSize="@dimen/size_16dp"
+                    android:textColor="#333"
+                    android:layout_marginTop="@dimen/size_17dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_un"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
 
             <com.scwang.smartrefresh.layout.SmartRefreshLayout
                 android:id="@+id/smart"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
             <com.scwang.smartrefresh.header.MaterialHeader
                 android:id="@+id/header"
@@ -305,6 +356,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -314,15 +366,6 @@
 
             </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-
-                <LinearLayout
-                    android:id="@+id/ll_recommend"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                </LinearLayout>
 
         </LinearLayout>
 

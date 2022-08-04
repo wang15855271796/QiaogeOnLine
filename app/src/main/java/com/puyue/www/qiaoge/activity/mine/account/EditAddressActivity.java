@@ -751,12 +751,7 @@ public class EditAddressActivity extends BaseSwipeActivity  {
 
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            if(keyWorldsView.getText().toString().length()> 4 || keyWorldsView.getText().toString().length() == 4) {
-                getArea(cityName,keyWorldsView.getText().toString());
-                recyclerView.setVisibility(View.VISIBLE);
-            }else {
-                recyclerView.setVisibility(View.GONE);
-            }
+
         }
 
         @Override
@@ -765,6 +760,12 @@ public class EditAddressActivity extends BaseSwipeActivity  {
 
         @Override
         public void afterTextChanged(Editable editable) {
+            if(keyWorldsView.getText().toString().length()> 4 || keyWorldsView.getText().toString().length() == 4) {
+                getArea(cityName,keyWorldsView.getText().toString());
+                recyclerView.setVisibility(View.VISIBLE);
+            }else {
+                recyclerView.setVisibility(View.GONE);
+            }
         }
     }
 }

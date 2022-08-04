@@ -12,7 +12,7 @@ import android.util.DisplayMetrics;
  */
 
 public class SmoothScrolLinearLayoutManager extends LinearLayoutManager {
-    private float MILLISECONDS_PER_INCH = 10f;
+    private float MILLISECONDS_PER_INCH = 4f;
     private Context context;
 
     public SmoothScrolLinearLayoutManager(Context context) {

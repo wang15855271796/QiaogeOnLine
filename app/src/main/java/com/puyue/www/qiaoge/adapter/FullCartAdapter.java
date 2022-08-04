@@ -1,7 +1,10 @@
 package com.puyue.www.qiaoge.adapter;
 
 import android.graphics.Color;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -38,12 +41,14 @@ public class FullCartAdapter extends BaseQuickAdapter<CartFullsModel.DataBean.De
         if("无限制".equals(item.getLimitInfo())) {
             tv_desc.setText(item.getLimitInfo());
         }else {
-            tv_desc.setText(item.getLimitInfo());
-//            String limitInfo = item.getLimitInfo();
-//            String startStr = limitInfo.substring(0,);
-//            SpannableStringBuilder spannableStringBuilder = StringSpecialHelper.buildSpanColorStyle(item.getLimitInfo(), 17,
-//                    8, Color.parseColor("#3483FF"));
-//            tv_desc.setText(spannableStringBuilder);
+            String limitInfo = item.getLimitInfo();
+            SpannableString spannableString = new SpannableString(limitInfo);
+            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#FF2925")), 5, 6, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#FF2925")), 12, 13, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            tv_desc.setText(spannableString);
+
+
+
         }
 
         tv_given.setText(item.getDeductInfo());

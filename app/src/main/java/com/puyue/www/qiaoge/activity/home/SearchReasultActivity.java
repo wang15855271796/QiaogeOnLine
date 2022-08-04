@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,6 +34,7 @@ import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.activity.view.ChoosePopWindow;
+import com.puyue.www.qiaoge.adapter.Must2Adapter;
 import com.puyue.www.qiaoge.adapter.SearchOperaAdapter;
 import com.puyue.www.qiaoge.adapter.home.SearchReasultAdapter;
 import com.puyue.www.qiaoge.adapter.home.SearchResultAdapter;
@@ -56,8 +58,10 @@ import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.PopWindowListener;
 import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
 import com.puyue.www.qiaoge.model.home.GetCustomerPhoneModel;
+import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 import com.puyue.www.qiaoge.model.home.SearchResultsModel;
 import com.puyue.www.qiaoge.utils.LoginUtil;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -90,6 +94,8 @@ import rx.schedulers.Schedulers;
 public class SearchReasultActivity extends BaseSwipeActivity implements View.OnClickListener {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.rv_un)
+    RecyclerView rv_un;
     @BindView(R.id.ll_back)
     LinearLayout ll_back;
     @BindView(R.id.tv_num)
@@ -108,8 +114,6 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
     FrameLayout fl_container;
     @BindView(R.id.rg_group)
     RadioGroup rg_group;
-    @BindView(R.id.ll_recommend)
-    LinearLayout ll_recommend;
     @BindView(R.id.ll_all)
     LinearLayout ll_all;
     @BindView(R.id.tv_all)
@@ -136,6 +140,8 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
     ImageView iv_arrow;
     @BindView(R.id.ll_all_choose)
     LinearLayout ll_all_choose;
+    @BindView(R.id.ll_no_search)
+    LinearLayout ll_no_search;
     String searchWord;
     int pageNum = 1;
     int pageSize = 10;
@@ -250,12 +256,6 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
         choosePopWindow.setPopWindowListener(new PopWindowListener() {
             @Override
             public void getCateStyle(String cate,int position) {
-//                saleDownFlag = 0;
-//                priceFlag = 0;
-//                tv_all_data.setTextColor(Color.parseColor("#333333"));
-//                tv_sale.setTextColor(Color.parseColor("#333333"));
-//                tv_price.setTextColor(Color.parseColor("#333333"));
-//                iv_direction.setImageResource(R.mipmap.icon_default);
                 isClickOpen = true;
                 num++;
                 if(isClickOpen) {
@@ -336,13 +336,9 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
     }
 
 
-
-    LinearLayout ll_no_search;
     private LoadingDailog dialog;
     @Override
     public void setViewData() {
-        view = View.inflate(mContext, R.layout.item_head, null);
-        ll_no_search = view.findViewById(R.id.ll_no_search);
         searchWord = getIntent().getStringExtra(AppConstant.SEARCHWORD);
         tv_activity_result.setText(searchWord);
         getCartNum();
@@ -459,19 +455,21 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                                 lav_activity_loading.setVisibility(View.GONE);
                                 dialog.dismiss();
                                 if(recommendModel.getData().getSearchProd()!=null && recommendModel.getData().getSearchProd().getList()!=null && recommendModel.getData().getSearchProd().getList().size()> 0) {
-                                    smart.setEnableLoadMore(true);
-                                    smart.setEnableRefresh(true);
-                                    searchList.addAll(recommendModel.getData().getSearchProd().getList());
+                                    smart.setVisibility(View.VISIBLE);
+                                    rv_un.setVisibility(View.GONE);
                                     ll_no_search.setVisibility(View.GONE);
-                                    ll_style.setVisibility(View.VISIBLE);
+                                    recyclerView.setVisibility(View.VISIBLE);
+                                    List<SearchResultsModel.DataBean.SearchProdBean.ListBean> list = recommendModel.getData().getSearchProd().getList();
+                                    searchList.addAll(list);
                                     searchReasultAdapter.notifyDataSetChanged();
-
 
                                 }
 
                                 if(recommendModel.getData().getRecommendProd()!=null && recommendModel.getData().getRecommendProd().size()>0) {
-                                    smart.setEnableLoadMore(false);
-                                    smart.setEnableRefresh(false);
+                                    rv_un.setVisibility(View.VISIBLE);
+                                    ll_no_search.setVisibility(View.VISIBLE);
+                                    recyclerView.setVisibility(View.GONE);
+                                    smart.setVisibility(View.GONE);
                                     recommendList.addAll(recommendModel.getData().getRecommendProd());
                                     searchResultAdapter = new SearchResultAdapter(R.layout.item_noresult_recommend, recommendList, new SearchResultAdapter.Onclick() {
                                         @Override
@@ -484,12 +482,9 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
 
                                         }
                                     });
-                                    recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-                                    recyclerView.setAdapter(searchResultAdapter);
-                                    ll_no_search.setVisibility(View.VISIBLE);
-                                    searchResultAdapter.addHeaderView(view);
+                                    rv_un.setLayoutManager(new LinearLayoutManager(mContext));
+                                    rv_un.setAdapter(searchResultAdapter);
                                     searchResultAdapter.notifyDataSetChanged();
-                                    ll_style.setVisibility(View.VISIBLE);
                                 }
                             }else {
                                 lav_activity_loading.setVisibility(View.GONE);
@@ -502,6 +497,7 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                     }
                 });
     }
+
 
     @Override
     public void setClickEvent() {

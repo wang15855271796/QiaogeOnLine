@@ -123,15 +123,6 @@ public class SearchResultAdapter extends BaseQuickAdapter<SearchResultsModel.Dat
                         onclick.addDialog();
                     }
                 }
-
-//                if(onclick!=null) {
-//                    onclick.addDialog();
-//                }
-//
-//                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-//                    recommendDialog = new RecommendDialog(mContext,item);
-//                    recommendDialog.show();
-//                }
             }
         });
 

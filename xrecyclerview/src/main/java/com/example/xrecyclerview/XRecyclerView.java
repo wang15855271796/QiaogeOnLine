@@ -6,12 +6,15 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -145,6 +148,12 @@ public class XRecyclerView extends RecyclerView {
         adapter.registerAdapterDataObserver(mDataObserver);
     }
 
+//    @Override
+//    public int getChildCount() {
+//        return getLayoutManager().getChildCount()-1;
+//        return super.getChildCount();
+//    }
+
     @Override
     public void onScrollStateChanged(int state) {
         super.onScrollStateChanged(state);
@@ -162,9 +171,12 @@ public class XRecyclerView extends RecyclerView {
             } else {
                 lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
             }
+//            || layoutManager.getItemCount() == layoutManager.getChildCount()
+            Toast.makeText(getContext(),layoutManager.getItemCount() +"---"+layoutManager.getChildCount(),Toast.LENGTH_LONG).show();
+
             if (layoutManager.getChildCount() > 0 && lastVisibleItemPosition >= layoutManager.getItemCount() - 1
-                    && layoutManager.getItemCount() > layoutManager.getChildCount() || layoutManager.getItemCount() == layoutManager.getChildCount()
-                    && !isnomore && mRefreshHeader.getState() < YunRefreshHeader.STATE_REFRESHING) {
+                    && !isnomore && mRefreshHeader.getState() < YunRefreshHeader.STATE_REFRESHING
+                    && layoutManager.getItemCount() > layoutManager.getChildCount()) {
 
                 View footView = mFootViews.get(0);
                 isLoadingData = true;
@@ -184,8 +196,6 @@ public class XRecyclerView extends RecyclerView {
                         }
                     }, 1000);
                 }
-            }else {
-//                mLoadingListener.onLoadMore();
             }
         }
 

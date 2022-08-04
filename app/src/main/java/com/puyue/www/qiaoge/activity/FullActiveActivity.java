@@ -13,14 +13,23 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
+import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.adapter.FullActiveAdapter;
 import com.puyue.www.qiaoge.adapter.FullGivenAdapter;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
+import com.puyue.www.qiaoge.dialog.CouponDialog;
 import com.puyue.www.qiaoge.dialog.CouponFullListDialog;
 import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
+import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.event.UpDateNumEvent11;
+import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.PublicRequestHelper;
+import com.puyue.www.qiaoge.helper.StringHelper;
+import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.FullDetailModel;
+import com.puyue.www.qiaoge.model.home.GetCustomerPhoneModel;
+import com.puyue.www.qiaoge.utils.LoginUtil;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 
@@ -86,14 +95,25 @@ public class FullActiveActivity extends BaseSwipeActivity implements View.OnClic
         EventBus.getDefault().register(this);
         fullId = getIntent().getIntExtra("fullId",0);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        fullActiveAdapter = new FullActiveAdapter(R.layout.item_active_full_list,list);
+        fullActiveAdapter = new FullActiveAdapter(R.layout.item_active_full_list, list, new FullActiveAdapter.Onclick() {
+            @Override
+            public void tipClick() {
+                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mActivity))) {
+                    if(!SharedPreferencesUtil.getString(mActivity,"priceType").equals("1")) {
+                        AppHelper.ShowAuthDialog(mActivity,cell);
+                    }
+                }else {
+                    initDialog();
+                }
+            }
+        });
         recyclerView.setAdapter(fullActiveAdapter);
 
         fullGivenAdapter = new FullGivenAdapter(R.layout.item_full_desc,sendGifts);
         rv_full_given.setLayoutManager(new LinearLayoutManager(mContext));
         rv_full_given.setAdapter(fullGivenAdapter);
         getOrder();
-
+        getCustomerPhone();
 
         fullGivenAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -130,6 +150,46 @@ public class FullActiveActivity extends BaseSwipeActivity implements View.OnClic
     @Override
     public void setClickEvent() {
 
+    }
+
+    /**
+     * 提示用户去登录还是注册的弹窗
+     */
+    CouponDialog couponDialog;
+    private void initDialog() {
+        couponDialog = new CouponDialog(mActivity) {
+            @Override
+            public void Login() {
+                startActivity(LoginActivity.getIntent(mActivity, LoginActivity.class));
+                dismiss();
+            }
+
+            @Override
+            public void Register() {
+                LoginUtil.initRegister(mActivity);
+                dismiss();
+            }
+        };
+        couponDialog.show();
+    }
+
+    String cell;
+    private void getCustomerPhone() {
+        PublicRequestHelper.getCustomerPhone(mActivity, new OnHttpCallBack<GetCustomerPhoneModel>() {
+            @Override
+            public void onSuccessful(GetCustomerPhoneModel getCustomerPhoneModel) {
+                if (getCustomerPhoneModel.isSuccess()) {
+                    cell = getCustomerPhoneModel.getData();
+                    SharedPreferencesUtil.saveString(mActivity,"mobile",cell);
+                } else {
+                    AppHelper.showMsg(mActivity, getCustomerPhoneModel.getMessage());
+                }
+            }
+
+            @Override
+            public void onFaild(String errorMsg) {
+            }
+        });
     }
 
     List<FullDetailModel.DataBean.ProdsBean> list = new ArrayList<>();

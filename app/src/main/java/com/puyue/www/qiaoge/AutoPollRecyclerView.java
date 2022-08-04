@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
+import android.view.ViewConfiguration;
 
 import com.tencent.mm.opensdk.utils.Log;
 
@@ -27,7 +28,7 @@ public class AutoPollRecyclerView extends RecyclerView {
     public AutoPollRecyclerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
-
+        mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         autoPollTask = new AutoPollTask(this);
     }
     static class AutoPollTask implements Runnable {
@@ -49,7 +50,7 @@ public class AutoPollRecyclerView extends RecyclerView {
 
     //开启:如果正在运行,先停止->再开启
     public void start() {
-        index = 0;
+
         removeCallbacks(autoPollTask);
         if (running)
             stop();
@@ -61,33 +62,134 @@ public class AutoPollRecyclerView extends RecyclerView {
         running = false;
         removeCallbacks(autoPollTask);
     }
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        switch (ev.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                lastX = (int) ev.getRawX();
-                if (running) {
-                    stop();
-                }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+        switch (e.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                if (running)
+                    stop();
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_OUTSIDE:
+                int nowY = (int) e.getRawY();
+
+                if (nowY -lastY >mTouchSlop) {//向下滑动
+
+                    smoothScrollToPosition(index ==0 ?0 : --index);
+                    if (canRun)
+
+                        start();
+
+                    return true;
+
+                }else if (lastY - nowY >mTouchSlop) {//向上滑动
+
+                    smoothScrollToPosition(++index);
+
+                    if (canRun)
+
+                        start();
+
+                    return true;
+
+                }
+
+//                if (canRun)
+//                    start();
+                break;
+        }
+        return super.onTouchEvent(e);
+    }
+
+
+//    @Override
+//    public boolean onTouchEvent(MotionEvent ev) {
+//        switch (ev.getAction()){
+//            case MotionEvent.ACTION_DOWN:
+//                lastX = (int) ev.getRawX();
+//                if (running) {
+//                    stop();
+//                }
+//
+//                break;
+//            case MotionEvent.ACTION_UP:
+//            case MotionEvent.ACTION_CANCEL:
+//            case MotionEvent.ACTION_OUTSIDE:
 //                int nowX = (int) ev.getRawX();
 //                if(lastX-nowX>10) {
 //                    smoothScrollToPosition(++index);
 //
 //                }
-
+//
 //                if(nowX-lastX>10) {
 //                    smoothScrollToPosition(index ==0 ?0 : --index);
 //                }
 //                if (canRun)
-                index = 0;
-                    start();
-                break;
-        }
-        return true;
-    }
+////                index = 0;
+//                    start();
+//                break;
+//        }
+//        return true;
+//    }
+
+
+
+
+    private final int mTouchSlop;
+    int lastY =0;
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent ev) {
+//        int action = ev.getAction();
+//
+//        switch (action) {
+//
+//            case MotionEvent.ACTION_DOWN:
+//
+//                lastY = (int) ev.getRawY();
+//
+//                if (running)
+//
+//                    stop();
+//
+//                break;
+//
+//            case MotionEvent.ACTION_UP:
+//
+//            case MotionEvent.ACTION_CANCEL:
+//
+//            case MotionEvent.ACTION_OUTSIDE:
+//
+//                int nowY = (int) ev.getRawY();
+//
+//                if (nowY -lastY >mTouchSlop) {//向下滑动
+//
+//                    smoothScrollToPosition(index ==0 ?0 : index--);
+//                    Log.d("wdsdsd........",index+"aa");
+//                    if (canRun)
+//
+//                        start();
+//
+//                    return true;
+//
+//                }else if (lastY - nowY >mTouchSlop) {//向上滑动
+//
+//                    smoothScrollToPosition(index++);
+//
+//                    if (canRun)
+//
+//                        start();
+//
+//                    return true;
+//
+//                }
+//
+//                break;
+//
+//        }
+//
+//        return super.dispatchTouchEvent(ev);
+//
+//    }
 }
