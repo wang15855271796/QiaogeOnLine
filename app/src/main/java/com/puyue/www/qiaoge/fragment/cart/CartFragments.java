@@ -300,7 +300,6 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                     public void onNext(CartTestModel cartTestModel) {
                         if(cartTestModel.getCode()==1) {
                             if(cartTestModel.getData()!=null) {
-
                                 data = cartTestModel.getData();
                                 prods.clear();
                                 inProds.clear();

@@ -30,8 +30,6 @@
                     android:layout_width="75dp"
                     android:layout_height="75dp">
 
-
-
                     <ImageView
                         android:id="@+id/iv_head"
                         android:layout_width="75dp"
@@ -99,11 +97,7 @@
                     android:layout_marginTop="@dimen/size_5dp"
                     app:is_limit="true"
                     app:limit_line_count="3"
-                    app:max_select="1">
-
-                </com.puyue.www.qiaoge.activity.flow.TagFlowLayout>
-
-
+                    app:max_select="1"/>
 
                 <RelativeLayout
                     android:id="@+id/rl_prices"

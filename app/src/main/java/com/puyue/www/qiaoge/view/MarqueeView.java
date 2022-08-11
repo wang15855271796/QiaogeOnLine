@@ -22,6 +22,7 @@ import android.widget.ViewFlipper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,6 +125,11 @@ public class MarqueeView extends LinearLayout {
         }
     }
 
+    public void stopScroll() {
+        if (marqueeHandler != null && marqueeRunnable != null) {
+            marqueeHandler.removeCallbacks(marqueeRunnable);
+        }
+    }
     public void setAdapter(RecyclerView.Adapter adapter) {
         mRv.setAdapter(adapter);
     }

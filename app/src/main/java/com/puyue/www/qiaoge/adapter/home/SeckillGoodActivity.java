@@ -698,12 +698,10 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
                                         mTvAddCar.setEnabled(false);
                                         mTvAddCar.setText("     已售罄     ");
                                         mTvAddCar.setBackgroundResource(R.drawable.app_car);
-                                        Log.d("wsaassssss.....","000");
                                     } else {
                                         mTvAddCar.setEnabled(true);
                                         mTvAddCar.setText("加入购物车");
                                         mTvAddCar.setBackgroundResource(R.drawable.app_car_orange);
-                                        Log.d("dwdwdwdsds.......","1111");
                                     }
                                 }else {
                                     //未开始
@@ -711,13 +709,11 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
                                     if(warnMe==0) {
                                         mTvAddCar.setText("     添加提醒     ");
                                         mTvAddCar.setBackgroundResource(R.drawable.app_car_orange);
-                                        Log.d("dwdwdwdsds.......","2222");
                                         SharedPreferencesUtil.saveInt(mActivity,"warnMe",0);
 
                                     }else {
                                         mTvAddCar.setText("     取消提醒     ");
                                         mTvAddCar.setBackgroundResource(R.drawable.app_car_orange);
-                                        Log.d("dwdwdwdsds.......","333");
                                         SharedPreferencesUtil.saveInt(mActivity,"warnMe",1);
 
                                     }
@@ -911,13 +907,11 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
                             if(SharedPreferencesUtil.getInt(mActivity,"warnMe")==0) {
                                 mTvAddCar.setText("     取消提醒     ");
                                 mTvAddCar.setBackgroundResource(R.drawable.app_car_orange);
-                                Log.d("dwdwdwdsds.......","44444");
                                 SharedPreferencesUtil.saveInt(mActivity,"warnMe",1);
                                 EventBus.getDefault().post(new ChangeStatEvent());
                             }else {
                                 mTvAddCar.setText("     添加提醒     ");
                                 mTvAddCar.setBackgroundResource(R.drawable.app_car_orange);
-                                Log.d("dwdwdwdsds.......","5555");
 //                                ToastUtil.showSuccessMsg(mContext,"成功333");
                                 SharedPreferencesUtil.saveInt(mActivity,"warnMe",0);
                                 EventBus.getDefault().post(new ChangeStatEvent());

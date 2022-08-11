@@ -65,7 +65,6 @@ public class OrderMarqueeAdapter extends RecyclerView.Adapter<OrderMarqueeAdapte
                 Intent intent = new Intent(activity, NewOrderDetailActivity.class);
                 intent.putExtra("account","0");
                 intent.putExtra(AppConstant.ORDERID, data.get(position % data.size()).getOrderId());
-//                Log.d("wdasdwdasd......",position+"----"+position % data.size());
                 activity.startActivity(intent);
             }
         });

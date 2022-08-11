@@ -72,9 +72,7 @@ public class VpSkillAdapter extends RecyclerView.Adapter<VpSkillAdapter.BaseView
         holder.tv_price.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("wdwqdads....","1233");
                 if(onclick!=null) {
-                    Log.d("wdwqdads....","1233333");
                     onclick.tipClick();
                 }
             }

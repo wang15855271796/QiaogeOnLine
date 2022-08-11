@@ -1,5 +1,6 @@
 package com.puyue.www.qiaoge.adapter.home;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import androidx.annotation.Nullable;
@@ -137,14 +138,12 @@ public class SpikeActiveQueryAdapter extends BaseQuickAdapter<SeckillListModel.D
             tvPrice.setText(item.price);
             rl_price.setVisibility(View.GONE);
         }else {
-
             if(Integer.parseInt(spikeFlag)==0) {
                 //未开始
                 tv_add_remind.setVisibility(View.GONE);
             }else {
                 // 已开始
                 ivSoldOut.setVisibility(View.GONE);
-
                 if(item.soldOut==0) {
                     ivSoldOut.setVisibility(View.GONE);
                     tv_add_remind.setVisibility(View.VISIBLE);
@@ -162,8 +161,13 @@ public class SpikeActiveQueryAdapter extends BaseQuickAdapter<SeckillListModel.D
         rl_price.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(onclick!=null) {
-                    onclick.tipClick();
+                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+                    if(onclick!=null) {
+                        onclick.tipClick();
+                    }
+                }else {
+                    Intent intent = new Intent(mContext,LoginActivity.class);
+                    mContext.startActivity(intent);
                 }
             }
         });

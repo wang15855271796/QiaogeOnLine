@@ -28,16 +28,16 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/size_16dp"
+                android:layout_marginTop="@dimen/dp_10"
                 android:layout_toRightOf="@+id/tv_default"
                 android:textColor="#333333"
-                android:id="@+id/tv_title"
-                android:textStyle="bold"
-                android:layout_marginLeft="@dimen/size_16dp"
                 android:textSize="@dimen/size_15dp"
-                android:layout_marginTop="@dimen/dp_10"
-                tools:text="杭州翘歌网络科技有限公司"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textStyle="bold"
+                tools:text="杭州翘歌网络科技有限公司" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -46,6 +46,9 @@
 
             <TextView
                 android:id="@+id/tv_address"
+                android:lines="1"
+                android:textSize="@dimen/sp_12"
+                android:ellipsize="end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"

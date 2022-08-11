@@ -7,17 +7,16 @@
     <RelativeLayout
         android:id="@+id/rl_notice"
         android:gravity="center_vertical"
-        android:paddingLeft="@dimen/size_20dp"
-        android:paddingRight="@dimen/size_20dp"
+        android:paddingLeft="@dimen/size_10dp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_32dp">
 
         <ImageView
             android:id="@+id/iv_notice"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/icon_notice"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_notice" />
 
         <TextView
             android:id="@+id/tv_notice_desc"
@@ -33,14 +32,14 @@
 
         <TextView
             android:id="@+id/tv_content"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/size_3dp"
             android:layout_toRightOf="@+id/tv_notice_desc"
             android:ellipsize="end"
             android:lines="1"
-            android:text="因疫情影响，订单配送可能延误，部分地..."
+            android:text="因疫情影响，订单配送可能延误，部分地因疫情影响，"
             android:textColor="#606060" />
 
 

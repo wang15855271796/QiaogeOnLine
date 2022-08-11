@@ -6,11 +6,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.example.xrecyclerview.DensityUtil;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
@@ -236,6 +238,17 @@ public class FullActiveActivity extends BaseSwipeActivity implements View.OnClic
 
                                 sendGifts.addAll(data.getSendGifts());
                                 list.addAll(data.getProds());
+
+                                ViewGroup.LayoutParams lp = rv_full_given.getLayoutParams();
+                                if(sendGifts.size()==1) {
+                                    lp.height = DensityUtil.dip2px(30 * 1,mContext);
+                                }else if(sendGifts.size()==2) {
+                                    lp.height = DensityUtil.dip2px(60 * 1,mContext);
+                                }else {
+                                    lp.height = DensityUtil.dip2px(90 * 1,mContext);
+                                }
+                                rv_full_given.setLayoutParams(lp);
+
                                 int total = sendGifts.size()+list.size();
                                 if(total>4) {
                                     tv_more.setVisibility(View.VISIBLE);

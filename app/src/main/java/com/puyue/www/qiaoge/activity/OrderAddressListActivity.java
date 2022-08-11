@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.mine.account.EditAddressActivity;
 import com.puyue.www.qiaoge.activity.mine.account.EditAndAddActivity;
 import com.puyue.www.qiaoge.adapter.OrderAddressAdapter;
 import com.puyue.www.qiaoge.api.mine.address.AddressListAPI;
@@ -100,7 +101,7 @@ public class OrderAddressListActivity extends BaseSwipeActivity {
                 } else if (flag.equals("delete")) {
                     showDeleteDialog(position);
                 } else if (flag.equals("edit")) {
-                    startActivityForResult(OrderAddAddressActivity.getIntent(mContext, OrderAddAddressActivity.class,
+                    startActivityForResult(EditAddressActivity.getIntent(mContext, EditAddressActivity.class,
                             "edit", mListData.get(position).userName, mListData.get(position).contactPhone,
                             mListData.get(position).shopName, (mListData.get(position).provinceName + " " +
                                     mListData.get(position).cityName + " " + mListData.get(position).areaName),
@@ -191,7 +192,7 @@ public class OrderAddressListActivity extends BaseSwipeActivity {
         mBtnAdd.setOnClickListener(new NoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View view) {
-                startActivityForResult(EditAndAddActivity.getIntent(mContext, OrderAddAddressActivity.class,
+                startActivityForResult(EditAndAddActivity.getIntent(mContext, EditAddressActivity.class,
                         "add", "", "", "", "", "", "false",
                         "", "", "", "", orderId), 11);
             }

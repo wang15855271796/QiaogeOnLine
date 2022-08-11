@@ -58,9 +58,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_order_state"
-                android:text="12:00下单"
                 android:textColor="#ffffff"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                tools:text="12:00下单" />
 
             <com.puyue.www.qiaoge.view.SnapUpCountDownTimerView4
                 android:id="@+id/snap"

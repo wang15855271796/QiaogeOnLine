@@ -1,6 +1,7 @@
 package com.puyue.www.qiaoge.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,6 +20,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -120,7 +122,6 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     private String guide;
     private boolean isSend = false;
     private String city;
-    private boolean isGet = false;
     private String type;
     private String district;
     CouponDialog couponDialog;
@@ -151,27 +152,9 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     public void setContentView() {
             //腾讯定位
         instance = TencentLocationManager.getInstance(QiaoGeApplication.getContext());
-//            TencentLocationRequest request = TencentLocationRequest.create();
-//            request.setInterval(1000);
-//            request.setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_ADMIN_AREA);
-//            request.setAllowGPS(true);
-//            request.setIndoorLocationMode(true);
-//            instance.requestLocationUpdates(request, this);
-            //showSystemParameter();
-        //在使用SDK各组件之前初始化context信息，传入ApplicationContext
-
-//            if (EasyPermissions.hasPermissions(this,params)) {//检查是否获取该权限
-//                //全部允许
-//            } else {//第二次请求
-//                //存在不允许的权限  对话框为什么一会出来一会不出来
-//                EasyPermissions.requestPermissions(this, "需要加载必要的权限。", 1, params);
-//            }
-
-        //自4.3.0起，百度地图SDK所有接口均支持百度坐标和国测局坐标，用此方法设置您使用的坐标类型.
-        //包括BD09LL和GCJ02两种坐标，默认是BD09LL坐标。
-//        SDKInitializer.setCoordType(CoordType.BD09LL);
         instance.requestSingleFreshLocation(null, mLocationListener, Looper.getMainLooper());
-
+        TencentLocationRequest request = TencentLocationRequest.create();
+        request.setRequestLevel(3);
         OneKeyLoginManager.getInstance().init(getApplicationContext(), "cuRwbnsv", new InitListener() {
                           @Override
             public void getInitStatus(int code, String result) {
@@ -196,27 +179,30 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     TencentLocationListener mLocationListener = new TencentLocationListener() {
         @Override
         public void onLocationChanged(TencentLocation location, int i, String s) {
-            ToastUtil.showSuccessMsg(mContext,s);
+
             district = location.getDistrict();
             city = location.getCity();
             String province = location.getProvince();
             UserInfoHelper.saveProvince(mContext, province);
             SharedPreferencesUtil.saveString(mActivity,"provinceName",province);
             UserInfoHelper.saveAreaName(mContext, district);
+
             SharedPreferencesUtil.saveString(mContext,"lat",location.getLatitude()+"");
             SharedPreferencesUtil.saveString(mContext,"lon",location.getLongitude()+"");
-            isGet = true;
+
             if (city != null) {
                 UserInfoHelper.saveCity(mContext, city);
             } else {
                 UserInfoHelper.saveCity(mContext, "");
             }
+//            switchTab(TAB_HOME);
             type = "";
             locationMessage = location.getAddress();    //获取详细地址信息
-            switchTab(TAB_HOME);
             if (token != null) {
                 sendLocation();
             }
+
+
         }
 
         @Override
@@ -263,8 +249,11 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         mTvHome.setVisibility(View.GONE);
         mIvHome.setVisibility(View.GONE);
         iv_home.setVisibility(View.VISIBLE);
+
+        UserInfoHelper.saveCity(mActivity, "杭州市");
         UserInfoHelper.saveAreaName(mContext, "上城区");
         switchTab(TAB_HOME);
+
 }
 
     private void sendLocation() {
@@ -427,10 +416,9 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                 SharedPreferencesUtil.saveString(mActivity,"index1","1");
                 SharedPreferencesUtil.saveString(mActivity,"index","1");
                 SharedPreferencesUtil.saveString(mActivity,"index2","2");
-                if (mTabHome == null || isGet) {
+                if (mTabHome == null) {
                     mTabHome = new HomeFragment();
                     mFragmentTransaction.add(R.id.layout_home_container, mTabHome);
-                    isGet = false;
                 } else {
                     mFragmentTransaction.show(mTabHome);
                 }
@@ -444,6 +432,8 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                 } else {//第二次请求
                     //存在不允许的权限  对话框为什么一会出来一会不出来
                     EasyPermissions.requestPermissions(this, "需要加载必要的权限。", 1, params);
+                    UserInfoHelper.saveAreaName(mContext, "上城区");
+                    UserInfoHelper.saveCity(mActivity, "杭州市");
                 }
 
                 break;

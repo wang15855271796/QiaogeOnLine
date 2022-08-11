@@ -122,18 +122,16 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_full_given"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/public_space_value_120">
+                android:layout_height="wrap_content"/>
 
-            </androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_marginTop="@dimen/size_10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"/>
 
-        </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 

@@ -1,11 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_edit_address"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#f5f5f5"
+    android:fitsSystemWindows="true"
+    android:scrollbars="vertical">
 
-    <TextView
-        android:text="ss"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</LinearLayout>
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.puyue.www.qiaoge.view.CompatToolbar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/app_border_bottom_bg">
+
+                <ImageView
+                    android:id="@+id/iv_edit_address_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:padding="10dp"
+                    android:src="@mipmap/ic_back_arrow" />
+
+                <TextView
+                    android:id="@+id/tv_edit_address_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginBottom="13dp"
+                    android:text="编辑收货地址"
+                    android:textColor="#232131"
+                    android:textSize="18dp" />
+            </com.puyue.www.qiaoge.view.CompatToolbar>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:background="@color/white"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <!--详细地址-->
+                        <LinearLayout
+                            android:id="@+id/ll_detail"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="130dp"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp"
+                                android:layout_gravity="center_vertical"
+                                android:text="详细地址"
+                                android:textColor="#ff232131"
+                                android:textSize="18dp" />
+
+
+                            <AutoCompleteTextView
+                                android:id="@+id/edit_edit_address_address"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="20dp"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:gravity="center_vertical"
+                                android:hint="请输入详细地址"
+                                android:paddingTop="8dp"
+                                android:textColor="#232131"
+                                android:textColorHint="#D5D5D5"
+                                android:textSize="18dp" />
+                        </LinearLayout>
+
+                        <View
+                            android:id="@+id/view_line"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/app_line_size"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:background="@color/app_line_color" />
+
+                        <!--默认地址-->
+                        <RelativeLayout
+                            android:layout_below="@+id/ll_detail"
+                            android:id="@+id/ll_edit_address_default"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="20dp">
+
+                            <CheckBox
+                                android:visibility="gone"
+                                android:id="@+id/cb_edit_address_default"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:background="@drawable/app_checkbox_style"
+                                android:button="@null"
+                                android:clickable="false"
+                                android:enabled="false" />
+
+                            <TextView
+                                android:id="@+id/tv1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="设为默认地址"
+                                android:textColor="#333333"
+                                android:textSize="15dp" />
+
+                            <TextView
+                                android:layout_width="264dp"
+                                android:textColor="#999999"
+                                android:textSize="@dimen/size_11dp"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tv1"
+                                android:text="在启动APP时将优先定位至默认地址，避免下单时选择错误地址" />
+
+                            <ImageView
+                                android:id="@+id/iv_switch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginTop="@dimen/size_24dp"
+                                android:src="@mipmap/iv_closes" />
+
+                        </RelativeLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerView"
+                            android:layout_below="@+id/ll_detail"
+                            android:background="@mipmap/shape_mine_white"
+                            android:layout_marginLeft="130dp"
+                            android:layout_marginBottom="@dimen/dp_10"
+                            android:layout_width="252dp"
+                            android:layout_height="148dp"/>
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:gravity="center"
+                    android:text="11111"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/btn_edit_address_confirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="bottom"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/app_sub_account_button"
+                    android:gravity="center"
+                    android:text="保存地址"
+                    android:textColor="@color/app_color_white"
+                    android:textSize="18dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/lav_activity_loading"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:indicatorName="BallPulseIndicator"
+            style="@style/AVLoadingIndicatorView.Large"
+            app:indicatorColor="#f40"
+            />
+
+
+    </RelativeLayout>
+
+
+
+</FrameLayout>

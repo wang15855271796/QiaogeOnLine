@@ -37,6 +37,7 @@ import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
 import com.tencent.map.geolocation.TencentLocationManager;
+import com.tencent.map.geolocation.TencentLocationRequest;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -302,6 +303,8 @@ public class AccountCenterActivity extends BaseSwipeActivity {
     public void logoutAndToHomes(Context context, int mStateCode) {
         instance = TencentLocationManager.getInstance(QiaoGeApplication.getContext());
         instance.requestSingleFreshLocation(null, mLocationListener, Looper.getMainLooper());
+        TencentLocationRequest request = TencentLocationRequest.create();
+        request.setRequestLevel(3);
         //清空UserId
         if (mStateCode == -10000 || mStateCode == -10001) {
             UserInfoHelper.saveUserId(context, "");
@@ -318,7 +321,6 @@ public class AccountCenterActivity extends BaseSwipeActivity {
     TencentLocationListener mLocationListener = new TencentLocationListener() {
         @Override
         public void onLocationChanged(TencentLocation location, int i, String s) {
-            ToastUtil.showSuccessMsg(mContext,s);
             String district = location.getDistrict();
             String city = location.getCity();
             String province = location.getProvince();

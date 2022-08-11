@@ -171,8 +171,6 @@ public class XRecyclerView extends RecyclerView {
             } else {
                 lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
             }
-//            || layoutManager.getItemCount() == layoutManager.getChildCount()
-            Toast.makeText(getContext(),layoutManager.getItemCount() +"---"+layoutManager.getChildCount(),Toast.LENGTH_LONG).show();
 
             if (layoutManager.getChildCount() > 0 && lastVisibleItemPosition >= layoutManager.getItemCount() - 1
                     && !isnomore && mRefreshHeader.getState() < YunRefreshHeader.STATE_REFRESHING

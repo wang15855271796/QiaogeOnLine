@@ -156,21 +156,38 @@ public class SearchResultAdapter extends BaseQuickAdapter<SearchResultsModel.Dat
         rl_price.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(onclick!=null) {
-                    onclick.getPrice();
+                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+                    if(onclick!=null) {
+                        onclick.getPrice();
+                    }
+                }else {
+                    if(onclick!=null) {
+                        onclick.addDialog();
+                    }
                 }
+
             }
         });
+
         rl_spec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(onclick!=null) {
-                    onclick.addDialog();
-                }
+//                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+//                    recommendDialog = new RecommendDialog(mContext,item);
+//                    recommendDialog.show();
+//                }else {
+//                    if(onclick!=null) {
+//                        onclick.addDialog();
+//                    }
+//                }
 
                 if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     recommendDialog = new RecommendDialog(mContext,item);
                     recommendDialog.show();
+                }else {
+                    if(onclick!=null) {
+                        onclick.addDialog();
+                    }
                 }
             }
         });

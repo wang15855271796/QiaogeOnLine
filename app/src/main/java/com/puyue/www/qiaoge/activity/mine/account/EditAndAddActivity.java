@@ -617,7 +617,8 @@ public class EditAndAddActivity extends BaseSwipeActivity {
                                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                         keyWorldsView.setText(areasModel.getData().get(position).getDetailAddress());
                                         recyclerView.setVisibility(View.GONE);
-
+                                        keyWorldsView.setSelection(areasModel.getData().get(position).getDetailAddress().length());
+                                        hintKbTwo();
                                     }
                                 });
                             }else {
@@ -629,6 +630,8 @@ public class EditAndAddActivity extends BaseSwipeActivity {
                     }
                 });
     }
+
+
 
     private void showPickerView() {
 

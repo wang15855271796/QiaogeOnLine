@@ -362,7 +362,6 @@ public class EditAddressActivity extends BaseSwipeActivity  {
         isLoaded = true;
     }
 
-
     @Override
     public void setClickEvent() {
         mIvBack.setOnClickListener(noDoubleClickListener);
@@ -655,7 +654,8 @@ public class EditAddressActivity extends BaseSwipeActivity  {
                                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                         keyWorldsView.setText(areasModel.getData().get(position).getDetailAddress());
                                         recyclerView.setVisibility(View.GONE);
-
+                                        keyWorldsView.setSelection(areasModel.getData().get(position).getDetailAddress().length());
+                                        hintKbTwo();
                                     }
                                 });
                             }else {

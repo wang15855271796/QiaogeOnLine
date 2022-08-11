@@ -404,7 +404,6 @@ public class HomeFragmentss extends BaseFragment {
                         rb_must_common_top.setTextColor(Color.parseColor("#17BD60"));
                         rb_info_top.setTextColor(Color.parseColor("#333333"));
                         rb_common_top.setTextColor(Color.parseColor("#333333"));
-                        Log.d("wdadddwdq.........","333");
                     }else if(rb_new.isChecked()) {
                         rb_new_top.setChecked(true);
                         rb_must_common_top.setChecked(false);
@@ -414,7 +413,6 @@ public class HomeFragmentss extends BaseFragment {
                         v2s.setVisibility(View.INVISIBLE);
                         v3s.setVisibility(View.INVISIBLE);
                         v4s.setVisibility(View.INVISIBLE);
-                        Log.d("wdadddwdq.........","222");
                         rb_new_top.setTextColor(Color.parseColor("#17BD60"));
                         rb_must_common_top.setTextColor(Color.parseColor("#333333"));
                         rb_info_top.setTextColor(Color.parseColor("#333333"));
@@ -912,7 +910,6 @@ public class HomeFragmentss extends BaseFragment {
 
                             } else {
                                 ll_driver.setVisibility(View.GONE);
-                                Log.d("wdasddsdfsdf....","222");
                             }
                         }
                     }

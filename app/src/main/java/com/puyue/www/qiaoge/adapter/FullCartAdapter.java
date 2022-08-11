@@ -19,6 +19,7 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.helper.StringSpecialHelper;
 import com.puyue.www.qiaoge.model.CartFullModel;
 import com.puyue.www.qiaoge.model.CartFullsModel;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public class FullCartAdapter extends BaseQuickAdapter<CartFullsModel.DataBean.De
         TextView tv_given = helper.getView(R.id.tv_given);
         RecyclerView rv_coupon = helper.getView(R.id.rv_coupon);
         RecyclerView recyclerView = helper.getView(R.id.recycleView);
-        if("无限制".equals(item.getLimitInfo())) {
+        if("不限制".equals(item.getLimitInfo())) {
             tv_desc.setText(item.getLimitInfo());
         }else {
             String limitInfo = item.getLimitInfo();
@@ -46,9 +47,6 @@ public class FullCartAdapter extends BaseQuickAdapter<CartFullsModel.DataBean.De
             spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#FF2925")), 5, 6, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#FF2925")), 12, 13, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             tv_desc.setText(spannableString);
-
-
-
         }
 
         tv_given.setText(item.getDeductInfo());

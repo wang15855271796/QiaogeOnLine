@@ -108,6 +108,8 @@ public class DisSelfDialog extends Dialog {
                     iv_choose1.setVisibility(View.VISIBLE);
                     iv_choose2.setVisibility(View.GONE);
                 }
+
+                ToastUtil.showSuccessMsg(context,"配送方式已选好");
             }
         });
 
@@ -134,6 +136,7 @@ public class DisSelfDialog extends Dialog {
                     rl_cb2.setBackgroundResource(R.drawable.shape_orange14);
                     iv_choose2.setVisibility(View.VISIBLE);
                     iv_choose1.setVisibility(View.GONE);
+                    ToastUtil.showSuccessMsg(context,"配送方式已选好");
                 }
             }
         });

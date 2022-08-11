@@ -989,7 +989,6 @@ public class MineFragment extends BaseFragment {
                                 iv_vip.setVisibility(View.GONE);
                                 tv_tip.setText("会员中心");
                             }
-                            Log.d("feewfsfs.....","wdeweresw");
                             if (myOrderNumModel.getData().getBalance() != null) {
                                 tv_amount.setText("¥" + myOrderNumModel.getData().getBalance());
                             } else {

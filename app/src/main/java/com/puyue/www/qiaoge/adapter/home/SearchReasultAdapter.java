@@ -26,6 +26,7 @@ import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.home.SearchResultsModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.util.List;
 
@@ -154,8 +155,14 @@ public class SearchReasultAdapter extends BaseQuickAdapter<SearchResultsModel.Da
         rl_price.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(onclick!=null) {
-                    onclick.getPrice();
+                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+                    if(onclick!=null) {
+                        onclick.getPrice();
+                    }
+                }else {
+                    if(onclick!=null) {
+                        onclick.addDialog();
+                    }
                 }
             }
         });
@@ -163,14 +170,22 @@ public class SearchReasultAdapter extends BaseQuickAdapter<SearchResultsModel.Da
         rl_spec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(onclick!=null) {
-                    onclick.addDialog();
-                }
+//                if(onclick!=null) {
+//                    onclick.addDialog();
+//                }
+//
+//                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
 
+//                }
                 if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     searchDialog = new SearchDialog(mContext,item);
                     searchDialog.show();
+                }else {
+                    if(onclick!=null) {
+                        onclick.addDialog();
+                    }
                 }
+
             }
         });
 
@@ -180,6 +195,7 @@ public class SearchReasultAdapter extends BaseQuickAdapter<SearchResultsModel.Da
                 .apply(new RequestOptions().placeholder(R.mipmap.ic_launcher))
                 .apply(new RequestOptions().placeholder(iv_head.getDrawable()).skipMemoryCache(false).dontAnimate())
                 .into(iv_head);
+
     }
 
     public interface Onclick {

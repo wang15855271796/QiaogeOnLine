@@ -20,6 +20,7 @@ public class CouponListAdapter extends BaseQuickAdapter<CouponListModel.DataBean
 
     @Override
     protected void convert(BaseViewHolder helper, CouponListModel.DataBean.GiftsBean item) {
+        helper.setText(R.id.tv_num,item.getSendNum()+"张");
         helper.setText(R.id.tv_money,item.getAmountStr());
         helper.setText(R.id.tv_user,item.getLimitAmtStr());
         helper.setText(R.id.tv_title,item.getGiftName());

@@ -31,9 +31,15 @@ public class AddressListAdapter extends BaseQuickAdapter<AddressModel.DataBean,B
         TextView tv_name = helper.getView(R.id.tv_name);
         TextView tv_address = helper.getView(R.id.tv_address);
         TextView tv_phone = helper.getView(R.id.tv_phone);
-        tv_title.setText(item.areaName);
+
+        if(null!= item.shopName && !item.shopName.equals("")) {
+            tv_title.setText(item.shopName);
+        }else {
+            tv_title.setText(item.cityName);
+        }
+
         tv_name.setText(item.userName);
-        tv_address.setText(item.detailAddress);
+        tv_address.setText(item.provinceName+item.cityName+item.areaName+item.detailAddress);
         tv_phone.setText(item.contactPhone);
 
         if(item.isDefault==1) {

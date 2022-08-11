@@ -27,6 +27,7 @@ import com.puyue.www.qiaoge.dialog.MarketGialog;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.FlowLayout;
 
 import java.util.List;
@@ -119,7 +120,6 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
         helper.setText(R.id.tv_name,item.getProductName());
         helper.setText(R.id.tv_sale,item.getSalesVolume());
         helper.setText(R.id.tv_price,item.getMinMaxPrice());
-
         if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
             if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
                 tv_price.setVisibility(View.VISIBLE);

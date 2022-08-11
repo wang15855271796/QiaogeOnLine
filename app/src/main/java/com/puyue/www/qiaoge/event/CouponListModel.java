@@ -160,6 +160,15 @@ public class CouponListModel {
             private Object giftDetailNo;
             private String orderId;
             private List<String> role;
+            private int sendNum;
+
+            public int getSendNum() {
+                return sendNum;
+            }
+
+            public void setSendNum(int sendNum) {
+                this.sendNum = sendNum;
+            }
 
             public String getGiftName() {
                 return giftName;

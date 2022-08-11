@@ -5,11 +5,15 @@
     android:orientation="vertical"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_30dp"/>
 
     <com.puyue.www.qiaoge.view.CompatToolbar
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_60dp"
-            android:layout_marginTop="@dimen/size_30dp"
+
             android:background="@drawable/app_border_bottom_bg">
 
             <RelativeLayout
@@ -40,15 +44,32 @@
         </com.puyue.www.qiaoge.view.CompatToolbar>
 
 
-    
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler"
+    <androidx.core.widget.NestedScrollView
+        android:scrollbars="none"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
 
 </LinearLayout>

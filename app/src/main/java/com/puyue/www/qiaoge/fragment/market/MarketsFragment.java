@@ -839,13 +839,12 @@ public class MarketsFragment extends BaseFragment {
                             selectPosition++;
                             //左侧数据
                             requestGoodsList("");
-                            Log.d("swfewdwd........","bbb");
                         }else {
                             hasPage = false;
                             scrollPosition = mListSecondNow.size()-1;
                             mRvDetail.noMoreLoading(true);
-                            Log.d("swfewdwd........","ccc");
                         }
+                        rv_cate.smoothScrollToPosition(selectPosition);
                     }
                 }
             }
@@ -1204,6 +1203,7 @@ public class MarketsFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loginEvent(LogoutEvent event) {
         //刷新UI
+        selectPosition = 0;
         requestGoodsList("");
         getData();
     }

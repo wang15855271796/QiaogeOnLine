@@ -1,6 +1,7 @@
 package com.puyue.www.qiaoge.activity.home;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -18,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,6 +35,8 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
+import com.puyue.www.qiaoge.activity.mine.login.RegisterActivity;
+import com.puyue.www.qiaoge.activity.mine.login.RegisterMessageActivity;
 import com.puyue.www.qiaoge.activity.view.ChoosePopWindow;
 import com.puyue.www.qiaoge.adapter.Must2Adapter;
 import com.puyue.www.qiaoge.adapter.SearchOperaAdapter;
@@ -49,6 +53,7 @@ import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.event.UpDateNumEvent7;
 import com.puyue.www.qiaoge.event.UpDateNumEvent8;
 import com.puyue.www.qiaoge.fragment.home.AllGoodsFragment;
+import com.puyue.www.qiaoge.fragment.home.CityEvent;
 import com.puyue.www.qiaoge.fragment.home.OperateFragment;
 import com.puyue.www.qiaoge.fragment.home.UnOperateFragment;
 import com.puyue.www.qiaoge.helper.AppHelper;
@@ -355,12 +360,12 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
         searchReasultAdapter = new SearchReasultAdapter(R.layout.item_noresult_recommend, searchList, new SearchReasultAdapter.Onclick() {
             @Override
             public void addDialog() {
-
+                initDialog();
             }
 
             @Override
             public void getPrice() {
-
+                AppHelper.ShowAuthDialog(mActivity,cell);
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
@@ -474,12 +479,12 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                                     searchResultAdapter = new SearchResultAdapter(R.layout.item_noresult_recommend, recommendList, new SearchResultAdapter.Onclick() {
                                         @Override
                                         public void addDialog() {
-
+                                            initDialog();
                                         }
 
                                         @Override
                                         public void getPrice() {
-
+                                            AppHelper.ShowAuthDialog(mActivity,cell);
                                         }
                                     });
                                     rv_un.setLayoutManager(new LinearLayoutManager(mContext));
@@ -499,6 +504,25 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
     }
 
 
+
+    CouponDialog couponDialog;
+    private void initDialog() {
+        couponDialog = new CouponDialog(mActivity) {
+            @Override
+            public void Login() {
+                startActivity(LoginActivity.getIntent(mActivity, LoginActivity.class));
+                dismiss();
+            }
+
+            @Override
+            public void Register() {
+                startActivity(RegisterActivity.getIntent(mActivity, RegisterMessageActivity.class));
+                LoginUtil.initRegister(mActivity);
+                dismiss();
+            }
+        };
+        couponDialog.show();
+    }
     @Override
     public void setClickEvent() {
 
@@ -526,6 +550,7 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
 
                 tv_sale.setTextColor(Color.parseColor("#333333"));
                 tv_price.setTextColor(Color.parseColor("#333333"));
+                iv_direction.setImageResource(R.mipmap.icon_default);
                 if(isClickOpen) {
                     iv_arrow.setImageResource(R.mipmap.ic_arrow_down);
                     tv_all.setTextColor(Color.parseColor("#FF5C00"));
@@ -551,6 +576,7 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
             case R.id.ll_sale:
                 pageNum = 1;
                 dialog.show();
+                priceFlag = 0;
                 if(choosePopWindow!=null) {
                     choosePopWindow.dismiss();
                 }
@@ -564,6 +590,7 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                 }
                 tv_all_data.setTextColor(Color.parseColor("#333333"));
                 tv_price.setTextColor(Color.parseColor("#333333"));
+                iv_direction.setImageResource(R.mipmap.icon_default);
                 searchList.clear();
                 recommendList.clear();
                 if(null!=searchReasultAdapter) {
@@ -589,6 +616,7 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                 pageNum = 1;
                 dialog.show();
                 isPrice++;
+                saleDownFlag = 0;
                 if(choosePopWindow!=null) {
                     choosePopWindow.dismiss();
                 }
@@ -613,18 +641,17 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                     searchResultAdapter.notifyDataSetChanged();
                 }
 
-                if(isPrice%3==0) {
-                    priceFlag = 0;
-                    tv_price.setTextColor(Color.parseColor("#333333"));
-                    iv_direction.setImageResource(R.mipmap.icon_default);
-                }else if(isPrice%3==1){
-                    priceFlag = 2;
-                    tv_price.setTextColor(Color.parseColor("#FF5C00"));
-                    iv_direction.setImageResource(R.mipmap.icon_search_up);
-                }else {
+                if(isPrice%2==0) {
+//                    priceFlag = 0;
+//                    tv_price.setTextColor(Color.parseColor("#333333"));
+//                    iv_direction.setImageResource(R.mipmap.icon_default);
                     priceFlag = 1;
                     tv_price.setTextColor(Color.parseColor("#FF5C00"));
                     iv_direction.setImageResource(R.mipmap.icon_search_down);
+                }else if(isPrice%2==1){
+                    priceFlag = 2;
+                    tv_price.setTextColor(Color.parseColor("#FF5C00"));
+                    iv_direction.setImageResource(R.mipmap.icon_search_up);
                 }
 
                 isAll = false;
@@ -656,5 +683,10 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getTotals(UpDateNumEvent7 upDateNumEvent) {
         getCartNum();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getTotals(CityEvent cityEvent) {
+        smart.autoRefresh();
     }
 }

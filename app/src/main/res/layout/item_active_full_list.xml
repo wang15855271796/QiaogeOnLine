@@ -94,7 +94,7 @@
             android:layout_marginRight="@dimen/size_10dp"
             android:background="@drawable/shape_orange"
             android:padding="5dp"
-            android:text="马上加购"
+            android:text="立即加购"
             android:textColor="#ffffff" />
 
     </RelativeLayout>

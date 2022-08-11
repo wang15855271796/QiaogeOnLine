@@ -94,6 +94,7 @@ public class CouponsInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.D
         helper.setText(R.id.tv_spec,item.getSpec());
         Glide.with(mContext).load(item.getSelfOrNot()).into(iv_flag);
         pb.setProgress(Integer.parseInt(item.getProgress()));
+        pb.setProgressDrawable(mContext.getResources().getDrawable(R.drawable.seckill_progress));
         tv_total.setText(item.getRemainNum());
         rl_root.setOnClickListener(new View.OnClickListener() {
             @Override

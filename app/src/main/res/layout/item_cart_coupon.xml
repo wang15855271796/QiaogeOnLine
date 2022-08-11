@@ -14,10 +14,10 @@
 
         <!--白底-->
         <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="125dp"
             android:layout_marginLeft="@dimen/sp_12"
             android:layout_marginRight="@dimen/sp_12"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
             android:background="@drawable/shape_white1">
 
             <RelativeLayout
@@ -149,14 +149,16 @@
 
             <TextView
                 android:id="@+id/tv_role"
-                android:layout_marginLeft="@dimen/sp_16"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_below="@+id/rl"
-                android:layout_marginTop="@dimen/size_7dp"
-                tools:text="全场通用（仅限杭州市）"
+                android:layout_marginLeft="@dimen/sp_16"
+                android:layout_marginTop="@dimen/size_5dp"
                 android:textColor="#999999"
                 android:textSize="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+                android:lines="1"
+                android:ellipsize="end"
+                tools:text="全场通用（仅限杭州市）" />
 
         </RelativeLayout>
 

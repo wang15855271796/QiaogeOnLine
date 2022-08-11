@@ -27,6 +27,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -179,7 +180,7 @@ public class AppHelper {
         getJudge(context,cell);
     }
 
-    private static void getJudge(Context context, String cell) {
+    private static void getJudge(Activity context, String cell) {
         IndexHomeAPI.getJudge(context)
                 .subscribeOn(Schedulers.io())
                 .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
@@ -210,7 +211,7 @@ public class AppHelper {
                 });
     }
 
-    private static void getInputDialog(Context context, String cell) {
+    private static void getInputDialog(Activity context, String cell) {
         AlertDialog mDialog = new AlertDialog.Builder(context).create();
         mDialog.show();
         Window window = mDialog.getWindow();
@@ -240,12 +241,13 @@ public class AppHelper {
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                hintKbTwo(context);
                 getCode(et_authprize.getText().toString(),context,mDialog);
             }
         });
     }
 
-    private static void getCode(String code, Context context, AlertDialog mDialog) {
+    private static void getCode(String code, Activity context, AlertDialog mDialog) {
         IndexHomeAPI.getCode(context,code)
                 .subscribeOn(Schedulers.io())
                 .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
@@ -261,13 +263,12 @@ public class AppHelper {
 
                     @Override
                     public void onNext(AuthModel indexInfoModel) {
-
                         if (indexInfoModel.getCode()==1) {
-                            ToastUtil.showSuccessMsg(context,indexInfoModel.getMessage());
                             Intent intent = new Intent(context,HomeActivity.class);//跳回首页
                             context.startActivity(intent);
                             EventBus.getDefault().post(new CityEvent());
                             mDialog.dismiss();
+
                         }else if(indexInfoModel.getCode()==100005) {
                             mDialog.dismiss();
                             ErrorAuthDialog errorAuthDialog = new ErrorAuthDialog(context,indexInfoModel.getData()) {
@@ -284,6 +285,15 @@ public class AppHelper {
                 });
     }
 
+//    private static void hintKbTwo(Activity context) {
+//        InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+//        if (imm.isActive() && context.getCurrentFocus() != null) {
+//            if (context.getCurrentFocus().getWindowToken() != null) {
+//                imm.hideSoftInputFromWindow(context.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+//            }
+//        }
+//        ToastUtil.showSuccessMsg(context,"aasdd");
+//    }
     /**
      * 弹出电话号码
      */
@@ -672,4 +682,108 @@ public class AppHelper {
         return Build.MODEL;
     }
 
+    public static void ShowAuthDialogs(Activity context,String cell) {
+        getJudges(context,cell);
+    }
+
+    private static void getJudges(Context context, String cell) {
+        IndexHomeAPI.getJudge(context)
+                .subscribeOn(Schedulers.io())
+                .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<AuthModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(AuthModel judegModel) {
+                        if (judegModel.getCode()==1) {
+                            getInputDialogs(context,cell);
+                        }else if(judegModel.getCode()==100005) {
+                            ErrorAuthDialog errorAuthDialog = new ErrorAuthDialog(context,judegModel.getData()) {
+                                @Override
+                                public void Confirm(String amount) {
+
+                                }
+                            };
+                            errorAuthDialog.show();
+                        }
+                    }
+                });
+    }
+
+    private static void getInputDialogs(Context context, String cell) {
+        AlertDialog mDialog = new AlertDialog.Builder(context).create();
+        mDialog.show();
+        Window window = mDialog.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
+                | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        mDialog.getWindow().setContentView(R.layout.dialog_authorize);
+        TextView tv_sure = mDialog.getWindow().findViewById(R.id.tv_sure);
+        ImageView iv_cancel = mDialog.getWindow().findViewById(R.id.iv_cancel);
+        TextView tv_get = mDialog.getWindow().findViewById(R.id.tv_get);
+        EditText et_authprize = mDialog.getWindow().findViewById(R.id.et_authprize);
+        mDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        tv_get.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPhoneDialog(context,cell);
+            }
+        });
+
+        iv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog.dismiss();
+            }
+        });
+
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getCodes(et_authprize.getText().toString(),context,mDialog);
+            }
+        });
+    }
+
+    private static void getCodes(String code, Context context, AlertDialog mDialog) {
+        IndexHomeAPI.getCode(context,code)
+                .subscribeOn(Schedulers.io())
+                .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<AuthModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(AuthModel indexInfoModel) {
+                        if (indexInfoModel.getCode()==1) {
+                            EventBus.getDefault().post(new CityEvent());
+                            mDialog.dismiss();
+                        }else if(indexInfoModel.getCode()==100005) {
+                            mDialog.dismiss();
+                            ErrorAuthDialog errorAuthDialog = new ErrorAuthDialog(context,indexInfoModel.getData()) {
+                                @Override
+                                public void Confirm(String amount) {
+
+                                }
+                            };
+                            errorAuthDialog.show();
+                        }else {
+                            ToastUtil.showSuccessMsg(context,indexInfoModel.getMessage());
+                        }
+                    }
+                });
+    }
 }

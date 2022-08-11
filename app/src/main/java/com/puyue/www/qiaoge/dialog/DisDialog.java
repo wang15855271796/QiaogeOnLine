@@ -156,6 +156,7 @@ public class DisDialog extends Dialog {
                     EventBus.getDefault().post(new DisTributionEvent("翘歌配送",0));
                     dismiss();
                 }
+                ToastUtil.showSuccessMsg(context,"配送方式已选好");
             }
         });
 
@@ -191,6 +192,8 @@ public class DisDialog extends Dialog {
                     iv_choose1.setVisibility(View.GONE);
                     iv_choose2.setVisibility(View.VISIBLE);
                 }
+
+                ToastUtil.showSuccessMsg(context,"配送方式已选好");
             }
         });
     }

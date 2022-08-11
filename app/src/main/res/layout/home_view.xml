@@ -17,6 +17,7 @@
             android:layout_marginTop="@dimen/size_6dp"
             android:visibility="gone"
             android:id="@+id/ll_skill"
+            android:layout_marginRight="@dimen/size_3dp"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
@@ -43,7 +44,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="@dimen/size_5dp"
                     android:paddingLeft="@dimen/size_5dp"
-                    android:paddingRight="@dimen/size_5dp"
+                    android:paddingRight="@dimen/size_2dp"
                     android:gravity="center_horizontal"
                     android:layout_gravity="center_vertical"
                     android:layout_height="@dimen/size_20dp"/>
@@ -68,7 +69,7 @@
 
             <com.puyue.www.qiaoge.view.MarqueeView
                 android:id="@+id/rv_skill"
-                android:background="#ffffff"
+                android:background="@drawable/shape_white6"
                 app:standDuration="2500"
                 android:layout_width="match_parent"
                 android:layout_height="106dp" />
@@ -82,7 +83,6 @@
             android:id="@+id/ll_full1"
             android:layout_width="match_parent"
             android:layout_weight="1"
-            android:layout_marginLeft="@dimen/size_7dp"
             android:orientation="vertical"
             android:layout_height="144dp">
 
@@ -115,7 +115,7 @@
             </LinearLayout>
 
             <com.puyue.www.qiaoge.view.MarqueeView
-                android:background="#ffffff"
+                android:background="@drawable/shape_white6"
                 android:id="@+id/rv_full1"
                 app:standDuration="3000"
                 android:layout_width="match_parent"
@@ -128,8 +128,9 @@
         <LinearLayout
             android:visibility="gone"
             android:layout_marginTop="@dimen/size_6dp"
-            android:layout_marginLeft="@dimen/size_7dp"
+            android:layout_marginLeft="@dimen/size_3dp"
             android:id="@+id/ll_full"
+            android:gravity="right"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
@@ -165,7 +166,7 @@
 
             <com.puyue.www.qiaoge.view.MarqueeView
                 android:id="@+id/rv_full"
-                android:background="#ffffff"
+                android:background="@drawable/shape_white6"
                 app:standDuration="3000"
                 android:layout_width="match_parent"
                 android:layout_height="106dp"/>
@@ -213,7 +214,7 @@
             </LinearLayout>
 
             <com.puyue.www.qiaoge.view.MarqueeView
-                android:background="#ffffff"
+                android:background="@drawable/shape_white6"
                 android:id="@+id/rv_team1"
                 app:standDuration="3500"
                 android:layout_width="match_parent"
@@ -259,7 +260,7 @@
             </LinearLayout>
 
             <com.puyue.www.qiaoge.view.MarqueeView
-                android:background="#ffffff"
+                android:background="@drawable/shape_white6"
                 android:id="@+id/rv_discount1"
                 app:standDuration="4000"
                 android:layout_width="match_parent"
@@ -281,6 +282,7 @@
             android:id="@+id/ll_team"
             android:layout_width="match_parent"
             android:layout_weight="1"
+            android:layout_marginRight="@dimen/size_3dp"
             android:orientation="vertical"
             android:layout_height="144dp">
 
@@ -314,7 +316,7 @@
 
             <com.puyue.www.qiaoge.view.MarqueeView
                 android:id="@+id/rv_team"
-                android:background="#ffffff"
+                android:background="@drawable/shape_white6"
                 app:standDuration="3500"
                 android:layout_width="match_parent"
                 android:layout_height="106dp"/>
@@ -325,7 +327,7 @@
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_weight="1"
-            android:layout_marginLeft="@dimen/size_7dp"
+            android:layout_marginLeft="@dimen/size_3dp"
             android:orientation="vertical"
             android:layout_height="144dp">
 
@@ -358,7 +360,7 @@
 
             <com.puyue.www.qiaoge.view.MarqueeView
                 android:id="@+id/rv_discount"
-                android:background="#ffffff"
+                android:background="@drawable/shape_white6"
                 app:standDuration="4000"
                 android:layout_width="match_parent"
                 android:layout_height="106dp"/>
@@ -371,8 +373,6 @@
     <!--热销-->
     <LinearLayout
         android:id="@+id/ll_hot"
-        android:layout_marginBottom="@dimen/dp_10"
-        android:layout_marginTop="@dimen/size_6dp"
         android:orientation="vertical"
         android:layout_marginRight="@dimen/size_10dp"
         android:layout_marginLeft="@dimen/size_10dp"
@@ -384,6 +384,8 @@
         <LinearLayout
             android:visibility="gone"
             android:id="@+id/ll_city"
+            android:layout_marginTop="@dimen/size_6dp"
+            android:layout_marginBottom="@dimen/size_6dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -413,12 +415,12 @@
                 </LinearLayout>
 
                 <RelativeLayout
-                    android:background="#ffffff"
+                    android:background="@drawable/shape_white6"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:background="#ffffff"
+                        android:background="@drawable/shape_white1"
                         android:id="@+id/rv_hot"
                         android:visibility="gone"
                         android:layout_marginRight="@dimen/size_3dp"
@@ -452,6 +454,7 @@
             android:src="@mipmap/icon_hot_huo"
             android:layout_width="match_parent"
             android:layout_height="134dp"/>
+
     </LinearLayout>
 
 </LinearLayout>
