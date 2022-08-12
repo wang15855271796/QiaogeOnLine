@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -249,7 +250,7 @@ public class FullActiveActivity extends BaseSwipeActivity implements View.OnClic
                                 }
                                 rv_full_given.setLayoutParams(lp);
 
-                                int total = sendGifts.size()+list.size();
+                                int total = sendGifts.size();
                                 if(total>4) {
                                     tv_more.setVisibility(View.VISIBLE);
                                 }else {

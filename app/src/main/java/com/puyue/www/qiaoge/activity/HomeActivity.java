@@ -543,12 +543,18 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getMessageEvent(GoToMarketEvent goToMarketEvent) {
 //        mTabMarket = null;
+        mTvHome.setVisibility(View.VISIBLE);
+        mIvHome.setVisibility(View.VISIBLE);
+        iv_home.setVisibility(View.GONE);
         switchTab(TAB_MARKET);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void goToCartFragment(GoToCartFragmentEvent goToCartFragmentEvent) {
         switchTab(TAB_CART);
+        mTvHome.setVisibility(View.VISIBLE);
+        mIvHome.setVisibility(View.VISIBLE);
+        iv_home.setVisibility(View.GONE);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -610,6 +616,9 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(LogoutsEvent mainEvent) {
+        mTvHome.setVisibility(View.GONE);
+        mIvHome.setVisibility(View.GONE);
+        iv_home.setVisibility(View.VISIBLE);
         switchTab(TAB_HOME);
     }
 

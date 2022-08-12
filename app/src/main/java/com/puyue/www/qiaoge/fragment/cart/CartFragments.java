@@ -376,7 +376,6 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                                 rv_invalid.setAdapter(unAbleAdapter);
                                 unAbleAdapter.notifyDataChanged();
                                 //判断是否展示空数据界面
-
                                 if(prods.size()==0&&inProdss.size()==0) {
                                     ll_NoData.setVisibility(View.VISIBLE);
                                     tv_delete.setVisibility(View.GONE);
@@ -389,6 +388,14 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
 
                                     //计算总金额
                                     getAllPrice(prods);
+                                }
+
+                                if(prods.size()==0) {
+                                    ll_sure.setVisibility(View.GONE);
+                                    tv_delete.setVisibility(View.GONE);
+                                }else {
+                                    tv_delete.setVisibility(View.VISIBLE);
+                                    ll_sure.setVisibility(View.VISIBLE);
                                 }
                                 //配送金额
                                 sendAmount = data.getSendAmount();

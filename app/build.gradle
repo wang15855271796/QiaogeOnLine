@@ -127,20 +127,12 @@ dependencies {
     implementation project(path: ':banner')
     implementation files('libs\\hellocharts-library-1.5.8.jar')
     implementation project(path: ':citypicker')
-    implementation files('libs/umeng-share-core-7.1.3.jar')
-    implementation files('libs/umeng-share-QQ-simplify-7.1.3.jar')
-    implementation files('libs/umeng-share-wechat-simplify-7.1.3.jar')
-    implementation files('libs/umeng-shareboard-widget-7.1.3.jar')
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
     implementation 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
     implementation 'androidx.appcompat:appcompat:1.0.0'
     testImplementation 'junit:junit:4.12'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.github.yuruiyin:AppbarLayoutBehavior:v1.0.2'
-
-    //    implementation 'androidx.viewpager2:viewpager2:1.0.0-alpha05'
-
-    //retrofit
     implementation 'io.reactivex:rxandroid:1.2.1'
     implementation 'io.reactivex:rxjava:1.1.6'
     implementation 'com.squareup.retrofit2:retrofit:2.1.0'
@@ -148,213 +140,60 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.6.0'
-    //腾讯
-//    implementation 'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.4.8'
-    //refresh
     implementation 'in.srain.cube:ultra-ptr:1.0.11'
-
-    //event-bus
     implementation 'org.greenrobot:eventbus:3.0.0'
     implementation 'com.squareup.picasso:picasso:2.3.2'
-    implementation 'com.alibaba:fastjson:1.2.39'
-
-    //    implementation 'com.github.yuruiyin:AppbarLayoutBehavior:latest-version'
-
-    //lang
     implementation 'org.apache.commons:commons-lang3:3.3.2'
     implementation 'androidx.multidex:multidex:2.0.0'
-
-    //slider
     implementation 'com.daimajia.slider:library:1.1.5@aar'
     implementation 'com.google.android.material:material:1.0.0'
-
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
-//    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
-
-    //adapterrecyclerview
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
-
-    //tabLayout
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-//    implementation 'liji.library.dev:citypickerview:3.1.6'
     implementation 'liji.library.dev:citypickerview:5.2.2'
-    //3D地图so及jar
-//    implementation 'com.amap.api:3dmap:latest.integration'
-
-    //定位功能
-
-    // compile 'com.amap.api:location:latest.integration'
     implementation 'com.github.gittjy:LoadingDialog:1.0.2'
-
     //微信支付
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     implementation 'com.yanzhenjie:sofia:1.0.5'
     implementation 'com.gyf.barlibrary:barlibrary:2.3.0'
-
     //动画
     implementation 'com.airbnb.android:lottie:2.0+'
-
-
-    // 此处以JPush 3.1.1 版本为例。
     implementation 'cn.jiguang.sdk:jpush:4.7.0'
     implementation 'cn.jiguang.sdk:jcore:3.2.4'
-//    implementation 'cn.jiguang.sdk:jpush:3.1.1'
-//    implementation 'cn.jiguang.sdk:jcore:1.1.9'
-    //台州银行
-
-    //    implementation(name: 'TzPayLib-release', ext: 'aar')
-
-    // 此处以JCore 1.1.9 版本为例。
-
-    //图片缩放
-
-    // compile 'com.github.chrisbanes:PhotoView:1.3.0'
     implementation 'com.githang:status-bar-compat:0.5.3'
-
     //添加Android动态申请权限依赖库
     implementation 'pub.devrel:easypermissions:0.2.1'
     implementation 'com.androidkun:XTabLayout:1.1.3'
     implementation 'com.google.code.gson:gson:2.6.2'
-
-    //选择配送时间
-
-    //    implementation 'com.contrarywind:Android-PickerView:3.2.5'
-
-    //退货图片上传espresso
-//    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.1.0'
-//
-//    implementation files('libs/BaiduLBS_Android.jar')
     implementation'com.github.LuckSiege.PictureSelector:picture_library:v2.6.0'
     //分类下滑
     implementation project(':xrecyclerview')
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
     implementation 'com.alibaba:fastjson:1.2.5'
-
-    //    implementation 'com.jakewharton:butterknife:8.4.0'
-//    implementation 'com.jakewharton:butterknife:8.8.1'
-//    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation "com.jakewharton:butterknife:10.0.0"
     annotationProcessor "com.jakewharton:butterknife-compiler:10.0.0"
-    //    implementation(name: 'lib.5plus.base-release', ext: 'aar')
     implementation 'com.lijiankun24:shadowlayout:1.0.0'
-
-    //    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-20'
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5.1'
-
-    //implementation(name: 'shanyan_sdk_v2.3.0.1', ext: 'aar')
-
-    //    implementation project(':flowlayout-lib')
-
-    /* 底部菜单 */
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
     implementation project(':library')
-
-    //    implementation project(path: ':pickerview')
-
-    //    implementation 'com.aliyun.ams:alicloud-android-hotfix:3.2.12'
-
-    //    bugly
-
-    //    implementation 'com.tencent.bugly:crashreport:latest.release'
-
-    //    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
     implementation 'com.wang.avi:library:2.1.3'
-
-    //    implementation project(':aera')
-
-    //    implementation project(':pickerview')
     implementation project(':wheelview')
-
-    //网易七鱼
     implementation 'com.qiyukf.unicorn:unicorn:7.4.0'
     implementation files('libs/commons-codec-1.10.jar')
     implementation project(':pickerview')
     implementation project(':StickyListHeaders_lib')
-
-    //loading
     implementation 'com.lai.weavey:loadinglayout:1.3.1'
-    implementation 'com.umeng.umsdk:common:9.5.0'
+    implementation 'com.umeng.umsdk:common:9.5.1'
     implementation 'com.umeng.umsdk:asms:1.6.3'
-    //友盟Push依赖
-    implementation 'com.umeng.umsdk:push:6.5.1'
-    implementation 'com.umeng.umsdk:union:1.4.0'
-//    implementation files('libs/shanyan_sdk_v2.3.0.4.jar')
-
-    //    implementation project(':push')
-
-    //    implementation files('libs/umeng-push-6.2.0.jar')
-
-    //            {
-
-    //        exclude (module:'alipaySdk-15.5.9-20181123210657-noUtdid.aar')
-
-    //    }
-
-    //    implementation ('com.aliyun.ams:alicloud-android-httpdns:1.1.3', {
-
-    //        exclude module: 'alicloud-android-utdid'
-
-    //    })
-//    implementation 'com.umeng.umsdk:common:9.3.0'
-//    implementation 'com.umeng.umsdk:utdid:1.5.2'
-//    implementation 'com.umeng.umsdk:asms:1.1.3'
-//    implementation 'com.umeng.umsdk:crash:0.0.5'
-
-    //友盟push相关依赖(必须)
-//    implementation 'com.umeng.umsdk:push:6.2.0'
-//    implementation 'com.umeng.umsdk:alicloud-httpdns:1.2.5'
-//    implementation 'com.umeng.umsdk:alicloud-utils:1.1.5'
-//    implementation 'com.umeng.umsdk:alicloud_beacon:1.0.1'
-//    implementation 'com.umeng.umsdk:agoo-accs:3.3.9.7-open'
-//    implementation 'com.umeng.umsdk:agoo_networksdk:3.5.5'
-//    implementation 'com.umeng.umsdk:agoo_tlog:3.0.0.17'
-//    implementation 'com.umeng.umsdk:agoo_tnet4android:3.1.14.9'
-
-    // 必选
     implementation  'com.umeng.umsdk:asms:1.4.1'// 必选
-    //基础组件库依赖(必须)
-
-    //    implementation 'com.umeng.umsdk:common:9.1.0'
-
-    ////    implementation 'com.umeng.umsdk:utdid:1.5.2'
-
-    //
-
-    //    //友盟push相关依赖(必须)
-
-    //    implementation 'com.umeng.umsdk:push:6.1.0'
-
-    //
-
-    //    implementation 'com.umeng.umsdk:alicloud-httpdns:1.2.5'
-
-    //    implementation 'com.umeng.umsdk:alicloud-utils:1.1.5'
-
-    //    implementation 'com.umeng.umsdk:alicloud_beacon:1.0.1'
-
-    //
-
-    //    implementation 'com.umeng.umsdk:agoo-accs:3.3.8.8-open-fix2'
-
-    //    implementation 'com.umeng.umsdk:agoo_networksdk:3.5.5'
-
-    //    implementation 'com.umeng.umsdk:agoo_tlog:3.0.0.17'
-
-    //    implementation 'com.umeng.umsdk:agoo_tnet4android:3.1.14.9'
-
-    //
-
-    //    implementation  'com.umeng.umsdk:asms:1.1.3'
-
-    //    implementation 'com.umeng.umsdk:crash:0.0.4'
+    implementation'com.umeng.umsdk:share-board:7.2.0'
+    implementation'com.umeng.umsdk:share-core:7.2.0'
     implementation 'com.daimajia.swipelayout:library:1.2.0@aar'
     implementation project(':MarqueeViewLib')
-
     implementation 'com.shuyu:GSYVideoPlayer:7.1.3'
-
     implementation 'com.tencent.map:tencent-map-vector-sdk:4.4.1.1'
     implementation "androidx.viewpager2:viewpager2:1.0.0-alpha02"
 

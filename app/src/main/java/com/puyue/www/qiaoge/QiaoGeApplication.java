@@ -31,8 +31,8 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import com.umeng.commonsdk.UMConfigure;
-import com.umeng.message.IUmengRegisterCallback;
-import com.umeng.message.PushAgent;
+//import com.umeng.message.IUmengRegisterCallback;
+//import com.umeng.message.PushAgent;
 import com.umeng.socialize.PlatformConfig;
 import com.weavey.loading.lib.LoadingLayout;
 
@@ -116,20 +116,20 @@ public class QiaoGeApplication extends MultiDexApplication {
     public void getInit(InitEvent initEvent) {
         SharedPreferencesUtil.saveString(this,"pays","-1");
 //        友盟
-        PushAgent mPushAgent = PushAgent.getInstance(this);
-        mPushAgent.setResourcePackageName(R.class.getPackage().getName());
-//        注册推送服务，每次调用register方法都会回调该接口
-        mPushAgent.register(new IUmengRegisterCallback() {
-            @Override
-            public void onSuccess(String deviceToken) {
-                //注册成功会返回deviceToken
-
-            }
-            @Override
-            public void onFailure(String s, String s1) {
-
-            }
-        });
+//        PushAgent mPushAgent = PushAgent.getInstance(this);
+//        mPushAgent.setResourcePackageName(R.class.getPackage().getName());
+////        注册推送服务，每次调用register方法都会回调该接口
+//        mPushAgent.register(new IUmengRegisterCallback() {
+//            @Override
+//            public void onSuccess(String deviceToken) {
+//                //注册成功会返回deviceToken
+//
+//            }
+//            @Override
+//            public void onFailure(String s, String s1) {
+//
+//            }
+//        });
 
         UserInfoHelper.saveDate(this, 0+"");
         api = WXAPIFactory.createWXAPI(this, "wxbc18d7b8fee86977");
@@ -146,6 +146,8 @@ public class QiaoGeApplication extends MultiDexApplication {
             PlatformConfig.setWeixin("wxbc18d7b8fee86977", "710d1b08a6fd655ca8b3e4404fd937cd");
             PlatformConfig.setQQZone("1106452431", "vgywMsj2j66nW35l");
         }
+
+
         UMConfigure.init(this, "5bcef11ab465f52b9d000094"
                 , "umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
 

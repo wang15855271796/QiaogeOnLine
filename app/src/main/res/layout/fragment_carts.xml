@@ -33,35 +33,35 @@
 
                     <ImageView
                         android:id="@+id/iv_back"
-                        android:padding="@dimen/size_5dp"
-                        android:src="@mipmap/qg_cart_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/size_15dp"
                         android:layout_marginTop="@dimen/size_32dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:padding="@dimen/size_5dp"
+                        android:src="@mipmap/qg_cart_back" />
 
                     <TextView
                         android:id="@+id/tv_cart_title"
                         android:layout_width="wrap_content"
-                        android:layout_centerHorizontal="true"
                         android:layout_height="wrap_content"
-                        android:text="购物车"
+                        android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/size_36dp"
+                        android:text="购物车"
                         android:textColor="@color/white"
                         android:textSize="18dp" />
 
                     <TextView
                         android:id="@+id/tv_delete"
-                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
+                        android:layout_marginTop="@dimen/size_40dp"
                         android:layout_marginRight="10dp"
                         android:gravity="center"
                         android:text="删除"
-                        android:layout_marginTop="@dimen/size_40dp"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/size_15dp" />
+                        android:textSize="@dimen/size_15dp"
+                        android:visibility="gone" />
                 </RelativeLayout>
 
 

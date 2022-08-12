@@ -266,7 +266,7 @@ public class EditAndAddActivity extends BaseSwipeActivity {
             }
         }
         selectCity();
-
+//        tv_edit_address_area.setText();
         /* 当输入关键字变化时，动态更新建议列表 */
         keyWorldsView.addTextChangedListener(new TextWatcher() {
             @Override

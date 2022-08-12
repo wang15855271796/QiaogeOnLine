@@ -165,6 +165,7 @@
                 android:layout_marginLeft="@dimen/size_13dp"
                 android:drawableLeft="@mipmap/icon_champion"
                 android:drawablePadding="2dp"
+                android:layout_marginTop="@dimen/size_5dp"
                 android:text="热销TOP榜单 >"
                 android:textColor="#FFBB12"
                 android:textSize="@dimen/ysf_text_size_11" />
