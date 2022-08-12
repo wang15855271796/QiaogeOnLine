@@ -99,7 +99,6 @@ public class MySubOrderActivity extends BaseActivity {
         tv_order_sufficiency = findViewById(R.id.tv_order_sufficiency);
         tv_line_one.setVisibility(View.GONE);
         tv_line_two.setVisibility(View.GONE);
-        Log.d("wdsssss.......","two");
     }
 
     @Override

@@ -73,6 +73,19 @@ public class AddressListsActivity extends BaseSwipeActivity {
     private String cityName;
     private String provinceName;
 
+    public static final String TYPE = "type";//是来编辑地址,还是来新建地址的
+    public static final String USER_NAME = "user_name";
+    public static final String USER_PHONE = "user_phone";
+    public static final String STORE_NAME = "store_name";
+    public static final String AREA = "area";//三级城市
+    public static final String ADDRESS = "address";//详细地址
+    public static final String DEFAULT = "default";//是否是默认地址
+    public static final String ADDRESS_ID = "address_id";//地址id
+    public static final String PROVINCE_CODE = "province_code";//省ID
+    public static final String CITY_CODE = "city_code";//市ID
+    public static final String AREA_CODE = "area_code";
+    public static final String ORDERID = "orderId";
+
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
 
@@ -147,6 +160,22 @@ public class AddressListsActivity extends BaseSwipeActivity {
                 } else if (flag.equals("delete")) {
                     showDeleteDialog(position);
                 } else if (flag.equals("edit")) {
+                    Intent intent = new Intent(mContext,EditAddressActivity.class);
+                    intent.putExtra(TYPE, "edit");
+                    intent.putExtra(USER_NAME, mListData.get(position).userName);
+                    intent.putExtra(USER_PHONE, mListData.get(position).contactPhone);
+                    intent.putExtra(STORE_NAME,   mListData.get(position).shopName);
+                    intent.putExtra(AREA, mListData.get(position).cityName);
+                    intent.putExtra(ADDRESS, mListData.get(position).detailAddress);
+                    intent.putExtra(DEFAULT, "false");
+                    intent.putExtra(ADDRESS_ID,  String.valueOf(mListData.get(position).id));
+                    intent.putExtra(PROVINCE_CODE,  mListData.get(position).provinceCode);
+                    intent.putExtra(CITY_CODE, mListData.get(position).cityCode);
+                    intent.putExtra(AREA_CODE, mListData.get(position).areaCode);
+                    intent.putExtra(ORDERID, orderId);
+                    intent.putExtra("allAddress", (mListData.get(position).provinceName + " " + mListData.get(position).cityName + " " + mListData.get(position).areaName));
+                    startActivityForResult(intent,22);
+
 //                    startActivityForResult(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "edit", mListData.get(position).userName, mListData.get(position).contactPhone, mListData.get(position).shopName, (mListData.get(position).provinceName + " " + mListData.get(position).cityName + " " + mListData.get(position).areaName), mListData.get(position).detailAddress, "false", String.valueOf(mListData.get(position).id), mListData.get(position).provinceCode, mListData.get(position).cityCode, mListData.get(position).areaCode, orderId), 22);
 //                    for (int i = 0; i < mListData.size(); i++) {
 //                        if (i == position) {
@@ -176,10 +205,42 @@ public class AddressListsActivity extends BaseSwipeActivity {
 //                    //跳转到编辑界面使用startActivityForResult,在完成操作之后回到地址列表的界面,重新请求一次地址列表的数据
                     if (mListData.get(position).isDefault == 1) {
                         //原本是默认地址
-                        startActivityForResult(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "edit", mListData.get(position).provinceName + " " + mListData.get(position).cityName + " " + mListData.get(position).areaName, mListData.get(position).userName, mListData.get(position).contactPhone, mListData.get(position).shopName,mListData.get(position).cityName, mListData.get(position).detailAddress, "true", String.valueOf(mListData.get(position).id), mListData.get(position).provinceCode, mListData.get(position).cityCode, mListData.get(position).areaCode, orderId), 22);
+                        Intent intent1 = new Intent(mContext,EditAddressActivity.class);
+                        intent1.putExtra(TYPE, "edit");
+                        intent1.putExtra(USER_NAME, mListData.get(position).userName);
+                        intent1.putExtra(USER_PHONE, mListData.get(position).contactPhone);
+                        intent1.putExtra(STORE_NAME,   mListData.get(position).shopName);
+                        intent1.putExtra(AREA, mListData.get(position).cityName);
+                        intent1.putExtra(ADDRESS, mListData.get(position).detailAddress);
+                        intent1.putExtra(DEFAULT, "true");
+                        intent1.putExtra(ADDRESS_ID,  String.valueOf(mListData.get(position).id));
+                        intent1.putExtra(PROVINCE_CODE,  mListData.get(position).provinceCode);
+                        intent1.putExtra(CITY_CODE, mListData.get(position).cityCode);
+                        intent1.putExtra(AREA_CODE, mListData.get(position).areaCode);
+                        intent1.putExtra(ORDERID, orderId);
+                        intent1.putExtra("allAddress", (mListData.get(position).provinceName + " " + mListData.get(position).cityName + " " + mListData.get(position).areaName));
+                        startActivityForResult(intent1,22);
+
+//                        startActivityForResult(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "edit", mListData.get(position).provinceName + " " + mListData.get(position).cityName + " " + mListData.get(position).areaName, mListData.get(position).userName, mListData.get(position).contactPhone, mListData.get(position).shopName,mListData.get(position).cityName, mListData.get(position).detailAddress, "true", String.valueOf(mListData.get(position).id), mListData.get(position).provinceCode, mListData.get(position).cityCode, mListData.get(position).areaCode, orderId), 22);
                     } else if (mListData.get(position).isDefault == 0) {
+                        Intent intent2 = new Intent(mContext,EditAddressActivity.class);
+                        intent2.putExtra(TYPE, "edit");
+                        intent2.putExtra(USER_NAME, mListData.get(position).userName);
+                        intent2.putExtra(USER_PHONE, mListData.get(position).contactPhone);
+                        intent2.putExtra(STORE_NAME,   mListData.get(position).shopName);
+                        intent2.putExtra(AREA, mListData.get(position).cityName);
+                        intent2.putExtra(ADDRESS, mListData.get(position).detailAddress);
+                        intent2.putExtra(DEFAULT, "false");
+                        intent2.putExtra(ADDRESS_ID,  String.valueOf(mListData.get(position).id));
+                        intent2.putExtra(PROVINCE_CODE,  mListData.get(position).provinceCode);
+                        intent2.putExtra(CITY_CODE, mListData.get(position).cityCode);
+                        intent2.putExtra(AREA_CODE, mListData.get(position).areaCode);
+                        intent2.putExtra(ORDERID, orderId);
+                        intent2.putExtra("allAddress", (mListData.get(position).provinceName + " " + mListData.get(position).cityName + " " + mListData.get(position).areaName));
+                        startActivityForResult(intent2,22);
+
                         //原本不是默认地址
-                        startActivityForResult(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "edit", mListData.get(position).provinceName + " " + mListData.get(position).cityName, mListData.get(position).userName, mListData.get(position).contactPhone, mListData.get(position).shopName, mListData.get(position).cityName, mListData.get(position).detailAddress, "false", String.valueOf(mListData.get(position).id), mListData.get(position).provinceCode, mListData.get(position).cityCode, mListData.get(position).areaCode, orderId), 22);
+//                        startActivityForResult(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "edit", mListData.get(position).provinceName + " " + mListData.get(position).cityName, mListData.get(position).userName, mListData.get(position).contactPhone, mListData.get(position).shopName, mListData.get(position).cityName, mListData.get(position).detailAddress, "false", String.valueOf(mListData.get(position).id), mListData.get(position).provinceCode, mListData.get(position).cityCode, mListData.get(position).areaCode, orderId), 22);
                     }
                 } else if (flag.equals("order_address")) {
                     //从确定订单来的这个界面,选择一个地址item,回到上个界面,上传地址id和订单id,重新刷新数据即可获取到新的地址
@@ -293,7 +354,23 @@ public class AddressListsActivity extends BaseSwipeActivity {
                     //说明修改过默认地址,在退出界面的时候请求接口来
                     requestEditDefaultAddress(defaultId, orderId);
                 }else {
-                    startActivityForResult(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "add","", "", "", "", "", "", "false", "", "", "", "", orderId), 11);
+                    Intent intent = new Intent(mContext,EditAndAddActivity.class);
+                    intent.putExtra(TYPE, "add");
+                    intent.putExtra(USER_NAME,"");
+                    intent.putExtra(USER_PHONE, "");
+                    intent.putExtra(STORE_NAME, "");
+                    intent.putExtra(AREA, "");
+                    intent.putExtra(ADDRESS, "");
+                    intent.putExtra(DEFAULT, "false");
+                    intent.putExtra(ADDRESS_ID, "");
+                    intent.putExtra(PROVINCE_CODE, "");
+                    intent.putExtra(CITY_CODE,"");
+                    intent.putExtra(AREA_CODE, "");
+                    intent.putExtra(ORDERID, orderId);
+                    intent.putExtra("allAddress", "");
+                    startActivityForResult(intent,11);
+
+//                    startActivityForResult(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "add","", "", "", "", "", "", "false", "", "", "", "", orderId), 11);
                 }
             }
         });

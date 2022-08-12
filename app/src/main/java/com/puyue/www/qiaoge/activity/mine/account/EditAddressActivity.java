@@ -168,47 +168,13 @@ public class EditAddressActivity extends BaseSwipeActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        handleExtra(savedInstanceState);
         super.onCreate(savedInstanceState);
+
+
     }
 
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
-        mType = getIntent().getStringExtra(TYPE);
-        mUserName = getIntent().getStringExtra(USER_NAME);
-        mUserPhone = getIntent().getStringExtra(USER_PHONE);
-        mStoreName = getIntent().getStringExtra(STORE_NAME);
-        mArea = getIntent().getStringExtra(AREA);
-        mAddress = getIntent().getStringExtra(ADDRESS);
-        mDefault = getIntent().getStringExtra(DEFAULT);
-        mAddressId = getIntent().getStringExtra(ADDRESS_ID);
-        mProvinceCode = getIntent().getStringExtra(PROVINCE_CODE);
-        mCityCode = getIntent().getStringExtra(CITY_CODE);
-        mAreaCode = getIntent().getStringExtra(AREA_CODE);
-        orderId = getIntent().getStringExtra(ORDERID);
-        allAddress = getIntent().getStringExtra("allAddress");
-        if (savedInstanceState != null) {
-            mType = savedInstanceState.getString(TYPE);
-            mUserName = savedInstanceState.getString(USER_NAME);
-            mUserPhone = savedInstanceState.getString(USER_PHONE);
-            mStoreName = savedInstanceState.getString(STORE_NAME);
-            mArea = savedInstanceState.getString(AREA);
-            mAddress = savedInstanceState.getString(ADDRESS);
-            mDefault = savedInstanceState.getString(DEFAULT);
-            mAddressId = savedInstanceState.getString(ADDRESS_ID);
-            mProvinceCode = savedInstanceState.getString(PROVINCE_CODE);
-            mCityCode = savedInstanceState.getString(CITY_CODE);
-            ToastUtil.showSuccessMsg(mContext,mCityCode);
-            mAreaCode = savedInstanceState.getString(AREA_CODE);
-            orderId = savedInstanceState.getString(ORDERID);
-            allAddress = savedInstanceState.getString("allAddress");
-        }
-
-        if(mDefault.equals("false")) {
-            isOpen = false;
-        }else {
-            isOpen = true;
-        }
         return false;
     }
 
@@ -242,6 +208,27 @@ public class EditAddressActivity extends BaseSwipeActivity  {
     boolean isOpen;
     @Override
     public void setViewData() {
+        mType = getIntent().getStringExtra(TYPE);
+        mUserName = getIntent().getStringExtra(USER_NAME);
+        mUserPhone = getIntent().getStringExtra(USER_PHONE);
+        mStoreName = getIntent().getStringExtra(STORE_NAME);
+        mArea = getIntent().getStringExtra(AREA);
+        mAddress = getIntent().getStringExtra(ADDRESS);
+        mDefault = getIntent().getStringExtra(DEFAULT);
+        mAddressId = getIntent().getStringExtra(ADDRESS_ID);
+        mProvinceCode = getIntent().getStringExtra(PROVINCE_CODE);
+        mCityCode = getIntent().getStringExtra(CITY_CODE);
+        mAreaCode = getIntent().getStringExtra(AREA_CODE);
+        orderId = getIntent().getStringExtra(ORDERID);
+        allAddress = getIntent().getStringExtra("allAddress");
+
+
+        if(mDefault.equals("false")) {
+            isOpen = false;
+        }else {
+            isOpen = true;
+        }
+
         cityName=mArea;
         mPicker.init(mContext);
         if (StringHelper.notEmptyAndNull(mType)) {
@@ -506,9 +493,9 @@ public class EditAddressActivity extends BaseSwipeActivity  {
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 //返回的分别是三个级别的选中位置
 
-                proviceCode = options1Items.get(options1).getCode();
-                cityCode = options2Items.get(options1).get(options2).getCode();
-                areaCode = options3Items.get(options1).get(options2).get(options3).getCode();
+                mProvinceCode = options1Items.get(options1).getCode();
+                mCityCode = options2Items.get(options1).get(options2).getCode();
+                mAreaCode = options3Items.get(options1).get(options2).get(options3).getCode();
                 String tx = options1Items.get(options1).getName() +
                         options2Items.get(options1).get(options2) +
                         options3Items.get(options1).get(options2).get(options3);
@@ -531,7 +518,7 @@ public class EditAddressActivity extends BaseSwipeActivity  {
     }
 
     private void requestEditAddress() {
-        ToastUtil.showSuccessMsg(mContext,cityCode+"aa");
+
         if (isOpen) {
             //选为默认地址
             isDefault = 1;
@@ -545,7 +532,7 @@ public class EditAddressActivity extends BaseSwipeActivity  {
             cityCode = mCityCode;
             areaCode = mAreaCode;
         }
-        AddAddressAPI.requestAddAddress(mContext, mEditName.getText().toString(), mEditPhone.getText().toString(), proviceCode, cityCode, areaCode, isDefault, keyWorldsView.getText().toString(), mEditStore.getText().toString(), mAddressId,orderId)
+        AddAddressAPI.requestAddAddress(mContext, mEditName.getText().toString(), mEditPhone.getText().toString(), mProvinceCode, mCityCode, mAreaCode, isDefault, keyWorldsView.getText().toString(), mEditStore.getText().toString(), mAddressId,orderId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<BaseModel>() {
@@ -592,7 +579,7 @@ public class EditAddressActivity extends BaseSwipeActivity  {
             //不选为默认地址
             isDefault = 0;
         }
-        AddAddressAPI.requestAddAddress(mContext, mEditName.getText().toString(), mEditPhone.getText().toString(), proviceCode, cityCode, areaCode, isDefault, keyWorldsView.getText().toString(), mEditStore.getText().toString(), "",orderId)
+        AddAddressAPI.requestAddAddress(mContext, mEditName.getText().toString(), mEditPhone.getText().toString(), mProvinceCode, mCityCode, mAreaCode, isDefault, keyWorldsView.getText().toString(), mEditStore.getText().toString(), "",orderId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<BaseModel>() {

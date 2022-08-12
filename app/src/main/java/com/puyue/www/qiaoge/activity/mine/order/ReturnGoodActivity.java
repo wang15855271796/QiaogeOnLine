@@ -172,7 +172,6 @@ public class ReturnGoodActivity extends BaseSwipeActivity {
                   getState();
 
                 } else {
-                    Log.d("dfsdsdsf.....","ssss");
                     mRyOrderDetail.removeAllViews();
                     mRvDetailAdapter = new ReturnGoodDetailTwoAdapter(mProductList, mContext,mDetailModel.getData().getAllReturn());
 

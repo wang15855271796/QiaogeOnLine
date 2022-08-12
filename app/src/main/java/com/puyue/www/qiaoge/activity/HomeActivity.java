@@ -201,8 +201,6 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
             if (token != null) {
                 sendLocation();
             }
-
-
         }
 
         @Override

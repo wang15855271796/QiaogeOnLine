@@ -1873,7 +1873,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                                 UserInfoHelper.saveAreaName(mActivity, data.getAreaName());
                                 UserInfoHelper.saveCity(mActivity, data.getCityName());
                                 UserInfoHelper.saveProvince(mActivity, data.getProvinceName());
-                                ToastUtil.showSuccessMsg(mActivity,data.getCityName()+data.getAreaName()+"aaaaaa");
                                 list.clear();
                                 list1.clear();
                                 iconList.clear();

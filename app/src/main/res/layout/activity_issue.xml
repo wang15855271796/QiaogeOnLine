@@ -41,15 +41,15 @@
 
         <TextView
             android:id="@+id/tv_issue"
-            android:text="发布信息"
-            android:textSize="@dimen/sp_14"
-            android:padding="@dimen/dp_10"
-            android:textColor="#333333"
-            android:layout_marginRight="@dimen/size_12dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/size_12dp"
+            android:padding="@dimen/dp_10"
+            android:text="发布信息"
+            android:textColor="#333333"
+            android:textSize="@dimen/sp_14" />
 
         <RelativeLayout
             android:id="@+id/rl_good_cart"

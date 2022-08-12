@@ -428,7 +428,7 @@ public class OrderAddAddressActivity extends BaseSwipeActivity {
             cityCode = mCityCode;
             areaCode = mAreaCode;
         }
-        AddAddressAPI.requestAddAddress(mContext, mEditName.getText().toString(), mEditPhone.getText().toString(), proviceCode, cityCode, areaCode, isDefault, keyWorldsView.getText().toString(), mEditStore.getText().toString(), mAddressId,"")
+        AddAddressAPI.requestAddAddress(mContext, mEditName.getText().toString(), mEditPhone.getText().toString(), mProvinceCode, mCityCode, mAreaCode, isDefault, keyWorldsView.getText().toString(), mEditStore.getText().toString(), mAddressId,"")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<BaseModel>() {
@@ -469,7 +469,7 @@ public class OrderAddAddressActivity extends BaseSwipeActivity {
         /**
          * 新增地址
          */
-        AddAddressAPI.requestAddAddress(mContext, mEditName.getText().toString(), mEditPhone.getText().toString(), proviceCode, cityCode, areaCode, isDefault, keyWorldsView.getText().toString(), mEditStore.getText().toString(), "","")
+        AddAddressAPI.requestAddAddress(mContext, mEditName.getText().toString(), mEditPhone.getText().toString(), mProvinceCode, mCityCode, mAreaCode, isDefault, keyWorldsView.getText().toString(), mEditStore.getText().toString(), "","")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<BaseModel>() {
@@ -537,9 +537,9 @@ public class OrderAddAddressActivity extends BaseSwipeActivity {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 //返回的分别是三个级别的选中位置
-                proviceCode = options1Items.get(options1).getCode();
-                cityCode = options2Items.get(options1).get(options2).getCode();
-                areaCode = options3Items.get(options1).get(options2).get(options3).getCode();
+                mProvinceCode = options1Items.get(options1).getCode();
+                mCityCode = options2Items.get(options1).get(options2).getCode();
+                mAreaCode = options3Items.get(options1).get(options2).get(options3).getCode();
                 String tx = options1Items.get(options1).getName() +
                         options2Items.get(options1).get(options2) +
                         options3Items.get(options1).get(options2).get(options3);

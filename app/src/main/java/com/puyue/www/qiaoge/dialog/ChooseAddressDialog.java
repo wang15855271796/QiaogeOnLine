@@ -65,6 +65,21 @@ public class ChooseAddressDialog extends Dialog {
     TextView tv1;
     private AddressModel.DataBean dataBean;
     public String changeAddress;
+
+    public static final String TYPE = "type";//是来编辑地址,还是来新建地址的
+    public static final String USER_NAME = "user_name";
+    public static final String USER_PHONE = "user_phone";
+    public static final String STORE_NAME = "store_name";
+    public static final String AREA = "area";//三级城市
+    public static final String ADDRESS = "address";//详细地址
+    public static final String DEFAULT = "default";//是否是默认地址
+    public static final String ADDRESS_ID = "address_id";//地址id
+    public static final String PROVINCE_CODE = "province_code";//省ID
+    public static final String CITY_CODE = "city_code";//市ID
+    public static final String AREA_CODE = "area_code";
+    public static final String ORDERID = "orderId";
+
+
     public ChooseAddressDialog(@NonNull Activity context, String orderId) {
         super(context, R.style.dialog);
         mContext = context;
@@ -90,7 +105,23 @@ public class ChooseAddressDialog extends Dialog {
         rl_add_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivityForResult(EditAddressActivity.getIntent(mContext, EditAddressActivity.class, "add","", "", "", "", "", "", "false", "", "", "", "", orderId), 11);
+                Intent intent = new Intent(mContext,EditAddressActivity.class);
+                intent.putExtra(TYPE, "add");
+                intent.putExtra(USER_NAME,"");
+                intent.putExtra(USER_PHONE, "");
+                intent.putExtra(STORE_NAME, "");
+                intent.putExtra(AREA, "");
+                intent.putExtra(ADDRESS, "");
+                intent.putExtra(DEFAULT, "false");
+                intent.putExtra(ADDRESS_ID, "");
+                intent.putExtra(PROVINCE_CODE, "");
+                intent.putExtra(CITY_CODE,"");
+                intent.putExtra(AREA_CODE, "");
+                intent.putExtra(ORDERID, orderId);
+                intent.putExtra("allAddress", "");
+                mContext.startActivityForResult(intent,11);
+
+//                mContext.startActivityForResult(EditAddressActivity.getIntent(mContext, EditAddressActivity.class, "add","", "", "", "", "", "", "false", "", "", "", "", orderId), 11);
                 dismiss();
             }
         });
@@ -131,12 +162,30 @@ public class ChooseAddressDialog extends Dialog {
                                     @Override
                                     public void jump(int position) {
                                         dataBean = data0.get(position);
-                                        mContext.startActivity(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "edit",
-                                                (dataBean.provinceName + " " + dataBean.cityName + " " + dataBean.areaName),
-                                                dataBean.userName, dataBean.contactPhone, dataBean.shopName,
-                                                dataBean.cityName,
-                                                dataBean.detailAddress, "true", String.valueOf(dataBean.id), dataBean.provinceCode,
-                                                dataBean.cityCode,dataBean.areaCode, orderId));
+
+
+                                        Intent intent = new Intent(mContext,EditAddressActivity.class);
+                                        intent.putExtra(TYPE, "edit");
+                                        intent.putExtra(USER_NAME,dataBean.userName);
+                                        intent.putExtra(USER_PHONE,dataBean.contactPhone);
+                                        intent.putExtra(STORE_NAME, dataBean.shopName);
+                                        intent.putExtra(AREA, dataBean.cityName);
+                                        intent.putExtra(ADDRESS, dataBean.detailAddress);
+                                        intent.putExtra(DEFAULT, "false");
+                                        intent.putExtra(ADDRESS_ID,  String.valueOf(dataBean.id));
+                                        intent.putExtra(PROVINCE_CODE, dataBean.provinceCode);
+                                        intent.putExtra(CITY_CODE, dataBean.cityCode);
+                                        intent.putExtra(AREA_CODE, dataBean.areaCode);
+                                        intent.putExtra(ORDERID, orderId);
+                                        intent.putExtra("allAddress", (mListData.get(position).provinceName + " " + mListData.get(position).cityName + " " + mListData.get(position).areaName));
+                                        mContext.startActivity(intent);
+
+//                                        mContext.startActivity(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "edit",
+//                                                (dataBean.provinceName + " " + dataBean.cityName + " " + dataBean.areaName),
+//                                                dataBean.userName, dataBean.contactPhone, dataBean.shopName,
+//                                                dataBean.cityName,
+//                                                dataBean.detailAddress, "true", String.valueOf(dataBean.id), dataBean.provinceCode,
+//                                                dataBean.cityCode,dataBean.areaCode, orderId));
                                         dismiss();
                                     }
                                 });

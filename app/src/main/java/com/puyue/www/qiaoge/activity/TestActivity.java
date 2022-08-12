@@ -44,7 +44,6 @@ public class TestActivity extends BaseActivity {
         int index = tip.lastIndexOf(companyName);
         String begin = tip.substring(0,index);
         String end = tip.substring(index+companyName.length());
-        Log.d("wdasdasd........",begin+companyName+end);
     }
 
     @Override
