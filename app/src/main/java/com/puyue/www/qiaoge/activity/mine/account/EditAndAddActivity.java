@@ -133,7 +133,8 @@ public class EditAndAddActivity extends BaseSwipeActivity {
     private ArrayList<ArrayList<ArrayList<AreaModel.DataBean.ChildrenBeanX.ChildrenBean>>> options3Items = new ArrayList<>();
 
     private String orderId;
-    public static Intent getIntent(Context context, Class<?> cls, String type, String userName, String userPhone, String storeName, String area, String address, String defaultOr, String addressId, String proviceCode, String cityCode, String areaCode, String orderId) {
+    String allAddress;
+    public static Intent getIntent(Context context, Class<?> cls, String type,String allAddress, String userName, String userPhone, String storeName, String area, String address, String defaultOr, String addressId, String proviceCode, String cityCode, String areaCode, String orderId) {
         Intent intent = new Intent();
         intent.setClass(context, cls);
         intent.putExtra(TYPE, type);
@@ -148,6 +149,7 @@ public class EditAndAddActivity extends BaseSwipeActivity {
         intent.putExtra(CITY_CODE, cityCode);
         intent.putExtra(AREA_CODE, areaCode);
         intent.putExtra(ORDERID, orderId);
+        intent.putExtra("allAddress", allAddress);
         return intent;
     }
     @Override
@@ -164,20 +166,22 @@ public class EditAndAddActivity extends BaseSwipeActivity {
         mCityCode = getIntent().getStringExtra(CITY_CODE);
         mAreaCode = getIntent().getStringExtra(AREA_CODE);
         orderId = getIntent().getStringExtra(ORDERID);
+        allAddress = getIntent().getStringExtra("allAddress");
         if (savedInstanceState != null) {
             mType = savedInstanceState.getString(TYPE);
             mUserName = savedInstanceState.getString(USER_NAME);
             mUserPhone = savedInstanceState.getString(USER_PHONE);
             mStoreName = savedInstanceState.getString(STORE_NAME);
             mArea = savedInstanceState.getString(AREA);
-
             mAddress = savedInstanceState.getString(ADDRESS);
             mDefault = savedInstanceState.getString(DEFAULT);
             mAddressId = savedInstanceState.getString(ADDRESS_ID);
             mProvinceCode = savedInstanceState.getString(PROVINCE_CODE);
             mCityCode = savedInstanceState.getString(CITY_CODE);
+            ToastUtil.showSuccessMsg(mContext,mCityCode);
             mAreaCode = savedInstanceState.getString(AREA_CODE);
             orderId = savedInstanceState.getString(ORDERID);
+            allAddress = savedInstanceState.getString("allAddress");
         }
         if(mDefault.equals("false")) {
             isOpen = false;
@@ -245,7 +249,7 @@ public class EditAndAddActivity extends BaseSwipeActivity {
                 mBtnConfirm.setEnabled(true);
                 mBtnConfirm.setTextColor(getResources().getColor(R.color.app_color_white));
                 mTvTitle.setText("编辑收货地址");
-                mTvArea.setText(mArea);
+                mTvArea.setText(allAddress);
                 mTvArea.setTextColor(Color.parseColor("#232131"));
                 mEditName.setText(mUserName);
                 mEditPhone.setText(mUserPhone);
@@ -430,6 +434,7 @@ public class EditAndAddActivity extends BaseSwipeActivity {
     };
 
     private void requestEditAddress() {
+        ToastUtil.showSuccessMsg(mContext,cityCode+"bbb");
         if (isOpen) {
             //选为默认地址
             isDefault = 1;

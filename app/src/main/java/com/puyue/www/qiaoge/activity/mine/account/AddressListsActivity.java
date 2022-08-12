@@ -176,10 +176,10 @@ public class AddressListsActivity extends BaseSwipeActivity {
 //                    //跳转到编辑界面使用startActivityForResult,在完成操作之后回到地址列表的界面,重新请求一次地址列表的数据
                     if (mListData.get(position).isDefault == 1) {
                         //原本是默认地址
-                        startActivityForResult(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "edit", mListData.get(position).userName, mListData.get(position).contactPhone, mListData.get(position).shopName,mListData.get(position).cityName, mListData.get(position).detailAddress, "true", String.valueOf(mListData.get(position).id), mListData.get(position).provinceCode, mListData.get(position).cityCode, mListData.get(position).areaCode, orderId), 22);
+                        startActivityForResult(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "edit", mListData.get(position).provinceName + " " + mListData.get(position).cityName + " " + mListData.get(position).areaName, mListData.get(position).userName, mListData.get(position).contactPhone, mListData.get(position).shopName,mListData.get(position).cityName, mListData.get(position).detailAddress, "true", String.valueOf(mListData.get(position).id), mListData.get(position).provinceCode, mListData.get(position).cityCode, mListData.get(position).areaCode, orderId), 22);
                     } else if (mListData.get(position).isDefault == 0) {
                         //原本不是默认地址
-                        startActivityForResult(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "edit", mListData.get(position).userName, mListData.get(position).contactPhone, mListData.get(position).shopName, mListData.get(position).cityName, mListData.get(position).detailAddress, "false", String.valueOf(mListData.get(position).id), mListData.get(position).provinceCode, mListData.get(position).cityCode, mListData.get(position).areaCode, orderId), 22);
+                        startActivityForResult(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "edit", mListData.get(position).provinceName + " " + mListData.get(position).cityName, mListData.get(position).userName, mListData.get(position).contactPhone, mListData.get(position).shopName, mListData.get(position).cityName, mListData.get(position).detailAddress, "false", String.valueOf(mListData.get(position).id), mListData.get(position).provinceCode, mListData.get(position).cityCode, mListData.get(position).areaCode, orderId), 22);
                     }
                 } else if (flag.equals("order_address")) {
                     //从确定订单来的这个界面,选择一个地址item,回到上个界面,上传地址id和订单id,重新刷新数据即可获取到新的地址
@@ -293,7 +293,7 @@ public class AddressListsActivity extends BaseSwipeActivity {
                     //说明修改过默认地址,在退出界面的时候请求接口来
                     requestEditDefaultAddress(defaultId, orderId);
                 }else {
-                    startActivityForResult(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "add", "", "", "", "", "", "false", "", "", "", "", orderId), 11);
+                    startActivityForResult(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "add","", "", "", "", "", "", "false", "", "", "", "", orderId), 11);
                 }
             }
         });

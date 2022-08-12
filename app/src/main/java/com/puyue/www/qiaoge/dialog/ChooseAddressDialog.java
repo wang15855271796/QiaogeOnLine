@@ -90,7 +90,7 @@ public class ChooseAddressDialog extends Dialog {
         rl_add_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivityForResult(EditAddressActivity.getIntent(mContext, EditAddressActivity.class, "add", "", "", "", "", "", "false", "", "", "", "", orderId), 11);
+                mContext.startActivityForResult(EditAddressActivity.getIntent(mContext, EditAddressActivity.class, "add","", "", "", "", "", "", "false", "", "", "", "", orderId), 11);
                 dismiss();
             }
         });
@@ -132,6 +132,7 @@ public class ChooseAddressDialog extends Dialog {
                                     public void jump(int position) {
                                         dataBean = data0.get(position);
                                         mContext.startActivity(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "edit",
+                                                (dataBean.provinceName + " " + dataBean.cityName + " " + dataBean.areaName),
                                                 dataBean.userName, dataBean.contactPhone, dataBean.shopName,
                                                 dataBean.cityName,
                                                 dataBean.detailAddress, "true", String.valueOf(dataBean.id), dataBean.provinceCode,

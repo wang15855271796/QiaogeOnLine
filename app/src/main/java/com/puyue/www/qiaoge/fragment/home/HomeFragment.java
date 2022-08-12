@@ -906,7 +906,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     int num = 0;
     //活动区域
     private void getActive(CouponModels.DataBean dataActive) {
-
         if(dataActive.getTeam()!=null) {
             tv_team_desc.setText(dataActive.getTeam().getDesc());
             tv_team_desc1.setText(dataActive.getTeam().getDesc());
@@ -1874,6 +1873,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                                 UserInfoHelper.saveAreaName(mActivity, data.getAreaName());
                                 UserInfoHelper.saveCity(mActivity, data.getCityName());
                                 UserInfoHelper.saveProvince(mActivity, data.getProvinceName());
+                                ToastUtil.showSuccessMsg(mActivity,data.getCityName()+data.getAreaName()+"aaaaaa");
                                 list.clear();
                                 list1.clear();
                                 iconList.clear();

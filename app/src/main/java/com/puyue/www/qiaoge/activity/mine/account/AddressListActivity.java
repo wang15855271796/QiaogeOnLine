@@ -29,6 +29,7 @@ import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.IsShowModel;
 import com.puyue.www.qiaoge.model.mine.address.AddressModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -153,10 +154,13 @@ public class AddressListActivity extends BaseSwipeActivity {
                 } else if (flag.equals("edit")) {
                     if (mListData.get(position).isDefault == 1) {
                         //原本是默认地址
-                        startActivityForResult(EditAddressActivity.getIntent(mContext, EditAddressActivity.class, "edit", mListData.get(position).userName, mListData.get(position).contactPhone, mListData.get(position).shopName, mListData.get(position).cityName, mListData.get(position).detailAddress, "true", String.valueOf(mListData.get(position).id), mListData.get(position).provinceCode, mListData.get(position).cityCode, mListData.get(position).areaCode, orderId), 22);
+//                        Intent intent = new Intent(mContext, EditAddressActivity.class);
+
+//                        startActivityForResult(intent,22);
+                        startActivityForResult(EditAddressActivity.getIntent(mContext, EditAddressActivity.class, "edit", (mListData.get(position).provinceName + " " + mListData.get(position).cityName + " " + mListData.get(position).areaName),mListData.get(position).userName, mListData.get(position).contactPhone, mListData.get(position).shopName, mListData.get(position).cityName, mListData.get(position).detailAddress, "true", String.valueOf(mListData.get(position).id), mListData.get(position).provinceCode, mListData.get(position).cityCode, mListData.get(position).areaCode, orderId), 22);
                     } else if (mListData.get(position).isDefault == 0) {
                         //原本不是默认地址
-                        startActivityForResult(EditAddressActivity.getIntent(mContext, EditAddressActivity.class, "edit", mListData.get(position).userName, mListData.get(position).contactPhone, mListData.get(position).shopName, mListData.get(position).cityName, mListData.get(position).detailAddress, "false", String.valueOf(mListData.get(position).id), mListData.get(position).provinceCode, mListData.get(position).cityCode, mListData.get(position).areaCode, orderId), 22);
+                        startActivityForResult(EditAddressActivity.getIntent(mContext, EditAddressActivity.class, "edit", (mListData.get(position).provinceName + " " + mListData.get(position).cityName + " " + mListData.get(position).areaName),mListData.get(position).userName, mListData.get(position).contactPhone, mListData.get(position).shopName, mListData.get(position).cityName, mListData.get(position).detailAddress, "false", String.valueOf(mListData.get(position).id), mListData.get(position).provinceCode, mListData.get(position).cityCode, mListData.get(position).areaCode, orderId), 22);
                     }
                 }
             }
@@ -267,7 +271,7 @@ public class AddressListActivity extends BaseSwipeActivity {
 
                 }
                 //跳转到编辑界面使用startActivityForResult,在完成操作之后回到地址列表的界面,重新请求一次地址列表的数据
-                    startActivityForResult(EditAddressActivity.getIntent(mContext, EditAddressActivity.class, "add", "", "", "", "", "", "false", "", "", "", "", orderId), 11);
+                    startActivityForResult(EditAddressActivity.getIntent(mContext, EditAddressActivity.class, "add", "","", "", "", "", "", "false", "", "", "", "", orderId), 11);
 
             }
         });

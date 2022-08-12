@@ -432,8 +432,8 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                 } else {//第二次请求
                     //存在不允许的权限  对话框为什么一会出来一会不出来
                     EasyPermissions.requestPermissions(this, "需要加载必要的权限。", 1, params);
-                    UserInfoHelper.saveAreaName(mContext, "上城区");
-                    UserInfoHelper.saveCity(mActivity, "杭州市");
+//                    UserInfoHelper.saveAreaName(mContext, "上城区");
+//                    UserInfoHelper.saveCity(mActivity, "杭州市");
                 }
 
                 break;

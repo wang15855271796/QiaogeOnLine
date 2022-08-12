@@ -102,7 +102,7 @@ public class OrderAddressListActivity extends BaseSwipeActivity {
                     showDeleteDialog(position);
                 } else if (flag.equals("edit")) {
                     startActivityForResult(EditAddressActivity.getIntent(mContext, EditAddressActivity.class,
-                            "edit", mListData.get(position).userName, mListData.get(position).contactPhone,
+                            "edit",(mListData.get(position).provinceName + " " + mListData.get(position).cityName + " " + mListData.get(position).areaName), mListData.get(position).userName, mListData.get(position).contactPhone,
                             mListData.get(position).shopName, (mListData.get(position).provinceName + " " +
                                     mListData.get(position).cityName + " " + mListData.get(position).areaName),
                             mListData.get(position).detailAddress, "false", String.valueOf(mListData.get(position).id),
@@ -193,7 +193,7 @@ public class OrderAddressListActivity extends BaseSwipeActivity {
             @Override
             public void onNoDoubleClick(View view) {
                 startActivityForResult(EditAndAddActivity.getIntent(mContext, EditAddressActivity.class,
-                        "add", "", "", "", "", "", "false",
+                        "add", "","", "", "", "", "", "false",
                         "", "", "", "", orderId), 11);
             }
         });
