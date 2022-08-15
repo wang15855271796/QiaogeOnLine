@@ -354,7 +354,7 @@ public class AddressListsActivity extends BaseSwipeActivity {
                     //说明修改过默认地址,在退出界面的时候请求接口来
                     requestEditDefaultAddress(defaultId, orderId);
                 }else {
-                    Intent intent = new Intent(mContext,EditAndAddActivity.class);
+                    Intent intent = new Intent(mContext,EditAddressActivity.class);
                     intent.putExtra(TYPE, "add");
                     intent.putExtra(USER_NAME,"");
                     intent.putExtra(USER_PHONE, "");

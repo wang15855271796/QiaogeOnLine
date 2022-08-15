@@ -238,7 +238,7 @@ public class OrderAddressListActivity extends BaseSwipeActivity {
                 intent.putExtra(AREA_CODE, "");
                 intent.putExtra(ORDERID, orderId);
                 intent.putExtra("allAddress", "");
-                startActivityForResult(intent,22);
+                startActivityForResult(intent,11);
 
 //                startActivityForResult(EditAndAddActivity.getIntent(mContext, EditAddressActivity.class,
 //                        "add", "","", "", "", "", "", "false",

@@ -517,6 +517,7 @@ public class LoginActivity extends BaseSwipeActivity {
     private void updateLogin() {
         AppHelper.showMsg(mContext, "登录成功");
         SharedPreferencesUtil.saveInt(mActivity,"wad",mModelLogin.data.wad);
+        UserInfoHelper.saveChangeFlag(mActivity,"0");
         UserInfoHelper.saveUserId(mContext, mModelLogin.data.token);
         UserInfoHelper.saveUserCell(mContext, mModelLogin.data.userBaseInfoVO.phone);
         UserInfoHelper.saveUserType(mContext, String.valueOf(mModelLogin.data.userBaseInfoVO.type));

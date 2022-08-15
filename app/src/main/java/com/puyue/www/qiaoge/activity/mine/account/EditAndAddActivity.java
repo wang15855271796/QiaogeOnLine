@@ -3,6 +3,7 @@ package com.puyue.www.qiaoge.activity.mine.account;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.core.widget.NestedScrollView;
@@ -16,6 +17,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -36,6 +38,7 @@ import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lljjcoder.style.citypickerview.CityPickerView;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.view.ChooseAddressPopWindow;
 import com.puyue.www.qiaoge.adapter.AddAddressAdapter;
 import com.puyue.www.qiaoge.adapter.mine.SuggestAdressAdapter;
 import com.puyue.www.qiaoge.api.home.CityChangeAPI;
@@ -47,9 +50,11 @@ import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.BackEvent;
+import com.puyue.www.qiaoge.event.UpdateAddressEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
+import com.puyue.www.qiaoge.listener.PopWindowListener;
 import com.puyue.www.qiaoge.model.AreasModel;
 import com.puyue.www.qiaoge.model.IsShowModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
@@ -62,9 +67,12 @@ import com.tencent.lbssearch.object.result.SuggestionResultObject;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import rx.Subscriber;
@@ -234,9 +242,11 @@ public class EditAndAddActivity extends BaseSwipeActivity {
         });
     }
 
+
     boolean isOpen;
     @Override
     public void setViewData() {
+        EventBus.getDefault().register(this);
         mType = getIntent().getStringExtra(TYPE);
         mUserName = getIntent().getStringExtra(USER_NAME);
         mUserPhone = getIntent().getStringExtra(USER_PHONE);
@@ -295,12 +305,37 @@ public class EditAndAddActivity extends BaseSwipeActivity {
         keyWorldsView.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable arg0) {
-                if(keyWorldsView.getText().toString().length()> 4 || keyWorldsView.getText().toString().length() == 4) {
-                    getArea(mArea,keyWorldsView.getText().toString());
-                    recyclerView.setVisibility(View.VISIBLE);
+                if(!clickFlag) {
+                    if(keyWorldsView.getText().toString().length()> 4 || keyWorldsView.getText().toString().length() == 4) {
+                        showPopWindow(mArea,keyWorldsView.getText().toString());
+                    }else {
+                        if(choosePopWindow!=null) {
+                            choosePopWindow.dismiss();
+                        }
+                    }
+
                 }else {
-                    recyclerView.setVisibility(View.GONE);
+                    clickFlag = false;
+                    if(choosePopWindow!=null) {
+                        choosePopWindow.dismiss();
+                    }
                 }
+//                if(keyWorldsView.getText().toString().length()> 4 || keyWorldsView.getText().toString().length() == 4) {
+//                    if(!clickFlag) {
+//                        showPopWindow(mArea,keyWorldsView.getText().toString());
+//                    }else {
+//                        clickFlag = false;
+//                        if(choosePopWindow!=null) {
+//                            choosePopWindow.dismiss();
+//                        }
+//                    }
+//
+//                }else {
+//                    recyclerView.setVisibility(View.GONE);
+//                    if(choosePopWindow!=null) {
+//                        choosePopWindow.dismiss();
+//                    }
+//                }
             }
 
             @Override
@@ -312,8 +347,38 @@ public class EditAndAddActivity extends BaseSwipeActivity {
 
             }
         });
+    }
+    ChooseAddressPopWindow choosePopWindow;
+    private void showPopWindow(String mArea, String keywords) {
+        if(choosePopWindow == null) {
+            choosePopWindow = new ChooseAddressPopWindow(mActivity,mArea,keywords);
+        }
+
+        choosePopWindow.setTouchable(true);
+        choosePopWindow.setOutsideTouchable(true);
+        choosePopWindow.setAddressData(mArea,keywords);
+        choosePopWindow.setTouchInterceptor(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+                // 这里如果返回true的话，touch事件将被拦截
+                // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
+            }
+        });
+
+        choosePopWindow.setAnimationStyle(R.anim.anim_pop);  //设置加载动画
+        choosePopWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        choosePopWindow.setPopWindowListener(new PopWindowListener() {
+            @Override
+            public void getCateStyle(String cate,int position) {
+
+            }
+        });
+
+        choosePopWindow.showAsDropDown(keyWorldsView,0,0);
 
     }
+
     public void handleMessage(Message msg) {
         switch (msg.what) {
             case 1000:
@@ -632,19 +697,20 @@ public class EditAndAddActivity extends BaseSwipeActivity {
                     public void onNext(AreasModel areasModel) {
                         if(areasModel.getCode()==1) {
                             if(areasModel.getData()!=null && areasModel.getData().size()>0) {
-                                recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-                                AddAddressAdapter addAddressAdapter = new AddAddressAdapter(R.layout.item_address_area,areasModel.getData());
-                                recyclerView.setAdapter(addAddressAdapter);
-                                addAddressAdapter.notifyDataSetChanged();
-                                addAddressAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                                        keyWorldsView.setText(areasModel.getData().get(position).getDetailAddress());
-                                        recyclerView.setVisibility(View.GONE);
-                                        keyWorldsView.setSelection(areasModel.getData().get(position).getDetailAddress().length());
-                                        hintKbTwo();
-                                    }
-                                });
+//                                recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+//                                AddAddressAdapter addAddressAdapter = new AddAddressAdapter(R.layout.item_address_area,areasModel.getData());
+//                                recyclerView.setAdapter(addAddressAdapter);
+//                                addAddressAdapter.notifyDataSetChanged();
+//                                addAddressAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+//                                    @Override
+//                                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+//                                        keyWorldsView.setText(areasModel.getData().get(position).getDetailAddress());
+//                                        recyclerView.setVisibility(View.GONE);
+//                                        keyWorldsView.setSelection(areasModel.getData().get(position).getDetailAddress().length());
+//                                        hintKbTwo();
+//                                    }
+//                                });
+//                                showPopWindow(areasModel.getData());
                             }else {
                                 recyclerView.setVisibility(View.GONE);
                             }
@@ -656,7 +722,7 @@ public class EditAndAddActivity extends BaseSwipeActivity {
     }
 
 
-
+    List<String> list = Arrays.asList("全部", "自营", "非自营");
     private void showPickerView() {
 
         OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
@@ -671,6 +737,7 @@ public class EditAndAddActivity extends BaseSwipeActivity {
                         options3Items.get(options1).get(options2).get(options3);
                 tv_edit_address_area.setText(tx);
                 tv_edit_address_area.setTextColor(Color.parseColor("#333333"));
+                clickFlag = false;
             }
         })
 
@@ -797,6 +864,7 @@ public class EditAndAddActivity extends BaseSwipeActivity {
     protected void onDestroy() {
 //        mSuggestionSearch.destroy();
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     /**
@@ -871,6 +939,17 @@ public class EditAndAddActivity extends BaseSwipeActivity {
 //        sugAdapter.notifyDataSetChanged();*/
 //    }
 
+    boolean clickFlag = false;
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void messageEventBuss(UpdateAddressEvent event) {
+        keyWorldsView.setText(event.getDetailAddress());
+        recyclerView.setVisibility(View.GONE);
+        keyWorldsView.setSelection(event.getDetailAddress().length());
+        hintKbTwo();
+        clickFlag = true;
+        keyWorldsView.clearFocus();
+
+    }
 
     protected void setTranslucentStatus() {
         // 5.0以上系统状态栏透明

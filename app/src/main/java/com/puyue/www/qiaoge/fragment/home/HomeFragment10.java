@@ -552,7 +552,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                 rb_common_top.setTextColor(Color.parseColor("#333333"));
                             }else if(rb_reduce.isChecked()) {
                                 rb_info_top.setChecked(true);
-                                Log.d("efsdfew.....","b");
                                 rb_new_top.setChecked(false);
                                 rb_must_common_top.setChecked(false);
                                 rb_common_top.setChecked(false);
@@ -1558,7 +1557,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                                 if (!TextUtils.isEmpty(banners.get(pos).getRgbColor())) {
                                                     String rgbColor = banners.get(pos).getRgbColor();
                                                     ll_bgc.setBackgroundColor(Color.parseColor("#" + rgbColor));
-                                                    Log.d("wwwwwwww........","bbb");
                                                 }
                                             }
 

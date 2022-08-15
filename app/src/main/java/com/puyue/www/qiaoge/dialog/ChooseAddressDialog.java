@@ -171,7 +171,7 @@ public class ChooseAddressDialog extends Dialog {
                                         intent.putExtra(STORE_NAME, dataBean.shopName);
                                         intent.putExtra(AREA, dataBean.cityName);
                                         intent.putExtra(ADDRESS, dataBean.detailAddress);
-                                        intent.putExtra(DEFAULT, "false");
+                                        intent.putExtra(DEFAULT, "true");
                                         intent.putExtra(ADDRESS_ID,  String.valueOf(dataBean.id));
                                         intent.putExtra(PROVINCE_CODE, dataBean.provinceCode);
                                         intent.putExtra(CITY_CODE, dataBean.cityCode);

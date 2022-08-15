@@ -766,6 +766,8 @@ public class MarketsFragment extends BaseFragment {
         ll_select.setVisibility(View.VISIBLE);
         ll_prod.setVisibility(View.GONE);
         requestGoodsList("");
+        rv_cate.smoothScrollToPosition(selectPosition);
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN,sticky=true)
@@ -1206,14 +1208,19 @@ public class MarketsFragment extends BaseFragment {
         selectPosition = 0;
         requestGoodsList("");
         getData();
+        rv_cate.smoothScrollToPosition(0);
+
     }
 
 //    登录
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loginsEvent(LogoutsEvent event) {
         //刷新UI
+        selectPosition = 0;
+        mAdapterMarketDetail.notifyDataSetChanged();
         requestGoodsList("");
         getData();
+        rv_cate.smoothScrollToPosition(0);
     }
 
     String fromId;
