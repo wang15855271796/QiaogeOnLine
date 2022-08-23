@@ -37,6 +37,5 @@ public class RvIconAdapter extends BaseQuickAdapter<IndexInfoModel.DataBean.Clas
         TextView tv_desc = helper.getView(R.id.tv_desc);
         Glide.with(mContext).load(item.getImg()).into(iv_icon);
         tv_desc.setText(item.getTitle());
-        Log.d("wddafvfggf....","add");
     }
 }

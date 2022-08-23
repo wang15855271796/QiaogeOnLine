@@ -159,8 +159,8 @@ dependencies {
     implementation 'com.gyf.barlibrary:barlibrary:2.3.0'
     //动画
     implementation 'com.airbnb.android:lottie:2.0+'
-    implementation 'cn.jiguang.sdk:jpush:4.7.0'
-    implementation 'cn.jiguang.sdk:jcore:3.2.4'
+    implementation 'cn.jiguang.sdk:jpush:4.8.0'
+    implementation 'cn.jiguang.sdk:jcore:3.3.1'
     implementation 'com.githang:status-bar-compat:0.5.3'
     //添加Android动态申请权限依赖库
     implementation 'pub.devrel:easypermissions:0.2.1'
