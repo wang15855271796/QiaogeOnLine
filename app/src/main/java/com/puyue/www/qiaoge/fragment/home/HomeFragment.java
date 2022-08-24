@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 
@@ -18,6 +19,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,6 +45,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 //import io.reactivex.Observable;
@@ -180,6 +183,7 @@ import com.puyue.www.qiaoge.utils.Utils;
 import com.puyue.www.qiaoge.view.AutoScrollManger;
 import com.puyue.www.qiaoge.view.AutoScrollRecyclerView;
 import com.puyue.www.qiaoge.view.HIndicators;
+import com.puyue.www.qiaoge.view.MyCompanyScrollView;
 import com.puyue.www.qiaoge.view.ScrollSpeedLinearLayoutManger;
 import com.puyue.www.qiaoge.view.Snap;
 import com.puyue.www.qiaoge.view.SnapUpCountDownTimerView3;
@@ -395,8 +399,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     LinearLayout ll_one;
     @BindView(R.id.iv_huo_company)
     ImageView iv_huo_company;
+    @BindView(R.id.ll_coupon)
+    LinearLayout ll_coupon;
     @BindView(R.id.ll_city)
     LinearLayout ll_city;
+    @BindView(R.id.fl_container)
+    FrameLayout fl_container;
+    @BindView(R.id.coordinator)
+    CoordinatorLayout coordinator;
     List<String> list = new ArrayList<>();
     private static final float ENDMARGINLEFT = 50;
     private static final float ENDMARGINTOP = 5;
@@ -456,42 +466,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         return R.layout.test10;
     }
 
-    @Override
-    public void initViews(View view) {
-    }
 
-
-    private void getDatas(long end) {
-        RecommendApI.getDatas(mActivity,3,end)
-                .subscribeOn(Schedulers.io())
-                .observeOn(mainThread())
-                .subscribe(new Subscriber<BaseModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(BaseModel baseModel) {
-
-                    }
-                });
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
-
+    int length = 0;
     @Override
     public void findViewById(View view) {
         bind = ButterKnife.bind(this, view);
+
         setListener();
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
@@ -508,7 +488,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 scrollLength = Math.abs(scroll_height - bar_height);
                 topHeight = DensityUtil.dip2px(scrollLength, mActivity);
 
-
                 appbar.post(new Runnable() {
                     @Override public void run() {
                         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) appbar.getLayoutParams();
@@ -523,12 +502,19 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                     }
                 });
 
-
                 appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
                     @Override
                     public void onOffsetChanged(AppBarLayout appBarLayout, int y) {
+                        int abs = Math.abs(y);
+                        if(abs== length) {
+                            ll_coupon.setVisibility(View.VISIBLE);
+                        }else {
+                            ll_coupon.setVisibility(View.GONE);
+                        }
+                        length = abs;
                         int abs_y = Math.abs(y);
                         int totalScrollRange = appBarLayout.getTotalScrollRange()-bar_height;
+
                         if (Math.abs(abs_y)>=totalScrollRange) {
                             ll_parent_top.setVisibility(View.VISIBLE);
                             ll_small_title.setVisibility(View.GONE);
@@ -568,7 +554,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                                 rb_common_top.setTextColor(Color.parseColor("#333333"));
                             }else if(rb_reduce.isChecked()) {
                                 rb_info_top.setChecked(true);
-                                Log.d("efsdfew.....","b");
                                 rb_new_top.setChecked(false);
                                 rb_must_common_top.setChecked(false);
                                 rb_common_top.setChecked(false);
@@ -667,6 +652,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                         }
                     }
                 });
+
             }
         });
 
@@ -682,6 +668,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 startActivity(intent);
             }
         });
+
+
         tv_change.setOnClickListener(this);
         tv_change_address.setOnClickListener(this);
         iv_location.setOnClickListener(this);
@@ -3031,5 +3019,39 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         v1s.setVisibility(View.INVISIBLE);
         v2s.setVisibility(View.INVISIBLE);
         v3s.setVisibility(View.INVISIBLE);
+    }
+
+
+    @Override
+    public void initViews(View view) {
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    private void getDatas(long end) {
+        RecommendApI.getDatas(mActivity,3,end)
+                .subscribeOn(Schedulers.io())
+                .observeOn(mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+
+                    }
+                });
     }
 }

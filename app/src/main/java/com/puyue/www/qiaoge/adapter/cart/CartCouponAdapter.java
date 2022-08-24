@@ -25,25 +25,21 @@ public class CartCouponAdapter extends BaseQuickAdapter<CartTestModel.DataBean.P
 
     @Override
     protected void convert(BaseViewHolder helper, CartTestModel.DataBean.ProdsBeanX.AdditionsBean item) {
-//        TextView tv_name = helper.getView(R.id.tv_name);
-//        TextView tv_num = helper.getView(R.id.tv_num);
-//        tv_name.setText(item.getName());
-//        tv_num.setText(item.getSendNumDesc());
-        LinearLayout rl_root = helper.getView(R.id.rl_root);
         ImageView iv_head = helper.getView(R.id.iv_head);
+        LinearLayout rl_root = helper.getView(R.id.rl_root);
         TextView tv_desc = helper.getView(R.id.tv_desc);
-//        if(additionVOList.toString().equals(null)) {
-//            rl_root.setVisibility(View.GONE);
-//            return;
-//        }else {
-//            rl_root.setVisibility(View.VISIBLE);
-//        }
         TextView tv_name = helper.getView(R.id.tv_name);
         tv_name.setText(item.getName());
-
         TextView tv_num = helper.getView(R.id.tv_num);
         tv_num.setText("*"+item.getSendNumDesc());
 
+        rl_root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                FullCouponDialog fullCouponDialog = new FullCouponDialog(mContext,item);
+//                fullCouponDialog.show();
+            }
+        });
 
         if(item.getAdditionFlag()==2) {
             iv_head.setImageResource(R.mipmap.icon_grey_head);

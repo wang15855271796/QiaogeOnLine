@@ -116,6 +116,7 @@ public class CartAdapter extends BaseQuickAdapter<CartTestModel.DataBean.ProdsBe
         rv_coupon.setAdapter(cartCouponAdapter);
         rv_coupon.setLayoutManager(new LinearLayoutManager(mContext));
 
+
         SlideRecyclerView recyclerView = helper.getView(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         cartGoodsAdapter = new CartGoodsAdapter(R.layout.item_goods,this,data,item,item.getProds(),mOnRefreshListener);

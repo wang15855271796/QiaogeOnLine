@@ -1,7 +1,12 @@
 package com.puyue.www.qiaoge.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ScrollView;
+
+import androidx.core.widget.NestedScrollView;
 
 import com.puyue.www.qiaoge.R;
 
@@ -16,12 +21,15 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by ${王涛} on 2019/9/29
  */
 public class TestActivity extends BaseActivity {
-
+    Unbinder bind;
+    @BindView(R.id.scroll)
+    NestedScrollView scroll;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -34,16 +42,20 @@ public class TestActivity extends BaseActivity {
 
     @Override
     public void findViewById() {
-
+        bind = ButterKnife.bind(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            scroll.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+                    Log.d("cswdadwdsd.........","123");
+                }
+            });
+        }
     }
 
     @Override
     public void setViewData() {
-        String tip = "您的账号存在一定风险，需要企业二次审核后方可使用，可联系宁波翘歌网络科技有限公司（公司名称）进行处理。";
-        String companyName =  "宁波翘歌网络科技有限公司（公司名称）";
-        int index = tip.lastIndexOf(companyName);
-        String begin = tip.substring(0,index);
-        String end = tip.substring(index+companyName.length());
+
     }
 
     @Override

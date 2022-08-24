@@ -248,6 +248,7 @@ public class CouponSearchActivity extends BaseSwipeActivity {
                 mDialog.dismiss();
             }
         });
+
         tv_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
