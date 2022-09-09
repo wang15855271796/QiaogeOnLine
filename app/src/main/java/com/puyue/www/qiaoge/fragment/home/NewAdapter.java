@@ -3,6 +3,7 @@ package com.puyue.www.qiaoge.fragment.home;
 import android.content.Intent;
 import androidx.annotation.Nullable;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -50,6 +51,7 @@ public class NewAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
 
     @Override
     protected void convert(BaseViewHolder helper, ProductNormalModel.DataBean.ListBean item) {
+        Log.d("swfasdwdsda.......","123");
         ll_champion = helper.getView(R.id.ll_champion);
         tv_champion = helper.getView(R.id.tv_champion);
         v_champion = helper.getView(R.id.v_champion);

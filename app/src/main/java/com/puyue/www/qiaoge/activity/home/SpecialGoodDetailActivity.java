@@ -56,6 +56,7 @@ import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.ClickCollectionAPI;
 import com.puyue.www.qiaoge.api.home.GetAllCommentListByPageAPI;
 import com.puyue.www.qiaoge.api.home.GetCustomerPhoneAPI;
+import com.puyue.www.qiaoge.api.home.GetProductDetailAPI;
 import com.puyue.www.qiaoge.api.home.GetRegisterShopAPI;
 import com.puyue.www.qiaoge.api.home.GetSpecialDetailAPI;
 import com.puyue.www.qiaoge.api.home.UpdateUserInvitationAPI;
@@ -69,6 +70,7 @@ import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
+import com.puyue.www.qiaoge.event.GetProductNumModel;
 import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
@@ -147,7 +149,7 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
     private int productId;
     private int pageNum = 1;
     private int pageSize = 10;
-    private byte businessType = 11;
+    private int businessType = 11;
     private boolean isCollection = false;
     private int amount = 0;
     private Date currents;
@@ -174,20 +176,15 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
     private StarBarView sbv_star_bar;
     private TextView tv_status;
     String priceType;
-    private GoodsRecommendAdapter adapterRecommend;
     private List<GetProductListModel.DataBean.ListBean> listRecommend = new ArrayList<>();
     // 商品详情
     private RecyclerView recyclerViewImage;
-    private GoodsDetailAdapter mAdapterImage;
-
     private LinearLayout linearLayoutEvaluation;// 评价布局
     private LinearLayout linearLayoutEvaluationNoData;
     private String mShareTitle;
     private String mShareDesc;
     private String mShareIcon;
     private String mShareUrl;
-    private int typeIntent;
-    private TextView textSpec;
     TextView tv_name;
     //图片详情集合
     private List<String> detailList = new ArrayList<>();
@@ -201,7 +198,6 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
     TextView tv_time;
     private TextView mTvGroupPrice;
     TextView tv_num;
-    private String  productName;
     TextView tv_spec;
     private ImageViewAdapter imageViewAdapter;
     private List<GetRegisterShopModel.DataBean> list = new ArrayList<>();
@@ -233,6 +229,7 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
         if (getIntent() != null && getIntent().getExtras() != null) {
             Bundle bundle = getIntent().getExtras();
             productId = bundle.getInt(AppConstant.ACTIVEID);
+            businessType = bundle.getInt("businessType",11);
             if(bundle.getString("num")!=null) {
                 num = bundle.getString("num");
             }
@@ -308,7 +305,6 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
         recyclerViewImage = (RecyclerView) findViewById(R.id.recyclerViewImage);
         linearLayoutEvaluation = (LinearLayout) findViewById(R.id.linearLayoutEvaluation);
         linearLayoutEvaluationNoData = (LinearLayout) findViewById(R.id.linearLayoutEvaluationNoData);
-        textSpec = (TextView) findViewById(R.id.textSpec);
         mTvSub = FVHelper.fv(this, R.id.tv_activity_special_sub);//jianhao
         mAmount = FVHelper.fv(this, R.id.tv_activity_special_amount);
         mTvAdd = FVHelper.fv(this, R.id.tv_activity_special_add);
@@ -332,7 +328,6 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
 
     @Override
     public void setViewData() {
-        typeIntent = getIntent().getIntExtra("type", 1);
 
         //获取数据
         if(num!=null) {
@@ -359,6 +354,7 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
             mTvAddCar.setBackgroundResource(R.drawable.app_car_orange);
         }
 
+        getCartNumber();
         getAllCommentList(pageNum, pageSize, productId, businessType);
         imageViewAdapter = new ImageViewAdapter(R.layout.item_imageview,detailList);
         recyclerViewImage.setLayoutManager(new LinearLayoutManager(mContext));
@@ -371,7 +367,6 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
         super.onResume();
         if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
             hasCollectState(productId, businessType);
-//            getProductDetail(productId);
             getCartNum();
         } else {
             mIvCollection.setImageResource(R.mipmap.icon_collection_null);
@@ -522,13 +517,11 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
                                 });
                             }
                         } else {
-//                            startActivityForResult(new Intent(mContext, CartActivity.class), 21);
                             startActivity(new Intent(mContext, HomeActivity.class));
                             EventBus.getDefault().post(new GoToCartFragmentEvent());
                         }
                     } else if (UserInfoHelper.getUserType(mContext).equals(AppConstant.USER_TYPE_WHOLESALE)) {
                         //这个用户是批发用户
-//                        startActivityForResult(new Intent(mContext, CartActivity.class), 21);
                         startActivity(new Intent(mContext, HomeActivity.class));
                         EventBus.getDefault().post(new GoToCartFragmentEvent());
 
@@ -578,7 +571,6 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
                             detailList.clear();
                             detailList.addAll(model.getData().getDetailPics());
                             imageViewAdapter.notifyDataSetChanged();
-                            tv_num.setText(model.getData().getCartNum());
                             if(model.getData().getLimitNum()!=null&&!model.getData().getLimitNum().equals("")) {
                                 tv_limit_num.setText(model.getData().getLimitNum());
                                 tv_limit_num.setBackgroundResource(R.drawable.shape_white);
@@ -589,7 +581,6 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
                             Glide.with(mContext).load(model.getData().getSelfOrNot()).into(iv_operate);
                             activityType = model.getData().getActivityType();
                             tv_sale.setText(model.getData().getSaleVolume());
-                            productName =model.getData().getActiveName();
                             models = model;
                             if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                                 if(priceType.equals("1")) {
@@ -833,6 +824,39 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
     }
 
     /**
+     * 获取详情购物车数据
+     * @param
+     * @param
+     */
+    private void getCartNumber() {
+        GetProductDetailAPI.getCartNum(mContext,businessType,productId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GetProductNumModel>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(GetProductNumModel getProductNumModel) {
+                        if(getProductNumModel.getCode()==1) {
+                            String data = getProductNumModel.getData();
+                            Log.d("wawdsdddd.....",data+"aa");
+                            tv_num.setText("购物车数量:"+data);
+                        }else {
+                            ToastUtil.showErroMsg(mContext,getProductNumModel.getMessage());
+                        }
+                    }
+                });
+    }
+
+    /**
      * 获取客服电话
      */
     private void getCustomerPhone() {
@@ -962,7 +986,7 @@ private float star;
     /**
      * 获取评价
      */
-    private void getAllCommentList(final int pageNum, int pageSize, int businessId, byte businessType) {
+    private void getAllCommentList(final int pageNum, int pageSize, int businessId, int businessType) {
         GetAllCommentListByPageAPI.requestData(mContext, pageNum, pageSize, businessId, businessType)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -1071,7 +1095,7 @@ private float star;
     /**
      * 获取收藏状态
      */
-    private void hasCollectState(int businessId, byte businessType) {
+    private void hasCollectState(int businessId, int businessType) {
         PublicRequestHelper.hasCollectState(mContext, businessId, businessType, new OnHttpCallBack<HasCollectModel>() {
             @Override
             public void onSuccessful(HasCollectModel hasCollectModel) {
@@ -1098,7 +1122,7 @@ private float star;
     /**
      * 点击收藏
      */
-    private void clickCollection(int businessId, byte businessType, byte type) {
+    private void clickCollection(int businessId, int businessType, byte type) {
         ClickCollectionAPI.requestData(mContext, businessId, businessType, type)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -1163,6 +1187,8 @@ private float star;
                                     EventBus.getDefault().post(new ReduceNumEvent());
                                     ToastUtil.showSuccessMsg(mContext,cartAddModel.getData().getMessage());
                                 }
+
+                                getCartNumber();
                                 getCartNum();
                                 setAnim(mTvAddCar);
 
@@ -1173,37 +1199,6 @@ private float star;
                     }
                 });
     }
-//    private void addCart() {
-//        AddCartAPI.requestData(mContext,businessType,productId,amount)
-////        AddCartAPI.requestData(mContext, productId, null, businessType, String.valueOf(amount))
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Subscriber<AddCartModel>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(AddCartModel addCartModel) {
-//                        if (addCartModel.success) {
-//                            AppHelper.showMsg(mContext, "成功加入购物车");
-//                            getCartNum();
-//                            setAnim(mTvAddCar);
-//                        } else {
-//                            AppHelper.showMsg(mContext, addCartModel.message);
-//                        }
-//
-//                    }
-//                });
-//
-//    }
-
 
     public void returnBitMap(String src) {
         MyHandler myHandler = new MyHandler();
@@ -1422,6 +1417,7 @@ private float star;
                         mTvAmount.setTextColor(Color.parseColor("#A7A7A7"));
                         mTvFee.setVisibility(View.GONE);
                     }
+
                 } else {
                     AppHelper.showMsg(mContext, getCartNumModel.getMessage());
                 }

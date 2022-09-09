@@ -63,6 +63,7 @@ import com.puyue.www.qiaoge.dialog.ChooseDialog;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
 import com.puyue.www.qiaoge.dialog.ProductDescDialog;
 import com.puyue.www.qiaoge.dialog.PromoteDialog;
+import com.puyue.www.qiaoge.event.GetProductNumModel;
 import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.event.RefreshVideoEvent;
@@ -154,7 +155,6 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
     private int pageNum = 1;
     private int pageSize = 10;
     private byte businessType = 1;
-    private boolean isCollection = false;
     private List<ChoiceSpecModel> account = new ArrayList<>();
     private String cell;
     //用户评论
@@ -253,6 +253,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
     String priceType;
     private GetProductDetailModel models;
     RelativeLayout ll_desc;
+    List<String> quarterPic;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         if (getIntent() != null && getIntent().getExtras() != null) {
@@ -423,10 +424,8 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext,QuarActivity.class);
-                List<String> quarterPic = models.getData().getQuarterPic();
                 intent.putExtra("quar",(Serializable) quarterPic);
                 startActivity(intent);
-
             }
         });
 
@@ -651,6 +650,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
                             }
 
                             if(models.getData().getQuarterPic()!=null&&models.getData().getQuarterPic().size()>0) {
+                                quarterPic = model.getData().getQuarterPic();
                                 rl_check.setVisibility(View.VISIBLE);
                             }else {
                                 rl_check.setVisibility(View.GONE);
@@ -882,6 +882,9 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
                                     rl_check.setVisibility(View.GONE);
                                 }
 
+                                if(data.getQuarterPic()!=null && data.getQuarterPic().size()>0) {
+                                    List<String> quarterPic = data.getQuarterPic();
+                                }
 
                                 images.clear();
                                 picVideo.clear();
@@ -945,6 +948,8 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
                     }
                 });
     }
+
+
 
     //banner数据
     private void fitBanner(GetProductDetailModel model) {
@@ -1127,7 +1132,6 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
      * 推荐
      **/
     private void getProductList() {
-
         RecommendApI.getLikeList(mContext,productId+"")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -1455,6 +1459,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
             case R.id.ll_team_active:
                 Intent intent2 = new Intent(mActivity,SpecialGoodDetailActivity.class);
                 intent2.putExtra("num","-1");
+                intent2.putExtra("businessType",3);
                 intent2.putExtra("priceType", SharedPreferencesUtil.getString(mContext,"priceType"));
                 intent2.putExtra("activeId",Integer.parseInt(teamId));
                 startActivity(intent2);

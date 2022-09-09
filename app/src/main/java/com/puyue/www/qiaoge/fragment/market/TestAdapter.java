@@ -155,6 +155,7 @@ public class TestAdapter extends BaseQuickAdapter<CartsListModel.DataBean.ValidL
                 }else if (item.getBusinessType() == 3) {
 //                        //活动,团购详情
                     Intent intent = new Intent(mContext, SpecialGoodDetailActivity.class);
+                    intent.putExtra("businessType",3);
                     intent.putExtra("priceType", SharedPreferencesUtil.getString(mContext,"priceType"));
                     intent.putExtra(AppConstant.ACTIVEID, item.getBusinessId());
                     mContext.startActivity(intent);

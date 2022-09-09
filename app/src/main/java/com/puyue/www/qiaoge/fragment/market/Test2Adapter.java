@@ -137,6 +137,7 @@ public class Test2Adapter extends BaseQuickAdapter<CartsListModel.DataBean.Valid
                     Intent intent = new Intent(mContext, SpecialGoodDetailActivity.class);
                     intent.putExtra("priceType", SharedPreferencesUtil.getString(mContext,"priceType"));
                     intent.putExtra(AppConstant.ACTIVEID, item.getBusinessId());
+                    intent.putExtra("businessType",3);
                     mContext.startActivity(intent);
 
                 }else if (item.getBusinessType() == 11) {

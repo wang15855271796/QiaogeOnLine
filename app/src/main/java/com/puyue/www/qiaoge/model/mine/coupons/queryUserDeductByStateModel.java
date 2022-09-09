@@ -197,6 +197,15 @@ public class queryUserDeductByStateModel{
             private List<String> role;
             private String giftProdUseType;
             private String giftFlag;
+            private List<String> giftUseRole;
+
+            public List<String> getGiftUseRole() {
+                return giftUseRole;
+            }
+
+            public void setGiftUseRole(List<String> giftUseRole) {
+                this.giftUseRole = giftUseRole;
+            }
 
             @Override
             public String toString() {

@@ -23,10 +23,10 @@ public class GetAllCommentListByPageAPI {
     private interface GetAllCommentListByPageService {
         @FormUrlEncoded
         @POST(AppInterfaceAddress.GETALLCOMMENTLISTBYPAGE)
-        Observable<GetAllCommentListByPageModel> getData(@Field("pageNum") int pageNum, @Field("pageSize") int pageSize, @Field("businessId") int businessId, @Field("businessType") byte businessType);
+        Observable<GetAllCommentListByPageModel> getData(@Field("pageNum") int pageNum, @Field("pageSize") int pageSize, @Field("businessId") int businessId, @Field("businessType") int businessType);
     }
 
-    public static Observable<GetAllCommentListByPageModel> requestData(Context context, int pageNum, int pageSize, int businessId, byte businessType) {
+    public static Observable<GetAllCommentListByPageModel> requestData(Context context, int pageNum, int pageSize, int businessId, int businessType) {
         GetAllCommentListByPageService service = RestHelper.getBaseRetrofit(context).create(GetAllCommentListByPageService.class);
         return service.getData(pageNum, pageSize, businessId, businessType);
     }

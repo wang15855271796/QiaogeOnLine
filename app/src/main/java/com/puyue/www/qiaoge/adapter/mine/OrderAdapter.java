@@ -202,11 +202,13 @@ public class OrderAdapter extends BaseQuickAdapter<GetOrderDetailModel.DataBean.
                                     intent.putExtra(AppConstant.ACTIVEID,productId);
                                     intent.putExtra("priceType", SharedPreferencesUtil.getString(mContext,"priceType"));
                                     intent.putExtra("num",jumpModel.getData());
+                                    intent.putExtra("businessType",businessType);
                                     mContext.startActivity(intent);
                                 }else {
                                     Intent intent = new Intent(mContext, SpecialGoodDetailActivity.class);
                                     intent.putExtra(AppConstant.ACTIVEID,productId);
                                     intent.putExtra("num",jumpModel.getData());
+                                    intent.putExtra("businessType",businessType);
                                     intent.putExtra("priceType", SharedPreferencesUtil.getString(mContext,"priceType"));
                                     intent.putExtra("city",jumpModel.getMessage());
                                     mContext.startActivity(intent);

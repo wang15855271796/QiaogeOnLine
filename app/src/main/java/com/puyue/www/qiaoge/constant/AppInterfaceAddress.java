@@ -6,7 +6,7 @@ package com.puyue.www.qiaoge.constant;
 public class AppInterfaceAddress {
     //https://shaokao.qoger.com/qiaoge/正式   http://192.168.2.188:8082/qiaoge/
     //http://116.62.67.230:8082/qiaoge/   测试http://120.55.55.99:8082/qiaoge/
-    public static final String BASE_URL = "https://shaokao.qoger.com/qiaoge/";
+    public static final String BASE_URL = "http://192.168.2.188:8082/qiaoge/";
     // 正式https://shaokao.qoger.com/qiaoge/
     //http://192.168.1.45/   本地192.168.101.69:8088
     //http://qg.zhiyun88u.com/shen
@@ -550,6 +550,11 @@ public class AppInterfaceAddress {
     public static final String Get_Area = "address/searchAddressByKeyword";
     public static final String MESSAGE_CENTER = "notice/getNoticeInfoVOPage";
     public static final String MESSAGE_DETAIL = "notice/getNoticeInfoDetail";
+
+    /**
+     *
+     */
+    public static final String Get_Cart_Num = "cart/getGoodsCartNum";
 
     public static final String GETPRODUCTDETAIL = "common/querySpecProductDetail";
     /**

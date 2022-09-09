@@ -71,13 +71,13 @@ public class SpikeActiveNewAdapter extends RecyclerView.Adapter<SpikeActiveNewAd
         }
 
         if (selectPosition == position) {
-            holder.tv_time.setAlpha(1.0f);
+//            holder.tv_time.setAlpha(1.0f);
             holder.tv_desc.setAlpha(1.0f);
             holder.tv_desc.setTextColor(Color.parseColor("#FF2925"));
             holder.tv_desc.setBackgroundResource(R.drawable.shape_white3);
             holder.tv_desc.setPadding(8,7,8,7);
         } else {
-            holder.tv_time.setAlpha(0.7f);
+//            holder.tv_time.setAlpha(0.7f);
             holder.tv_desc.setAlpha(0.7f);
             holder.tv_desc.setBackgroundResource(R.color.transparent);
             holder.tv_desc.setTextColor(Color.parseColor("#ffffff"));
@@ -92,7 +92,7 @@ public class SpikeActiveNewAdapter extends RecyclerView.Adapter<SpikeActiveNewAd
             });
         }
 
-        holder.tv_time.setText(data.get(position).getDateTime());
+        holder.tv_title.setText(data.get(position).getTitle());
         holder.tv_desc.setText(data.get(position).getTimeDesc());
     }
 
@@ -111,10 +111,10 @@ public class SpikeActiveNewAdapter extends RecyclerView.Adapter<SpikeActiveNewAd
         public TextView tv_desc;
         public LinearLayout linearLayoutNewSpike;
         Snap snap;
-        TextView tv_time;
+        TextView tv_title;
         public MarketViewHolder(View itemView) {
             super(itemView);
-            tv_time = ((TextView) itemView.findViewById(R.id.tv_time));
+            tv_title = ((TextView) itemView.findViewById(R.id.tv_title));
             snap = ((Snap) itemView.findViewById(R.id.snap));
             tv_desc = ((TextView) itemView.findViewById(R.id.tv_desc));
             linearLayoutNewSpike = ((LinearLayout) itemView.findViewById(R.id.linearLayout_spike_new));

@@ -100,6 +100,15 @@ public class FullCouponListModel {
         private Object giftArea;
         private Object giftFlag;
         private List<String> role;
+        private List<String> giftUseRole;
+
+        public List<String> getGiftUseRole() {
+            return giftUseRole;
+        }
+
+        public void setGiftUseRole(List<String> giftUseRole) {
+            this.giftUseRole = giftUseRole;
+        }
 
         public String getGiftName() {
             return giftName;

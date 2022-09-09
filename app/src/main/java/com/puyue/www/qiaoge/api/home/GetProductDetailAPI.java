@@ -3,6 +3,7 @@ package com.puyue.www.qiaoge.api.home;
 import android.content.Context;
 
 import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
+import com.puyue.www.qiaoge.event.GetProductNumModel;
 import com.puyue.www.qiaoge.helper.RestHelper;
 import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
 import com.puyue.www.qiaoge.model.home.GetProductDetailModel;
@@ -51,5 +52,17 @@ public class GetProductDetailAPI {
     public static Observable<GetProductDetailModel> requestDatas(Context context, int productMainId) {
         GetProductDetailServicse service = RestHelper.getBaseRetrofit(context).create(GetProductDetailServicse.class);
         return service.getData(productMainId);
+    }
+
+    private interface GetCartNumServicse {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Get_Cart_Num)
+        Observable<GetProductNumModel> getData(@Field("businessType") int businessType,
+                                               @Field("businessId") int businessId);
+    }
+
+    public static Observable<GetProductNumModel> getCartNum(Context context, int businessType,int businessId) {
+        GetCartNumServicse service = RestHelper.getBaseRetrofit(context).create(GetCartNumServicse.class);
+        return service.getData(businessType,businessId);
     }
 }

@@ -45,6 +45,15 @@ public class UserChooseDeductModel extends BaseModel {
         String useInfo;
         String giftProdUseType;
         String reason;
+        private List<String> giftUseRole;
+
+        public List<String> getGiftUseRole() {
+            return giftUseRole;
+        }
+
+        public void setGiftUseRole(List<String> giftUseRole) {
+            this.giftUseRole = giftUseRole;
+        }
 
         public String getReason() {
             return reason;

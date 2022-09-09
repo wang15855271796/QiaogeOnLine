@@ -15,7 +15,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_time"
+            android:id="@+id/tv_title"
             android:text="2020.12.3"
             android:textColor="#ffffff"
             android:textSize="@dimen/sp_14"

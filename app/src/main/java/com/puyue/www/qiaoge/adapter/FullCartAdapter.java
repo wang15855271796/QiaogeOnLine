@@ -69,17 +69,6 @@ public class FullCartAdapter extends BaseQuickAdapter<CartFullsModel.DataBean.De
         rv_coupon.setAdapter(couponsAdapter);
         rv_coupon.setLayoutManager(new LinearLayoutManager(mContext));
 
-//        if(item.getType()==0) {
-//            //商品
-//            recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-//            FullCartsAdapter fullCartsAdapter = new FullCartsAdapter(R.layout.item_fulls_cart,data);
-//            recyclerView.setAdapter(fullCartsAdapter);
-//        }else {
-//            //优惠券
-//            CartCouponsAdapter couponsAdapter = new CartCouponsAdapter(R.layout.item_cart_coupon,data);
-//            rv_coupon.setAdapter(couponsAdapter);
-//            rv_coupon.setLayoutManager(new LinearLayoutManager(mContext));
-//        }
 
     }
 }

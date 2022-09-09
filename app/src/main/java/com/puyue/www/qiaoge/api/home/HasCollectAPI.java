@@ -22,10 +22,10 @@ public class HasCollectAPI {
     private interface HasCollectService {
         @FormUrlEncoded
         @POST(AppInterfaceAddress.HASCOLLECT)
-        Observable<HasCollectModel> getData(@Field("businessId") int businessId, @Field("businessType") byte businessType);
+        Observable<HasCollectModel> getData(@Field("businessId") int businessId, @Field("businessType") int businessType);
     }
 
-    public static Observable<HasCollectModel> requestData(Context context, int businessId, byte businessType) {
+    public static Observable<HasCollectModel> requestData(Context context, int businessId, int businessType) {
         HasCollectService service = RestHelper.getBaseRetrofit(context).create(HasCollectService.class);
         return service.getData(businessId, businessType);
     }

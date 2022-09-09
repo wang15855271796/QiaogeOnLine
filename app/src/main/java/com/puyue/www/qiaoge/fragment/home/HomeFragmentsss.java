@@ -57,7 +57,6 @@ import com.puyue.www.qiaoge.activity.mine.order.MyOrdersActivity;
 import com.puyue.www.qiaoge.activity.mine.wallet.MinerIntegralActivity;
 import com.puyue.www.qiaoge.activity.mine.wallet.MyWalletNewActivity;
 
-import com.puyue.www.qiaoge.adapter.CommonCouponAdapter;
 import com.puyue.www.qiaoge.adapter.CommonsAdapter;
 import com.puyue.www.qiaoge.adapter.CommonssAdapter;
 import com.puyue.www.qiaoge.adapter.CouponListAdapter;
@@ -70,7 +69,6 @@ import com.puyue.www.qiaoge.adapter.Skill3Adapter;
 import com.puyue.www.qiaoge.adapter.Skill5Adapter;
 import com.puyue.www.qiaoge.adapter.Team3Adapter;
 import com.puyue.www.qiaoge.adapter.TeamAdapter;
-import com.puyue.www.qiaoge.adapter.home.CommonAdapter;
 import com.puyue.www.qiaoge.adapter.home.CommonProductActivity;
 import com.puyue.www.qiaoge.adapter.home.HotProductActivity;
 import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
@@ -368,9 +366,6 @@ public class HomeFragmentsss extends BaseFragment implements View.OnClickListene
     private String questUrl;
     private CouponModel.DataBean data1;
     private int showType;
-    private CommonCouponAdapter commonCouponAdapter;
-    private CommonsAdapter commonsAdapter;
-    private CommonAdapter commonAdapter;
     private List<CouponModel.DataBean.ActivesBean> actives = new ArrayList<>();
     private List<CouponModel.DataBean.ActivesBean> skillActive3 = new ArrayList<>();
     private List<CouponModel.DataBean.ActivesBean> skillActive2 = new ArrayList<>();

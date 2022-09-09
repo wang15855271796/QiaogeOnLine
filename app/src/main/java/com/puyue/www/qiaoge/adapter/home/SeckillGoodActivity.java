@@ -52,6 +52,7 @@ import com.puyue.www.qiaoge.api.cart.AddCartAPI;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.ClickCollectionAPI;
 import com.puyue.www.qiaoge.api.home.GetAllCommentListByPageAPI;
+import com.puyue.www.qiaoge.api.home.GetProductDetailAPI;
 import com.puyue.www.qiaoge.api.home.GetRegisterShopAPI;
 import com.puyue.www.qiaoge.api.home.GetSpecialDetailAPI;
 import com.puyue.www.qiaoge.api.home.SpikeActiveQueryAPI;
@@ -66,6 +67,7 @@ import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
+import com.puyue.www.qiaoge.event.GetProductNumModel;
 import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.fragment.cart.ChangeStatEvent;
@@ -146,7 +148,7 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
     ProgressBar pb;
     private int pageNum = 1;
     private int pageSize = 10;
-    private byte businessType = 11;
+    private byte businessType = 2;
     private boolean isCollection = false;
     private int amount = 0;
     private Date currents;
@@ -402,6 +404,7 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
 
 
         }
+        getCartNumber();
         getCustomerPhone();
         getAllCommentList(pageNum, pageSize, productId, businessType);
 
@@ -663,7 +666,6 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
                             if(model.getData().getNotSend()!=null&&!model.getData().getNotSend().equals("")) {
                                 Glide.with(mContext).load(model.getData().getSelfOrNot()).into(iv_operate);
                             }
-                            tv_num.setText(model.getData().getCartNum());
                             if(model.getData().getLimitNum()!=null&&!model.getData().getLimitNum().equals("")) {
                                 tv_limit_num.setText(model.getData().getLimitNum());
                                 tv_limit_num.setBackgroundResource(R.drawable.shape_white);
@@ -848,6 +850,35 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
                     }
                 });
     }
+
+    private void getCartNumber() {
+        GetProductDetailAPI.getCartNum(mContext,businessType,productId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GetProductNumModel>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(GetProductNumModel getProductNumModel) {
+                        if(getProductNumModel.getCode()==1) {
+                            String data = getProductNumModel.getData();
+
+                            tv_num.setText("购物车数量:"+data);
+                        }else {
+                            ToastUtil.showErroMsg(mContext,getProductNumModel.getMessage());
+                        }
+                    }
+                });
+    }
+
 
 
     /**
@@ -1036,7 +1067,7 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
     /**
      * 获取收藏状态
      */
-    private void hasCollectState(int businessId, byte businessType) {
+    private void hasCollectState(int businessId, int businessType) {
         PublicRequestHelper.hasCollectState(mContext, businessId, businessType, new OnHttpCallBack<HasCollectModel>() {
             @Override
             public void onSuccessful(HasCollectModel hasCollectModel) {
@@ -1128,6 +1159,8 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
                                     EventBus.getDefault().post(new ReduceNumEvent());
                                     ToastUtil.showSuccessMsg(mContext,cartAddModel.getData().getMessage());
                                 }
+
+                                getCartNumber();
                                 getCartNum();
                                 setAnim(mTvAddCar);
 
@@ -1138,36 +1171,6 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
                     }
                 });
     }
-//    private void addCar() {
-//            AddCartAPI.requestData(mContext,businessType,productId,amount)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Subscriber<AddCartModel>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(AddCartModel addCartModel) {
-//                        if (addCartModel.success) {
-//                            AppHelper.showMsg(mContext, "成功加入购物车");
-//                            getCartNum();
-//                            setAnim(mTvAddCar);
-//                        } else {
-//                            AppHelper.showMsg(mContext, addCartModel.message);
-//                        }
-//
-//                    }
-//                });
-//
-//    }
-
 
     public void returnBitMap(String src) {
         MyHandler myHandler = new MyHandler();

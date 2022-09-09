@@ -8,32 +8,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.frankfancode.marqueeview.MarqueeView;
 import com.google.android.material.appbar.AppBarLayout;
 
-import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.content.ContextCompat;
-import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
-import android.os.Handler;
-import android.text.SpannableString;
-import android.text.Spanned;
+import android.os.CountDownTimer;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -45,7 +34,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 //import io.reactivex.Observable;
@@ -55,24 +43,20 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.example.xrecyclerview.DensityUtil;
-import com.puyue.www.qiaoge.AutoPollRecyclerView;
 import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.BannerActivity;
 import com.puyue.www.qiaoge.activity.ChooseCompanyActivity;
 import com.puyue.www.qiaoge.activity.CommonH6Activity;
-import com.puyue.www.qiaoge.activity.FullListActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.HuoHomeActivity;
-import com.puyue.www.qiaoge.activity.TestActivity;
 import com.puyue.www.qiaoge.activity.TopEvent;
+import com.puyue.www.qiaoge.activity.cart.TestActivity;
 import com.puyue.www.qiaoge.activity.home.ChangeCityActivity;
 import com.puyue.www.qiaoge.activity.home.ChooseAddressActivity;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.activity.home.CouponDetailActivity;
-import com.puyue.www.qiaoge.activity.home.FullGiftActivity;
 import com.puyue.www.qiaoge.activity.home.HomeGoodsListActivity;
 import com.puyue.www.qiaoge.activity.home.SearchReasultActivity;
 import com.puyue.www.qiaoge.activity.home.SearchStartActivity;
@@ -88,26 +72,14 @@ import com.puyue.www.qiaoge.activity.mine.order.NewOrderDetailActivity;
 import com.puyue.www.qiaoge.activity.mine.wallet.MinerIntegralActivity;
 import com.puyue.www.qiaoge.activity.mine.wallet.MyWalletNewActivity;
 
-import com.puyue.www.qiaoge.adapter.CommonCouponAdapter;
-import com.puyue.www.qiaoge.adapter.CommonsAdapter;
-import com.puyue.www.qiaoge.adapter.CommonssAdapter;
-import com.puyue.www.qiaoge.adapter.CouponListAdapter;
-import com.puyue.www.qiaoge.adapter.FullAdapter;
 import com.puyue.www.qiaoge.adapter.HotAdapter;
 import com.puyue.www.qiaoge.adapter.IndexRecommendAdapter;
 import com.puyue.www.qiaoge.adapter.MarqueeAdapter;
 import com.puyue.www.qiaoge.adapter.OrderMarqueeAdapter;
-import com.puyue.www.qiaoge.adapter.Skill2Adapter;
-import com.puyue.www.qiaoge.adapter.Skill3Adapter;
-import com.puyue.www.qiaoge.adapter.Skill5Adapter;
-import com.puyue.www.qiaoge.adapter.Team3Adapter;
-import com.puyue.www.qiaoge.adapter.TeamAdapter;
-import com.puyue.www.qiaoge.adapter.Test3Adapter;
 import com.puyue.www.qiaoge.adapter.VpDiscountAdapter;
 import com.puyue.www.qiaoge.adapter.VpFullAdapter;
 import com.puyue.www.qiaoge.adapter.VpSkillAdapter;
 import com.puyue.www.qiaoge.adapter.VpTeamAdapter;
-import com.puyue.www.qiaoge.adapter.home.CommonAdapter;
 import com.puyue.www.qiaoge.adapter.home.CommonProductActivity;
 import com.puyue.www.qiaoge.adapter.home.HotProductActivity;
 import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
@@ -133,26 +105,15 @@ import com.puyue.www.qiaoge.dialog.CouponListDialog;
 import com.puyue.www.qiaoge.dialog.HomeActivityDialog;
 import com.puyue.www.qiaoge.dialog.HuoOrderDialog;
 import com.puyue.www.qiaoge.dialog.Privacy4Dialog;
-import com.puyue.www.qiaoge.dialog.PrivacyDialog;
-import com.puyue.www.qiaoge.dialog.PrivacysDialog;
 import com.puyue.www.qiaoge.dialog.TurnTableDialog;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.BackEvent;
 import com.puyue.www.qiaoge.event.CouponListModel;
 import com.puyue.www.qiaoge.event.FromIndexEvent;
 import com.puyue.www.qiaoge.event.GoToMarketEvent;
-import com.puyue.www.qiaoge.event.IsTurnModel;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.event.PrivacyModel;
 import com.puyue.www.qiaoge.event.TurnModel;
-import com.puyue.www.qiaoge.event.UpDateNumEvent0;
-import com.puyue.www.qiaoge.event.UpDateNumEvent1;
-import com.puyue.www.qiaoge.event.UpDateNumEvent10;
-import com.puyue.www.qiaoge.event.UpDateNumEvent2;
-import com.puyue.www.qiaoge.event.UpDateNumEvent3;
-import com.puyue.www.qiaoge.event.UpDateNumEvent7;
-import com.puyue.www.qiaoge.event.UpDateNumEvent8;
-import com.puyue.www.qiaoge.event.UpNumEvent;
 import com.puyue.www.qiaoge.event.changeEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.PublicRequestHelper;
@@ -163,13 +124,9 @@ import com.puyue.www.qiaoge.model.CouponModels;
 import com.puyue.www.qiaoge.model.IsAuthModel;
 import com.puyue.www.qiaoge.model.IsShowModel;
 import com.puyue.www.qiaoge.model.OrderModel;
-import com.puyue.www.qiaoge.model.SendModel;
 import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
-import com.puyue.www.qiaoge.model.home.CouponModel;
 import com.puyue.www.qiaoge.model.home.GetCustomerPhoneModel;
-import com.puyue.www.qiaoge.model.home.HomeNewRecommendModel;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
-import com.puyue.www.qiaoge.model.home.RecommendModel;
 import com.puyue.www.qiaoge.model.mine.UpdateModel;
 import com.puyue.www.qiaoge.model.mine.order.HomeBaseModel;
 import com.puyue.www.qiaoge.model.mine.order.MyOrderNumModel;
@@ -179,35 +136,21 @@ import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.Time;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 
-import com.puyue.www.qiaoge.utils.Utils;
-import com.puyue.www.qiaoge.view.AutoScrollManger;
-import com.puyue.www.qiaoge.view.AutoScrollRecyclerView;
+import com.puyue.www.qiaoge.view.CustomAppbarLayout;
 import com.puyue.www.qiaoge.view.HIndicators;
-import com.puyue.www.qiaoge.view.MyCompanyScrollView;
 import com.puyue.www.qiaoge.view.ScrollSpeedLinearLayoutManger;
-import com.puyue.www.qiaoge.view.Snap;
 import com.puyue.www.qiaoge.view.SnapUpCountDownTimerView3;
-import com.puyue.www.qiaoge.view.SnapUpCountDownTimerViewss;
-import com.puyue.www.qiaoge.view.selectmenu.MyScrollView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.taobao.library.VerticalBannerView;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Timer;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -320,13 +263,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     @BindView(R.id.rv_hot)
     RecyclerView rv_hot;
     @BindView(R.id.appbar)
-    AppBarLayout appbar;
+    CustomAppbarLayout appbar;
     @BindView(R.id.ll_scroll)
     LinearLayout ll_scroll;
     @BindView(R.id.iv_tip)
     ImageView iv_tip;
     @BindView(R.id.rl_grand)
     RelativeLayout rl_grand;
+    @BindView(R.id.rl_content)
+    RelativeLayout rl_content;
     @BindView(R.id.ll_parent)
     RelativeLayout ll_parent;
     @BindView(R.id.rl_inSide)
@@ -461,13 +406,43 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     private TurnTableDialog turnTableDialog;
     private HomeActivityDialog homeActivityDialog;
     int topHeight;
+
+    //静止状态
+    private final static int SCROLL_STATE_IDLE = 1;
+    //拖动或者惯性滑动状态
+    private final static int SCROLL_STATE_SCROLL = 2;
+
+    //判断是否是拖动状态
+    boolean isDragState = false;
+
+    int currentState = SCROLL_STATE_IDLE;
+
+    private CountDownTimer scrollCountTimer = new CountDownTimer(2000, 1) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+
+        }
+
+        @Override
+        public void onFinish() {
+            setScrollState(SCROLL_STATE_IDLE);
+        }
+    };
+
     @Override
     public int setLayoutId() {
         return R.layout.test10;
     }
 
+    private void setScrollState(int scrollStateScroll) {
+        if(scrollStateScroll == 1) {
+            ll_coupon.setVisibility(View.VISIBLE);
+        }else {
+            ll_coupon.setVisibility(View.GONE);
+        }
+    }
 
-    int length = 0;
+    int scroll = 0;
     @Override
     public void findViewById(View view) {
         bind = ButterKnife.bind(this, view);
@@ -477,10 +452,18 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             EventBus.getDefault().register(this);
         }
 
+        setScrollState(SCROLL_STATE_IDLE);
+
+//        fl_container.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+//            @Override
+//            public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+//                Log.d("wdasdwedwd.......",i1+"---");
+//            }
+//        });
         rl_grand.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                ll_scroll.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                rl_grand.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
                 int bar_height = rl_bar.getHeight();
                 int scroll_height = ll_scroll.getHeight();
@@ -506,16 +489,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                     @Override
                     public void onOffsetChanged(AppBarLayout appBarLayout, int y) {
                         int abs = Math.abs(y);
-                        if(abs== length) {
-                            ll_coupon.setVisibility(View.VISIBLE);
-                        }else {
-                            ll_coupon.setVisibility(View.GONE);
-                        }
-                        length = abs;
-                        int abs_y = Math.abs(y);
                         int totalScrollRange = appBarLayout.getTotalScrollRange()-bar_height;
-
-                        if (Math.abs(abs_y)>=totalScrollRange) {
+                        if (abs>=totalScrollRange) {
                             ll_parent_top.setVisibility(View.VISIBLE);
                             ll_small_title.setVisibility(View.GONE);
                             ll_line.setVisibility(View.VISIBLE);
@@ -594,10 +569,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
 
                         //滑动距离小于顶部栏从透明到不透明所需的距离
-                        if ((scrollLength - abs_y) > 0) {
+                        if ((scrollLength - abs) > 0) {
                             //估值器
                             IntEvaluator evaluator = new IntEvaluator();
-                            float percent = (float) (scrollLength - abs_y) / scrollLength;
+                            float percent = (float) (scrollLength - abs) / scrollLength;
 
                             if (percent <= 1) {
                                 //透明度
@@ -650,6 +625,23 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                                 homeMessage.setImageResource(R.mipmap.iv_message1);
                             }
                         }
+
+
+                        if(scroll != abs) {
+                            if (isDragState) {//拖动状态单独处理不再进行滚动状态监测
+                                return;
+                            }
+                            //滑动时先取消倒计时，设置滑动状态
+                            scrollCountTimer.cancel();
+                            if(currentState != SCROLL_STATE_SCROLL) {
+                                setScrollState(SCROLL_STATE_SCROLL);
+                            }
+//                            isDragState = false;
+                            scrollCountTimer.start();
+                        }else {
+//                            isDragState = true;
+                        }
+                        scroll = abs;
                     }
                 });
 
@@ -2260,30 +2252,19 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         final AlertDialog mDialog = new AlertDialog.Builder(getContext()).create();
         mDialog.show();
         mDialog.getWindow().setContentView(R.layout.update_dialog);
-        Button mBtnForceUpdate = (Button) mDialog.getWindow().findViewById(R.id.btnForceUpdate);
-        Button mBtnCancel = (Button) mDialog.getWindow().findViewById(R.id.btnCancel);
-        Button mBtnOK = (Button) mDialog.getWindow().findViewById(R.id.btnOK);
-        LinearLayout mLlButton = (LinearLayout) mDialog.getWindow().findViewById(R.id.llButton);
-        TextView mTvContent = (TextView) mDialog.getWindow().findViewById(R.id.tvContent);
+        ImageView iv_cancel = (ImageView) mDialog.getWindow().findViewById(R.id.iv_cancel);
+        TextView tv_update = (TextView) mDialog.getWindow().findViewById(R.id.tv_update);
+        TextView tv_content = (TextView) mDialog.getWindow().findViewById(R.id.tv_content);
 
-        mTvContent.setText(content);
-        if (forceUpdate) {
-            mDialog.setCancelable(false);
-            mLlButton.setVisibility(View.GONE);
-            mBtnForceUpdate.setVisibility(View.VISIBLE);
-        } else {
-            mDialog.setCancelable(true);
-            mLlButton.setVisibility(View.VISIBLE);
-            mBtnForceUpdate.setVisibility(View.GONE);
-        }
-        mBtnCancel.setOnClickListener(new View.OnClickListener() {
+        tv_content.setText(content);
+        iv_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mDialog.dismiss();
             }
         });
 
-        mBtnOK.setOnClickListener(new View.OnClickListener() {
+        tv_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 下载
@@ -2299,26 +2280,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 mDialog.dismiss();
             }
         });
-        mBtnForceUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 下载
-                try {
-                    Intent intent = new Intent();
-                    intent.setAction("android.intent.action.VIEW");
-                    Uri content_url = Uri.parse(url.contains("http://") ? ("http://" + url) : url);
-                    intent.setData(content_url);
-                    startActivity(intent);
-                } catch (Exception e) {
-                }
-                mDialog.dismiss();
-            }
-        });
     }
-
-
-
-
 
     @Override
     public void onClick(View v) {

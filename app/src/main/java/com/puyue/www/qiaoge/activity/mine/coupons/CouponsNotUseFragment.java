@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.adapter.RoleAdapter;
 import com.puyue.www.qiaoge.adapter.coupon.MyCouponsAdapter;
 import com.puyue.www.qiaoge.api.mine.coupon.MyCouponsAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
@@ -37,13 +38,14 @@ import rx.schedulers.Schedulers;
 public class CouponsNotUseFragment extends BaseFragment {
     private RecyclerView recyclerView;
     private PtrClassicFrameLayout ptrClassicFrameLayout ;
-    private MyCouponsAdapter adapter;
+    private RoleAdapter roleAdapter;
     private int pageNum = 1;
     private LinearLayout data;
     private  LinearLayout noData;
+    private RecyclerView rv_role;
     TextView tv_desc;
+    MyCouponsAdapter adapter;
     private List<queryUserDeductByStateModel.DataBean.ListBean > lists =new ArrayList<>();
-
 
     @Override
     public int setLayoutId() {
@@ -64,6 +66,7 @@ public class CouponsNotUseFragment extends BaseFragment {
     @Override
     public void findViewById(View view) {
         EventBus.getDefault().register(this);
+        rv_role = view.findViewById(R.id.rv_role);
         tv_desc = view.findViewById(R.id.tv_desc);
         recyclerView=view.findViewById(R.id.recyclerView);
         data= view .findViewById(R.id.data);
@@ -71,12 +74,6 @@ public class CouponsNotUseFragment extends BaseFragment {
         ptrClassicFrameLayout=view.findViewById(R.id.ptrClassicFrameLayout);
 
 
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-//        ptrClassicFrameLayout.autoRefresh();
     }
 
     @Override
@@ -98,6 +95,9 @@ public class CouponsNotUseFragment extends BaseFragment {
             }
         });
 
+//        rv_role.setLayoutManager(new LinearLayoutManager(mActivity));
+//        roleAdapter = new RoleAdapter(R.layout.item_text1,lists);
+//        rv_role.setAdapter(adapter);
         adapter = new MyCouponsAdapter(R.layout.item_my_coupons,lists,getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

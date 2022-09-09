@@ -4,18 +4,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.example.xrecyclerview.DensityUtil;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.home.ChooseAddressActivity;
 import com.puyue.www.qiaoge.activity.mine.login.CouponSearchActivity;
+import com.puyue.www.qiaoge.adapter.RoleAdapter;
 import com.puyue.www.qiaoge.dialog.CouponChangeDialog;
 import com.puyue.www.qiaoge.event.GoToMarketEvent;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
@@ -43,7 +49,7 @@ public class MyCouponsAdapter  extends BaseQuickAdapter <queryUserDeductByStateM
     TextView tv_tip;
     TextView tv_use;
     TextView tv_coupon_style;
-
+    boolean isOpen;
     public MyCouponsAdapter(int layoutResId, @Nullable List<queryUserDeductByStateModel.DataBean.ListBean> data,Context context) {
         super(layoutResId, data);
         list=data;
@@ -63,7 +69,8 @@ public class MyCouponsAdapter  extends BaseQuickAdapter <queryUserDeductByStateM
         tv_amount=helper.getView(R.id.tv_amount);
         iv_status=helper.getView(R.id.iv_status);
         rl_grey = helper.getView(R.id.rl_grey);
-
+        ImageView iv_arrow = helper.getView(R.id.iv_arrow);
+        RecyclerView rv_role = helper.getView(R.id.rv_role);
         if(!TextUtils.isEmpty(item.getGiftFlag())) {
             tv_coupon_style.setText(item.getGiftFlag());
             tv_coupon_style.setVisibility(View.VISIBLE);
@@ -79,6 +86,34 @@ public class MyCouponsAdapter  extends BaseQuickAdapter <queryUserDeductByStateM
         }
         tv_style.setText(item.getGiftName());
         tv_use.setVisibility(View.VISIBLE);
+
+        rv_role.setLayoutManager(new LinearLayoutManager(mContext));
+        RoleAdapter roleAdapter = new RoleAdapter(R.layout.item_text1,item.getGiftUseRole());
+        rv_role.setAdapter(roleAdapter);
+
+        iv_arrow.setImageResource(R.mipmap.icon_arrow_down);
+        ViewGroup.LayoutParams lp = rv_role.getLayoutParams();
+
+
+        roleAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if(!isOpen) {
+                    iv_arrow.setImageResource(R.mipmap.icon_arrow_up);
+                    lp.height = DensityUtil.dip2px(RecyclerView.LayoutParams.WRAP_CONTENT,mContext);
+                }else {
+                    lp.height = DensityUtil.dip2px(15,mContext);
+                    iv_arrow.setImageResource(R.mipmap.icon_arrow_down);
+                }
+                rv_role.setLayoutParams(lp);
+                isOpen = !isOpen;
+            }
+        });
+
+        lp.height = DensityUtil.dip2px(15,mContext);
+        rv_role.setLayoutParams(lp);
+
+
         tv_use.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,11 +160,11 @@ public class MyCouponsAdapter  extends BaseQuickAdapter <queryUserDeductByStateM
 
         if (item.getRole().size()>0){
             tv_role.setText(item.getRole().get(0));
-            tv_role.setVisibility(View.VISIBLE);
+            tv_role.setVisibility(View.GONE);
 
         }else {
             tv_role.setText("");
-            tv_role.setVisibility(View.INVISIBLE);
+            tv_role.setVisibility(View.GONE);
         }
 
         if(item.getState().equals("ENABLED")){  // State== ENABLED   可用使用的优惠卷

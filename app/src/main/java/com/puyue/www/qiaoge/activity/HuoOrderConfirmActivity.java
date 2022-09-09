@@ -226,7 +226,7 @@ public class HuoOrderConfirmActivity extends BaseActivity implements View.OnClic
                     return;
                 }
 
-                if(tv_contact_phone.equals("")|| TextUtils.isEmpty(tv_contact_phone.getText().toString())) {
+                if(tv_contact_phone.getText().equals("")|| TextUtils.isEmpty(tv_contact_phone.getText().toString())) {
                     ToastUtil.showSuccessMsg(mContext,"请填写联系人电话");
                     lav_loading.hide();
                     return;

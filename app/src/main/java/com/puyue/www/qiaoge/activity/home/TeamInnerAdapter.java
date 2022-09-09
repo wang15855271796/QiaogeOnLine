@@ -98,6 +98,7 @@ public class TeamInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.Data
             public void onClick(View v) {
                 Intent intent = new Intent(mContext,SpecialGoodDetailActivity.class);
                 intent.putExtra(AppConstant.ACTIVEID,item.getActiveId());
+                intent.putExtra("businessType",3);
                 intent.putExtra("priceType",SharedPreferencesUtil.getString(mContext,"priceType"));
                 mContext.startActivity(intent);
             }

@@ -182,18 +182,8 @@ public class ChooseCouponsActivity extends BaseSwipeActivity {
                                 for (int i = 0; i < list.size(); i++) {
                                     if (model.getData().get(i).getGiftDetailNo().equals(giftDetailNo)) {
                                         model.getData().get(i).setFlags(true);
-                                        if(statModel) {
-//                                            iv_select_all.setBackgroundResource(R.mipmap.ic_pay_ok);
-                                        }else {
-//                                            iv_select_all.setBackgroundResource(R.mipmap.ic_pay_no);
-                                        }
                                     } else {
                                         model.getData().get(i).setFlags(false);
-                                        if(statModel) {
-//                                            iv_select_all.setBackgroundResource(R.mipmap.ic_pay_ok);
-                                        }else {
-//                                            iv_select_all.setBackgroundResource(R.mipmap.ic_pay_no);
-                                        }
                                     }
 
                                 }

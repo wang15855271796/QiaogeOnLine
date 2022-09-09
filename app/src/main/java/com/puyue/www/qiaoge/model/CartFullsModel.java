@@ -139,6 +139,15 @@ public class CartFullsModel {
                 private int productMainId;
                 private Integer giftProdUseType;
                 private String poolNo;
+                private List<String> giftUseRole;
+
+                public List<String> getGiftUseRole() {
+                    return giftUseRole;
+                }
+
+                public void setGiftUseRole(List<String> giftUseRole) {
+                    this.giftUseRole = giftUseRole;
+                }
 
                 public Integer getType() {
                     return type;

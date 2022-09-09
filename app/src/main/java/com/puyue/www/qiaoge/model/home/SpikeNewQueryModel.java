@@ -87,7 +87,15 @@ public class SpikeNewQueryModel {
         private long startTime;
         private long endTime;
         private int activeId;
+        private String title;
 
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
 
         public long getCurrentTime() {
             return currentTime;

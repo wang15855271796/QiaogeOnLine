@@ -22,10 +22,10 @@ public class ClickCollectionAPI {
     private interface ClickCollectionService {
         @FormUrlEncoded
         @POST(AppInterfaceAddress.CLICKCOLLECTION)
-        Observable<ClickCollectionModel> getData(@Field("businessId") int businessId, @Field("businessType") byte businessType, @Field("type") byte type);
+        Observable<ClickCollectionModel> getData(@Field("businessId") int businessId, @Field("businessType") int businessType, @Field("type") byte type);
     }
 
-    public static Observable<ClickCollectionModel> requestData(Context context, int businessId, byte businessType, byte type) {
+    public static Observable<ClickCollectionModel> requestData(Context context, int businessId, int businessType, byte type) {
         ClickCollectionService service = RestHelper.getBaseRetrofit(context).create(ClickCollectionService.class);
         return service.getData(businessId, businessType, type);
     }

@@ -11,7 +11,7 @@
         android:layout_marginRight="@dimen/dp_10"
         android:layout_marginLeft="@dimen/dp_10"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="132dp">
 
         <LinearLayout
             android:layout_marginTop="@dimen/size_6dp"
@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:layout_height="144dp">
+            android:layout_height="132dp">
 
             <LinearLayout
                 android:id="@+id/ll_skill_bg"
@@ -72,7 +72,7 @@
                 android:background="@drawable/shape_white6"
                 app:standDuration="2500"
                 android:layout_width="match_parent"
-                android:layout_height="106dp" />
+                android:layout_height="90dp" />
 
         </LinearLayout>
 
@@ -84,7 +84,7 @@
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:layout_height="144dp">
+            android:layout_height="132dp">
 
             <LinearLayout
                 android:id="@+id/ll_full_bg1"
@@ -119,7 +119,7 @@
                 android:id="@+id/rv_full1"
                 app:standDuration="3000"
                 android:layout_width="match_parent"
-                android:layout_height="106dp"/>
+                android:layout_height="90dp"/>
 
 
         </LinearLayout>
@@ -134,7 +134,7 @@
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:layout_height="144dp">
+            android:layout_height="132dp">
 
             <LinearLayout
                 android:id="@+id/ll_full_bg"
@@ -169,7 +169,7 @@
                 android:background="@drawable/shape_white6"
                 app:standDuration="3000"
                 android:layout_width="match_parent"
-                android:layout_height="106dp"/>
+                android:layout_height="90dp"/>
         </LinearLayout>
 
 
@@ -182,7 +182,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_marginLeft="@dimen/size_6dp"
-            android:layout_height="144dp">
+            android:layout_height="132dp">
 
             <LinearLayout
 
@@ -218,7 +218,7 @@
                 android:id="@+id/rv_team1"
                 app:standDuration="3500"
                 android:layout_width="match_parent"
-                android:layout_height="106dp"/>
+                android:layout_height="90dp"/>
         </LinearLayout>
 
         <!--   抵扣2 -->
@@ -230,7 +230,7 @@
             android:layout_weight="1"
             android:layout_marginLeft="@dimen/size_7dp"
             android:orientation="vertical"
-            android:layout_height="144dp">
+            android:layout_height="132dp">
 
             <LinearLayout
                 android:id="@+id/ll_discount_bg1"
@@ -264,7 +264,7 @@
                 android:id="@+id/rv_discount1"
                 app:standDuration="4000"
                 android:layout_width="match_parent"
-                android:layout_height="106dp"/>
+                android:layout_height="90dp"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -284,7 +284,7 @@
             android:layout_weight="1"
             android:layout_marginRight="@dimen/size_3dp"
             android:orientation="vertical"
-            android:layout_height="144dp">
+            android:layout_height="132dp">
 
             <LinearLayout
                 android:id="@+id/ll_team_bg"
@@ -319,7 +319,7 @@
                 android:background="@drawable/shape_white6"
                 app:standDuration="3500"
                 android:layout_width="match_parent"
-                android:layout_height="106dp"/>
+                android:layout_height="90dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -329,7 +329,7 @@
             android:layout_weight="1"
             android:layout_marginLeft="@dimen/size_3dp"
             android:orientation="vertical"
-            android:layout_height="144dp">
+            android:layout_height="132dp">
 
             <LinearLayout
                 android:id="@+id/ll_discount_bg"
@@ -363,7 +363,7 @@
                 android:background="@drawable/shape_white6"
                 app:standDuration="4000"
                 android:layout_width="match_parent"
-                android:layout_height="106dp"/>
+                android:layout_height="90dp"/>
 
 
         </LinearLayout>

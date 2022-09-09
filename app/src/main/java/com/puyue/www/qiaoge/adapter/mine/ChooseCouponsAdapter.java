@@ -3,15 +3,22 @@ package com.puyue.www.qiaoge.adapter.mine;
 import android.content.Context;
 import android.graphics.Color;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.example.xrecyclerview.DensityUtil;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.adapter.RoleAdapter;
 import com.puyue.www.qiaoge.api.mine.coupon.userChooseDeductAPI;
 import com.puyue.www.qiaoge.dialog.CouponProdDialog;
 import com.puyue.www.qiaoge.model.QueryProdModel;
@@ -33,18 +40,17 @@ public class ChooseCouponsAdapter extends BaseQuickAdapter<UserChooseDeductModel
     private TextView tv_style;
     private  TextView tv_user_factor;
     private  TextView tv_time;
-    private  TextView tv_role;
     private  TextView tv_amount;
-    private Context context;
     TextView tv_desc;
     List<UserChooseDeductModel.DataBean> list;
     TextView tv_tip;
     ImageOnclick imageOnclick;
     ImageView iv_select;
+    boolean isOpen;
+    RoleAdapter roleAdapter;
     public ChooseCouponsAdapter(int layoutResId, @Nullable List<UserChooseDeductModel.DataBean> data, ImageOnclick imageOnclick) {
         super(layoutResId, data);
         list=data;
-        this.context=context;
         this.imageOnclick = imageOnclick;
     }
 
@@ -59,26 +65,44 @@ public class ChooseCouponsAdapter extends BaseQuickAdapter<UserChooseDeductModel
 
     @Override
     protected void convert(final BaseViewHolder helper, final UserChooseDeductModel.DataBean item) {
+//        helper.setIsRecyclable(false);
         tv_tip=helper.getView(R.id.tv_tip);
         tv_style=helper.getView(R.id.tv_style);
         tv_desc=helper.getView(R.id.tv_desc);
         tv_user_factor=helper.getView(R.id.tv_user_factor);
         tv_time=helper.getView(R.id.tv_time);
-        tv_role=helper.getView(R.id.tv_role);
         tv_amount=helper.getView(R.id.tv_amount);
         iv_select = helper.getView(R.id.iv_select);
-
+        RecyclerView rv_role = helper.getView(R.id.rv_role);
         tv_time.setText(item.getDateTime());
+        ImageView iv_arrow = helper.getView(R.id.iv_arrow);
         tv_amount.setText(item.getAmount());
 
-        if (item.getRole().size()>0){
-            tv_role.setText(item.getRole().get(0));
-            tv_role.setVisibility(View.VISIBLE);
+        rv_role.setLayoutManager(new LinearLayoutManager(mContext));
+        roleAdapter = new RoleAdapter(R.layout.item_text1,item.getGiftUseRole());
+        rv_role.setAdapter(roleAdapter);
 
-        }else {
-            tv_role.setText("");
-            tv_role.setVisibility(View.INVISIBLE);
-        }
+        iv_arrow.setImageResource(R.mipmap.icon_arrow_down);
+        ViewGroup.LayoutParams lp = rv_role.getLayoutParams();
+        roleAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if(!isOpen) {
+                    iv_arrow.setImageResource(R.mipmap.icon_arrow_up);
+                    lp.height = DensityUtil.dip2px(RecyclerView.LayoutParams.WRAP_CONTENT,mContext);
+                    rv_role.setLayoutParams(lp);
+                }else {
+                    lp.height = DensityUtil.dip2px(15,mContext);
+                    iv_arrow.setImageResource(R.mipmap.icon_arrow_down);
+                    rv_role.setLayoutParams(lp);
+                }
+                isOpen = !isOpen;
+            }
+        });
+
+        lp.height = DensityUtil.dip2px(15,mContext);
+        rv_role.setLayoutParams(lp);
+
 
         if(!TextUtils.isEmpty(item.getLimitAmtStr())) {
             tv_user_factor.setText(item.getLimitAmtStr());
@@ -88,17 +112,6 @@ public class ChooseCouponsAdapter extends BaseQuickAdapter<UserChooseDeductModel
         }
         tv_style.setText(item.getGiftName());
 
-        tv_role.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(item.getGiftProdUseType().equals("1")||item.getGiftProdUseType().equals("2")) {
-                    queryProd(item.getGiftDetailNo());
-                }else {
-
-                }
-
-            }
-        });
         iv_select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,46 +146,6 @@ public class ChooseCouponsAdapter extends BaseQuickAdapter<UserChooseDeductModel
             tv_tip.setTextColor(Color.parseColor("#A1A1A1"));
             iv_select.setEnabled(false);
         }
-    }
-    String datas;
-    private void queryProd(String giftDetailNo) {
-        userChooseDeductAPI.queryProd(mContext,giftDetailNo)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<QueryProdModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(QueryProdModel model) {
-                        if (model.isSuccess()) {
-
-                            if(model.getData()!=null) {
-                                datas = model.getData();
-
-                                CouponProdDialog couponProdDialog = new CouponProdDialog(mContext,datas) {
-                                    @Override
-                                    public void Confirm() {
-                                        dismiss();
-                                    }
-                                };
-                                couponProdDialog.show();
-                            }
-
-
-                        } else {
-//                            AppHelper.showMsg(mContext, model.getMessage());
-                        }
-
-                    }
-                });
     }
 
     public interface ImageOnclick {

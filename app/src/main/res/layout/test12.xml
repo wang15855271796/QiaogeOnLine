@@ -1,348 +1,433 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/ll_edit_address"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f5f5f5"
-    android:fitsSystemWindows="true"
-    android:scrollbars="vertical">
+    xmlns:boy="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootview"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/smart"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <com.scwang.smartrefresh.header.MaterialHeader
+            android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="?attr/actionBarSize"/>
 
-            <com.puyue.www.qiaoge.view.CompatToolbar
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.puyue.www.qiaoge.view.MyScrollView1
+                android:id="@+id/my_scroll"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/app_border_bottom_bg">
-
-                <ImageView
-                    android:id="@+id/iv_edit_address_back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:padding="10dp"
-                    android:src="@mipmap/ic_back_arrow" />
-
-                <TextView
-                    android:id="@+id/tv_edit_address_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="13dp"
-                    android:layout_marginBottom="13dp"
-                    android:text="编辑收货地址"
-                    android:textColor="#232131"
-                    android:textSize="18dp" />
-            </com.puyue.www.qiaoge.view.CompatToolbar>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
                 <RelativeLayout
+                    android:id="@+id/rl_parent"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_height="match_parent">
 
-                    <LinearLayout
-                        android:background="@color/white"
+                    <RelativeLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="match_parent">
 
                         <LinearLayout
-                            android:id="@+id/ll_contact_user"
+                            android:id="@+id/ll_scroll"
+                            android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:layout_height="200dp"/>
 
-                            <TextView
-                                android:layout_width="130dp"
-                                android:layout_height="wrap_content"
-                                android:padding="10dp"
-                                android:text="收货人"
-                                android:textColor="#ff232131"
-                                android:textSize="18dp" />
-
-                            <EditText
-                                android:id="@+id/edit_edit_address_name"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_marginRight="20dp"
-                                android:layout_weight="1"
-                                android:background="@null"
-                                android:hint="请输入姓名"
-                                android:textColor="#232131"
-                                android:textColorHint="#D5D5D5"
-                                android:textSize="18dp" />
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/app_line_size"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            android:background="@color/app_line_color" />
 
                         <LinearLayout
-                            android:id="@+id/ll_phone"
-                            android:layout_below="@+id/ll_contact_user"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="130dp"
-                                android:layout_height="wrap_content"
-                                android:padding="10dp"
-                                android:text="联系电话"
-                                android:textColor="#ff232131"
-                                android:textSize="18dp" />
-
-                            <EditText
-                                android:id="@+id/edit_edit_address_phone"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_marginRight="20dp"
-                                android:layout_weight="1"
-                                android:background="@null"
-                                android:hint="请输入联系电话"
-                                android:inputType="number"
-                                android:maxLength="11"
-                                android:textColor="#232131"
-                                android:textColorHint="#D5D5D5"
-                                android:textSize="18dp" />
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/app_line_size"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            android:background="@color/app_line_color" />
-
-                        <LinearLayout
-                            android:layout_below="@+id/ll_phone"
-                            android:id="@+id/ll_shop"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="130dp"
-                                android:layout_height="wrap_content"
-                                android:padding="10dp"
-                                android:text="店名"
-                                android:textColor="#ff232131"
-                                android:textSize="18dp" />
-
-                            <EditText
-                                android:id="@+id/edit_edit_address_store"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_marginRight="20dp"
-                                android:layout_weight="1"
-                                android:background="@null"
-                                android:hint="请输入店名（选填）"
-                                android:textColor="#232131"
-                                android:textColorHint="#D5D5D5"
-                                android:textSize="18dp" />
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/app_line_size"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            android:background="@color/app_line_color" />
-
-                        <LinearLayout
-                            android:layout_below="@+id/ll_shop"
-                            android:id="@+id/ll_area"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="130dp"
-                                android:layout_height="wrap_content"
-                                android:padding="10dp"
-                                android:text="所在地区"
-                                android:textColor="#ff232131"
-                                android:textSize="18dp" />
-
-                            <TextView
-                                android:id="@+id/tv_edit_address_area"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_marginRight="20dp"
-                                android:layout_weight="1"
-                                android:background="@null"
-                                android:gravity="center_vertical"
-                                android:text="请选择所在地区"
-                                android:textColor="#D5D5D5"
-                                android:textSize="18dp" />
-                        </LinearLayout>
-
-                        <View
-                            android:id="@+id/view_line1"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/app_line_size"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            android:background="@color/app_line_color" />
-
-                        <!--详细地址-->
-                        <RelativeLayout
-                            android:layout_below="@+id/ll_area"
-                            android:id="@+id/ll_detail"
+                            android:orientation="vertical"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <LinearLayout
+                            <!--有背景色-->
+                            <RelativeLayout
+                                android:id="@+id/rl_grand"
                                 android:layout_width="match_parent"
-                                android:layout_height="80dp"
-                                android:orientation="horizontal">
+                                android:layout_height="wrap_content">
 
-                                <TextView
-                                    android:layout_width="130dp"
-                                    android:layout_height="wrap_content"
-                                    android:padding="10dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:text="详细地址"
-                                    android:textColor="#ff232131"
-                                    android:textSize="18dp" />
+                                <!--  默认背景  -->
+                                <RelativeLayout
+                                    android:id="@+id/ll_bgc"
+                                    android:background="#F6391A"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <RelativeLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="200dp"
+                                        android:layout_marginTop="@dimen/size_35dp" />
+
+                                </RelativeLayout>
+
+                                <!--  默认banner图  -->
+                                <ImageView
+                                    android:id="@+id/iv_fill"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="200dp"
+                                    android:scaleType="fitXY" />
+
+                                <LinearLayout
+                                    android:orientation="vertical"
+                                    android:id="@+id/ll_head"
+                                    android:layout_marginTop="110dp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <!--顶部的六种推荐-->
+                                    <androidx.recyclerview.widget.RecyclerView
+                                        android:id="@+id/rv_recommend"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content" />
+
+                                    <com.puyue.www.qiaoge.banner.Banner
+                                        android:id="@+id/banner"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="120dp"
+                                        android:layout_below="@+id/rv_recommend"
+                                        android:layout_marginLeft="@dimen/dp_10"
+                                        android:layout_marginTop="@dimen/size_12dp"
+                                        android:layout_marginRight="@dimen/dp_10" />
+
+                                    <include layout="@layout/home_tip_iv"/>
+
+                                    <com.frankfancode.marqueeview.MarqueeView
+                                        android:id="@+id/marquee"
+                                        android:visibility="gone"
+                                        android:background="@drawable/shape_white1"
+                                        android:layout_marginTop="@dimen/size_6dp"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/size_32dp"
+                                        android:layout_marginLeft="@dimen/dp_10"
+                                        android:layout_marginRight="@dimen/dp_10" />
+
+                                    <LinearLayout
+                                        android:orientation="vertical"
+                                        android:layout_marginTop="@dimen/dp_10"
+                                        android:layout_marginRight="@dimen/size_12dp"
+                                        android:layout_marginLeft="@dimen/size_12dp"
+                                        android:background="@drawable/shape_white1"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+
+                                        <androidx.recyclerview.widget.RecyclerView
+                                            android:id="@+id/rv_icon"
+                                            android:layout_marginTop="@dimen/dp_4"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="120dp"/>
+
+                                        <com.puyue.www.qiaoge.view.HIndicators
+                                            android:id="@+id/indicator"
+                                            android:layout_marginBottom="@dimen/size_5dp"
+                                            android:layout_gravity="center_horizontal"
+                                            android:layout_width="@dimen/size_22dp"
+                                            android:layout_height="@dimen/size_3dp" />
+
+                                    </LinearLayout>
+
+                                    <RelativeLayout
+                                        android:id="@+id/rl_huo"
+                                        android:visibility="gone"
+                                        android:layout_marginRight="@dimen/size_12dp"
+                                        android:layout_marginLeft="@dimen/size_12dp"
+                                        android:background="@drawable/shape_orange11"
+                                        android:layout_marginTop="@dimen/dp_10"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/size_38dp">
+
+                                        <TextView
+                                            android:id="@+id/tv_order_num"
+                                            android:textSize="@dimen/sp_14"
+                                            android:textColor="#FF481A"
+                                            android:layout_marginLeft="@dimen/size_11dp"
+                                            android:layout_centerVertical="true"
+                                            android:text="您有一笔订单呼叫货拉拉"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"/>
+
+                                        <TextView
+                                            android:id="@+id/tv_look"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentRight="true"
+                                            android:layout_centerVertical="true"
+                                            android:layout_marginRight="@dimen/size_15dp"
+                                            android:background="@drawable/shape_jianbian1"
+                                            android:paddingTop="@dimen/size_3dp"
+                                            android:paddingBottom="@dimen/size_3dp"
+                                            android:paddingLeft="8dp"
+                                            android:paddingRight="@dimen/size_8dp"
+                                            android:text="请查看"
+                                            android:textSize="@dimen/sp_12"
+                                            android:textColor="#ffffff" />
+
+                                    </RelativeLayout>
+
+                                    <!--  活动  -->
+                                    <include layout="@layout/home_view"/>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_below="@+id/ll_head"
+                                    android:orientation="vertical"
+                                    android:background="#f6f6f6"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
 
 
-                                <AutoCompleteTextView
-                                    android:id="@+id/edit_edit_address_address"
-                                    android:layout_width="0dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginRight="20dp"
-                                    android:layout_weight="1"
-                                    android:background="@null"
-                                    android:gravity="center_vertical"
-                                    android:hint="请输入详细地址"
-                                    android:paddingTop="8dp"
-                                    android:textColor="#232131"
-                                    android:textColorHint="#D5D5D5"
-                                    android:textSize="18dp" />
-                            </LinearLayout>
+                                    <include layout="@layout/view_barss" />
 
-                        </RelativeLayout>
+                                    <FrameLayout
+                                        android:visibility="gone"
+                                        android:id="@+id/fl_container"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"/>
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/app_line_size"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            android:background="@color/app_line_color" />
+                                    <androidx.recyclerview.widget.RecyclerView
+                                        android:id="@+id/rv_goods"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
 
-                        <!--默认地址-->
-                        <RelativeLayout
-                            android:id="@+id/ll_edit_address_default"
+                                </LinearLayout>
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <include layout="@layout/view_bars"/>
+
+                    <com.wang.avi.AVLoadingIndicatorView
+                        android:id="@+id/lav_activity_loading"
+                        android:layout_centerInParent="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:indicatorName="BallPulseIndicator"
+                        android:visibility="gone"
+                        style="@style/AVLoadingIndicatorView.Large"
+                        app:indicatorColor="#f40"
+                        />
+
+                    <RelativeLayout
+                        android:visibility="gone"
+                        android:id="@+id/rl_address"
+                        android:layout_alignParentBottom="true"
+                        android:background="#FFFACA"
+                        android:layout_width="match_parent"
+                        android:layout_height="73dp">
+
+                        <TextView
+                            android:id="@+id/tv"
+                            android:textSize="@dimen/sp_14"
+                            android:textColor="#333333"
+                            android:layout_marginLeft="@dimen/size_44dp"
+                            android:layout_marginTop="@dimen/size_12dp"
+                            android:text="当前地址不在配送范围内，建议您 "
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/ll_detail"
-                            android:orientation="horizontal"
-                            android:padding="20dp">
+                            android:layout_height="wrap_content" />
 
-                            <CheckBox
-                                android:id="@+id/cb_edit_address_default"
-                                android:layout_width="15dp"
-                                android:layout_height="15dp"
-                                android:background="@drawable/app_checkbox_style"
-                                android:button="@null"
-                                android:clickable="false"
-                                android:enabled="false"
-                                android:visibility="gone" />
+                        <TextView
+                            android:text="修改地址"
+                            android:id="@+id/tv_change_address"
+                            android:textColor="#fff"
+                            android:textSize="@dimen/sp_14"
+                            android:layout_marginLeft="@dimen/size_5dp"
+                            android:layout_marginTop="@dimen/size_5dp"
+                            android:layout_toRightOf="@+id/tv"
+                            android:padding="@dimen/size_5dp"
+                            android:background="@drawable/shape_orange"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
 
-                            <TextView
-                                android:id="@+id/tv1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="设为默认地址"
-                                android:textColor="#333333"
-                                android:textSize="15dp" />
+                        <TextView
+                            android:id="@+id/tv1"
+                            android:textSize="@dimen/sp_14"
+                            android:textColor="#333333"
+                            android:layout_below="@+id/tv"
+                            android:layout_marginLeft="@dimen/size_44dp"
+                            android:layout_marginTop="@dimen/size_10dp"
+                            android:text="或"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
 
-                            <TextView
-                                android:layout_width="264dp"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/tv1"
-                                android:text="在启动APP时将优先定位至默认地址，避免下单时选择错误地址"
-                                android:textColor="#999999"
-                                android:textSize="@dimen/size_11dp" />
+                        <TextView
+                            android:text="修改城市"
+                            android:id="@+id/tv_change"
+                            android:textColor="#fff"
+                            android:textSize="@dimen/sp_14"
+                            android:layout_below="@+id/tv"
+                            android:layout_marginLeft="@dimen/size_5dp"
+                            android:layout_marginTop="@dimen/size_5dp"
+                            android:layout_toRightOf="@+id/tv1"
+                            android:padding="@dimen/size_5dp"
+                            android:background="@drawable/shape_orange"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
 
-                            <ImageView
-                                android:id="@+id/iv_switch"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_marginTop="@dimen/size_24dp"
-                                android:src="@mipmap/iv_closes" />
-                        </RelativeLayout>
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recyclerView"
-                            android:layout_width="252dp"
-                            android:layout_height="148dp"
-                            android:visibility="gone"
-                            android:layout_below="@+id/ll_detail"
-                            android:layout_marginLeft="130dp"
-                            android:layout_marginBottom="@dimen/dp_10"
-                            android:background="@mipmap/shape_mine_white" />
+                        <TextView
+                            android:id="@+id/tv2"
+                            android:textSize="@dimen/sp_14"
+                            android:textColor="#333333"
+                            android:layout_below="@+id/tv"
+                            android:layout_marginLeft="@dimen/size_5dp"
+                            android:layout_toRightOf="@+id/tv_change"
+                            android:layout_marginTop="@dimen/size_10dp"
+                            android:text="以便您能够正常下单!"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
                 </RelativeLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:gravity="center"
-                    android:text="11111"
-                    android:visibility="gone" />
+            </com.puyue.www.qiaoge.view.MyScrollView1>
 
-                <Button
-                    android:id="@+id/btn_edit_address_confirm"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="bottom"
-                    android:layout_margin="20dp"
-                    android:background="@drawable/app_sub_account_button"
-                    android:gravity="center"
-                    android:text="保存地址"
-                    android:textColor="@color/app_color_white"
-                    android:textSize="18dp" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/ll_coupon"
+                android:visibility="gone"
+                android:background="#333333"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_marginBottom="@dimen/size_88dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_width="@dimen/size_60dp"
+                android:layout_height="@dimen/size_50dp"/>
 
-            </LinearLayout>
+            <com.frankfancode.marqueeview.MarqueeView
+                android:id="@+id/order_marquee"
+                android:layout_width="166dp"
+                android:layout_height="@dimen/size_46dp"
+                android:alpha="0.7"
+                android:visibility="gone"
+                android:layout_marginBottom="@dimen/size_25dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="@dimen/dp_10"
+                android:background="@drawable/shape_grey10" />
 
-        </LinearLayout>
-
-
-        <com.wang.avi.AVLoadingIndicatorView
-            android:id="@+id/lav_activity_loading"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:indicatorName="BallPulseIndicator"
-            style="@style/AVLoadingIndicatorView.Large"
-            app:indicatorColor="#f40"
-            />
+        </RelativeLayout>
 
 
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_bar"
+        android:alpha="0"
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"/>
+
+    <!--  替换隐藏的部分  -->
+    <LinearLayout
+        android:layout_marginTop="@dimen/dp_72"
+        android:id="@+id/ll_fill"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:orientation="vertical"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_search"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/dp_72"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        >
+        <TextView
+            android:layout_centerVertical="true"
+            android:id="@+id/tv_search"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_33dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/shape_goods_progress_fill"
+            android:drawableLeft="@mipmap/ic_market_search"
+            android:drawablePadding="@dimen/size_10dp"
+            android:paddingLeft="12dp"
+            android:text="@string/inputCommodityName"
+            android:textColor="#666666"
+            android:textSize="@dimen/size_14dp" />
     </RelativeLayout>
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_marginTop="@dimen/size_35dp"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/size_36dp">
+
+        <ImageView
+            android:id="@+id/iv_location"
+            android:layout_marginLeft="15dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_address2"
+            android:layout_width="19dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_toRightOf="@+id/iv_location"
+            android:id="@+id/tv_city"
+            android:layout_marginLeft="@dimen/size_5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            tools:text="杭州.余杭区"
+            android:lines="1"
+            android:layout_marginRight="@dimen/size_60dp"
+            android:ellipsize="end"
+            android:textColor="#ffffff"
+            android:textSize="18dp" />
+
+        <ImageView
+            android:id="@+id/iv_tip"
+            android:visibility="gone"
+            android:layout_alignBaseline="@+id/tv_city"
+            android:layout_marginLeft="@dimen/size_5dp"
+            android:layout_toRightOf="@+id/tv_city"
+            android:src="@mipmap/ic_home_location_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:id="@+id/rl_message"
+            android:layout_width="@dimen/size_60dp"
+            android:layout_height="30dp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/homeMessage"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_mine_email"  />
+
+            <TextView
+                android:text="4"
+                android:id="@+id/tv_num"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="-2dp"
+                android:textColor="@color/white"
+                android:textSize="9dp"
+                android:visibility="gone"
+                android:background="@drawable/bg_msg_count"
+                android:layout_toRightOf="@+id/homeMessage"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+</FrameLayout>
+

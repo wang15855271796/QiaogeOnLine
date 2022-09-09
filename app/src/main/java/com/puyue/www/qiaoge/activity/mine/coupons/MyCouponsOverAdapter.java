@@ -3,14 +3,20 @@ package com.puyue.www.qiaoge.activity.mine.coupons;
 import android.content.Context;
 import android.graphics.Color;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.example.xrecyclerview.DensityUtil;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.adapter.RoleAdapter;
 import com.puyue.www.qiaoge.api.mine.coupon.userChooseDeductAPI;
 import com.puyue.www.qiaoge.dialog.CouponProdDialog;
 import com.puyue.www.qiaoge.model.QueryProdModel;
@@ -37,6 +43,7 @@ public class MyCouponsOverAdapter extends BaseQuickAdapter<queryUserDeductByStat
     TextView tv_desc;
     List<queryUserDeductByStateModel.DataBean.ListBean> list;
     TextView tv_tip;
+    boolean isOpen;
     public MyCouponsOverAdapter(int layoutResId, @Nullable List<queryUserDeductByStateModel.DataBean.ListBean> data, Context context) {
         super(layoutResId, data);
         list=data;
@@ -54,6 +61,8 @@ public class MyCouponsOverAdapter extends BaseQuickAdapter<queryUserDeductByStat
         tv_role=helper.getView(R.id.tv_role);
         tv_amount=helper.getView(R.id.tv_amount);
         iv_status=helper.getView(R.id.iv_status);
+        ImageView iv_arrow = helper.getView(R.id.iv_arrow);
+        RecyclerView rv_role = helper.getView(R.id.rv_role);
         if(!TextUtils.isEmpty(item.getLimitAmtStr())) {
             tv_user_factor.setText(item.getLimitAmtStr());
             tv_user_factor.setVisibility(View.VISIBLE);
@@ -66,12 +75,38 @@ public class MyCouponsOverAdapter extends BaseQuickAdapter<queryUserDeductByStat
 
         if (item.getRole().size()>0){
             tv_role.setText(item.getRole().get(0));
-            tv_role.setVisibility(View.VISIBLE);
+            tv_role.setVisibility(View.GONE);
 
         }else {
             tv_role.setText("");
-            tv_role.setVisibility(View.INVISIBLE);
+            tv_role.setVisibility(View.GONE);
         }
+
+        rv_role.setLayoutManager(new LinearLayoutManager(mContext));
+        RoleAdapter roleAdapter = new RoleAdapter(R.layout.item_text1,item.getGiftUseRole());
+        rv_role.setAdapter(roleAdapter);
+
+        iv_arrow.setImageResource(R.mipmap.icon_arrow_down);
+        ViewGroup.LayoutParams lp = rv_role.getLayoutParams();
+
+
+        roleAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if(!isOpen) {
+                    iv_arrow.setImageResource(R.mipmap.icon_arrow_up);
+                    lp.height = DensityUtil.dip2px(RecyclerView.LayoutParams.WRAP_CONTENT,mContext);
+                }else {
+                    lp.height = DensityUtil.dip2px(15,mContext);
+                    iv_arrow.setImageResource(R.mipmap.icon_arrow_down);
+                }
+                rv_role.setLayoutParams(lp);
+                isOpen = !isOpen;
+            }
+        });
+
+        lp.height = DensityUtil.dip2px(15,mContext);
+        rv_role.setLayoutParams(lp);
 
         tv_role.setOnClickListener(new View.OnClickListener() {
             @Override

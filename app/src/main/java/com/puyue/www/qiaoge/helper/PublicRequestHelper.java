@@ -74,7 +74,7 @@ public class PublicRequestHelper {
     /**
      * 获取收藏状态
      */
-    public static void hasCollectState(Context context, int businessId, byte businessType, final OnHttpCallBack<HasCollectModel> callBack) {
+    public static void hasCollectState(Context context, int businessId, int businessType, final OnHttpCallBack<HasCollectModel> callBack) {
         HasCollectAPI.requestData(context, businessId, businessType)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

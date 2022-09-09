@@ -11,8 +11,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.example.xrecyclerview.DensityUtil;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.CouponUseActivity;
+import com.puyue.www.qiaoge.adapter.RoleAdapter;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.model.FullCouponListModel;
 import com.puyue.www.qiaoge.model.FullDetailModel;
@@ -20,6 +23,7 @@ import com.puyue.www.qiaoge.model.home.GetProductDetailModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -29,6 +33,9 @@ import rx.Subscriber;
 import rx.schedulers.Schedulers;
 
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by ${王涛} on 2021/10/8
@@ -53,12 +60,15 @@ public class CouponFullListDialog extends Dialog implements View.OnClickListener
     TextView tv_time;
     @BindView(R.id.tv_detail)
     TextView tv_detail;
-    int productId;
+    @BindView(R.id.rv_role)
+    RecyclerView rv_role;
+    @BindView(R.id.iv_arrow)
+    ImageView iv_arrow;
     public List<GetProductDetailModel.DataBean.ProdSpecsBean> prodSpecs;
-    FullDetailModel.DataBean.ProdsBean item;
     String poolNo;
     String giftProdUseType;
     String name;
+    RoleAdapter roleAdapter;
     public CouponFullListDialog(Context mContext, String poolNo, String giftProdUseType, String name) {
         super(mContext, R.style.dialog);
         this.context = mContext;
@@ -70,6 +80,7 @@ public class CouponFullListDialog extends Dialog implements View.OnClickListener
     }
 
 
+    boolean isOpen;
     public void init() {
         view = View.inflate(context, R.layout.dialog_full_list, null);
         view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -89,6 +100,30 @@ public class CouponFullListDialog extends Dialog implements View.OnClickListener
         }else {
             tv_detail.setVisibility(View.GONE);
         }
+        rv_role.setLayoutManager(new LinearLayoutManager(context));
+        roleAdapter = new RoleAdapter(R.layout.item_text1,roleList);
+        rv_role.setAdapter(roleAdapter);
+
+        iv_arrow.setImageResource(R.mipmap.icon_arrow_down);
+        ViewGroup.LayoutParams lp = rv_role.getLayoutParams();
+        roleAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+                if(!isOpen) {
+                    iv_arrow.setImageResource(R.mipmap.icon_arrow_up);
+                    lp.height = DensityUtil.dip2px(RecyclerView.LayoutParams.WRAP_CONTENT,context);
+                }else {
+                    lp.height = DensityUtil.dip2px(15,context);
+                    iv_arrow.setImageResource(R.mipmap.icon_arrow_down);
+                }
+                rv_role.setLayoutParams(lp);
+                isOpen = !isOpen;
+            }
+        });
+
+        lp.height = DensityUtil.dip2px(15,context);
+        rv_role.setLayoutParams(lp);
     }
 
 
@@ -124,6 +159,7 @@ public class CouponFullListDialog extends Dialog implements View.OnClickListener
         }
     }
 
+    List<String> roleList = new ArrayList<>();
     private void getFullList() {
         IndexHomeAPI.getFullCouponList(context,poolNo)
                 .subscribeOn(Schedulers.io())
@@ -142,6 +178,7 @@ public class CouponFullListDialog extends Dialog implements View.OnClickListener
                     @Override
                     public void onNext(FullCouponListModel fullCouponListModel) {
                         if(fullCouponListModel.getCode()==1) {
+
                             if(fullCouponListModel.getData()!=null) {
                                 FullCouponListModel.DataBean data = fullCouponListModel.getData();
                                 tv_title.setText(data.getGiftName());
@@ -149,6 +186,10 @@ public class CouponFullListDialog extends Dialog implements View.OnClickListener
                                 tv_amount.setText(data.getAmountStr());
                                 tv_role.setText(data.getRole().get(0));
                                 tv_user_factor.setText(data.getUseInfo());
+
+                                roleList.clear();
+                                roleList.addAll(fullCouponListModel.getData().getGiftUseRole());
+                                roleAdapter.notifyDataSetChanged();
                             }
                         }else {
                             ToastUtil.showSuccessMsg(getContext(),fullCouponListModel.getMessage());

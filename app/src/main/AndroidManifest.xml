@@ -164,6 +164,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".activity.cart.TestActivity"/>
         <!--  -->
         <!-- 优化空白在theme里 -->
         <activity

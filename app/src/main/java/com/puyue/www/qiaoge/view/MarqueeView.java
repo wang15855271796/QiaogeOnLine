@@ -200,18 +200,27 @@ public class MarqueeView extends LinearLayout {
             mRv.dispatchTouchEvent(ev);
         }
         super.dispatchTouchEvent(ev);
+        Log.d("swdadwdddddd....",ev.getAction()+"aa");
+
         return true;
 
     }
 
 
-//    @Override
-//    public boolean onInterceptTouchEvent(MotionEvent ev) {
-//        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-//            return true;
-//        }
-//        return super.onInterceptTouchEvent(ev);
-//    }
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                return true;
+            case MotionEvent.ACTION_MOVE:   //表示父类需要
+                return false;
+            case MotionEvent.ACTION_UP:
+                return false;
+            default:
+                break;
+        }
+        return true;    //如果设置拦截，除了down,其他都是父类处理
+    }
 
 
     @Override

@@ -1,43 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/ll_edit_address"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f5f5f5"
-    android:fitsSystemWindows="true"
-    android:scrollbars="vertical">
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/scroll"
+    android:orientation="vertical">
+    <!--标题栏-->
+    <TextView
+        android:id="@+id/titleView"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="标题栏"
+        android:alpha="10"
+        android:background="#aaa"
+        android:gravity="center"/>
+    <!--内容布局最外层使用FrameLayout-->
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <!--下面是自定义scrollview-->
+        <com.puyue.www.qiaoge.view.MyScrollView1
+            android:id="@+id/myScrollview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            android:focusable="true">
 
             <LinearLayout
-                android:background="#999999"
                 android:layout_width="match_parent"
-                android:layout_height="500dp">
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:orientation="vertical"
+                    android:background="#bcc" >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="头部内容"
+                        android:background="#bac"
+                        android:gravity="center"/>
+                </LinearLayout>
+
+                <!--下面LinearLayout用于包裹导航栏控件-->
+                <LinearLayout
+                    android:id="@+id/lineAddNavigationFixation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/navigation"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:text="导航栏"
+                        android:background="#bee"
+                        android:gravity="center"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:orientation="vertical"
+                        android:text="内容块1"
+                        android:gravity="center"
+                        android:background="#999999" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:orientation="vertical"
+                        android:text="内容块2"
+                        android:gravity="center"
+                        android:background="#bbe" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:orientation="vertical"
+                        android:text="内容块"
+                        android:gravity="center"
+                        android:background="#bbe" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:orientation="vertical"
+                        android:text="内容块"
+                        android:gravity="center"
+                        android:background="#bbe" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:orientation="vertical"
+                        android:text="内容块"
+                        android:gravity="center"
+                        android:background="#bbe" />
+                </LinearLayout>
 
 
             </LinearLayout>
 
-            <LinearLayout
-                android:background="#333333"
-                android:layout_width="match_parent"
-                android:layout_height="900dp">
+        </com.puyue.www.qiaoge.view.MyScrollView1>
+        <!--下面LinearLayout用于占位-->
+        <LinearLayout
+            android:id="@+id/lineAddNavigationSuspension"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
 
-
-            </LinearLayout>
         </LinearLayout>
+    </FrameLayout>
 
-
-    </androidx.core.widget.NestedScrollView>
-
-
-
-</FrameLayout>
+</LinearLayout>

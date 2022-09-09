@@ -89,6 +89,7 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
     private RelativeLayout rl_good_cart;
     SnapUpCountDownTimerViewss snap;
     TextView tv_desc;
+    TextView tv_start_time;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -140,6 +141,7 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
+        tv_start_time = FVHelper.fv(this, R.id.tv_start_time);
         tv_desc = FVHelper.fv(this, R.id.tv_desc);
         snap = FVHelper.fv(this, R.id.snap);
         mIvBack = FVHelper.fv(this, R.id.iv_activity_back);
@@ -273,6 +275,7 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
                                 }else {
                                     tv_desc.setText("距离本场活动开始");
                                 }
+                                tv_start_time.setText("活动开始时间:"+data.get(currentPosition).getDateTime());
                                 long startTime = data.get(currentPosition).getStartTime();
                                 long endTime = data.get(currentPosition).getEndTime();
                                 long currentTime = data.get(currentPosition).getCurrentTime();
@@ -282,6 +285,7 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
                                     @Override
                                     public void onItemClick(View view, int position) {
                                         getNewSpikeTwo(position);
+                                        tv_start_time.setText("活动开始时间: "+data.get(position).getDateTime());
                                     }
 
                                     @Override

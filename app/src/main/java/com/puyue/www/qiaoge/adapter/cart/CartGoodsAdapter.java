@@ -174,6 +174,7 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
                 }else {
                     Intent intent = new Intent(mContext,SpecialGoodDetailActivity.class);
                     intent.putExtra("activeId",item.getBusinessId());
+                    intent.putExtra("businessType",item.getBusinessType());
                     intent.putExtra("priceType", SharedPreferencesUtil.getString(mContext,"priceType"));
                     mContext.startActivity(intent);
                 }
