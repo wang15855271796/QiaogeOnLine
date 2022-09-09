@@ -1,79 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/dialog_update"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"
-        android:text="有新版本啦！"
-        android:textColor="#1191EA"
-        android:textSize="16dp" />
-
-    <TextView
-        android:id="@+id/tvContent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvTitle"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:textColor="#434343"
-        android:textSize="14dp" />
-
-    <Button
-        android:id="@+id/btnForceUpdate"
+    <RelativeLayout
+        android:layout_marginTop="@dimen/size_26dp"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_below="@id/tvContent"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/app_feedback_btn"
-        android:text="确定"
-        android:textColor="@color/white"
-        android:visibility="gone" />
+        android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:id="@+id/llButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvContent"
-        android:orientation="horizontal"
+        <TextView
+            android:text="发现新版本"
+            android:textColor="#333333"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/size_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/iv_cancel"
+            android:layout_width="@dimen/size_18dp"
+            android:layout_height="@dimen/size_18dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/size_15dp"
+            android:src="@mipmap/iv_close_black" />
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:text="立即升级，体验全新界面，享受更优服务"
+        android:textColor="#999999"
+        android:layout_marginTop="@dimen/size_6dp"
+        android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
-        android:paddingBottom="20dp"
-        android:visibility="visible">
+        android:textSize="@dimen/size_14dp"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"/>
 
-        <Button
-            android:id="@+id/btnCancel"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/app_gray_btn"
-            android:text="取消"
-            android:textColor="@color/white" />
+    <ImageView
+        android:layout_marginTop="@dimen/size_9dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/icon_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
-        <Button
-            android:id="@+id/btnOK"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_toRightOf="@id/btnCancel"
-            android:background="@drawable/app_feedback_btn"
-            android:text="去更新"
-            android:textColor="@color/white" />
-    </LinearLayout>
-</RelativeLayout>
+    <TextView
+        android:id="@+id/tv_update"
+        android:text="立即更新"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:layout_marginTop="@dimen/size_11dp"
+        android:background="@drawable/shape_jianbian3"
+        android:layout_marginRight="@dimen/size_36dp"
+        android:layout_marginLeft="@dimen/size_36dp"
+        android:textSize="@dimen/size_18dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_44dp"/>
+
+</LinearLayout>
