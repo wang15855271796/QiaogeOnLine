@@ -425,14 +425,12 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                     EventBus.getDefault().postSticky(new TopEvent(true));
                 }
 
-                if (EasyPermissions.hasPermissions(this,params)) {//检查是否获取该权限
-                    //全部允许
-                } else {//第二次请求
-                    //存在不允许的权限  对话框为什么一会出来一会不出来
-                    EasyPermissions.requestPermissions(this, "需要加载必要的权限。", 1, params);
-//                    UserInfoHelper.saveAreaName(mContext, "上城区");
-//                    UserInfoHelper.saveCity(mActivity, "杭州市");
-                }
+//                if (EasyPermissions.hasPermissions(this,params)) {//检查是否获取该权限
+//                    //全部允许
+//                } else {//第二次请求
+//                    //存在不允许的权限  对话框为什么一会出来一会不出来
+//                    EasyPermissions.requestPermissions(this, "需要加载必要的权限。", 1, params);
+//                }
 
                 break;
 

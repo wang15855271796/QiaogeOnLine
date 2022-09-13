@@ -286,8 +286,8 @@ public class AccountCenterActivity extends BaseSwipeActivity {
                                     UserInfoHelper.saveChangeFlag(mActivity,"0");
                                     EventBus.getDefault().post(new LogoutsEvent());
                                     finish();
+                                Log.d("wdasdwdsdsds......","------");
 
-                                EasyPermissions.requestPermissions(this, "需要加载必要的权限。", 1, params);
                             }
 
 

@@ -100,20 +100,6 @@ public abstract class BaseActivity extends AppCompatActivity  {
 
     }
 
-    private void requestAndroidSixPermissions() {
-        String[] params = {Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.CAMERA};
-
-        if (EasyPermissions.hasPermissions(this, params)) {//检查是否获取该权限
-            //全部允许
-        } else {//第二次请求
-            //存在不允许的权限  对话框为什么一会出来一会不出来
-            EasyPermissions.requestPermissions(this, "需要加载必要的权限。", 1, params);
-
-        }
-
-    }
-
 //    @Override
 //    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 //        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
