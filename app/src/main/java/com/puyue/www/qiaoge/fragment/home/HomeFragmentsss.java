@@ -1992,73 +1992,73 @@ public class HomeFragmentsss extends BaseFragment implements View.OnClickListene
             //因为服务器上面的是2.0.6，所以才会出现新版本和提示框的字样，只要上架之后重新上传一个2.0.7就可以了。
             //有更新
             UserInfoHelper.saveGuide(mActivity, "");
-            showUpdateDialog();
+//            showUpdateDialog();
         }
     }
 
     /**
      * 更新弹窗
      */
-    private void showUpdateDialog() {
-        final AlertDialog mDialog = new AlertDialog.Builder(getContext()).create();
-        mDialog.show();
-        mDialog.getWindow().setContentView(R.layout.update_dialog);
-        Button mBtnForceUpdate = (Button) mDialog.getWindow().findViewById(R.id.btnForceUpdate);
-        Button mBtnCancel = (Button) mDialog.getWindow().findViewById(R.id.btnCancel);
-        Button mBtnOK = (Button) mDialog.getWindow().findViewById(R.id.btnOK);
-        LinearLayout mLlButton = (LinearLayout) mDialog.getWindow().findViewById(R.id.llButton);
-        TextView mTvContent = (TextView) mDialog.getWindow().findViewById(R.id.tvContent);
-
-        mTvContent.setText(content);
-        if (forceUpdate) {
-            mDialog.setCancelable(false);
-            mLlButton.setVisibility(View.GONE);
-            mBtnForceUpdate.setVisibility(View.VISIBLE);
-        } else {
-            mDialog.setCancelable(true);
-            mLlButton.setVisibility(View.VISIBLE);
-            mBtnForceUpdate.setVisibility(View.GONE);
-        }
-        mBtnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDialog.dismiss();
-            }
-        });
-
-        mBtnOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 下载
-                try {
-                    Intent intent = new Intent();
-                    intent.setAction("android.intent.action.VIEW");
-                    Uri content_url = Uri.parse(url);
-                    intent.setData(content_url);
-                    startActivity(intent);
-                } catch (Exception e) {
-
-                }
-                mDialog.dismiss();
-            }
-        });
-        mBtnForceUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 下载
-                try {
-                    Intent intent = new Intent();
-                    intent.setAction("android.intent.action.VIEW");
-                    Uri content_url = Uri.parse(url.contains("http://") ? ("http://" + url) : url);
-                    intent.setData(content_url);
-                    startActivity(intent);
-                } catch (Exception e) {
-
-                }
-                mDialog.dismiss();
-            }
-        });
-    }
+//    private void showUpdateDialog() {
+//        final AlertDialog mDialog = new AlertDialog.Builder(getContext()).create();
+//        mDialog.show();
+//        mDialog.getWindow().setContentView(R.layout.update_dialog);
+//        Button mBtnForceUpdate = (Button) mDialog.getWindow().findViewById(R.id.btnForceUpdate);
+//        Button mBtnCancel = (Button) mDialog.getWindow().findViewById(R.id.btnCancel);
+//        Button mBtnOK = (Button) mDialog.getWindow().findViewById(R.id.btnOK);
+//        LinearLayout mLlButton = (LinearLayout) mDialog.getWindow().findViewById(R.id.llButton);
+//        TextView mTvContent = (TextView) mDialog.getWindow().findViewById(R.id.tvContent);
+//
+//        mTvContent.setText(content);
+//        if (forceUpdate) {
+//            mDialog.setCancelable(false);
+//            mLlButton.setVisibility(View.GONE);
+//            mBtnForceUpdate.setVisibility(View.VISIBLE);
+//        } else {
+//            mDialog.setCancelable(true);
+//            mLlButton.setVisibility(View.VISIBLE);
+//            mBtnForceUpdate.setVisibility(View.GONE);
+//        }
+//        mBtnCancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mDialog.dismiss();
+//            }
+//        });
+//
+//        mBtnOK.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // 下载
+//                try {
+//                    Intent intent = new Intent();
+//                    intent.setAction("android.intent.action.VIEW");
+//                    Uri content_url = Uri.parse(url);
+//                    intent.setData(content_url);
+//                    startActivity(intent);
+//                } catch (Exception e) {
+//
+//                }
+//                mDialog.dismiss();
+//            }
+//        });
+//        mBtnForceUpdate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // 下载
+//                try {
+//                    Intent intent = new Intent();
+//                    intent.setAction("android.intent.action.VIEW");
+//                    Uri content_url = Uri.parse(url.contains("http://") ? ("http://" + url) : url);
+//                    intent.setData(content_url);
+//                    startActivity(intent);
+//                } catch (Exception e) {
+//
+//                }
+//                mDialog.dismiss();
+//            }
+//        });
+//    }
 
 
     @Override

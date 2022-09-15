@@ -38,6 +38,11 @@ public class AppInterfaceAddress {
      */
     public static final String Home_Banner = "common/getBannerProds";
     /**
+     *首页-优惠券数量
+     */
+    public static final String Home_Coupon = "common/getAppUserCityGiftNum";
+
+    /**
      * 添加企业
      */
     public static final String Add_Company = "common/addQgUserFranchise";

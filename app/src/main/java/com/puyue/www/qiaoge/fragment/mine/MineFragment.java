@@ -643,7 +643,7 @@ public class MineFragment extends BaseFragment {
                 //后面做版本更新的功能,需要重新对接
                 if (update) {
                     UserInfoHelper.saveGuide(mActivity, "");
-                    showUpdateDialog();
+//                    showUpdateDialog();
                 } else {
                     //已经是最新版本
                     final AlertDialog mDialog = new AlertDialog.Builder(getContext()).create();
@@ -814,64 +814,64 @@ public class MineFragment extends BaseFragment {
                 });
     }
 
-    private void showUpdateDialog() {
-        final AlertDialog mDialog = new AlertDialog.Builder(getContext()).create();
-        mDialog.show();
-        mDialog.getWindow().setContentView(R.layout.update_dialog);
-        Button mBtnForceUpdate = (Button) mDialog.getWindow().findViewById(R.id.btnForceUpdate);
-        Button mBtnCancel = (Button) mDialog.getWindow().findViewById(R.id.btnCancel);
-        Button mBtnOK = (Button) mDialog.getWindow().findViewById(R.id.btnOK);
-        LinearLayout mLlButton = (LinearLayout) mDialog.getWindow().findViewById(R.id.llButton);
-        TextView mTvContent = (TextView) mDialog.getWindow().findViewById(R.id.tvContent);
-        mTvContent.setText(content);
-        if (forceUpdate) {
-            mDialog.setCancelable(false);
-            mLlButton.setVisibility(View.GONE);
-            mBtnForceUpdate.setVisibility(View.VISIBLE);
-        } else {
-            mDialog.setCancelable(true);
-            mLlButton.setVisibility(View.VISIBLE);
-            mBtnForceUpdate.setVisibility(View.GONE);
-        }
-        mBtnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDialog.dismiss();
-            }
-        });
-        mBtnOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 下载
-                try {
-                    Intent intent = new Intent();
-                    intent.setAction("android.intent.action.VIEW");
-                    Uri content_url = Uri.parse(url);
-                    intent.setData(content_url);
-                    startActivity(intent);
-                } catch (Exception e) {
-
-                }
-                mDialog.dismiss();
-            }
-        });
-        mBtnForceUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 下载
-                try {
-                    Intent intent = new Intent();
-                    intent.setAction("android.intent.action.VIEW");
-                    Uri content_url = Uri.parse(url.contains("http://") ? ("http://" + url) : url);
-                    intent.setData(content_url);
-                    startActivity(intent);
-                } catch (Exception e) {
-
-                }
-                mDialog.dismiss();
-            }
-        });
-    }
+//    private void showUpdateDialog() {
+//        final AlertDialog mDialog = new AlertDialog.Builder(getContext()).create();
+//        mDialog.show();
+//        mDialog.getWindow().setContentView(R.layout.update_dialog);
+//        Button mBtnForceUpdate = (Button) mDialog.getWindow().findViewById(R.id.btnForceUpdate);
+//        Button mBtnCancel = (Button) mDialog.getWindow().findViewById(R.id.btnCancel);
+//        Button mBtnOK = (Button) mDialog.getWindow().findViewById(R.id.btnOK);
+//        LinearLayout mLlButton = (LinearLayout) mDialog.getWindow().findViewById(R.id.llButton);
+//        TextView mTvContent = (TextView) mDialog.getWindow().findViewById(R.id.tvContent);
+//        mTvContent.setText(content);
+//        if (forceUpdate) {
+//            mDialog.setCancelable(false);
+//            mLlButton.setVisibility(View.GONE);
+//            mBtnForceUpdate.setVisibility(View.VISIBLE);
+//        } else {
+//            mDialog.setCancelable(true);
+//            mLlButton.setVisibility(View.VISIBLE);
+//            mBtnForceUpdate.setVisibility(View.GONE);
+//        }
+//        mBtnCancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mDialog.dismiss();
+//            }
+//        });
+//        mBtnOK.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // 下载
+//                try {
+//                    Intent intent = new Intent();
+//                    intent.setAction("android.intent.action.VIEW");
+//                    Uri content_url = Uri.parse(url);
+//                    intent.setData(content_url);
+//                    startActivity(intent);
+//                } catch (Exception e) {
+//
+//                }
+//                mDialog.dismiss();
+//            }
+//        });
+//        mBtnForceUpdate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // 下载
+//                try {
+//                    Intent intent = new Intent();
+//                    intent.setAction("android.intent.action.VIEW");
+//                    Uri content_url = Uri.parse(url.contains("http://") ? ("http://" + url) : url);
+//                    intent.setData(content_url);
+//                    startActivity(intent);
+//                } catch (Exception e) {
+//
+//                }
+//                mDialog.dismiss();
+//            }
+//        });
+//    }
 
 
     @Override
@@ -934,7 +934,7 @@ public class MineFragment extends BaseFragment {
             //有更新
             mTvVersion.setText(getString(R.string.textVersion) + AppHelper.getVersion(getContext()));
             mViewVersionPoint.setVisibility(View.VISIBLE);
-            showUpdateDialog();
+//            showUpdateDialog();
         } else {
             mTvVersion.setText(getString(R.string.textVersion) + AppHelper.getVersion(getContext()));
             //没更新

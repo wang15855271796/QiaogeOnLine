@@ -20,6 +20,7 @@ import com.puyue.www.qiaoge.model.FullCouponListModel;
 import com.puyue.www.qiaoge.model.FullDetailModel;
 import com.puyue.www.qiaoge.model.GetCompanyModel;
 import com.puyue.www.qiaoge.model.HomeBannerModel;
+import com.puyue.www.qiaoge.model.HomeCouponModel;
 import com.puyue.www.qiaoge.model.JudegModel;
 import com.puyue.www.qiaoge.model.ModeModel;
 import com.puyue.www.qiaoge.model.OrderModel;
@@ -494,7 +495,15 @@ public class IndexHomeAPI {
         return spikeActiveQueryService.getData(bannerId);
     }
 
+    private interface HomeCouponService {
+        @POST(AppInterfaceAddress.Home_Coupon)
+        Observable<HomeCouponModel> getData();
+    }
 
+    public static Observable<HomeCouponModel> getHomeCoupon(Context context) {
+        HomeCouponService spikeActiveQueryService = RestHelper.getBaseRetrofit(context).create(HomeCouponService.class);
+        return spikeActiveQueryService.getData();
+    }
 
 
 }

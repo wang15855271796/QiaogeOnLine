@@ -202,7 +202,6 @@ public class MarketsFragment extends BaseFragment {
 
     }
 
-
     @Override
     public void onStop() {
         super.onStop();

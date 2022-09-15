@@ -7,6 +7,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
@@ -16,21 +18,30 @@ import com.frankfancode.marqueeview.MarqueeView;
 import com.google.android.material.appbar.AppBarLayout;
 
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Build;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.OverScroller;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -121,6 +132,8 @@ import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.ChangeCityModel;
 import com.puyue.www.qiaoge.model.CouponModels;
+import com.puyue.www.qiaoge.model.HomeBannerModel;
+import com.puyue.www.qiaoge.model.HomeCouponModel;
 import com.puyue.www.qiaoge.model.IsAuthModel;
 import com.puyue.www.qiaoge.model.IsShowModel;
 import com.puyue.www.qiaoge.model.OrderModel;
@@ -138,6 +151,9 @@ import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import com.puyue.www.qiaoge.view.CustomAppbarLayout;
 import com.puyue.www.qiaoge.view.HIndicators;
+import com.puyue.www.qiaoge.view.MyCompanyScrollView;
+import com.puyue.www.qiaoge.view.MyScrollView1;
+import com.puyue.www.qiaoge.view.MyScrollView2;
 import com.puyue.www.qiaoge.view.ScrollSpeedLinearLayoutManger;
 import com.puyue.www.qiaoge.view.SnapUpCountDownTimerView3;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -149,6 +165,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -346,12 +363,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     ImageView iv_huo_company;
     @BindView(R.id.ll_coupon)
     LinearLayout ll_coupon;
+    @BindView(R.id.iv_coupon)
+    ImageView iv_coupon;
     @BindView(R.id.ll_city)
     LinearLayout ll_city;
-    @BindView(R.id.fl_container)
-    FrameLayout fl_container;
-    @BindView(R.id.coordinator)
-    CoordinatorLayout coordinator;
+    @BindView(R.id.my_scroll)
+    MyScrollView2 my_scroll;
+    @BindView(R.id.tv_coupon_num)
+    TextView tv_coupon_num;
     List<String> list = new ArrayList<>();
     private static final float ENDMARGINLEFT = 50;
     private static final float ENDMARGINTOP = 5;
@@ -417,7 +436,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
     int currentState = SCROLL_STATE_IDLE;
 
-    private CountDownTimer scrollCountTimer = new CountDownTimer(2000, 1) {
+    CountDownTimer animTimer;
+
+    private CountDownTimer scrollCountTimer = new CountDownTimer(2000, 2000) {
         @Override
         public void onTick(long millisUntilFinished) {
 
@@ -429,6 +450,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         }
     };
 
+
     @Override
     public int setLayoutId() {
         return R.layout.test10;
@@ -437,29 +459,68 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     private void setScrollState(int scrollStateScroll) {
         if(scrollStateScroll == 1) {
             ll_coupon.setVisibility(View.VISIBLE);
+            iv_coupon.setVisibility(View.GONE);
         }else {
             ll_coupon.setVisibility(View.GONE);
+            iv_coupon.setVisibility(View.VISIBLE);
         }
     }
 
     int scroll = 0;
+    private AnimationDrawable anim;
+    private int TIME = 2500;
+    Handler handler = new Handler();
+    boolean isScroll1 = false;
     @Override
     public void findViewById(View view) {
         bind = ButterKnife.bind(this, view);
+        anim = (AnimationDrawable)ll_coupon.getBackground();
 
         setListener();
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
 
+        my_scroll.setOnScrollStatusListener(new MyScrollView2.OnScrollStatusListener() {
+            @Override
+            public void onScrollStop() {
+                isScroll1 = false;
+                setScrollState(SCROLL_STATE_IDLE);
+            }
+
+            @Override
+            public void onScrolling() {
+                if(isScroll1) {
+                    return;
+                }
+                setScrollState(SCROLL_STATE_SCROLL);
+                isScroll1 = true;
+            }
+        });
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    handler.postDelayed(this, TIME);
+                    animTimer = new CountDownTimer(2500, 2500) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            anim.start();
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            anim.stop();
+                        }
+                    }.start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        handler.postDelayed(runnable, TIME); // 在初始化方法里.
         setScrollState(SCROLL_STATE_IDLE);
 
-//        fl_container.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-//            @Override
-//            public void onScrollChange(View view, int i, int i1, int i2, int i3) {
-//                Log.d("wdasdwedwd.......",i1+"---");
-//            }
-//        });
         rl_grand.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -491,6 +552,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                         int abs = Math.abs(y);
                         int totalScrollRange = appBarLayout.getTotalScrollRange()-bar_height;
                         if (abs>=totalScrollRange) {
+
                             ll_parent_top.setVisibility(View.VISIBLE);
                             ll_small_title.setVisibility(View.GONE);
                             ll_line.setVisibility(View.VISIBLE);
@@ -626,7 +688,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                             }
                         }
 
-
                         if(scroll != abs) {
                             if (isDragState) {//拖动状态单独处理不再进行滚动状态监测
                                 return;
@@ -636,10 +697,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                             if(currentState != SCROLL_STATE_SCROLL) {
                                 setScrollState(SCROLL_STATE_SCROLL);
                             }
-//                            isDragState = false;
                             scrollCountTimer.start();
-                        }else {
-//                            isDragState = true;
                         }
                         scroll = abs;
                     }
@@ -693,6 +751,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 getCustomerPhone();
                 getMessage();
                 hintKbTwo();
+                getHomeCoupon();
                 getHot(1, 10, "hot");
                 EventBus.getDefault().post(new BackEvent());
                 refreshLayout.finishRefresh();
@@ -1757,6 +1816,35 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             }
         });
     }
+
+    private void getHomeCoupon() {
+        IndexHomeAPI.getHomeCoupon(mActivity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<HomeCouponModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(HomeCouponModel homeCouponModel) {
+                        if(homeCouponModel.getCode()==1) {
+                            if(homeCouponModel.getData()!=null) {
+                                tv_coupon_num.setText(homeCouponModel.getData()+"张");
+                            }
+
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,homeCouponModel.getMessage());
+                        }
+                    }
+                });
+    }
+
     /**
      * 订单状态
      */
@@ -2984,8 +3072,39 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     }
 
 
+    boolean isDown = false;
     @Override
     public void initViews(View view) {
+//        my_scroll.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+//            @Override
+//            public void onScrollChanged() {
+//                if (!isDown){//惯性滚动时，重新倒计时
+//                    scrollCountTimer.cancel();
+//                    scrollCountTimer.start();
+//                }
+//            }
+//        });
+
+//        my_scroll.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                switch (event.getAction()) {
+//                    case MotionEvent.ACTION_UP:
+//                    case MotionEvent.ACTION_CANCEL://抬起开始倒计时
+//                        isDown = false;
+//                        scrollCountTimer.start();
+//                        break;
+//                    case MotionEvent.ACTION_DOWN:
+//                    case MotionEvent.ACTION_MOVE://按下或移动状态取消倒计时
+//                        isDown = true;
+//                        scrollCountTimer.cancel();
+//                        break;
+//                }
+//                return onTouchEvent(event);
+//            }
+//        });
+
+
     }
 
 
@@ -3016,4 +3135,26 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                     }
                 });
     }
+
+
+//    public boolean isfinishScroll(NestedScrollView scrollView) {
+//        try {
+//            if (scrollView != null) {
+//                Field mScroller = scrollView.getClass().getDeclaredField("mScroller");
+//                mScroller.setAccessible(true);
+//                Object object = mScroller.get(scrollView);
+//                if (object instanceof OverScroller) {
+//                    OverScroller overScroller = (OverScroller) object;
+//                    return overScroller.isFinished();
+//                }
+//            }
+//        } catch (NoSuchFieldException e) {
+//            e.printStackTrace();
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        }
+//        return false;
+//    }
+
+
 }
