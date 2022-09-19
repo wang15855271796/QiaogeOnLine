@@ -1,5 +1,7 @@
 package com.puyue.www.qiaoge.dialog;
 
+import static rx.android.schedulers.AndroidSchedulers.mainThread;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -22,11 +24,14 @@ import android.widget.TextView;
 import androidx.fragment.app.FragmentActivity;
 
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.event.DisTributionEvent;
 import com.puyue.www.qiaoge.event.DisTributionSelfEvent;
 import com.puyue.www.qiaoge.event.HuoBeizhuEvent;
 import com.puyue.www.qiaoge.event.RefreshEvent;
 import com.puyue.www.qiaoge.helper.StringSpecialHelper;
+import com.puyue.www.qiaoge.model.ModeModel;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.utils.Utils;
 
@@ -37,6 +42,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import rx.Subscriber;
+import rx.schedulers.Schedulers;
 
 public class DisDialog extends Dialog {
     public Unbinder binder;
@@ -67,13 +74,11 @@ public class DisDialog extends Dialog {
     @BindView(R.id.tv_call)
     TextView tv_call;
     String sendAmount;
-    int hllBtn;
     int type;
-    public DisDialog(Context mContext, String sendAmount,int type,int hllBtn) {
+    public DisDialog(Context mContext, String sendAmount,int type) {
         super(mContext, R.style.dialog);
         this.context = mContext;
         this.sendAmount = sendAmount;
-        this.hllBtn = hllBtn;
         this.type = type;
         init();
     }
@@ -85,8 +90,6 @@ public class DisDialog extends Dialog {
             EventBus.getDefault().register(this);
         }
     }
-
-
 
     boolean isCb1 = false;
     boolean isCb2 = false;
@@ -107,20 +110,7 @@ public class DisDialog extends Dialog {
         tv_price.setVisibility(View.VISIBLE);
         tv_name.setText("翘歌配送");
 
-        if(hllBtn==1) {
-            tv_name2.setTextColor(Color.parseColor("#999999"));
-            tv_huo.setVisibility(View.GONE);
-            tv_tip.setVisibility(View.GONE);
-            tv_call.setVisibility(View.GONE);
-            tv_unOpen.setVisibility(View.VISIBLE);
-        }else {
-            tv_name2.setTextColor(Color.parseColor("#333333"));
-            tv_huo.setVisibility(View.VISIBLE);
-            tv_tip.setVisibility(View.VISIBLE);
-            tv_call.setVisibility(View.VISIBLE);
-            tv_unOpen.setVisibility(View.GONE);
-//            tv_huo.setText("(订单支付后，用户自己发起配送服务)");
-        }
+       getMode();
 
         rl_cb1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,4 +206,51 @@ public class DisDialog extends Dialog {
         tv_name.setTextColor(Color.parseColor("#333333"));
         tv_price.setTextColor(Color.parseColor("#999999"));
     }
+
+    /**
+     * 是否显示内容
+     */
+    ModeModel modeModel1;
+    public void getMode() {
+        IndexHomeAPI.getMode(context, SharedPreferencesUtil.getInt(context,"wad"))
+                .subscribeOn(Schedulers.io())
+                .observeOn(mainThread())
+                .subscribe(new Subscriber<ModeModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ModeModel modeModel) {
+                        if(modeModel.getCode()==1) {
+                            if(modeModel.getData()!=null) {
+                                modeModel1 = modeModel;
+                                if(modeModel1.getData().getHllBtn()==1) {
+                                    tv_name2.setTextColor(Color.parseColor("#999999"));
+                                    tv_huo.setVisibility(View.GONE);
+                                    tv_tip.setVisibility(View.GONE);
+                                    tv_call.setVisibility(View.GONE);
+                                    tv_unOpen.setVisibility(View.VISIBLE);
+                                }else {
+                                    tv_name2.setTextColor(Color.parseColor("#333333"));
+                                    tv_huo.setVisibility(View.VISIBLE);
+                                    tv_tip.setVisibility(View.VISIBLE);
+                                    tv_call.setVisibility(View.VISIBLE);
+                                    tv_unOpen.setVisibility(View.GONE);
+                                }
+
+                            }
+                        }else {
+                            ToastUtil.showSuccessMsg(context,modeModel.getMessage());
+                        }
+                    }
+                });
+    }
+
 }

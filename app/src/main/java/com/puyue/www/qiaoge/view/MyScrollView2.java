@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.widget.NestedScrollView;
@@ -26,7 +27,7 @@ public class MyScrollView2 extends NestedScrollView {
     @Override protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
         if (onScrollStatusListener != null) {
-            onScrollStatusListener.onScrolling();
+            onScrollStatusListener.onScrolling(t-oldt);
             mHandler.removeCallbacksAndMessages(null);
             mHandler.sendEmptyMessageDelayed(0x01, 0);
         }
@@ -58,7 +59,7 @@ public class MyScrollView2 extends NestedScrollView {
     public interface OnScrollStatusListener {
         void onScrollStop();
 
-        void onScrolling();
+        void onScrolling(int length);
     }
 
 }

@@ -1,5 +1,7 @@
 package com.puyue.www.qiaoge.dialog;
 
+import static rx.android.schedulers.AndroidSchedulers.mainThread;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -17,9 +19,12 @@ import android.widget.TextView;
 import androidx.fragment.app.FragmentActivity;
 
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.event.DisTributionEvent;
 import com.puyue.www.qiaoge.event.DisTributionSelfEvent;
 import com.puyue.www.qiaoge.event.RefreshEvent;
+import com.puyue.www.qiaoge.model.ModeModel;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.utils.Utils;
 
@@ -28,6 +33,8 @@ import org.greenrobot.eventbus.EventBus;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import rx.Subscriber;
+import rx.schedulers.Schedulers;
 
 public class DisSelfDialog extends Dialog {
     public Unbinder binder;
@@ -54,11 +61,9 @@ public class DisSelfDialog extends Dialog {
     String sendAmount;
 
     int type;
-    int hllBtn;
-    public DisSelfDialog(Context mContext, String sendAmount,int type,int hllBtn) {
+    public DisSelfDialog(Context mContext, String sendAmount,int type) {
         super(mContext, R.style.dialog);
         this.context = mContext;
-        this.hllBtn = hllBtn;
         this.sendAmount = sendAmount;
         this.type = type;
         init();
@@ -78,13 +83,7 @@ public class DisSelfDialog extends Dialog {
         tv_price.setText("满"+sendAmount+"元免配送费");
         tv_name.setText("到仓自提");
         tv_price.setVisibility(View.GONE);
-        if(hllBtn==1) {
-            tv_name2.setTextColor(Color.parseColor("#999999"));
-//            tv_huo.setText("(暂未开启货拉拉配送服务)");
-        }else {
-            tv_name2.setTextColor(Color.parseColor("#333333"));
-//            tv_huo.setText("(订单支付后，用户自己发起配送服务)");
-        }
+
 
         rl_cb1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,5 +140,41 @@ public class DisSelfDialog extends Dialog {
             }
         });
     }
+
+    ModeModel modeModel1;
+    public void getMode() {
+        IndexHomeAPI.getMode(context, SharedPreferencesUtil.getInt(context,"wad"))
+                .subscribeOn(Schedulers.io())
+                .observeOn(mainThread())
+                .subscribe(new Subscriber<ModeModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ModeModel modeModel) {
+                        if(modeModel.getCode()==1) {
+                            if(modeModel.getData()!=null) {
+                                modeModel1 = modeModel;
+                                if(modeModel1.getData().getHllBtn()==1) {
+                                    tv_name2.setTextColor(Color.parseColor("#999999"));
+                                }else {
+                                    tv_name2.setTextColor(Color.parseColor("#333333"));
+                                }
+
+                            }
+                        }else {
+                            ToastUtil.showSuccessMsg(context,modeModel.getMessage());
+                        }
+                    }
+                });
+    }
+
 
 }

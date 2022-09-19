@@ -10,6 +10,10 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.dialog.CouponCartListDialog;
+import com.puyue.www.qiaoge.dialog.CouponDialog;
+import com.puyue.www.qiaoge.dialog.CouponFullListDialog;
+import com.puyue.www.qiaoge.dialog.CouponListDialog;
 import com.puyue.www.qiaoge.model.cart.CartTestModel;
 
 import java.util.List;
@@ -36,8 +40,8 @@ public class CartCouponAdapter extends BaseQuickAdapter<CartTestModel.DataBean.P
         rl_root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                FullCouponDialog fullCouponDialog = new FullCouponDialog(mContext,item);
-//                fullCouponDialog.show();
+                CouponCartListDialog couponFullListDialog = new CouponCartListDialog(mContext,item.getGiftPoolNo(),item.getType(),item.getName());
+                couponFullListDialog.show();
             }
         });
 

@@ -258,18 +258,14 @@
         android:id="@+id/rv_given"
         android:layout_marginTop="@dimen/dp_10"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </androidx.recyclerview.widget.RecyclerView>
-
+        android:layout_height="wrap_content"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_full"
         android:layout_marginLeft="@dimen/dp_10"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"/>
 
-    </androidx.recyclerview.widget.RecyclerView>
 
     <View
         android:layout_width="match_parent"

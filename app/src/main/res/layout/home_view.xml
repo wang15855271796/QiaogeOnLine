@@ -11,7 +11,7 @@
         android:layout_marginRight="@dimen/dp_10"
         android:layout_marginLeft="@dimen/dp_10"
         android:layout_width="match_parent"
-        android:layout_height="132dp">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_marginTop="@dimen/size_6dp"
@@ -124,7 +124,6 @@
 
         </LinearLayout>
 
-
         <LinearLayout
             android:visibility="gone"
             android:layout_marginTop="@dimen/size_6dp"
@@ -171,7 +170,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="90dp"/>
         </LinearLayout>
-
 
         <!--  隐藏 组合2 -->
         <LinearLayout

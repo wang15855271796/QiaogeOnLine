@@ -177,6 +177,15 @@ public class FullDetailModel {
             List<String> role;
             String giftProdUseType;
             String dateTime;
+            List<String> giftUseRole;
+
+            public List<String> getGiftUseRole() {
+                return giftUseRole;
+            }
+
+            public void setGiftUseRole(List<String> giftUseRole) {
+                this.giftUseRole = giftUseRole;
+            }
 
             public List<String> getRole() {
                 return role;

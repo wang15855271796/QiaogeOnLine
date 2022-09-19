@@ -470,7 +470,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     private AnimationDrawable anim;
     private int TIME = 2500;
     Handler handler = new Handler();
-    boolean isScroll1 = false;
     @Override
     public void findViewById(View view) {
         bind = ButterKnife.bind(this, view);
@@ -484,19 +483,21 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         my_scroll.setOnScrollStatusListener(new MyScrollView2.OnScrollStatusListener() {
             @Override
             public void onScrollStop() {
-                isScroll1 = false;
                 setScrollState(SCROLL_STATE_IDLE);
             }
 
             @Override
-            public void onScrolling() {
-                if(isScroll1) {
-                    return;
+            public void onScrolling(int length) {
+                if(length>25) {
+                    setScrollState(SCROLL_STATE_SCROLL);
                 }
-                setScrollState(SCROLL_STATE_SCROLL);
-                isScroll1 = true;
+
+
             }
         });
+
+
+
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -695,6 +696,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                             //滑动时先取消倒计时，设置滑动状态
                             scrollCountTimer.cancel();
                             if(currentState != SCROLL_STATE_SCROLL) {
+
                                 setScrollState(SCROLL_STATE_SCROLL);
                             }
                             scrollCountTimer.start();
@@ -730,6 +732,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         rl_huo.setOnClickListener(this);
         iv_huo.setOnClickListener(this);
         iv_huo_company.setOnClickListener(this);
+        ll_coupon.setOnClickListener(this);
         lav_activity_loading.show();
         requestUpdate();
         refreshLayout.autoRefresh();
@@ -1817,6 +1820,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         });
     }
 
+    int couponNum;
     private void getHomeCoupon() {
         IndexHomeAPI.getHomeCoupon(mActivity)
                 .subscribeOn(Schedulers.io())
@@ -1835,6 +1839,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                     public void onNext(HomeCouponModel homeCouponModel) {
                         if(homeCouponModel.getCode()==1) {
                             if(homeCouponModel.getData()!=null) {
+                                couponNum = homeCouponModel.getData();
+                                if(couponNum>0) {
+                                    ll_coupon.setVisibility(View.VISIBLE);
+                                }else {
+                                    ll_coupon.setVisibility(View.GONE);
+                                }
                                 tv_coupon_num.setText(homeCouponModel.getData()+"张");
                             }
 
@@ -2392,6 +2402,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             case R.id.iv_huo_company:
                 isAuth();
                 break;
+
+            case R.id.ll_coupon:
+                Intent intent3 = new Intent(mActivity,MyCouponsActivity.class);
+                startActivity(intent3);
+                break;
+
             case R.id.rl_search:
                 Intent intent = new Intent(mActivity, SearchStartActivity.class);
                 intent.putExtra(AppConstant.SEARCHTYPE, AppConstant.HOME_SEARCH);

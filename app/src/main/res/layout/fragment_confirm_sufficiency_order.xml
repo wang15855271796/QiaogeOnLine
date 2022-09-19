@@ -103,9 +103,8 @@
                             android:layout_margin="@dimen/size_8dp"
                             android:background="@drawable/shape_white1"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"/>
 
-                        </androidx.recyclerview.widget.RecyclerView>
 
                         <RelativeLayout
                             android:visibility="gone"
@@ -150,10 +149,9 @@
                             android:layout_height="wrap_content"
                             android:paddingTop="8dp"
                             app:is_limit="true"
-                            app:limit_line_count="2"
-                            app:max_select="1">
+                            app:limit_line_count="3"
+                            app:max_select="1"/>
 
-                        </com.puyue.www.qiaoge.activity.flow.TagsFlowLayout>
 
                         <RelativeLayout
                             android:visibility="gone"

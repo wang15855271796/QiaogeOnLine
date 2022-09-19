@@ -87,12 +87,12 @@
                         android:layout_height="wrap_content">
 
                         <RelativeLayout
-                            android:layout_marginLeft="@dimen/size_16dp"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/size_50dp">
 
                             <TextView
                                 android:text="包裹1"
+                                android:layout_marginLeft="@dimen/size_16dp"
                                 android:textColor="#343434"
                                 android:textStyle="bold"
                                 android:layout_centerVertical="true"
@@ -112,40 +112,42 @@
                                 android:layout_height="wrap_content" />
 
                             <TextView
+                                android:visibility="gone"
                                 android:id="@+id/tv_operate"
-                                android:layout_marginRight="@dimen/dp_10"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/dp_10"
                                 android:textColor="#F56E24"
                                 android:textSize="@dimen/dp_10"
-                                tools:text="现在下单，预计明天日(9月19日)开始配送"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                                tools:text="现在下单，预计明天日(9月19日)开始配送" />
 
                         </RelativeLayout>
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerView"
-                            android:layout_marginTop="@dimen/size_10dp"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                        </androidx.recyclerview.widget.RecyclerView>
+                            android:layout_height="wrap_content"/>
 
                         <!--  系统发送的优惠券货赠品-->
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_given"
+                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_coupon"
+                            android:visibility="gone"
                             android:layout_marginLeft="@dimen/dp_10"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
+
                     </LinearLayout>
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/ll_unOperate"
                         android:orientation="vertical"
                         android:layout_marginTop="@dimen/dp_10"
@@ -153,21 +155,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-
                         <RelativeLayout
-                            android:layout_marginLeft="@dimen/size_16dp"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/size_50dp">
+                            android:layout_height="@dimen/size_40dp">
 
                             <TextView
-                                android:text="包裹2"
-                                android:textColor="#343434"
-                                android:textStyle="bold"
-                                android:layout_centerVertical="true"
-                                android:textSize="@dimen/sp_14"
                                 android:id="@+id/tv_title"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/size_10dp"
+                                android:text="以下商品暂不支持 “我自己叫货拉拉"
+                                android:textColor="#FF2925"
+                                android:textSize="@dimen/sp_14" />
 
                             <ImageView
                                 android:id="@+id/iv_pic"
@@ -180,28 +180,79 @@
                                 android:layout_height="wrap_content" />
 
                             <TextView
-                                android:layout_marginRight="@dimen/dp_10"
-                                android:layout_centerVertical="true"
-                                android:layout_alignParentRight="true"
+                                android:visibility="gone"
                                 android:id="@+id/tv_unOperate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/dp_10"
                                 android:textColor="#F56E24"
                                 android:textSize="@dimen/dp_10"
-                                tools:text="现在下单，预计明天日(9月19日)开始配送"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                                tools:text="现在下单，预计明天日(9月19日)开始配送" />
 
                         </RelativeLayout>
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recyclerView1"
-                            android:layout_marginTop="@dimen/size_10dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
 
-                        </androidx.recyclerview.widget.RecyclerView>
+                        <com.puyue.www.qiaoge.activity.flow.TagsFlowLayout
+                            android:id="@+id/recyclerView1"
+                            android:layout_marginRight="@dimen/size_8dp"
+                            android:layout_marginLeft="@dimen/size_8dp"
+                            android:background="@drawable/shape_white6"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="8dp"
+                            app:is_limit="true"
+                            app:limit_line_count="3"
+                            app:max_select="1"/>
+
+
+                        <RelativeLayout
+                            android:id="@+id/rl_arrow"
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_below="@+id/rv_unable"
+                            android:layout_marginRight="@dimen/size_8dp"
+                            android:layout_marginLeft="@dimen/size_8dp"
+                            android:background="@drawable/shape_white6"
+                            android:layout_height="@dimen/size_30dp">
+
+                            <TextView
+                                android:id="@+id/tv_open"
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/size_30dp"
+                                android:layout_centerInParent="true"
+                                android:layout_gravity="center"
+                                android:layout_marginBottom="12dp"
+                                android:drawablePadding="@dimen/dp_10"
+                                android:text="展开"
+                                android:textColor="#999999"
+                                android:textSize="12sp" />
+
+                            <ImageView
+                                android:id="@+id/iv_open"
+                                android:layout_marginLeft="@dimen/size_3dp"
+                                android:layout_toRightOf="@+id/tv_open"
+                                android:layout_centerInParent="true"
+                                android:src="@mipmap/icon_arrow_down"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                        </RelativeLayout>
+
+<!--                        <androidx.recyclerview.widget.RecyclerView-->
+<!--                            android:id="@+id/rv_given1"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"/>-->
+
+<!--                        <androidx.recyclerview.widget.RecyclerView-->
+<!--                            android:id="@+id/rv_coupon1"-->
+<!--                            android:layout_marginLeft="@dimen/dp_10"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"/>-->
+
 
                     </LinearLayout>
-
 
                     <LinearLayout
                         android:layout_marginTop="@dimen/dp_10"

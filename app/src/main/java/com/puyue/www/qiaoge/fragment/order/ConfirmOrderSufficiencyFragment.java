@@ -132,7 +132,6 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
  * A simple {@link Fragment} subclass.
  */
 public class ConfirmOrderSufficiencyFragment extends BaseFragment {
-    private Toolbar toolbar;
     private RecyclerView recyclerView;
     TagsFlowLayout recyclerView_un;
     private LinearLayout linearLayoutAddressHead;
@@ -231,16 +230,9 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     double latitude1;//仓库位置
     double longitude1;
 
-    double latitude2;//用户位置
-    double longitude2;
     private TextView tv_address;
     TextView tv_num;
     AVLoadingIndicatorView lav_activity_loading;
-//    public LocationClient mLocationClient = null;
-//    private MyLocationListener myListener = new MyLocationListener();
-//    private UiSettings mUiSettings;
-
-
     private BottomSheetDialog mDialogMap;
     private String title;
     private String content;
@@ -362,11 +354,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     public void setViewData() {
         EventBus.getDefault().register(this);
         instance = TencentLocationManager.getInstance(QiaoGeApplication.getContext());
-//        TencentLocationRequest request = TencentLocationRequest.create();
-//        request.setInterval(1000);
-//        request.setRequestLevel(TencentLocationRequest. REQUEST_LEVEL_POI);
-//        request.setAllowGPS(true);
-//        request.setIndoorLocationMode(true);
+
         TencentLocationListener mLocationListener = new TencentLocationListener() {
             @Override
             public void onLocationChanged(TencentLocation location, int i, String s) {
@@ -379,8 +367,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
             }
         };
         instance.requestSingleFreshLocation(null, mLocationListener, Looper.getMainLooper());
-
-//        instance.requestLocationUpdates(request, this);
 
         ll_self_sufficiency.setVisibility(View.GONE);
         final Calendar mCalendar = Calendar.getInstance();
@@ -579,14 +565,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                                 listYear.add(getTimeOrderModel.getData().get(i).getDateTime());
                             }
 
-
-                         /*   if (getTimeOrderModel.getData().size() == 1) {
-                                for (int i = 0; i < getTimeOrderModel.getData().get(0).getDetailTime().size(); i++) {
-                                    
-                                }
-                            }*/
-
-
                             for (int i = 0; i < getTimeOrderModel.getData().size(); i++) {
                                 List<String> listTime = new ArrayList<>();
                                 for (int j = 0; j < getTimeOrderModel.getData().get(i).getDetailTime().size(); j++) {
@@ -643,9 +621,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
 
     @Override
     public void setClickEvent() {
-
-       // linearLayoutAddressHead.setOnClickListener(noDoubleClickListener);
-     //   LinearLayoutAddress.setOnClickListener(noDoubleClickListener);
         statModel = new StatModel();
         buttonPay.setOnClickListener(noDoubleClickListener);
         linearLayoutCoupons.setOnClickListener(noDoubleClickListener);
@@ -661,9 +636,9 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
         public void onNoDoubleClick(View view) {
             switch (view.getId()) {
                 case R.id.rl_distribution:
-                    if(cModel!=null&&cModel.getData()!=null&&modeModel1!=null) {
+                    if(cModel!=null&&cModel.getData()!=null) {
                         if(disDialog == null) {
-                            disDialog = new DisSelfDialog(mActivity,cModel.getData().getSendAmount(),0,modeModel1.getData().getHllBtn());
+                            disDialog = new DisSelfDialog(mActivity,cModel.getData().getSendAmount(),0);
                         }
                         disDialog.show();
                     }
@@ -691,9 +666,9 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                         AppHelper.showMsg(mActivity, "请选择配送服务");
                         buttonPay.setEnabled(true);
                         lav_activity_loading.hide();
-                        if(cModel!=null&&cModel.getData()!=null&&modeModel1!=null) {
+                        if(cModel!=null&&cModel.getData()!=null) {
                             if(disDialog == null) {
-                                disDialog = new DisSelfDialog(mActivity,cModel.getData().getSendAmount(),1,modeModel1.getData().getHllBtn());
+                                disDialog = new DisSelfDialog(mActivity,cModel.getData().getSendAmount(),1);
                             }
                             disDialog.show();
                         }
@@ -712,7 +687,27 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                         if (et_name.getText().toString() != null) {
                             if (et_phone.getText().toString() != null) {
                                 if (mYear != null) {
-                                    requestOrderNum();
+                                    if(listUnOperate.size()> 0) {
+                                        operateDialog = new OperateDialog(mActivity,listUnOperate,info.getTotalAmount()) {
+                                            @Override
+                                            public void Confirm() {
+                                                EventBus.getDefault().post(new RefreshEvent());
+                                                operateDialog.dismiss();
+                                                lav_activity_loading.hide();
+                                                buttonPay.setEnabled(true);
+                                            }
+
+                                            @Override
+                                            public void Cancle() {
+                                                requestOrderNum();
+                                            }
+                                        };
+
+                                        operateDialog.show();
+                                    }else {
+                                        requestOrderNum();
+                                    }
+
                                 } else {
                                     AppHelper.showMsg(mActivity, "请选择取货时间");
                                     lav_activity_loading.hide();
@@ -875,16 +870,12 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                                 recyclerView_un.setVisibility(View.GONE);
                             }
 
-//                            mCoder.geocode(new GeoCodeOption()
-//                                    .city("杭州")
-//                                    .address(cartBalanceModel.getData().wareAddress));
                         } else {
                             AppHelper.showMsg(mActivity, cartBalanceModel.message);
                         }
 
 
                         TagsAdapter unAbleAdapter = new TagsAdapter<CartBalanceModel.DataBean.ProductVOListBean>(listUnOperate){
-
                             @Override
                             public View getView(FlowLayout parent, int position, CartBalanceModel.DataBean.ProductVOListBean productVOListBean) {
                                 View view = LayoutInflater.from(mActivity).inflate(R.layout.item_confirm_order_new,recyclerView_un, false);
@@ -927,17 +918,16 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                 });
     }
 
-    CartBalanceModel.DataBean info;
     int giftNum;
-
 
     /**
      * 接收来自接口的数据进行数据设置。
      *
      * @param cartBalanceModel
      */
+    CartBalanceModel.DataBean info;
     private void setText(CartBalanceModel cartBalanceModel) {
-        CartBalanceModel.DataBean info = cartBalanceModel.getData();
+        info = cartBalanceModel.getData();
         proActAmount = info.getProActAmount();
         teamAmount = info.getTeamAmount();
         killAmount = info.getKillAmount();
@@ -1113,51 +1103,51 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                     public void onNext(GenerateOrderModel generateOrderModel) {
                         if (generateOrderModel.success) {
                             orderId = generateOrderModel.getData();
-                            if(listUnOperate.size()>0) {
-                                operateDialog = new OperateDialog(mActivity,listUnOperate) {
-                                    @Override
-                                    public void Confirm() {
-                                        EventBus.getDefault().post(new RefreshEvent());
-                                        operateDialog.dismiss();
-                                        lav_activity_loading.hide();
-                                        buttonPay.setEnabled(true);
-                                    }
-
-                                    @Override
-                                    public void Cancle() {
-                                        lav_activity_loading.hide();
-                                        operateDialog.dismiss();
-                                        buttonPay.setEnabled(true);
-
-                                        PaymentFragment paymentFragment = new PaymentFragment();
-                                        Bundle bundle = new Bundle();
-                                        bundle.putString("total", payAmount);
-                                        bundle.putString("payAmount",payAmount);
-                                        bundle.putString("remark","");
-                                        bundle.putString("orderId",orderId);
-                                        bundle.putString("orderDeliveryType","1");
-                                        paymentFragment.setArguments(bundle);
-                                        paymentFragment.setCancelable(false);
-                                        paymentFragment.show(getFragmentManager(),"paymentFragment");
-
-                                    }
-                                };
-                                operateDialog.show();
-                            }else {
-                                orderId = generateOrderModel.getData();
-                                PaymentFragment paymentFragment = new PaymentFragment();
-                                Bundle bundle = new Bundle();
-                                bundle.putString("total", payAmount);
-                                bundle.putString("payAmount",payAmount);
-                                bundle.putString("remark","");
-                                bundle.putString("orderId",orderId);
-                                bundle.putString("orderDeliveryType","1");
-                                paymentFragment.setArguments(bundle);
-                                paymentFragment.setCancelable(false);
-                                paymentFragment.show(getFragmentManager(),"paymentFragment");
-                                lav_activity_loading.hide();
-                                lav_activity_loading.setVisibility(View.GONE);
-                            }
+                            PaymentFragment paymentFragment = new PaymentFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("total", payAmount);
+                            bundle.putString("payAmount",payAmount);
+                            bundle.putString("remark","");
+                            bundle.putString("orderId",orderId);
+                            bundle.putString("orderDeliveryType","1");
+                            paymentFragment.setArguments(bundle);
+                            paymentFragment.setCancelable(false);
+                            paymentFragment.show(getFragmentManager(),"paymentFragment");
+                            lav_activity_loading.hide();
+                            lav_activity_loading.setVisibility(View.GONE);
+//                            if(listUnOperate.size()>0) {
+//                                operateDialog = new OperateDialog(mActivity,listUnOperate) {
+//                                    @Override
+//                                    public void Confirm() {
+//                                        EventBus.getDefault().post(new RefreshEvent());
+//                                        operateDialog.dismiss();
+//                                        lav_activity_loading.hide();
+//                                        buttonPay.setEnabled(true);
+//                                    }
+//
+//                                    @Override
+//                                    public void Cancle() {
+//                                        lav_activity_loading.hide();
+//                                        operateDialog.dismiss();
+//                                        buttonPay.setEnabled(true);
+//
+//                                        PaymentFragment paymentFragment = new PaymentFragment();
+//                                        Bundle bundle = new Bundle();
+//                                        bundle.putString("total", payAmount);
+//                                        bundle.putString("payAmount",payAmount);
+//                                        bundle.putString("remark","");
+//                                        bundle.putString("orderId",orderId);
+//                                        bundle.putString("orderDeliveryType","1");
+//                                        paymentFragment.setArguments(bundle);
+//                                        paymentFragment.setCancelable(false);
+//                                        paymentFragment.show(getFragmentManager(),"paymentFragment");
+//
+//                                    }
+//                                };
+//                                operateDialog.show();
+//                            }else {
+//
+//                            }
 
 
                         } else {

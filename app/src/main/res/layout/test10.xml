@@ -84,7 +84,6 @@
                                     android:layout_height="200dp"
                                     android:scaleType="fitXY" />
 
-
                                 <RelativeLayout
                                     android:id="@+id/rl_head"
                                     android:layout_marginTop="110dp"
@@ -410,6 +409,7 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/ll_coupon"
                 android:layout_width="79dp"
                 android:orientation="vertical"

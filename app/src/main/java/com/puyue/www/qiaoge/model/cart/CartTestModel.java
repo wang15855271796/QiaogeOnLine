@@ -257,7 +257,7 @@ public class CartTestModel {
                 private int type;
                 private int productId;
                 private int productMainId;
-                private Object giftPoolNo;
+                private String giftPoolNo;
                 private Object warehouseId;
                 private Object productUnit;
                 private String name;
@@ -296,11 +296,11 @@ public class CartTestModel {
                     this.productMainId = productMainId;
                 }
 
-                public Object getGiftPoolNo() {
+                public String getGiftPoolNo() {
                     return giftPoolNo;
                 }
 
-                public void setGiftPoolNo(Object giftPoolNo) {
+                public void setGiftPoolNo(String giftPoolNo) {
                     this.giftPoolNo = giftPoolNo;
                 }
 
