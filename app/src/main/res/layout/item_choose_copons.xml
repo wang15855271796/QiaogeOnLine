@@ -19,127 +19,16 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_white1">
 
-<!--            <RelativeLayout-->
-<!--                android:id="@+id/rl"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content">-->
-
-
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_tip"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_alignBottom="@+id/tv_amount"-->
-<!--                    android:layout_centerVertical="true"-->
-<!--                    android:layout_marginLeft="@dimen/size_18dp"-->
-<!--                    android:layout_marginTop="@dimen/size_20dp"-->
-<!--                    android:text="￥"-->
-<!--                    android:textColor="#F54022" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_amount"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="@dimen/size_20dp"-->
-<!--                    android:layout_toRightOf="@+id/tv_tip"-->
-<!--                    android:textColor="#F54022"-->
-<!--                    android:textSize="@dimen/size_30dp"-->
-<!--                    android:textStyle="bold"-->
-<!--                    tools:text="12" />-->
-
-<!--                <LinearLayout-->
-<!--                    android:id="@+id/ll"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginLeft="@dimen/size_23dp"-->
-<!--                    android:layout_toRightOf="@+id/tv_amount"-->
-<!--                    android:orientation="vertical">-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/tv_style"-->
-<!--                        android:layout_width="220dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="@dimen/size_15dp"-->
-<!--                        android:textColor="#333333"-->
-<!--                        android:textSize="@dimen/sp_14"-->
-<!--                        android:textStyle="bold"-->
-<!--                        tools:text="积分兑换" />-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/tv_user_factor"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="@dimen/size_5dp"-->
-<!--                        android:textColor="#333333"-->
-<!--                        android:textSize="@dimen/sp_12"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:visibility="gone"-->
-<!--                        tools:text="200元无门槛消费券" />-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/tv_time"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="@dimen/size_15dp"-->
-<!--                        android:textColor="#999999"-->
-<!--                        android:textSize="10dp"-->
-<!--                        tools:text="2020.7.30  8:00—2020.7.31  9:00" />-->
-
-
-<!--                </LinearLayout>-->
-
                 <ImageView
-                    android:id="@+id/iv_select"
+                    android:src="@mipmap/ic_pay_ok"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="@dimen/size_15dp"
                     android:layout_marginRight="@dimen/size_15dp" />
 
-<!--                <View-->
-<!--                    android:id="@+id/v"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="@dimen/size_3dp"-->
-<!--                    android:layout_below="@+id/ll"-->
-<!--                    android:layout_marginLeft="@dimen/size_18dp"-->
-<!--                    android:layout_marginTop="@dimen/size_8dp"-->
-<!--                    android:layout_marginRight="@dimen/size_18dp"-->
-<!--                    android:background="@drawable/app_my_coupons" />-->
-<!--            </RelativeLayout>-->
-
-
-<!--            <TextView-->
-<!--                android:visibility="gone"-->
-<!--                android:id="@+id/tv_role"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_below="@+id/rl"-->
-<!--                android:layout_marginLeft="@dimen/sp_16"-->
-<!--                android:gravity="center_vertical"-->
-<!--                android:textColor="#999999"-->
-<!--                android:textSize="10dp"-->
-<!--                tools:text="全场通用（仅限杭州市）" />-->
-
-
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                android:id="@+id/rv_role"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_below="@+id/rl"-->
-<!--                android:layout_marginBottom="@dimen/size_5dp"-->
-<!--                android:layout_marginTop="@dimen/size_5dp" />-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/iv_arrow"-->
-<!--                android:layout_width="@dimen/size_15dp"-->
-<!--                android:layout_height="@dimen/size_15dp"-->
-<!--                android:layout_below="@+id/rl"-->
-<!--                android:layout_marginTop="5dp"-->
-<!--                android:layout_alignParentRight="true"-->
-<!--                android:layout_marginRight="@dimen/dp_10"-->
-<!--                android:src="@mipmap/icon_arrow_down" />-->
-
         </RelativeLayout>
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -331,6 +220,15 @@
                 tools:text="全场通用（仅限杭州市）" />
 
         </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/iv_select"
+            android:src="@mipmap/checkbox_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:layout_marginRight="@dimen/size_18dp" />
 
     </RelativeLayout>
 

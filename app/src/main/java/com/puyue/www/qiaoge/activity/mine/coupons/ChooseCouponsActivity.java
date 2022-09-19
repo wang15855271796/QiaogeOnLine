@@ -185,12 +185,8 @@ public class ChooseCouponsActivity extends BaseSwipeActivity {
                                     } else {
                                         model.getData().get(i).setFlags(false);
                                     }
-
                                 }
                             }
-
-
-
                         } else {
                             AppHelper.showMsg(mContext, model.message);
                         }

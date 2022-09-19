@@ -26,7 +26,7 @@
         <ImageView
             android:id="@+id/iv_select_all"
             android:layout_marginTop="@dimen/size_15dp"
-            android:layout_marginRight="@dimen/size_15dp"
+            android:layout_marginRight="@dimen/size_6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true" />

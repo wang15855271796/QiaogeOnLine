@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
+import com.puyue.www.qiaoge.event.ChangeDeliverEvent;
 import com.puyue.www.qiaoge.event.RefreshEvent;
 import com.puyue.www.qiaoge.fragment.order.ConfirmOrderDeliverFragment;
 import com.puyue.www.qiaoge.fragment.order.ConfirmOrderSufficiencyFragment;
@@ -156,10 +157,9 @@ public class ConfirmNewOrderActivity extends BaseSwipeActivity implements Confir
 
                 } else {
                     mFragmentTransaction.show(mFragmentDeliver);
-
                 }
 
-
+                EventBus.getDefault().post(new ChangeDeliverEvent());
                 break;
 
             case TAB_SUFFICIENCY:

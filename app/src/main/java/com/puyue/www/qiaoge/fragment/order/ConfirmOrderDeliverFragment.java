@@ -54,6 +54,7 @@ import com.puyue.www.qiaoge.dialog.ChooseAddressDialog;
 import com.puyue.www.qiaoge.dialog.DisDialog;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.BeizhuEvent;
+import com.puyue.www.qiaoge.event.ChangeDeliverEvent;
 import com.puyue.www.qiaoge.event.ChooseCoupon1Event;
 import com.puyue.www.qiaoge.event.ChooseCouponEvent;
 import com.puyue.www.qiaoge.event.DisTributionEvent;
@@ -337,6 +338,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
         recyclerView1.setAdapter(unOperateAdapter);
 
         requestCartBalance(NewgiftDetailNo, 0,disType);
+        requestCartBalance1(NewgiftDetailNo, 0,disType);
     }
 
     boolean isOpen = false;
@@ -695,6 +697,36 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                 });
     }
 
+    private void requestCartBalance1(String giftDetailNo, int type,int disType) {
+        CartBalanceAPI.requestCartBalance(mActivity, normalProductBalanceVOStr, activityBalanceVOStr, cartListStr, giftDetailNo, type, 0,disType)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<CartBalanceModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(CartBalanceModel cartBalanceModel) {
+                        if (cartBalanceModel.success) {
+                            cModel = cartBalanceModel;
+                            if(disDialog==null) {
+                                disDialog = new DisDialog(mActivity,cModel.getData().getSendAmount(),1);
+                            }
+                            disDialog.show();
+                        } else {
+                            AppHelper.showMsg(mActivity, cartBalanceModel.message);
+                        }
+                    }
+                });
+    }
+
     /**
      * 接收来自接口的数据进行数据设置。
      *
@@ -952,12 +984,17 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
         statModel.setSelects(true);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getDeliver(ChangeDeliverEvent changeDeliverEvent) {
+        if(cModel!=null && cModel.getData()!=null) {
+            if(disDialog==null) {
+                disDialog = new DisDialog(mActivity,cModel.getData().getSendAmount(),1);
+            }
+            disDialog.show();
+        }
     }
+
+
     //设置添加屏幕的背景透明度
     public void backgroundAlpha(float bgAlpha) {
         WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();

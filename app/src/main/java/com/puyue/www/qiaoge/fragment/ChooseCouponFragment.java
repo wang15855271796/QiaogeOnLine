@@ -161,19 +161,17 @@ public class ChooseCouponFragment extends BaseFragment {
                                     if (model.getData().get(i).getGiftDetailNo().equals(giftDetailNo)) {
                                         model.getData().get(i).setFlags(true);
                                         if(statModel) {
-                                            iv_select_all.setBackgroundResource(R.mipmap.ic_pay_ok);
+                                            iv_select_all.setImageResource(R.mipmap.checkbax_yes);
                                         }else {
-                                            iv_select_all.setBackgroundResource(R.mipmap.ic_pay_no);
+                                            iv_select_all.setImageResource(R.mipmap.checkbox_no);
                                         }
                                     } else {
                                         model.getData().get(i).setFlags(false);
                                         if(statModel) {
-                                            iv_select_all.setBackgroundResource(R.mipmap.ic_pay_ok);
+                                            iv_select_all.setImageResource(R.mipmap.checkbax_yes);
                                         }else {
-                                            iv_select_all.setBackgroundResource(R.mipmap.ic_pay_no);
+                                            iv_select_all.setImageResource(R.mipmap.checkbox_no);
                                         }
-
-
                                     }
 
                                 }
