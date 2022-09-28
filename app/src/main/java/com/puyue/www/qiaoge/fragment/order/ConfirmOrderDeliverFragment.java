@@ -279,8 +279,6 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(getContext(),R.color.white));
         }
-
-
     }
 
     @Override
@@ -334,7 +332,6 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                 return view;
             }
         };
-
         recyclerView1.setAdapter(unOperateAdapter);
 
         requestCartBalance(NewgiftDetailNo, 0,disType);
@@ -410,6 +407,10 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                     getDatas(1);
                     lav_activity_loading.show();
                     lav_activity_loading.setVisibility(View.VISIBLE);
+                    if(list.size()==0) {
+                        ToastUtil.showSuccessMsg(mActivity,"无可结算的商品");
+                        return;
+                    }
                     if(tv_distribution.getText().toString().equals("")) {
                         AppHelper.showMsg(mActivity, "请选择配送服务");
                         buttonPay.setEnabled(true);
@@ -528,7 +529,6 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
 
                     break;
                 case R.id.ll_go_market:
-
                     Intent intent = new Intent(mActivity, NewWebViewActivity.class);
                     intent.putExtra("URL", VipURl);
                     intent.putExtra("name", "");
@@ -665,7 +665,6 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                                         }else {
                                             listUnOperate.add(cartBalanceModel.getData().getProductVOList().get(i));
                                             tv_unOperate.setText(cartBalanceModel.getData().getUnSelfSendTimeStr());
-
                                         }
                                     }
                                 }
@@ -676,7 +675,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                                     ll_operate.setVisibility(View.GONE);
                                 }
 
-                                if(listUnOperate.size() > 0) {
+                                if(listUnOperate.size() > 0 && tv_distribution.getText().toString().equals("买家自己呼叫货拉拉")) {
                                     if(listUnOperate.size()>3) {
                                         rl_arrow.setVisibility(View.VISIBLE);
                                     }else {
@@ -686,10 +685,11 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                                 }else {
                                     ll_unOperate.setVisibility(View.GONE);
                                 }
+                                unOperateAdapter.notifyDataChanged();
                             }
 
                             adapter.notifyDataSetChanged();
-                            unOperateAdapter.notifyDataChanged();
+
                         } else {
                             AppHelper.showMsg(mActivity, cartBalanceModel.message);
                         }
@@ -947,6 +947,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     public void getDistribution(DisTributionEvent disTributionEvent) {
         tv_distribution.setText(disTributionEvent.getDesc());
         disType = disTributionEvent.getType();
+
         requestCartBalance(NewgiftDetailNo, 0,disType);
     }
 
@@ -984,7 +985,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
         statModel.setSelects(true);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
     public void getDeliver(ChangeDeliverEvent changeDeliverEvent) {
         if(cModel!=null && cModel.getData()!=null) {
             if(disDialog==null) {

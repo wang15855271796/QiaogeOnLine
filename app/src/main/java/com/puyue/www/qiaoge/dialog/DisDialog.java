@@ -144,9 +144,10 @@ public class DisDialog extends Dialog {
                     iv_choose1.setVisibility(View.VISIBLE);
                     iv_choose2.setVisibility(View.GONE);
                     EventBus.getDefault().post(new DisTributionEvent("翘歌配送",0));
+                    ToastUtil.showSuccessMsg(context,"配送方式已选好");
                     dismiss();
                 }
-                ToastUtil.showSuccessMsg(context,"配送方式已选好");
+
             }
         });
 
@@ -173,6 +174,7 @@ public class DisDialog extends Dialog {
                     isCb2 = true;
                     isCb1 = false;
                     EventBus.getDefault().post(new DisTributionEvent("买家自己呼叫货拉拉",1));
+                    ToastUtil.showSuccessMsg(context,"配送方式已选好");
                     dismiss();
                     rl_cb1.setBackgroundResource(R.drawable.shape_grey9);
                     rl_cb2.setBackgroundResource(R.drawable.shape_orange14);
@@ -182,8 +184,6 @@ public class DisDialog extends Dialog {
                     iv_choose1.setVisibility(View.GONE);
                     iv_choose2.setVisibility(View.VISIBLE);
                 }
-
-                ToastUtil.showSuccessMsg(context,"配送方式已选好");
             }
         });
     }

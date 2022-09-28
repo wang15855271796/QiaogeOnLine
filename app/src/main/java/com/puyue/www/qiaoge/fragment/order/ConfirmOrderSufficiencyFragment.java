@@ -660,6 +660,10 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                     break;
                 case R.id.buttonPay:// 去支付
                     getDatas(1);
+                    if(list.size()==0) {
+                        ToastUtil.showSuccessMsg(mActivity,"无可结算的商品");
+                        return;
+                    }
                     lav_activity_loading.show();
                     lav_activity_loading.setVisibility(View.VISIBLE);
                     if(tv_distribution.getText().toString().equals("")) {
@@ -700,6 +704,13 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                                             @Override
                                             public void Cancle() {
                                                 requestOrderNum();
+                                            }
+
+                                            @Override
+                                            public void Close() {
+                                                dismiss();
+                                                buttonPay.setEnabled(true);
+                                                lav_activity_loading.hide();
                                             }
                                         };
 
@@ -1115,40 +1126,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                             paymentFragment.show(getFragmentManager(),"paymentFragment");
                             lav_activity_loading.hide();
                             lav_activity_loading.setVisibility(View.GONE);
-//                            if(listUnOperate.size()>0) {
-//                                operateDialog = new OperateDialog(mActivity,listUnOperate) {
-//                                    @Override
-//                                    public void Confirm() {
-//                                        EventBus.getDefault().post(new RefreshEvent());
-//                                        operateDialog.dismiss();
-//                                        lav_activity_loading.hide();
-//                                        buttonPay.setEnabled(true);
-//                                    }
-//
-//                                    @Override
-//                                    public void Cancle() {
-//                                        lav_activity_loading.hide();
-//                                        operateDialog.dismiss();
-//                                        buttonPay.setEnabled(true);
-//
-//                                        PaymentFragment paymentFragment = new PaymentFragment();
-//                                        Bundle bundle = new Bundle();
-//                                        bundle.putString("total", payAmount);
-//                                        bundle.putString("payAmount",payAmount);
-//                                        bundle.putString("remark","");
-//                                        bundle.putString("orderId",orderId);
-//                                        bundle.putString("orderDeliveryType","1");
-//                                        paymentFragment.setArguments(bundle);
-//                                        paymentFragment.setCancelable(false);
-//                                        paymentFragment.show(getFragmentManager(),"paymentFragment");
-//
-//                                    }
-//                                };
-//                                operateDialog.show();
-//                            }else {
-//
-//                            }
-
 
                         } else {
                             AppHelper.showMsg(mActivity, generateOrderModel.message);
@@ -1162,15 +1139,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     }
     GoToConfirmDeliver mlisenter;
 
-//    @Override
-//    public void onLocationChanged(TencentLocation tencentLocation, int i, String s) {
-//        instance.removeUpdates(this);
-//    }
-//
-//    @Override
-//    public void onStatusUpdate(String s, int i, String s1) {
-//
-//    }
 
     public interface GoToConfirmDeliver {
         void jumpConfirmDeliver();

@@ -457,13 +457,19 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     }
 
     private void setScrollState(int scrollStateScroll) {
-        if(scrollStateScroll == 1) {
-            ll_coupon.setVisibility(View.VISIBLE);
-            iv_coupon.setVisibility(View.GONE);
+        if(couponNum>0) {
+            if(scrollStateScroll == 1) {
+                ll_coupon.setVisibility(View.VISIBLE);
+                iv_coupon.setVisibility(View.GONE);
+            }else {
+                ll_coupon.setVisibility(View.GONE);
+                iv_coupon.setVisibility(View.VISIBLE);
+            }
         }else {
             ll_coupon.setVisibility(View.GONE);
-            iv_coupon.setVisibility(View.VISIBLE);
+            iv_coupon.setVisibility(View.GONE);
         }
+
     }
 
     int scroll = 0;
@@ -1820,7 +1826,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         });
     }
 
-    int couponNum;
+    int couponNum = 0;
     private void getHomeCoupon() {
         IndexHomeAPI.getHomeCoupon(mActivity)
                 .subscribeOn(Schedulers.io())
@@ -1842,10 +1848,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                                 couponNum = homeCouponModel.getData();
                                 if(couponNum>0) {
                                     ll_coupon.setVisibility(View.VISIBLE);
+                                    tv_coupon_num.setText(couponNum+"张");
                                 }else {
                                     ll_coupon.setVisibility(View.GONE);
                                 }
-                                tv_coupon_num.setText(homeCouponModel.getData()+"张");
+
                             }
 
                         }else {
@@ -2585,6 +2592,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     public void loginEvent(LogoutsEvent event) {
         //刷新UI
         refreshLayout.autoRefresh();
+        couponNum=0;
+        if(couponNum==0) {
+            ll_coupon.setVisibility(View.GONE);
+        }else {
+            ll_coupon.setVisibility(View.VISIBLE);
+        }
         if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
             getStyle();
             ll_city.setVisibility(View.GONE);

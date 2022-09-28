@@ -95,7 +95,7 @@ public class FullCouponListModel {
         private Object giftDetailNo;
         private Object orderId;
         private String useInfo;
-        private Object giftProdUseType;
+        private int giftProdUseType;
         private int jumpFlag;
         private Object giftArea;
         private Object giftFlag;
@@ -206,11 +206,11 @@ public class FullCouponListModel {
             this.useInfo = useInfo;
         }
 
-        public Object getGiftProdUseType() {
+        public int getGiftProdUseType() {
             return giftProdUseType;
         }
 
-        public void setGiftProdUseType(Object giftProdUseType) {
+        public void setGiftProdUseType(int giftProdUseType) {
             this.giftProdUseType = giftProdUseType;
         }
 

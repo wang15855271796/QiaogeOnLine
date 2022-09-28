@@ -847,7 +847,6 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
                     public void onNext(GetProductNumModel getProductNumModel) {
                         if(getProductNumModel.getCode()==1) {
                             String data = getProductNumModel.getData();
-                            Log.d("wawdsdddd.....",data+"aa");
                             tv_num.setText("购物车数量:"+data);
                         }else {
                             ToastUtil.showErroMsg(mContext,getProductNumModel.getMessage());

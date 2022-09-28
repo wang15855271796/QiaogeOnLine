@@ -91,13 +91,7 @@ public class CouponCartListDialog extends Dialog implements View.OnClickListener
         iv_close.setOnClickListener(this);
         tv_detail.setOnClickListener(this);
 
-        if(type==1) {
-            tv_detail.setVisibility(View.VISIBLE);
-        }else if(type==2) {
-            tv_detail.setVisibility(View.VISIBLE);
-        }else {
-            tv_detail.setVisibility(View.GONE);
-        }
+
         rv_role.setLayoutManager(new LinearLayoutManager(context));
         roleAdapter = new RoleAdapter(R.layout.item_text1,roleList);
         rv_role.setAdapter(roleAdapter);
@@ -184,6 +178,13 @@ public class CouponCartListDialog extends Dialog implements View.OnClickListener
                                 tv_amount.setText(data.getAmountStr());
                                 tv_role.setText(data.getRole().get(0));
                                 tv_user_factor.setText(data.getUseInfo());
+
+
+                                if(fullCouponListModel.getData().getGiftProdUseType()==0) {
+                                    tv_detail.setVisibility(View.GONE);
+                                }else {
+                                    tv_detail.setVisibility(View.VISIBLE);
+                                }
 
                                 roleList.clear();
                                 roleList.addAll(fullCouponListModel.getData().getGiftUseRole());

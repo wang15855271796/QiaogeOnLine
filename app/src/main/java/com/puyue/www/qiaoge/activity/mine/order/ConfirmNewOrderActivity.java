@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
+import com.puyue.www.qiaoge.event.ChangeDeliver1Event;
 import com.puyue.www.qiaoge.event.ChangeDeliverEvent;
 import com.puyue.www.qiaoge.event.RefreshEvent;
 import com.puyue.www.qiaoge.fragment.order.ConfirmOrderDeliverFragment;
@@ -91,7 +92,6 @@ public class ConfirmNewOrderActivity extends BaseSwipeActivity implements Confir
         toolbar.setNavigationOnClickListener(new NoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View view) {
-//                startActivity(new Intent(mContext, HomeActivity.class));
                 finish();
             }
         });
@@ -102,6 +102,7 @@ public class ConfirmNewOrderActivity extends BaseSwipeActivity implements Confir
                 tv_sufficiency_order_two.setVisibility(View.GONE);
                 tv_deliver_order_two.setVisibility(View.GONE);
                 switchTab(TAB_DELIVER);
+                EventBus.getDefault().postSticky(new ChangeDeliverEvent());
             }
         });
 
@@ -123,6 +124,7 @@ public class ConfirmNewOrderActivity extends BaseSwipeActivity implements Confir
                 tv_sufficiency_order.setVisibility(View.VISIBLE);
                 tv_sufficiency_order_two.setVisibility(View.GONE);
                 switchTab(TAB_DELIVER);
+                EventBus.getDefault().postSticky(new ChangeDeliverEvent());
 
             }
         });
@@ -137,6 +139,7 @@ public class ConfirmNewOrderActivity extends BaseSwipeActivity implements Confir
         });
     }
 
+    int flag = 0;
     private void switchTab(String tab) {
         //开始事务
         mFragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -159,7 +162,6 @@ public class ConfirmNewOrderActivity extends BaseSwipeActivity implements Confir
                     mFragmentTransaction.show(mFragmentDeliver);
                 }
 
-                EventBus.getDefault().post(new ChangeDeliverEvent());
                 break;
 
             case TAB_SUFFICIENCY:

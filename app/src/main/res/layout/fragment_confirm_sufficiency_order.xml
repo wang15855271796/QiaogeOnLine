@@ -64,7 +64,7 @@
                                 <TextView
                                     android:layout_gravity="center_vertical"
                                     android:id="@+id/tv_distribution"
-                                    android:textColor="#999999"
+                                    android:textColor="#FF5C00"
                                     android:layout_alignParentRight="true"
                                     android:textSize="@dimen/sp_16"
                                     android:hint="请选择配送服务"

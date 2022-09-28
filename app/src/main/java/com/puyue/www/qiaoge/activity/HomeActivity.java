@@ -125,7 +125,6 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     private String type;
     private String district;
     CouponDialog couponDialog;
-    String[] params = { Manifest.permission.ACCESS_COARSE_LOCATION};
     TencentLocationManager instance;
     @Override
     public void onAttachFragment(Fragment fragment) {
@@ -271,7 +270,6 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
 
                     @Override
                     public void onNext(GetAddressModel getAddressModel) {
-
                         if (getAddressModel.isSuccess()) {
 
                         }

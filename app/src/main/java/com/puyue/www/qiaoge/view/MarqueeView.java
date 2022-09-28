@@ -200,7 +200,6 @@ public class MarqueeView extends LinearLayout {
             mRv.dispatchTouchEvent(ev);
         }
         super.dispatchTouchEvent(ev);
-        Log.d("swdadwdddddd....",ev.getAction()+"aa");
 
         return true;
 

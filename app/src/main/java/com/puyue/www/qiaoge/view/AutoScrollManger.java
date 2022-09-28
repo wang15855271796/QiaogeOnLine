@@ -99,7 +99,6 @@ public class AutoScrollManger extends LinearLayoutManager {
             slideHeight = 0 - countHeight;
             slideCountHeight = 0;
         }
-        Log.d("eswfsdfwefs...",slideHeight+"aa");
         recyclerView.smoothScrollBy(0, slideHeight);
 
     }

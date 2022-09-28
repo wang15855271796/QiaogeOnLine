@@ -56,7 +56,7 @@
                             <TextView
                                 android:layout_gravity="center_vertical"
                                 android:id="@+id/tv_distribution"
-                                android:textColor="#999999"
+                                android:textColor="#FF5C00"
                                 android:layout_alignParentRight="true"
                                 android:textSize="@dimen/sp_16"
                                 android:hint="请选择配送服务"
@@ -165,7 +165,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="@dimen/size_10dp"
-                                android:text="以下商品暂不支持 “我自己叫货拉拉"
+                                android:text="以下商品暂不支持 “我自己叫货拉拉”"
                                 android:textColor="#FF2925"
                                 android:textSize="@dimen/sp_14" />
 

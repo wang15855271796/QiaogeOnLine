@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
+import com.puyue.www.qiaoge.event.ChangeDeliverEvent;
 import com.puyue.www.qiaoge.event.DisTributionEvent;
 import com.puyue.www.qiaoge.event.DisTributionSelfEvent;
 import com.puyue.www.qiaoge.event.RefreshEvent;
@@ -100,6 +101,7 @@ public class DisSelfDialog extends Dialog {
                 }else {
                     isCb1 = true;
                     isCb2 = false;
+                    ToastUtil.showSuccessMsg(context,"配送方式已选好");
                     rl_cb1.setBackgroundResource(R.drawable.shape_orange14);
                     rl_cb2.setBackgroundResource(R.drawable.shape_grey9);
                     EventBus.getDefault().post(new DisTributionSelfEvent("到仓自提",0));
@@ -108,7 +110,6 @@ public class DisSelfDialog extends Dialog {
                     iv_choose2.setVisibility(View.GONE);
                 }
 
-                ToastUtil.showSuccessMsg(context,"配送方式已选好");
             }
         });
 
@@ -130,6 +131,7 @@ public class DisSelfDialog extends Dialog {
                     EventBus.getDefault().post(new DisTributionSelfEvent("买家自己呼叫货拉拉",1));
                     EventBus.getDefault().post(new DisTributionEvent("买家自己呼叫货拉拉",1));
                     EventBus.getDefault().post(new RefreshEvent());
+//                    EventBus.getDefault().post(new ChangeDeliverEvent());
                     dismiss();
                     rl_cb1.setBackgroundResource(R.drawable.shape_grey9);
                     rl_cb2.setBackgroundResource(R.drawable.shape_orange14);

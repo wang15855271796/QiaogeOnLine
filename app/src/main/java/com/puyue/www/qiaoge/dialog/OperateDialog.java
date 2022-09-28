@@ -53,7 +53,7 @@ public abstract class OperateDialog extends Dialog {
         iv_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dismiss();
+                Close();
             }
         });
         tv_sure.setOnClickListener(new View.OnClickListener() {
@@ -73,4 +73,5 @@ public abstract class OperateDialog extends Dialog {
 
     public abstract void Confirm();
     public abstract void Cancle();
+    public abstract void Close();
 }
