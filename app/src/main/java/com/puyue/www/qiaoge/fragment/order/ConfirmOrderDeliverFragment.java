@@ -26,19 +26,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.xrecyclerview.DensityUtil;
 import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.BeizhuActivity;
 
 import com.puyue.www.qiaoge.activity.flow.FlowLayout;
+import com.puyue.www.qiaoge.activity.flow.TagFlowLayout;
 import com.puyue.www.qiaoge.activity.flow.TagsFlowLayout;
 import com.puyue.www.qiaoge.activity.mine.account.AddressListActivity;
 import com.puyue.www.qiaoge.activity.mine.account.AddressListsActivity;
 import com.puyue.www.qiaoge.activity.mine.coupons.ChooseCouponsActivity;
 import com.puyue.www.qiaoge.adapter.ConfirmCouponAdapter;
 import com.puyue.www.qiaoge.adapter.ConfirmGivenAdapter;
+import com.puyue.www.qiaoge.adapter.FullConfirmAdapter;
 import com.puyue.www.qiaoge.adapter.FullGivenConfirmAdapter;
 import com.puyue.www.qiaoge.adapter.TagsAdapter;
+import com.puyue.www.qiaoge.adapter.UnOperate1Adapter;
 import com.puyue.www.qiaoge.adapter.UnOperateAdapter;
 import com.puyue.www.qiaoge.adapter.mine.ChooseCouponsAdapter;
 import com.puyue.www.qiaoge.adapter.mine.ConfirmOrderNewAdapter;
@@ -96,7 +100,7 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
  */
 public class ConfirmOrderDeliverFragment extends BaseFragment {
     private RecyclerView recyclerView;
-    private TagsFlowLayout recyclerView1;
+    private TagFlowLayout recyclerView1;
     private LinearLayout linearLayoutAddressHead;
     private TextView userName;
     private TextView userPhone;
@@ -283,6 +287,8 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
         }
     }
 
+    List<CartBalanceModel.DataBean.ProductVOListBean.AdditionVOList>additionVOList1 = new ArrayList<>();
+    List<CartBalanceModel.DataBean.ProductVOListBean.AdditionVOList>additionVOList2 = new ArrayList<>();
     @Override
     public void setViewData() {
         EventBus.getDefault().register(this);
@@ -314,6 +320,8 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                 TextView oldPrice = view.findViewById(R.id.oldPrice);
                 TextView textSpe = view.findViewById(R.id.textSpe);
                 ImageView imageIcon = view.findViewById(R.id.imageIcon);
+                RecyclerView rv_given = view.findViewById(R.id.rv_given);
+                RecyclerView rv_full = view.findViewById(R.id.rv_full);
                 if(listUnOperate.get(position).getProdTypeUrl()!=null&&!listUnOperate.get(position).getProdTypeUrl().equals("")) {
                     imageIcon.setVisibility(View.VISIBLE);
                     Glide.with(mActivity).load(listUnOperate.get(position).getProdTypeUrl()).into(imageIcon);
@@ -327,6 +335,27 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                 Glide.with(mActivity).load(productVOListBean.getPicUrl()).into(imageView);
                 textSpe.setText(productVOListBean.getSpec());
                 Price.setText(productVOListBean.getAmount()+"");
+                additionVOList1.clear();
+                additionVOList2.clear();
+
+                if(productVOListBean.getAdditionVOList()!=null) {
+                    for (int i = 0; i < productVOListBean.getAdditionVOList().size(); i++) {
+                        if(productVOListBean.getAdditionVOList().get(i).getType().equals("1")) {
+                            additionVOList1.add(productVOListBean.getAdditionVOList().get(i));
+                        }else {
+                            additionVOList2.add(productVOListBean.getAdditionVOList().get(i));
+                        }
+                    }
+                }
+
+                rv_given.setLayoutManager(new LinearLayoutManager(mActivity));
+                FullGivenConfirmAdapter fullGivenConfirmAdapter = new FullGivenConfirmAdapter(R.layout.item_given,additionVOList2);
+                rv_given.setAdapter(fullGivenConfirmAdapter);
+
+                rv_full.setLayoutManager(new LinearLayoutManager(mActivity));
+                FullConfirmAdapter fullConfirmAdapter = new FullConfirmAdapter(R.layout.item_full,additionVOList1);
+                rv_full.setAdapter(fullConfirmAdapter);
+
                 if(productVOListBean.getOldPrice()!=null) {
                     oldPrice.setText(productVOListBean.getOldPrice()+"");
                 }
@@ -334,7 +363,18 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                 return view;
             }
         };
+
+        UnOperate1Adapter unOperate1Adapter = new UnOperate1Adapter(R.layout.item_confirm_order_new,listUnOperate);
         recyclerView1.setAdapter(unOperateAdapter);
+//        recyclerView1.setLayoutManager(new LinearLayoutManager(mActivity));
+        rl_arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                recyclerView1.setLimit(false);
+                unOperateAdapter.notifyDataChanged();
+            }
+        });
+
 
         requestCartBalance(NewgiftDetailNo, 0,disType);
         requestCartBalance1(NewgiftDetailNo, 0,disType);
@@ -356,12 +396,12 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 if(!isOpen) {
-                    recyclerView1.setLimit(false);
+//                    recyclerView1.setLimit(false);
                     tv_open.setText("收起");
                     iv_open.setImageResource(R.mipmap.icon_arrow_up);
                 }else {
                     tv_open.setText("展开");
-                    recyclerView1.setLimit(true);
+//                    recyclerView1.setLimit(true);
                     iv_open.setImageResource(R.mipmap.icon_arrow_down);
                 }
                 unOperateAdapter.notifyDataChanged();
@@ -659,7 +699,6 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                                 listUnOperate.clear();
                                 if (cartBalanceModel.getData().getProductVOList().size() > 0) {
                                     for (int i = 0; i < cartBalanceModel.getData().getProductVOList().size(); i++) {
-                                        Log.d("cdefsefds......",cartBalanceModel.getData().getProductVOList().get(i).getSelfOrNot()+"----");
                                         if(cartBalanceModel.getData().getProductVOList().get(i).getSelfOrNot()==0) {
                                             list.add(cartBalanceModel.getData().getProductVOList().get(i));
                                             tv_operate.setText(cartBalanceModel.getData().getSelfSendTimeStr());
@@ -670,6 +709,8 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                                     }
                                 }
 
+//                                ViewGroup.LayoutParams lp = recyclerView1.getLayoutParams();
+//                                recyclerView1.setLayoutParams(lp);
                                 if(list.size() > 0) {
                                     ll_operate.setVisibility(View.VISIBLE);
                                 }else {
@@ -677,7 +718,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                                 }
 
                                 if(listUnOperate.size() > 0&& tv_distribution.getText().toString().equals("买家自己呼叫货拉拉")) {
-                                    if(listUnOperate.size()>3) {
+                                    if(listUnOperate.size()>1) {
                                         rl_arrow.setVisibility(View.VISIBLE);
                                     }else {
                                         rl_arrow.setVisibility(View.GONE);

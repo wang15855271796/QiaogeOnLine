@@ -28,7 +28,6 @@ public class FullGivenConfirmAdapter extends BaseQuickAdapter<CartBalanceModel.D
         Glide.with(mContext).load(item.getPicUrl()).into(iv_icon);
         ImageView iv_finish = helper.getView(R.id.iv_finish);
         ImageView iv_flag =  helper.getView(R.id.iv_flag);
-
         if(item.getFlagUrl()!=""||item.getFlagUrl()!=null) {
             Glide.with(mContext).load(item.getFlagUrl()).into(iv_flag);
             iv_flag.setVisibility(View.VISIBLE);
