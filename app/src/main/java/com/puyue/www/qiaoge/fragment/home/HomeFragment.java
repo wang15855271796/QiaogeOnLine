@@ -441,11 +441,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     private CountDownTimer scrollCountTimer = new CountDownTimer(2000, 2000) {
         @Override
         public void onTick(long millisUntilFinished) {
-
+            Log.d("swdasdwdas.....","aaaa");
+            setScrollState(SCROLL_STATE_SCROLL);
         }
 
         @Override
         public void onFinish() {
+            Log.d("swdasdwdas.....","bbbb");
             setScrollState(SCROLL_STATE_IDLE);
         }
     };
@@ -474,7 +476,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
     int scroll = 0;
     private AnimationDrawable anim;
-    private int TIME = 2500;
+    private int TIME = 1000;
     Handler handler = new Handler();
     @Override
     public void findViewById(View view) {
@@ -489,43 +491,41 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         my_scroll.setOnScrollStatusListener(new MyScrollView2.OnScrollStatusListener() {
             @Override
             public void onScrollStop() {
-                setScrollState(SCROLL_STATE_IDLE);
+//                setScrollState(SCROLL_STATE_IDLE);
+//                scrollCountTimer.cancel();
             }
 
             @Override
             public void onScrolling(int length) {
-                if(length>25) {
-                    setScrollState(SCROLL_STATE_SCROLL);
+                if(Math.abs(length)>25) {
+                    scrollCountTimer.start();
+//                    setScrollState(SCROLL_STATE_SCROLL);
                 }
-
-
             }
         });
 
-
-
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    handler.postDelayed(this, TIME);
-                    animTimer = new CountDownTimer(2500, 2500) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            anim.start();
-                        }
-
-                        @Override
-                        public void onFinish() {
-                            anim.stop();
-                        }
-                    }.start();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        handler.postDelayed(runnable, TIME); // 在初始化方法里.
+//        Runnable runnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    handler.postDelayed(this, TIME);
+//                    animTimer = new CountDownTimer(TIME, TIME) {
+//                        @Override
+//                        public void onTick(long millisUntilFinished) {
+//                            anim.start();
+//                        }
+//
+//                        @Override
+//                        public void onFinish() {
+//                            anim.stop();
+//                        }
+//                    }.start();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+//        handler.postDelayed(runnable, TIME); // 在初始化方法里.
         setScrollState(SCROLL_STATE_IDLE);
 
         rl_grand.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -673,7 +673,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
                                 homeMessage.setImageResource(R.mipmap.ic_mine_email);
                                 tv_city.setAlpha(percent);
-//                                iv_tip.getBackground().setAlpha(1);
                                 tv_city.setEnabled(true);
                                 rl_search.requestLayout();
                             }
@@ -702,7 +701,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                             //滑动时先取消倒计时，设置滑动状态
                             scrollCountTimer.cancel();
                             if(currentState != SCROLL_STATE_SCROLL) {
-
                                 setScrollState(SCROLL_STATE_SCROLL);
                             }
                             scrollCountTimer.start();

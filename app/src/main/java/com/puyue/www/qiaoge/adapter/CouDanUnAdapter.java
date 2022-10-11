@@ -66,7 +66,13 @@ public class CouDanUnAdapter extends BaseQuickAdapter<UserChooseDeductModel.Data
         tv_time.setText(item.getDateTime());
         tv_amount.setText(item.getAmount());
         tv_role.setText(item.getReason());
-
+        TextView tv_use_limits = helper.getView(R.id.tv_use_limits);
+        if(!item.getReason().equals("") && item.getReason()!=null) {
+            tv_use_limits.setText(item.getReason());
+            tv_use_limits.setVisibility(View.VISIBLE);
+        }else {
+            tv_use_limits.setVisibility(View.GONE);
+        }
 
         rv_role.setLayoutManager(new LinearLayoutManager(mContext));
         roleAdapter = new RoleAdapter(R.layout.item_text1,item.getGiftUseRole());

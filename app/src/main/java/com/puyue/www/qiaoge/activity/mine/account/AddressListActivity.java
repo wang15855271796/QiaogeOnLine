@@ -29,6 +29,10 @@ import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.IsShowModel;
 import com.puyue.www.qiaoge.model.mine.address.AddressModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -51,7 +55,7 @@ public class AddressListActivity extends BaseSwipeActivity {
 
     private static final String TAG = AddressListActivity.class.getSimpleName();
     private ImageView mIvBack;
-    private PtrClassicFrameLayout mPtr;
+    private SmartRefreshLayout mPtr;
     private RecyclerView mRv;
     private ImageView mIvNoData;
     private Button mBtnAdd;
@@ -100,7 +104,7 @@ public class AddressListActivity extends BaseSwipeActivity {
     @Override
     public void findViewById() {
         mIvBack = (ImageView) findViewById(R.id.iv_address_list_back);
-        mPtr = (PtrClassicFrameLayout) findViewById(R.id.ptr_address_list);
+        mPtr = (SmartRefreshLayout) findViewById(R.id.smart);
         mRv = (RecyclerView) findViewById(R.id.rv_address_list);
         mIvNoData = (ImageView) findViewById(R.id.iv_address_list_no_data);
         mBtnAdd = (Button) findViewById(R.id.btn_address_list_add);
@@ -114,21 +118,28 @@ public class AddressListActivity extends BaseSwipeActivity {
         userAddress = getIntent().getStringExtra("UseAddress");
         mineToAddress = getIntent().getStringExtra("mineAddress");
 
-        mPtr.setPtrHandler(new PtrHandler() {
+        mPtr.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
-            }
-
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
+            public void onRefresh(RefreshLayout refreshLayout) {
                 requestAddressList();
+                refreshLayout.finishRefresh();
             }
         });
+//        mPtr.setOnLoadMoreListener(new OnLoadMoreListener() {
+//            @Override
+//            public void onLoadMore(RefreshLayout refreshLayout) {
+//                if(surpliListModels != null) {
+//                    if(surpliListModels.getData().isHasNextPage()) {
+//                        pageNum++;
+//                        getSupplierList(surplieId);
+//                        refreshLayout.finishLoadMore();      //加载完成
+//                    }else {
+//                        refreshLayout.finishLoadMoreWithNoMoreData();
+//                    }
+//            }
+//        });
 
         mAdapterAddress = new AddressAdapter(R.layout.item_address, mListData);
-
-
         mAdapterAddress.setOnItemChangeClickListener(new AddressAdapter.OnEventClickListener() {
 
             @Override
@@ -230,8 +241,6 @@ public class AddressListActivity extends BaseSwipeActivity {
 
             }
         });
-
-
         mRv.setLayoutManager(new LinearLayoutManager(mContext));
         mRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -270,12 +279,10 @@ public class AddressListActivity extends BaseSwipeActivity {
 
                     @Override
                     public void onNext(AddressModel addressModel) {
-                        mPtr.refreshComplete();
                         logoutAndToHome(mContext, addressModel.code);
                         mModelAddress = addressModel;
                         if (mModelAddress.success) {
                             updateAddressList();
-//                            EventBus.getDefault().post(new AddressEvent());
                         } else {
                             AppHelper.showMsg(mContext, mModelAddress.message);
                         }
@@ -408,20 +415,14 @@ public class AddressListActivity extends BaseSwipeActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         //重新请求一次地址列表数据
         if (resultCode == 11) {
             String type = data.getStringExtra("type");
-            int defaultNum = data.getIntExtra("defaultNum", 0);
             if (type.equals("add")) {
                 //添加地址界面退出,重新请求一次列表接口
-
                 isChanged = false;
-
-                Log.i("isChanged", "onActivityResult: " + isChanged);
-
                 mPtr.autoRefresh();
-
-
             }
         } else if (resultCode == 22) {
             String type = data.getStringExtra("type");

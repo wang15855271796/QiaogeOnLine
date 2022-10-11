@@ -65,7 +65,6 @@ public class ChooseCouponsAdapter extends BaseQuickAdapter<UserChooseDeductModel
 
     @Override
     protected void convert(final BaseViewHolder helper, final UserChooseDeductModel.DataBean item) {
-//        helper.setIsRecyclable(false);
         tv_tip=helper.getView(R.id.tv_tip);
         tv_style=helper.getView(R.id.tv_style);
         tv_desc=helper.getView(R.id.tv_desc);
@@ -77,7 +76,7 @@ public class ChooseCouponsAdapter extends BaseQuickAdapter<UserChooseDeductModel
         tv_time.setText(item.getDateTime());
         ImageView iv_arrow = helper.getView(R.id.iv_arrow);
         tv_amount.setText(item.getAmount());
-
+        TextView tv_use_limits = helper.getView(R.id.tv_use_limits);
         rv_role.setLayoutManager(new LinearLayoutManager(mContext));
         roleAdapter = new RoleAdapter(R.layout.item_text1,item.getGiftUseRole());
         rv_role.setAdapter(roleAdapter);
@@ -103,6 +102,13 @@ public class ChooseCouponsAdapter extends BaseQuickAdapter<UserChooseDeductModel
         lp.height = DensityUtil.dip2px(15,mContext);
         rv_role.setLayoutParams(lp);
 
+
+        if(!item.getReason().equals("") && item.getReason()!=null) {
+            tv_use_limits.setText(item.getReason());
+            tv_use_limits.setVisibility(View.VISIBLE);
+        }else {
+            tv_use_limits.setVisibility(View.GONE);
+        }
 
         if(!TextUtils.isEmpty(item.getLimitAmtStr())) {
             tv_user_factor.setText(item.getLimitAmtStr());

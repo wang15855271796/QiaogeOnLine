@@ -74,7 +74,7 @@ public class CouponCartListDialog extends Dialog implements View.OnClickListener
         this.giftPoolNo = giftPoolNo;
         this.name = name;
         init();
-        getFullList();
+
     }
 
 
@@ -96,6 +96,7 @@ public class CouponCartListDialog extends Dialog implements View.OnClickListener
         roleAdapter = new RoleAdapter(R.layout.item_text1,roleList);
         rv_role.setAdapter(roleAdapter);
 
+        getFullList();
         iv_arrow.setImageResource(R.mipmap.icon_arrow_down);
         ViewGroup.LayoutParams lp = rv_role.getLayoutParams();
         roleAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {

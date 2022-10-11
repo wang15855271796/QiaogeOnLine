@@ -240,16 +240,16 @@
 
                         </RelativeLayout>
 
-<!--                        <androidx.recyclerview.widget.RecyclerView-->
-<!--                            android:id="@+id/rv_given1"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"/>-->
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_given1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
 
-<!--                        <androidx.recyclerview.widget.RecyclerView-->
-<!--                            android:id="@+id/rv_coupon1"-->
-<!--                            android:layout_marginLeft="@dimen/dp_10"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"/>-->
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_coupon1"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
 
 
                     </LinearLayout>

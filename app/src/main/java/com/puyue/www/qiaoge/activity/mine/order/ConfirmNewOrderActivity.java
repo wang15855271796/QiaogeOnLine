@@ -139,7 +139,6 @@ public class ConfirmNewOrderActivity extends BaseSwipeActivity implements Confir
         });
     }
 
-    int flag = 0;
     private void switchTab(String tab) {
         //开始事务
         mFragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -204,13 +203,5 @@ public class ConfirmNewOrderActivity extends BaseSwipeActivity implements Confir
     @Override
     public void jumpConfirmDeliver() {
 
-//        if (mFragmentDeliver == null) {
-//            mFragmentDeliver = new ConfirmOrderDeliverFragment();
-//            mFragmentTransaction.add(R.id.fr_confirm_oder, mFragmentDeliver);
-//
-//        } else {
-//            mFragmentTransaction.show(mFragmentDeliver);
-//
-//        }
     }
 }

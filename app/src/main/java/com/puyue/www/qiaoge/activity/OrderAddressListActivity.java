@@ -28,6 +28,9 @@ import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.mine.address.AddressModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -60,7 +63,7 @@ public class OrderAddressListActivity extends BaseSwipeActivity {
 
 
     private ImageView mIvBack;
-    private PtrClassicFrameLayout mPtr;
+    private SmartRefreshLayout mPtr;
     private RecyclerView mRv;
     private ImageView mIvNoData;
     private Button mBtnAdd;
@@ -85,7 +88,7 @@ public class OrderAddressListActivity extends BaseSwipeActivity {
     @Override
     public void findViewById() {
         mIvBack = (ImageView) findViewById(R.id.iv_address_list_back);
-        mPtr = (PtrClassicFrameLayout) findViewById(R.id.ptr_address_list);
+        mPtr = (SmartRefreshLayout) findViewById(R.id.smart);
         mRv = (RecyclerView) findViewById(R.id.rv_address_list);
         mIvNoData = (ImageView) findViewById(R.id.iv_address_list_no_data);
         mBtnAdd = (Button) findViewById(R.id.btn_address_list_add);
@@ -94,15 +97,11 @@ public class OrderAddressListActivity extends BaseSwipeActivity {
     @Override
     public void setViewData() {
         orderId = getIntent().getStringExtra("orderId");
-        mPtr.setPtrHandler(new PtrHandler() {
+        mPtr.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
-            }
-
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
+            public void onRefresh(RefreshLayout refreshLayout) {
                 requestAddressList();
+                refreshLayout.finishRefresh();
             }
         });
 
@@ -186,7 +185,6 @@ public class OrderAddressListActivity extends BaseSwipeActivity {
 
                     @Override
                     public void onNext(AddressModel addressModel) {
-                        mPtr.refreshComplete();
                         logoutAndToHome(mContext, addressModel.code);
                         mModelAddress = addressModel;
                         if (mModelAddress.success) {

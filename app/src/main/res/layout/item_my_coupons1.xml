@@ -1,41 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
->
+    android:background="#f2f2f2"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/LinearLayoutOne"
+        android:background="@drawable/item_bg_chose"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="bottom">
+                <ImageView
+                    android:id="@+id/moneyBag"
+                    android:src="@mipmap/ic_money_bag_yes"
+                    android:layout_width="21dp"
+                    android:layout_height="27dp"
+                    />
+                <TextView
+
+                    android:id="@+id/couponsTitle"
+                    android:text="daff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/app_black"
+                    android:textSize="@dimen/size_15dp"
+                    android:layout_marginLeft="10dp"/>
+            </LinearLayout>
+
+            <TextView
+                android:text="daff"
+                android:id="@+id/couponsCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/app_black"
+                android:textSize="@dimen/size_17dp"
+                android:layout_marginLeft="31dp"/>
+            <TextView
+                android:text="时间"
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_AAA8AB"
+                android:textSize="@dimen/size_12dp"
+                android:layout_marginLeft="31dp"/>
+            <LinearLayout
+                android:id="@+id/LinearLayoutView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/untime">
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/app_my_coupons"
+                    android:layerType="software"></View>
+            </LinearLayout>
+
+            <TextView
+
+                android:text="备注"
+                android:id="@+id/note"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_5dp"
+                android:textColor="@color/color_979797"
+                android:textSize="@dimen/size_12dp"
+                android:layout_marginLeft="31dp"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/LinearLayoutCoupon"
+            android:background="@mipmap/coupons_yes"
+            >
+
+
+            <RelativeLayout
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:text="¥"
+                    android:paddingBottom="@dimen/size_20dp"
+
+                    android:id="@+id/textView"
+                    android:layout_marginLeft="@dimen/size_9dp"
+                    android:layout_gravity="bottom"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/size_20dp" />
+
+
+                <TextView
+                    android:layout_centerHorizontal="true"
+                    android:layout_toRightOf="@+id/textView"
+                    android:layout_centerVertical="true"
+                    android:text="12"
+                    android:id="@+id/priceNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_4"
+                    android:layout_marginRight="@dimen/dp_4"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/size_45dp" />
+
+                <ImageView
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/imagestate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_overdue" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
 
     <RelativeLayout
-        android:visibility="gone"
         android:layout_marginTop="@dimen/dp_10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!--灰底-->
         <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/rl_grey"
             android:layout_marginLeft="@dimen/sp_12"
             android:layout_marginRight="@dimen/sp_12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_white1">
+            android:background="@drawable/shape_grey1">
 
-                <ImageView
-                    android:src="@mipmap/ic_pay_ok"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="@dimen/size_15dp"
-                    android:layout_marginRight="@dimen/size_15dp" />
+            <TextView
+                android:id="@+id/tv_desc"
+                android:layout_marginBottom="5dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:textSize="@dimen/dp_10"
+                android:textColor="#ffffff"
+                tools:text="该券已用在本账户订单20200204122036-2255中使用"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
         </RelativeLayout>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_marginTop="@dimen/dp_10"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
         <!--白底-->
         <RelativeLayout
             android:layout_marginLeft="@dimen/sp_12"
@@ -126,7 +260,7 @@
                     android:layout_toRightOf="@+id/tv_amount"
                     android:ellipsize="end"
                     android:lines="1"
-                    android:textColor="#AAAAAA"
+                    android:textColor="#B5B5B5"
                     android:textSize="10dp"
                     tools:text="2020.7.30  8:00—2020.7.31  9:00" />
 
@@ -192,31 +326,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rl"
-                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/size_18dp"
                 android:layout_marginTop="@dimen/size_5dp"
                 android:ellipsize="end"
                 android:lines="1"
+                android:text="2020.7.30  8:00—2020.7.31  9:00"
                 android:textColor="#FF5C00"
-                android:textSize="10dp"
-                android:text="2020.7.30  8:00—2020.7.31  9:00" />
+                android:textSize="10dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_role"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size_5dp"
                 android:layout_below="@+id/tv_use_limits"
+                android:layout_marginTop="@dimen/size_5dp"
                 android:layout_marginBottom="@dimen/size_5dp" />
 
             <ImageView
                 android:id="@+id/iv_arrow"
-                android:layout_width="@dimen/size_15dp"
-                android:layout_height="@dimen/size_15dp"
                 android:layout_below="@+id/tv_use_limits"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="@dimen/size_5dp"
                 android:layout_marginRight="@dimen/dp_10"
-                android:src="@mipmap/icon_arrow_down" />
+                android:layout_marginTop="@dimen/size_5dp"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/icon_arrow_down"
+                android:layout_width="@dimen/size_15dp"
+                android:layout_height="@dimen/size_15dp"/>
 
             <TextView
                 android:id="@+id/tv_role"
@@ -234,15 +368,7 @@
 
         </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/iv_select"
-            android:src="@mipmap/checkbox_no"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="@dimen/size_15dp"
-            android:layout_marginRight="@dimen/size_18dp" />
+
 
     </RelativeLayout>
-
 </LinearLayout>

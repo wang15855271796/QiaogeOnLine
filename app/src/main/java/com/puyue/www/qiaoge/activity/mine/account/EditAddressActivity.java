@@ -634,48 +634,6 @@ public class EditAddressActivity extends BaseSwipeActivity  {
                 });
     }
 
-//    private void getArea(String cityName, String keyWords) {
-//        DefaultAddressAPI.getArea(mContext, cityName, keyWords)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Subscriber<AreasModel>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(AreasModel areasModel) {
-//                        if(areasModel.getCode()==1) {
-//                            if(areasModel.getData()!=null && areasModel.getData().size()>0) {
-//                                recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-//                                AddAddressAdapter addAddressAdapter = new AddAddressAdapter(R.layout.item_address_area,areasModel.getData());
-//                                recyclerView.setAdapter(addAddressAdapter);
-//                                addAddressAdapter.notifyDataSetChanged();
-//                                addAddressAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-//                                    @Override
-//                                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//                                        keyWorldsView.setText(areasModel.getData().get(position).getDetailAddress());
-//                                        recyclerView.setVisibility(View.GONE);
-//                                        keyWorldsView.setSelection(areasModel.getData().get(position).getDetailAddress().length());
-//                                        hintKbTwo();
-//                                    }
-//                                });
-//                            }else {
-//                                recyclerView.setVisibility(View.GONE);
-//                            }
-//                        }else {
-//                            ToastUtil.showErroMsg(mContext,areasModel.getMessage());
-//                        }
-//                    }
-//                });
-//    }
-
     //此方法只是关闭软键盘
     private void hintKbTwo() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

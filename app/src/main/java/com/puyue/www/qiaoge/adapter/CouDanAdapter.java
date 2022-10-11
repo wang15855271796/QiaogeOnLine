@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -53,6 +54,7 @@ public class CouDanAdapter extends BaseQuickAdapter<UserChooseDeductModel.DataBe
     @Override
     protected void convert(BaseViewHolder helper, UserChooseDeductModel.DataBean item) {
         tv_put = helper.getView(R.id.tv_put);
+        TextView tv_use_limits = helper.getView(R.id.tv_use_limits);
         tv_put.setVisibility(View.VISIBLE);
         tv_tip=helper.getView(R.id.tv_tip);
         tv_style=helper.getView(R.id.tv_style);
@@ -71,6 +73,13 @@ public class CouDanAdapter extends BaseQuickAdapter<UserChooseDeductModel.DataBe
         }else {
             tv_user_factor.setVisibility(View.GONE);
         }
+        if(!item.getReason().equals("") && item.getReason()!=null) {
+            tv_use_limits.setText(item.getReason());
+            tv_use_limits.setVisibility(View.VISIBLE);
+        }else {
+            tv_use_limits.setVisibility(View.GONE);
+        }
+
         tv_style.setText(item.getGiftName());
         tv_time.setText(item.getDateTime());
         tv_amount.setText(item.getAmount());

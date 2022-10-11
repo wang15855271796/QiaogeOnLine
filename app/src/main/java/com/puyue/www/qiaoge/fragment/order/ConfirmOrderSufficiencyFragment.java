@@ -44,6 +44,8 @@ import com.puyue.www.qiaoge.activity.flow.FlowLayout;
 import com.puyue.www.qiaoge.activity.flow.TagsFlowLayout;
 import com.puyue.www.qiaoge.activity.mine.coupons.ChooseCouponssActivity;
 import com.puyue.www.qiaoge.activity.view.Line;
+import com.puyue.www.qiaoge.adapter.FullConfirmAdapter;
+import com.puyue.www.qiaoge.adapter.FullGivenConfirmAdapter;
 import com.puyue.www.qiaoge.adapter.TagsAdapter;
 import com.puyue.www.qiaoge.adapter.UnOperateAdapter;
 import com.puyue.www.qiaoge.adapter.mine.ChooseCouponsAdapter;
@@ -463,53 +465,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     }
 
 
-    //地球半径
-    private static final double EARTH_RADIUS = 6378.137;
-
-    public static com.tencent.tencentmap.mapsdk.maps.model.LatLng str2Coordinate(Context context, String str) {
-        if (!str.contains(",")) {
-            Toast.makeText(context, "经纬度用\",\"分割", Toast.LENGTH_SHORT).show();
-            return null;
-        }
-        String[] strs = str.split(",");
-        double lat = 0;
-        double lng = 0;
-        try {
-            lat = Double.parseDouble(strs[0]);
-            lng = Double.parseDouble(strs[1]);
-        } catch (NumberFormatException e) {
-            Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
-            return null;
-        }
-        return new com.tencent.tencentmap.mapsdk.maps.model.LatLng(lat, lng);
-    }
-
-    /**
-     * 根据经纬度查询距离
-     *
-     * @param lng1 经度
-     * @param lat1 纬度
-     * @param lng2 经度
-     * @param lat2 纬度
-     * @return
-     */
-    private static double getDistance(double lng1, double lat1, double lng2, double lat2) {
-        double radLat1 = rad(lat1);
-        double radLat2 = rad(lat2);
-        double a = radLat1 - radLat2;
-        double b = rad(lng1) - rad(lng2);
-
-        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) +
-                Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
-        s = s * EARTH_RADIUS * 1000;
-//	   s = Math.round(s * 10000) / 10000;
-        return s;
-    }
-
-    private static double rad(double d) {
-        return d * Math.PI / 180.0;
-    }
-
     private void getDatas(long end) {
         RecommendApI.getDatas(mActivity,17,end)
                 .subscribeOn(Schedulers.io())
@@ -804,6 +759,13 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     /**
      * 获取数据的网络请求
      */
+    List<CartBalanceModel.DataBean.ProductVOListBean.AdditionVOList>additionVOList1 = new ArrayList<>();
+    List<CartBalanceModel.DataBean.ProductVOListBean.AdditionVOList>additionVOList2 = new ArrayList<>();
+    RecyclerView rv_given;
+    RecyclerView rv_full;
+    FullGivenConfirmAdapter fullGivenConfirmAdapter;
+    FullConfirmAdapter fullConfirmAdapter;
+    TagsAdapter unAbleAdapter;
     private void requestCartBalance(String giftDetailNo, int type,int disType) {
         CartBalanceAPI.requestCartBalance(mActivity, normalProductBalanceVOStr, activityBalanceVOStr, cartListStr, giftDetailNo, type, 1,disType)
                 .subscribeOn(Schedulers.io())
@@ -885,13 +847,15 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                             AppHelper.showMsg(mActivity, cartBalanceModel.message);
                         }
 
-
-                        TagsAdapter unAbleAdapter = new TagsAdapter<CartBalanceModel.DataBean.ProductVOListBean>(listUnOperate){
+                        Log.d("wdasdwdsd.......",listUnOperate.size()+"--");
+                        unAbleAdapter = new TagsAdapter<CartBalanceModel.DataBean.ProductVOListBean>(listUnOperate){
                             @Override
                             public View getView(FlowLayout parent, int position, CartBalanceModel.DataBean.ProductVOListBean productVOListBean) {
                                 View view = LayoutInflater.from(mActivity).inflate(R.layout.item_confirm_order_new,recyclerView_un, false);
                                 TextView textTitle = view.findViewById(R.id.textTitle);
                                 TextView Price = view.findViewById(R.id.Price);
+                                rv_given = view.findViewById(R.id.rv_given);
+                                rv_full = view.findViewById(R.id.rv_full);
                                 TextView oldPrice = view.findViewById(R.id.oldPrice);
                                 TextView textSpe = view.findViewById(R.id.textSpe);
                                 ImageView imageIcon = view.findViewById(R.id.imageIcon);
@@ -912,6 +876,25 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                                     oldPrice.setText(productVOListBean.getOldPrice()+"");
                                 }
                                 textTitle.setText(productVOListBean.getName());
+                                additionVOList1.clear();
+                                additionVOList2.clear();
+                                if(productVOListBean.getAdditionVOList()!=null) {
+                                    for (int i = 0; i < productVOListBean.getAdditionVOList().size(); i++) {
+                                        if(productVOListBean.getAdditionVOList().get(i).getType().equals("1")) {
+                                            additionVOList1.add(productVOListBean.getAdditionVOList().get(i));
+                                        }else {
+                                            additionVOList2.add(productVOListBean.getAdditionVOList().get(i));
+                                        }
+                                    }
+                                }
+
+                                rv_given.setLayoutManager(new LinearLayoutManager(mActivity));
+                                fullGivenConfirmAdapter = new FullGivenConfirmAdapter(R.layout.item_given,additionVOList2);
+                                rv_given.setAdapter(fullGivenConfirmAdapter);
+
+                                rv_full.setLayoutManager(new LinearLayoutManager(mActivity));
+                                fullConfirmAdapter = new FullConfirmAdapter(R.layout.item_full,additionVOList1);
+                                rv_full.setAdapter(fullConfirmAdapter);
                                 return view;
                             }
                         };
@@ -920,7 +903,10 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                             @Override
                             public void onClick(View v) {
                                 recyclerView_un.setLimit(false);
-                                unAbleAdapter.notifyDataChanged();
+                                fullConfirmAdapter.notifyDataSetChanged();
+                                fullGivenConfirmAdapter.notifyDataSetChanged();
+//                                unAbleAdapter.notifyDataChanged();
+
                             }
                         });
                         recyclerView_un.setAdapter(unAbleAdapter);
@@ -1166,10 +1152,8 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
 
     @Subscribe
     public void onEventMainThread(AddressEvent event) {
-
         list.clear();
         requestCartBalance(NewgiftDetailNo, 1,disType);
-//        userChooseDeduct();
     }
 
 

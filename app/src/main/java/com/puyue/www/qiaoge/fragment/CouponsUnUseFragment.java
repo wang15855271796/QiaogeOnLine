@@ -38,7 +38,6 @@ public class CouponsUnUseFragment extends BaseFragment {
     TextView tv_desc;
     TextView tv_nocoudan;
     TextView tv_coudan;
-    private List<queryUserDeductByStateModel.DataBean.ListBean > lists =new ArrayList<>();
 
     public static CouponsUnUseFragment newInstance(String giftDetailNo,String normalProductBalanceVOStr,String activityBalanceVOStr) {
         Bundle args = new Bundle();
@@ -87,11 +86,11 @@ public class CouponsUnUseFragment extends BaseFragment {
     @Override
     public void setViewData() {
         //凑单可用
-        adapter = new CouDanAdapter(R.layout.item_my_coupons,dataBean1);
+        adapter = new CouDanAdapter(R.layout.item_my_coupons1,dataBean1);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
         //本身不可用
-        adapter1 = new CouDanUnAdapter(R.layout.item_my_coupons,dataBean2);
+        adapter1 = new CouDanUnAdapter(R.layout.item_my_coupons1,dataBean2);
         recyclerView_un.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView_un.setAdapter(adapter1);
 

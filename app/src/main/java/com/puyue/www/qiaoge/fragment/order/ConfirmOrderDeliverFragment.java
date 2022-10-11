@@ -198,8 +198,8 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     RecyclerView rv_given;
     TextView tv_open;
     ImageView iv_open;
-//    RecyclerView rv_given1;
-//    RecyclerView rv_coupon1;
+    RecyclerView rv_given1;
+    RecyclerView rv_coupon1;
     RecyclerView rv_unAddress;
     RecyclerView rv_coupon;
     RelativeLayout rl_distribution;
@@ -219,6 +219,8 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     public void findViewById(View view) {
         tv_open = (TextView) view.findViewById(R.id.tv_open);
         iv_open = (ImageView) view.findViewById(R.id.iv_open);
+        rv_given1 = (RecyclerView) view.findViewById(R.id.rv_given1);
+        rv_coupon1 = (RecyclerView) view.findViewById(R.id.rv_coupon1);
         rl_arrow = (RelativeLayout) view.findViewById(R.id.rl_arrow);
         tv_distribution = (TextView) view.findViewById(R.id.tv_distribution);
         rl_distribution = (RelativeLayout) view.findViewById(R.id.rl_distribution);
@@ -408,6 +410,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                     lav_activity_loading.show();
                     lav_activity_loading.setVisibility(View.VISIBLE);
                     if(list.size()==0) {
+                        lav_activity_loading.hide();
                         ToastUtil.showSuccessMsg(mActivity,"无可结算的商品");
                         return;
                     }
@@ -516,18 +519,15 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                     }
                     break;
                 case R.id.linearLayoutCoupons: // 优惠券
-                    if(giftNum>0) {
-                        Intent intent2 = new Intent(getContext(), ChooseCouponsActivity.class);
-                        intent2.putExtra("statModel",statModel.isSelects());
-                        intent2.putExtra("activityBalanceVOStr", activityBalanceVOStr);
-                        intent2.putExtra("normalProductBalanceVOStr", normalProductBalanceVOStr);
-                        intent2.putExtra("giftDetailNo", NewgiftDetailNo);
-                        startActivityForResult(intent2, ActivityResultHelper.ChOOSE_COUPONS_REQUESR_CODE);
-                    }else {
-                    }
-
+                    Intent intent2 = new Intent(getContext(), ChooseCouponsActivity.class);
+                    intent2.putExtra("statModel",statModel.isSelects());
+                    intent2.putExtra("activityBalanceVOStr", activityBalanceVOStr);
+                    intent2.putExtra("normalProductBalanceVOStr", normalProductBalanceVOStr);
+                    intent2.putExtra("giftDetailNo", NewgiftDetailNo);
+                    startActivityForResult(intent2, ActivityResultHelper.ChOOSE_COUPONS_REQUESR_CODE);
 
                     break;
+
                 case R.id.ll_go_market:
                     Intent intent = new Intent(mActivity, NewWebViewActivity.class);
                     intent.putExtra("URL", VipURl);
@@ -659,6 +659,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                                 listUnOperate.clear();
                                 if (cartBalanceModel.getData().getProductVOList().size() > 0) {
                                     for (int i = 0; i < cartBalanceModel.getData().getProductVOList().size(); i++) {
+                                        Log.d("cdefsefds......",cartBalanceModel.getData().getProductVOList().get(i).getSelfOrNot()+"----");
                                         if(cartBalanceModel.getData().getProductVOList().get(i).getSelfOrNot()==0) {
                                             list.add(cartBalanceModel.getData().getProductVOList().get(i));
                                             tv_operate.setText(cartBalanceModel.getData().getSelfSendTimeStr());
@@ -675,7 +676,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                                     ll_operate.setVisibility(View.GONE);
                                 }
 
-                                if(listUnOperate.size() > 0 && tv_distribution.getText().toString().equals("买家自己呼叫货拉拉")) {
+                                if(listUnOperate.size() > 0&& tv_distribution.getText().toString().equals("买家自己呼叫货拉拉")) {
                                     if(listUnOperate.size()>3) {
                                         rl_arrow.setVisibility(View.VISIBLE);
                                     }else {
@@ -687,9 +688,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                                 }
                                 unOperateAdapter.notifyDataChanged();
                             }
-
                             adapter.notifyDataSetChanged();
-
                         } else {
                             AppHelper.showMsg(mActivity, cartBalanceModel.message);
                         }
@@ -806,15 +805,18 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
 
             }
         }
-        if(giftNum>0) {
+        if(cartBalanceModel.getData().getDeductDesc().equals("无优惠券")) {
+            textCoupons.setText("无优惠券");
+            textCoupons.setTextColor(Color.parseColor("#999999"));
+            linearLayoutCoupons.setEnabled(false);
+        }else if(cartBalanceModel.getData().getDeductDesc().equals("暂无可用优惠券")) {
+            textCoupons.setText("暂无可用优惠券");
+            textCoupons.setTextColor(Color.parseColor("#999999"));
+            linearLayoutCoupons.setEnabled(true);
+        } else {
             textCoupons.setText(cartBalanceModel.getData().getDeductDesc());
             textCoupons.setTextColor(Color.parseColor("#F25E0E"));
             linearLayoutCoupons.setEnabled(true);
-        }else {
-            textCoupons.setText("暂无优惠券可使用");
-            textCoupons.setTextColor(Color.parseColor("#999999"));
-            linearLayoutCoupons.setEnabled(false);
-
         }
 
 

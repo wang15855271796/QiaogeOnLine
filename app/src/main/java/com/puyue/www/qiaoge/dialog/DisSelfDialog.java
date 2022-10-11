@@ -131,7 +131,6 @@ public class DisSelfDialog extends Dialog {
                     EventBus.getDefault().post(new DisTributionSelfEvent("买家自己呼叫货拉拉",1));
                     EventBus.getDefault().post(new DisTributionEvent("买家自己呼叫货拉拉",1));
                     EventBus.getDefault().post(new RefreshEvent());
-//                    EventBus.getDefault().post(new ChangeDeliverEvent());
                     dismiss();
                     rl_cb1.setBackgroundResource(R.drawable.shape_grey9);
                     rl_cb2.setBackgroundResource(R.drawable.shape_orange14);
