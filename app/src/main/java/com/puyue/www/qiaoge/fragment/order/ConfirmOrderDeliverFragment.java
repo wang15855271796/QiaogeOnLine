@@ -100,7 +100,7 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
  */
 public class ConfirmOrderDeliverFragment extends BaseFragment {
     private RecyclerView recyclerView;
-    private TagFlowLayout recyclerView1;
+    private TagsFlowLayout recyclerView1;
     private LinearLayout linearLayoutAddressHead;
     private TextView userName;
     private TextView userPhone;
