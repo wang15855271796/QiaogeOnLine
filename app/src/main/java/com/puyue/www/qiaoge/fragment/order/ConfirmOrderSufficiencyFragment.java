@@ -413,16 +413,26 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
 
     int disType;
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getDistribution(DisTributionSelf1Event disTributionEvent) {
-        tv_distribution.setText(disTributionEvent.getDesc());
-        disType = disTributionEvent.getType();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
     public void getDistribution(DisTributionSelfEvent disTributionEvent) {
-        tv_distribution.setText(disTributionEvent.getDesc());
-        disType = disTributionEvent.getType();
+        if(disTributionEvent.getType()==0) {
+            tv_distribution.setText(disTributionEvent.getDesc());
+            disType = disTributionEvent.getType();
+        }else {
+            tv_distribution.setText(disTributionEvent.getDesc());
+            disType = disTributionEvent.getType();
+        }
     }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void getDistribution(DisTributionSelf1Event disTributionEvent) {
+//        tv_distribution.setText(disTributionEvent.getDesc());
+//        disType = disTributionEvent.getType();
+//    }
+//
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void getDistribution(DisTributionSelfEvent disTributionEvent) {
+//        tv_distribution.setText(disTributionEvent.getDesc());
+//        disType = disTributionEvent.getType();
+//    }
 
     protected void geocoder(String address) {
         TencentSearch tencentSearch = new TencentSearch(mActivity);
