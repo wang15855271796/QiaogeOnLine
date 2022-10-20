@@ -67,7 +67,7 @@ public class CouDanUnAdapter extends BaseQuickAdapter<UserChooseDeductModel.Data
         tv_amount.setText(item.getAmount());
         tv_role.setText(item.getReason());
         TextView tv_use_limits = helper.getView(R.id.tv_use_limits);
-        if(!item.getReason().equals("") && item.getReason()!=null) {
+        if(item.getReason()!=null&&!item.getReason().equals("")) {
             tv_use_limits.setText(item.getReason());
             tv_use_limits.setVisibility(View.VISIBLE);
         }else {

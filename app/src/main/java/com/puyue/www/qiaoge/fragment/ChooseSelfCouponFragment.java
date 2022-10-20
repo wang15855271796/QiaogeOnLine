@@ -38,11 +38,12 @@ public class ChooseSelfCouponFragment extends BaseFragment {
     RecyclerView recyclerView;
     @BindView(R.id.iv_select_all)
     ImageView iv_select_all;
-    public static ChooseSelfCouponFragment newInstance(String giftDetailNo,String normalProductBalanceVOStr,String activityBalanceVOStr,boolean statModel) {
+    public static ChooseSelfCouponFragment newInstance(String giftDetailNo,String normalProductBalanceVOStr,String activityBalanceVOStr,boolean statModel,String deliveryModel) {
         Bundle args = new Bundle();
         args.putBoolean("statModel", statModel);
         args.putString("giftDetailNo", giftDetailNo);
         args.putString("activityBalanceVOStr", activityBalanceVOStr);
+        args.putString("deliveryModel", deliveryModel);
         args.putString("normalProductBalanceVOStr", normalProductBalanceVOStr);
         ChooseSelfCouponFragment fragment = new ChooseSelfCouponFragment();
         fragment.setArguments(args);
@@ -71,11 +72,12 @@ public class ChooseSelfCouponFragment extends BaseFragment {
     String giftDetailNo;
     String normalProductBalanceVOStr;
     String activityBalanceVOStr;
-
+    String deliveryModel;
     @Override
     public void findViewById(View view) {
         statModel = getArguments().getBoolean("statModel");
         giftDetailNo = getArguments().getString("giftDetailNo");
+        deliveryModel = getArguments().getString("deliveryModel");
         normalProductBalanceVOStr = getArguments().getString("normalProductBalanceVOStr");
         activityBalanceVOStr = getArguments().getString("activityBalanceVOStr");
         activityBalanceVOStr = getArguments().getString("activityBalanceVOStr");
@@ -134,7 +136,7 @@ public class ChooseSelfCouponFragment extends BaseFragment {
     UserChooseDeductModel models;
     private List<UserChooseDeductModel.DataBean> list = new ArrayList<>();
     private void userChooseDeduct() {
-        userChooseDeductAPI.requestData(getContext(), "1",activityBalanceVOStr, normalProductBalanceVOStr,"0")
+        userChooseDeductAPI.requestData(getContext(), "1",activityBalanceVOStr, normalProductBalanceVOStr,"0",deliveryModel)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<UserChooseDeductModel>() {
@@ -178,8 +180,6 @@ public class ChooseSelfCouponFragment extends BaseFragment {
 
                                 }
                             }
-
-
 
                         } else {
                             AppHelper.showMsg(getContext(), model.message);

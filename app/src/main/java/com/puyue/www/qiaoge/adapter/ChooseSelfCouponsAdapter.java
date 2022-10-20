@@ -3,14 +3,19 @@ package com.puyue.www.qiaoge.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.example.xrecyclerview.DensityUtil;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.api.mine.coupon.userChooseDeductAPI;
 import com.puyue.www.qiaoge.dialog.CouponProdDialog;
@@ -38,6 +43,7 @@ public class ChooseSelfCouponsAdapter extends BaseQuickAdapter<UserChooseDeductM
     TextView tv_tip;
     ImageOnclick imageOnclick;
     ImageView iv_select;
+    boolean isOpen;
     public ChooseSelfCouponsAdapter(int layoutResId, @Nullable List<UserChooseDeductModel.DataBean> data, ImageOnclick imageOnclick) {
         super(layoutResId, data);
         list=data;
@@ -49,7 +55,6 @@ public class ChooseSelfCouponsAdapter extends BaseQuickAdapter<UserChooseDeductM
         for (int i = 0; i < list.size(); i++) {
             list.get(i).setFlags(false);
             iv_select.setBackgroundResource(R.mipmap.ic_pay_no);
-            Log.d("awwwdssssssssss...","wqaad");
         }
         notifyDataSetChanged();
 
@@ -63,23 +68,58 @@ public class ChooseSelfCouponsAdapter extends BaseQuickAdapter<UserChooseDeductM
         tv_user_factor=helper.getView(R.id.tv_user_factor);
         tv_time=helper.getView(R.id.tv_time);
         tv_role=helper.getView(R.id.tv_role);
+        RecyclerView rv_role = helper.getView(R.id.rv_role);
         tv_amount=helper.getView(R.id.tv_amount);
+        ImageView iv_arrow = helper.getView(R.id.iv_arrow);
         iv_select = helper.getView(R.id.iv_select);
-        if(!TextUtils.isEmpty(item.getApplyFrom())){
-            tv_style.setText(item.getApplyFrom());
+        if(!TextUtils.isEmpty(item.getGiftName())){
+            tv_style.setText(item.getGiftName());
         }
-        //item.getGiftType()+"   "+
-        tv_user_factor.setText(item.getGiftName());
+
+        tv_user_factor.setText(item.getLimitAmtStr());
         tv_time.setText(item.getDateTime());
         tv_amount.setText(item.getAmount());
 
+        TextView tv_use_limits = helper.getView(R.id.tv_use_limits);
+        if(item.getReason()!=null&&!item.getReason().equals("")) {
+            tv_use_limits.setText(item.getReason());
+            tv_use_limits.setVisibility(View.VISIBLE);
+        }else {
+            tv_use_limits.setVisibility(View.GONE);
+        }
+
+        rv_role.setLayoutManager(new LinearLayoutManager(mContext));
+        RoleAdapter roleAdapter = new RoleAdapter(R.layout.item_text1,item.getGiftUseRole());
+        rv_role.setAdapter(roleAdapter);
+
+        iv_arrow.setImageResource(R.mipmap.icon_arrow_down);
+        ViewGroup.LayoutParams lp = rv_role.getLayoutParams();
+        roleAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if(!isOpen) {
+                    iv_arrow.setImageResource(R.mipmap.icon_arrow_up);
+                    lp.height = DensityUtil.dip2px(RecyclerView.LayoutParams.WRAP_CONTENT,mContext);
+                    rv_role.setLayoutParams(lp);
+                }else {
+                    lp.height = DensityUtil.dip2px(15,mContext);
+                    iv_arrow.setImageResource(R.mipmap.icon_arrow_down);
+                    rv_role.setLayoutParams(lp);
+                }
+                isOpen = !isOpen;
+            }
+        });
+
+        lp.height = DensityUtil.dip2px(15,mContext);
+        rv_role.setLayoutParams(lp);
+
         if (item.getRole().size()>0){
             tv_role.setText(item.getRole().get(0));
-            tv_role.setVisibility(View.VISIBLE);
+            tv_role.setVisibility(View.GONE);
 
         }else {
             tv_role.setText("");
-            tv_role.setVisibility(View.INVISIBLE);
+            tv_role.setVisibility(View.GONE);
         }
 
         tv_role.setOnClickListener(new View.OnClickListener() {

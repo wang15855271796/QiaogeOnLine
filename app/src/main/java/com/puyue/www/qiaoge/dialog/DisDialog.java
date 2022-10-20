@@ -5,40 +5,27 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.text.Editable;
 import android.text.SpannableStringBuilder;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import androidx.fragment.app.FragmentActivity;
-
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.event.DisTributionEvent;
 import com.puyue.www.qiaoge.event.DisTributionSelfEvent;
-import com.puyue.www.qiaoge.event.HuoBeizhuEvent;
-import com.puyue.www.qiaoge.event.RefreshEvent;
 import com.puyue.www.qiaoge.helper.StringSpecialHelper;
 import com.puyue.www.qiaoge.model.ModeModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.utils.Utils;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -89,6 +76,12 @@ public class DisDialog extends Dialog {
         if(!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
+    }
+
+    @Override
+    public void hide() {
+        super.hide();
+        EventBus.getDefault().unregister(this);
     }
 
     boolean isCb1 = false;
@@ -193,7 +186,6 @@ public class DisDialog extends Dialog {
     public void getDistribution(DisTributionSelfEvent disTributionEvent) {
         isCb2 = true;
         isCb1 = false;
-        EventBus.getDefault().post(new DisTributionEvent("买家自己呼叫货拉拉",1));
         dismiss();
         rl_cb1.setBackgroundResource(R.drawable.shape_grey9);
         rl_cb2.setBackgroundResource(R.drawable.shape_orange14);

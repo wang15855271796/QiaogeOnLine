@@ -91,15 +91,15 @@
                             android:layout_height="@dimen/size_50dp">
 
                             <TextView
-                                android:text="包裹1"
-                                android:layout_marginLeft="@dimen/size_16dp"
-                                android:textColor="#343434"
-                                android:textStyle="bold"
-                                android:layout_centerVertical="true"
-                                android:textSize="@dimen/sp_14"
                                 android:id="@+id/tv_operate_title"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/size_16dp"
+                                android:text="包裹1"
+                                android:textColor="#343434"
+                                android:textSize="@dimen/sp_14"
+                                android:textStyle="bold" />
 
                             <ImageView
                                 android:visibility="gone"
@@ -160,11 +160,23 @@
                             android:layout_height="@dimen/size_40dp">
 
                             <TextView
+                                android:id="@+id/tv2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/size_16dp"
+                                android:text="包裹2"
+                                android:textStyle="bold"
+                                android:textColor="#343434"
+                                android:textSize="@dimen/sp_14" />
+
+                            <TextView
                                 android:id="@+id/tv_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="@dimen/size_10dp"
+                                android:layout_toRightOf="@+id/tv2"
                                 android:text="以下商品暂不支持 “我自己叫货拉拉”"
                                 android:textColor="#FF2925"
                                 android:textSize="@dimen/sp_14" />
@@ -194,7 +206,7 @@
                         </RelativeLayout>
 
 
-                        <com.puyue.www.qiaoge.activity.flow.TagsFlowLayout
+                        <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerView1"
                             android:layout_marginRight="@dimen/size_8dp"
                             android:layout_marginLeft="@dimen/size_8dp"
@@ -236,16 +248,6 @@
 
                         </RelativeLayout>
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_given1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_coupon1"
-                            android:layout_marginLeft="@dimen/dp_10"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
 
 
                     </LinearLayout>
@@ -479,7 +481,7 @@
                             android:textSize="@dimen/size_12dp" />
 
                     </RelativeLayout>
-                    <!--      android:drawableRight="@mipmap/ic_address_icon"-->
+
                     <include layout="@layout/fragment_confirm_order_foot" />
 
                 </LinearLayout>

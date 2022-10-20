@@ -836,7 +836,6 @@ public class WheelSurfPanView extends View {
                             + mRadius, mCenter + mRadius);
                     canvas.drawArc(rect, startAngle, mAngle, true, mPaint);
 //                    mTextPaint.setColor(mTextColor);
-                    Log.d("ewfsfdrsfw.......",mRadius+"a");
                     drawText(startAngle, mDeses[i], mRadius, mTextPaint, canvas);
 
                     int imgWidth = mRadius / 3;

@@ -5,6 +5,7 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,9 @@ import androidx.fragment.app.FragmentActivity;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.event.ChangeDeliverEvent;
+import com.puyue.www.qiaoge.event.DisTribution1Event;
 import com.puyue.www.qiaoge.event.DisTributionEvent;
+import com.puyue.www.qiaoge.event.DisTributionSelf1Event;
 import com.puyue.www.qiaoge.event.DisTributionSelfEvent;
 import com.puyue.www.qiaoge.event.RefreshEvent;
 import com.puyue.www.qiaoge.model.ModeModel;
@@ -105,6 +108,7 @@ public class DisSelfDialog extends Dialog {
                     rl_cb1.setBackgroundResource(R.drawable.shape_orange14);
                     rl_cb2.setBackgroundResource(R.drawable.shape_grey9);
                     EventBus.getDefault().post(new DisTributionSelfEvent("到仓自提",0));
+                    EventBus.getDefault().post(new DisTribution1Event("买家自己呼叫货拉拉",1));
                     dismiss();
                     iv_choose1.setVisibility(View.VISIBLE);
                     iv_choose2.setVisibility(View.GONE);
@@ -112,7 +116,6 @@ public class DisSelfDialog extends Dialog {
 
             }
         });
-
 
         rl_cb2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +131,7 @@ public class DisSelfDialog extends Dialog {
                 }else {
                     isCb2 = true;
                     isCb1 = false;
-                    EventBus.getDefault().post(new DisTributionSelfEvent("买家自己呼叫货拉拉",1));
+                    EventBus.getDefault().post(new DisTributionSelf1Event("买家自己呼叫货拉拉",1));
                     EventBus.getDefault().post(new DisTributionEvent("买家自己呼叫货拉拉",1));
                     EventBus.getDefault().post(new RefreshEvent());
                     dismiss();

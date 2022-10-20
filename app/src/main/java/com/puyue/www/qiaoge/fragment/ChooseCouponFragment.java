@@ -38,12 +38,13 @@ public class ChooseCouponFragment extends BaseFragment {
     RecyclerView recyclerView;
     @BindView(R.id.iv_select_all)
     ImageView iv_select_all;
-    public static ChooseCouponFragment newInstance(String giftDetailNo,String normalProductBalanceVOStr,String activityBalanceVOStr,boolean statModel) {
+    public static ChooseCouponFragment newInstance(String giftDetailNo,String normalProductBalanceVOStr,String activityBalanceVOStr,boolean statModel,String deliveryModel) {
         Bundle args = new Bundle();
         args.putBoolean("statModel", statModel);
         args.putString("giftDetailNo", giftDetailNo);
         args.putString("activityBalanceVOStr", activityBalanceVOStr);
         args.putString("normalProductBalanceVOStr", normalProductBalanceVOStr);
+        args.putString("deliveryModel", deliveryModel);
         ChooseCouponFragment fragment = new ChooseCouponFragment();
         fragment.setArguments(args);
         return fragment;
@@ -71,7 +72,7 @@ public class ChooseCouponFragment extends BaseFragment {
     String giftDetailNo;
     String normalProductBalanceVOStr;
     String activityBalanceVOStr;
-
+    String deliveryModel;
     @Override
     public void findViewById(View view) {
         statModel = getArguments().getBoolean("statModel");
@@ -79,6 +80,7 @@ public class ChooseCouponFragment extends BaseFragment {
         normalProductBalanceVOStr = getArguments().getString("normalProductBalanceVOStr");
         activityBalanceVOStr = getArguments().getString("activityBalanceVOStr");
         activityBalanceVOStr = getArguments().getString("activityBalanceVOStr");
+        deliveryModel = getArguments().getString("deliveryModel");
         userChooseDeduct();
     }
 
@@ -131,10 +133,9 @@ public class ChooseCouponFragment extends BaseFragment {
 
     }
 
-    UserChooseDeductModel models;
     private List<UserChooseDeductModel.DataBean> list = new ArrayList<>();
     private void userChooseDeduct() {
-        userChooseDeductAPI.requestData(getContext(), "0",activityBalanceVOStr, normalProductBalanceVOStr,"0")
+        userChooseDeductAPI.requestData(getContext(), "0",activityBalanceVOStr, normalProductBalanceVOStr,"0",deliveryModel)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<UserChooseDeductModel>() {
@@ -150,11 +151,8 @@ public class ChooseCouponFragment extends BaseFragment {
 
                     @Override
                     public void onNext(UserChooseDeductModel model) {
-                        if (model.success) {
-                            models = model;
-
-                            if (model.getData().size()> 0) {
-
+                        if (model.code==1) {
+                            if(model.getData()!=null && model.getData().size()>0) {
                                 list.addAll(model.getData());
                                 adapter.notifyDataSetChanged();
                                 for (int i = 0; i < list.size(); i++) {
@@ -173,12 +171,8 @@ public class ChooseCouponFragment extends BaseFragment {
                                             iv_select_all.setImageResource(R.mipmap.checkbox_no);
                                         }
                                     }
-
                                 }
                             }
-
-
-
                         } else {
                             AppHelper.showMsg(getContext(), model.message);
                         }

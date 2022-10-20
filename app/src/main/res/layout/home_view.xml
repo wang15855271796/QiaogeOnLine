@@ -183,7 +183,6 @@
             android:layout_height="132dp">
 
             <LinearLayout
-
                 android:id="@+id/ll_team_bg1"
                 android:background="@mipmap/bg_team"
                 android:layout_width="match_parent"

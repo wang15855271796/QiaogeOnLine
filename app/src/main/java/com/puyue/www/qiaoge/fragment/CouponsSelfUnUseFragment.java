@@ -38,9 +38,10 @@ public class CouponsSelfUnUseFragment extends BaseFragment {
     TextView tv_coudan;
     private List<queryUserDeductByStateModel.DataBean.ListBean > lists =new ArrayList<>();
 
-    public static CouponsSelfUnUseFragment newInstance(String giftDetailNo,String normalProductBalanceVOStr,String activityBalanceVOStr) {
+    public static CouponsSelfUnUseFragment newInstance(String giftDetailNo,String normalProductBalanceVOStr,String activityBalanceVOStr,String deliveryModel) {
         Bundle args = new Bundle();
         args.putString("giftDetailNo", giftDetailNo);
+        args.putString("deliveryModel", deliveryModel);
         args.putString("activityBalanceVOStr", activityBalanceVOStr);
         args.putString("normalProductBalanceVOStr", normalProductBalanceVOStr);
         CouponsSelfUnUseFragment fragment = new CouponsSelfUnUseFragment();
@@ -62,6 +63,7 @@ public class CouponsSelfUnUseFragment extends BaseFragment {
     String giftDetailNo;
     String normalProductBalanceVOStr;
     String activityBalanceVOStr;
+    String deliveryModel;
     @Override
     public void findViewById(View view) {
         tv_nocoudan = view.findViewById(R.id.tv_nocoudan);
@@ -72,7 +74,7 @@ public class CouponsSelfUnUseFragment extends BaseFragment {
         view.findViewById(R.id.recyclerView_un);
         data= view .findViewById(R.id.data);
         noData= view.findViewById(R.id.noData);
-
+        deliveryModel = getArguments().getString("deliveryModel");
         statModel = getArguments().getBoolean("statModel");
         giftDetailNo = getArguments().getString("giftDetailNo");
         normalProductBalanceVOStr = getArguments().getString("normalProductBalanceVOStr");
@@ -100,12 +102,11 @@ public class CouponsSelfUnUseFragment extends BaseFragment {
 
     }
 
-    UserChooseDeductModel models;
     List<UserChooseDeductModel.DataBean>dataBean1 = new ArrayList<>();
     List<UserChooseDeductModel.DataBean>dataBean2 = new ArrayList<>();
     private List<UserChooseDeductModel.DataBean> list = new ArrayList<>();
     private void userChooseDeduct() {
-        userChooseDeductAPI.requestData(getContext(), "0",activityBalanceVOStr, normalProductBalanceVOStr,"1")
+        userChooseDeductAPI.requestData(getContext(), "0",activityBalanceVOStr, normalProductBalanceVOStr,"1",deliveryModel)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<UserChooseDeductModel>() {
@@ -121,33 +122,35 @@ public class CouponsSelfUnUseFragment extends BaseFragment {
 
                     @Override
                     public void onNext(UserChooseDeductModel model) {
-                        if (model.success) {
-                            models = model;
+                        if (model.code==1) {
+                            if(model.getData()!=null && model.getData().size()>0) {
+                                for (int i = 0; i < model.getData().size(); i++) {
+                                    if(model.getData().get(i).getGiftFlag().equals("1")) {
+                                        //凑单可用
+                                        dataBean1.add(model.getData().get(i));
+                                        adapter.notifyDataSetChanged();
 
-                            for (int i = 0; i < model.getData().size(); i++) {
-                                if(model.getData().get(i).getGiftFlag().equals("1")) {
-                                    //凑单可用
-                                    dataBean1.add(model.getData().get(i));
-                                    adapter.notifyDataSetChanged();
-
-                                    if(dataBean1.size()>0) {
-                                        tv_coudan.setVisibility(View.VISIBLE);
+                                        if(dataBean1.size()>0) {
+                                            tv_coudan.setVisibility(View.VISIBLE);
+                                        }else {
+                                            tv_coudan.setVisibility(View.GONE);
+                                        }
                                     }else {
-                                        tv_coudan.setVisibility(View.GONE);
-                                    }
-                                }else {
-                                    //凑单不可用
-                                    dataBean2.add(model.getData().get(i));
-                                    adapter1.notifyDataSetChanged();
+                                        //凑单不可用
+                                        dataBean2.add(model.getData().get(i));
+                                        adapter1.notifyDataSetChanged();
 
-                                    if(dataBean2.size()>0) {
-                                        tv_nocoudan.setVisibility(View.VISIBLE);
-                                    }else {
-                                        tv_nocoudan.setVisibility(View.GONE);
+                                        if(dataBean2.size()>0) {
+                                            tv_nocoudan.setVisibility(View.VISIBLE);
+                                        }else {
+                                            tv_nocoudan.setVisibility(View.GONE);
+                                        }
                                     }
+
                                 }
-
                             }
+
+
                         } else {
                             AppHelper.showMsg(getContext(), model.message);
                         }

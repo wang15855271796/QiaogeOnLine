@@ -29,13 +29,13 @@ public class ChooseCouponssActivity extends BaseSwipeActivity {
     private String activityBalanceVOStr;
     private String normalProductBalanceVOStr;
     private String giftDetailNo="";
-    private ChooseSelfCouponsAdapter adapter;
     boolean statModel;
     private List<UserChooseDeductModel.DataBean> list = new ArrayList<>();
     TabLayout tabLayout;
     ViewPager viewPager;
     private List<String> stringList =new ArrayList<>();
     private List<Fragment> list_fragment=new ArrayList<>();
+    int disType;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -63,11 +63,11 @@ public class ChooseCouponssActivity extends BaseSwipeActivity {
         normalProductBalanceVOStr = getIntent().getStringExtra("normalProductBalanceVOStr");
         giftDetailNo = getIntent().getStringExtra("giftDetailNo");
         statModel = getIntent().getBooleanExtra("statModel",false);
-
+        disType = getIntent().getIntExtra("deliveryModel",0);
         //可使用
-        list_fragment.add(ChooseSelfCouponFragment.newInstance(giftDetailNo,normalProductBalanceVOStr,activityBalanceVOStr,statModel));
+        list_fragment.add(ChooseSelfCouponFragment.newInstance(giftDetailNo,normalProductBalanceVOStr,activityBalanceVOStr,statModel,disType+""));
         //不可使用
-        list_fragment.add(CouponsSelfUnUseFragment.newInstance(giftDetailNo,normalProductBalanceVOStr,activityBalanceVOStr));
+        list_fragment.add(CouponsSelfUnUseFragment.newInstance(giftDetailNo,normalProductBalanceVOStr,activityBalanceVOStr,disType+""));
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),list_fragment,stringList);
 
         viewPager.setAdapter(viewPagerAdapter);

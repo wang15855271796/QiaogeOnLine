@@ -196,16 +196,16 @@
                 android:layout_marginTop="@dimen/size_5dp"
                 android:ellipsize="end"
                 android:lines="1"
+                android:text="2020.7.30  8:00—2020.7.31  9:00"
                 android:textColor="#FF5C00"
-                android:textSize="10dp"
-                android:text="2020.7.30  8:00—2020.7.31  9:00" />
+                android:textSize="10dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_role"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size_5dp"
                 android:layout_below="@+id/tv_use_limits"
+                android:layout_marginTop="@dimen/size_5dp"
                 android:layout_marginBottom="@dimen/size_5dp" />
 
             <ImageView

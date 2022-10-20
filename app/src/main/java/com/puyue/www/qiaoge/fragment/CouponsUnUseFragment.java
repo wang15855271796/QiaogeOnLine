@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -39,11 +40,12 @@ public class CouponsUnUseFragment extends BaseFragment {
     TextView tv_nocoudan;
     TextView tv_coudan;
 
-    public static CouponsUnUseFragment newInstance(String giftDetailNo,String normalProductBalanceVOStr,String activityBalanceVOStr) {
+    public static CouponsUnUseFragment newInstance(String giftDetailNo,String normalProductBalanceVOStr,String activityBalanceVOStr,String deliveryModel) {
         Bundle args = new Bundle();
         args.putString("giftDetailNo", giftDetailNo);
         args.putString("activityBalanceVOStr", activityBalanceVOStr);
         args.putString("normalProductBalanceVOStr", normalProductBalanceVOStr);
+        args.putString("deliveryModel", deliveryModel);
         CouponsUnUseFragment fragment = new CouponsUnUseFragment();
         fragment.setArguments(args);
         return fragment;
@@ -63,6 +65,7 @@ public class CouponsUnUseFragment extends BaseFragment {
     String giftDetailNo;
     String normalProductBalanceVOStr;
     String activityBalanceVOStr;
+    String deliveryModel;
     @Override
     public void findViewById(View view) {
         tv_nocoudan = view.findViewById(R.id.tv_nocoudan);
@@ -78,7 +81,7 @@ public class CouponsUnUseFragment extends BaseFragment {
         giftDetailNo = getArguments().getString("giftDetailNo");
         normalProductBalanceVOStr = getArguments().getString("normalProductBalanceVOStr");
         activityBalanceVOStr = getArguments().getString("activityBalanceVOStr");
-        activityBalanceVOStr = getArguments().getString("activityBalanceVOStr");
+        deliveryModel = getArguments().getString("deliveryModel");
         userChooseDeduct();
 
     }
@@ -90,7 +93,7 @@ public class CouponsUnUseFragment extends BaseFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
         //本身不可用
-        adapter1 = new CouDanUnAdapter(R.layout.item_my_coupons1,dataBean2);
+        adapter1 = new CouDanUnAdapter(R.layout.item_my_coupons2,dataBean2);
         recyclerView_un.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView_un.setAdapter(adapter1);
 
@@ -101,12 +104,10 @@ public class CouponsUnUseFragment extends BaseFragment {
 
     }
 
-    UserChooseDeductModel models;
     List<UserChooseDeductModel.DataBean>dataBean1 = new ArrayList<>();
     List<UserChooseDeductModel.DataBean>dataBean2 = new ArrayList<>();
-    private List<UserChooseDeductModel.DataBean> list = new ArrayList<>();
     private void userChooseDeduct() {
-        userChooseDeductAPI.requestData(getContext(), "0",activityBalanceVOStr, normalProductBalanceVOStr,"1")
+        userChooseDeductAPI.requestData(getContext(), "0",activityBalanceVOStr, normalProductBalanceVOStr,"1",deliveryModel)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<UserChooseDeductModel>() {
@@ -122,29 +123,33 @@ public class CouponsUnUseFragment extends BaseFragment {
 
                     @Override
                     public void onNext(UserChooseDeductModel model) {
-                        if (model.success) {
-                            models = model;
+                        if (model.code==1) {
+                            if(model.getData()!=null) {
+                                if(model.getData().size()>0) {
+                                    for (int i = 0; i < model.getData().size(); i++) {
+                                        if(model.getData().get(i).getGiftFlag().equals("1")) {
+                                            //凑单可用
+                                            dataBean1.add(model.getData().get(i));
+                                            adapter.notifyDataSetChanged();
 
-                            for (int i = 0; i < model.getData().size(); i++) {
-                                if(model.getData().get(i).getGiftFlag().equals("1")) {
-                                    //凑单可用
-                                    dataBean1.add(model.getData().get(i));
-                                    adapter.notifyDataSetChanged();
+                                            if(dataBean1.size()>0) {
+                                                tv_coudan.setVisibility(View.VISIBLE);
+                                            }else {
+                                                tv_coudan.setVisibility(View.GONE);
+                                            }
+                                        }else {
+                                            //凑单不可用
+                                            dataBean2.add(model.getData().get(i));
+                                            adapter1.notifyDataSetChanged();
 
-                                    if(dataBean1.size()>0) {
-                                        tv_coudan.setVisibility(View.VISIBLE);
-                                    }else {
-                                        tv_coudan.setVisibility(View.GONE);
-                                    }
-                                }else {
-                                    //凑单不可用
-                                    dataBean2.add(model.getData().get(i));
-                                    adapter1.notifyDataSetChanged();
+                                            if(dataBean2.size()>0) {
+                                                tv_nocoudan.setVisibility(View.VISIBLE);
+                                            }else {
+                                                tv_nocoudan.setVisibility(View.GONE);
+                                            }
+                                            Log.d("cdfewfsdfsw.....",dataBean2.size()+"a----");
+                                        }
 
-                                    if(dataBean2.size()>0) {
-                                        tv_nocoudan.setVisibility(View.VISIBLE);
-                                    }else {
-                                        tv_nocoudan.setVisibility(View.GONE);
                                     }
                                 }
 

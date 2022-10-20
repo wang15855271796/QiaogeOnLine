@@ -198,7 +198,7 @@ public class queryUserDeductByStateModel{
             private String giftProdUseType;
             private String giftFlag;
             private List<String> giftUseRole;
-
+            String reason;
             public List<String> getGiftUseRole() {
                 return giftUseRole;
             }
@@ -230,6 +230,14 @@ public class queryUserDeductByStateModel{
                         ", giftProdUseType='" + giftProdUseType + '\'' +
                         ", giftFlag='" + giftFlag + '\'' +
                         '}';
+            }
+
+            public String getReason() {
+                return reason;
+            }
+
+            public void setReason(String reason) {
+                this.reason = reason;
             }
 
             public String getGiftArea() {

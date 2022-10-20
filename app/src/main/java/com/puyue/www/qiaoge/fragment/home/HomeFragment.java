@@ -441,13 +441,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     private CountDownTimer scrollCountTimer = new CountDownTimer(2000, 2000) {
         @Override
         public void onTick(long millisUntilFinished) {
-            Log.d("swdasdwdas.....","aaaa");
             setScrollState(SCROLL_STATE_SCROLL);
         }
 
         @Override
         public void onFinish() {
-            Log.d("swdasdwdas.....","bbbb");
             setScrollState(SCROLL_STATE_IDLE);
         }
     };
@@ -476,7 +474,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
     int scroll = 0;
     private AnimationDrawable anim;
-    private int TIME = 1000;
+    private int TIME = 3000;
     Handler handler = new Handler();
     @Override
     public void findViewById(View view) {
@@ -504,28 +502,28 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             }
         });
 
-//        Runnable runnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    handler.postDelayed(this, TIME);
-//                    animTimer = new CountDownTimer(TIME, TIME) {
-//                        @Override
-//                        public void onTick(long millisUntilFinished) {
-//                            anim.start();
-//                        }
-//
-//                        @Override
-//                        public void onFinish() {
-//                            anim.stop();
-//                        }
-//                    }.start();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        };
-//        handler.postDelayed(runnable, TIME); // 在初始化方法里.
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    handler.postDelayed(this, TIME);
+                    animTimer = new CountDownTimer(TIME, TIME) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            anim.start();
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            anim.stop();
+                        }
+                    }.start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        handler.postDelayed(runnable, TIME); // 在初始化方法里.
         setScrollState(SCROLL_STATE_IDLE);
 
         rl_grand.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

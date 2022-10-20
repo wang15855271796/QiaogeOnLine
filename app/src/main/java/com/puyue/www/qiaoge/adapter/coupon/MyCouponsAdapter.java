@@ -71,6 +71,13 @@ public class MyCouponsAdapter  extends BaseQuickAdapter <queryUserDeductByStateM
         rl_grey = helper.getView(R.id.rl_grey);
         ImageView iv_arrow = helper.getView(R.id.iv_arrow);
         RecyclerView rv_role = helper.getView(R.id.rv_role);
+        TextView tv_use_limits = helper.getView(R.id.tv_use_limits);
+        if(item.getReason()!=null&&!item.getReason().equals("")) {
+            tv_use_limits.setText(item.getReason());
+            tv_use_limits.setVisibility(View.VISIBLE);
+        }else {
+            tv_use_limits.setVisibility(View.GONE);
+        }
         if(!TextUtils.isEmpty(item.getGiftFlag())) {
             tv_coupon_style.setText(item.getGiftFlag());
             tv_coupon_style.setVisibility(View.VISIBLE);

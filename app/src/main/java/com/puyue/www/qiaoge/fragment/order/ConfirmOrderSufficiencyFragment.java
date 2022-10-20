@@ -47,6 +47,7 @@ import com.puyue.www.qiaoge.activity.view.Line;
 import com.puyue.www.qiaoge.adapter.FullConfirmAdapter;
 import com.puyue.www.qiaoge.adapter.FullGivenConfirmAdapter;
 import com.puyue.www.qiaoge.adapter.TagsAdapter;
+import com.puyue.www.qiaoge.adapter.UnOperate1Adapter;
 import com.puyue.www.qiaoge.adapter.UnOperateAdapter;
 import com.puyue.www.qiaoge.adapter.mine.ChooseCouponsAdapter;
 import com.puyue.www.qiaoge.adapter.mine.ConfirmOrderNewAdapter;
@@ -57,7 +58,6 @@ import com.puyue.www.qiaoge.api.mine.order.GenerateOrderAPI;
 import com.puyue.www.qiaoge.api.mine.order.GetOrderDeliverTimeAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.base.BaseModel;
-import com.puyue.www.qiaoge.dialog.DisDialog;
 import com.puyue.www.qiaoge.dialog.DisSelfDialog;
 import com.puyue.www.qiaoge.dialog.OperateDialog;
 import com.puyue.www.qiaoge.event.AddressEvent;
@@ -65,6 +65,7 @@ import com.puyue.www.qiaoge.event.BeizhuEvent;
 import com.puyue.www.qiaoge.event.ChooseCoupon2Event;
 import com.puyue.www.qiaoge.event.ChooseCouponsEvent;
 import com.puyue.www.qiaoge.event.DisTributionEvent;
+import com.puyue.www.qiaoge.event.DisTributionSelf1Event;
 import com.puyue.www.qiaoge.event.DisTributionSelfEvent;
 import com.puyue.www.qiaoge.event.RefreshEvent;
 import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragment;
@@ -135,7 +136,7 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
  */
 public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     private RecyclerView recyclerView;
-    TagsFlowLayout recyclerView_un;
+    RecyclerView recyclerView_un;
     private LinearLayout linearLayoutAddressHead;
     private TextView userName;
     private TextView userPhone;
@@ -219,7 +220,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     private TextView tv_vip_content_one;
     private TextView tv_vip_content_two;
     private TextView tv_go;
-    List<String> mlist = new ArrayList<>();
     RelativeLayout ll_beizhu;
     StatModel statModel;
     private EditText et_name;
@@ -240,12 +240,13 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     private String content;
     private TextView tv_operate_title;
     private RelativeLayout rl_unOperate;
-
+    RelativeLayout rl_unOperate1;
     private LinearLayout iv_time_arrow;
     private TextView tv_year;
     private TextView tv_hour;
 
-
+    TextView tv_open;
+    ImageView iv_open;
     private String mYear;
     private String mHour;
     private TextView et_time;
@@ -261,6 +262,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     com.tencent.tencentmap.mapsdk.maps.MapView mapView;
     LinearLayout ll_root;
     RelativeLayout rl_no_Data;
+    UnOperate1Adapter unOperate1Adapter;
     @Override
     public int setLayoutId() {
         return R.layout.fragment_confirm_sufficiency_order;
@@ -268,13 +270,14 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
 
     @Override
     public void initViews(View view) {
-
     }
 
     SupportMapFragment supportMapFragment;
     com.tencent.tencentmap.mapsdk.maps.TencentMap mapss;
     @Override
     public void findViewById(View view) {
+        tv_open = view.findViewById(R.id.tv_open);
+        iv_open = view.findViewById(R.id.iv_open);
         rl_no_Data = view.findViewById(R.id.rl_no_Data);
         ll_root = view.findViewById(R.id.ll_root);
         mapView = view.findViewById(R.id.mapView);
@@ -283,6 +286,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
         rl_distribution = (RelativeLayout) view.findViewById(R.id.rl_distribution);
         tv_distribution = (TextView) view.findViewById(R.id.tv_distribution);
         rl_arrow = (RelativeLayout) view.findViewById(R.id.rl_arrow);
+        rl_unOperate1 = (RelativeLayout) view.findViewById(R.id.rl_unOperate1);
         rl_unOperate = (RelativeLayout) view.findViewById(R.id.rl_unOperate);
         tv_operate_title = (TextView) view.findViewById(R.id.tv_operate_title);
         tv_unOperate = (TextView) view.findViewById(R.id.tv_unOperate);
@@ -291,7 +295,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
         tv_full_price = (TextView) view.findViewById(R.id.tv_full_price);
         lav_activity_loading = (AVLoadingIndicatorView) view.findViewById(R.id.lav_activity_loading);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        recyclerView_un = (TagsFlowLayout) view.findViewById(R.id.recyclerView_un);
+        recyclerView_un = (RecyclerView) view.findViewById(R.id.recyclerView_un);
         userName = (TextView) view.findViewById(R.id.userName);
         userPhone = (TextView) view.findViewById(R.id.userPhone);
         address = (TextView) view.findViewById(R.id.address);
@@ -354,7 +358,10 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     TencentLocationManager instance;
     @Override
     public void setViewData() {
-        EventBus.getDefault().register(this);
+        if(!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+
         instance = TencentLocationManager.getInstance(QiaoGeApplication.getContext());
 
         TencentLocationListener mLocationListener = new TencentLocationListener() {
@@ -386,7 +393,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         recyclerView.setAdapter(adapter);
-
         iv_time_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -394,7 +400,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                 showGetTime();
             }
         });
-
         requestCartBalance(NewgiftDetailNo, 1,disType);//NewgiftDetailNo
         et_time.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -408,14 +413,15 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
 
     int disType;
     @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getDistribution(DisTributionSelf1Event disTributionEvent) {
+        tv_distribution.setText(disTributionEvent.getDesc());
+        disType = disTributionEvent.getType();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void getDistribution(DisTributionSelfEvent disTributionEvent) {
-        if(disTributionEvent.getType()==0) {
-            tv_distribution.setText(disTributionEvent.getDesc());
-            disType = disTributionEvent.getType();
-        }else {
-            tv_distribution.setText(disTributionEvent.getDesc());
-            disType = disTributionEvent.getType();
-        }
+        tv_distribution.setText(disTributionEvent.getDesc());
+        disType = disTributionEvent.getType();
     }
 
     protected void geocoder(String address) {
@@ -573,7 +579,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
 
     }
 
-
+    boolean isOpen = false;
     @Override
     public void setClickEvent() {
         statModel = new StatModel();
@@ -583,6 +589,24 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
         ll_go_market.setOnClickListener(noDoubleClickListener);
         ll_beizhu.setOnClickListener(noDoubleClickListener);
         rl_distribution.setOnClickListener(noDoubleClickListener);
+
+        rl_arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isOpen) {
+                    tv_open.setText("收起");
+                    iv_open.setImageResource(R.mipmap.icon_arrow_up);
+                    unOperate1Adapter.setOpenList(openList);
+                }else {
+                    tv_open.setText("展开");
+                    unOperate1Adapter.setHideList(hideList);
+                    iv_open.setImageResource(R.mipmap.icon_arrow_down);
+                }
+                unOperate1Adapter.notifyDataSetChanged();
+                isOpen = !isOpen;
+            }
+        });
+
     }
 
     DisSelfDialog disDialog;
@@ -691,14 +715,13 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                     }
                     break;
                 case R.id.linearLayoutCoupons: // 优惠券
-                    if(giftNum>0) {
-                        Intent intent2 = new Intent(getContext(), ChooseCouponssActivity.class);
-                        intent2.putExtra("statModel",statModel.isSelects());
-                        intent2.putExtra("activityBalanceVOStr", activityBalanceVOStr);
-                        intent2.putExtra("normalProductBalanceVOStr", normalProductBalanceVOStr);
-                        intent2.putExtra("giftDetailNo", NewgiftDetailNo);
-                        startActivityForResult(intent2, ActivityResultHelper.ChOOSE_COUPONS_REQUESR_CODE);
-                    }
+                    Intent intent2 = new Intent(getContext(), ChooseCouponssActivity.class);
+                    intent2.putExtra("statModel",statModel.isSelects());
+                    intent2.putExtra("activityBalanceVOStr", activityBalanceVOStr);
+                    intent2.putExtra("normalProductBalanceVOStr", normalProductBalanceVOStr);
+                    intent2.putExtra("giftDetailNo", NewgiftDetailNo);
+                    intent2.putExtra("deliveryModel",disType);
+                    startActivityForResult(intent2, ActivityResultHelper.ChOOSE_COUPONS_REQUESR_CODE);
 
                     break;
                 case R.id.ll_go_market:
@@ -759,13 +782,8 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     /**
      * 获取数据的网络请求
      */
-    List<CartBalanceModel.DataBean.ProductVOListBean.AdditionVOList>additionVOList1 = new ArrayList<>();
-    List<CartBalanceModel.DataBean.ProductVOListBean.AdditionVOList>additionVOList2 = new ArrayList<>();
-    RecyclerView rv_given;
-    RecyclerView rv_full;
-    FullGivenConfirmAdapter fullGivenConfirmAdapter;
-    FullConfirmAdapter fullConfirmAdapter;
-    TagsAdapter unAbleAdapter;
+    List<CartBalanceModel.DataBean.ProductVOListBean> openList = new ArrayList<>();
+    List<CartBalanceModel.DataBean.ProductVOListBean> hideList = new ArrayList<>();
     private void requestCartBalance(String giftDetailNo, int type,int disType) {
         CartBalanceAPI.requestCartBalance(mActivity, normalProductBalanceVOStr, activityBalanceVOStr, cartListStr, giftDetailNo, type, 1,disType)
                 .subscribeOn(Schedulers.io())
@@ -784,7 +802,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                     @Override
                     public void onNext(CartBalanceModel cartBalanceModel) {
                         if (cartBalanceModel.success) {
-
                             cModel = cartBalanceModel;
                             toRechargeAmount = cModel.getData().getToRechargeAmount();
                             toRecharge = cModel.getData().isToRecharge();
@@ -798,20 +815,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                                     requestCount++;
                                 }
 
-                                recyclerView_un.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                                    @Override
-                                    public void onGlobalLayout() {
-                                        boolean isOverFlow = recyclerView_un.isOverFlow();
-                                        boolean isLimit = recyclerView_un.isLimit();
-                                        if (isLimit && isOverFlow) {
-                                            rl_arrow.setVisibility(View.VISIBLE);
-                                        } else {
-                                            rl_arrow.setVisibility(View.GONE);
-                                        }
-                                    }
-                                });
-
-
                                 list.clear();
                                 listUnOperate.clear();
                                 geocoder(cartBalanceModel.getData().wareAddress);
@@ -820,7 +823,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                                         if(cartBalanceModel.getData().getProductVOList().get(i).getSelfOrNot()==0) {
                                             list.add(cartBalanceModel.getData().getProductVOList().get(i));
                                             adapter.notifyDataSetChanged();
-
                                         }else {
                                             listUnOperate.add(cartBalanceModel.getData().getProductVOList().get(i));
                                             unOperateAdapter.notifyDataSetChanged();
@@ -830,16 +832,25 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                             }
 
                             if(list.size()>0) {
+                                rl_unOperate.setVisibility(View.VISIBLE);
+                                recyclerView.setVisibility(View.VISIBLE);
                                 tv_operate_title.setVisibility(View.VISIBLE);
                             }else {
+                                recyclerView.setVisibility(View.GONE);
+                                rl_unOperate.setVisibility(View.GONE);
                                 tv_operate_title.setVisibility(View.GONE);
                             }
 
                             if(listUnOperate.size()>0) {
-                                rl_unOperate.setVisibility(View.VISIBLE);
+                                rl_unOperate1.setVisibility(View.VISIBLE);
                                 recyclerView_un.setVisibility(View.VISIBLE);
+                                if(listUnOperate.size()>3) {
+                                    rl_arrow.setVisibility(View.VISIBLE);
+                                }else {
+                                    rl_arrow.setVisibility(View.GONE);
+                                }
                             }else {
-                                rl_unOperate.setVisibility(View.GONE);
+                                rl_unOperate1.setVisibility(View.GONE);
                                 recyclerView_un.setVisibility(View.GONE);
                             }
 
@@ -847,69 +858,92 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                             AppHelper.showMsg(mActivity, cartBalanceModel.message);
                         }
 
-                        Log.d("wdasdwdsd.......",listUnOperate.size()+"--");
-                        unAbleAdapter = new TagsAdapter<CartBalanceModel.DataBean.ProductVOListBean>(listUnOperate){
-                            @Override
-                            public View getView(FlowLayout parent, int position, CartBalanceModel.DataBean.ProductVOListBean productVOListBean) {
-                                View view = LayoutInflater.from(mActivity).inflate(R.layout.item_confirm_order_new,recyclerView_un, false);
-                                TextView textTitle = view.findViewById(R.id.textTitle);
-                                TextView Price = view.findViewById(R.id.Price);
-                                rv_given = view.findViewById(R.id.rv_given);
-                                rv_full = view.findViewById(R.id.rv_full);
-                                TextView oldPrice = view.findViewById(R.id.oldPrice);
-                                TextView textSpe = view.findViewById(R.id.textSpe);
-                                ImageView imageIcon = view.findViewById(R.id.imageIcon);
-                                if(listUnOperate.get(position).getProdTypeUrl()!=null&&!listUnOperate.get(position).getProdTypeUrl().equals("")) {
-                                    imageIcon.setVisibility(View.VISIBLE);
-                                    Glide.with(mActivity).load(listUnOperate.get(position).getProdTypeUrl()).into(imageIcon);
-                                }else {
-                                    imageIcon.setVisibility(View.GONE);
-                                }
-                                imageIcon.setVisibility(View.GONE);
-                                ImageView imageView = view.findViewById(R.id.imageView);
-                                oldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                                oldPrice.getPaint().setAntiAlias(true);//抗锯齿
-                                Glide.with(mActivity).load(productVOListBean.getPicUrl()).into(imageView);
-                                textSpe.setText(productVOListBean.getSpec());
-                                Price.setText(productVOListBean.getAmount()+"");
-                                if(productVOListBean.getOldPrice()!=null) {
-                                    oldPrice.setText(productVOListBean.getOldPrice()+"");
-                                }
-                                textTitle.setText(productVOListBean.getName());
-                                additionVOList1.clear();
-                                additionVOList2.clear();
-                                if(productVOListBean.getAdditionVOList()!=null) {
-                                    for (int i = 0; i < productVOListBean.getAdditionVOList().size(); i++) {
-                                        if(productVOListBean.getAdditionVOList().get(i).getType().equals("1")) {
-                                            additionVOList1.add(productVOListBean.getAdditionVOList().get(i));
-                                        }else {
-                                            additionVOList2.add(productVOListBean.getAdditionVOList().get(i));
-                                        }
-                                    }
-                                }
-
-                                rv_given.setLayoutManager(new LinearLayoutManager(mActivity));
-                                fullGivenConfirmAdapter = new FullGivenConfirmAdapter(R.layout.item_given,additionVOList2);
-                                rv_given.setAdapter(fullGivenConfirmAdapter);
-
-                                rv_full.setLayoutManager(new LinearLayoutManager(mActivity));
-                                fullConfirmAdapter = new FullConfirmAdapter(R.layout.item_full,additionVOList1);
-                                rv_full.setAdapter(fullConfirmAdapter);
-                                return view;
+                        openList.clear();
+                        hideList.clear();
+                        if(listUnOperate.size()>3) {
+                            for (int i = 0; i < listUnOperate.size(); i++) {
+                                openList.add(listUnOperate.get(i));
                             }
-                        };
 
-                        rl_arrow.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                recyclerView_un.setLimit(false);
-                                fullConfirmAdapter.notifyDataSetChanged();
-                                fullGivenConfirmAdapter.notifyDataSetChanged();
+
+                            for (int i = 0; i < 3; i++) {
+                                hideList.add(listUnOperate.get(i));
+                            }
+
+                            unOperate1Adapter = new UnOperate1Adapter(mActivity);
+                            recyclerView_un.setAdapter(unOperate1Adapter);
+                            recyclerView_un.setLayoutManager(new LinearLayoutManager(mActivity));
+                            unOperate1Adapter.setHideList(hideList);
+                        }else {
+                            unOperate1Adapter = new UnOperate1Adapter(mActivity);
+                            recyclerView_un.setAdapter(unOperate1Adapter);
+                            recyclerView_un.setLayoutManager(new LinearLayoutManager(mActivity));
+                            unOperate1Adapter.setRealList(listUnOperate);
+                        }
+
+
+//                        unAbleAdapter = new TagsAdapter<CartBalanceModel.DataBean.ProductVOListBean>(listUnOperate){
+//                            @Override
+//                            public View getView(FlowLayout parent, int position, CartBalanceModel.DataBean.ProductVOListBean productVOListBean) {
+//                                View view = LayoutInflater.from(mActivity).inflate(R.layout.item_confirm_order_new,recyclerView_un, false);
+//                                TextView textTitle = view.findViewById(R.id.textTitle);
+//                                TextView Price = view.findViewById(R.id.Price);
+//                                rv_given = view.findViewById(R.id.rv_given);
+//                                rv_full = view.findViewById(R.id.rv_full);
+//                                TextView oldPrice = view.findViewById(R.id.oldPrice);
+//                                TextView textSpe = view.findViewById(R.id.textSpe);
+//                                ImageView imageIcon = view.findViewById(R.id.imageIcon);
+//                                if(listUnOperate.get(position).getProdTypeUrl()!=null&&!listUnOperate.get(position).getProdTypeUrl().equals("")) {
+//                                    imageIcon.setVisibility(View.VISIBLE);
+//                                    Glide.with(mActivity).load(listUnOperate.get(position).getProdTypeUrl()).into(imageIcon);
+//                                }else {
+//                                    imageIcon.setVisibility(View.GONE);
+//                                }
+//                                imageIcon.setVisibility(View.GONE);
+//                                ImageView imageView = view.findViewById(R.id.imageView);
+//                                oldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+//                                oldPrice.getPaint().setAntiAlias(true);//抗锯齿
+//                                Glide.with(mActivity).load(productVOListBean.getPicUrl()).into(imageView);
+//                                textSpe.setText(productVOListBean.getSpec());
+//                                Price.setText(productVOListBean.getAmount()+"");
+//                                if(productVOListBean.getOldPrice()!=null) {
+//                                    oldPrice.setText(productVOListBean.getOldPrice()+"");
+//                                }
+//                                textTitle.setText(productVOListBean.getName());
+//                                additionVOList1.clear();
+//                                additionVOList2.clear();
+//                                if(productVOListBean.getAdditionVOList()!=null) {
+//                                    for (int i = 0; i < productVOListBean.getAdditionVOList().size(); i++) {
+//                                        if(productVOListBean.getAdditionVOList().get(i).getType().equals("1")) {
+//                                            additionVOList1.add(productVOListBean.getAdditionVOList().get(i));
+//                                        }else {
+//                                            additionVOList2.add(productVOListBean.getAdditionVOList().get(i));
+//                                        }
+//                                    }
+//                                }
+//
+//                                rv_given.setLayoutManager(new LinearLayoutManager(mActivity));
+//                                fullGivenConfirmAdapter = new FullGivenConfirmAdapter(R.layout.item_given,additionVOList2);
+//                                rv_given.setAdapter(fullGivenConfirmAdapter);
+//
+//                                rv_full.setLayoutManager(new LinearLayoutManager(mActivity));
+//                                fullConfirmAdapter = new FullConfirmAdapter(R.layout.item_full,additionVOList1);
+//                                rv_full.setAdapter(fullConfirmAdapter);
+//                                return view;
+//                            }
+//                        };
+//
+//                        rl_arrow.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                recyclerView_un.setLimit(false);
+//                                fullConfirmAdapter.notifyDataSetChanged();
+//                                fullGivenConfirmAdapter.notifyDataSetChanged();
 //                                unAbleAdapter.notifyDataChanged();
-
-                            }
-                        });
-                        recyclerView_un.setAdapter(unAbleAdapter);
+//
+//                            }
+//                        });
+//                        recyclerView_un.setAdapter(unAbleAdapter);
 
                     }
                 });
@@ -942,16 +976,20 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
 
         giftNum = cartBalanceModel.getData().getGiftNum();
 
-        if(giftNum>0) {
+        if(cartBalanceModel.getData().getDeductDesc().equals("无优惠券")) {
+            textCoupons.setText("无优惠券");
+            textCoupons.setTextColor(Color.parseColor("#999999"));
+            linearLayoutCoupons.setEnabled(false);
+        }else if(cartBalanceModel.getData().getDeductDesc().equals("暂无可用优惠券")) {
+            textCoupons.setText("暂无可用优惠券");
+            textCoupons.setTextColor(Color.parseColor("#999999"));
+            linearLayoutCoupons.setEnabled(true);
+        } else {
             textCoupons.setText(cartBalanceModel.getData().getDeductDesc());
             textCoupons.setTextColor(Color.parseColor("#F25E0E"));
             linearLayoutCoupons.setEnabled(true);
-        }else {
-            textCoupons.setText("暂无优惠券可使用");
-            textCoupons.setTextColor(Color.parseColor("#999999"));
-            linearLayoutCoupons.setEnabled(false);
-
         }
+
 
 
         if (info.pickPhone != null) {
@@ -1191,14 +1229,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
         tv_beizhu.setText(beizhuEvent.getBeizhu());
     }
 
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -1311,76 +1341,15 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
         mDialogMap.dismiss();
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d("cdwdfsaewdfsd.....","12333323");
+        EventBus.getDefault().unregister(this);
+    }
+
     interface OnTapListener {
         void onTap(OverlayItem itemTap);
         void onEmptyTap(GeoPoint pt);
-    }
-
-    private class TestOverlay extends ItemizedOverlay<OverlayItem> {
-        private List<OverlayItem> overlayItems;
-        private OnTapListener onTapListener;
-
-        public TestOverlay(Drawable drawable, LatLng latLng) {
-            // TODO Auto-generated constructor stub
-            super(boundCenterBottom(drawable));
-            overlayItems = new ArrayList<>();
-            GeoPoint gp3 = new GeoPoint(30391693,120082278);
-//            Log.d("dsfsdfef.....",Integer.parseInt(latLng.getLatitude()+"")+"---"+Integer.parseInt(latLng.getLongitude()+""));
-            OverlayItem item = new OverlayItem(gp3, "30.359807, 120.054923", "可拖动");
-            item.setDragable(true);
-            overlayItems.add(item);
-            populate();
-        }
-
-        @Override
-        protected OverlayItem createItem(int arg0) {
-            // TODO Auto-generated method stub
-            return overlayItems.get(arg0);
-        }
-
-        @Override
-        public int size() {
-            // TODO Auto-generated method stub
-            return overlayItems.size();
-        }
-
-        @Override
-        public void draw(Canvas arg0, com.tencent.tencentmap.mapsdk.map.MapView arg1) {
-            // TODO Auto-generated method stub
-            super.draw(arg0, arg1);
-            Projection projection = arg1.getProjection();
-            Paint paint = new Paint();
-            paint.setColor(0xff000000);
-            paint.setTextSize(15);
-            float width;
-            float textHeight = paint.measureText("Yy");
-            for (int i = 0; i < overlayItems.size(); i++) {
-                Point point = new Point();
-                projection.toPixels(overlayItems.get(i).getPoint(), point);
-                width = paint.measureText(Integer.toString(i));
-                arg0.drawText(Integer.toString(i),
-                        point.x - width / 2, point.y + textHeight, paint);
-            }
-
-        }
-
-        @Override
-        protected boolean onTap(int arg0) {
-            // TODO Auto-generated method stub
-            OverlayItem  overlayItem = overlayItems.get(arg0);
-            setFocus(overlayItem);
-            if (onTapListener != null) {
-                onTapListener.onTap(overlayItem);
-            }
-            return true;
-        }
-
-        @Override
-        public void onEmptyTap(GeoPoint arg0) {
-            // TODO Auto-generated method stub
-            if (onTapListener != null) {
-                onTapListener.onEmptyTap(arg0);
-            }
-        }
     }
 }

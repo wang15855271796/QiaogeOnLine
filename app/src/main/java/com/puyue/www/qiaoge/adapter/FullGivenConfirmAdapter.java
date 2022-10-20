@@ -1,6 +1,8 @@
 package com.puyue.www.qiaoge.adapter;
 
 import androidx.annotation.Nullable;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,8 +20,10 @@ import java.util.List;
  */
 public class FullGivenConfirmAdapter extends BaseQuickAdapter<CartBalanceModel.DataBean.ProductVOListBean.AdditionVOList,BaseViewHolder> {
 
+    List<CartBalanceModel.DataBean.ProductVOListBean.AdditionVOList> data;
     public FullGivenConfirmAdapter(int layoutResId, @Nullable List<CartBalanceModel.DataBean.ProductVOListBean.AdditionVOList> data) {
         super(layoutResId, data);
+        this.data = data;
     }
 
     @Override

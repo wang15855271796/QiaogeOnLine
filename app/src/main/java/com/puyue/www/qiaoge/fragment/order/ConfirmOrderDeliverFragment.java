@@ -61,6 +61,7 @@ import com.puyue.www.qiaoge.event.BeizhuEvent;
 import com.puyue.www.qiaoge.event.ChangeDeliverEvent;
 import com.puyue.www.qiaoge.event.ChooseCoupon1Event;
 import com.puyue.www.qiaoge.event.ChooseCouponEvent;
+import com.puyue.www.qiaoge.event.DisTribution1Event;
 import com.puyue.www.qiaoge.event.DisTributionEvent;
 import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragment;
 import com.puyue.www.qiaoge.helper.ActivityResultHelper;
@@ -100,7 +101,7 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
  */
 public class ConfirmOrderDeliverFragment extends BaseFragment {
     private RecyclerView recyclerView;
-    private TagsFlowLayout recyclerView1;
+    private RecyclerView recyclerView1;
     private LinearLayout linearLayoutAddressHead;
     private TextView userName;
     private TextView userPhone;
@@ -119,7 +120,6 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     private TextView buttonPay; // 去支付
     private TextView commodity;
     private TextView payMoney; // 支付金额
-    private LinearLayout LinearLayoutStoreName; // 店名xml
     private AVLoadingIndicatorView lav_activity_loading;
     private LinearLayout linearLayoutCoupons;// 优惠券xml
     private String orderId;
@@ -127,7 +127,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     //自营
     private ConfirmOrderNewAdapter adapter;
     //非自营
-    private TagsAdapter unOperateAdapter;
+//    private TagsAdapter unOperateAdapter;
     //自营
     private List<CartBalanceModel.DataBean.ProductVOListBean> list = new ArrayList<>();
     //非自营
@@ -202,14 +202,14 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     RecyclerView rv_given;
     TextView tv_open;
     ImageView iv_open;
-    RecyclerView rv_given1;
-    RecyclerView rv_coupon1;
     RecyclerView rv_unAddress;
     RecyclerView rv_coupon;
     RelativeLayout rl_distribution;
     TextView tv_distribution;
+    TextView tv_title;
     int disType = 0;
     RelativeLayout rl_arrow;
+    UnOperate1Adapter unOperate1Adapter;
     @Override
     public int setLayoutId() {
         return R.layout.fragment_confirm_deliver_order;
@@ -217,14 +217,14 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
 
     @Override
     public void initViews(View view) {
+
     }
 
     @Override
     public void findViewById(View view) {
+        tv_title = (TextView) view.findViewById(R.id.tv_title);
         tv_open = (TextView) view.findViewById(R.id.tv_open);
         iv_open = (ImageView) view.findViewById(R.id.iv_open);
-        rv_given1 = (RecyclerView) view.findViewById(R.id.rv_given1);
-        rv_coupon1 = (RecyclerView) view.findViewById(R.id.rv_coupon1);
         rl_arrow = (RelativeLayout) view.findViewById(R.id.rl_arrow);
         tv_distribution = (TextView) view.findViewById(R.id.tv_distribution);
         rl_distribution = (RelativeLayout) view.findViewById(R.id.rl_distribution);
@@ -241,7 +241,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
         ll_info = (LinearLayout) view.findViewById(R.id.ll_info);
         lav_activity_loading = (AVLoadingIndicatorView) view.findViewById(R.id.lav_activity_loading);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        recyclerView1 = (TagsFlowLayout) view.findViewById(R.id.recyclerView1);
+        recyclerView1 = (RecyclerView) view.findViewById(R.id.recyclerView1);
         userName = (TextView) view.findViewById(R.id.userName);
         userPhone = (TextView) view.findViewById(R.id.userPhone);
         address = (TextView) view.findViewById(R.id.address);
@@ -261,7 +261,6 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
         commodity = (TextView) view.findViewById(R.id.commodity);
         tv_beizhu = (TextView) view.findViewById(R.id.tv_beizhu);
         payMoney = (TextView) view.findViewById(R.id.payMoney);
-        LinearLayoutStoreName = (LinearLayout) view.findViewById(R.id.LinearLayoutStoreName);
         linearLayoutCoupons = (LinearLayout) view.findViewById(R.id.linearLayoutCoupons);
         couponsRecyclerView = (RecyclerView) view.findViewById(R.id.couponsRecyclerView);
 
@@ -289,9 +288,13 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
 
     List<CartBalanceModel.DataBean.ProductVOListBean.AdditionVOList>additionVOList1 = new ArrayList<>();
     List<CartBalanceModel.DataBean.ProductVOListBean.AdditionVOList>additionVOList2 = new ArrayList<>();
+
     @Override
     public void setViewData() {
-        EventBus.getDefault().register(this);
+        if(!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+
         final Calendar mCalendar = Calendar.getInstance();
         long time = System.currentTimeMillis();
         mCalendar.setTimeInMillis(time);
@@ -311,71 +314,6 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
 
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
-        unOperateAdapter = new TagsAdapter<CartBalanceModel.DataBean.ProductVOListBean>(listUnOperate){
-            @Override
-            public View getView(FlowLayout parent, int position, CartBalanceModel.DataBean.ProductVOListBean productVOListBean) {
-                View view = LayoutInflater.from(mActivity).inflate(R.layout.item_confirm_order_new,recyclerView1, false);
-                TextView textTitle = view.findViewById(R.id.textTitle);
-                TextView Price = view.findViewById(R.id.Price);
-                TextView oldPrice = view.findViewById(R.id.oldPrice);
-                TextView textSpe = view.findViewById(R.id.textSpe);
-                ImageView imageIcon = view.findViewById(R.id.imageIcon);
-                RecyclerView rv_given = view.findViewById(R.id.rv_given);
-                RecyclerView rv_full = view.findViewById(R.id.rv_full);
-                if(listUnOperate.get(position).getProdTypeUrl()!=null&&!listUnOperate.get(position).getProdTypeUrl().equals("")) {
-                    imageIcon.setVisibility(View.VISIBLE);
-                    Glide.with(mActivity).load(listUnOperate.get(position).getProdTypeUrl()).into(imageIcon);
-                }else {
-                    imageIcon.setVisibility(View.GONE);
-                }
-                imageIcon.setVisibility(View.GONE);
-                ImageView imageView = view.findViewById(R.id.imageView);
-                oldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                oldPrice.getPaint().setAntiAlias(true);//抗锯齿
-                Glide.with(mActivity).load(productVOListBean.getPicUrl()).into(imageView);
-                textSpe.setText(productVOListBean.getSpec());
-                Price.setText(productVOListBean.getAmount()+"");
-                additionVOList1.clear();
-                additionVOList2.clear();
-
-                if(productVOListBean.getAdditionVOList()!=null) {
-                    for (int i = 0; i < productVOListBean.getAdditionVOList().size(); i++) {
-                        if(productVOListBean.getAdditionVOList().get(i).getType().equals("1")) {
-                            additionVOList1.add(productVOListBean.getAdditionVOList().get(i));
-                        }else {
-                            additionVOList2.add(productVOListBean.getAdditionVOList().get(i));
-                        }
-                    }
-                }
-
-                rv_given.setLayoutManager(new LinearLayoutManager(mActivity));
-                FullGivenConfirmAdapter fullGivenConfirmAdapter = new FullGivenConfirmAdapter(R.layout.item_given,additionVOList2);
-                rv_given.setAdapter(fullGivenConfirmAdapter);
-
-                rv_full.setLayoutManager(new LinearLayoutManager(mActivity));
-                FullConfirmAdapter fullConfirmAdapter = new FullConfirmAdapter(R.layout.item_full,additionVOList1);
-                rv_full.setAdapter(fullConfirmAdapter);
-
-                if(productVOListBean.getOldPrice()!=null) {
-                    oldPrice.setText(productVOListBean.getOldPrice()+"");
-                }
-                textTitle.setText(productVOListBean.getName());
-                return view;
-            }
-        };
-
-        UnOperate1Adapter unOperate1Adapter = new UnOperate1Adapter(R.layout.item_confirm_order_new,listUnOperate);
-        recyclerView1.setAdapter(unOperateAdapter);
-//        recyclerView1.setLayoutManager(new LinearLayoutManager(mActivity));
-        rl_arrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                recyclerView1.setLimit(false);
-                unOperateAdapter.notifyDataChanged();
-            }
-        });
-
-
         requestCartBalance(NewgiftDetailNo, 0,disType);
         requestCartBalance1(NewgiftDetailNo, 0,disType);
     }
@@ -396,19 +334,18 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 if(!isOpen) {
-//                    recyclerView1.setLimit(false);
                     tv_open.setText("收起");
                     iv_open.setImageResource(R.mipmap.icon_arrow_up);
+                    unOperate1Adapter.setOpenList(openList);
                 }else {
                     tv_open.setText("展开");
-//                    recyclerView1.setLimit(true);
+                    unOperate1Adapter.setHideList(hideList);
                     iv_open.setImageResource(R.mipmap.icon_arrow_down);
                 }
-                unOperateAdapter.notifyDataChanged();
+                unOperate1Adapter.notifyDataSetChanged();
                 isOpen = !isOpen;
             }
         });
-
     }
 
     DisDialog disDialog;
@@ -564,6 +501,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                     intent2.putExtra("activityBalanceVOStr", activityBalanceVOStr);
                     intent2.putExtra("normalProductBalanceVOStr", normalProductBalanceVOStr);
                     intent2.putExtra("giftDetailNo", NewgiftDetailNo);
+                    intent2.putExtra("deliveryModel",disType);
                     startActivityForResult(intent2, ActivityResultHelper.ChOOSE_COUPONS_REQUESR_CODE);
 
                     break;
@@ -635,6 +573,8 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     /**
      * 结算接口
      */
+    List<CartBalanceModel.DataBean.ProductVOListBean> openList = new ArrayList<>();
+    List<CartBalanceModel.DataBean.ProductVOListBean> hideList = new ArrayList<>();
     private void requestCartBalance(String giftDetailNo, int type,int disType) {
         CartBalanceAPI.requestCartBalance(mActivity, normalProductBalanceVOStr, activityBalanceVOStr, cartListStr, giftDetailNo, type, 0,disType)
                 .subscribeOn(Schedulers.io())
@@ -709,16 +649,42 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                                     }
                                 }
 
-//                                ViewGroup.LayoutParams lp = recyclerView1.getLayoutParams();
-//                                recyclerView1.setLayoutParams(lp);
+                                openList.clear();
+                                hideList.clear();
+                                if(listUnOperate.size()>3) {
+                                    for (int i = 0; i < listUnOperate.size(); i++) {
+                                        openList.add(listUnOperate.get(i));
+                                    }
+
+                                    for (int i = 0; i < 3; i++) {
+                                        hideList.add(listUnOperate.get(i));
+                                    }
+                                    unOperate1Adapter = new UnOperate1Adapter(mActivity);
+                                    recyclerView1.setAdapter(unOperate1Adapter);
+                                    recyclerView1.setLayoutManager(new LinearLayoutManager(mActivity));
+                                    unOperate1Adapter.setHideList(hideList);
+                                }else {
+                                    unOperate1Adapter = new UnOperate1Adapter(mActivity);
+                                    recyclerView1.setAdapter(unOperate1Adapter);
+                                    recyclerView1.setLayoutManager(new LinearLayoutManager(mActivity));
+                                    unOperate1Adapter.setRealList(listUnOperate);
+                                }
+
+
                                 if(list.size() > 0) {
                                     ll_operate.setVisibility(View.VISIBLE);
                                 }else {
                                     ll_operate.setVisibility(View.GONE);
                                 }
+//&& tv_distribution.getText().toString().equals("买家自己呼叫货拉拉")
 
-                                if(listUnOperate.size() > 0&& tv_distribution.getText().toString().equals("买家自己呼叫货拉拉")) {
-                                    if(listUnOperate.size()>1) {
+                                if(listUnOperate.size() > 0) {
+                                    if(tv_distribution.getText().toString().equals("买家自己呼叫货拉拉")) {
+                                        tv_title.setVisibility(View.VISIBLE);
+                                    }else {
+                                        tv_title.setVisibility(View.GONE);
+                                    }
+                                    if(listUnOperate.size()>3) {
                                         rl_arrow.setVisibility(View.VISIBLE);
                                     }else {
                                         rl_arrow.setVisibility(View.GONE);
@@ -727,7 +693,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                                 }else {
                                     ll_unOperate.setVisibility(View.GONE);
                                 }
-                                unOperateAdapter.notifyDataChanged();
+//                                unOperateAdapter.notifyDataChanged();
                             }
                             adapter.notifyDataSetChanged();
                         } else {
@@ -824,9 +790,6 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
 
             if (!TextUtils.isEmpty(info.getAddressVO().getShopName())) {
                 firmName.setText(info.getAddressVO().getShopName());
-                // LinearLayoutStoreName.setVisibility(View.VISIBLE);
-            } else {
-                // LinearLayoutStoreName.setVisibility(View.GONE);
             }
         } else {
             linearLayoutAddressHead.setVisibility(View.GONE);
@@ -982,15 +945,20 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
         EventBus.getDefault().unregister(this);
     }
 
     //配送方式
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getDistribution(DisTributionEvent disTributionEvent) {
+    public void getDistribution(DisTribution1Event disTributionEvent) {
         tv_distribution.setText(disTributionEvent.getDesc());
         disType = disTributionEvent.getType();
-
         requestCartBalance(NewgiftDetailNo, 0,disType);
     }
 

@@ -84,6 +84,14 @@ public class MyCouponsUsedAdapter extends BaseQuickAdapter<queryUserDeductByStat
             tv_role.setVisibility(View.GONE);
         }
 
+        TextView tv_use_limits = helper.getView(R.id.tv_use_limits);
+        if(item.getReason()!=null&&!item.getReason().equals("")) {
+            tv_use_limits.setText(item.getReason());
+            tv_use_limits.setVisibility(View.VISIBLE);
+        }else {
+            tv_use_limits.setVisibility(View.GONE);
+        }
+
         rv_role.setLayoutManager(new LinearLayoutManager(mContext));
         RoleAdapter roleAdapter = new RoleAdapter(R.layout.item_text1,item.getGiftUseRole());
         rv_role.setAdapter(roleAdapter);

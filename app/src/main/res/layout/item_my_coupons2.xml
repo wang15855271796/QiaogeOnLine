@@ -96,47 +96,47 @@
             >
 
 
-          <RelativeLayout
-              android:gravity="center"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+            <RelativeLayout
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-              <TextView
+                <TextView
 
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                  android:text="¥"
-                  android:paddingBottom="@dimen/size_20dp"
+                    android:text="¥"
+                    android:paddingBottom="@dimen/size_20dp"
 
-                 android:id="@+id/textView"
-                  android:layout_marginLeft="@dimen/size_9dp"
-                  android:layout_gravity="bottom"
-                  android:textColor="@color/white"
-                  android:textSize="@dimen/size_20dp" />
+                    android:id="@+id/textView"
+                    android:layout_marginLeft="@dimen/size_9dp"
+                    android:layout_gravity="bottom"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/size_20dp" />
 
 
-              <TextView
-                  android:layout_centerHorizontal="true"
+                <TextView
+                    android:layout_centerHorizontal="true"
                     android:layout_toRightOf="@+id/textView"
-                  android:layout_centerVertical="true"
-                  android:text="12"
-                  android:id="@+id/priceNum"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_marginLeft="@dimen/dp_4"
-                  android:layout_marginRight="@dimen/dp_4"
-                  android:textColor="@color/white"
-                  android:textSize="@dimen/size_45dp" />
+                    android:layout_centerVertical="true"
+                    android:text="12"
+                    android:id="@+id/priceNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_4"
+                    android:layout_marginRight="@dimen/dp_4"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/size_45dp" />
 
-              <ImageView
-                  android:layout_centerHorizontal="true"
-                  android:layout_centerVertical="true"
-                  android:id="@+id/imagestate"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:src="@mipmap/ic_overdue" />
-          </RelativeLayout>
+                <ImageView
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/imagestate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_overdue" />
+            </RelativeLayout>
 
         </LinearLayout>
 
@@ -205,7 +205,7 @@
                     android:layout_marginLeft="@dimen/size_18dp"
                     android:layout_marginTop="@dimen/size_20dp"
                     android:text="￥"
-                    android:textColor="#F54022" />
+                    android:textColor="#999999" />
 
                 <TextView
                     android:id="@+id/tv_amount"
@@ -213,7 +213,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size_20dp"
                     android:layout_toRightOf="@+id/tv_tip"
-                    android:textColor="#F54022"
+                    android:textColor="#999999"
                     android:textSize="@dimen/size_30dp"
                     android:textStyle="bold"
                     tools:text="12" />
@@ -233,7 +233,7 @@
                         android:layout_marginTop="@dimen/size_15dp"
                         android:ellipsize="end"
                         android:lines="1"
-                        android:textColor="#333333"
+                        android:textColor="#999999"
                         android:textSize="@dimen/sp_14"
                         android:textStyle="bold"
                         tools:text="积分兑换积分兑换积分兑换积分兑换积分兑换" />
@@ -243,7 +243,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/size_5dp"
-                        android:textColor="#333333"
+                        android:textColor="#999999"
                         android:textSize="@dimen/sp_12"
                         android:textStyle="bold"
                         tools:text="200元无门槛消费券" />
@@ -260,7 +260,7 @@
                     android:layout_toRightOf="@+id/tv_amount"
                     android:ellipsize="end"
                     android:lines="1"
-                    android:textColor="#FF2925"
+                    android:textColor="#B5B5B5"
                     android:textSize="10dp"
                     tools:text="2020.7.30  8:00—2020.7.31  9:00" />
 
@@ -331,7 +331,7 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:text="2020.7.30  8:00—2020.7.31  9:00"
-                android:textColor="#FF5C00"
+                android:textColor="#999999"
                 android:textSize="10dp" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -366,7 +366,7 @@
                 android:textSize="10dp"
                 tools:text="全场通用（仅限杭州市）" />
 
-    </RelativeLayout>
+        </RelativeLayout>
 
 
 

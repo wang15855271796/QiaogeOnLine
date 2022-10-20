@@ -78,7 +78,7 @@ public class ConfirmNewOrderActivity extends BaseSwipeActivity implements Confir
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+
     }
 
     @Override
@@ -140,6 +140,7 @@ public class ConfirmNewOrderActivity extends BaseSwipeActivity implements Confir
     }
 
     private void switchTab(String tab) {
+//        Log.d("wefsfewfs......","124444");
         //开始事务
         mFragmentTransaction = getSupportFragmentManager().beginTransaction();
         if (mFragmentDeliver != null) {
@@ -153,7 +154,6 @@ public class ConfirmNewOrderActivity extends BaseSwipeActivity implements Confir
         switch (tab) {
             case TAB_DELIVER:
                 if (mFragmentDeliver == null) {
-
                     mFragmentDeliver = new ConfirmOrderDeliverFragment();
                     mFragmentTransaction.add(R.id.fr_confirm_oder, mFragmentDeliver);
 

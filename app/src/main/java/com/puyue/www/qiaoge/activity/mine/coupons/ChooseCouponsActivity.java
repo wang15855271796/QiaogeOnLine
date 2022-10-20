@@ -45,13 +45,13 @@ public class ChooseCouponsActivity extends BaseSwipeActivity {
     private String normalProductBalanceVOStr;
     private String giftDetailNo="";
     private ChooseCouponsAdapter adapter;
-//    ImageView iv_select_all;
     boolean statModel;
     private List<UserChooseDeductModel.DataBean> list = new ArrayList<>();
     TabLayout tabLayout;
     ViewPager viewPager;
     private List<String> stringList =new ArrayList<>();
     private List<Fragment> list_fragment=new ArrayList<>();
+    int disType = 0;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -66,7 +66,6 @@ public class ChooseCouponsActivity extends BaseSwipeActivity {
     public void findViewById() {
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-//        iv_select_all = (ImageView) findViewById(R.id.iv_select_all);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
@@ -80,12 +79,13 @@ public class ChooseCouponsActivity extends BaseSwipeActivity {
         activityBalanceVOStr = getIntent().getStringExtra("activityBalanceVOStr");
         normalProductBalanceVOStr = getIntent().getStringExtra("normalProductBalanceVOStr");
         giftDetailNo = getIntent().getStringExtra("giftDetailNo");
+        disType = getIntent().getIntExtra("deliveryModel",0);
         statModel = getIntent().getBooleanExtra("statModel",false);
 
         //可使用
-        list_fragment.add(ChooseCouponFragment.newInstance(giftDetailNo,normalProductBalanceVOStr,activityBalanceVOStr,statModel));
+        list_fragment.add(ChooseCouponFragment.newInstance(giftDetailNo,normalProductBalanceVOStr,activityBalanceVOStr,statModel,disType+""));
         //不可使用
-        list_fragment.add(CouponsUnUseFragment.newInstance(giftDetailNo,normalProductBalanceVOStr,activityBalanceVOStr));
+        list_fragment.add(CouponsUnUseFragment.newInstance(giftDetailNo,normalProductBalanceVOStr,activityBalanceVOStr,disType+""));
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),list_fragment,stringList);
 
         viewPager.setAdapter(viewPagerAdapter);
@@ -108,8 +108,8 @@ public class ChooseCouponsActivity extends BaseSwipeActivity {
             }
         });
 
-        userChooseDeduct("0");
-        setRecyclerView();
+//        userChooseDeduct("0");
+//        setRecyclerView();
     }
 
 
@@ -154,9 +154,8 @@ public class ChooseCouponsActivity extends BaseSwipeActivity {
         });
     }
 
-    UserChooseDeductModel models;
     private void userChooseDeduct(String flag) {
-        userChooseDeductAPI.requestData(mContext, "0",activityBalanceVOStr, normalProductBalanceVOStr,flag)
+        userChooseDeductAPI.requestData(mContext, "0",activityBalanceVOStr, normalProductBalanceVOStr,flag,disType+"")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<UserChooseDeductModel>() {
@@ -172,11 +171,8 @@ public class ChooseCouponsActivity extends BaseSwipeActivity {
 
                     @Override
                     public void onNext(UserChooseDeductModel model) {
-                        if (model.success) {
-                            models = model;
-
-                            if (model.getData().size()> 0) {
-
+                        if (model.code==1) {
+                            if (model.getData()!=null && model.getData().size()> 0) {
                                 list.addAll(model.getData());
                                 adapter.notifyDataSetChanged();
                                 for (int i = 0; i < list.size(); i++) {

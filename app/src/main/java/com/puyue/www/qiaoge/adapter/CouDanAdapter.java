@@ -73,7 +73,7 @@ public class CouDanAdapter extends BaseQuickAdapter<UserChooseDeductModel.DataBe
         }else {
             tv_user_factor.setVisibility(View.GONE);
         }
-        if(!item.getReason().equals("") && item.getReason()!=null) {
+        if(item.getReason()!=null && !item.getReason().equals("")) {
             tv_use_limits.setText(item.getReason());
             tv_use_limits.setVisibility(View.VISIBLE);
         }else {
