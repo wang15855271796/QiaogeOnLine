@@ -880,71 +880,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                             recyclerView_un.setLayoutManager(new LinearLayoutManager(mActivity));
                             unOperate1Adapter.setRealList(listUnOperate);
                         }
-
-
-//                        unAbleAdapter = new TagsAdapter<CartBalanceModel.DataBean.ProductVOListBean>(listUnOperate){
-//                            @Override
-//                            public View getView(FlowLayout parent, int position, CartBalanceModel.DataBean.ProductVOListBean productVOListBean) {
-//                                View view = LayoutInflater.from(mActivity).inflate(R.layout.item_confirm_order_new,recyclerView_un, false);
-//                                TextView textTitle = view.findViewById(R.id.textTitle);
-//                                TextView Price = view.findViewById(R.id.Price);
-//                                rv_given = view.findViewById(R.id.rv_given);
-//                                rv_full = view.findViewById(R.id.rv_full);
-//                                TextView oldPrice = view.findViewById(R.id.oldPrice);
-//                                TextView textSpe = view.findViewById(R.id.textSpe);
-//                                ImageView imageIcon = view.findViewById(R.id.imageIcon);
-//                                if(listUnOperate.get(position).getProdTypeUrl()!=null&&!listUnOperate.get(position).getProdTypeUrl().equals("")) {
-//                                    imageIcon.setVisibility(View.VISIBLE);
-//                                    Glide.with(mActivity).load(listUnOperate.get(position).getProdTypeUrl()).into(imageIcon);
-//                                }else {
-//                                    imageIcon.setVisibility(View.GONE);
-//                                }
-//                                imageIcon.setVisibility(View.GONE);
-//                                ImageView imageView = view.findViewById(R.id.imageView);
-//                                oldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-//                                oldPrice.getPaint().setAntiAlias(true);//抗锯齿
-//                                Glide.with(mActivity).load(productVOListBean.getPicUrl()).into(imageView);
-//                                textSpe.setText(productVOListBean.getSpec());
-//                                Price.setText(productVOListBean.getAmount()+"");
-//                                if(productVOListBean.getOldPrice()!=null) {
-//                                    oldPrice.setText(productVOListBean.getOldPrice()+"");
-//                                }
-//                                textTitle.setText(productVOListBean.getName());
-//                                additionVOList1.clear();
-//                                additionVOList2.clear();
-//                                if(productVOListBean.getAdditionVOList()!=null) {
-//                                    for (int i = 0; i < productVOListBean.getAdditionVOList().size(); i++) {
-//                                        if(productVOListBean.getAdditionVOList().get(i).getType().equals("1")) {
-//                                            additionVOList1.add(productVOListBean.getAdditionVOList().get(i));
-//                                        }else {
-//                                            additionVOList2.add(productVOListBean.getAdditionVOList().get(i));
-//                                        }
-//                                    }
-//                                }
-//
-//                                rv_given.setLayoutManager(new LinearLayoutManager(mActivity));
-//                                fullGivenConfirmAdapter = new FullGivenConfirmAdapter(R.layout.item_given,additionVOList2);
-//                                rv_given.setAdapter(fullGivenConfirmAdapter);
-//
-//                                rv_full.setLayoutManager(new LinearLayoutManager(mActivity));
-//                                fullConfirmAdapter = new FullConfirmAdapter(R.layout.item_full,additionVOList1);
-//                                rv_full.setAdapter(fullConfirmAdapter);
-//                                return view;
-//                            }
-//                        };
-//
-//                        rl_arrow.setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                recyclerView_un.setLimit(false);
-//                                fullConfirmAdapter.notifyDataSetChanged();
-//                                fullGivenConfirmAdapter.notifyDataSetChanged();
-//                                unAbleAdapter.notifyDataChanged();
-//
-//                            }
-//                        });
-//                        recyclerView_un.setAdapter(unAbleAdapter);
-
                     }
                 });
     }
@@ -1344,7 +1279,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     @Override
     public void onStop() {
         super.onStop();
-        Log.d("cdwdfsaewdfsd.....","12333323");
         EventBus.getDefault().unregister(this);
     }
 
