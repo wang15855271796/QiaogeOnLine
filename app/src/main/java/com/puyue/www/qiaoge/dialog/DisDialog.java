@@ -186,6 +186,7 @@ public class DisDialog extends Dialog {
     public void getDistribution(DisTributionSelfEvent disTributionEvent) {
         isCb2 = true;
         isCb1 = false;
+        EventBus.getDefault().post(new DisTributionEvent("买家自己呼叫货拉拉",1));
         dismiss();
         rl_cb1.setBackgroundResource(R.drawable.shape_grey9);
         rl_cb2.setBackgroundResource(R.drawable.shape_orange14);
