@@ -956,7 +956,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
 
     //配送方式
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getDistribution(DisTribution1Event disTributionEvent) {
+    public void getDistribution(DisTributionEvent disTributionEvent) {
         tv_distribution.setText(disTributionEvent.getDesc());
         disType = disTributionEvent.getType();
         requestCartBalance(NewgiftDetailNo, 0,disType);
