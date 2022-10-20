@@ -133,8 +133,12 @@ public class DisSelfDialog extends Dialog {
                 }else {
                     isCb2 = true;
                     isCb1 = false;
-                    EventBus.getDefault().post(new DisTributionSelf1Event("买家自己呼叫货拉拉",1));
+//                    EventBus.getDefault().post(new DisTributionSelf1Event("买家自己呼叫货拉拉",1));
+//                    EventBus.getDefault().post(new DisTributionEvent("买家自己呼叫货拉拉",1));
+
+                    EventBus.getDefault().post(new DisTributionSelfEvent("买家自己呼叫货拉拉",1));
                     EventBus.getDefault().post(new DisTributionEvent("买家自己呼叫货拉拉",1));
+
                     EventBus.getDefault().post(new RefreshEvent());
                     dismiss();
                     rl_cb1.setBackgroundResource(R.drawable.shape_grey9);
