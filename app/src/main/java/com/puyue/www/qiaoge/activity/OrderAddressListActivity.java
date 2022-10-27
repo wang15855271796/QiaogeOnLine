@@ -116,7 +116,7 @@ public class OrderAddressListActivity extends BaseSwipeActivity {
                 } else if (flag.equals("delete")) {
                     showDeleteDialog(position);
                 } else if (flag.equals("edit")) {
-                    Intent intent = new Intent(mContext,EditAddressActivity.class);
+                    Intent intent = new Intent(mContext,EditAndAddActivity.class);
                     intent.putExtra(TYPE, "edit");
                     intent.putExtra(USER_NAME, mListData.get(position).userName);
                     intent.putExtra(USER_PHONE, mListData.get(position).contactPhone);
@@ -222,7 +222,7 @@ public class OrderAddressListActivity extends BaseSwipeActivity {
             @Override
             public void onNoDoubleClick(View view) {
 
-                Intent intent = new Intent(mContext,EditAddressActivity.class);
+                Intent intent = new Intent(mContext,EditAndAddActivity.class);
                 intent.putExtra(TYPE, "add");
                 intent.putExtra(USER_NAME,"");
                 intent.putExtra(USER_PHONE, "");

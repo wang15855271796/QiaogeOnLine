@@ -159,7 +159,7 @@ public class AddressListsActivity extends BaseSwipeActivity {
                 } else if (flag.equals("delete")) {
                     showDeleteDialog(position);
                 } else if (flag.equals("edit")) {
-                    Intent intent = new Intent(mContext,EditAddressActivity.class);
+                    Intent intent = new Intent(mContext,EditAndAddActivity.class);
                     intent.putExtra(TYPE, "edit");
                     intent.putExtra(USER_NAME, mListData.get(position).userName);
                     intent.putExtra(USER_PHONE, mListData.get(position).contactPhone);
@@ -204,7 +204,7 @@ public class AddressListsActivity extends BaseSwipeActivity {
 //                    //跳转到编辑界面使用startActivityForResult,在完成操作之后回到地址列表的界面,重新请求一次地址列表的数据
                     if (mListData.get(position).isDefault == 1) {
                         //原本是默认地址
-                        Intent intent1 = new Intent(mContext,EditAddressActivity.class);
+                        Intent intent1 = new Intent(mContext,EditAndAddActivity.class);
                         intent1.putExtra(TYPE, "edit");
                         intent1.putExtra(USER_NAME, mListData.get(position).userName);
                         intent1.putExtra(USER_PHONE, mListData.get(position).contactPhone);
@@ -222,7 +222,7 @@ public class AddressListsActivity extends BaseSwipeActivity {
 
 //                        startActivityForResult(EditAndAddActivity.getIntent(mContext, EditAndAddActivity.class, "edit", mListData.get(position).provinceName + " " + mListData.get(position).cityName + " " + mListData.get(position).areaName, mListData.get(position).userName, mListData.get(position).contactPhone, mListData.get(position).shopName,mListData.get(position).cityName, mListData.get(position).detailAddress, "true", String.valueOf(mListData.get(position).id), mListData.get(position).provinceCode, mListData.get(position).cityCode, mListData.get(position).areaCode, orderId), 22);
                     } else if (mListData.get(position).isDefault == 0) {
-                        Intent intent2 = new Intent(mContext,EditAddressActivity.class);
+                        Intent intent2 = new Intent(mContext,EditAndAddActivity.class);
                         intent2.putExtra(TYPE, "edit");
                         intent2.putExtra(USER_NAME, mListData.get(position).userName);
                         intent2.putExtra(USER_PHONE, mListData.get(position).contactPhone);
@@ -352,7 +352,7 @@ public class AddressListsActivity extends BaseSwipeActivity {
                     //说明修改过默认地址,在退出界面的时候请求接口来
                     requestEditDefaultAddress(defaultId, orderId);
                 }else {
-                    Intent intent = new Intent(mContext,EditAddressActivity.class);
+                    Intent intent = new Intent(mContext,EditAndAddActivity.class);
                     intent.putExtra(TYPE, "add");
                     intent.putExtra(USER_NAME,"");
                     intent.putExtra(USER_PHONE, "");

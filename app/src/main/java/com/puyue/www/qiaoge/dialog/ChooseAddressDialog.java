@@ -105,7 +105,7 @@ public class ChooseAddressDialog extends Dialog {
         rl_add_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext,EditAddressActivity.class);
+                Intent intent = new Intent(mContext,EditAndAddActivity.class);
                 intent.putExtra(TYPE, "add");
                 intent.putExtra(USER_NAME,"");
                 intent.putExtra(USER_PHONE, "");
@@ -164,7 +164,7 @@ public class ChooseAddressDialog extends Dialog {
                                         dataBean = data0.get(position);
 
 
-                                        Intent intent = new Intent(mContext,EditAddressActivity.class);
+                                        Intent intent = new Intent(mContext,EditAndAddActivity.class);
                                         intent.putExtra(TYPE, "edit");
                                         intent.putExtra(USER_NAME,dataBean.userName);
                                         intent.putExtra(USER_PHONE,dataBean.contactPhone);
