@@ -16,6 +16,7 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.listener.OnItemClickListener;
 import com.puyue.www.qiaoge.model.home.SpikeNewQueryModel;
 import com.puyue.www.qiaoge.utils.DateUtils;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.utils.Utils;
 import com.puyue.www.qiaoge.view.Snap;
 
@@ -92,7 +93,13 @@ public class SpikeActiveNewAdapter extends RecyclerView.Adapter<SpikeActiveNewAd
             });
         }
 
-        holder.tv_title.setText(data.get(position).getTitle());
+
+        if(data.get(position).getTitle()!=null && !data.get(position).getTitle().equals("")) {
+            holder.tv_title.setText(data.get(position).getTitle());
+        }else {
+            holder.tv_title.setText(data.get(position).getDateTime());
+        }
+
         holder.tv_desc.setText(data.get(position).getTimeDesc());
     }
 

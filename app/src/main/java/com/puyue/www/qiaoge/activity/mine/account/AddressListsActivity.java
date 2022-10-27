@@ -490,7 +490,6 @@ public class AddressListsActivity extends BaseSwipeActivity {
                             //删除地址之后重新请求一次地址列表
                             mPtr.autoRefresh();
                             EventBus.getDefault().post(new AddressEvent());
-                            Log.d("swxddddddddddd.....","wwddddddd");
                         } else {
                             AppHelper.showMsg(mContext, mModelDeleteAddress.message);
                         }

@@ -137,7 +137,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     private String activityBalanceVOStr;
     private String equipmentBalanceVOStr;
     private String cartListStr;
-    private String NewgiftDetailNo = "";//NewgiftDetailNo
+    private String NewgiftDetailNo = "";
     // 获取选择优惠券的参数
     private String proActAmount = "";
     private String teamAmount = "";
@@ -301,6 +301,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
         currentDay = mCalendar.get(Calendar.DAY_OF_MONTH);
         getWalletAmount();
         normalProductBalanceVOStr = mActivity.getIntent().getStringExtra("normalProductBalanceVOStr");
+        Log.d("afsfwefsdfs......",normalProductBalanceVOStr);
         activityBalanceVOStr = mActivity.getIntent().getStringExtra("activityBalanceVOStr");
         equipmentBalanceVOStr = mActivity.getIntent().getStringExtra("equipmentBalanceVOStr");
         cartListStr = mActivity.getIntent().getStringExtra("cartListStr");
@@ -594,6 +595,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                     public void onNext(CartBalanceModel cartBalanceModel) {
                         if (cartBalanceModel.success) {
                             cModel = cartBalanceModel;
+
                             CartBalanceModel.DataBean data = cartBalanceModel.getData();
                             toRechargeAmount = cModel.getData().getToRechargeAmount();
                             toRecharge = cModel.getData().isToRecharge();
@@ -609,7 +611,6 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                                     }
                                 }
                             }
-
                             if(systemList1.size()>0) {
                                 rv_given.setVisibility(View.VISIBLE);
                                 rv_given.setLayoutManager(new LinearLayoutManager(mActivity));
@@ -627,8 +628,6 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                             }else {
                                 rv_coupon.setVisibility(View.GONE);
                             }
-
-
                             if (cartBalanceModel != null) {
                                 setText(cartBalanceModel);
                                 if (requestCount == 0) {
@@ -802,6 +801,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
             textViewDiscount.setVisibility(View.GONE);
 
         }
+
         if (cartBalanceModel.getData().getDeductDetail() != null) {
             if (!TextUtils.isEmpty(cartBalanceModel.getData().getDeductDetail().getAmountStr())) {
                 couponId = cartBalanceModel.getData().getDeductDetail().getGiftDetailNo();
@@ -809,18 +809,22 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
 
             }
         }
-        if(cartBalanceModel.getData().getDeductDesc().equals("无优惠券")) {
-            textCoupons.setText("无优惠券");
-            textCoupons.setTextColor(Color.parseColor("#999999"));
-            linearLayoutCoupons.setEnabled(false);
-        }else if(cartBalanceModel.getData().getDeductDesc().equals("暂无可用优惠券")) {
-            textCoupons.setText("暂无可用优惠券");
-            textCoupons.setTextColor(Color.parseColor("#999999"));
-            linearLayoutCoupons.setEnabled(true);
-        } else {
-            textCoupons.setText(cartBalanceModel.getData().getDeductDesc());
-            textCoupons.setTextColor(Color.parseColor("#F25E0E"));
-            linearLayoutCoupons.setEnabled(true);
+        if(NewgiftDetailNo.equals("")) {
+            if(cartBalanceModel.getData().getDeductDesc().equals("无优惠券")) {
+                textCoupons.setText("无优惠券");
+                textCoupons.setTextColor(Color.parseColor("#999999"));
+                linearLayoutCoupons.setEnabled(false);
+            }else if(cartBalanceModel.getData().getDeductDesc().equals("暂无可用优惠券")) {
+                textCoupons.setText("暂无可用优惠券");
+                textCoupons.setTextColor(Color.parseColor("#999999"));
+                linearLayoutCoupons.setEnabled(true);
+            } else {
+                textCoupons.setText(cartBalanceModel.getData().getDeductDesc());
+                textCoupons.setTextColor(Color.parseColor("#F25E0E"));
+                linearLayoutCoupons.setEnabled(true);
+            }
+        }else {
+            textCoupons.setText(cartBalanceModel.getData().getDeductDetail().getGiftName());
         }
 
 
@@ -938,20 +942,8 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     @Subscribe
     public void onEventMainThread(AddressEvent event) {
         list.clear();
+        listUnOperate.clear();
         requestCartBalance(NewgiftDetailNo, 0,disType);////NewgiftDetailNo
-    }
-
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
     }
 
     //配送方式
@@ -959,6 +951,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     public void getDistribution(DisTributionEvent disTributionEvent) {
         tv_distribution.setText(disTributionEvent.getDesc());
         disType = disTributionEvent.getType();
+        NewgiftDetailNo = "";
         requestCartBalance(NewgiftDetailNo, 0,disType);
     }
 
@@ -979,9 +972,10 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getCoupon(ChooseCouponEvent chooseCouponEvent) {
-
         list.clear();
-        requestCartBalance(chooseCouponEvent.getGiftDetailNo(), 0,disType);
+        NewgiftDetailNo = chooseCouponEvent.getGiftDetailNo();
+
+        requestCartBalance(NewgiftDetailNo,0,disType);
         statModel.setSelects(false);
     }
     /**

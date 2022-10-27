@@ -184,19 +184,37 @@ public class DisDialog extends Dialog {
     //配送方式
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getDistribution(DisTributionSelfEvent disTributionEvent) {
-        isCb2 = true;
-        isCb1 = false;
-        dismiss();
-        rl_cb1.setBackgroundResource(R.drawable.shape_grey9);
-        rl_cb2.setBackgroundResource(R.drawable.shape_orange14);
-        iv_choose1.setVisibility(View.GONE);
-        iv_choose2.setVisibility(View.VISIBLE);
-        tv_name2.setTextColor(Color.parseColor("#FF5C00"));
-        tv_tip.setTextColor(Color.parseColor("#FF5C00"));
-        tv_huo.setTextColor(Color.parseColor("#FF5C00"));
-        tv_tip.setTextColor(Color.parseColor("#FF5C00"));
-        tv_name.setTextColor(Color.parseColor("#333333"));
-        tv_price.setTextColor(Color.parseColor("#999999"));
+
+
+        if(disTributionEvent.getType()==0) {
+            isCb2 = false;
+            isCb1 = true;
+            dismiss();
+            rl_cb2.setBackgroundResource(R.drawable.shape_grey9);
+            rl_cb1.setBackgroundResource(R.drawable.shape_orange14);
+            iv_choose1.setVisibility(View.VISIBLE);
+            iv_choose2.setVisibility(View.GONE);
+            tv_name2.setTextColor(Color.parseColor("#333333"));
+            tv_tip.setTextColor(Color.parseColor("#999999"));
+            tv_huo.setTextColor(Color.parseColor("#999999"));
+            tv_name.setTextColor(Color.parseColor("#FF5C00"));
+            tv_price.setTextColor(Color.parseColor("#FF5C00"));
+        }else {
+            isCb2 = true;
+            isCb1 = false;
+            dismiss();
+            rl_cb1.setBackgroundResource(R.drawable.shape_grey9);
+            rl_cb2.setBackgroundResource(R.drawable.shape_orange14);
+            iv_choose1.setVisibility(View.GONE);
+            iv_choose2.setVisibility(View.VISIBLE);
+            tv_name2.setTextColor(Color.parseColor("#FF5C00"));
+            tv_tip.setTextColor(Color.parseColor("#FF5C00"));
+            tv_huo.setTextColor(Color.parseColor("#FF5C00"));
+            tv_tip.setTextColor(Color.parseColor("#FF5C00"));
+            tv_name.setTextColor(Color.parseColor("#333333"));
+            tv_price.setTextColor(Color.parseColor("#999999"));
+        }
+
     }
 
     /**

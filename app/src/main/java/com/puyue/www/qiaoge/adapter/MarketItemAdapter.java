@@ -128,11 +128,12 @@ public class MarketItemAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
             }
         });
 
+
         tv_num.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                final AlertDialog alertDialog = new AlertDialog.Builder(mContext, R.style.DialogStyle).create();
+                alertDialog = new AlertDialog.Builder(mContext, R.style.DialogStyle).create();
                 alertDialog.setCanceledOnTouchOutside(false);
                 alertDialog.show();
                 Window window = alertDialog.getWindow();
@@ -218,12 +219,15 @@ public class MarketItemAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
                     public void onNext(CartAddModel cartAddModel) {
                         if (cartAddModel.getCode()==1) {
                             if(cartAddModel.getData()!=null) {
+
                                 if(cartAddModel.getData().getAddFlag()==0) {
                                     //正常
                                     EventBus.getDefault().post(new UpDateNumEvent3());
                                     ToastUtil.showSuccessMsg(mContext,cartAddModel.getMessage());
+                                    Log.d("qaswrfdwedasdsda.......",cartAddModel.getData().getAddFlag()+"----");
                                     textView.setText(num+"");
                                     alertDialog.dismiss();
+                                    Log.d("qaswrfdwedasdsda.......",cartAddModel.getData().getAddFlag()+"////");
                                 }else {
                                     textView.setText(cartAddModel.getData().getNum()+"");
                                     EventBus.getDefault().post(new UpDateNumEvent3());

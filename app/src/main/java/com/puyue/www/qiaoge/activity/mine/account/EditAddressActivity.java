@@ -206,7 +206,6 @@ public class EditAddressActivity extends BaseSwipeActivity  {
         mLlDefault = (RelativeLayout) findViewById(R.id.ll_edit_address_default);
         mCbDefault = (CheckBox) findViewById(R.id.cb_edit_address_default);
         mBtnConfirm = (Button) findViewById(R.id.btn_edit_address_confirm);
-        //  mLlEditAddress = (NestedScrollView) findViewById(R.id.ll_edit_address);
         mTvTitle = (TextView) findViewById(R.id.tv_edit_address_title);
         iv_switch = (ImageView) findViewById(R.id.iv_switch);
     }

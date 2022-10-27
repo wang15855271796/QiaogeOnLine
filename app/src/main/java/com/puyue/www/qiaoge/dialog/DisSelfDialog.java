@@ -107,9 +107,7 @@ public class DisSelfDialog extends Dialog {
                     ToastUtil.showSuccessMsg(context,"配送方式已选好");
                     rl_cb1.setBackgroundResource(R.drawable.shape_orange14);
                     rl_cb2.setBackgroundResource(R.drawable.shape_grey9);
-//                    EventBus.getDefault().post(new DisTributionSelfEvent("到仓自提",0));
-//                    EventBus.getDefault().post(new DisTribution1Event("买家自己呼叫货拉拉",1));
-                    EventBus.getDefault().post(new DisTributionEvent("买家自己呼叫货拉拉",1));
+                    EventBus.getDefault().post(new DisTributionEvent("翘歌配送",0));
                     EventBus.getDefault().post(new DisTributionSelfEvent("到仓自提",0));
                     dismiss();
                     iv_choose1.setVisibility(View.VISIBLE);

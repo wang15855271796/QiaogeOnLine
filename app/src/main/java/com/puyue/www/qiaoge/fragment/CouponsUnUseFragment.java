@@ -147,7 +147,6 @@ public class CouponsUnUseFragment extends BaseFragment {
                                             }else {
                                                 tv_nocoudan.setVisibility(View.GONE);
                                             }
-                                            Log.d("cdfewfsdfsw.....",dataBean2.size()+"a----");
                                         }
 
                                     }

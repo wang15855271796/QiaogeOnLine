@@ -142,7 +142,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     private TextView userPhone;
     private int currentDay;
     private TextView address;
-    private Double totalAmount;
     private TextView firmName; // 店名
     private LinearLayout LinearLayoutAddress;// 没地址的xml
     private TextView textViewNum; // 几件商品
@@ -173,22 +172,12 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     private String activityBalanceVOStr;
     private String equipmentBalanceVOStr;
     private String cartListStr;
-    private String NewgiftDetailNo = "";//NewgiftDetailNo
-    // 获取选择优惠券的参数
-    private String proActAmount = "";
-    private String teamAmount = "";
-    private String killAmount = "";
-    private String prodAmount = "";
+    private String NewgiftDetailNo = "";
     private String couponId = "";
 
     private String payAmount = "";
     // 判断是否匹配优惠券，0否1是，默认1
     CartBalanceModel cModel;
-    //  优惠卷
-    private RecyclerView couponsRecyclerView;
-    private ChooseCouponsAdapter couponsAdapter;
-    private List<UserChooseDeductModel.DataBean> couponsList = new ArrayList<>();
-    private TextView noData;
 
 
     private RelativeLayout relativeLayoutVIP; //
@@ -200,14 +189,10 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     private TextView subtractionActivities;
     private TextView vipSubtractionPrice;
     private String VipURl;
-    private String deductDetail = "";
     //记录图片的点击次数，设置一开始为0.
 //    private int j=0;
     //请求次数
     private int requestCount = 0;
-    private Double toRechargeAmount;
-    private boolean toRecharge;
-    private String areaContent;
     private String deliverTimeStart = "";
     private String deliverTimeEnd = "";
 
@@ -224,11 +209,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     StatModel statModel;
     private EditText et_name;
     private EditText et_phone;
-
-//    AMap mBaiduMap;
-//    private TextureMapView mMapView = null;
     MapView mMapView;
-//    private GeoCoder mCoder;
     double latitude1;//仓库位置
     double longitude1;
 
@@ -315,8 +296,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
         payMoney = (TextView) view.findViewById(R.id.payMoney);
         LinearLayoutStoreName = (LinearLayout) view.findViewById(R.id.LinearLayoutStoreName);
         linearLayoutCoupons = (LinearLayout) view.findViewById(R.id.linearLayoutCoupons);
-        couponsRecyclerView = (RecyclerView) view.findViewById(R.id.couponsRecyclerView);
-
         relativeLayoutVIP = (RelativeLayout) view.findViewById(R.id.relativeLayoutVIP);
         vipSubtractionLinearLayout = (LinearLayout) view.findViewById(R.id.vipSubtractionLinearLayout);
         subtractionActivitiesLinearLayout = (LinearLayout) view.findViewById(R.id.subtractionActivitiesLinearLayout);
@@ -325,7 +304,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
         vipSubtraction = (TextView) view.findViewById(R.id.vipSubtraction);
         subtractionActivities = (TextView) view.findViewById(R.id.subtractionActivities);
         vipSubtractionPrice = (TextView) view.findViewById(R.id.vipSubtractionPrice);
-        noData = (TextView) view.findViewById(R.id.noData);
         ll_collect_bills = (LinearLayout) view.findViewById(R.id.ll_collect_bills);
         ll_go_market = (LinearLayout) view.findViewById(R.id.ll_go_market);
         tv_amount_spec = (TextView) view.findViewById(R.id.tv_amount_spec);
@@ -813,9 +791,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                     public void onNext(CartBalanceModel cartBalanceModel) {
                         if (cartBalanceModel.success) {
                             cModel = cartBalanceModel;
-                            toRechargeAmount = cModel.getData().getToRechargeAmount();
-                            toRecharge = cModel.getData().isToRecharge();
-                            totalAmount = Double.valueOf(cartBalanceModel.getData().getTotalAmount());
                             title = cartBalanceModel.getData().wareAddress;
                             content = cartBalanceModel.getData().wareAddress;
                             tv_phone.setText( cartBalanceModel.getData().customerPhone);
@@ -894,7 +869,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                 });
     }
 
-    int giftNum;
 
     /**
      * 接收来自接口的数据进行数据设置。
@@ -904,36 +878,24 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     CartBalanceModel.DataBean info;
     private void setText(CartBalanceModel cartBalanceModel) {
         info = cartBalanceModel.getData();
-        proActAmount = info.getProActAmount();
-        teamAmount = info.getTeamAmount();
-        killAmount = info.getKillAmount();
-        prodAmount = info.getNormalAmount();
-
-        areaContent =
-                info.getAddressVO().getAreaCode();
-
-        if (info.getDeductDetail() != null) {
-            deductDetail = info.getDeductDetail().getGiftDetailNo();
-        } else {
-            deductDetail = "";
+        if(NewgiftDetailNo.equals("")) {
+            if(cartBalanceModel.getData().getDeductDesc().equals("无优惠券")) {
+                textCoupons.setText("无优惠券");
+                textCoupons.setTextColor(Color.parseColor("#999999"));
+                linearLayoutCoupons.setEnabled(false);
+            }else if(cartBalanceModel.getData().getDeductDesc().equals("暂无可用优惠券")) {
+                textCoupons.setText("暂无可用优惠券");
+                textCoupons.setTextColor(Color.parseColor("#999999"));
+                linearLayoutCoupons.setEnabled(true);
+            } else {
+                textCoupons.setText(cartBalanceModel.getData().getDeductDesc());
+                textCoupons.setTextColor(Color.parseColor("#F25E0E"));
+                linearLayoutCoupons.setEnabled(true);
+            }
+        }else {
+            textCoupons.setText(cartBalanceModel.getData().getDeductDetail().getGiftName());
         }
 
-
-        giftNum = cartBalanceModel.getData().getGiftNum();
-
-        if(cartBalanceModel.getData().getDeductDesc().equals("无优惠券")) {
-            textCoupons.setText("无优惠券");
-            textCoupons.setTextColor(Color.parseColor("#999999"));
-            linearLayoutCoupons.setEnabled(false);
-        }else if(cartBalanceModel.getData().getDeductDesc().equals("暂无可用优惠券")) {
-            textCoupons.setText("暂无可用优惠券");
-            textCoupons.setTextColor(Color.parseColor("#999999"));
-            linearLayoutCoupons.setEnabled(true);
-        } else {
-            textCoupons.setText(cartBalanceModel.getData().getDeductDesc());
-            textCoupons.setTextColor(Color.parseColor("#F25E0E"));
-            linearLayoutCoupons.setEnabled(true);
-        }
 
 
 
@@ -959,23 +921,14 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
             address.setText(info.wareName);
         }
         if (info.getAddressVO().getContactPhone() != null && info.getAddressVO().getUserName() != null &&
-
                 info.getAddressVO().getAreaName() != null ) {
-          //  LinearLayoutAddress.setVisibility(View.GONE);
-           // linearLayoutAddressHead.setVisibility(View.VISIBLE);
             userName.setText(info.getAddressVO().getUserName());
             userPhone.setText(info.getAddressVO().getContactPhone());
 
 
             if (!TextUtils.isEmpty(info.getAddressVO().getShopName())) {
                 firmName.setText(info.getAddressVO().getShopName());
-                // LinearLayoutStoreName.setVisibility(View.VISIBLE);
-            } else {
-                // LinearLayoutStoreName.setVisibility(View.GONE);
             }
-        } else {
-          //  linearLayoutAddressHead.setVisibility(View.GONE);
-          //  LinearLayoutAddress.setVisibility(View.VISIBLE);
         }
         if (cartBalanceModel.getData().getOfferAmount() != null) {
             textViewDiscount.setText("已优惠¥" + cartBalanceModel.getData().getOfferAmount());
@@ -988,10 +941,8 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
             if (!TextUtils.isEmpty(cartBalanceModel.getData().getDeductDetail().getAmountStr())) {
                 couponId = cartBalanceModel.getData().getDeductDetail().getGiftDetailNo();
                 NewgiftDetailNo = cartBalanceModel.getData().getDeductDetail().getGiftDetailNo();////NewgiftDetailNo
-
             }
         }
-//        textCoupons.setText(cartBalanceModel.getData().getDeductDesc());
 
         VipURl = cartBalanceModel.getData().getVipCenterUrl();
         vipSubtractionPrice.setText("¥" + cartBalanceModel.getData().getVipReduct());
@@ -1008,11 +959,9 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
 
             vipSubtractionLinearLayout.setVisibility(View.VISIBLE);
             relativeLayoutVIP.setVisibility(View.GONE);
-            //  vipSubtractionLinearLayout.setVisibility(View.GONE);
             textViewVipTitle.setText(cartBalanceModel.getData().getNotVipDesc());
         } else {
             vipSubtractionLinearLayout.setVisibility(View.GONE);
-            //ll_collect_bills.setVisibility(View.VISIBLE);
             if (!cartBalanceModel.getData().isOpenVip()) {
                 if (cartBalanceModel.getData().getVipDesc() > 0) {
                     ll_collect_bills.setVisibility(View.VISIBLE);
@@ -1027,10 +976,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
 
 
             } else {
-
-
                 ll_collect_bills.setVisibility(View.VISIBLE);
-
                 tv_amount_spec.setText(cartBalanceModel.getData().getVipDesc().toString() + "" + "元");
                 tv_vip_content_one.setText("开通会员本单立减");
                 tv_vip_content_two.setText("，随后享受单单满减优惠");
@@ -1055,9 +1001,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
             subtractionActivitiesLinearLayout.setVisibility(View.GONE);
             subtractionActivities.setVisibility(View.GONE);
         }
-
-
-//        userChooseDeduct();
     }
 
 
@@ -1147,6 +1090,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getCouponss(ChooseCouponsEvent chooseCouponEvent) {
         list.clear();
+        NewgiftDetailNo = chooseCouponEvent.getGiftDetailNo();
         requestCartBalance(chooseCouponEvent.getGiftDetailNo(), 1,disType);
         statModel.setSelects(false);
     }
@@ -1174,14 +1118,11 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
         tv_beizhu.setText(beizhuEvent.getBeizhu());
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        list.clear();
-
-    }
-
-
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        list.clear();
+//    }
 
     public void showMapDialog() {
         mDialogMap = new BottomSheetDialog(mActivity);
@@ -1284,12 +1225,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
         mDialogMap.dismiss();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
     }
 
     interface OnTapListener {
