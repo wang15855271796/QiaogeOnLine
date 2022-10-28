@@ -291,9 +291,6 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
 
     @Override
     public void setViewData() {
-        if(!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
 
         final Calendar mCalendar = Calendar.getInstance();
         long time = System.currentTimeMillis();
@@ -301,7 +298,6 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
         currentDay = mCalendar.get(Calendar.DAY_OF_MONTH);
         getWalletAmount();
         normalProductBalanceVOStr = mActivity.getIntent().getStringExtra("normalProductBalanceVOStr");
-        Log.d("afsfwefsdfs......",normalProductBalanceVOStr);
         activityBalanceVOStr = mActivity.getIntent().getStringExtra("activityBalanceVOStr");
         equipmentBalanceVOStr = mActivity.getIntent().getStringExtra("equipmentBalanceVOStr");
         cartListStr = mActivity.getIntent().getStringExtra("cartListStr");
@@ -387,8 +383,9 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                     getDatas(1);
                     lav_activity_loading.show();
                     lav_activity_loading.setVisibility(View.VISIBLE);
-                    if(list.size()==0) {
+                    if(tv_distribution.getText().toString().equals("买家自己呼叫货拉拉") && list.size()==0) {
                         lav_activity_loading.hide();
+                        buttonPay.setEnabled(true);
                         ToastUtil.showSuccessMsg(mActivity,"无可结算的商品");
                         return;
                     }
@@ -675,7 +672,6 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                                 }else {
                                     ll_operate.setVisibility(View.GONE);
                                 }
-//&& tv_distribution.getText().toString().equals("买家自己呼叫货拉拉")
 
                                 if(listUnOperate.size() > 0) {
                                     if(tv_distribution.getText().toString().equals("买家自己呼叫货拉拉")) {
@@ -683,6 +679,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                                     }else {
                                         tv_title.setVisibility(View.GONE);
                                     }
+
                                     if(listUnOperate.size()>3) {
                                         rl_arrow.setVisibility(View.VISIBLE);
                                     }else {
@@ -692,7 +689,6 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                                 }else {
                                     ll_unOperate.setVisibility(View.GONE);
                                 }
-//                                unOperateAdapter.notifyDataChanged();
                             }
                             adapter.notifyDataSetChanged();
                         } else {
@@ -964,6 +960,20 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     public void getBeizhu(BeizhuEvent beizhuEvent) {
         this.beizhuEvent = beizhuEvent;
         tv_beizhu.setText(beizhuEvent.getBeizhu());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     /**

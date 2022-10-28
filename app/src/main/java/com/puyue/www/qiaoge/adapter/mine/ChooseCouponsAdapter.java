@@ -125,7 +125,6 @@ public class ChooseCouponsAdapter extends BaseQuickAdapter<UserChooseDeductModel
             }
         });
 
-
         iv_select.setImageResource(item.isFlags() ? R.mipmap.checkbax_yes : R.mipmap.checkbox_no);
         if(item.getState().equals("ENABLED")){  // State== ENABLED   可用使用的优惠卷
             tv_amount.setTextColor(Color.parseColor("#F54022"));

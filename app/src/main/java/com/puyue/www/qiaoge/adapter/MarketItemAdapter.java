@@ -224,10 +224,8 @@ public class MarketItemAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
                                     //正常
                                     EventBus.getDefault().post(new UpDateNumEvent3());
                                     ToastUtil.showSuccessMsg(mContext,cartAddModel.getMessage());
-                                    Log.d("qaswrfdwedasdsda.......",cartAddModel.getData().getAddFlag()+"----");
                                     textView.setText(num+"");
                                     alertDialog.dismiss();
-                                    Log.d("qaswrfdwedasdsda.......",cartAddModel.getData().getAddFlag()+"////");
                                 }else {
                                     textView.setText(cartAddModel.getData().getNum()+"");
                                     EventBus.getDefault().post(new UpDateNumEvent3());

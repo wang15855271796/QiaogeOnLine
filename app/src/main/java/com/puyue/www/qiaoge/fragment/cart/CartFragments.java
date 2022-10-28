@@ -662,7 +662,6 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                 normalProductBalanceVOStr = "";
                 double priceCommonGoods = 0.00;
                 List<Integer> cartIds = new ArrayList<>();
-
                 for (int i = 0; i < prods.size(); i++) {
                     List<CartTestModel.DataBean.ProdsBeanX.ProdsBean> prods1 = prods.get(i).getProds();
                     for (int j = 0; j < prods1.size(); j++) {
@@ -900,6 +899,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
         list.clear();
         getProductsList();
         getScrollData();
+        getCartLists();
     }
     //按钮状态
     @Subscribe(threadMode = ThreadMode.MAIN)

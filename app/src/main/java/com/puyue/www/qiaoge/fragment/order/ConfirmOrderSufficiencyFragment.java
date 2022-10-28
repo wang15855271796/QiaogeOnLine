@@ -333,12 +333,23 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
         });
     }
 
-    TencentLocationManager instance;
     @Override
-    public void setViewData() {
+    public void onResume() {
+        super.onResume();
         if(!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    TencentLocationManager instance;
+    @Override
+    public void setViewData() {
 
         instance = TencentLocationManager.getInstance(QiaoGeApplication.getContext());
 
@@ -389,16 +400,18 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
         getMode();
     }
 
-    int disType;
+    int disType = 1;
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getDistribution(DisTributionSelfEvent disTributionEvent) {
-        if(disTributionEvent.getType()==0) {
-            tv_distribution.setText(disTributionEvent.getDesc());
-            disType = disTributionEvent.getType();
-        }else {
-            tv_distribution.setText(disTributionEvent.getDesc());
-            disType = disTributionEvent.getType();
-        }
+        tv_distribution.setText(disTributionEvent.getDesc());
+        disType = 1;
+//        if(disTributionEvent.getType()==0) {
+//            tv_distribution.setText(disTributionEvent.getDesc());
+//            disType = disTributionEvent.getType();
+//        }else {
+//            tv_distribution.setText(disTributionEvent.getDesc());
+//            disType = disTributionEvent.getType();
+//        }
     }
 //    @Subscribe(threadMode = ThreadMode.MAIN)
 //    public void getDistribution(DisTributionSelf1Event disTributionEvent) {
@@ -646,8 +659,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
 
                         return;
                     }
-
-
 
                     if (LinearLayoutAddress.getVisibility() == View.VISIBLE) { // 没有地址
                         AppHelper.showMsg(mActivity, "请填写地址");

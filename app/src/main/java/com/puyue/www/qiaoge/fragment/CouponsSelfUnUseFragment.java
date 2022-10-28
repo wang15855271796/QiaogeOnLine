@@ -3,6 +3,8 @@ package com.puyue.www.qiaoge.fragment;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -104,7 +106,6 @@ public class CouponsSelfUnUseFragment extends BaseFragment {
 
     List<UserChooseDeductModel.DataBean>dataBean1 = new ArrayList<>();
     List<UserChooseDeductModel.DataBean>dataBean2 = new ArrayList<>();
-    private List<UserChooseDeductModel.DataBean> list = new ArrayList<>();
     private void userChooseDeduct() {
         userChooseDeductAPI.requestData(getContext(), "0",activityBalanceVOStr, normalProductBalanceVOStr,"1",deliveryModel)
                 .subscribeOn(Schedulers.io())
@@ -123,6 +124,7 @@ public class CouponsSelfUnUseFragment extends BaseFragment {
                     @Override
                     public void onNext(UserChooseDeductModel model) {
                         if (model.code==1) {
+
                             if(model.getData()!=null && model.getData().size()>0) {
                                 for (int i = 0; i < model.getData().size(); i++) {
                                     if(model.getData().get(i).getGiftFlag().equals("1")) {

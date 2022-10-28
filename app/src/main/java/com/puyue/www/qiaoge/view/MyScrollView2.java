@@ -28,7 +28,6 @@ public class MyScrollView2 extends NestedScrollView {
         super.onScrollChanged(l, t, oldl, oldt);
         if (onScrollStatusListener != null) {
             onScrollStatusListener.onScrolling(t-oldt);
-            Log.d("wdadqwdads....","1233");
             mHandler.removeCallbacksAndMessages(null);
             mHandler.sendEmptyMessageDelayed(0x01, 0);
         }
