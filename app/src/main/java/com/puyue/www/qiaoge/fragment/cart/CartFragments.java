@@ -6,12 +6,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
@@ -66,6 +69,7 @@ import com.puyue.www.qiaoge.view.Arith;
 import com.puyue.www.qiaoge.view.AutosRecycleView;
 import com.puyue.www.qiaoge.view.ScrollRecycleView;
 import com.puyue.www.qiaoge.view.SlideRecyclerView;
+import com.puyue.www.qiaoge.view.StatusBarUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -161,7 +165,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
 
     @Override
     public void initViews(View view) {
-
+//        setStatusBar();
     }
 
     @Override
@@ -170,6 +174,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
         getCartLists();
 
     }
+
 
     @Override
     public void findViewById(View view) {

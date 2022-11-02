@@ -77,7 +77,7 @@
     <uses-permission android:name="android.permission.BROADCAST_PACKAGE_INSTALL" />
     <uses-permission android:name="android.permission.BROADCAST_PACKAGE_REPLACED" />
     <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+<!--    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />-->
     <!-- 以下为需要的基本权限，需要自行添加至您的AndroidManifest文件中 end-->
 
     <!-- 这个权限用于进行网络定位-->
@@ -104,7 +104,6 @@
 
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-sdk tools:overrideLibrary="com.shuyu.gsyvideoplayer.lib"/>
-    <!--io.dcloud.application.DCloudApplication-->
     <application
         tools:replace="android:name,theme"
         android:name=".QiaoGeApplication"
@@ -137,21 +136,12 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="KqnEcjvFD0DdacMhQxUtxtSYm2Fj9Lia">
 
-
         </meta-data>
-<!--        <service-->
-<!--            android:name="com.baidu.location.f"-->
-<!--            android:enabled="true"-->
-<!--            android:process=":remote">-->
-<!--        </service>-->
-        <!--android:screenOrientation="portrait"-->
-        <activity
-            android:name=".activity.HomeActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/FullTheme"
-            android:screenOrientation="portrait"
 
-            android:windowSoftInputMode="adjustResize|stateVisible">
+        <activity
+            android:name="com.puyue.www.qiaoge.activity.HomeActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
             <!-- 商品分享出去打开app -->
             <!-- Main /LAUNCHER之前存放的位置 -->
             <intent-filter>
@@ -164,11 +154,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.cart.TestActivity"/>
+
         <!--  -->
         <!-- 优化空白在theme里 -->
         <activity
-            android:name=".activity.SplashActivity"
+            android:name="com.puyue.www.qiaoge.activity.SplashActivity"
             android:theme="@style/AppBlackTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -176,27 +166,7 @@
             </intent-filter>
         </activity>
 
-<!--        <service-->
-<!--            android:name="cn.jpush.android.service.PushService"-->
-<!--            android:process=":multiprocess"-->
-<!--            tools:node="replace" />-->
-
-                <service
-                    android:name=".activity.UserService"
-                    android:process=":pushcore"
-                    android:exported="true">
-                    <intent-filter>
-                        <action android:name="cn.jiguang.user.service.action" />
-                    </intent-filter>
-                </service>
-
-                <receiver android:name=".activity.PushMessageReceiver"
-                    android:exported="true">
-                    <intent-filter>
-                        <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
-                        <category android:name="com.barbecue.app"></category>
-                    </intent-filter>
-                </receiver>
+        <activity android:name=".activity.cart.TestActivity"/>
 
         <activity android:name=".activity.OrderAddressListActivity"
             android:screenOrientation="portrait"
@@ -553,153 +523,6 @@
         <!--  -->
 
 
-        <!-- 以下为基本配置信息，需要自行添加至您的AndroidManifest文件中 start-->
-<!--        <service-->
-<!--            android:name="com.taobao.accs.ChannelService"-->
-<!--            android:exported="true"-->
-<!--            android:process=":channel">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="com.taobao.accs.intent.action.SERVICE" />-->
-<!--            </intent-filter>-->
-<!--            <intent-filter>-->
-<!--                <action android:name="com.taobao.accs.intent.action.ELECTION" />-->
-<!--            </intent-filter>-->
-<!--        </service>-->
-
-<!--        <service-->
-<!--            android:name="com.taobao.accs.data.MsgDistributeService"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="com.taobao.accs.intent.action.RECEIVE" />-->
-<!--            </intent-filter>-->
-<!--        </service>-->
-
-<!--        <receiver-->
-<!--            android:name="com.taobao.accs.EventReceiver"-->
-<!--            android:process=":channel">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.BOOT_COMPLETED" />-->
-<!--            </intent-filter>-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
-<!--            </intent-filter>-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.PACKAGE_REMOVED" />-->
-<!--                <data android:scheme="package" />-->
-<!--            </intent-filter>-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.USER_PRESENT" />-->
-<!--            </intent-filter>-->
-<!--        </receiver>-->
-
-<!--        <receiver-->
-<!--            android:name="com.taobao.accs.ServiceReceiver"-->
-<!--            android:process=":channel">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="com.taobao.accs.intent.action.COMMAND" />-->
-<!--            </intent-filter>-->
-<!--            <intent-filter>-->
-<!--                <action android:name="com.taobao.accs.intent.action.START_FROM_AGOO" />-->
-<!--            </intent-filter>-->
-<!--        </receiver>-->
-
-<!--        <service-->
-<!--            android:name="com.taobao.accs.internal.AccsJobService"-->
-<!--            android:permission="android.permission.BIND_JOB_SERVICE"-->
-<!--            android:process=":channel"/>-->
-
-<!--        <service-->
-<!--            android:name="com.taobao.accs.ChannelService$KernelService"-->
-<!--            android:process=":channel" />-->
-
-<!--        <service-->
-<!--            android:name="org.android.agoo.accs.AgooService"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="com.taobao.accs.intent.action.RECEIVE" />-->
-<!--            </intent-filter>-->
-<!--        </service>-->
-
-<!--        <service-->
-<!--            android:name="com.umeng.message.UmengIntentService"-->
-<!--            android:exported="true"-->
-<!--            android:process=":channel">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="org.agoo.android.intent.action.RECEIVE" />-->
-<!--            </intent-filter>-->
-<!--        </service>-->
-
-<!--        <service-->
-<!--            android:name="com.umeng.message.XiaomiIntentService"-->
-<!--            android:exported="true"-->
-<!--            android:process=":channel">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="org.agoo.android.intent.action.RECEIVE" />-->
-<!--            </intent-filter>-->
-<!--        </service>-->
-
-<!--        <receiver-->
-<!--            android:name="com.taobao.agoo.AgooCommondReceiver"-->
-<!--            android:exported="true"-->
-<!--            android:process=":channel">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="${applicationId}.intent.action.COMMAND" />-->
-<!--            </intent-filter>-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.PACKAGE_REMOVED" />-->
-<!--                <data android:scheme="package" />-->
-<!--            </intent-filter>-->
-<!--        </receiver>-->
-
-<!--        <service-->
-<!--            android:name="com.umeng.message.UmengMessageIntentReceiverService"-->
-<!--            android:exported="true"-->
-<!--            android:process=":channel">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="org.android.agoo.client.MessageReceiverService" />-->
-<!--            </intent-filter>-->
-<!--        </service>-->
-
-<!--        <receiver-->
-<!--            android:name="com.umeng.message.NotificationProxyBroadcastReceiver"-->
-<!--            android:exported="false" />-->
-
-<!--        <service-->
-<!--            android:name="com.umeng.message.UmengMessageCallbackHandlerService"-->
-<!--            android:permission="android.permission.BIND_JOB_SERVICE"-->
-<!--            android:exported="false">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="com.umeng.messge.registercallback.action" />-->
-<!--            </intent-filter>-->
-<!--            <intent-filter>-->
-<!--                <action android:name="com.umeng.message.enablecallback.action" />-->
-<!--            </intent-filter>-->
-<!--            <intent-filter>-->
-<!--                <action android:name="com.umeng.message.disablecallback.action" />-->
-<!--            </intent-filter>-->
-<!--            <intent-filter>-->
-<!--                <action android:name="com.umeng.message.message.handler.action" />-->
-<!--            </intent-filter>-->
-<!--            <intent-filter>-->
-<!--                <action android:name="com.umeng.message.message.sendmessage.action" />-->
-<!--            </intent-filter>-->
-<!--        </service>-->
-
-<!--        <service-->
-<!--            android:name="com.umeng.message.UmengDownloadResourceService"-->
-<!--            android:permission="android.permission.BIND_JOB_SERVICE"-->
-<!--            android:exported="false" />-->
-
-<!--        <provider-->
-<!--            android:name="com.umeng.message.provider.MessageProvider"-->
-<!--            android:authorities="${applicationId}.umeng.message"-->
-<!--            android:exported="false">-->
-<!--            <grant-uri-permission android:pathPattern=".*" />-->
-<!--        </provider>-->
-        <!-- 以下为基本配置信息，需要自行添加至您的AndroidManifest文件中 end-->
-
-
-
         <!--  **********************联通授权页activity**************************-->
         <activity
             android:name="com.sdk.mobile.manager.login.cucc.OauthActivity"
@@ -812,15 +635,6 @@
             android:value="GlideModule" />
         <!-- 友盟统计多渠道end -->
 
-        <!--   <provider
-               android:name="android.support.v4.content.FileProvider"
-               android:authorities="com.puyue.www.qiaoge.fileprovider"
-               android:exported="false"
-               android:grantUriPermissions="true">
-               <meta-data
-                   android:name="android.support.FILE_PROVIDER_PATHS"
-                   android:resource="@xml/custom_filepaths" />
-           </provider>-->
 
         <service android:name="com.qiyukf.nimlib.service.NimService$Aux" android:enabled="false" android:process=":core" />
 
@@ -892,6 +706,24 @@
             android:screenOrientation="portrait" ></activity>
         <activity android:name=".activity.mine.order.ReturnGoodDetailActivity"
             android:screenOrientation="portrait" ></activity>
+
+        <service
+            android:name=".activity.UserService"
+            android:process=":pushcore"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="cn.jiguang.user.service.action" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name=".activity.PushMessageReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+                <category android:name="com.barbecue.app"></category>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -102,9 +103,14 @@ public class InfoFragment extends BaseFragment {
 
     @Override
     public void initViews(View view) {
-
+//        setStatusBar();
     }
-
+//    protected void setStatusBar() {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            getActivity().getWindow().setStatusBarColor(getResources().getColor(R.color.white));//设置状态栏颜色
+//            getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//实现状态栏图标和文字颜色为暗色
+//        }
+//    }
     @Override
     public void findViewById(View view) {
         bind = ButterKnife.bind(this, view);

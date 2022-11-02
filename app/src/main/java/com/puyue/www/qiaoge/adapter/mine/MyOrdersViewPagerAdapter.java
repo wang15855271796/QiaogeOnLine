@@ -27,6 +27,7 @@ public class MyOrdersViewPagerAdapter extends FragmentPagerAdapter {
         this.mFragmentManager =fm;
     }
 
+
     @Override
     public Fragment getItem(int position) {
         return mFragmentList.get(position);

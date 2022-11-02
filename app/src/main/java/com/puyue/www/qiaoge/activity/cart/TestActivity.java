@@ -28,7 +28,7 @@ public class TestActivity extends BaseActivity {
     public void findViewById() {
         ButterKnife.bind(this);
 
-        banner.addBannerLifecycleObserver(this);
+//        banner.addBannerLifecycleObserver(this);
     }
 
     @Override

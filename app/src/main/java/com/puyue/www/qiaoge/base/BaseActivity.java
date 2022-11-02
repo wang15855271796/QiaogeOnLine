@@ -6,11 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Looper;
 import android.view.KeyEvent;
+import android.view.View;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.puyue.www.qiaoge.QiaoGeApplication;
@@ -51,8 +53,7 @@ public abstract class BaseActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         mContext = this;
         mActivity = this;
-//        instance = TencentLocationManager.getInstance(QiaoGeApplication.getContext());
-//        instance.requestSingleFreshLocation(null, mLocationListener, Looper.getMainLooper());
+        setStatusBar();
         setContentView();
 
         mResources = this.getResources();
@@ -63,23 +64,9 @@ public abstract class BaseActivity extends AppCompatActivity  {
         findViewById();
         setViewData();
         setClickEvent();
-//        StatusBarCompat.setStatusBarColor(mActivity, Color.parseColor("#cccccc"), true);
-
-//        //进行Android 6.0的动态权限申请
-//        requestAndroidSixPermissions();
 
     }
 
-//    TencentLocationListener mLocationListener = new TencentLocationListener() {
-//        @Override
-//        public void onLocationChanged(TencentLocation location, int i, String s) {
-//            ToastUtil.showSuccessMsg(mContext,s);
-//        }
-//
-//        @Override
-//        public void onStatusUpdate(String s, int i, String s1) {
-//        }
-//    };
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         if (newConfig.fontScale != 1)//非默认值
@@ -100,38 +87,13 @@ public abstract class BaseActivity extends AppCompatActivity  {
 
     }
 
-    private void requestAndroidSixPermissions() {
-        String[] params = {Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.CAMERA};
 
-        if (EasyPermissions.hasPermissions(this, params)) {//检查是否获取该权限
-            //全部允许
-        } else {//第二次请求
-            //存在不允许的权限  对话框为什么一会出来一会不出来
-            EasyPermissions.requestPermissions(this, "需要加载必要的权限。", 1, params);
-
+    protected void setStatusBar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.white));//设置状态栏颜色
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//实现状态栏图标和文字颜色为暗色
         }
-
     }
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        EasyPermissions. onRequestPermissionsResult(requestCode, permissions, grantResults);
-//    }
-//
-//
-//    @Override
-//    public void onPermissionsDenied(int requestCode, List<String> perms) {
-//
-//    }
-//
-//
-//    @Override
-//    public void onPermissionsGranted(int requestCode, List<String> perms) {
-//
-//    }
-
 
     public abstract boolean handleExtra(Bundle savedInstanceState);
 

@@ -3,6 +3,7 @@ package com.puyue.www.qiaoge.fragment.mine;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -219,14 +220,19 @@ public class MineFragment extends BaseFragment {
 
     @Override
     public void initViews(View view) {
-        Window window = getActivity().getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
+//        Window window = getActivity().getWindow();
+//        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//        setStatusBar();
     }
 
+//    protected void setStatusBar() {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            getActivity().getWindow().setStatusBarColor(getResources().getColor(R.color.white));//设置状态栏颜色
+//            getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//实现状态栏图标和文字颜色为暗色
+//        }
+//    }
+
     long start;
-
-
     @Override
     public void onStop() {
         super.onStop();

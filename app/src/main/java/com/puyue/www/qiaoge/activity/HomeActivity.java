@@ -194,7 +194,6 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
             } else {
                 UserInfoHelper.saveCity(mContext, "");
             }
-//            switchTab(TAB_HOME);
             type = "";
             locationMessage = location.getAddress();    //获取详细地址信息
             if (token != null) {
@@ -328,8 +327,8 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                 //由于是从首页和商城页点击进入的登录界面,回到原来界面的时候需要首页刷新或者商城界面刷新分类和细节数据
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     switchTab(TAB_CART);
-                    Window window = getWindow();
-                    window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//                    Window window = getWindow();
+//                    window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                 } else {
                     initDialog();
                 }
@@ -339,8 +338,8 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                 iv_home.setVisibility(View.GONE);
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     switchTab(TAB_MINE);
-                    Window window = getWindow();
-                    window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//                    Window window = getWindow();
+//                    window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                 } else {
                     initDialog();
                 }
@@ -350,8 +349,8 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                 iv_home.setVisibility(View.GONE);
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     switchTab(TAB_INFO);
-                    Window window = getWindow();
-                    window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//                    Window window = getWindow();
+//                    window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                 } else {
                     initDialog();
                 }
@@ -422,13 +421,6 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                 if(isScroll) {
                     EventBus.getDefault().postSticky(new TopEvent(true));
                 }
-
-//                if (EasyPermissions.hasPermissions(this,params)) {//检查是否获取该权限
-//                    //全部允许
-//                } else {//第二次请求
-//                    //存在不允许的权限  对话框为什么一会出来一会不出来
-//                    EasyPermissions.requestPermissions(this, "需要加载必要的权限。", 1, params);
-//                }
 
                 break;
 
@@ -516,7 +508,6 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         mTabMarket = null;
         mTabInfo = null;
         mTabCart = null;
-//        mTabHome = null;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -719,35 +710,4 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     public void jumpMarket() {
         switchTab(TAB_MARKET);
     }
-
-//    @Override
-//    public void onLocationChanged(TencentLocation location, int error, String reason) {
-//        district = location.getDistrict();
-//        city = location.getCity();
-//        String province = location.getProvince();
-//        UserInfoHelper.saveProvince(mContext, province);
-//        SharedPreferencesUtil.saveString(mActivity,"provinceName",province);
-//        UserInfoHelper.saveAreaName(mContext, district);
-//        SharedPreferencesUtil.saveString(mContext,"lat",location.getLatitude()+"");
-//        SharedPreferencesUtil.saveString(mContext,"lon",location.getLongitude()+"");
-//        isGet = true;
-//        if (city != null) {
-//            UserInfoHelper.saveCity(mContext, city);
-//        } else {
-//            UserInfoHelper.saveCity(mContext, "");
-//        }
-//        type = "";
-//        locationMessage = location.getAddress();    //获取详细地址信息
-//        switchTab(TAB_HOME);
-//        Log.d("wddwdwdd....","123");
-//        instance.removeUpdates(this);
-//        if (token != null) {
-//            sendLocation();
-//        }
-//    }
-
-//    @Override
-//    public void onStatusUpdate(String name, int status, String desc) {
-//
-//    }
 }
