@@ -724,6 +724,28 @@
             </intent-filter>
         </receiver>
 
+
+
+        <receiver
+            android:name="com.qiyukf.nimlib.service.NimReceiver"
+            android:exported="false"
+            android:process=":core"
+            tools:node="remove">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.qiyukf.nimlib.job.NIMJobService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":core"
+            tools:node="remove"
+            />
+
+
     </application>
 
 
