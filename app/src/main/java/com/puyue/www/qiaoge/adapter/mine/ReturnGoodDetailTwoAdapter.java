@@ -74,9 +74,6 @@ public class ReturnGoodDetailTwoAdapter extends RecyclerView.Adapter<ReturnGoodD
 
     @Override
     public void onBindViewHolder(@NonNull ReturnOrderViewHolder holder, int position) {
-
-        double totalPrice = 0.00;
-
         //必须局部变量，不然editview使用的时候会复用
         //规格
         List<ReturnOrderDetailModel.DataBean.ProductsBean.DetailsBean> mListSpec = new ArrayList<>();

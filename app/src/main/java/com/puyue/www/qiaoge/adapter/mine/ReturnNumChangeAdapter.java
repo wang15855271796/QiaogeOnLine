@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -38,74 +39,54 @@ import rx.schedulers.Schedulers;
  * Created by ${王文博} on 2019/5/22
  */
 public class ReturnNumChangeAdapter extends BaseQuickAdapter<ReturnOrderDetailModel.DataBean.ProductsBean.DetailsBean, BaseViewHolder> {
-    double totlaPrice = 0.0;
-
     public OnReturnClickListener listener;
-
     private int additionFlag;
+    String offerAmount;
     public OnReturnClickListener getListener() {
         return listener;
     }
-
     public void setListener(OnReturnClickListener listener) {
         this.listener = listener;
     }
-
-   // EditText et_num;
 
     public interface OnReturnClickListener {
         void onEventClick();
 
     }
 
-    public ReturnNumChangeAdapter(int layoutResId, @Nullable List<ReturnOrderDetailModel.DataBean.ProductsBean.DetailsBean> data, int additionFlag) {
+    public ReturnNumChangeAdapter(int layoutResId, @Nullable List<ReturnOrderDetailModel.DataBean.ProductsBean.DetailsBean> data, int additionFlag,String offerAmount) {
         super(layoutResId, data);
         this.additionFlag=additionFlag;
+        this.offerAmount = offerAmount;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, ReturnOrderDetailModel.DataBean.ProductsBean.DetailsBean item) {
-
+        String orderId = UserInfoHelper.getOrderId(mContext);
         item.setItemPrice(Double.parseDouble(item.getTotalPrice()));
-
-    /*    if (et_num!=null){
-
-        }else {
-            et_num = helper.getView(R.id.et_num);
-        }*/
-      EditText  et_num = helper.getView(R.id.et_num);
+        EditText  et_num = helper.getView(R.id.et_num);
         TextView tv_spec_num = helper.getView(R.id.tv_spec_num_return);
         TextView total_price = helper.getView(R.id.tv_total_price);
         RelativeLayout rl_spec_num = helper.getView(R.id.rl_spec_num);
-        //    et_num.setText(item.getNum() + "");
         item.setItemUnitId(item.getUnitId());
+
         if ( et_num.getTag() instanceof TextWatcher) {
             et_num.removeTextChangedListener((TextWatcher) et_num.getTag());
         }
-//et_num.getTag() != null ||
-
-
         et_num.setText(item.getNum()+"");
-        total_price.setText(item.getTotalPrice());
+        total_price.setText(new BigDecimal(item.getPrice()).multiply(new BigDecimal(item.getNum())).setScale(2).doubleValue() - new BigDecimal(item.getDeductPrice()).setScale(2).doubleValue() +"");
+        Log.d("efdrgdfgdsds....",item.getPrice()+"-----"+item.getNum()+"-----"+item.getDeductPrice());
 
-
-        if (new BigDecimal(item.getPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue() -new BigDecimal(item.getDeductPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue()>0){
-            String s = new BigDecimal(item.getPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue() - new BigDecimal(item.getDeductPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue() + "";
-            BigDecimal bg = new BigDecimal(s);
-            double f1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-            total_price.setText(f1+"");
-
-            item.setItemPrice(new BigDecimal(item.getPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue() -new BigDecimal(item.getDeductPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue());
-
-           // total_price.setText(new BigDecimal(item.getPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue() -new BigDecimal(item.getDeductPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue()+ "");
+//        Log.d("efdrgdfgdsds....",new BigDecimal(item.getPrice()).multiply(new BigDecimal(item.getNum())).setScale(2).doubleValue() - new BigDecimal(item.getDeductPrice()).setScale(2).doubleValue()+"-----");
+        if (new BigDecimal(item.getPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue() -new BigDecimal(item.getDeductPrice()).setScale(2).doubleValue()>0){
+            item.setItemPrice(new BigDecimal(item.getPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue() -new BigDecimal(item.getDeductPrice()).setScale(2).doubleValue());
         }else {
            item.setItemPrice(0);
            total_price.setText(0+"");
         }
 
 
-        TextWatcher watcher =
-                new TextWatcher() {
+        TextWatcher watcher = new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -118,34 +99,24 @@ public class ReturnNumChangeAdapter extends BaseQuickAdapter<ReturnOrderDetailMo
 
                     @Override
                     public void afterTextChanged(Editable s) {
-
-
                         String text = s.toString();
                         int len = s.toString().length();
                         if (len > 1 && text.startsWith("0")) {
                             s.replace(0, 1, "");
                         }
-                        if (et_num.getText().toString() == null || et_num.getText().toString().equals("")) {
 
+                        if (et_num.getText().toString() == null || et_num.getText().toString().equals("")) {
                             item.setItemPrice(0.0);
                             item.setItemNum(0);
                         } else {
                             if (new BigDecimal(item.getPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue()- new BigDecimal(item.getDeductPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue()>0){
-                                String s1 = new BigDecimal(item.getPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue() - new BigDecimal(item.getDeductPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue() + "";
-                                BigDecimal bg = new BigDecimal(s1);
-                                double f1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                                total_price.setText(f1+"");
-
-
-                               // total_price.setText(new BigDecimal(item.getPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue()- new BigDecimal(item.getDeductPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue()+ "");
                                 item.setItemPrice(Double.parseDouble(total_price.getText().toString()));
+
+                                getDetuctPrice(orderId, item.getBusinessId(), item.getBusinessType(), additionFlag, item.getItemUnitId(), item.getPriceId(), Integer.parseInt(et_num.getText().toString()), item.getPrice(), total_price, item);
                             }else {
                                 total_price.setText(0+"");
                                 item.setItemPrice(0);
-
                             }
-
-
                             item.setItemNum(Integer.parseInt(et_num.getText().toString()));
                         }
 
@@ -168,9 +139,7 @@ public class ReturnNumChangeAdapter extends BaseQuickAdapter<ReturnOrderDetailMo
         et_num.addTextChangedListener(watcher);
         et_num.setTag(watcher);
         et_num.setSelection(et_num.getText().length());
-        tv_spec_num.setText(item.getReturnUnits().get(0).getUnitName());
-        // total_price.setText(item.getTotalPrice());
-
+        tv_spec_num.setText(item.getReturnUnits().get(item.getSelectUnitPos()).getUnitName());
         rl_spec_num.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -206,15 +175,15 @@ public class ReturnNumChangeAdapter extends BaseQuickAdapter<ReturnOrderDetailMo
         returnSpecNumAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
                 int priceId = item.getPriceId();
+                item.setSelectUnitPos(position);
                 int unitId = item.getReturnUnits().get(position).getUnitId();
                 String orderId = UserInfoHelper.getOrderId(mContext);
                 int businessId = item.getBusinessId();
                 item.setItemUnitId(item.getReturnUnits().get(position).getUnitId());
                 int businessType = item.getBusinessType();
                 tv_spec_num.setText(item.getReturnUnits().get(position).getUnitName());
-                // if (unitNum >)
+                //规格单位改变
                 GetReturnGoodNumAPI.requestSpec(mContext, orderId, businessId, businessType, 1, unitId, priceId,additionFlag)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -230,14 +199,11 @@ public class ReturnNumChangeAdapter extends BaseQuickAdapter<ReturnOrderDetailMo
                             @Override
                             public void onNext(ReturnSpecModel returnSpecModel) {
                                 if (returnSpecModel.isSuccess()) {
-
                                     int maxNum = returnSpecModel.getData().getTotalNum();
                                     item.setNum(maxNum);
-
                                     String price = returnSpecModel.getData().getPrice();
                                     item.setPrice(price);
                                     et_num.setText(maxNum + "");
-
                                     getDetuctPrice(orderId, businessId, businessType, additionFlag, unitId, priceId, maxNum, price, total_price, item);
 
                                 } else {
@@ -272,15 +238,14 @@ public class ReturnNumChangeAdapter extends BaseQuickAdapter<ReturnOrderDetailMo
                     public void onNext(ReturnDetuctAmountModel returnDetuctAmountModel) {
 
                         if (returnDetuctAmountModel.isSuccess()) {
-                            item.setDeductPrice(returnDetuctAmountModel.getData());
-                            if (new BigDecimal(price).multiply(new BigDecimal(maxNum)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() - new BigDecimal(returnDetuctAmountModel.getData()).multiply(new BigDecimal(maxNum)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() > 0) {
-
-                                String s1 = new BigDecimal(item.getPrice()).multiply(new BigDecimal(maxNum)).setScale(2).doubleValue() - new BigDecimal(item.getDeductPrice()).multiply(new BigDecimal(maxNum)).setScale(2).doubleValue() + "";
+                            //待测试，先注释
+                            item.setDeductPrice(new BigDecimal(returnDetuctAmountModel.getData()).multiply(new BigDecimal(maxNum)).setScale(2).doubleValue()+"");
+                            Log.d("efdrgdfgdsds....",maxNum+"bbbbb");
+                            if (new BigDecimal(price).multiply(new BigDecimal(maxNum)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() - new BigDecimal(returnDetuctAmountModel.getData()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() > 0) {
+                                String s1 = new BigDecimal(item.getPrice()).multiply(new BigDecimal(maxNum)).setScale(2).doubleValue() - new BigDecimal(item.getDeductPrice()).setScale(2).doubleValue() + "";
                                 BigDecimal bg = new BigDecimal(s1);
                                 double f1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                                 total_price.setText(f1+"");
-
-                              //  total_price.setText(new BigDecimal(price).multiply(new BigDecimal(maxNum)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() - new BigDecimal(returnDetuctAmountModel.getData()).multiply(new BigDecimal(maxNum)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() + "");
                                 item.setItemPrice(Double.parseDouble(total_price.getText().toString()));
                             } else {
                                 total_price.setText(0 + "");

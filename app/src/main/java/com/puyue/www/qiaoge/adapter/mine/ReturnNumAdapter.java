@@ -39,27 +39,20 @@ import rx.schedulers.Schedulers;
  * Created by ${王文博} on 2019/5/22
  */
 public class ReturnNumAdapter extends BaseQuickAdapter<ReturnOrderDetailModel.DataBean.ProductsBean.DetailsBean, BaseViewHolder> {
-    double totlaPrice = 0.0;
-
     public OnReturnClickListener listener;
-
     private int additionFlag;
-
     public OnReturnClickListener getListener() {
         return listener;
     }
-
     public void setListener(OnReturnClickListener listener) {
         this.listener = listener;
     }
-
-    // EditText et_num;
-
+    TextWatcher watcher;
     public interface OnReturnClickListener {
         void onEventClick();
 
     }
-
+    EditText et_num;
     public ReturnNumAdapter(int layoutResId, @Nullable List<ReturnOrderDetailModel.DataBean.ProductsBean.DetailsBean> data, int additionFlag) {
         super(layoutResId, data);
         this.additionFlag = additionFlag;
@@ -67,36 +60,25 @@ public class ReturnNumAdapter extends BaseQuickAdapter<ReturnOrderDetailModel.Da
 
     @Override
     protected void convert(BaseViewHolder helper, ReturnOrderDetailModel.DataBean.ProductsBean.DetailsBean item) {
-
+        String orderId = UserInfoHelper.getOrderId(mContext);
         item.setItemPrice(Double.parseDouble(item.getTotalPrice()));
-
-    /*    if (et_num!=null){
-
-        }else {
-            et_num = helper.getView(R.id.et_num);
-        }*/
-        EditText et_num = helper.getView(R.id.et_num);
+        et_num = helper.getView(R.id.et_num);
         TextView tv_spec_num = helper.getView(R.id.tv_spec_num_return);
         TextView total_price = helper.getView(R.id.tv_total_price);
         RelativeLayout rl_spec_num = helper.getView(R.id.rl_spec_num);
-        //    et_num.setText(item.getNum() + "");
         item.setItemUnitId(item.getUnitId());
         if (et_num.getTag() instanceof TextWatcher) {
             et_num.removeTextChangedListener((TextWatcher) et_num.getTag());
         }
-//et_num.getTag() != null ||
 
+        Log.d("wdeadwdsa......","123");
         et_num.setText("0");
         item.setItemNum(0);
         item.setItemPrice(0.00);
-/*
-        String s = new BigDecimal(item.getPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue() - new BigDecimal(item.getDeductPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue() + "";
-        BigDecimal bg = new BigDecimal(s);
-        double f1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();*/
+
         total_price.setText(0+"");
-       // total_price.setText(new BigDecimal(item.getPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue() - new BigDecimal(item.getDeductPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue() + "");
-        TextWatcher watcher =
-                new TextWatcher() {
+
+        watcher = new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -109,26 +91,18 @@ public class ReturnNumAdapter extends BaseQuickAdapter<ReturnOrderDetailModel.Da
 
                     @Override
                     public void afterTextChanged(Editable s) {
-
-
                         String text = s.toString();
                         int len = s.toString().length();
                         if (len > 1 && text.startsWith("0")) {
                             s.replace(0, 1, "");
                         }
                         if (et_num.getText().toString() == null || et_num.getText().toString().equals("")) {
-
                             item.setItemPrice(0.0);
                             item.setItemNum(0);
                         } else {
                             if (new BigDecimal(item.getPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue()- new BigDecimal(item.getDeductPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue()>0){
-
-                                String s1 = new BigDecimal(item.getPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue() - new BigDecimal(item.getDeductPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue() + "";
-                                BigDecimal bg = new BigDecimal(s1);
-                                double f1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                                total_price.setText(f1+"");
-                              //  total_price.setText(new BigDecimal(item.getPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue()- new BigDecimal(item.getDeductPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue()+ "");
                                 item.setItemPrice(Double.parseDouble(total_price.getText().toString()));
+                                getDetuctPrice(orderId, item.getBusinessId(), item.getBusinessType(), additionFlag,   item.getItemUnitId(), item.getPriceId(), Integer.parseInt(et_num.getText().toString()), item.getPrice(), total_price, item);
                             }else {
                                 total_price.setText(0+"");
                                 item.setItemPrice(0);
@@ -156,9 +130,8 @@ public class ReturnNumAdapter extends BaseQuickAdapter<ReturnOrderDetailModel.Da
         et_num.addTextChangedListener(watcher);
         et_num.setTag(watcher);
         et_num.setSelection(et_num.getText().length());
-        tv_spec_num.setText(item.getReturnUnits().get(0).getUnitName());
-        // total_price.setText(item.getTotalPrice());
-
+        //待测试
+        tv_spec_num.setText(item.getReturnUnits().get(item.getSelectUnitPos()).getUnitName());
         rl_spec_num.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,7 +145,6 @@ public class ReturnNumAdapter extends BaseQuickAdapter<ReturnOrderDetailModel.Da
         View view = View.inflate(mContext, R.layout.return_spec, null);
         RecyclerView recyclerView = view.findViewById(R.id.rv_spec);
         ReturnSpecNumAdapter returnSpecNumAdapter = new ReturnSpecNumAdapter(R.layout.retrun_spec_num, item.getReturnUnits());
-
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setAdapter(returnSpecNumAdapter);
         //添加分隔线
@@ -194,7 +166,7 @@ public class ReturnNumAdapter extends BaseQuickAdapter<ReturnOrderDetailModel.Da
         returnSpecNumAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+                item.setSelectUnitPos(position);
                 int priceId = item.getPriceId();
                 int unitId = item.getReturnUnits().get(position).getUnitId();
                 String orderId = UserInfoHelper.getOrderId(mContext);
@@ -261,9 +233,11 @@ public class ReturnNumAdapter extends BaseQuickAdapter<ReturnOrderDetailModel.Da
                     public void onNext(ReturnDetuctAmountModel returnDetuctAmountModel) {
 
                         if (returnDetuctAmountModel.isSuccess()) {
-                            item.setDeductPrice(returnDetuctAmountModel.getData());
+//                            item.setDeductPrice(returnDetuctAmountModel.getData());
+                            item.setDeductPrice(new BigDecimal(returnDetuctAmountModel.getData()).multiply(new BigDecimal(maxNum)).setScale(2).doubleValue()+"");
                             if (new BigDecimal(price).multiply(new BigDecimal(maxNum)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() - new BigDecimal(returnDetuctAmountModel.getData()).multiply(new BigDecimal(maxNum)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() > 0) {
-                                String s1 = new BigDecimal(item.getPrice()).multiply(new BigDecimal(maxNum)).setScale(2).doubleValue() - new BigDecimal(item.getDeductPrice()).multiply(new BigDecimal(maxNum)).setScale(2).doubleValue() + "";
+                                String s1 = new BigDecimal(item.getPrice()).multiply(new BigDecimal(maxNum)).setScale(2).doubleValue() - new BigDecimal(item.getDeductPrice()).setScale(2).doubleValue() + "";
+
                                 BigDecimal bg = new BigDecimal(s1);
                                 double f1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                                 total_price.setText(f1+"");
@@ -273,7 +247,7 @@ public class ReturnNumAdapter extends BaseQuickAdapter<ReturnOrderDetailModel.Da
                                 item.setItemPrice(0);
                             }
 
-
+//                            et_num.removeTextChangedListener(watcher);
                             if (listener != null) {
                                 listener.onEventClick();
                             }

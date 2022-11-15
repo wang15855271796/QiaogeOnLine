@@ -239,7 +239,7 @@ public class ReturnOrderDetailModel {
                 private int itemNum;
                 private int itemUnitId;
                 String afterPrice;
-
+                int selectUnitPos;
                 @Override
                 public String toString() {
                     return "DetailsBean{" +
@@ -258,6 +258,14 @@ public class ReturnOrderDetailModel {
                             ", afterPrice='" + afterPrice + '\'' +
                             ", deductPrice='" + deductPrice + '\'' +
                             '}';
+                }
+
+                public int getSelectUnitPos() {
+                    return selectUnitPos;
+                }
+
+                public void setSelectUnitPos(int selectUnitPos) {
+                    this.selectUnitPos = selectUnitPos;
                 }
 
                 public String getAfterPrice() {

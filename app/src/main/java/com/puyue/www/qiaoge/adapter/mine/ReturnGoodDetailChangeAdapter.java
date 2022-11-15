@@ -34,6 +34,7 @@ public class ReturnGoodDetailChangeAdapter extends RecyclerView.Adapter<ReturnGo
     public int businessId;
     public int businessType;
     String allReturn;
+    String offerAmount;
     public OnReturnClickListener listener;
     public OnReturnClickListener getListener() {
         return listener;
@@ -46,10 +47,11 @@ public class ReturnGoodDetailChangeAdapter extends RecyclerView.Adapter<ReturnGo
 
     }
 
-    public ReturnGoodDetailChangeAdapter(List<ReturnOrderDetailModel.DataBean.ProductsBean> mListProduct, Context context, String allReturn) {
+    public ReturnGoodDetailChangeAdapter(List<ReturnOrderDetailModel.DataBean.ProductsBean> mListProduct, Context context, String allReturn,String offerAmount) {
         this.mListProduct = mListProduct;
         this.context = context;
         this.allReturn = allReturn;
+        this.offerAmount = offerAmount;
     }
 
     @NonNull
@@ -80,7 +82,7 @@ public class ReturnGoodDetailChangeAdapter extends RecyclerView.Adapter<ReturnGo
 
         }else {
             //选择单位 数量的adapter
-            mReturnNumAdapter = new ReturnNumChangeAdapter(R.layout.return_order_num, mListReturnNum,mListProduct.get(position).additionFlag);
+            mReturnNumAdapter = new ReturnNumChangeAdapter(R.layout.return_order_num, mListReturnNum,mListProduct.get(position).additionFlag,offerAmount);
             mReturnNumAdapter.setListener(new ReturnNumChangeAdapter.OnReturnClickListener() {
                 @Override
                 public void onEventClick() {
