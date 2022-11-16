@@ -1,0 +1,37 @@
+R_DEF: Internal format may change without notice
+local
+attr? banner_auto_loop
+attr? banner_indicator_gravity
+attr? banner_indicator_height
+attr? banner_indicator_margin
+attr? banner_indicator_marginBottom
+attr? banner_indicator_marginLeft
+attr? banner_indicator_marginRight
+attr? banner_indicator_marginTop
+attr? banner_indicator_normal_color
+attr? banner_indicator_normal_width
+attr? banner_indicator_radius
+attr? banner_indicator_selected_color
+attr? banner_indicator_selected_width
+attr? banner_indicator_space
+attr? banner_infinite_loop
+attr? banner_loop_time
+attr? banner_orientation
+attr? banner_radius
+attr? banner_round_bottom_left
+attr? banner_round_bottom_right
+attr? banner_round_top_left
+attr? banner_round_top_right
+attr? normal_drawable
+attr? selected_drawable
+id banner_data_key
+id banner_pos_key
+id center
+id horizontal
+id left
+id right
+id vertical
+string banner_adapter_null_error
+string indicator_color_error
+styleable Banner banner_loop_time banner_auto_loop banner_infinite_loop banner_indicator_height banner_indicator_radius banner_indicator_selected_width banner_indicator_normal_width banner_indicator_space banner_indicator_normal_color banner_indicator_selected_color banner_indicator_margin banner_indicator_marginLeft banner_indicator_marginTop banner_indicator_marginRight banner_indicator_marginBottom banner_indicator_gravity banner_orientation banner_radius banner_round_top_left banner_round_top_right banner_round_bottom_left banner_round_bottom_right
+styleable DrawableIndicator normal_drawable selected_drawable

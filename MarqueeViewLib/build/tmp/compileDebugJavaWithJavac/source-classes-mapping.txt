@@ -1,0 +1,10 @@
+com/frankfancode/marqueeview/BuildConfig.java
+ com.frankfancode.marqueeview.BuildConfig
+com/frankfancode/marqueeview/MarqueeView.java
+ com.frankfancode.marqueeview.MarqueeView
+ com.frankfancode.marqueeview.MarqueeView$1
+ com.frankfancode.marqueeview.MarqueeView$MarqueeRunnable
+ com.frankfancode.marqueeview.MarqueeView$MarqueeScrollListener
+com/frankfancode/marqueeview/SmoothScrolLinearLayoutManager.java
+ com.frankfancode.marqueeview.SmoothScrolLinearLayoutManager
+ com.frankfancode.marqueeview.SmoothScrolLinearLayoutManager$1

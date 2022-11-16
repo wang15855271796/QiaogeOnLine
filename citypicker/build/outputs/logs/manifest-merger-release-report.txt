@@ -1,0 +1,101 @@
+-- Merging decision tree log ---
+manifest
+ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:1:1-38:12
+INJECTED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:1:1-38:12
+INJECTED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:1:1-38:12
+INJECTED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:1:1-38:12
+INJECTED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:1:1-38:12
+INJECTED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:1:1-38:12
+INJECTED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:1:1-38:12
+	package
+		ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:2:5-36
+		INJECTED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml
+		INJECTED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml
+		ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:1:1-38:12
+		INJECTED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml
+	android:versionCode
+		INJECTED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml
+		ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:1:1-38:12
+		INJECTED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:1:11-69
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:5:5-80
+	android:name
+		ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:5:22-78
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:7:5-78
+	android:name
+		ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:7:22-76
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:9:5-78
+	android:name
+		ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:9:22-76
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:11:5-75
+	android:name
+		ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:11:22-73
+uses-permission#android.permission.CHANGE_WIFI_STATE
+ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:13:5-76
+	android:name
+		ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:13:22-73
+uses-permission#android.permission.INTERNET
+ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:15:5-67
+	android:name
+		ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:15:22-64
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:17:5-74
+	android:name
+		ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:17:22-72
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:19:5-80
+	android:name
+		ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:19:22-78
+uses-permission#android.permission.ACCESS_LOCATION_EXTRA_COMMANDS
+ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:21:5-88
+	android:name
+		ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:21:22-86
+uses-permission#android.permission.BLUETOOTH
+ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:23:5-67
+	android:name
+		ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:23:22-65
+uses-permission#android.permission.BLUETOOTH_ADMIN
+ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:24:5-73
+	android:name
+		ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:24:22-71
+application
+ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:26:5-36:19
+	android:supportsRtl
+		ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:29:9-35
+	android:label
+		ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:28:9-41
+	android:allowBackup
+		ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:27:9-35
+service#com.amap.api.location.APSService
+ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:31:9-67
+	android:name
+		ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:31:18-65
+activity#com.zaaach.citypicker.CityPickerActivity
+ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:33:9-55
+	android:name
+		ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:33:19-53
+activity#com.zaaach.citypicker.CheckPermissionsActivity
+ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:35:9-61
+	android:name
+		ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:35:19-59
+uses-sdk
+INJECTED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml
+INJECTED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml
+INJECTED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml
+INJECTED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml
+		ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml
+		INJECTED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml
+		ADDED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml
+		INJECTED from E:\Qiaoges\citypicker\src\main\AndroidManifest.xml

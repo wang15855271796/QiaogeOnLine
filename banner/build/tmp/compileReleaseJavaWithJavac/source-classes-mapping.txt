@@ -1,0 +1,70 @@
+com/youth/banner/holder/IViewHolder.java
+ com.youth.banner.holder.IViewHolder
+com/youth/banner/listener/OnPageChangeListener.java
+ com.youth.banner.listener.OnPageChangeListener
+com/youth/banner/holder/BannerImageHolder.java
+ com.youth.banner.holder.BannerImageHolder
+com/youth/banner/util/ScrollSpeedManger.java
+ com.youth.banner.util.ScrollSpeedManger
+ com.youth.banner.util.ScrollSpeedManger$1
+com/youth/banner/transformer/RotateYTransformer.java
+ com.youth.banner.transformer.RotateYTransformer
+com/youth/banner/indicator/RectangleIndicator.java
+ com.youth.banner.indicator.RectangleIndicator
+com/youth/banner/util/BannerUtils.java
+ com.youth.banner.util.BannerUtils
+ com.youth.banner.util.BannerUtils$1
+com/youth/banner/indicator/BaseIndicator.java
+ com.youth.banner.indicator.BaseIndicator
+com/youth/banner/BuildConfig.java
+ com.youth.banner.BuildConfig
+com/youth/banner/adapter/BannerAdapter.java
+ com.youth.banner.adapter.BannerAdapter
+com/youth/banner/listener/OnBannerListener.java
+ com.youth.banner.listener.OnBannerListener
+com/youth/banner/transformer/AlphaPageTransformer.java
+ com.youth.banner.transformer.AlphaPageTransformer
+com/youth/banner/transformer/BasePageTransformer.java
+ com.youth.banner.transformer.BasePageTransformer
+com/youth/banner/config/BannerConfig.java
+ com.youth.banner.config.BannerConfig
+com/youth/banner/transformer/RotateDownPageTransformer.java
+ com.youth.banner.transformer.RotateDownPageTransformer
+com/youth/banner/transformer/ScaleInTransformer.java
+ com.youth.banner.transformer.ScaleInTransformer
+com/youth/banner/indicator/DrawableIndicator.java
+ com.youth.banner.indicator.DrawableIndicator
+com/youth/banner/adapter/BannerImageAdapter.java
+ com.youth.banner.adapter.BannerImageAdapter
+com/youth/banner/Banner.java
+ com.youth.banner.Banner
+ com.youth.banner.Banner$1
+ com.youth.banner.Banner$AutoLoopTask
+ com.youth.banner.Banner$BannerOnPageChangeCallback
+ com.youth.banner.Banner$Orientation
+com/youth/banner/transformer/RotateUpPageTransformer.java
+ com.youth.banner.transformer.RotateUpPageTransformer
+com/youth/banner/util/BannerLifecycleObserver.java
+ com.youth.banner.util.BannerLifecycleObserver
+com/youth/banner/itemdecoration/MarginDecoration.java
+ com.youth.banner.itemdecoration.MarginDecoration
+com/youth/banner/indicator/RoundLinesIndicator.java
+ com.youth.banner.indicator.RoundLinesIndicator
+com/youth/banner/util/BannerLifecycleObserverAdapter.java
+ com.youth.banner.util.BannerLifecycleObserverAdapter
+com/youth/banner/transformer/ZoomOutPageTransformer.java
+ com.youth.banner.transformer.ZoomOutPageTransformer
+com/youth/banner/util/LogUtils.java
+ com.youth.banner.util.LogUtils
+com/youth/banner/indicator/Indicator.java
+ com.youth.banner.indicator.Indicator
+com/youth/banner/config/IndicatorConfig.java
+ com.youth.banner.config.IndicatorConfig
+ com.youth.banner.config.IndicatorConfig$Direction
+ com.youth.banner.config.IndicatorConfig$Margins
+com/youth/banner/indicator/CircleIndicator.java
+ com.youth.banner.indicator.CircleIndicator
+com/youth/banner/transformer/DepthPageTransformer.java
+ com.youth.banner.transformer.DepthPageTransformer
+com/youth/banner/transformer/MZScaleInTransformer.java
+ com.youth.banner.transformer.MZScaleInTransformer

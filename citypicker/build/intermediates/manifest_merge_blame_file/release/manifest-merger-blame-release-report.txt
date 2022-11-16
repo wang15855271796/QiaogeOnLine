@@ -1,0 +1,77 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.zaaach.citypicker"
+4    android:versionCode="2"
+5    android:versionName="1.2" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="14"
+8-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="28" />
+9-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml
+10
+11    <!-- 用于进行网络定位 -->
+12    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+12-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:5:5-80
+12-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:5:22-78
+13    <!-- 用于访问GPS定位 -->
+14    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+14-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:7:5-78
+14-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:7:22-76
+15    <!-- 用于获取运营商信息，用于支持提供运营商信息相关的接口 -->
+16    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+16-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:9:5-78
+16-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:9:22-76
+17    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+18    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+18-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:11:5-75
+18-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:11:22-73
+19    <!-- 用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+20    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+20-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:13:5-76
+20-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:13:22-73
+21    <!-- 用于访问网络，网络定位需要上网 -->
+22    <uses-permission android:name="android.permission.INTERNET" />
+22-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:15:5-67
+22-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:15:22-64
+23    <!-- 用于读取手机当前的状态 -->
+24    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+24-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:17:5-74
+24-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:17:22-72
+25    <!-- 用于写入缓存数据到扩展存储卡 -->
+26    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+26-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:19:5-80
+26-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:19:22-78
+27    <!-- 用于申请调用A-GPS模块 -->
+28    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+28-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:21:5-88
+28-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:21:22-86
+29    <!-- 用于申请获取蓝牙信息进行室内定位 -->
+30    <uses-permission android:name="android.permission.BLUETOOTH" />
+30-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:23:5-67
+30-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:23:22-65
+31    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+31-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:24:5-73
+31-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:24:22-71
+32
+33    <application
+33-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:26:5-36:19
+34        android:allowBackup="true"
+34-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:27:9-35
+35        android:label="@string/app_name"
+35-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:28:9-41
+36        android:supportsRtl="true" >
+36-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:29:9-35
+37        <service android:name="com.amap.api.location.APSService" />
+37-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:31:9-67
+37-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:31:18-65
+38
+39        <activity android:name="com.zaaach.citypicker.CityPickerActivity" />
+39-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:33:9-55
+39-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:33:19-53
+40        <activity android:name="com.zaaach.citypicker.CheckPermissionsActivity" />
+40-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:35:9-61
+40-->E:\Qiaoges\citypicker\src\main\AndroidManifest.xml:35:19-59
+41    </application>
+42
+43</manifest>
