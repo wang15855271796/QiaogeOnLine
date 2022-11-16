@@ -139,7 +139,7 @@
         </meta-data>
 
         <activity
-            android:name="com.puyue.www.qiaoge.activity.HomeActivity"
+            android:name=".activity.HomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <!-- 商品分享出去打开app -->
@@ -158,7 +158,7 @@
         <!--  -->
         <!-- 优化空白在theme里 -->
         <activity
-            android:name="com.puyue.www.qiaoge.activity.SplashActivity"
+            android:name=".activity.SplashActivity"
             android:theme="@style/AppBlackTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
