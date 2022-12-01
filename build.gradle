@@ -3,13 +3,6 @@
 buildscript {
 
     repositories {
-//        mavenCentral()
-//        maven { url'https://esri.jfrog.io/artifactory/arcgis' }
-//        google()
-//
-////        maven { url 'https://maven.google.com' }
-//        maven { url "https://jitpack.io" }
-//        jcenter()
 
         google()
         jcenter()
@@ -17,51 +10,23 @@ buildscript {
         mavenCentral()
         maven { url 'https://repo1.maven.org/maven2/' }
 
-
-//        maven { url 'https://jitpack.io' }
-//        google()
-//        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.0'
         classpath'me.tatarka:gradle-retrolambda:3.2.5'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'com.jakewharton:butterknife-gradle-plugin:9.0.0'
-//        classpath 'com.aliyun.ams:emas-services:1.0.1'
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
     }
 
 }
 
 allprojects {
     repositories {
-//        mavenCentral()
-////        flatDir {
-////            dirs 'libs'
-////        }
-////        jcenter()
-////        google()
-//        maven { url'https://esri.jfrog.io/artifactory/arcgis' }
-//        google()
-//        maven { url 'https://maven.aliyun.com/repository/google' }
-//        maven { url'http://maven.aliyun.com/nexus/content/repositories/releases/' }
-//        maven { url 'https://dl.bintray.com/umsdk/release' }
-//        maven { url 'https://maven.google.com' }
-//        maven { url "https://jitpack.io" }
-//
-//        jcenter()
-
         google()
         jcenter()
         maven { url 'https://jitpack.io' }
         mavenCentral()
         maven { url 'https://repo1.maven.org/maven2/' }
-
-
-//        maven { url 'https://jitpack.io' }
-//        google()
-//        jcenter()
     }
 }
 

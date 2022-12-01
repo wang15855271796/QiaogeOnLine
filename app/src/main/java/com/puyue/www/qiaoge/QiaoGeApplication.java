@@ -30,6 +30,7 @@ import com.qiyukf.unicorn.api.YSFOptions;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import com.tencent.tauth.Tencent;
 import com.umeng.commonsdk.UMConfigure;
 //import com.umeng.message.IUmengRegisterCallback;
 //import com.umeng.message.PushAgent;
@@ -59,7 +60,8 @@ public class QiaoGeApplication extends MultiDexApplication {
         EventBus.getDefault().register(this);
         context = getApplicationContext();
 //        HookUtils.hookMacAddress("Z-Application",getApplicationContext());
-
+//        UMConfigure.preInit();
+        Tencent.setIsPermissionGranted(true);
         disableAPIDialog();
 
         LoadingLayout.getConfig()
@@ -115,22 +117,6 @@ public class QiaoGeApplication extends MultiDexApplication {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getInit(InitEvent initEvent) {
         SharedPreferencesUtil.saveString(this,"pays","-1");
-//        友盟
-//        PushAgent mPushAgent = PushAgent.getInstance(this);
-//        mPushAgent.setResourcePackageName(R.class.getPackage().getName());
-////        注册推送服务，每次调用register方法都会回调该接口
-//        mPushAgent.register(new IUmengRegisterCallback() {
-//            @Override
-//            public void onSuccess(String deviceToken) {
-//                //注册成功会返回deviceToken
-//
-//            }
-//            @Override
-//            public void onFailure(String s, String s1) {
-//
-//            }
-//        });
-
         UserInfoHelper.saveDate(this, 0+"");
         api = WXAPIFactory.createWXAPI(this, "wxbc18d7b8fee86977");
         api.registerApp("wxbc18d7b8fee86977");
@@ -139,19 +125,19 @@ public class QiaoGeApplication extends MultiDexApplication {
         String registrationID = JPushInterface.getRegistrationID(getContext());
         UserInfoHelper.saveRegistionId(getContext(), registrationID);
 
-
-
         {
 
             PlatformConfig.setWeixin("wxbc18d7b8fee86977", "710d1b08a6fd655ca8b3e4404fd937cd");
             PlatformConfig.setQQZone("1106452431", "vgywMsj2j66nW35l");
         }
 
-
+        UMConfigure.setLogEnabled(true);
+//        UMConfigure.preInit(this,);
         UMConfigure.init(this, "5bcef11ab465f52b9d000094"
                 , "umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
 
         Unicorn.initSdk();
+
     }
 
 

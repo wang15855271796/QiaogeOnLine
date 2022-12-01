@@ -179,7 +179,6 @@ public class ReturnGoodActivity extends BaseSwipeActivity {
                             double toPrice = 0.00;
                             for (int i = 0; i < mDetailModel.getData().getProducts().size(); i++) {
                                 for (int j = 0; j < mDetailModel.getData().getProducts().get(i).getDetails().size(); j++) {
-                                    Log.d("swdfasdwdsd......",mDetailModel.getData().getProducts().get(i).getDetails().get(j).getItemPrice()+"-----");
                                     toPrice += mDetailModel.getData().getProducts().get(i).getDetails().get(j).getItemPrice();
                                 }
                             }
@@ -232,7 +231,6 @@ public class ReturnGoodActivity extends BaseSwipeActivity {
                     adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
                             tv_return_way.setText(mDetailModel.getData().returnChannel.get(position).channelText);
                             channelValue = mDetailModel.getData().returnChannel.get(position).channelValue;
                             dialog.dismiss();
@@ -251,7 +249,6 @@ public class ReturnGoodActivity extends BaseSwipeActivity {
         List<ReturnOrderDetailModel.DataBean.ProductsBean> products = mDetailModel.getData().getProducts();
         for (int i = 0; i < products.size(); i++) {
             List<ReturnOrderDetailModel.DataBean.ProductsBean.DetailsBean> details = mDetailModel.getData().getProducts().get(i).getDetails();
-
             for (int j = 0; j < details.size(); j++) {
                 if(details.get(j).getAfterPrice()!=null && !details.get(j).getAfterPrice().equals("")) {
                     String afterPrice = details.get(j).getAfterPrice().substring(2);
@@ -275,7 +272,6 @@ public class ReturnGoodActivity extends BaseSwipeActivity {
         BigDecimal bg = new BigDecimal(total_Price);
         double f = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         tv_return_money.setText("￥" + f);
-        Log.d("swdfasdwdsd......",f+"/////");
         totalPrice = f;
         mRvDetailChangeAdapter.setListener(new ReturnGoodDetailChangeAdapter.OnReturnClickListener() {
             @Override
@@ -284,7 +280,6 @@ public class ReturnGoodActivity extends BaseSwipeActivity {
                 for (int i = 0; i < mDetailModel.getData().getProducts().size(); i++) {
                     for (int j = 0; j < mDetailModel.getData().getProducts().get(i).getDetails().size(); j++) {
                         toPrice += mDetailModel.getData().getProducts().get(i).getDetails().get(j).getItemPrice();
-                        Log.d("swdfasdwdsd......",mDetailModel.getData().getProducts().get(i).getDetails().get(j).getItemPrice()+"aaaa");
                         if (mDetailModel.getData().getProducts().get(i).getDetails().get(j).getItemPrice() > 0) {
 
                         } else {
@@ -310,7 +305,6 @@ public class ReturnGoodActivity extends BaseSwipeActivity {
                 BigDecimal bg = new BigDecimal(toPrice);
                 double f1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                 tv_return_money.setText("￥" + f1);
-                Log.d("swdfasdwdsd......",f1+"======");
                 totalPrice = toPrice;
             }
         });
@@ -384,7 +378,6 @@ public class ReturnGoodActivity extends BaseSwipeActivity {
                 BigDecimal bg = new BigDecimal(toPrice);
                 double f1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                 tv_return_money.setText("￥" + f1);
-                Log.d("swdfasdwdsd......",f1+"]]]]]]]");
                 totalPrice = toPrice;
 
             }

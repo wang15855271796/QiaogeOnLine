@@ -52,7 +52,7 @@ public class ReturnNumAdapter extends BaseQuickAdapter<ReturnOrderDetailModel.Da
         void onEventClick();
 
     }
-    EditText et_num;
+
     public ReturnNumAdapter(int layoutResId, @Nullable List<ReturnOrderDetailModel.DataBean.ProductsBean.DetailsBean> data, int additionFlag) {
         super(layoutResId, data);
         this.additionFlag = additionFlag;
@@ -62,16 +62,15 @@ public class ReturnNumAdapter extends BaseQuickAdapter<ReturnOrderDetailModel.Da
     protected void convert(BaseViewHolder helper, ReturnOrderDetailModel.DataBean.ProductsBean.DetailsBean item) {
         String orderId = UserInfoHelper.getOrderId(mContext);
         item.setItemPrice(Double.parseDouble(item.getTotalPrice()));
-        et_num = helper.getView(R.id.et_num);
+        EditText et_num = helper.getView(R.id.et_num);
         TextView tv_spec_num = helper.getView(R.id.tv_spec_num_return);
         TextView total_price = helper.getView(R.id.tv_total_price);
         RelativeLayout rl_spec_num = helper.getView(R.id.rl_spec_num);
-        item.setItemUnitId(item.getUnitId());
+//        item.setItemUnitId(item.getUnitId());
         if (et_num.getTag() instanceof TextWatcher) {
             et_num.removeTextChangedListener((TextWatcher) et_num.getTag());
         }
 
-        Log.d("wdeadwdsa......","123");
         et_num.setText("0");
         item.setItemNum(0);
         item.setItemPrice(0.00);
@@ -79,54 +78,51 @@ public class ReturnNumAdapter extends BaseQuickAdapter<ReturnOrderDetailModel.Da
         total_price.setText(0+"");
 
         watcher = new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String text = s.toString();
+                int len = s.toString().length();
+                if (len > 1 && text.startsWith("0")) {
+                    s.replace(0, 1, "");
+                }
+
+                if (et_num.getText().toString() == null || et_num.getText().toString().equals("")) {
+                    et_num.setText("0");
+                } else if (Integer.parseInt(et_num.getText().toString()) > item.getNum()) {
+                    AppHelper.showMsg(mContext, "最大数量是" + item.getNum());
+                    et_num.setText(item.getNum() + "");
+                }
+
+                if (et_num.getText().toString() == null || et_num.getText().toString().equals("")) {
+                    item.setItemPrice(0.0);
+                    item.setItemNum(0);
+                } else {
+                    if (new BigDecimal(item.getPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue()>0){
+                        item.setItemPrice(Double.parseDouble(total_price.getText().toString()));
+                        getDetuctPrice(orderId, item.getBusinessId(), item.getBusinessType(), additionFlag,item.getItemUnitId(), item.getPriceId(), Integer.parseInt(et_num.getText().toString()), item.getPrice(), total_price, item);
+                    }else {
+                        total_price.setText(0+"");
+                        item.setItemPrice(0);
                     }
+                    item.setItemNum(Integer.parseInt(et_num.getText().toString()));
+                }
 
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                        String text = s.toString();
-                        int len = s.toString().length();
-                        if (len > 1 && text.startsWith("0")) {
-                            s.replace(0, 1, "");
-                        }
-                        if (et_num.getText().toString() == null || et_num.getText().toString().equals("")) {
-                            item.setItemPrice(0.0);
-                            item.setItemNum(0);
-                        } else {
-                            if (new BigDecimal(item.getPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue()- new BigDecimal(item.getDeductPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue()>0){
-                                item.setItemPrice(Double.parseDouble(total_price.getText().toString()));
-                                getDetuctPrice(orderId, item.getBusinessId(), item.getBusinessType(), additionFlag,   item.getItemUnitId(), item.getPriceId(), Integer.parseInt(et_num.getText().toString()), item.getPrice(), total_price, item);
-                            }else {
-                                total_price.setText(0+"");
-                                item.setItemPrice(0);
-
-                            }
-                            item.setItemNum(Integer.parseInt(et_num.getText().toString()));
-                        }
-
-
-                        if (et_num.getText().toString() == null || et_num.getText().toString().equals("")) {
-                            et_num.setText("0");
-                        } else if (Integer.parseInt(et_num.getText().toString()) > item.getNum()) {
-                            AppHelper.showMsg(mContext, "最大数量是" + item.getNum());
-                            et_num.setText(item.getNum() + "");
-                        } else {
-
-                        }
-
-                        et_num.setSelection(et_num.getText().length());
-                        if (listener != null) {
-                            listener.onEventClick();
-                        }
-                    }
-                };
+                et_num.setSelection(et_num.getText().length());
+                if (listener != null) {
+                    listener.onEventClick();
+                }
+            }
+        };
         et_num.addTextChangedListener(watcher);
         et_num.setTag(watcher);
         et_num.setSelection(et_num.getText().length());
@@ -193,11 +189,9 @@ public class ReturnNumAdapter extends BaseQuickAdapter<ReturnOrderDetailModel.Da
 
                                     int maxNum = returnSpecModel.getData().getTotalNum();
                                     item.setNum(maxNum);
-
                                     String price = returnSpecModel.getData().getPrice();
                                     item.setPrice(price);
                                     et_num.setText(maxNum + "");
-
                                     getDetuctPrice(orderId, businessId, businessType, additionFlag, unitId, priceId, maxNum, price, total_price, item);
 
                                 } else {

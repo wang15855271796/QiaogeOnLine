@@ -27,8 +27,9 @@ android {
         applicationId "com.barbecue.app"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 59
-        versionName "2.8.2"
+        versionCode 60
+        versionName "2.8.3"
+//        manifestPlaceholders = [qqappid: "100424468"]
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         flavorDimensions "versionCode"
         multiDexEnabled true
@@ -43,6 +44,7 @@ android {
             jumboMode = true
         }
         manifestPlaceholders = [
+                qqappid: "100424468",
                 JPUSH_PKGNAME: applicationId,
                 JPUSH_APPKEY : "1a10dd0f9c808d1ae883c26a", //JPush上注册的包名对应的appkey.
                 JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
@@ -127,6 +129,7 @@ dependencies {
     implementation project(path: ':banner')
     implementation files('libs\\hellocharts-library-1.5.8.jar')
     implementation project(path: ':citypicker')
+    implementation files('libs/open_sdk_3.5.12.2_r97423a8_lite.jar')
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
     implementation 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
     implementation 'androidx.appcompat:appcompat:1.0.0'
@@ -188,13 +191,17 @@ dependencies {
     implementation 'com.lai.weavey:loadinglayout:1.3.1'
     implementation 'com.umeng.umsdk:common:9.5.1'
     implementation 'com.umeng.umsdk:asms:1.6.3'
-    implementation  'com.umeng.umsdk:asms:1.4.1'// 必选
-    implementation'com.umeng.umsdk:share-board:7.2.0'
-    implementation'com.umeng.umsdk:share-core:7.2.0'
+//    implementation  'com.umeng.umsdk:asms:1.4.1'// 必选
+    implementation'com.umeng.umsdk:share-board:7.2.1'
+    implementation'com.umeng.umsdk:share-core:7.2.1'
+    implementation'com.umeng.umsdk:share-qq:7.2.1'
     implementation 'com.daimajia.swipelayout:library:1.2.0@aar'
     implementation project(':MarqueeViewLib')
     implementation 'com.shuyu:GSYVideoPlayer:7.1.3'
     implementation 'com.tencent.map:tencent-map-vector-sdk:4.4.1.1'
     implementation "androidx.viewpager2:viewpager2:1.0.0-alpha02"
 
+    implementation files('libs/open_sdk_3.5.12.2_r97423a8_lite.jar')
+    implementation 'com.umeng.umsdk:share-wx:7.2.1'
+//    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.8.0'
 }

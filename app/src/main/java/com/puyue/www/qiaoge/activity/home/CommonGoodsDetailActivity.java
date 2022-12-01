@@ -1333,7 +1333,6 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
                     Toast.makeText(CommonGoodsDetailActivity.this, "数据不全!", Toast.LENGTH_SHORT).show();
                 }
 
-                Log.d("swdsdwdsada....",mShareUrl+"123");
                 dialog.dismiss();
             }
         });

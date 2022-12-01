@@ -68,16 +68,15 @@ public class ReturnNumChangeAdapter extends BaseQuickAdapter<ReturnOrderDetailMo
         TextView tv_spec_num = helper.getView(R.id.tv_spec_num_return);
         TextView total_price = helper.getView(R.id.tv_total_price);
         RelativeLayout rl_spec_num = helper.getView(R.id.rl_spec_num);
-        item.setItemUnitId(item.getUnitId());
-
+//        item.setItemUnitId(item.getItemUnitId());
         if ( et_num.getTag() instanceof TextWatcher) {
             et_num.removeTextChangedListener((TextWatcher) et_num.getTag());
         }
         et_num.setText(item.getNum()+"");
-        total_price.setText(new BigDecimal(item.getPrice()).multiply(new BigDecimal(item.getNum())).setScale(2).doubleValue() - new BigDecimal(item.getDeductPrice()).setScale(2).doubleValue() +"");
-        Log.d("efdrgdfgdsds....",item.getPrice()+"-----"+item.getNum()+"-----"+item.getDeductPrice());
-
-//        Log.d("efdrgdfgdsds....",new BigDecimal(item.getPrice()).multiply(new BigDecimal(item.getNum())).setScale(2).doubleValue() - new BigDecimal(item.getDeductPrice()).setScale(2).doubleValue()+"-----");
+//        total_price.setText(new BigDecimal(item.getPrice()).multiply(new BigDecimal(item.getNum())).setScale(2).doubleValue()
+//                - new BigDecimal(item.getDeductPrice()).setScale(2).doubleValue() +"");
+        getDetuctPrice(orderId, item.getBusinessId(), item.getBusinessType(), additionFlag,
+                item.getItemUnitId(), item.getPriceId(), Integer.parseInt(et_num.getText().toString()), item.getPrice(), total_price, item,et_num);
         if (new BigDecimal(item.getPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue() -new BigDecimal(item.getDeductPrice()).setScale(2).doubleValue()>0){
             item.setItemPrice(new BigDecimal(item.getPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue() -new BigDecimal(item.getDeductPrice()).setScale(2).doubleValue());
         }else {
@@ -106,13 +105,20 @@ public class ReturnNumChangeAdapter extends BaseQuickAdapter<ReturnOrderDetailMo
                         }
 
                         if (et_num.getText().toString() == null || et_num.getText().toString().equals("")) {
+                            et_num.setText("0");
+                        } else if (Integer.parseInt(et_num.getText().toString()) > item.getNum()) {
+                            AppHelper.showMsg(mContext, "最大数量是" + item.getNum());
+                            et_num.setText(item.getNum() + "");
+                        }
+
+                        if (et_num.getText().toString() == null || et_num.getText().toString().equals("")) {
                             item.setItemPrice(0.0);
                             item.setItemNum(0);
                         } else {
-                            if (new BigDecimal(item.getPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue()- new BigDecimal(item.getDeductPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue()>0){
+                            if (new BigDecimal(item.getPrice()).multiply(new BigDecimal(et_num.getText().toString())).setScale(2).doubleValue()>0){
                                 item.setItemPrice(Double.parseDouble(total_price.getText().toString()));
-
-                                getDetuctPrice(orderId, item.getBusinessId(), item.getBusinessType(), additionFlag, item.getItemUnitId(), item.getPriceId(), Integer.parseInt(et_num.getText().toString()), item.getPrice(), total_price, item);
+                                getDetuctPrice(orderId, item.getBusinessId(), item.getBusinessType(), additionFlag,
+                                        item.getItemUnitId(), item.getPriceId(), Integer.parseInt(et_num.getText().toString()), item.getPrice(), total_price, item,et_num);
                             }else {
                                 total_price.setText(0+"");
                                 item.setItemPrice(0);
@@ -120,15 +126,6 @@ public class ReturnNumChangeAdapter extends BaseQuickAdapter<ReturnOrderDetailMo
                             item.setItemNum(Integer.parseInt(et_num.getText().toString()));
                         }
 
-
-                        if (et_num.getText().toString() == null || et_num.getText().toString().equals("")) {
-                            et_num.setText("0");
-                        } else if (Integer.parseInt(et_num.getText().toString()) > item.getNum()) {
-                            AppHelper.showMsg(mContext, "最大数量是" + item.getNum());
-                            et_num.setText(item.getNum() + "");
-                        } else {
-
-                        }
 
                         et_num.setSelection(et_num.getText().length());
                         if (listener != null) {
@@ -180,7 +177,7 @@ public class ReturnNumChangeAdapter extends BaseQuickAdapter<ReturnOrderDetailMo
                 int unitId = item.getReturnUnits().get(position).getUnitId();
                 String orderId = UserInfoHelper.getOrderId(mContext);
                 int businessId = item.getBusinessId();
-                item.setItemUnitId(item.getReturnUnits().get(position).getUnitId());
+                item.setItemUnitId(unitId);
                 int businessType = item.getBusinessType();
                 tv_spec_num.setText(item.getReturnUnits().get(position).getUnitName());
                 //规格单位改变
@@ -204,7 +201,7 @@ public class ReturnNumChangeAdapter extends BaseQuickAdapter<ReturnOrderDetailMo
                                     String price = returnSpecModel.getData().getPrice();
                                     item.setPrice(price);
                                     et_num.setText(maxNum + "");
-                                    getDetuctPrice(orderId, businessId, businessType, additionFlag, unitId, priceId, maxNum, price, total_price, item);
+                                    getDetuctPrice(orderId, businessId, businessType, additionFlag, unitId, priceId, maxNum, price, total_price, item,et_num);
 
                                 } else {
                                     AppHelper.showMsg(mContext, returnSpecModel.getMessage());
@@ -219,7 +216,9 @@ public class ReturnNumChangeAdapter extends BaseQuickAdapter<ReturnOrderDetailMo
 
 
 
-    public void getDetuctPrice(String orderId, int businessId, int businessType, int additionFlag, int unitId, int priceId, int maxNum, String price, TextView total_price, ReturnOrderDetailModel.DataBean.ProductsBean.DetailsBean item) {
+    public void getDetuctPrice(String orderId, int businessId, int businessType, int additionFlag,
+                               int unitId, int priceId, int maxNum, String price, TextView total_price,
+                               ReturnOrderDetailModel.DataBean.ProductsBean.DetailsBean item,EditText editText) {
         GetReturnGoodDeductAPI.requestDetuctSpec(mContext, orderId, businessId, businessType, additionFlag, unitId, priceId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -240,9 +239,9 @@ public class ReturnNumChangeAdapter extends BaseQuickAdapter<ReturnOrderDetailMo
                         if (returnDetuctAmountModel.isSuccess()) {
                             //待测试，先注释
                             item.setDeductPrice(new BigDecimal(returnDetuctAmountModel.getData()).multiply(new BigDecimal(maxNum)).setScale(2).doubleValue()+"");
-                            Log.d("efdrgdfgdsds....",maxNum+"bbbbb");
                             if (new BigDecimal(price).multiply(new BigDecimal(maxNum)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() - new BigDecimal(returnDetuctAmountModel.getData()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() > 0) {
-                                String s1 = new BigDecimal(item.getPrice()).multiply(new BigDecimal(maxNum)).setScale(2).doubleValue() - new BigDecimal(item.getDeductPrice()).setScale(2).doubleValue() + "";
+                                String s1 = new BigDecimal(item.getPrice()).multiply(new BigDecimal(maxNum)).setScale(2).doubleValue()
+                                        - (new BigDecimal(returnDetuctAmountModel.getData()).multiply(new BigDecimal(editText.getText().toString()))).setScale(2).doubleValue() + "";
                                 BigDecimal bg = new BigDecimal(s1);
                                 double f1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                                 total_price.setText(f1+"");
