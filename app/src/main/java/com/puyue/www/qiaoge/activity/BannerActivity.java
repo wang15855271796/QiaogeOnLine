@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
-import com.puyue.www.qiaoge.activity.mine.login.RegisterActivity;
 import com.puyue.www.qiaoge.activity.mine.login.RegisterMessageActivity;
 import com.puyue.www.qiaoge.adapter.HomeBannerAdapter;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
@@ -98,7 +97,7 @@ public class BannerActivity extends BaseActivity implements View.OnClickListener
 
             @Override
             public void Register() {
-                startActivity(RegisterActivity.getIntent(mActivity, RegisterMessageActivity.class));
+                startActivity(RegisterMessageActivity.getIntent(mActivity, RegisterMessageActivity.class));
                 LoginUtil.initRegister(mActivity);
                 dismiss();
             }

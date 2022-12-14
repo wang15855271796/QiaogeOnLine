@@ -17,7 +17,8 @@
         <TextView
             android:id="@+id/tv_title"
             tools:text="2020.12.3"
-            android:textColor="#ffffff"
+            android:textColor="#FF1200"
+            android:textStyle="bold"
             android:textSize="@dimen/sp_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -27,8 +28,12 @@
             android:layout_marginTop="@dimen/size_8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_10"
+            android:paddingTop="@dimen/size_3dp"
+            android:paddingBottom="@dimen/size_3dp"
             tools:text="时间"
-            android:textColor="@color/white"
+            android:textColor="#414141"
             android:textSize="12sp" />
     </LinearLayout>
 

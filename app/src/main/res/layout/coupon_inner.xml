@@ -15,11 +15,11 @@
 
         <ImageView
             android:id="@+id/iv_pic"
-            android:layout_centerVertical="true"
-            tools:src="@mipmap/icon_baidu"
-            android:layout_marginLeft="@dimen/size_12dp"
             android:layout_width="108dp"
-            android:layout_height="108dp" />
+            android:layout_height="108dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/size_12dp"
+            tools:src="@mipmap/icon_baidu" />
 
         <ImageView
             android:id="@+id/iv_send"
@@ -29,6 +29,8 @@
             android:src="@mipmap/icon_not_send2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
+
         <TextView
             tools:text="标题"
             android:maxLines="1"
@@ -46,25 +48,26 @@
 
         <RelativeLayout
             android:id="@+id/rl_coupon"
-            android:background="@drawable/shape_ring"
-            android:layout_width="40dp"
-            android:visibility="gone"
-            android:layout_marginTop="@dimen/size_70dp"
-            android:layout_marginLeft="@dimen/size_70dp"
-            android:gravity="center_vertical"
-            android:layout_height="40dp"
+            android:background="@drawable/shape_jianbian9"
+            android:layout_width="@dimen/size_24dp"
+            android:visibility="visible"
+            android:paddingLeft="@dimen/size_1dp"
+            android:paddingRight="@dimen/size_1dp"
+            android:layout_marginTop="@dimen/size_88dp"
+            android:layout_marginLeft="@dimen/size_88dp"
+            android:layout_height="@dimen/size_27dp"
             >
 
             <TextView
-                tools:text="30"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:layout_centerInParent="true"
                 android:id="@+id/tv_coupon"
-                android:textSize="9dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_back_arrow" />
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:src="@mipmap/ic_back_arrow"
+                android:textColor="@color/white"
+                android:textSize="9sp"
+                tools:text="3000折" />
 
         </RelativeLayout>
 
@@ -86,26 +89,27 @@
 
 
         <TextView
-            tools:text="100"
             android:id="@+id/tv_price"
-            android:textSize="@dimen/size_18dp"
-            android:textColor="#FF703C"
-            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/tv_spec"
+            android:layout_marginLeft="@dimen/dp_10"
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/iv_pic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textColor="#F50404"
+            android:textSize="@dimen/size_18dp"
+            tools:text="100" />
 
         <TextView
-            tools:text="100"
-            android:layout_toRightOf="@+id/tv_price"
             android:id="@+id/tv_old_price"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_below="@+id/tv_spec"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_spec"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginTop="10dp"
+            android:textColor="#979797"
+            android:layout_toRightOf="@+id/tv_price"
+            tools:text="100" />
 
         <ImageView
             android:id="@+id/iv_flag"
@@ -131,16 +135,15 @@
 
         <TextView
             android:id="@+id/tv_total"
-            tools:text="剩余"
-            android:layout_below="@+id/tv_old_price"
-            android:textColor="#999999"
-            android:layout_toRightOf="@+id/pb"
-            android:textSize="8dp"
-            android:layout_alignBaseline="@+id/pb"
-            android:layout_marginTop="12dp"
-            android:layout_marginLeft="@dimen/size_10dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_flag"
+            android:layout_marginLeft="@dimen/size_10dp"
+            android:layout_marginTop="@dimen/size_5dp"
+            android:layout_toRightOf="@+id/pb"
+            android:textColor="#999999"
+            android:textSize="8dp"
+            tools:text="剩余" />
 
         <TextView
             android:visibility="gone"

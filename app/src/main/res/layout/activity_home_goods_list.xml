@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#F6F6F6"
+    android:background="#FAFAFA"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -10,7 +10,7 @@
     <RelativeLayout
         android:id="@+id/linearLayout_spike"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="270dp"
         android:background="@mipmap/bg_skill"
         android:orientation="vertical">
 
@@ -28,14 +28,16 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="7dp"
                 android:padding="10dp"
-                android:src="@mipmap/ic_back_arrow_two" />
+                android:src="@mipmap/ic_back_arrow" />
 
-            <ImageView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:src="@mipmap/skill_title"
-                android:textSize="18dp" />
+                android:text="限时秒杀"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:textSize="16sp" />
 
             <RelativeLayout
                 android:id="@+id/rl_good_cart"
@@ -49,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/skill_car" />
+                    android:src="@mipmap/iv_car" />
 
                 <TextView
                     android:id="@+id/tv_num"
@@ -60,7 +62,7 @@
                     android:background="@drawable/shape_white1"
                     android:gravity="center"
                     android:textColor="#FF2925"
-                    android:textSize="7dp"
+                    android:textSize="9sp"
                     android:visibility="gone"
                     tools:text="9" />
 
@@ -68,59 +70,59 @@
 
         </RelativeLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_spike_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ll_title"
-            android:layout_marginTop="@dimen/size_15dp">
+    </RelativeLayout>
 
-        </androidx.recyclerview.widget.RecyclerView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_spike_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-70dp"
+        android:background="@drawable/shape_white1"
+        android:layout_below="@+id/ll_title" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/size_45dp"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/shape_white5"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/tv_desc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#333333"
-                    android:textSize="@dimen/sp_12"
-                    tools:text="距离本场活动开始" />
-
-                <com.puyue.www.qiaoge.view.SnapUpCountDownTimerViewss
-                    android:id="@+id/snap"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="6dp"
-                    android:layout_toRightOf="@+id/tv_title" />
-
-            </LinearLayout>
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_start_time"
-                android:textColor="#FF5C00"
-                android:layout_gravity="center_horizontal"
-                tools:text="活动开始时间：2022-07-07 08:23:25"
-                android:textSize="@dimen/sp_12"
+                android:id="@+id/tv_desc"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textColor="#414141"
+                android:textStyle="bold"
+                android:layout_marginLeft="@dimen/size_17dp"
+                android:textSize="@dimen/sp_12"
+                tools:text="距离本场活动开始" />
 
+            <com.puyue.www.qiaoge.view.SnapUpCountDownTimerViewss
+                android:id="@+id/snap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="6dp"
+                android:layout_toRightOf="@+id/tv_title" />
 
         </LinearLayout>
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/size_17dp"
+            android:textColor="#FF1200"
+            android:textSize="@dimen/sp_12"
+            tools:text="活动开始时间：2022-07-07 08:23:25" />
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_activity_goods_list"

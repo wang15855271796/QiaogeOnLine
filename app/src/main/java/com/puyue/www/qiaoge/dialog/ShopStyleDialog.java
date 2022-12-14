@@ -3,6 +3,7 @@ package com.puyue.www.qiaoge.dialog;
 import android.app.Dialog;
 import android.content.Context;
 
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
@@ -60,7 +61,7 @@ public class ShopStyleDialog extends Dialog{
 
         List<String> strings = Arrays.asList(data);
         ShopTypeAdapter shopTypeAdapter = new ShopTypeAdapter(R.layout.dialog_shop_type,strings);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setLayoutManager(new GridLayoutManager(context,2));
         recyclerView.setAdapter(shopTypeAdapter);
 
         shopTypeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {

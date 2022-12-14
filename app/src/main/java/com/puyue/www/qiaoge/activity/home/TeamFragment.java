@@ -33,7 +33,7 @@ import rx.schedulers.Schedulers;
  */
 public class TeamFragment extends BaseFragment {
 
-    private Unbinder bind;
+    Unbinder bind;
     @BindView(R.id.recyclerView)
     RecyclerView recycleView;
 

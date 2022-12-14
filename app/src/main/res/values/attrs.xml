@@ -6,6 +6,9 @@
         <attr name="HIndicator_hi_indicatorColor" format="color|reference"/>
     </declare-styleable>
 
+    <declare-styleable name="TabLayoutLine">
+        <attr name="selectedNum" format="integer"/>
+    </declare-styleable>
 
     <declare-styleable name="SuperTextView">
         <attr name="corner" format="dimension" />

@@ -26,7 +26,7 @@ public class HIndicators extends View {
     private RectF mRect = new RectF();
     private int viewWidth = 0;
     private int mBgColor = Color.parseColor("#e5e5e5");
-    private int mIndicatorColor = Color.parseColor("#ff4646");
+    private int mIndicatorColor = Color.parseColor("#FF8401");
     Float ratio = 0.5f;        //长度比例
 
     public HIndicators(Context context, AttributeSet attrs) {

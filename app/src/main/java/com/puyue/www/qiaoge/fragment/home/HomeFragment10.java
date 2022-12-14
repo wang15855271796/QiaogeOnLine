@@ -302,20 +302,13 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     com.puyue.www.qiaoge.view.MarqueeView rv_full1;
     @BindView(R.id.rv_discount1)
     com.puyue.www.qiaoge.view.MarqueeView rv_discount1;
-    @BindView(R.id.ll_skill_bg)
-    LinearLayout ll_skill_bg;
     @BindView(R.id.ll_team_bg)
     LinearLayout ll_team_bg;
     @BindView(R.id.ll_discount_bg)
     LinearLayout ll_discount_bg;
-    @BindView(R.id.ll_full_bg)
-    LinearLayout ll_full_bg;
+
     @BindView(R.id.ll_full_bg1)
     LinearLayout ll_full_bg1;
-    @BindView(R.id.ll_team_bg1)
-    LinearLayout ll_team_bg1;
-    @BindView(R.id.ll_discount_bg1)
-    LinearLayout ll_discount_bg1;
     @BindView(R.id.ll_full)
     LinearLayout ll_full;
     @BindView(R.id.ll_discount)
@@ -324,8 +317,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
     LinearLayout ll_team;
     @BindView(R.id.ll_team1)
     LinearLayout ll_team1;
-    @BindView(R.id.iv_empty_hot)
-    ImageView iv_empty_hot;
     @BindView(R.id.order_marquee)
     MarqueeView order_marquee;
     @BindView(R.id.tv_full_desc)
@@ -1056,8 +1047,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
         ll_full1.setVisibility(View.GONE);
         ll_discount_bg.setBackgroundResource(R.mipmap.bg_discount);
         ll_team_bg.setBackgroundResource(R.mipmap.bg_team);
-        ll_full_bg.setBackgroundResource(R.mipmap.bg_fulls);
-        ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills);
         VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives(),onclickSkill);
         ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger = new ScrollSpeedLinearLayoutManger(mActivity);
         scrollSpeedLinearLayoutManger.setOrientation(RecyclerView.VERTICAL);
@@ -1154,7 +1143,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
             ll_team1.setVisibility(View.GONE);
             ll_discount1.setVisibility(View.GONE);
 
-            ll_full_bg.setBackgroundResource(R.mipmap.bg_fulls_long);
             VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_special,dataActive.getFullGift().getActives(),onclick);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger6 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger6.setOrientation(RecyclerView.VERTICAL);
@@ -1174,8 +1162,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
             ll_full1.setVisibility(View.GONE);
             ll_team1.setVisibility(View.GONE);
             ll_discount1.setVisibility(View.GONE);
-
-            ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills_long);
             VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_special,dataActive.getSpike().getActives(),onclickSkill);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger7 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger7.setOrientation(RecyclerView.VERTICAL);
@@ -1198,9 +1184,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
             ll_full1.setVisibility(View.GONE);
             ll_team1.setVisibility(View.GONE);
             ll_discount1.setVisibility(View.GONE);
-
-            ll_full_bg.setBackgroundResource(R.mipmap.bg_fulls);
-            ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills);
 
             VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives(),onclickSkill);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger8 = new ScrollSpeedLinearLayoutManger(mActivity);
@@ -1233,8 +1216,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
             ll_full1.setVisibility(View.GONE);
             ll_discount1.setVisibility(View.GONE);
 
-            ll_team_bg1.setBackgroundResource(R.mipmap.bg_team);
-            ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills);
             VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives(),onclickSkill);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger10 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger10.setOrientation(RecyclerView.VERTICAL);
@@ -1265,9 +1246,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
             ll_team.setVisibility(View.GONE);
             ll_discount.setVisibility(View.GONE);
             ll_full1.setVisibility(View.GONE);
-
-            ll_discount_bg1.setBackgroundResource(R.mipmap.bg_discount);
-            ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills);
 
             VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives(),onclickSkill);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger12 = new ScrollSpeedLinearLayoutManger(mActivity);
@@ -1301,8 +1279,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
             ll_discount.setVisibility(View.GONE);
 
             ll_full_bg1.setBackgroundResource(R.mipmap.bg_fulls);
-            ll_team_bg1.setBackgroundResource(R.mipmap.bg_team);
-
             VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives(),onclick);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger14 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger14.setOrientation(RecyclerView.VERTICAL);
@@ -1335,7 +1311,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
             ll_discount.setVisibility(View.GONE);
 
             ll_full_bg1.setBackgroundResource(R.mipmap.bg_fulls);
-            ll_discount_bg1.setBackgroundResource(R.mipmap.bg_discount);
 
 
             VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives(),onclick);
@@ -1403,8 +1378,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
             ll_full1.setVisibility(View.GONE);
             ll_discount1.setVisibility(View.GONE);
             ll_team1.setVisibility(View.GONE);
-
-            ll_full_bg.setBackgroundResource(R.mipmap.bg_fulls_long);
             ll_team_bg.setBackgroundResource(R.mipmap.bg_team);
             ll_discount_bg.setBackgroundResource(R.mipmap.bg_discount);
 
@@ -1451,7 +1424,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
 
             ll_team_bg.setBackgroundResource(R.mipmap.bg_team);
             ll_discount_bg.setBackgroundResource(R.mipmap.bg_discount);
-            ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills_long);
 
             VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_special,dataActive.getSpike().getActives(),onclickSkill);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger23 = new ScrollSpeedLinearLayoutManger(mActivity);
@@ -1494,9 +1466,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
             ll_discount1.setVisibility(View.GONE);
             ll_team1.setVisibility(View.GONE);
 
-            ll_full_bg.setBackgroundResource(R.mipmap.bg_fulls);
             ll_discount_bg.setBackgroundResource(R.mipmap.bg_discount_long);
-            ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills);
 
             VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives(),onclickSkill);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger26 = new ScrollSpeedLinearLayoutManger(mActivity);
@@ -1539,10 +1509,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
             ll_full1.setVisibility(View.GONE);
             ll_discount1.setVisibility(View.GONE);
             ll_team1.setVisibility(View.GONE);
-
-            ll_full_bg.setBackgroundResource(R.mipmap.bg_fulls);
             ll_team_bg.setBackgroundResource(R.mipmap.bg_team_long);
-            ll_skill_bg.setBackgroundResource(R.mipmap.bg_skills);
 
             VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives(),onclickSkill);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger29 = new ScrollSpeedLinearLayoutManger(mActivity);
@@ -1615,10 +1582,8 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                                     }
 
                                     rv_hot.setVisibility(View.VISIBLE);
-                                    iv_empty_hot.setVisibility(View.GONE);
                                 }else {
                                     rv_hot.setVisibility(View.GONE);
-                                    iv_empty_hot.setVisibility(View.VISIBLE);
                                 }
                             }
 

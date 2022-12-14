@@ -1,23 +1,32 @@
 package com.puyue.www.qiaoge.activity.mine.login;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import androidx.appcompat.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.api.mine.login.SendCodeAPI;
+import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.utils.EnCodeUtil;
+import com.puyue.www.qiaoge.utils.StatusUtils;
 import com.puyue.www.qiaoge.utils.ToastUtil;
+import com.puyue.www.qiaoge.view.StatusBarUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +37,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by ${王涛} on 2019/11/23
  */
-public class RegisterMessageActivity extends BaseSwipeActivity implements View.OnClickListener {
+public class RegisterMessageActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.et_yzm)
     EditText et_yzm;
     @BindView(R.id.et_phone)
@@ -37,10 +46,10 @@ public class RegisterMessageActivity extends BaseSwipeActivity implements View.O
     RelativeLayout ll_yzm;
     @BindView(R.id.tv_yzm)
     TextView tv_yzm;
-    @BindView(R.id.toolbar_register)
-    Toolbar toolbar_register;
     @BindView(R.id.tv_next)
     TextView tv_next;
+    @BindView(R.id.iv_back)
+    ImageView iv_back;
     private BaseModel mModelSendCode;
     private CountDownTimer countDownTimer;
     private boolean isSendingCode = true;
@@ -62,8 +71,8 @@ public class RegisterMessageActivity extends BaseSwipeActivity implements View.O
     public void findViewById() {
         ButterKnife.bind(this);
         ll_yzm.setOnClickListener(this);
-        toolbar_register.setOnClickListener(this);
         tv_next.setOnClickListener(this);
+        iv_back.setOnClickListener(this);
     }
 
     @Override
@@ -94,6 +103,11 @@ public class RegisterMessageActivity extends BaseSwipeActivity implements View.O
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
+            case R.id.iv_back:
+                finish();
+                break;
+
             case R.id.ll_yzm:
                 phone = et_phone.getText().toString();
                 try {
@@ -111,11 +125,6 @@ public class RegisterMessageActivity extends BaseSwipeActivity implements View.O
                 } else {
                     requestSendCode(phones);
                 }
-
-                break;
-
-            case R.id.toolbar_register:
-                finish();
 
                 break;
 
@@ -206,8 +215,8 @@ public class RegisterMessageActivity extends BaseSwipeActivity implements View.O
                 isSendingCode = true;
                 ll_yzm.setEnabled(false);
                 tv_yzm.setEnabled(false);
-                tv_yzm.setText(millisUntilFinished / 1000 + "秒后" + "\n重新发送验证码");
-                tv_yzm.setTextColor(Color.parseColor("#A7A7A7"));
+                tv_yzm.setText(millisUntilFinished / 1000 + "秒后" + "\n重新发送");
+                tv_yzm.setTextColor(Color.parseColor("#949494"));
 
             }
 
@@ -217,7 +226,7 @@ public class RegisterMessageActivity extends BaseSwipeActivity implements View.O
                 ll_yzm.setEnabled(true);
                 tv_yzm.setText("点击发送验证码");
                 tv_yzm.setEnabled(true);
-                tv_yzm.setTextColor(Color.parseColor("#232131"));
+                tv_yzm.setTextColor(Color.parseColor("#FF3E20"));
             }
         }.start();
     }

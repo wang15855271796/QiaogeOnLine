@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import androidx.annotation.Nullable;
 
+import android.graphics.Typeface;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -44,17 +45,11 @@ public class CouponsInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.D
     CouponsAdapter.Onclick onclick;
     private ImageView iv_pic;
     TextView tv_old_price;
-    private TeamActiveQueryModel.DataBean.ActivesBean activesBean;
     private TextView tv_total;
     ProgressBar pb;
     private TextView tv_add;
     private RelativeLayout rl_root;
     private RelativeLayout rl_coupon;
-    private int activeId;
-    List<TeamActiveQueryModel.DataBean>  data;
-    private TeamActiveQueryModel.DataBean dataBean;
-    private List<TeamActiveQueryModel.DataBean.ActivesBean> actives;
-    private int activeId1;
     private TextView tv_coupon;
     RelativeLayout rl_price;
     TextView tv_price;
@@ -77,7 +72,10 @@ public class CouponsInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.D
         tv_total = helper.getView(R.id.tv_total);
         pb = helper.getView(R.id.pb);
         rl_coupon = helper.getView(R.id.rl_coupon);
-
+        //得到字体库类型
+        Typeface typeface = Typeface.createFromAsset(mContext.getAssets(),
+                "汉真广标.ttf");
+        tv_coupon.setTypeface(typeface);
 
         if(item.getNotSend()!=null) {
             if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
@@ -94,7 +92,7 @@ public class CouponsInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.D
         helper.setText(R.id.tv_spec,item.getSpec());
         Glide.with(mContext).load(item.getSelfOrNot()).into(iv_flag);
         pb.setProgress(Integer.parseInt(item.getProgress()));
-        pb.setProgressDrawable(mContext.getResources().getDrawable(R.drawable.seckill_progress));
+        pb.setProgressDrawable(mContext.getResources().getDrawable(R.drawable.seckill_progress_yellow));
         tv_total.setText(item.getRemainNum());
         rl_root.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +124,7 @@ public class CouponsInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.D
                 tv_add.setBackgroundResource(R.drawable.shape_detail_grey);
             } else {
                 tv_add.setText("立即加购");
-                tv_add.setBackgroundResource(R.drawable.shape_orange);
+                tv_add.setBackgroundResource(R.drawable.shape_yellow6);
             }
         } else {
             rl_price.setVisibility(View.VISIBLE);

@@ -18,9 +18,6 @@ import butterknife.ButterKnife;
  * Created by ${王涛} on 2020/12/28
  */
 public class Test3Activity extends BaseActivity {
-    @BindView(R.id.recyclerView1)
-    AutoPollRecyclerView recyclerView;
-    List<String> list = new ArrayList<>();
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -33,14 +30,7 @@ public class Test3Activity extends BaseActivity {
 
     @Override
     public void findViewById() {
-        ButterKnife.bind(this);
-        for (int i = 0; i < 30; i++) {
-            list.add("ssaa");
-        }
-        MyAdapter myAdapter = new MyAdapter(mActivity,list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        recyclerView.setAdapter(myAdapter);
-        recyclerView.start();
+
     }
 
     @Override

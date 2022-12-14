@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
@@ -24,17 +25,18 @@ public class ShopTypeAdapter extends BaseQuickAdapter<String,BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, String item) {
-        ImageView iv_choose = helper.getView(R.id.iv_choose);
-        RelativeLayout rl = helper.getView(R.id.rl);
-        if(pos==helper.getAdapterPosition()) {
-            iv_choose.setVisibility(View.VISIBLE);
-            rl.setBackgroundResource(R.drawable.shape_orange_shop);
+        TextView tv_name = helper.getView(R.id.tv_name);
+        ImageView iv_pic = helper.getView(R.id.iv_pic);
+        if(helper.getAdapterPosition()==0) {
+            iv_pic.setImageResource(R.mipmap.info_shop);
+        }else if(helper.getAdapterPosition()==1) {
+            iv_pic.setImageResource(R.mipmap.info_tool);
+        }else if(helper.getAdapterPosition()==2) {
+            iv_pic.setImageResource(R.mipmap.info_chef);
         }else {
-            iv_choose.setVisibility(View.GONE);
-            rl.setBackgroundResource(R.drawable.shape_grey_shop);
+            iv_pic.setImageResource(R.mipmap.info_other);
         }
 
-        TextView tv_name = helper.getView(R.id.tv_name);
         tv_name.setText(item);
 
 

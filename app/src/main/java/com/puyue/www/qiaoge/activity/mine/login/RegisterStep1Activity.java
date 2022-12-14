@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.NewWebViewActivity;
@@ -41,6 +43,8 @@ import com.puyue.www.qiaoge.api.mine.login.RegisterAPI;
 import com.puyue.www.qiaoge.api.mine.login.RegisterAgreementAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
+import com.puyue.www.qiaoge.dialog.ShopDialog;
+import com.puyue.www.qiaoge.dialog.ShopStyleDialog;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.GoToMineEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
@@ -75,10 +79,10 @@ import rx.schedulers.Schedulers;
  * 设置登录密码界面
  */
 public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnClickListener {
-    @BindView(R.id.ll_shop_style)
-    LinearLayout ll_shop_style;
-    @BindView(R.id.ll_company_name)
-    LinearLayout ll_company_name;
+    @BindView(R.id.rl_shop_style)
+    RelativeLayout rl_shop_style;
+    @BindView(R.id.rl_company_name)
+    RelativeLayout rl_company_name;
     @BindView(R.id.tv_company_name)
     TextView tv_company_name;
     @BindView(R.id.et_password)
@@ -89,22 +93,22 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
     TextView tv_register;
     @BindView(R.id.cb_register)
     CheckBox cb_register;
-    @BindView(R.id.iv_one)
-    ImageView iv_one;
-    @BindView(R.id.iv_two)
-    ImageView iv_two;
-    @BindView(R.id.toolbar_register)
-    Toolbar toolbar_register;
+    @BindView(R.id.iv_close1)
+    ImageView iv_close1;
+    @BindView(R.id.iv_close2)
+    ImageView iv_close2;
     @BindView(R.id.tv_register_agreement)
     TextView tv_register_agreement;
     @BindView(R.id.tv_register_secret)
     TextView tv_register_secret;
-    @BindView(R.id.tv_phone)
-    TextView tv_phone;
     @BindView(R.id.et_author)
     EditText et_author;
     @BindView(R.id.tv_shop_style)
     TextView tv_shop_style;
+    @BindView(R.id.iv_arrow)
+    ImageView iv_arrow;
+    @BindView(R.id.iv_back)
+    ImageView iv_back;
     private String phone;
     private String yzm;
     String token1;
@@ -116,11 +120,6 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
     private RegisterModel mModelRegister;
     private String mUrlAgreement;
     private RegisterAgreementModel mModelRegisterAgreement;
-    private String mCustomerCell;
-    private AlertDialog mDialog;
-    private boolean isFirst = true;
-    int isSelected;
-    boolean isChecked = false;
     int shopTypeId;
     private AlertDialog mTypedialog;
     @Override
@@ -131,13 +130,11 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
     @Override
     public void setContentView() {
         setContentView(R.layout.activity_registers);
-
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         EventBus.getDefault().unregister(this);
 
     }
@@ -187,55 +184,12 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
 
         tv_register.setOnClickListener(this);
         cb_register.setOnClickListener(this);
-        iv_one.setOnClickListener(this);
-        iv_two.setOnClickListener(this);
+        iv_close1.setOnClickListener(this);
+        iv_close2.setOnClickListener(this);
         tv_register_agreement.setOnClickListener(this);
         tv_register_secret.setOnClickListener(this);
-        tv_phone.setOnClickListener(this);
-        toolbar_register.setOnClickListener(this);
-
-        tv_shop_style.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                GetCustomerPhoneAPI.requestData(mContext)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<GetCustomerPhoneModel>() {
-                            @Override
-                            public void onCompleted() {
-
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onNext(GetCustomerPhoneModel getCustomerPhoneModel) {
-                                if (getCustomerPhoneModel.isSuccess()) {
-                                    mCustomerCell = getCustomerPhoneModel.getData();
-                                    tv_phone.setText(mCustomerCell);
-                                } else {
-                                    AppHelper.showMsg(mContext, getCustomerPhoneModel.getMessage());
-                                }
-                            }
-                        });
-
-
-
-                if(et_author.getText().toString().length()!=0) {
-                    String sqm = et_author.getText().toString();
-                    checkNum(sqm);
-
-                }else {
-                    AppHelper.showMsg(mContext, "授权码不能为空");
-                }
-
-
-            }
-        });
+        iv_back.setOnClickListener(this);
+        tv_shop_style.setOnClickListener(this);
         et_author.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -252,8 +206,8 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                 if(editable.toString().length()==6) {
                     getCompanyName(editable.toString());
                 }else {
-                    ll_company_name.setVisibility(View.GONE);
-                    ll_shop_style.setVisibility(View.GONE);
+                    rl_company_name.setVisibility(View.GONE);
+                    rl_shop_style.setVisibility(View.GONE);
                 }
             }
         });
@@ -286,6 +240,8 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                 });
     }
 
+    List<GetRegisterShopModel.DataBean> mList = new ArrayList<>();
+    ShopDialog shopStyleDialog;
     private void showSelectType(String authorizationCode) {
         GetRegisterShopAPI.requestData(mActivity, authorizationCode)
                 .subscribeOn(Schedulers.io())
@@ -303,59 +259,24 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
 
                     @Override
                     public void onNext(GetRegisterShopModel getRegisterShopModel) {
-                        UserInfoHelper.saveIsRegister(mActivity, "is_register_type");
-                        if (getRegisterShopModel.isSuccess()) {
-                            isFirst = true;
-                            List<GetRegisterShopModel.DataBean> mList = new ArrayList<>();
-                            mList.addAll(getRegisterShopModel.getData());
-                            mTypedialog.show();
-                            Window window = mTypedialog.getWindow();
-                            window.setContentView(R.layout.select_type);
-                            WindowManager.LayoutParams attributes = window.getAttributes();
-                            attributes.width = LinearLayout.LayoutParams.MATCH_PARENT;
-                            attributes.height = LinearLayout.LayoutParams.MATCH_PARENT;
-                            window.setAttributes(attributes);
-                            RecyclerView rl_type = window.findViewById(R.id.rl_type);
-                            TextView tv_ok = window.findViewById(R.id.tv_ok);
-                            TextView tv_more_shop = window.findViewById(R.id.tv_more_shop);
-                            tv_more_shop.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(RegisterStep1Activity.this,ShopListActivity.class);
-                                    mTypedialog.dismiss();
-                                    startActivity(intent);
+                        if(getRegisterShopModel.getCode()==1) {
+                            if(getRegisterShopModel.getData()!=null && getRegisterShopModel.getData().size()>0) {
+                                mList.clear();
+                                mList.addAll(getRegisterShopModel.getData());
+                                if(shopStyleDialog == null) {
+                                    shopStyleDialog = new ShopDialog(mContext, mList) {
+                                        @Override
+                                        public void confirm(String name) {
+                                            tv_shop_style.setText(name);
+                                            tv_shop_style.setTextColor(Color.parseColor("#FF3B00"));
+                                            iv_arrow.setImageResource(R.mipmap.icon_shop_arrow);
+                                            tv_shop_style.setBackgroundResource(R.drawable.shape_red7);
+                                            dismiss();
+                                        }
+                                    };
                                 }
-                            });
-
-                            rl_type.setLayoutManager(new GridLayoutManager(mActivity, 3));
-                            RegisterShopAdapterTwo mRegisterAdapterType = new RegisterShopAdapterTwo(mActivity, mList);
-                            rl_type.setAdapter(mRegisterAdapterType);
-                            mRegisterAdapterType.setOnItemClickListener(new OnItemClickListener() {
-                                @Override
-                                public void onItemClick(View view, int position) {
-                                    isSelected = position;
-                                    mRegisterAdapterType.selectPosition(position);
-                                    shopTypeId = mList.get(isSelected).getId();
-                                    isChecked = true;
-                                    tv_shop_style.setText(mList.get(isSelected).getName());
-                                }
-
-                                @Override
-                                public void onItemLongClick(View view, int position) {
-
-                                }
-                            });
-
-                            tv_ok.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    if (isChecked) {
-                                        mTypedialog.dismiss();
-                                    } else {
-                                        AppHelper.showMsg(mActivity, "请选择店铺类型");
-                                    }
-                                }
-                            });
+                                shopStyleDialog.show();
+                            }
                         }
                     }
                 });
@@ -363,7 +284,6 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
 
     @Override
     public void setViewData() {
-
         if(getIntent().getStringExtra("phone")!=null) {
             phone = getIntent().getStringExtra("phone");
 
@@ -380,9 +300,6 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
         }
 
         requestRegisterAgreement();
-        getCustomerPhone();
-        tv_phone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
-        tv_phone.getPaint().setAntiAlias(true);//抗锯齿
         tv_register_secret.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         tv_register_secret.getPaint().setAntiAlias(true);//抗锯齿
         tv_register_agreement.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
@@ -392,35 +309,6 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
         mTypedialog.setCancelable(false);
     }
 
-    /**
-     * 获取客服电话
-     */
-    private void getCustomerPhone() {
-        GetCustomerPhoneAPI.requestData(mContext)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<GetCustomerPhoneModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(GetCustomerPhoneModel getCustomerPhoneModel) {
-                        if (getCustomerPhoneModel.isSuccess()) {
-                            mCustomerCell = getCustomerPhoneModel.getData();
-                            tv_phone.setText(mCustomerCell);
-                        } else {
-                            AppHelper.showMsg(mContext, getCustomerPhoneModel.getMessage());
-                        }
-                    }
-                });
-    }
 
     /**
      * 注册协议接口
@@ -465,15 +353,8 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
-            case R.id.toolbar_register:
+            case R.id.iv_back:
                 finish();
-                break;
-
-            case R.id.tv_phone:
-                if (StringHelper.notEmptyAndNull(mCustomerCell)) {
-                    showPhoneDialog(mCustomerCell);
-                }
                 break;
 
             case R.id.tv_register:
@@ -492,7 +373,7 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                                         AppHelper.showMsg(mContext, "授权码不能为空");
                                     }
                                 } else {
-                                    AppHelper.showMsg(mContext, "密码由6-16位数字与字母组成");
+                                    AppHelper.showMsg(mContext, "密码由6-16位数字或字母组成");
                                 }
                             } else {
                                 AppHelper.showMsg(mContext, "密码位数不足!");
@@ -509,23 +390,31 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                 }
                 break;
 
-            case R.id.cb_register:
+            case R.id.tv_shop_style:
+                if(et_author.getText().toString().length()!=0) {
+                    String sqm = et_author.getText().toString();
+                    checkNum(sqm);
+
+                }else {
+                    AppHelper.showMsg(mContext, "授权码不能为空");
+                }
+
                 break;
 
-            case R.id.iv_one:
+            case R.id.iv_close1:
                 //显示为星号或者显示数字
                 if (isStarFirst) {
                     //现在显示的星星,点击变成数字
                     isStarFirst = false;
                     et_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     et_password.setSelection(et_password.getText().length());
-                    iv_one.setImageResource(R.mipmap.ic_eye_open);
+                    iv_close1.setImageResource(R.mipmap.icon_eye_open);
                 } else {
                     //现在不是星星,点击变成星星
                     isStarFirst = true;
                     et_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     et_password.setSelection(et_password.getText().length());
-                    iv_one.setImageResource(R.mipmap.ic_login_hide);
+                    iv_close1.setImageResource(R.mipmap.icon_eye_close);
                 }
                 break;
 
@@ -538,20 +427,20 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                 startActivity(intent);
                 break;
 
-            case R.id.iv_two:
+            case R.id.iv_close2:
                 //显示为星号或者显示数字
                 if (isStarSecond) {
                     //现在显示的星星,点击变成数字
                     isStarSecond = false;
                     et_password_sure.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     et_password_sure.setSelection(et_password_sure.getText().length());
-                    iv_two.setImageResource(R.mipmap.ic_eye_open);
+                    iv_close2.setImageResource(R.mipmap.icon_eye_open);
                 } else {
                     //现在不是星星,点击变成星星
                     isStarSecond = true;
                     et_password_sure.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     et_password_sure.setSelection(et_password_sure.getText().length());
-                    iv_two.setImageResource(R.mipmap.ic_login_hide);
+                    iv_close2.setImageResource(R.mipmap.icon_eye_close);
                 }
                 break;
 
@@ -587,13 +476,12 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                                 wad = getCompanyModel.getData().getWad();
                                 if(getCompanyModel.getData().getWad()==1) {
                                     //代配
-
-                                    ll_company_name.setVisibility(View.VISIBLE);
-                                    ll_shop_style.setVisibility(View.GONE);
+                                    rl_company_name.setVisibility(View.VISIBLE);
+                                    rl_shop_style.setVisibility(View.GONE);
                                 }else {
                                     //翘歌
-                                    ll_company_name.setVisibility(View.GONE);
-                                    ll_shop_style.setVisibility(View.VISIBLE);
+                                    rl_company_name.setVisibility(View.GONE);
+                                    rl_shop_style.setVisibility(View.VISIBLE);
                                 }
                             }
 
@@ -641,36 +529,6 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                         }
                     }
                 });
-    }
-    /**
-     * 拨打电话弹窗
-     * @param cell
-     */
-    TextView tv_time;
-    TextView tv_phones;
-    private void showPhoneDialog(String cell) {
-        mDialog = new AlertDialog.Builder(mActivity).create();
-        mDialog.show();
-        mDialog.getWindow().setContentView(R.layout.dialog_call_phone);
-        tv_phones = mDialog.getWindow().findViewById(R.id.tv_phone);
-        tv_time = mDialog.getWindow().findViewById(R.id.tv_time);
-        tv_phones.setText("客服热线 ("+cell+")");
-        tv_phones.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + cell));
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                mDialog.dismiss();
-            }
-        });
-        tv_time.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UnicornManager.inToUnicorn(mActivity);
-                mDialog.dismiss();
-            }
-        });
     }
 
     /**

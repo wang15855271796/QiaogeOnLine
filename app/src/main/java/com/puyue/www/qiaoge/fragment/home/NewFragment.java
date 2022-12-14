@@ -18,7 +18,6 @@ import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.TopEvent;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LogoutsEvent;
-import com.puyue.www.qiaoge.activity.mine.login.RegisterActivity;
 import com.puyue.www.qiaoge.activity.mine.login.RegisterMessageActivity;
 import com.puyue.www.qiaoge.api.home.ProductListAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
@@ -318,7 +317,7 @@ public class NewFragment extends BaseFragment {
 
             @Override
             public void Register() {
-                startActivity(RegisterActivity.getIntent(mActivity, RegisterMessageActivity.class));
+                startActivity(RegisterMessageActivity.getIntent(mActivity, RegisterMessageActivity.class));
                 LoginUtil.initRegister(mActivity);
                 dismiss();
             }

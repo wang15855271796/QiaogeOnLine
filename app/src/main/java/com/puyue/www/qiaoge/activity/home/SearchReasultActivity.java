@@ -1,61 +1,45 @@
 package com.puyue.www.qiaoge.activity.home;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
+
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.tu.loadingdialog.LoadingDailog;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
-import com.puyue.www.qiaoge.activity.mine.login.RegisterActivity;
 import com.puyue.www.qiaoge.activity.mine.login.RegisterMessageActivity;
 import com.puyue.www.qiaoge.activity.view.ChoosePopWindow;
-import com.puyue.www.qiaoge.adapter.Must2Adapter;
-import com.puyue.www.qiaoge.adapter.SearchOperaAdapter;
 import com.puyue.www.qiaoge.adapter.home.SearchReasultAdapter;
 import com.puyue.www.qiaoge.adapter.home.SearchResultAdapter;
 import com.puyue.www.qiaoge.api.cart.GetCartNumAPI;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
-import com.puyue.www.qiaoge.dialog.CatePopWindow;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
 import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.event.UpDateNumEvent7;
 import com.puyue.www.qiaoge.event.UpDateNumEvent8;
-import com.puyue.www.qiaoge.fragment.home.AllGoodsFragment;
 import com.puyue.www.qiaoge.fragment.home.CityEvent;
-import com.puyue.www.qiaoge.fragment.home.OperateFragment;
-import com.puyue.www.qiaoge.fragment.home.UnOperateFragment;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.PublicRequestHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
@@ -63,10 +47,8 @@ import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.PopWindowListener;
 import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
 import com.puyue.www.qiaoge.model.home.GetCustomerPhoneModel;
-import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 import com.puyue.www.qiaoge.model.home.SearchResultsModel;
 import com.puyue.www.qiaoge.utils.LoginUtil;
-import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -83,10 +65,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import in.srain.cube.views.ptr.PtrClassicFrameLayout;
-import in.srain.cube.views.ptr.PtrDefaultHandler;
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -516,7 +494,7 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
 
             @Override
             public void Register() {
-                startActivity(RegisterActivity.getIntent(mActivity, RegisterMessageActivity.class));
+                startActivity(RegisterMessageActivity.getIntent(mActivity, RegisterMessageActivity.class));
                 LoginUtil.initRegister(mActivity);
                 dismiss();
             }

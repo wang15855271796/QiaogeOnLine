@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.base.BaseModel;
@@ -28,11 +29,7 @@ public class FeedBackActivity extends BaseSwipeActivity {
 
     private ImageView mIvBack;
     private EditText mEditText;
-    private EditText mEditName;
-    private EditText mEditPhone;
-    private EditText mEditQQEmail;
-    private EditText mEditWX;
-    private Button mBtnNext;
+    private TextView mBtnNext;
 
     private BaseModel mModelFeedback;
 
@@ -49,14 +46,9 @@ public class FeedBackActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
-        mIvBack = (ImageView) findViewById(R.id.iv_feedback_back);
+        mIvBack = (ImageView) findViewById(R.id.iv_back);
         mEditText = (EditText) findViewById(R.id.edit_feedback);
-
-        mEditName = (EditText) findViewById(R.id.edit_feedback_name);
-        mEditPhone = (EditText) findViewById(R.id.edit_feedback_phone);
-        mEditQQEmail = (EditText) findViewById(R.id.edit_feedback_qq_email);
-        mEditWX = (EditText) findViewById(R.id.edit_feedback_wx);
-        mBtnNext = (Button) findViewById(R.id.btn_feedback);
+        mBtnNext = (TextView) findViewById(R.id.btn_feedback);
     }
 
     @Override
@@ -93,25 +85,6 @@ public class FeedBackActivity extends BaseSwipeActivity {
         mBtnNext.setOnClickListener(new NoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View view) {
-//                if (StringHelper.notEmptyAndNull(mEditText.getText().toString())) {
-//                    if (StringHelper.notEmptyAndNull(mEditName.getText().toString())) {
-//                        //提交意见,其余几个选项都是可填的,也直接传给后台即可,没有就传空字符串
-//                        //三个联系方式必须填写一个,名字可以不填
-//                        if (!StringHelper.notEmptyAndNull(mEditPhone.getText().toString())
-//                                && !StringHelper.notEmptyAndNull(mEditQQEmail.getText().toString())
-//                                && !StringHelper.notEmptyAndNull(mEditWX.getText().toString())) {
-//                            //三个联系方式都为空
-//                           AppHelper.showMsg(mContext, "请至少填写一项联系方式");
-//                        } else {
-//                            //有一个联系方式即可
-//                            requestFeedback();
-//                        }
-//                    } else {
-//                        AppHelper.showMsg(mContext, "请先输入姓名");
-//                    }
-//                } else {
-//                    AppHelper.showMsg(mContext, "请先输入意见");
-//                }
                 if (StringHelper.notEmptyAndNull(mEditText.getText().toString())) {
                     requestFeedback();
                     finish();
@@ -132,10 +105,10 @@ public class FeedBackActivity extends BaseSwipeActivity {
     private void requestFeedback() {
         FeedbackAPI.requestFeedback(mContext,
                 mEditText.getText().toString(),
-                mEditName.getText().toString(),
-                mEditPhone.getText().toString(),
-                mEditQQEmail.getText().toString(),
-                mEditWX.getText().toString())
+                "",
+                "",
+                "",
+                "")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<BaseModel>() {

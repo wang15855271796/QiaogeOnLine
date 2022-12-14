@@ -107,7 +107,7 @@ public class ShopDetailActivity extends BaseSwipeActivity {
                                 lists = infoListModel.getData();
                                 tv_phone.setText(lists.getUserPhone());
                                 tv_content.setText(lists.getContent());
-                                tv_cate.setText(lists.getMsgTypeName());
+                                tv_cate.setText("#"+lists.getMsgTypeName());
                                 tv_contact.setText(lists.getContactPhone());
                                 tv_address.setText(lists.getDetailAddress());
 

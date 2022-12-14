@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_shop"
+        android:text="预制菜"
+        android:textColor="#FF4A26"
+        android:textSize="14sp"
+        android:layout_marginTop="@dimen/size_15dp"
+        android:paddingRight="@dimen/size_20dp"
+        android:paddingLeft="@dimen/size_20dp"
+        android:paddingBottom="@dimen/dp_10"
+        android:paddingTop="@dimen/dp_10"
+        android:background="@drawable/shape_red6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

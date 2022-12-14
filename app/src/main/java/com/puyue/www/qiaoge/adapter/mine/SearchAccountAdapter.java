@@ -29,21 +29,16 @@ public class SearchAccountAdapter extends BaseQuickAdapter<SearchListModel.DataB
 
     @Override
     protected void convert(BaseViewHolder helper, SearchListModel.DataBean.List1Bean item) {
-
-
         mTvContent = helper.getView(R.id.tv_content);
         iv_select = helper.getView(R.id.iv_select);
-
         mTvContent.setText(item.getValue());
 
-        if (selectPosition == helper.getLayoutPosition()) {
-            mTvContent.setBackgroundColor(Color.parseColor("#ffffeae1"));
-            mTvContent.setTextColor(Color.parseColor("#ffff5000"));
-            iv_select.setVisibility(View.VISIBLE);
+        if (selectPosition == helper.getAdapterPosition()) {
+            mTvContent.setBackgroundResource(R.drawable.shape_red10);
+            mTvContent.setTextColor(Color.parseColor("#FF5A30"));
         } else {
-            mTvContent.setBackgroundColor(Color.parseColor("#fff5f5f5"));
-            mTvContent.setTextColor(Color.parseColor("#ff333333"));
-            iv_select.setVisibility(View.GONE);
+            mTvContent.setBackgroundResource(R.drawable.shape_grey13);
+            mTvContent.setTextColor(Color.parseColor("#414141"));
         }
     }
 

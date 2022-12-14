@@ -38,7 +38,7 @@ public class HotListAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean
         ImageView iv_send = helper.getView(R.id.iv_send);
         ImageView iv_type = helper.getView(R.id.iv_type);
         RoundImageView iv_pic = helper.getView(R.id.iv_pic);
-        ImageView iv_add = helper.getView(R.id.iv_add);
+        TextView tv_add = helper.getView(R.id.tv_add);
         iv_style = helper.getView(R.id.iv_style);
         TextView tv_price = helper.getView(R.id.tv_price);
         TextView tv_stock_total = helper.getView(R.id.tv_stock_total);
@@ -77,15 +77,6 @@ public class HotListAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean
             tv_desc.setVisibility(View.GONE);
         }
 
-
-//        if(data.getFlag()==1) {
-//            Glide.with(mContext).load(data.getSoldOutPic()).into(iv_sale_done);
-//            iv_sale_done.setVisibility(View.VISIBLE);
-//        }else {
-//            iv_sale_done.setVisibility(View.GONE);
-//        }
-
-
         if(data.size()>=3) {
             if(helper.getAdapterPosition()==0) {
                 iv_type.setVisibility(View.VISIBLE);
@@ -105,17 +96,9 @@ public class HotListAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean
         }
 
 
-        iv_add.setOnClickListener(new View.OnClickListener() {
+        tv_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
-//                    hotDialog = new HotDialog(mContext,item.getProductId(),item);
-//                    hotDialog.show();
-//                }else {
-//                    onclick.addDialog();
-//                }
-
                 if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
                         hotDialog = new HotDialog(mContext,item.getProductId(),item);
@@ -127,8 +110,6 @@ public class HotListAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean
                     //未登录
                     onclick.login();
                 }
-
-
             }
         });
     }

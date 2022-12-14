@@ -165,7 +165,7 @@ public class GetWallertRecordByPageModel {
              * createDate : 2020-01-14 14:46:06
              * amount : -1.98
              * walletRecordChannelType : 支付宝
-             * recordType : 1
+             * recordType : 1(支出) 2(收入)
              * userId : 562
              * subUserId : 562
              * type : 1

@@ -6,6 +6,7 @@
     xmlns:boy="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootview"
+    android:background="#f7f7f7"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
@@ -67,7 +68,7 @@
 
                                 <RelativeLayout
                                     android:id="@+id/ll_bgc"
-                                    android:background="#F6391A"
+                                    android:background="@drawable/shape_jianbian6"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content">
 
@@ -94,8 +95,10 @@
                                     <!--顶部的六种推荐-->
                                     <androidx.recyclerview.widget.RecyclerView
                                         android:id="@+id/rv_recommend"
+                                        android:layout_marginRight="@dimen/size_20dp"
+                                        android:layout_marginLeft="@dimen/size_20dp"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"/>
+                                        android:layout_height="wrap_content" />
 
                                     <com.puyue.www.qiaoge.banner.Banner
                                         android:id="@+id/banner"
@@ -111,7 +114,7 @@
                                 <LinearLayout
                                     android:layout_below="@+id/rl_head"
                                     android:orientation="vertical"
-                                    android:background="#f6f6f6"
+                                    android:background="#f7f7f7"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content">
 
@@ -336,74 +339,77 @@
                     android:drawableLeft="@mipmap/ic_market_search"
                     android:drawablePadding="@dimen/size_10dp"
                     android:paddingLeft="12dp"
-                    android:text="@string/inputCommodityName"
-                    android:textColor="#666666"
-                    android:textSize="@dimen/size_14dp" />
+                    android:text="商品搜索"
+                    android:textColor="#A3A3A3"
+                    android:textSize="13sp" />
+
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_marginTop="@dimen/size_35dp"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/size_36dp">
+                android:layout_height="@dimen/size_36dp"
+                android:layout_marginTop="@dimen/size_35dp">
 
                 <ImageView
                     android:id="@+id/iv_location"
-                    android:layout_marginLeft="15dp"
+                    android:layout_width="15dp"
+                    android:layout_height="@dimen/size_18dp"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/icon_address2"
-                    android:layout_width="19dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_marginLeft="15dp"
+                    android:src="@mipmap/icon_address2" />
 
                 <TextView
-                    android:layout_toRightOf="@+id/iv_location"
                     android:id="@+id/tv_city"
-                    android:layout_marginLeft="@dimen/size_5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    tools:text="杭州.余杭区"
-                    android:lines="1"
+                    android:layout_marginLeft="@dimen/size_5dp"
                     android:layout_marginRight="@dimen/size_60dp"
+                    android:layout_toRightOf="@+id/iv_location"
                     android:ellipsize="end"
-                    android:textColor="#ffffff"
-                    android:textSize="18dp" />
+                    android:drawablePadding="@dimen/size_3dp"
+                    android:lines="1"
+                    android:drawableRight="@mipmap/rightarrow"
+                    android:textColor="#414141"
+                    android:textSize="16sp"
+                    tools:text="杭州.余杭区" />
 
                 <ImageView
                     android:id="@+id/iv_tip"
-                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignBaseline="@+id/tv_city"
                     android:layout_marginLeft="@dimen/size_5dp"
                     android:layout_toRightOf="@+id/tv_city"
                     android:src="@mipmap/ic_home_location_img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:visibility="gone" />
 
                 <RelativeLayout
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
                     android:id="@+id/rl_message"
                     android:layout_width="@dimen/size_60dp"
                     android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:layout_weight="1">
 
                     <ImageView
                         android:id="@+id/homeMessage"
-                        android:layout_centerInParent="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_mine_email"  />
+                        android:layout_centerInParent="true"
+                        android:src="@mipmap/ic_mine_email" />
 
                     <TextView
-                        android:text="4"
                         android:id="@+id/tv_num"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="-2dp"
+                        android:layout_toRightOf="@+id/homeMessage"
+                        android:background="@drawable/bg_msg_count"
+                        android:text="4"
                         android:textColor="@color/white"
                         android:textSize="9dp"
-                        android:visibility="gone"
-                        android:background="@drawable/bg_msg_count"
-                        android:layout_toRightOf="@+id/homeMessage"
-                        android:layout_height="wrap_content" />
+                        android:visibility="gone" />
 
                 </RelativeLayout>
             </RelativeLayout>

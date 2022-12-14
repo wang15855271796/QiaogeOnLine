@@ -6,9 +6,12 @@
     android:layout_height="wrap_content">
 
     <RelativeLayout
+        android:layout_marginTop="@dimen/size_7dp"
         android:id="@+id/ll_group"
         android:orientation="vertical"
         android:scrollbars="none"
+        android:layout_marginRight="@dimen/size_12dp"
+        android:layout_marginLeft="@dimen/size_12dp"
         android:layout_width="match_parent"
         android:layout_height="128dp">
 
@@ -20,27 +23,26 @@
 
             <RelativeLayout
                 android:id="@+id/rl"
-                android:layout_marginLeft="@dimen/size_10dp"
-                android:layout_marginTop="15dp"
                 android:layout_width="80dp"
-                android:layout_height="80dp">
+                android:layout_height="80dp"
+                android:layout_marginLeft="@dimen/size_10dp"
+                android:layout_marginTop="15dp">
 
                 <com.puyue.www.qiaoge.RoundImageView
                     android:id="@+id/iv_pic"
                     android:layout_width="@dimen/public_space_value_80"
                     android:layout_height="@dimen/public_space_value_80"
-                    android:scaleType="fitXY"
-                    />
+                    android:scaleType="fitXY" />
 
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/iv_send"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
                     android:layout_marginTop="@dimen/size_5dp"
                     android:layout_marginRight="@dimen/size_5dp"
-                    android:layout_alignParentRight="true"
                     android:src="@mipmap/icon_not_send2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/iv_type"
@@ -49,126 +51,122 @@
 
                 <ImageView
                     android:id="@+id/iv_sale_done"
-                    android:layout_centerInParent="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true" />
 
             </RelativeLayout>
 
             <TextView
                 android:id="@+id/tv_name"
-                android:textSize="14sp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="@dimen/size_12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="热狗香肠真棒热狗香肠"
                 android:layout_marginLeft="@dimen/size_12dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="@dimen/size_12dp"
                 android:layout_toRightOf="@+id/rl"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="#333333" />
+                android:text="热狗香肠真棒热狗香肠"
+                android:textColor="#333333"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_spec"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:layout_marginTop="@dimen/size_2dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/sp_12"
-                tools:text="规格：300g/500g/800g"
                 android:layout_below="@+id/tv_name"
                 android:layout_marginLeft="@dimen/size_12dp"
+                android:layout_marginTop="@dimen/size_2dp"
+                android:layout_marginRight="@dimen/sp_12"
                 android:layout_toRightOf="@+id/rl"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:textColor="#666"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                tools:text="规格：300g/500g/800g" />
 
             <TextView
-                android:layout_marginTop="@dimen/size_1dp"
                 android:id="@+id/tv_stock_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="库存：300"
                 android:layout_below="@+id/tv_spec"
                 android:layout_marginLeft="@dimen/size_12dp"
+                android:layout_marginTop="@dimen/size_1dp"
                 android:layout_toLeftOf="@+id/iv_close"
                 android:layout_toRightOf="@+id/rl"
                 android:textColor="#666"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                tools:text="库存：300" />
 
             <TextView
                 android:id="@+id/tv_sale"
-                android:layout_marginTop="@dimen/size_1dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="销售:300"
                 android:layout_below="@+id/tv_stock_total"
                 android:layout_marginLeft="@dimen/size_12dp"
+                android:layout_marginTop="@dimen/size_1dp"
                 android:layout_toLeftOf="@+id/iv_close"
                 android:layout_toRightOf="@+id/rl"
                 android:textColor="#666"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                tools:text="销售:300" />
 
             <LinearLayout
                 android:id="@+id/ll"
-                android:layout_marginLeft="@dimen/size_12dp"
-                android:layout_toRightOf="@+id/rl"
-                android:layout_below="@+id/tv_sale"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_sale"
+                android:layout_marginLeft="@dimen/size_12dp"
+                android:layout_toRightOf="@+id/rl">
 
                 <TextView
-                    android:text="100"
                     android:id="@+id/tv_price"
-                    android:textSize="@dimen/size_18dp"
-                    android:textColor="#FFFF5C00"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="100"
+                    android:textColor="#FFFF5C00"
+                    android:textSize="@dimen/size_18dp" />
 
                 <TextView
-                    android:visibility="gone"
-                    android:text="价格授权后可见"
                     android:id="@+id/tv_desc"
-                    android:textSize="@dimen/size_16dp"
-                    android:textColor="#FFFF5C00"
-                    android:layout_toRightOf="@+id/rl"
-                    android:layout_below="@+id/tv_sale"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_sale"
+                    android:layout_toRightOf="@+id/rl"
+                    android:text="价格授权后可见"
+                    android:textColor="#FFFF5C00"
+                    android:textSize="@dimen/size_16dp"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
 
             <ImageView
                 android:id="@+id/iv_style"
+                android:layout_width="@dimen/size_38dp"
+                android:layout_height="@dimen/size_16dp"
+                android:layout_below="@+id/ll"
                 android:layout_marginLeft="@dimen/size_12dp"
                 android:layout_toRightOf="@+id/rl"
-                android:layout_below="@+id/ll"
-                tools:src="@mipmap/icon_after_next"
-                android:layout_width="@dimen/size_38dp"
-                android:layout_height="@dimen/size_16dp" />
+                tools:src="@mipmap/icon_after_next" />
 
         </RelativeLayout>
 
-        <View
-            android:background="#eeeeee"
-            android:layout_marginTop="@dimen/size_12dp"
-            android:layout_marginLeft="@dimen/size_12dp"
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"/>
-
-        <ImageView
-            android:id="@+id/iv_add"
-            android:src="@mipmap/app_add"
+        <TextView
+            android:id="@+id/tv_add"
+            android:text="立即加购"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/shape_jianbian10"
+            android:gravity="center"
             android:layout_marginBottom="@dimen/size_10dp"
             android:layout_alignParentBottom="true"
             android:layout_marginRight="@dimen/size_16dp"
             android:layout_marginTop="@dimen/size_57dp"
             android:layout_alignParentRight="true"
-            android:layout_width="@dimen/size_30dp"
-            android:layout_height="@dimen/size_30dp" />
+            android:layout_width="@dimen/size_57dp"
+            android:layout_height="@dimen/size_22dp" />
 
     </RelativeLayout>
 </LinearLayout>

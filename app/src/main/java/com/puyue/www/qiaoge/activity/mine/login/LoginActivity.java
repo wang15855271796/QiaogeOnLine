@@ -70,29 +70,16 @@ import rx.schedulers.Schedulers;
 public class LoginActivity extends BaseSwipeActivity {
 
     private EditText mEditAccount;
-    private RelativeLayout mRlAccountDelete;
     private EditText mEditPassword;
-    private RelativeLayout mRlPasswordDisplay;
-    private ImageView mIvPasswordDisplay;
-    private ImageView mBtnLogin;
+    private TextView tv_login;
     private TextView mTvForgetPassword;
     private TextView mTvRegister;
     private RelativeLayout mRelative;
     private boolean showPassword = true;
     private ImageView mIvBack;
-
     private LoginModel mModelLogin;
-
-    private LinearLayout linIphone;
     private LinearLayout linPsd;
-
-    private ImageView iv_change_type;
-    private LinearLayout ll_change_type;
-//    public LocationClient mLocationClient = null;
-//    private MyLocationListener myListener = new MyLocationListener();
-
-//    private String city = "";
-
+    ImageView iv_eye;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -107,116 +94,53 @@ public class LoginActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
+        iv_eye = (ImageView) findViewById(R.id.iv_eye);
         mEditAccount = (EditText) findViewById(R.id.edit_login_account);
-        mRlAccountDelete = (RelativeLayout) findViewById(R.id.rl_login_account_delete);
         mEditPassword = (EditText) findViewById(R.id.edit_login_password);
-        mRlPasswordDisplay = (RelativeLayout) findViewById(R.id.rl_login_password_display);
-        mIvPasswordDisplay = (ImageView) findViewById(R.id.iv_login_password_display);
-        mBtnLogin = (ImageView) findViewById(R.id.btn_login_next);
+        tv_login = (TextView) findViewById(R.id.tv_login);
         mTvForgetPassword = (TextView) findViewById(R.id.tv_login_forget_password);
         mTvRegister = (TextView) findViewById(R.id.tv_login_register);
-        mIvBack = (ImageView) findViewById(R.id.iv_login_back);
-        linIphone = (LinearLayout) findViewById(R.id.linIphone);
+        mIvBack = (ImageView) findViewById(R.id.iv_back);
         linPsd = (LinearLayout) findViewById(R.id.linPsd);
         mRelative = (RelativeLayout) findViewById(R.id.relativeLayout);
-        iv_change_type = (ImageView) findViewById(R.id.iv_change_type);
-        ll_change_type = (LinearLayout) findViewById(R.id.ll_change_type);
-
+        tv_login.setEnabled(false);
     }
 
     @Override
     public void setViewData() {
-
-//        mLocationClient = new LocationClient(getApplicationContext());
-//        //声明LocationClient类
-//        mLocationClient.registerLocationListener(myListener);
-        //注册监听函数
-//        LocationClientOption option = new LocationClientOption();
-//
-//        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-//        option.setIsNeedAddress(true);
-//可选，是否需要地址信息，默认为不需要，即参数为false
-//如果开发者需要获得当前点的地址信息，此处必须为true
-
-//        mLocationClient.setLocOption(option);
-//        mLocationClient.start();
-//        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
-
-
-        //在登录这里不需要去判断用户输入的密码是否合规,只要请求接口确认是和后台的密码一致的即可
-        // mEditAccount.setInputType(InputType.TYPE_CLASS_NUMBER);
-        //用了荣耀8青春版就黑屏
         mEditPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-        //   mEditPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        mBtnLogin.setEnabled(false);
-        // mBtnLogin.setTextColor(getResources().getColor(R.color.app_btn_unable));
-        //根据用户有没有登录过,显示之前那一次登录的账号
         if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserCell(mContext))) {
             mEditAccount.setText(UserInfoHelper.getUserCell(mContext));
         }
-        //  applyBlur();
     }
 
     @Override
     public void setClickEvent() {
+        iv_eye.setOnClickListener(noDoubleClickListener);
         mEditAccount.addTextChangedListener(textWatcher);
         mEditPassword.addTextChangedListener(textWatcher);
-        mRlAccountDelete.setOnClickListener(noDoubleClickListener);
-        mRlPasswordDisplay.setOnClickListener(noDoubleClickListener);
-        mBtnLogin.setOnClickListener(noDoubleClickListener);
+        tv_login.setOnClickListener(noDoubleClickListener);
         mTvForgetPassword.setOnClickListener(noDoubleClickListener);
         mTvRegister.setOnClickListener(noDoubleClickListener);
         mIvBack.setOnClickListener(noDoubleClickListener);
-        iv_change_type.setOnClickListener(noDoubleClickListener);
-        ll_change_type.setOnClickListener(noDoubleClickListener);
-        mEditAccount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-
-           /*     if (b) {
-                    linIphone.setBackgroundColor(Color.parseColor("#BDBDBD"));
-                } else {
-                    linIphone.setBackgroundColor(Color.parseColor("#EFEFEF"));
-                }*/
-            }
-        });
-        mEditPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-
-
-/*
-                if (b) {
-                    linPsd.setBackgroundColor(Color.parseColor("#BDBDBD"));
-                } else {
-                    linPsd.setBackgroundColor(Color.parseColor("#EFEFEF"));
-                }*/
-            }
-        });
-
-
     }
 
     private NoDoubleClickListener noDoubleClickListener = new NoDoubleClickListener() {
         @Override
         public void onNoDoubleClick(View view) {
-            if (view == mRlAccountDelete) {
-                mEditAccount.setText("");
-            } else if (view == mRlPasswordDisplay) {
+             if (view == iv_eye) {
                 if (showPassword) {// 显示密码
-
-                    mIvPasswordDisplay.setImageResource(R.mipmap.ic_login_display);
+                    iv_eye.setImageResource(R.mipmap.icon_eye_open);
                     mEditPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     mEditPassword.setSelection(mEditPassword.getText().toString().length());
                     showPassword = !showPassword;
                 } else {// 隐藏密码
-
-                    mIvPasswordDisplay.setImageResource(R.mipmap.ic_login_hide);
+                    iv_eye.setImageResource(R.mipmap.icon_eye_close);
                     mEditPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     mEditPassword.setSelection(mEditPassword.getText().toString().length());
                     showPassword = !showPassword;
                 }
-            } else if (view == mBtnLogin) {
+            } else if (view == tv_login) {
                 //走登录流程
                 hintKbTwo();
                 requestLogin();
@@ -238,87 +162,6 @@ public class LoginActivity extends BaseSwipeActivity {
                 startActivity(intent);
 
                 finish();
-            } else if (view == iv_change_type || view == ll_change_type) {
-
-                AlertDialog alertDialog = new AlertDialog.Builder(mContext, R.style.DialogStyle).create();
-                alertDialog.setCanceledOnTouchOutside(true);
-                alertDialog.show();
-                Window window = alertDialog.getWindow();
-                WindowManager.LayoutParams p = window.getAttributes();
-                p.width = WindowManager.LayoutParams.MATCH_PARENT;
-                p.height = WindowManager.LayoutParams.MATCH_PARENT;
-                p.dimAmount = 0.5f;
-                window.setAttributes(p);
-                getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-
-                window.setContentView(R.layout.login_change_type);
-                LinearLayout ll_business_manage = window.findViewById(R.id.ll_business_manage);
-                ll_business_manage.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(LoginActivity.this,DcloudActvity.class);
-                        startActivity(intent);
-                    }
-                });
-                LinearLayout linearLayout = window.findViewById(R.id.linearlayout_driver);
-                LinearLayout ll_driver = window.findViewById(R.id.ll_driver);//司机端登录
-                LinearLayout ll_purchase = window.findViewById(R.id.ll_purchase);//司机端登录
-
-
-                linearLayout.getBackground().setAlpha(80);
-
-                LinearLayout linearLayout1 = window.findViewById(R.id.tv_tool);
-                linearLayout1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        alertDialog.dismiss();
-                    }
-                });
-                LinearLayout linearLayout2 = window.findViewById(R.id.ll_two);
-                linearLayout2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        alertDialog.dismiss();
-                    }
-                });
-
-                ll_driver.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-////https://shaokao.qoger.com/apph5/html/OrderList.html
-                        //http://120.55.55.99:8082/apph5/html/OrderList.html
-                        String url = "https://shaokao.qoger.com/apph5/html/OrderList.html";
-
-//                        Intent intent = new Intent(mContext, WebDriverActivity.class);
-//                        intent.putExtra("URL", url);
-                        if (!NetWorkHelper.isNetworkAvailable(mContext)) {
-                            AppHelper.showMsg(mContext, "网络不给力!");
-                        } else {
-//                            startActivity(intent);
-                        }
-
-                        alertDialog.dismiss();
-                    }
-                });
-
-        /*        ll_purchase.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String url ="http://120.55.55.99:8082/apph5/BusinessApp/index.html";
-
-                        Intent intent = new Intent(mContext, NewWebViewActivity.class);
-                        intent.putExtra("URL", url);
-                        intent.putExtra("name", "");
-                        if (!NetWorkHelper.isNetworkAvailable(mContext)) {
-                            AppHelper.showMsg(mContext, "网络不给力!");
-                        }else {
-                            startActivity(intent);
-                        }
-
-                        alertDialog.dismiss();
-                    }
-                });*/
             }
         }
     };
@@ -618,12 +461,10 @@ public class LoginActivity extends BaseSwipeActivity {
             if (StringHelper.notEmptyAndNull(mEditAccount.getText().toString())
                     && StringHelper.notEmptyAndNull(mEditPassword.getText().toString())) {
                 //两个都输入了
-                mBtnLogin.setEnabled(true);
-                //  mBtnLogin.setTextColor(getResources().getColor(R.color.app_color_white));
+                tv_login.setEnabled(true);
             } else {
                 //数据输入不完全
-                mBtnLogin.setEnabled(false);
-                //  mBtnLogin.setTextColor(getResources().getColor(R.color.app_btn_unable));
+                tv_login.setEnabled(false);
             }
 
             if (s.length() > 0) {

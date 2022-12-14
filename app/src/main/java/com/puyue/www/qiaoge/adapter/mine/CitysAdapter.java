@@ -2,28 +2,15 @@ package com.puyue.www.qiaoge.adapter.mine;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.home.CustomPopWindow;
-import com.puyue.www.qiaoge.activity.mine.login.RegisterActivity;
-import com.puyue.www.qiaoge.adapter.market.MarketSecondAdapter;
 import com.puyue.www.qiaoge.dialog.CityDialog;
-import com.puyue.www.qiaoge.dialog.PromptDialog;
-import com.puyue.www.qiaoge.fragment.market.MarketsFragment;
-import com.puyue.www.qiaoge.fragment.market.SearchProdAdapter;
 import com.puyue.www.qiaoge.model.home.CityChangeModel;
 
 import java.util.List;

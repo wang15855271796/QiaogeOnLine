@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--3个层的顺序即为显示时的叠加顺序-->
+    <!--背景色-->
+    <item android:id="@android:id/background">
+        <shape>
+            <corners android:radius="500dip" />
+            <solid android:color="#F5F3F3" />
+        </shape>
+    </item>
+
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <corners android:radius="500dip" />
+                <solid android:color="#FFC515" />
+                <!--                <gradient-->
+                <!--                    android:angle="180"-->
+                <!--                    android:endColor="#6F6DF1"-->
+                <!--                    android:startColor="#6DC6F1"-->
+                <!--                    />-->
+            </shape>
+        </clip>
+
+
+    </item>
+
+</layer-list>

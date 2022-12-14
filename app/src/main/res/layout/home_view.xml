@@ -13,33 +13,46 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!--  秒杀  -->
         <LinearLayout
-            android:layout_marginTop="@dimen/size_6dp"
             android:visibility="gone"
+            android:layout_marginTop="@dimen/size_6dp"
             android:id="@+id/ll_skill"
             android:layout_marginRight="@dimen/size_3dp"
             android:layout_width="match_parent"
             android:layout_weight="1"
+            android:background="@mipmap/bg_home_skill"
             android:orientation="vertical"
-            android:layout_height="132dp">
+            android:layout_height="117dp">
 
-            <LinearLayout
-                android:id="@+id/ll_skill_bg"
-                android:background="@mipmap/bg_skills"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="@dimen/dp_40">
 
                 <ImageView
                     android:src="@mipmap/bg_skill_active"
-                    android:layout_marginLeft="@dimen/size_5dp"
-                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="@dimen/size_12dp"
+                    android:layout_marginLeft="@dimen/size_12dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
-                <com.puyue.www.qiaoge.view.SnapUpCountDownTimerView3
+                <TextView
+                    android:id="@+id/tv_skill_more"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/size_20dp"
+                    android:drawableRight="@mipmap/ic_address_icon"
+                    android:drawablePadding="@dimen/size_3dp"
+                    android:text="查看全部"
+                    android:textColor="#414141"
+                    android:textSize="11sp" />
+
+                <com.puyue.www.qiaoge.view.SnapUpCountDownTimerViewss
                     android:id="@+id/snap1"
                     android:visibility="gone"
-                    android:background="@drawable/shape_jianbian1"
                     android:layout_width="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="@dimen/size_5dp"
@@ -47,7 +60,7 @@
                     android:paddingRight="@dimen/size_2dp"
                     android:gravity="center_horizontal"
                     android:layout_gravity="center_vertical"
-                    android:layout_height="@dimen/size_20dp"/>
+                    android:layout_height="match_parent"/>
 
                 <TextView
                     android:visibility="gone"
@@ -55,156 +68,231 @@
                     android:text="10天20小时"
                     android:textColor="#ffffff"
                     android:layout_marginRight="@dimen/size_2dp"
-                    android:paddingBottom="@dimen/size_2dp"
-                    android:paddingTop="@dimen/size_2dp"
+                    android:paddingBottom="@dimen/size_1dp"
                     android:paddingLeft="@dimen/size_2dp"
+                    android:layout_marginLeft="@dimen/size_7dp"
                     android:paddingRight="@dimen/size_2dp"
+                    android:layout_marginTop="@dimen/size_12dp"
                     android:textSize="9sp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/shape_jianbian1"
+                    android:background="@drawable/shape_jianbian8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
-            </LinearLayout>
+            </RelativeLayout>
 
             <com.puyue.www.qiaoge.view.MarqueeView
                 android:id="@+id/rv_skill"
-                android:background="@drawable/shape_white6"
                 app:standDuration="2500"
                 android:layout_width="match_parent"
-                android:layout_height="90dp" />
+                android:layout_height="77dp" />
 
         </LinearLayout>
 
         <!--    满赠2    -->
         <LinearLayout
             android:layout_marginTop="@dimen/size_6dp"
-            android:visibility="gone"
             android:id="@+id/ll_full1"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_weight="1"
+            android:background="@mipmap/bg_home_full"
             android:orientation="vertical"
-            android:layout_height="132dp">
+            android:layout_height="117dp">
 
-            <LinearLayout
-                android:id="@+id/ll_full_bg1"
-                android:background="@mipmap/bg_fulls"
+            <RelativeLayout
                 android:layout_width="match_parent"
+                android:orientation="vertical"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:text="满赠特惠"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="@dimen/size_6dp"
-                    android:textColor="#ffffff"
-                    android:textSize="@dimen/sp_16"
-                    android:layout_gravity="center_vertical"
+                <LinearLayout
+                    android:id="@+id/ll_full_bg1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:textStyle="bold"
+                        android:src="@mipmap/bg_full_title"
+                        android:textSize="@dimen/sp_16"
+                        android:layout_marginLeft="@dimen/size_12dp"
+                        android:layout_marginTop="@dimen/size_12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <ImageView
+                        android:layout_marginTop="@dimen/size_11dp"
+                        android:src="@mipmap/ic_full_small_title"
+                        android:layout_marginLeft="@dimen/size_3dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_below="@+id/ll_full_bg1"
+                    android:layout_marginLeft="@dimen/size_12dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:src="@mipmap/ic_full_sicon"
+                        android:layout_marginTop="@dimen/size_2dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/tv_full_desc1"
+                        android:text="好礼赠不停 "
+                        android:textColor="#8F8F8F"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="@dimen/size_3dp"
+                        android:layout_marginTop="@dimen/size_3dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/tv_full_desc1"
-                    android:text="好礼赠不停！"
-                    android:textColor="#ffffff"
-                    android:layout_marginLeft="@dimen/size_5dp"
-                    android:textSize="@dimen/dp_10"
-                    android:layout_gravity="center_vertical"
+                    android:id="@+id/tv_skill_more"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/size_20dp"
+                    android:drawableRight="@mipmap/ic_address_icon"
+                    android:drawablePadding="@dimen/size_3dp"
+                    android:text="查看全部"
+                    android:textColor="#414141"
+                    android:textSize="11sp" />
+            </RelativeLayout>
 
-            </LinearLayout>
 
             <com.puyue.www.qiaoge.view.MarqueeView
-                android:background="@drawable/shape_white6"
                 android:id="@+id/rv_full1"
                 app:standDuration="3000"
                 android:layout_width="match_parent"
-                android:layout_height="90dp"/>
+                android:layout_height="77dp"/>
 
 
         </LinearLayout>
 
+        <!--  满赠  -->
         <LinearLayout
             android:visibility="gone"
             android:layout_marginTop="@dimen/size_6dp"
             android:layout_marginLeft="@dimen/size_3dp"
             android:id="@+id/ll_full"
-            android:gravity="right"
             android:layout_width="match_parent"
             android:layout_weight="1"
+            android:background="@mipmap/bg_home_full"
             android:orientation="vertical"
-            android:layout_height="132dp">
+            android:layout_height="117dp">
 
-            <LinearLayout
-                android:id="@+id/ll_full_bg"
-                android:background="@mipmap/bg_fulls"
+            <RelativeLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="@dimen/dp_40">
+
+                <LinearLayout
+                    android:id="@+id/ll_full_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:textStyle="bold"
+                        android:src="@mipmap/bg_full_title"
+                        android:textSize="@dimen/sp_16"
+                        android:layout_marginLeft="@dimen/size_12dp"
+                        android:layout_marginTop="@dimen/size_12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <ImageView
+                        android:layout_marginTop="@dimen/size_11dp"
+                        android:src="@mipmap/ic_full_small_title"
+                        android:layout_marginLeft="@dimen/size_3dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_below="@+id/ll_full_desc"
+                    android:layout_marginLeft="@dimen/size_12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:src="@mipmap/ic_full_sicon"
+                        android:layout_marginTop="@dimen/size_1dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/tv_full_desc"
+                        android:text="好礼赠不停 "
+                        android:textColor="#8F8F8F"
+                        android:textSize="10sp"
+                        android:layout_marginTop="@dimen/size_1dp"
+                        android:layout_marginLeft="@dimen/size_3dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
 
                 <TextView
-                    android:text="满赠特惠"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="@dimen/size_5dp"
-                    android:textColor="#ffffff"
-                    android:textSize="@dimen/sp_16"
-                    android:layout_gravity="center_vertical"
+                    android:id="@+id/tv_skill_more"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/size_20dp"
+                    android:drawableRight="@mipmap/ic_address_icon"
+                    android:drawablePadding="@dimen/size_3dp"
+                    android:text="查看全部"
+                    android:textColor="#414141"
+                    android:textSize="11sp" />
 
-                <TextView
-                    android:id="@+id/tv_full_desc"
-                    android:text="好礼赠不停！"
-                    android:textColor="#ffffff"
-                    android:layout_marginLeft="@dimen/size_5dp"
-                    android:textSize="@dimen/dp_10"
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
+            </RelativeLayout>
 
             <com.puyue.www.qiaoge.view.MarqueeView
                 android:id="@+id/rv_full"
-                android:background="@drawable/shape_white6"
                 app:standDuration="3000"
                 android:layout_width="match_parent"
-                android:layout_height="90dp"/>
+                android:layout_height="77dp"/>
         </LinearLayout>
 
         <!--  隐藏 组合2 -->
         <LinearLayout
             android:visibility="gone"
+            android:background="@mipmap/bg_home_team"
             android:layout_marginTop="@dimen/size_6dp"
             android:id="@+id/ll_team1"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_marginLeft="@dimen/size_6dp"
-            android:layout_height="132dp">
+            android:layout_height="117dp">
 
             <LinearLayout
-                android:id="@+id/ll_team_bg1"
-                android:background="@mipmap/bg_team"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="@dimen/dp_40">
 
-                <TextView
+                <ImageView
                     android:text="组合购买"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="@dimen/size_6dp"
-                    android:textColor="#ffffff"
-                    android:textSize="@dimen/sp_16"
-                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/bg_team_title"
+                    android:layout_marginTop="@dimen/size_12dp"
+                    android:layout_marginLeft="@dimen/size_12dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
                 <TextView
                     android:id="@+id/tv_team_desc1"
                     android:text="好礼赠不停！"
-                    android:textColor="#ffffff"
-                    android:layout_marginLeft="@dimen/size_5dp"
+                    android:textColor="#8F8F8F"
+                    android:drawableLeft="@mipmap/ic_team_desc"
+                    android:drawablePadding="@dimen/size_3dp"
+                    android:layout_marginLeft="@dimen/size_3dp"
                     android:textSize="@dimen/dp_10"
-                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="@dimen/size_11dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -215,7 +303,7 @@
                 android:id="@+id/rv_team1"
                 app:standDuration="3500"
                 android:layout_width="match_parent"
-                android:layout_height="90dp"/>
+                android:layout_height="77dp"/>
         </LinearLayout>
 
         <!--   抵扣2 -->
@@ -225,33 +313,31 @@
             android:id="@+id/ll_discount1"
             android:layout_width="match_parent"
             android:layout_weight="1"
+            android:background="@mipmap/bg_home_coupon"
             android:layout_marginLeft="@dimen/size_7dp"
             android:orientation="vertical"
-            android:layout_height="132dp">
+            android:layout_height="117dp">
 
             <LinearLayout
-                android:id="@+id/ll_discount_bg1"
-                android:background="@mipmap/bg_discount"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="@dimen/dp_40">
 
-                <TextView
-                    android:text="折扣专区"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="@dimen/size_6dp"
-                    android:textColor="#ffffff"
-                    android:textSize="@dimen/sp_16"
-                    android:layout_gravity="center_vertical"
+                <ImageView
+                    android:src="@mipmap/bg_coupon_title"
+                    android:layout_marginTop="@dimen/size_12dp"
+                    android:layout_marginLeft="@dimen/size_12dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
                 <TextView
                     android:id="@+id/tv_discount_desc1"
                     android:text="好礼赠不停！"
-                    android:textColor="#ffffff"
-                    android:layout_marginLeft="@dimen/size_5dp"
-                    android:textSize="@dimen/dp_10"
-                    android:layout_gravity="center_vertical"
+                    android:textColor="#8F8F8F"
+                    android:drawablePadding="@dimen/size_3dp"
+                    android:drawableLeft="@mipmap/ic_coupon_desc"
+                    android:layout_marginTop="@dimen/size_11dp"
+                    android:layout_marginLeft="@dimen/size_3dp"
+                    android:textSize="10sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
@@ -261,13 +347,14 @@
                 android:id="@+id/rv_discount1"
                 app:standDuration="4000"
                 android:layout_width="match_parent"
-                android:layout_height="90dp"/>
+                android:layout_height="77dp"/>
         </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_two"
+        android:visibility="gone"
         android:layout_marginTop="@dimen/size_6dp"
         android:layout_marginRight="@dimen/dp_10"
         android:layout_marginLeft="@dimen/dp_10"
@@ -279,33 +366,33 @@
             android:id="@+id/ll_team"
             android:layout_width="match_parent"
             android:layout_weight="1"
+            android:background="@mipmap/bg_home_team"
             android:layout_marginRight="@dimen/size_3dp"
             android:orientation="vertical"
-            android:layout_height="132dp">
+            android:layout_height="117dp">
 
             <LinearLayout
                 android:id="@+id/ll_team_bg"
-                android:background="@mipmap/bg_team"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="@dimen/dp_40">
 
-                <TextView
+                <ImageView
                     android:text="组合购买"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="@dimen/size_5dp"
-                    android:textColor="#ffffff"
-                    android:textSize="@dimen/sp_16"
-                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/bg_team_title"
+                    android:layout_marginTop="@dimen/size_12dp"
+                    android:layout_marginLeft="@dimen/size_12dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
                 <TextView
                     android:id="@+id/tv_team_desc"
                     android:text="好礼赠不停！"
-                    android:textColor="#ffffff"
-                    android:layout_marginLeft="@dimen/size_5dp"
+                    android:textColor="#8F8F8F"
+                    android:drawableLeft="@mipmap/ic_team_desc"
+                    android:drawablePadding="@dimen/size_3dp"
+                    android:layout_marginLeft="@dimen/size_3dp"
                     android:textSize="@dimen/dp_10"
-                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="@dimen/size_11dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -313,54 +400,51 @@
 
             <com.puyue.www.qiaoge.view.MarqueeView
                 android:id="@+id/rv_team"
-                android:background="@drawable/shape_white6"
                 app:standDuration="3500"
                 android:layout_width="match_parent"
-                android:layout_height="90dp"/>
+                android:layout_height="77dp"/>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_discount"
             android:visibility="gone"
+            android:id="@+id/ll_discount"
             android:layout_width="match_parent"
             android:layout_weight="1"
+            android:background="@mipmap/bg_home_coupon"
             android:layout_marginLeft="@dimen/size_3dp"
             android:orientation="vertical"
-            android:layout_height="132dp">
+            android:layout_height="117dp">
 
             <LinearLayout
                 android:id="@+id/ll_discount_bg"
-                android:background="@mipmap/bg_discount"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="@dimen/dp_40">
 
-                <TextView
-                    android:text="折扣专区"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="@dimen/size_5dp"
-                    android:textColor="#ffffff"
-                    android:textSize="@dimen/sp_16"
-                    android:layout_gravity="center_vertical"
+                <ImageView
+                    android:src="@mipmap/bg_coupon_title"
+                    android:layout_marginTop="@dimen/size_12dp"
+                    android:layout_marginLeft="@dimen/size_12dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
                 <TextView
                     android:id="@+id/tv_discount_desc"
                     android:text="好礼赠不停！"
-                    android:textColor="#ffffff"
-                    android:layout_marginLeft="@dimen/size_5dp"
-                    android:textSize="@dimen/dp_10"
-                    android:layout_gravity="center_vertical"
+                    android:textColor="#8F8F8F"
+                    android:drawablePadding="@dimen/size_3dp"
+                    android:drawableLeft="@mipmap/ic_coupon_desc"
+                    android:layout_marginTop="@dimen/size_11dp"
+                    android:layout_marginLeft="@dimen/size_3dp"
+                    android:textSize="10sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
 
             <com.puyue.www.qiaoge.view.MarqueeView
                 android:id="@+id/rv_discount"
-                android:background="@drawable/shape_white6"
                 app:standDuration="4000"
                 android:layout_width="match_parent"
-                android:layout_height="90dp"/>
+                android:layout_height="77dp"/>
 
 
         </LinearLayout>
@@ -379,7 +463,6 @@
 
         <!-- 热销 -->
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/ll_city"
             android:layout_marginTop="@dimen/size_6dp"
             android:layout_marginBottom="@dimen/size_6dp"
@@ -388,69 +471,47 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:layout_width="300dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_height="134dp">
+                android:layout_width="match_parent"
+                android:background="@drawable/shape_white1"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:background="@mipmap/bg_hot"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                <TextView
+                    android:text="热销榜单"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="@dimen/size_6dp"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/sp_14"
+                    android:drawableBottom="@mipmap/icon_hot"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
-                    <TextView
-                        android:text="热销榜单"
-                        android:textStyle="bold"
-                        android:layout_marginLeft="@dimen/size_6dp"
-                        android:textColor="#ffffff"
-                        android:textSize="@dimen/sp_16"
-                        android:layout_gravity="center_vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                <ImageView
+                    android:src="@mipmap/ic_hot_line"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/size_5dp"
+                    android:layout_height="wrap_content"/>
 
-
-                </LinearLayout>
-
-                <RelativeLayout
-                    android:background="@drawable/shape_white6"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:background="@drawable/shape_white1"
-                        android:id="@+id/rv_hot"
-                        android:visibility="gone"
-                        android:layout_marginRight="@dimen/size_3dp"
-                        android:layout_marginLeft="@dimen/size_3dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-                    <ImageView
-                        android:id="@+id/iv_empty_hot"
-                        android:scaleType="fitXY"
-                        android:visibility="gone"
-                        android:layout_centerHorizontal="true"
-                        android:src="@mipmap/icon_empty_hot"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </RelativeLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_hot"
+                    android:layout_marginTop="@dimen/size_6dp"
+                    android:layout_marginRight="@dimen/size_3dp"
+                    android:layout_marginLeft="@dimen/size_3dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/iv_huo"
-                android:layout_marginLeft="@dimen/size_6dp"
-                android:layout_width="wrap_content"
-                android:layout_height="134dp"
-                android:src="@mipmap/icon_huo_lala" />
         </LinearLayout>
 
         <ImageView
-            android:visibility="gone"
+            android:scaleType="fitXY"
             android:id="@+id/iv_huo_company"
-            android:src="@mipmap/icon_hot_huo"
+            android:src="@mipmap/icon_huo_lala"
             android:layout_width="match_parent"
-            android:layout_height="134dp"/>
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

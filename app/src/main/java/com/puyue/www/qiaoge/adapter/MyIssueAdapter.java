@@ -46,8 +46,8 @@ public class MyIssueAdapter extends BaseQuickAdapter<InfoListModel.DataBean.List
     @Override
     protected void convert(BaseViewHolder helper, InfoListModel.DataBean.ListBean item) {
         RoundImageView iv_pic = helper.getView(R.id.iv_pic);
+        ImageView iv_state =  helper.getView(R.id.iv_state);
         TextView tv_look = helper.getView(R.id.tv_look);
-        ImageView iv_status1 = helper.getView(R.id.iv_status1);
         TextView tv_status1 = helper.getView(R.id.tv_status1);
         tv_look.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +66,6 @@ public class MyIssueAdapter extends BaseQuickAdapter<InfoListModel.DataBean.List
             iv_pic.setImageResource(R.mipmap.bg_emptys);
         }
 
-        ImageView iv_status = helper.getView(R.id.iv_status);
         TextView tv_deleted = helper.getView(R.id.tv_deleted);
         if(item.getMsgType().equals("1")) {
             helper.setText(R.id.tv_title,"店铺转让");
@@ -87,31 +86,25 @@ public class MyIssueAdapter extends BaseQuickAdapter<InfoListModel.DataBean.List
             //已审核
             tv_status1.setVisibility(View.GONE);
             tv_status.setVisibility(View.VISIBLE);
-            iv_status1.setVisibility(View.GONE);
-            iv_status.setVisibility(View.VISIBLE);
             tv_status.setText("审核信息已通过");
-            iv_status.setBackgroundResource(R.mipmap.icon_dui);
+            iv_state.setBackgroundResource(R.mipmap.ic_pass);
             tv_edit.setVisibility(View.GONE);
             tv_look.setVisibility(View.VISIBLE);
         }else if(item.getCheckStatus().equals("0")) {
             //待审核
             tv_status1.setVisibility(View.GONE);
             tv_status.setVisibility(View.VISIBLE);
-            iv_status1.setVisibility(View.GONE);
-            iv_status.setVisibility(View.VISIBLE);
-            tv_status.setText("审核中…");
-            iv_status.setBackgroundResource(R.mipmap.icon_shengnue);
+            tv_status.setText("审核中");
+            iv_state.setBackgroundResource(R.mipmap.ic_verify);
             tv_edit.setVisibility(View.VISIBLE);
             tv_look.setVisibility(View.GONE);
 
         }else if(item.getCheckStatus().equals("2")){
             tv_status1.setVisibility(View.VISIBLE);
             tv_status.setVisibility(View.GONE);
-            iv_status1.setVisibility(View.VISIBLE);
-            iv_status.setVisibility(View.GONE);
-            SpannableStringBuilder text = StringSpecialHelper.buildSpanColorStyle("审核未通过查看原因", 5, 4, Color.parseColor("#FF5C00"));
+            SpannableStringBuilder text = StringSpecialHelper.buildSpanColorStyle("查看原因", 1, 4, Color.parseColor("#FF4424"));
             tv_status1.setText(text);
-            iv_status1.setBackgroundResource(R.mipmap.icon_gantan);
+            iv_state.setBackgroundResource(R.mipmap.ic_unpass);
             tv_edit.setVisibility(View.VISIBLE);
             tv_look.setVisibility(View.GONE);
 

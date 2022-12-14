@@ -61,9 +61,20 @@ public class MessageCheckActivity extends BaseSwipeActivity {
         ButterKnife.bind(this);
         phone = getIntent().getStringExtra("phone");
 
+        //号码星号展示
+        StringBuilder sb  =new StringBuilder();
+        for (int i = 0; i < phone.length(); i++) {
+            char c = phone.charAt(i);
+            if (i >= 3 && i <= 6) {
+                sb.append('*');
+            } else {
+                sb.append(c);
+            }
+        }
+        String content = "验证码已发送至"+  sb;
         if(!TextUtils.isEmpty(getIntent().getStringExtra("phone")) ) {
             try {
-                tv_desc.setText("验证码已发送至"+  phone);
+                tv_desc.setText(content);
                 phones = EnCodeUtil.encryptByPublicKey(phone, publicKeyStr);
                 requestSendCode(phones);
             } catch (Exception e) {
@@ -175,19 +186,19 @@ public class MessageCheckActivity extends BaseSwipeActivity {
     boolean isSendingCode;
     CountDownTimer countDownTimer;
     private void handleCountDown() {
-        countDownTimer = new CountDownTimer(120000, 1000) {
+        countDownTimer = new CountDownTimer(60000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 isSendingCode = true;
                 tv_send.setEnabled(false);
-                tv_send.setText(millisUntilFinished / 1000 + "秒后" + "重新发送验证码");
+                tv_send.setText("重新发送"+"("+millisUntilFinished / 1000+"s"+")");
 
             }
 
             @Override
             public void onFinish() {
                 isSendingCode = false;
-                tv_send.setText("重新获取验证码>");
+                tv_send.setText("重新发送");
                 tv_send.setEnabled(true);
             }
         }.start();

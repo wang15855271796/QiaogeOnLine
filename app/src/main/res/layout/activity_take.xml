@@ -6,70 +6,111 @@
     android:background="@color/app_color_white"
     android:orientation="vertical">
 
-    <com.puyue.www.qiaoge.view.CompatToolbar
-        android:layout_marginTop="@dimen/size_30dp"
+    <LinearLayout
+        android:background="@drawable/shape_jianbian4"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/app_border_bottom_bg">
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_marginTop="@dimen/size_56dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_30dp">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="@dimen/size_30dp"
+                android:layout_height="@dimen/size_30dp"
+                android:layout_marginLeft="@dimen/size_20dp"
+
+                android:padding="8dp"
+                android:src="@mipmap/ic_back_arrow" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="收货信息验证"
+                android:textColor="#414141"
+                android:textSize="@dimen/sp_16"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:padding="10dp"
-            android:src="@mipmap/ic_back_arrow" />
+            android:layout_gravity="center_horizontal">
 
-        <TextView
-            android:text="收货信息验证"
-            android:id="@+id/tv_pp_input_code_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="13dp"
-            android:layout_marginTop="13dp"
-            android:textColor="@color/app_top_bar_text"
-            android:textSize="18dp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/size_50dp"
+                android:src="@mipmap/icon_point" />
 
-    </com.puyue.www.qiaoge.view.CompatToolbar>
+            <TextView
+                android:layout_width="@dimen/size_30dp"
+                android:layout_height="@dimen/size_17dp"
+                android:layout_marginTop="53dp"
+                android:background="@mipmap/icon_desc"
+                android:gravity="center"
+                android:paddingBottom="@dimen/size_2dp"
+                android:text="翘歌"
+                android:textColor="#ffffff"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_back"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/size_62dp"
+                android:text="请选择您的历史收货地址"
+                android:textColor="#000000"
+                android:textSize="22sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv1"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/size_94dp"
+                android:src="@mipmap/icon_wave" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
-        android:background="#F2F2F2"
         android:layout_weight="1"
+        android:layout_marginTop="@dimen/size_70dp"
         android:layout_width="match_parent"
         android:layout_height="0dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/size_21dp"
-            android:text="请选择您的历史收货地址："
-            android:layout_marginTop="@dimen/size_10dp"
-            android:textColor="#333333"
-            android:textSize="16dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_marginBottom="@dimen/size_10dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"/>
 
-        </androidx.recyclerview.widget.RecyclerView>
 
 
     </LinearLayout>
 
-
     <TextView
         android:id="@+id/tv_next"
-        android:text="我选好了，下一步"
-        android:gravity="center"
-        android:textColor="#333333"
-        android:textSize="@dimen/size_18dp"
-        android:background="@drawable/shape_white1"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size_89dp" />
-
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:layout_marginLeft="@dimen/size_21dp"
+        android:layout_marginRight="@dimen/size_21dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/shape_jianbian5"
+        android:text="下一步"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/sp_16" />
 
 </LinearLayout>

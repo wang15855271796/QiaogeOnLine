@@ -239,7 +239,6 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
     private void judgePageType() {
         linearLayoutSpike.setVisibility(View.VISIBLE);
         mRvData.setLayoutManager(new LinearLayoutManager(mContext));
-        mRvData.setBackgroundColor(Color.parseColor("#F5F5F5"));
 
     }
 

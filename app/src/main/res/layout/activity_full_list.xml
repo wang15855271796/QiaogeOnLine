@@ -3,74 +3,59 @@
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="#f6f6f6"
+    android:background="#FAFAFA"
     android:layout_height="match_parent">
 
-    <com.puyue.www.qiaoge.view.selectmenu.MyScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <RelativeLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <RelativeLayout
-                android:id="@+id/rl_bg"
-                android:background="@mipmap/full_bg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_marginTop="180dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </androidx.recyclerview.widget.RecyclerView>
-
-        </RelativeLayout>
-
-    </com.puyue.www.qiaoge.view.selectmenu.MyScrollView>
-
-
-    <LinearLayout
-        android:alpha="0"
-        android:id="@+id/ll_title"
-        android:background="@mipmap/fulls_bg"
+    <RelativeLayout
+        android:id="@+id/rl_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:background="@mipmap/bg_full2">
 
-        <RelativeLayout
-            android:layout_marginTop="@dimen/size_45dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/iv_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="7dp"
-                android:padding="10dp"
-                android:src="@mipmap/ic_back_arrow_two" />
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="@dimen/size_30dp"
+            android:layout_height="@dimen/size_30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/size_20dp"
+            android:padding="8dp"
+            android:src="@mipmap/ic_back_arrow" />
 
-            <TextView
-                android:text="参加满赠活动商品列表"
-                android:id="@+id/tv_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"
-                android:textColor="@color/ffffff"
-                android:textSize="18sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="超值折扣"
+            android:textColor="#000000"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_below="@+id/rl_root"
+        android:background="@mipmap/bg_full3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.puyue.www.qiaoge.view.selectmenu.MyScrollView
+        android:id="@+id/scrollView"
+        android:layout_below="@+id/ll_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="-70dp"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </com.puyue.www.qiaoge.view.selectmenu.MyScrollView>
 
 </RelativeLayout>

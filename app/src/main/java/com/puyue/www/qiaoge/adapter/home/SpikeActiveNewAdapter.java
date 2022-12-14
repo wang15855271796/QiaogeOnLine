@@ -72,16 +72,16 @@ public class SpikeActiveNewAdapter extends RecyclerView.Adapter<SpikeActiveNewAd
         }
 
         if (selectPosition == position) {
-//            holder.tv_time.setAlpha(1.0f);
             holder.tv_desc.setAlpha(1.0f);
-            holder.tv_desc.setTextColor(Color.parseColor("#FF2925"));
+            holder.tv_desc.setTextColor(Color.parseColor("#FF1200"));
             holder.tv_desc.setBackgroundResource(R.drawable.shape_white3);
             holder.tv_desc.setPadding(8,7,8,7);
+            holder.tv_desc.setBackgroundResource(R.drawable.shape_red11);
         } else {
-//            holder.tv_time.setAlpha(0.7f);
             holder.tv_desc.setAlpha(0.7f);
+            holder.tv_desc.setBackgroundResource(R.drawable.shape_white1);
             holder.tv_desc.setBackgroundResource(R.color.transparent);
-            holder.tv_desc.setTextColor(Color.parseColor("#ffffff"));
+            holder.tv_desc.setTextColor(Color.parseColor("#414141"));
         }
 
         if (onItemClickListener != null) {

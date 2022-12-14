@@ -5,11 +5,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,18 +16,14 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.TopEvent;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
-import com.puyue.www.qiaoge.activity.mine.login.RegisterActivity;
 import com.puyue.www.qiaoge.activity.mine.login.RegisterMessageActivity;
 import com.puyue.www.qiaoge.api.home.ProductListAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
 import com.puyue.www.qiaoge.event.BackEvent;
-import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.helper.AppHelper;
-import com.puyue.www.qiaoge.helper.PublicRequestHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
-import com.puyue.www.qiaoge.model.home.GetCustomerPhoneModel;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 import com.puyue.www.qiaoge.utils.LoginUtil;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
@@ -259,7 +253,7 @@ public class CommonFragment extends BaseFragment {
 
             @Override
             public void Register() {
-                startActivity(RegisterActivity.getIntent(mActivity, RegisterMessageActivity.class));
+                startActivity(RegisterMessageActivity.getIntent(mActivity, RegisterMessageActivity.class));
                 LoginUtil.initRegister(mActivity);
                 dismiss();
             }

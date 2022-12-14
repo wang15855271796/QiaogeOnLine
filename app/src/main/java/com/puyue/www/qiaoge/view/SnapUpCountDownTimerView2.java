@@ -85,7 +85,7 @@ public class SnapUpCountDownTimerView2 extends LinearLayout {
         this.context = context;
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.view_countdowntimerssss, this);
+        View view = inflater.inflate(R.layout.view_countdowntimersssss, this);
         tv_state = view.findViewById(R.id.tv_state);//秒杀
         tv_hour_decade = (TextView) view.findViewById(R.id.tv_hour_decade);
         tv_hour_unit = (TextView) view.findViewById(R.id.tv_hour_unit);

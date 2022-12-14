@@ -57,6 +57,7 @@ import com.puyue.www.qiaoge.api.mine.subaccount.MineAccountAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.constant.AppConstant;
+import com.puyue.www.qiaoge.dialog.ShowKeFuDialog;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.CouponEvent;
 import com.puyue.www.qiaoge.event.GoToMineEvent;
@@ -105,13 +106,11 @@ import static androidx.core.view.ViewCompat.TYPE_NON_TOUCH;
  */
 
 public class MineFragment extends BaseFragment {
-
     private static final String TAG = MineFragment.class.getSimpleName();
     private ImageView mIvAvatar;
     private TextView mTvPhone;
     private RelativeLayout rl_return_order;
     private RelativeLayout mRlCollection;
-    // private RelativeLayout mRlReturnRent;
     private RelativeLayout mRlContact;
     private RelativeLayout mRlFeedback;
     private RelativeLayout mRlVersion;
@@ -119,7 +118,6 @@ public class MineFragment extends BaseFragment {
     NestedScrollView scrollView;
     private TextView mViewVersionPoint;
     private AccountCenterModel mModelAccountCenter;
-    private String mUserCell;
     String onlineTime;
     private int mStateCode;
     TextView tv_phone;
@@ -128,10 +126,6 @@ public class MineFragment extends BaseFragment {
     private SuperTextView mViewCollectionNum;
     TextView tv_qiao_ge;
     RelativeLayout rl_zizhi1;
-    //    AppBarLayout appBarLayout;
-    RelativeLayout rl_bg;
-    ImageView iv_setting1;
-    ImageView iv_message1;
     RecyclerView rv1;
     private AlertDialog mDialog;
     private String mCustomerPhone;
@@ -139,23 +133,11 @@ public class MineFragment extends BaseFragment {
     TextView tv_desc1;
     private UpdateModel mModelUpdate;
     private boolean update;
-    private boolean forceUpdate;
-    private String content;
-    private String url;//更新所用的url
-    private RelativeLayout couponsLayout;//优惠券
-    private TextView couponsNum; // 优惠券数量
-    private TextView textCouponsPoint;// 钱包优惠券
     private RelativeLayout accountAddress;
     private RelativeLayout accountManagement;
-    private String MyBannerUrl = "";
-    private RelativeLayout mineIntegral;// 我的积分
     private RelativeLayout relativeLayoutVip; // 会员中心
     private TextView vipDesc; //会员中心角标
-    private TextView couponsDesc;//优惠券
-    private ImageView vipImage;  //vip icon
-    private ImageView vipDay; // 会员满减
     private String urlVIP;
-    private String vipDayUrlVIP;
     private String commissionUrl;
     Must2Adapter mustAdapter;
     SmartRefreshLayout refreshLayout;
@@ -168,7 +150,6 @@ public class MineFragment extends BaseFragment {
     private TextView tv_expiredInfo;//优惠券到期通知
     private LinearLayout ll_expiredInfo;
     private ImageView iv_setting;//设置
-    private LinearLayout ll_setting;//设置
     private TextView tv_use_deduct;//使用优惠券
     private ImageView iv_use_deduct;//使用优惠券
     RelativeLayout rl_zizhi;
@@ -176,37 +157,23 @@ public class MineFragment extends BaseFragment {
     private int day;
     private String giftNo;
     private LinearLayout ll_amount;//余额
-    private LinearLayout ll_inviteAward;//佣金
     private LinearLayout ll_account;//积分
     private LinearLayout ll_deduct;//优惠券
-    private TextView tv_vip_more;//会员更多权益
-    private LinearLayout iv_vip_more;//会员更多权益
+    private TextView tv_vip;//会员更多权益
     TextView tv_number1;
     TextView tv_number2;
     private boolean isChecked;
     RecyclerView rv2;
     private ImageView iv_message;
-    UserDefineScrollView scoller;
-    OutScollerview outScoller;
-    TextView tv_vip_desc;
     TextView tv_company;
     RelativeLayout rl_zizhi2;
-    RelativeLayout ll_deliver_order2;
-    TextView tv_look;
-    private SparseArray<RecyclerView> mPageMap = new SparseArray<>();
-
+//    TextView tv_look;
     private List<MyOrderNumModel.DataBean> mListData = new ArrayList<>();
-
-
-    private PagerAdapter mPagerAdapter = null;
-
-
-    private MyOrderNumModel mModelMyOrderNum;
-
-    private LinearLayout ll_self_sufficiency;
+    private RelativeLayout ll_self_sufficiency;
     private LinearLayout ll_deliver_order;
     TextView tv_number;
     LinearLayout ll_fill;
+    RelativeLayout rl_un_vip;
     public static MineFragment getInstance() {
         MineFragment fragment = new MineFragment();
         Bundle bundle = new Bundle();
@@ -220,17 +187,7 @@ public class MineFragment extends BaseFragment {
 
     @Override
     public void initViews(View view) {
-//        Window window = getActivity().getWindow();
-//        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//        setStatusBar();
     }
-
-//    protected void setStatusBar() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            getActivity().getWindow().setStatusBarColor(getResources().getColor(R.color.white));//设置状态栏颜色
-//            getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//实现状态栏图标和文字颜色为暗色
-//        }
-//    }
 
     long start;
     @Override
@@ -275,62 +232,39 @@ public class MineFragment extends BaseFragment {
     public void findViewById(View view) {
         EventBus.getDefault().register(this);
         rl_zizhi2 = (view.findViewById(R.id.rl_zizhi2));
-        tv_look = (view.findViewById(R.id.tv_look));
-        ll_deliver_order2 = (view.findViewById(R.id.ll_deliver_order2));
+        rl_un_vip =  (view.findViewById(R.id.rl_un_vip));
+//        tv_look = (view.findViewById(R.id.tv_look));
         tv_company =  (view.findViewById(R.id.tv_company));
         tv_desc1 = (view.findViewById(R.id.tv_desc1));
         rl_zizhi1 = (view.findViewById(R.id.rl_zizhi1));
         ll_fill = (view.findViewById(R.id.ll_fill));
-        tv_vip_desc = (view.findViewById(R.id.tv_vip_desc));
         tv_qiao_ge =  (view.findViewById(R.id.tv_qiao_ge));
-        outScoller = (view.findViewById(R.id.sc));
         tv_tip =  (view.findViewById(R.id.tv_tip));
-        scoller = (view.findViewById(R.id.scoller));
         refreshLayout = (view.findViewById(R.id.smart));
         coordinator = (view.findViewById(R.id.coordinator));
         rv2 =  (view.findViewById(R.id.rv2));
         scrollView = (view.findViewById(R.id.scrollView));
-        iv_back = (view.findViewById(R.id.iv_back));
-        iv_setting1 = (view.findViewById(R.id.iv_setting1));
-        iv_message1 = (view.findViewById(R.id.iv_message1));
+//        iv_back = (view.findViewById(R.id.iv_back));
         rv1 = (view.findViewById(R.id.rv1));
-//        appBarLayout = (view.findViewById(R.id.appBarLayout));
         rl_zizhi = (view.findViewById(R.id.rl_zizhi));
-        rl_bg = (view.findViewById(R.id.rl_bg));
         tv_number1 = (view.findViewById(R.id.tv_number1));
         tv_number2 = (view.findViewById(R.id.tv_number2));
         mIvAvatar = (view.findViewById(R.id.iv_mine_avatar));//头像
-        mineIntegral = (view.findViewById(R.id.mineIntegral));//积分
         mTvPhone = (view.findViewById(R.id.tv_mine_phone));
         rl_return_order = (view.findViewById(R.id.rl_return_order));
         tv_number = (view.findViewById(R.id.tv_number));
-
-
         mRlCollection = (view.findViewById(R.id.rl_mine_collection));//我的收藏
-
         mRlContact = (view.findViewById(R.id.rl_mine_contact));//联系客服
         mRlFeedback = (view.findViewById(R.id.rl_mine_feedback));//意见反馈
         mRlVersion = (view.findViewById(R.id.rl_mine_version));//版本信息
         mTvVersion = (view.findViewById(R.id.tv_mine_version));
         mViewVersionPoint = (view.findViewById(R.id.view_mine_version_point));
-        couponsLayout = (view.findViewById(R.id.couponsLayout));
-
-        couponsNum = (view.findViewById(R.id.couponsNum));
-        textCouponsPoint = (view.findViewById(R.id.textCouponsPoint));
-
         mViewCollectionNum = (view.findViewById(R.id.textCollectionMount));//我的收藏数量
-        //    mViewCollectionNum = ( view.findViewById(R.id.view_mine_collect_number));//收藏数量
-        //mViewEquipmentNum = (view.findViewById(R.id.view_mine_equipment_number));//设备数量
         mViewMessageNum = (view.findViewById(R.id.view_mine_message_num));//消息数量
         accountAddress = (view.findViewById(R.id.accountAddress));//我的地址
         accountManagement = (view.findViewById(R.id.accountManagement));//子账号管理
         relativeLayoutVip = (view.findViewById(R.id.relativeLayoutVip)); // 会员中心
         vipDesc = (view.findViewById(R.id.vipDesc));// 会员中心角标
-        couponsDesc = (view.findViewById(R.id.couponsDesc));
-        //vipImage = (view.findViewById(R.id.vipImage));
-        //   vipDay = (view.findViewById(R.id.vipDay));
-
-
         iv_vip = (view.findViewById(R.id.iv_vip));
         tv_amount = (view.findViewById(R.id.tv_amount));
         tv_commission = (view.findViewById(R.id.tv_commission));
@@ -340,43 +274,29 @@ public class MineFragment extends BaseFragment {
         tv_expiredInfo = (view.findViewById(R.id.tv_expiredInfo));
         ll_expiredInfo = (view.findViewById(R.id.ll_expiredInfo));
         iv_setting = (view.findViewById(R.id.iv_setting));
-        ll_setting = (view.findViewById(R.id.ll_setting));
         tv_use_deduct = (view.findViewById(R.id.tv_use_deduct));
         iv_use_deduct = (view.findViewById(R.id.iv_use_deduct));
         ll_amount = (view.findViewById(R.id.ll_amount));
-        ll_inviteAward = (view.findViewById(R.id.ll_inviteAward));
         ll_account = (view.findViewById(R.id.ll_account));
         ll_deduct = (view.findViewById(R.id.ll_deduct));
-        tv_vip_more = (view.findViewById(R.id.tv_vip_more));
-        iv_vip_more = (view.findViewById(R.id.iv_vip_more));
+        tv_vip = (view.findViewById(R.id.tv_vip));
         iv_message = (view.findViewById(R.id.iv_message));
 
         ll_deliver_order = (view.findViewById(R.id.ll_deliver_order));
         ll_self_sufficiency = (view.findViewById(R.id.ll_self_sufficiency));
 
 
-        outScoller.setScrollViewListener(new ScrollViewListeners() {
-            @Override
-            public void onScrollChanged(OutScollerview scrollView, int x, int y, int oldx, int oldy) {
-
-                if(y!=0) {
-                    rl_bg.setVisibility(View.VISIBLE);
-                }else {
-                    rl_bg.setVisibility(View.GONE);
-                }
-            }
-        });
 
         refreshLayout.setEnableRefresh(false);
         refreshLayout.setEnableLoadMore(false);
-        iv_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //置顶
-                outScoller.smoothScrollTo(0,0);
-//                appBarLayout.setExpanded(true);
-            }
-        });
+//        iv_back.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //置顶
+//
+////                appBarLayout.setExpanded(true);
+//            }
+//        });
 
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -406,14 +326,14 @@ public class MineFragment extends BaseFragment {
         });
         tv_company.getBackground().setAlpha(30);
 
-        tv_look.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = MyOrdersActivity.getIntent(getContext(), MyOrdersActivity.class, AppConstant.ALL);
-                intent.putExtra("orderDeliveryType",0);
-                startActivity(intent);
-            }
-        });
+//        tv_look.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = MyOrdersActivity.getIntent(getContext(), MyOrdersActivity.class, AppConstant.ALL);
+//                intent.putExtra("orderDeliveryType",0);
+//                startActivity(intent);
+//            }
+//        });
     }
 
 
@@ -425,8 +345,6 @@ public class MineFragment extends BaseFragment {
         if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(getContext()))) {
             //有userId,显示userId,
             requestOrderNum();
-//            requestOrderNumTwo();
-            //getPagerAdapter();
 
         } else {
             //没有就显示"请登录"
@@ -486,24 +404,17 @@ public class MineFragment extends BaseFragment {
         mRlContact.setOnClickListener(noDoubleClickListener);//联系客服
         mRlFeedback.setOnClickListener(noDoubleClickListener);
         mRlVersion.setOnClickListener(noDoubleClickListener);//关于版本
-        couponsLayout.setOnClickListener(noDoubleClickListener);//优惠券
         accountAddress.setOnClickListener(noDoubleClickListener);//我的地址
         accountManagement.setOnClickListener(noDoubleClickListener);//子账号管理
-
-        mineIntegral.setOnClickListener(noDoubleClickListener);
         relativeLayoutVip.setOnClickListener(noDoubleClickListener);
         iv_setting.setOnClickListener(noDoubleClickListener);
-        iv_setting1.setOnClickListener(noDoubleClickListener);
-        ll_setting.setOnClickListener(noDoubleClickListener);
         //  vipDay.setOnClickListener(noDoubleClickListener);
         tv_use_deduct.setOnClickListener(noDoubleClickListener);
         iv_use_deduct.setOnClickListener(noDoubleClickListener);
-        ll_inviteAward.setOnClickListener(noDoubleClickListener);
         ll_amount.setOnClickListener(noDoubleClickListener);
         ll_account.setOnClickListener(noDoubleClickListener);
         ll_deduct.setOnClickListener(noDoubleClickListener);
-        tv_vip_more.setOnClickListener(noDoubleClickListener);
-        iv_vip_more.setOnClickListener(noDoubleClickListener);
+        tv_vip.setOnClickListener(noDoubleClickListener);
         rl_zizhi1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -515,21 +426,6 @@ public class MineFragment extends BaseFragment {
         ll_deliver_order.setOnClickListener(noDoubleClickListener);
         ll_self_sufficiency.setOnClickListener(noDoubleClickListener);
 
-        iv_message1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(getActivity()))) {
-//                    startActivity(MessageCenterActivity.getIntent(getContext(), MessageCenterActivity.class));
-                    //写一个携带返回结果的跳转
-                    Intent intent = new Intent(getActivity(), MessageCenterActivity.class);
-                    startActivityForResult(intent, 101);
-//                    this.startActivityForResult()
-                } else {
-                    AppHelper.showMsg(getActivity(), "请先登录");
-                    startActivity(LoginActivity.getIntent(getActivity(), LoginActivity.class));
-                }
-            }
-        });
         iv_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -568,15 +464,14 @@ public class MineFragment extends BaseFragment {
 
         }
     }
-
+    ShowKeFuDialog showKeFuDialog;
     private NoDoubleClickListener noDoubleClickListener = new NoDoubleClickListener() {
         @Override
         public void onNoDoubleClick(View view) {
             if (view == mIvAvatar) {
                 //头像
-            } else if (view == iv_setting || view == ll_setting) {
+            } else if (view == iv_setting) {
                 //我的账户
-
                 if (mStateCode == -10000) {
                     //异地登录了,需要清除应用内部的userId,让用户重新登录
 
@@ -623,19 +518,27 @@ public class MineFragment extends BaseFragment {
             {
                 //联系客服
                 if (StringHelper.notEmptyAndNull(mCustomerPhone)) {
-//
-
-//                    User userBean = SophixStubApplication.getInstance().getUser();
-//                    UnicornManager.setUnicornUserInfo(userBean);
-//
-//                    // 设置七鱼客服对话页面的UI
-//                    UnicornManager.setUiCustomization(userBean);
-                    // 设置未读消息监听
-//                    setCountChangeListener();
 
                     // 进入七鱼客服首页（即智能机器人页面）
+//                    showKeFuDialog = new ShowKeFuDialog(mActivity, mCustomerPhone,onlineTime) {
+//                        @Override
+//                        public void Confirm1(String mCustomerPhone) {
+//                            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + mCustomerPhone));
+//                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                            startActivity(intent);
+//                            showKeFuDialog.dismiss();
+//                        }
+//
+//                        @Override
+//                        public void Confirm2() {
+//                            UnicornManager.inToUnicorn(getContext());
+//                            showKeFuDialog.dismiss();
+//                        }
+//                    };
+//                    showKeFuDialog.show();
+//                    showKeFuDialog.setCanceledOnTouchOutside(true);
+//                    showKeFuDialog.setCancelable(true);
                     showPhoneDialog(mCustomerPhone);
-
                 }
             } else if (view == mRlFeedback)
 
@@ -665,13 +568,8 @@ public class MineFragment extends BaseFragment {
                         }
                     });
                 }
-            }  else if (view == couponsLayout)
-
-            { //我的优惠券
-                startActivity(MyCouponsActivity.getIntent(getContext(), MyCouponsActivity.class));
-            } else if (view == accountAddress)
-
-            {
+            }
+            else if (view == accountAddress) {
                 Intent intent =new Intent(mActivity,AddressListActivity.class);
                 intent.putExtra("mineAddress","mineAddress");
                 startActivity(intent);
@@ -686,24 +584,14 @@ public class MineFragment extends BaseFragment {
 
             {//积分
                 startActivity(CommonH5Activity.getIntent(getContext(), MinerIntegralActivity.class));
-            } else if (view == mineIntegral)
-
-            {  // 我的积分
-                startActivity(CommonH5Activity.getIntent(getContext(), MinerIntegralActivity.class));
-            } else if (view == relativeLayoutVip || view == tv_vip_more || view == iv_vip_more)
+            }  else if (view == relativeLayoutVip || view == tv_vip)
 
             { //会员中心
-//                Intent intent = new Intent(getActivity(), HuoHomeActivity.class);
-//                startActivity(intent);
-//                isAuth();
                 Intent intent = new Intent(getContext(), NewWebViewActivity.class);
                 intent.putExtra("URL", urlVIP);
                 intent.putExtra("TYPE", 1);
                 intent.putExtra("name", "");
                 startActivity(intent);
-//                getCode();
-//                Intent intent = new Intent(getActivity(), HuoHomeActivity.class);
-//                startActivity(intent);
 
             }  else if (view == tv_use_deduct)
 
@@ -724,22 +612,10 @@ public class MineFragment extends BaseFragment {
                 Intent intent = new Intent(mActivity, MyWalletNewActivity.class);
                 UserInfoHelper.saveUserWalletNum(getContext(), num);
                 startActivity(intent);
-            } else if (view == ll_inviteAward)
-
-            {
-
-                Intent intent = new Intent(mActivity, NewWebViewActivity.class);
-                intent.putExtra("URL", commissionUrl);
-                intent.putExtra("TYPE", 1);
-                intent.putExtra("name", "");
-                startActivity(intent);
-
             } else if (view == ll_deduct) {
 //                startActivity(MyCouponsActivity.getIntent(getContext(), MyCouponsActivity.class));
                 Intent intent = new Intent(getContext(),MyCouponsActivity.class);
                 startActivity(intent);
-            } else if(view == iv_setting1) {
-                startActivity(AccountCenterActivity.getIntent(getContext(), AccountCenterActivity.class));
             }
         }
 
@@ -820,66 +696,6 @@ public class MineFragment extends BaseFragment {
                 });
     }
 
-//    private void showUpdateDialog() {
-//        final AlertDialog mDialog = new AlertDialog.Builder(getContext()).create();
-//        mDialog.show();
-//        mDialog.getWindow().setContentView(R.layout.update_dialog);
-//        Button mBtnForceUpdate = (Button) mDialog.getWindow().findViewById(R.id.btnForceUpdate);
-//        Button mBtnCancel = (Button) mDialog.getWindow().findViewById(R.id.btnCancel);
-//        Button mBtnOK = (Button) mDialog.getWindow().findViewById(R.id.btnOK);
-//        LinearLayout mLlButton = (LinearLayout) mDialog.getWindow().findViewById(R.id.llButton);
-//        TextView mTvContent = (TextView) mDialog.getWindow().findViewById(R.id.tvContent);
-//        mTvContent.setText(content);
-//        if (forceUpdate) {
-//            mDialog.setCancelable(false);
-//            mLlButton.setVisibility(View.GONE);
-//            mBtnForceUpdate.setVisibility(View.VISIBLE);
-//        } else {
-//            mDialog.setCancelable(true);
-//            mLlButton.setVisibility(View.VISIBLE);
-//            mBtnForceUpdate.setVisibility(View.GONE);
-//        }
-//        mBtnCancel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mDialog.dismiss();
-//            }
-//        });
-//        mBtnOK.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // 下载
-//                try {
-//                    Intent intent = new Intent();
-//                    intent.setAction("android.intent.action.VIEW");
-//                    Uri content_url = Uri.parse(url);
-//                    intent.setData(content_url);
-//                    startActivity(intent);
-//                } catch (Exception e) {
-//
-//                }
-//                mDialog.dismiss();
-//            }
-//        });
-//        mBtnForceUpdate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // 下载
-//                try {
-//                    Intent intent = new Intent();
-//                    intent.setAction("android.intent.action.VIEW");
-//                    Uri content_url = Uri.parse(url.contains("http://") ? ("http://" + url) : url);
-//                    intent.setData(content_url);
-//                    startActivity(intent);
-//                } catch (Exception e) {
-//
-//                }
-//                mDialog.dismiss();
-//            }
-//        });
-//    }
-
-
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
@@ -931,16 +747,12 @@ public class MineFragment extends BaseFragment {
     }
 
     private void updateUpdate() {
-        url = mModelUpdate.data.url;
         update = mModelUpdate.data.update;
-        forceUpdate = mModelUpdate.data.forceUpdate;
-        content = mModelUpdate.data.msg;
         if (update) {
             //因为服务器上面的是2.0.6，所以才会出现新版本和提示框的字样，只要上架之后重新上传一个2.0.7就可以了。
             //有更新
             mTvVersion.setText(getString(R.string.textVersion) + AppHelper.getVersion(getContext()));
             mViewVersionPoint.setVisibility(View.VISIBLE);
-//            showUpdateDialog();
         } else {
             mTvVersion.setText(getString(R.string.textVersion) + AppHelper.getVersion(getContext()));
             //没更新
@@ -967,7 +779,6 @@ public class MineFragment extends BaseFragment {
                     public void onNext(MyOrderNumModel myOrderNumModel) {
                         mListData.clear();
                         if (myOrderNumModel.success) {
-                            mModelMyOrderNum = myOrderNumModel;
                             if(myOrderNumModel.getData().getCompanyName()!=null) {
                                 tv_company.setText(myOrderNumModel.getData().getCompanyName());
                                 tv_company.setVisibility(View.VISIBLE);
@@ -981,11 +792,6 @@ public class MineFragment extends BaseFragment {
                             commissionUrl = myOrderNumModel.getData().getCommissionUrl();
                             mTvPhone.setVisibility(View.VISIBLE);
                             mTvPhone.setText(myOrderNumModel.getData().getPhone());
-                            if(myOrderNumModel.getData().getInviteOpen()==1) {
-                                ll_inviteAward.setVisibility(View.GONE);
-                            }else {
-                                ll_inviteAward.setVisibility(View.VISIBLE);
-                            }
 
                             if (myOrderNumModel.getData().isVipUser()) {
                                 iv_vip.setImageResource(R.mipmap.icon_my_vip);
@@ -1058,31 +864,27 @@ public class MineFragment extends BaseFragment {
                             if(myOrderNumModel.getData().getShowVip()==0) {
                                 //非会员
                                 relativeLayoutVip.setVisibility(View.GONE);
-                                iv_vip_more.setVisibility(View.GONE);
                                 tv_qiao_ge.setVisibility(View.GONE);
                                 tv_tip.setVisibility(View.GONE);
-                                tv_vip_desc.setVisibility(View.VISIBLE);
+                                rl_un_vip.setVisibility(View.VISIBLE);
                                 tv_desc1.setVisibility(View.GONE);
 
                             }else {
                                 relativeLayoutVip.setVisibility(View.VISIBLE);
-                                iv_vip_more.setVisibility(View.VISIBLE);
                                 tv_qiao_ge.setVisibility(View.VISIBLE);
                                 tv_tip.setVisibility(View.VISIBLE);
-                                tv_vip_desc.setVisibility(View.GONE);
+                                rl_un_vip.setVisibility(View.GONE);
                                 tv_desc1.setVisibility(View.VISIBLE);
                                 ll_fill.setVisibility(View.VISIBLE);
                             }
 
                             if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
                                 //企业版
-                                ll_deliver_order2.setVisibility(View.GONE);
                                 ll_amount.setVisibility(View.GONE);
                                 accountManagement.setVisibility(View.GONE);
                                 //17586858586
                                 if(myOrderNumModel.getData().getShowVip()==0) {
                                     //非会员 不展示
-                                    tv_vip_desc.setText("该企业暂未启用会员哦！");
                                     rl_zizhi.setVisibility(View.VISIBLE);
                                     rl_zizhi2.setVisibility(View.INVISIBLE);
                                     rl_zizhi1.setVisibility(View.GONE);
@@ -1095,12 +897,10 @@ public class MineFragment extends BaseFragment {
                                 }
                             }else {
                                 //城市版
-                                ll_deliver_order2.setVisibility(View.GONE);
                                 ll_amount.setVisibility(View.VISIBLE);
                                 accountManagement.setVisibility(View.VISIBLE);
                                 if(myOrderNumModel.getData().getShowVip()==0) {
                                     //非会员 不展示
-                                    tv_vip_desc.setText("该城市暂未启用会员哦！");
                                     rl_zizhi.setVisibility(View.VISIBLE);
                                     rl_zizhi2.setVisibility(View.GONE);
                                     rl_zizhi1.setVisibility(View.GONE);
@@ -1161,7 +961,6 @@ public class MineFragment extends BaseFragment {
     }
 
     private void updateAccountCenter() {
-        mUserCell = mModelAccountCenter.data.phone;
         onlineTime = mModelAccountCenter.data.onlineTime;
         mCustomerPhone = mModelAccountCenter.data.customerPhone;
     }
@@ -1172,6 +971,7 @@ public class MineFragment extends BaseFragment {
     TextView tv_time;
     private void showPhoneDialog(final String cell) {
         mDialog = new AlertDialog.Builder(getActivity()).create();
+        mDialog = new AlertDialog.Builder(getActivity(), R.style.CommonDialogStyle).create();
         mDialog.show();
         mDialog.getWindow().setContentView(R.layout.dialog_call_phone);
         tv_phone = mDialog.getWindow().findViewById(R.id.tv_phone);

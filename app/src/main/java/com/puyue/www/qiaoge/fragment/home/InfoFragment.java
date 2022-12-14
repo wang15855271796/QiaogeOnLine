@@ -91,7 +91,6 @@ public class InfoFragment extends BaseFragment {
     MarketsAdapter marketsAdapter;
     InfoListModel infoListModel1;
     String[] data = {"全部分类","店铺转让","器具转让","厨师招聘","其它信息"};
-    boolean isOpen = false;
     CatePopWindow catePopWindow;
     ChooseCityPopWindow cascadingMenuPopWindow;
     ArrayList<CityChangeModel.DataBean> listCity = new ArrayList<>();
@@ -103,14 +102,8 @@ public class InfoFragment extends BaseFragment {
 
     @Override
     public void initViews(View view) {
-//        setStatusBar();
     }
-//    protected void setStatusBar() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            getActivity().getWindow().setStatusBarColor(getResources().getColor(R.color.white));//设置状态栏颜色
-//            getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//实现状态栏图标和文字颜色为暗色
-//        }
-//    }
+
     @Override
     public void findViewById(View view) {
         bind = ButterKnife.bind(this, view);

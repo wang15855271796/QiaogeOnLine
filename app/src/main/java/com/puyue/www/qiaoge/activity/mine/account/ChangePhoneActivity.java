@@ -223,14 +223,14 @@ public class ChangePhoneActivity extends BaseSwipeActivity implements View.OnCli
     CountDownTimer countDownTimer;
     boolean isSendingCode;
     private void handleCountDown() {
-        countDownTimer = new CountDownTimer(120000, 1000) {
+        countDownTimer = new CountDownTimer(60000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 isSendingCode = true;
 //                ll_yzm.setEnabled(false);
                 tv_yzm.setEnabled(false);
-                tv_yzm.setText("重新获取"+"("+millisUntilFinished / 1000+")" + "s");
-                tv_yzm.setTextColor(Color.parseColor("#A7A7A7"));
+                tv_yzm.setText(millisUntilFinished / 1000+"秒后重新获取");
+                tv_yzm.setTextColor(Color.parseColor("#949494"));
 
             }
 
@@ -238,9 +238,9 @@ public class ChangePhoneActivity extends BaseSwipeActivity implements View.OnCli
             public void onFinish() {
                 isSendingCode = false;
 //                ll_yzm.setEnabled(true);
-                tv_yzm.setText("点击发送验证码");
+                tv_yzm.setText("获取验证码");
                 tv_yzm.setEnabled(true);
-                tv_yzm.setTextColor(Color.parseColor("#232131"));
+                tv_yzm.setTextColor(Color.parseColor("#FF3E20"));
             }
         }.start();
     }

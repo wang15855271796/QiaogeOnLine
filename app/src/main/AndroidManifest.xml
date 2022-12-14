@@ -239,10 +239,6 @@
         <activity android:name=".activity.mine.login.DcloudActvity"
             android:screenOrientation="portrait" />
         <!-- android:screenOrientation="portrait" -->
-        <activity
-            android:name=".activity.mine.login.RegisterActivity"
-            android:windowSoftInputMode="stateUnchanged|adjustPan"
-            android:screenOrientation="portrait" />
         <!--  -->
         <activity android:name=".activity.mine.account.AccountCenterActivity"
             android:screenOrientation="portrait" />

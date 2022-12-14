@@ -71,13 +71,13 @@ public class SetUnLoginSecret1Activity extends BaseSwipeActivity {
             @Override
             public void onClick(View v) {
                 if (showPassword) {// 显示密码
-                    iv_close.setImageResource(R.mipmap.ic_login_display);
+                    iv_close.setImageResource(R.mipmap.icon_eye_open);
                     et_login.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     et_login.setSelection(et_login.getText().toString().length());
                     showPassword = !showPassword;
                 } else {// 隐藏密码
 
-                    iv_close.setImageResource(R.mipmap.ic_login_hide);
+                    iv_close.setImageResource(R.mipmap.icon_eye_close);
                     et_login.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     et_login.setSelection(et_login.getText().toString().length());
                     showPassword = !showPassword;
@@ -95,13 +95,13 @@ public class SetUnLoginSecret1Activity extends BaseSwipeActivity {
             @Override
             public void onClick(View v) {
                 if (showPassword1) {// 显示密码
-                    iv_close_sure.setImageResource(R.mipmap.ic_login_display);
+                    iv_close_sure.setImageResource(R.mipmap.icon_eye_open);
                     et_login_sure.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     et_login_sure.setSelection(et_login_sure.getText().toString().length());
                     showPassword1 = !showPassword1;
                 } else {// 隐藏密码
 
-                    iv_close_sure.setImageResource(R.mipmap.ic_login_hide);
+                    iv_close_sure.setImageResource(R.mipmap.icon_eye_close);
                     et_login_sure.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     et_login_sure.setSelection(et_login_sure.getText().toString().length());
                     showPassword1 = !showPassword1;

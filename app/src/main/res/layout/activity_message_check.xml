@@ -5,90 +5,106 @@
     android:layout_height="match_parent"
     android:background="@color/app_color_white"
     android:orientation="vertical">
-
-    <com.puyue.www.qiaoge.view.CompatToolbar
-        android:layout_marginTop="@dimen/size_30dp"
+    <LinearLayout
+        android:background="@drawable/shape_jianbian4"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/app_border_bottom_bg">
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/iv_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:padding="10dp"
+            android:layout_width="@dimen/size_30dp"
+            android:layout_height="@dimen/size_30dp"
+            android:layout_marginLeft="@dimen/size_20dp"
+            android:layout_marginTop="@dimen/size_56dp"
+            android:padding="8dp"
             android:src="@mipmap/ic_back_arrow" />
 
+        <RelativeLayout
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/size_65dp"
+                android:src="@mipmap/icon_point" />
+
+            <TextView
+                android:layout_width="@dimen/size_30dp"
+                android:layout_height="@dimen/size_17dp"
+                android:layout_marginTop="53dp"
+                android:background="@mipmap/icon_desc"
+                android:gravity="center"
+                android:paddingBottom="@dimen/size_2dp"
+                android:text="翘歌"
+                android:textColor="#ffffff"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_back"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/size_62dp"
+                android:text="输入验证码"
+                android:textColor="#000000"
+                android:textSize="28sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv1"
+                android:layout_marginRight="@dimen/size_21dp"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/icon_wave" />
+
+        </RelativeLayout>
+
         <TextView
-            android:id="@+id/tv_pp_input_phone_title"
+            android:id="@+id/tv_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="13dp"
-            android:layout_marginTop="13dp"
-            android:textColor="@color/app_top_bar_text"
-            android:textSize="18dp" />
+            tools:text="验证码已发送至手机176****1524"
+            android:layout_marginTop="@dimen/size_5dp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#979797"
+            android:textSize="14sp" />
 
-    </com.puyue.www.qiaoge.view.CompatToolbar>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="输入验证码"
-        android:layout_marginTop="@dimen/size_50dp"
-        android:layout_marginLeft="@dimen/size_38dp"
-        android:textColor="#333333"
-        android:textSize="24dp" />
-
-    <TextView
-        android:id="@+id/tv_desc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="验证码已发送至   182 0347 1798"
-        android:layout_marginTop="@dimen/size_5dp"
-        android:layout_marginLeft="@dimen/size_38dp"
-        android:textColor="#333333"
-        android:textSize="14dp" />
+    </LinearLayout>
 
     <com.puyue.www.qiaoge.view.VerifyCodeView
         android:id="@+id/verify_code_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginLeft="31dp"
+        android:layout_marginRight="31dp"
         android:layout_marginTop="50dp"/>
 
-    <RelativeLayout
-        android:id="@+id/rl_secret"
+    <TextView
+        tools:text="重新发送"
+        android:id="@+id/tv_send"
+        android:layout_marginTop="@dimen/size_11dp"
+        android:layout_marginLeft="@dimen/size_31dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/size_38dp"
-        android:layout_marginTop="@dimen/size_30dp"
-        android:layout_marginRight="@dimen/size_30dp"
-        android:background="@color/white">
-
-
-    </RelativeLayout>
+        android:textColor="#A9A9A9"
+        android:textSize="13sp"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/tv_next"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:layout_marginLeft="@dimen/size_38dp"
-        android:layout_marginRight="@dimen/size_38dp"
-        android:background="@drawable/shape_change_btn"
+        android:layout_marginTop="@dimen/size_27dp"
+        android:layout_marginLeft="@dimen/size_21dp"
+        android:layout_marginRight="@dimen/size_21dp"
+        android:background="@drawable/shape_jianbian5"
         android:text="下一步"
-        android:textColor="#333333"
-        android:textSize="14dp" />
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
 
-
-    <TextView
-        tools:text="重新发送"
-        android:id="@+id/tv_send"
-        android:layout_marginTop="@dimen/size_24dp"
-        android:layout_marginLeft="@dimen/size_38dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 </LinearLayout>

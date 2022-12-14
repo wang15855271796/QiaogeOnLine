@@ -36,8 +36,6 @@ public class FullListActivity extends BaseSwipeActivity {
     ImageView iv_back;
     @BindView(R.id.scrollView)
     MyScrollView scrollView;
-    @BindView(R.id.ll_title)
-    LinearLayout ll_title;
     FullListAdapter fullListAdapter;
 
     private int fadingHeight = 600;
@@ -65,23 +63,6 @@ public class FullListActivity extends BaseSwipeActivity {
         recyclerView.setAdapter(fullListAdapter);
 
         getFullList();
-
-        scrollView.setScrollChangeListener(new MyScrollView.ScrollChangedListener() {
-            @Override
-            public void onScrollChangedListener(int x, int y, int oldX, int oldY) {
-                if (y > fadingHeight) {
-                    y = fadingHeight; // 当滑动到指定位置之后设置颜色为纯色，之前的话要渐变---实现下面的公式即可
-
-//                relativela_id.setBackgroundColor(Color.WHITE);
-                } else if (y < 0) {
-                    y = 0;
-                } else {
-                }
-
-                float scale = (float) y / 255;
-                ll_title.setAlpha(scale);
-            }
-        });
     }
 
     @Override

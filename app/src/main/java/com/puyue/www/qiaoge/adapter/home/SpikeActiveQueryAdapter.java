@@ -95,10 +95,10 @@ public class SpikeActiveQueryAdapter extends BaseQuickAdapter<SeckillListModel.D
         if(!item.spread.equals("")&& !TextUtils.isEmpty(item.spread)) {
             tv_spread.setVisibility(View.VISIBLE);
             tv_spread.setText(item.spread);
-            tv_spread.setBackgroundResource(R.drawable.shape_orange1);
+            tv_spread.setBackgroundResource(R.drawable.shape_orange24);
         }else {
             tv_spread.setVisibility(View.GONE);
-            tv_spread.setBackgroundResource(R.drawable.shape_white1);
+            tv_spread.setBackgroundResource(R.drawable.shape_orange24);
         }
         mProgressBar.setProgressDrawable(mContext.getResources().getDrawable(R.drawable.seckill_progress));
         mProgressBar.setProgress(Integer.parseInt(item.progress));

@@ -5,37 +5,29 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
+        android:id="@+id/rl_root"
         android:layout_marginTop="@dimen/dp_10"
         android:layout_marginLeft="@dimen/size_8dp"
         android:layout_marginRight="@dimen/size_8dp"
-        android:background="@drawable/shape_white1"
+        android:background="@drawable/shape_f9f9f9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            tools:text="哈哈哈"
             android:id="@+id/tv_address"
-            android:textColor="#333333"
-            android:layout_marginRight="@dimen/size_45dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/size_13dp"
-            android:textSize="@dimen/sp_16"
+            android:layout_marginRight="@dimen/size_45dp"
+            android:drawableLeft="@mipmap/ic_plane"
+            android:drawablePadding="@dimen/size_5dp"
             android:paddingTop="@dimen/size_12dp"
             android:paddingBottom="@dimen/size_12dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textColor="#414141"
+            android:textSize="@dimen/sp_14"
+            tools:text="哈哈哈" />
 
-        <ImageView
-            android:enabled="false"
-            android:clickable="false"
-            android:id="@+id/iv_choose"
-            android:button="@color/white"
-            android:layout_marginRight="@dimen/size_13dp"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/checkbox_no"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
     </RelativeLayout>
 </LinearLayout>

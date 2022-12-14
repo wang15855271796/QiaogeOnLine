@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.puyue.www.qiaoge.R;
@@ -54,7 +55,6 @@ public class ShopImageViewssAdapter extends RecyclerView.Adapter<ShopImageViewss
                 @Override
                 public void onClick(View view) {
                     onclick.deletPic(position);
-
                 }
             });
             viewHolder.ll_del.setVisibility(View.VISIBLE);
@@ -95,6 +95,7 @@ public class ShopImageViewssAdapter extends RecyclerView.Adapter<ShopImageViewss
 
         ImageView iv_pic;
         LinearLayout ll_del;
+
         public ViewHolder(View view) {
             super(view);
             iv_pic = (ImageView) view.findViewById(R.id.iv_pic);
@@ -106,9 +107,4 @@ public class ShopImageViewssAdapter extends RecyclerView.Adapter<ShopImageViewss
         void addDialog();
         void deletPic(int pos);
     }
-    public interface Onclick1 {
-
-
-    }
-
 }

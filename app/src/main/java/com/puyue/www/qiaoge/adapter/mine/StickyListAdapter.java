@@ -133,6 +133,12 @@ public class StickyListAdapter extends BaseAdapter implements StickyListHeadersA
 		public void UpdateUI(Context context, List<GetWallertRecordByPageModel.DataBean.RecordsBean> data, int position) {
 			GetWallertRecordByPageModel.DataBean.RecordsBean recordsBean = data.get(position);
 			tv_title.setText(recordsBean.getFlowRecordTypeName());
+			if(recordsBean.getRecordType() == 1) {
+				//-
+				tv_price.setTextColor(Color.parseColor("#414141"));
+			}else {
+				tv_price.setTextColor(Color.parseColor("#FF2E00"));
+			}
 			tv_price.setText(recordsBean.getAmount());
 			tv_time.setText(recordsBean.getCreateDate());
 			Glide.with(context).load(recordsBean.getIconUrl()).into(iv_pic);

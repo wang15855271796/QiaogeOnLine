@@ -50,7 +50,7 @@ public abstract class BaseSwipeActivity extends FragmentActivity {
         mResources = this.getResources();
         mBundle = savedInstanceState;
 
-        StatusBarCompat.setStatusBarColor(mActivity, Color.parseColor("#ffffff"), true);
+//        StatusBarCompat.setStatusBarColor(mActivity, Color.parseColor("#ffffff"), true);
         findViewById();
         setViewData();
         setClickEvent();

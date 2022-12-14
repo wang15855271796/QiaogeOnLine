@@ -2,7 +2,9 @@ package com.puyue.www.qiaoge.adapter;
 
 import androidx.annotation.Nullable;
 
+import android.graphics.Color;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -25,12 +27,15 @@ public class HisAddressAdapter extends BaseQuickAdapter<HisModel.DataBean,BaseVi
     @Override
     protected void convert(BaseViewHolder helper, HisModel.DataBean item) {
         TextView tv_address = helper.getView(R.id.tv_address);
+        RelativeLayout rl_root = helper.getView(R.id.rl_root);
         iv_choose = helper.getView(R.id.iv_choose);
         tv_address.setText(item.getDetailAddress());
         if(helper.getAdapterPosition()==selectionPosition) {
-            iv_choose.setBackgroundResource(R.mipmap.checkbax_yes);
+            rl_root.setBackgroundResource(R.drawable.shape_orange22);
+            tv_address.setTextColor(Color.parseColor("#FF2A00"));
         }else {
-            iv_choose.setBackgroundResource(R.mipmap.checkbox_no);
+            rl_root.setBackgroundResource(R.drawable.shape_white1);
+            tv_address.setTextColor(Color.parseColor("#414141"));
         }
     }
 

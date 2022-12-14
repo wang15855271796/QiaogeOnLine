@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/ll_root"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_height="77dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/size_6dp"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="@dimen/size_55dp"
+            android:layout_height="match_parent">
+
+            <com.puyue.www.qiaoge.RoundImageView
+                android:id="@+id/iv_pic"
+                android:layout_width="@dimen/size_55dp"
+                android:layout_height="@dimen/size_55dp"
+                android:src="@mipmap/icon_baidu" />
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv_not_send"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/icon_not_send2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/size_6dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="翘歌"
+            android:maxLines="2"
+            android:id="@+id/tv_title"
+            android:ellipsize="end"
+            android:textSize="10sp"
+            android:textColor="#414141"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <RelativeLayout
+            android:layout_marginTop="@dimen/size_3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_save_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/pink"
+                android:drawableLeft="@mipmap/icon_full_given"
+                android:drawablePadding="@dimen/size_2dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:paddingLeft="@dimen/dp_4"
+                android:paddingRight="4dp"
+                android:textColor="#FD683A"
+                android:textSize="8sp"
+                tools:text="120" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_price"
+            tools:text="12000000000"
+            android:textColor="#412D26"
+            android:lines="1"
+            android:paddingTop="@dimen/size_1dp"
+            android:paddingBottom="@dimen/size_1dp"
+            android:paddingRight="@dimen/size_3dp"
+            android:paddingLeft="@dimen/size_3dp"
+            android:ellipsize="end"
+            android:textSize="10sp"
+            android:background="@drawable/shape_grey14"
+            android:layout_marginTop="@dimen/size_3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -17,7 +17,7 @@
                 android:singleLine="true"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:textColor="#FF4F29"
+                android:textColor="#9A9A9A"
                 android:textSize="@dimen/sp_12"
                 android:drawablePadding="@dimen/size_5dp"
                 android:drawableLeft="@mipmap/ic_car"
@@ -35,7 +35,7 @@
             <TextView
                 tools:text="极速退款"
                 android:id="@+id/tv_amount"
-                android:textColor="#FF4F29"
+                android:textColor="#9A9A9A"
                 android:textSize="@dimen/sp_12"
                 android:singleLine="true"
                 android:maxLines="1"
@@ -56,7 +56,7 @@
         <TextView
             android:id="@+id/tv_times"
             android:text="极速退款"
-            android:textColor="#FF4F29"
+            android:textColor="#9A9A9A"
             android:textSize="@dimen/sp_12"
             android:singleLine="true"
             android:maxLines="1"

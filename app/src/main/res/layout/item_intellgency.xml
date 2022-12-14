@@ -13,6 +13,8 @@
         android:layout_centerVertical="true"
         android:textColor="#666666"
         android:textSize="12dp"
+        android:drawablePadding="@dimen/size_5dp"
+        android:drawableLeft="@mipmap/icon_info_address"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_width="wrap_content"

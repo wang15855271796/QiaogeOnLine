@@ -3,15 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:background="#ffffff"
+    android:background="@drawable/shape_white5"
     android:layout_height="match_parent">
 
     <TextView
         android:textStyle="bold"
         android:text="请选择消息类型"
-        android:textColor="#333333"
+        android:textColor="#000000"
         android:textSize="@dimen/sp_16"
-        android:layout_marginLeft="@dimen/size_18dp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/size_21dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -21,7 +21,6 @@
         android:layout_marginTop="@dimen/size_6dp"
         android:layout_width="match_parent"
         android:layout_marginBottom="@dimen/size_15dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"/>
 
-    </androidx.recyclerview.widget.RecyclerView>
 </LinearLayout>

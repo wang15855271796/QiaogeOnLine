@@ -272,7 +272,7 @@ public class CouponSearchActivity extends BaseSwipeActivity {
 
             @Override
             public void Register() {
-                startActivity(RegisterActivity.getIntent(mActivity, RegisterMessageActivity.class));
+                startActivity(RegisterMessageActivity.getIntent(mActivity, RegisterMessageActivity.class));
                 LoginUtil.initRegister(mActivity);
                 dismiss();
             }

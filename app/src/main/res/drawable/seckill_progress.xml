@@ -14,12 +14,12 @@
         <clip>
             <shape>
                 <corners android:radius="500dip" />
-                <solid android:color="#F6551A" />
-                <gradient
-                    android:angle="180"
-                    android:endColor="#6F6DF1"
-                    android:startColor="#6DC6F1"
-                    />
+                <solid android:color="#FF153C" />
+<!--                <gradient-->
+<!--                    android:angle="180"-->
+<!--                    android:endColor="#6F6DF1"-->
+<!--                    android:startColor="#6DC6F1"-->
+<!--                    />-->
             </shape>
         </clip>
 
