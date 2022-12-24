@@ -1,25 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent">
 
-
-
-    <LinearLayout
-        android:orientation="vertical"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <RelativeLayout
-            android:background="@mipmap/bg_hot_sale"
+        <com.scwang.smartrefresh.header.MaterialHeader
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+            <com.puyue.www.qiaoge.view.selectmenu.MyScrollView
+                android:id="@+id/my_scroll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/rl_bg"
+                    android:background="@mipmap/bg_hot_sale"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:id="@+id/rl_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_30dp"
+                        android:layout_marginTop="@dimen/size_56dp">
+
+                        <ImageView
+                            android:id="@+id/iv_back"
+                            android:layout_width="@dimen/size_30dp"
+                            android:layout_height="@dimen/size_30dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/size_17dp"
+                            android:padding="8dp"
+                            android:src="@mipmap/ic_back_arrow" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="热销榜单"
+                            android:textColor="#414141"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/iv_carts"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="23dp"
+                            android:gravity="center"
+                            android:src="@mipmap/iv_car"
+                            android:textColor="@color/white" />
+
+                        <TextView
+                            android:id="@+id/tv_num"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="15dp"
+                            android:background="@drawable/shape_car_num"
+                            android:gravity="center"
+                            android:text="99"
+                            android:textColor="@color/white"
+                            android:textSize="7dp" />
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:layout_below="@+id/rl_title"
+                    android:background="@drawable/shape_white7"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginTop="-100dp"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:id="@+id/tv_search"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_33dp"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/shape_hot_sale"
+                        android:drawableLeft="@mipmap/icon_hot_search"
+                        android:drawablePadding="@dimen/size_10dp"
+                        android:paddingLeft="12dp"
+                        android:layout_marginRight="@dimen/size_16dp"
+                        android:layout_marginLeft="@dimen/size_16dp"
+                        android:layout_marginTop="@dimen/size_20dp"
+                        android:text="商品搜索"
+                        android:textColor="#666666"
+                        android:textSize="@dimen/size_14dp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_marginTop="@dimen/size_20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </com.puyue.www.qiaoge.view.selectmenu.MyScrollView>
+
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <!--  标题  -->
+    <LinearLayout
+        android:id="@+id/ll_title"
+        android:alpha="0"
+        android:layout_width="match_parent"
+        android:background="#ffffff"
+        android:layout_height="@dimen/size_96dp">
+
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <RelativeLayout
                 android:id="@+id/rl_title"
-                android:layout_marginTop="@dimen/size_56dp"
+                android:layout_marginTop="@dimen/size_25dp"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_30dp">
 
@@ -66,63 +188,28 @@
 
             </RelativeLayout>
 
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_below="@+id/rl_title"
-            android:layout_marginTop="-100dp"
-            android:background="@drawable/shape_white7"
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:layout_centerVertical="true"
-                android:id="@+id/tv_search"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/size_33dp"
-                android:gravity="center_vertical"
-                android:background="@drawable/shape_hot_sale"
-                android:drawableLeft="@mipmap/icon_hot_search"
-                android:drawablePadding="@dimen/size_10dp"
-                android:paddingLeft="12dp"
-                android:layout_marginRight="@dimen/size_16dp"
-                android:layout_marginLeft="@dimen/size_16dp"
-                android:layout_marginTop="@dimen/size_20dp"
-                android:text="商品搜索"
-                android:textColor="#666666"
-                android:textSize="@dimen/size_14dp" />
-            <com.scwang.smartrefresh.layout.SmartRefreshLayout
-                android:id="@+id/refreshLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:orientation="vertical"
+                android:layout_height="match_parent">
 
-                <com.scwang.smartrefresh.header.MaterialHeader
-                    android:id="@+id/header"
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/tv_search"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="@dimen/size_33dp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/shape_hot_sale"
+                    android:drawableLeft="@mipmap/icon_hot_search"
+                    android:drawablePadding="@dimen/size_10dp"
+                    android:paddingLeft="12dp"
+                    android:layout_marginRight="@dimen/size_16dp"
+                    android:layout_marginLeft="@dimen/size_16dp"
+                    android:text="商品搜索"
+                    android:textColor="#666666"
+                    android:textSize="@dimen/size_14dp" />
+            </LinearLayout>
 
-                <com.puyue.www.qiaoge.view.selectmenu.MyScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView"
-                        android:layout_marginTop="@dimen/size_20dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-                </com.puyue.www.qiaoge.view.selectmenu.MyScrollView>
-
-                <com.scwang.smartrefresh.layout.footer.ClassicsFooter
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
         </LinearLayout>
     </LinearLayout>
-
-
-
-
-</LinearLayout>
+</RelativeLayout>

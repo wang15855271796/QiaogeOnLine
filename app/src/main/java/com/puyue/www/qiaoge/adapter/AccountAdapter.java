@@ -15,7 +15,7 @@ import java.util.List;
 
 public class AccountAdapter extends BaseQuickAdapter<SearchListModel.DataBean.List2Bean, BaseViewHolder> {
     private TextView tv_account;
-    int pos = 0;
+    int pos = -1;
     public AccountAdapter(int layoutResId, @Nullable List<SearchListModel.DataBean.List2Bean> data) {
         super(layoutResId, data);
     }

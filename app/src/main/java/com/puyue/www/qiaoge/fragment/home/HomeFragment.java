@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
@@ -363,6 +364,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     View view_reduce;
     @BindView(R.id.view_new)
     View view_new;
+    @BindView(R.id.ll_city)
+    LinearLayout ll_city;
     List<String> list = new ArrayList<>();
     private static final float ENDMARGINLEFT = 50;
     private static final float ENDMARGINTOP = 5;
@@ -472,7 +475,17 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     public void findViewById(View view) {
         bind = ButterKnife.bind(this, view);
         anim = (AnimationDrawable)ll_coupon.getBackground();
-
+//        boolean isSame = false;
+//        String str = "aaaaaa";
+//        String[] str1 = str.split("");
+//        for (int i = 0; i < str1.length-1; i++) {
+//            if(str1[i].equals(str1[i+1])) {
+//                isSame = true;
+//            }else {
+//                isSame = false;
+//            }
+//        }
+//        Log.d("efasededa.......",isSame+"---");
         setListener();
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
@@ -1514,9 +1527,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                                         listBeans.addAll(list);
                                     }
 
-                                    rv_hot.setVisibility(View.VISIBLE);
+                                    ll_city.setVisibility(View.VISIBLE);
                                 }else {
-                                    rv_hot.setVisibility(View.GONE);
+                                    ll_city.setVisibility(View.GONE);
                                 }
                             }
 
@@ -1981,7 +1994,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                                                 if(data.getBanners().size()>0) {
                                                     if (!TextUtils.isEmpty(banners.get(pos).getRgbColor())) {
                                                         String rgbColor = banners.get(pos).getRgbColor();
-                                                        ll_bgc.setBackgroundColor(Color.parseColor("#" + rgbColor));
+//                                                        ll_bgc.setBackgroundColor(Color.parseColor("#" + rgbColor));
+                                                          GradientDrawable aDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                                                                new int[]{Color.parseColor("#"+rgbColor),Color.parseColor("#f7f7f7")});
+                                                        ll_bgc.setBackground(aDrawable);
                                                     }
                                                 }
                                             }

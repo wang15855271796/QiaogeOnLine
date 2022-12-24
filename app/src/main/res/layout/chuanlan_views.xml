@@ -13,7 +13,7 @@
         android:text="短信验证注册"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/size_20dp"
-        android:textColor="#cccccc"
+        android:textColor="#FF582F"
         android:textSize="14sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

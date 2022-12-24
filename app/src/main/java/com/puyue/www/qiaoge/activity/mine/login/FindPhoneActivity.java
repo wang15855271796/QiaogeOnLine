@@ -2,7 +2,9 @@ package com.puyue.www.qiaoge.activity.mine.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -72,6 +74,27 @@ public class FindPhoneActivity extends BaseSwipeActivity {
                     }
                 }
 
+            }
+        });
+
+        et_phone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(editable.toString().length() == 11) {
+                    tv_next.setAlpha(1);
+                }else {
+                    tv_next.setAlpha(0.6f);
+                }
             }
         });
     }

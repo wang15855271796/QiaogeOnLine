@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_height="wrap_content">
+    android:layout_marginTop="@dimen/size_6dp"
+    android:layout_marginLeft="@dimen/size_12dp"
+    android:layout_marginRight="@dimen/size_16dp"
+    android:background="@drawable/shape_orange26"
+    android:layout_height="@dimen/dp_40">
 
     <TextView
         android:id="@+id/tv_style"
         android:textColor="#FF5C00"
         android:text="满200减36"
         android:textStyle="bold"
+        android:layout_centerInParent="true"
+        android:drawablePadding="@dimen/size_3dp"
+        android:textSize="@dimen/sp_14"
+        android:gravity="center_horizontal"
         android:layout_marginTop="@dimen/size_5dp"
-        android:layout_marginLeft="@dimen/size_19dp"
+        android:drawableLeft="@mipmap/ic_reduce_tip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-
-    <View
-        android:background="#f7f7f7"
-        android:layout_marginTop="@dimen/size_8dp"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/public_space_value_0.5"/>
-</LinearLayout>
+</RelativeLayout>

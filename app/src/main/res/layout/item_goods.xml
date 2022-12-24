@@ -56,13 +56,13 @@
 
                 <ImageView
                     android:id="@+id/iv_operate"
-                    android:layout_marginTop="35dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@+id/iv_head"
-                    android:layout_below="@+id/tv_title"
-                    tools:src="@mipmap/icon_operate"
                     android:layout_width="@dimen/size_32dp"
-                    android:layout_height="@dimen/sp_12" />
+                    android:layout_height="@dimen/sp_12"
+                    android:layout_below="@+id/tv_title"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="35dp"
+                    android:layout_toRightOf="@+id/iv_head"
+                    tools:src="@mipmap/icon_operate" />
 
                 <ImageView
                     tools:src="@mipmap/icon_operate"
@@ -93,18 +93,18 @@
                 android:button="@null" />
 
             <TextView
-                android:layout_toRightOf="@+id/cb_spec"
-                android:text="规格"
-                android:maxEms="15"
-                android:lines="1"
-                android:ellipsize="end"
                 android:id="@+id/tv_spec"
-                android:textColor="#333333"
-                android:textSize="@dimen/sp_14"
-                android:layout_marginTop="@dimen/size_7dp"
-                android:layout_marginLeft="15dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="@dimen/size_8dp"
+                android:layout_toRightOf="@+id/cb_spec"
+                android:ellipsize="end"
+                android:lines="1"
+                android:maxEms="15"
+                android:text="规格"
+                android:textColor="#414141"
+                android:textSize="12sp" />
 
             <ImageView
                 android:id="@+id/iv_send"
@@ -122,9 +122,8 @@
             android:id="@+id/rv_price"
             android:layout_marginLeft="@dimen/size_30dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"/>
 
-        </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 
     <TextView

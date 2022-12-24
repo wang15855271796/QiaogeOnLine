@@ -95,12 +95,12 @@ import com.tencent.lbssearch.object.param.Geo2AddressParam;
 import com.tencent.lbssearch.object.result.Address2GeoResultObject;
 import com.tencent.lbssearch.object.result.DrivingResultObject;
 import com.tencent.lbssearch.object.result.Geo2AddressResultObject;
+import com.tencent.lbssearch.object.result.TransitResultObject;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
 import com.tencent.map.geolocation.TencentLocationManager;
 import com.tencent.map.geolocation.TencentLocationRequest;
 import com.tencent.mapsdk.raster.model.GeoPoint;
-import com.tencent.mapsdk.raster.model.LatLng;
 import com.tencent.tencentmap.mapsdk.map.ItemizedOverlay;
 import com.tencent.tencentmap.mapsdk.map.MapView;
 import com.tencent.tencentmap.mapsdk.map.OverlayItem;
@@ -111,6 +111,7 @@ import com.tencent.tencentmap.mapsdk.maps.CameraUpdateFactory;
 import com.tencent.tencentmap.mapsdk.maps.SupportMapFragment;
 import com.tencent.tencentmap.mapsdk.maps.model.BitmapDescriptorFactory;
 import com.tencent.tencentmap.mapsdk.maps.model.CameraPosition;
+import com.tencent.tencentmap.mapsdk.maps.model.LatLng;
 import com.tencent.tencentmap.mapsdk.maps.model.MarkerOptions;
 import com.tencent.tencentmap.mapsdk.maps.model.PolylineOptions;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -219,7 +220,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     private BottomSheetDialog mDialogMap;
     private String title;
     private String content;
-    private TextView tv_operate_title;
+    private ImageView iv_operate_title;
     private RelativeLayout rl_unOperate;
     RelativeLayout rl_unOperate1;
     private LinearLayout iv_time_arrow;
@@ -239,10 +240,11 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     RelativeLayout rl_distribution;
     private LinearLayout ll_self_sufficiency;
     TextView tv_distribution;
-    LinearLayout ll_map;
     com.tencent.tencentmap.mapsdk.maps.MapView mapView;
     LinearLayout ll_root;
     RelativeLayout rl_no_Data;
+    ImageView iv_self_arrow;
+    TextView tv_dis;
     UnOperate1Adapter unOperate1Adapter;
     @Override
     public int setLayoutId() {
@@ -257,19 +259,20 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     com.tencent.tencentmap.mapsdk.maps.TencentMap mapss;
     @Override
     public void findViewById(View view) {
+        tv_dis = view.findViewById(R.id.tv_dis);
+        iv_self_arrow = view.findViewById(R.id.iv_self_arrow);
         tv_open = view.findViewById(R.id.tv_open);
         iv_open = view.findViewById(R.id.iv_open);
         rl_no_Data = view.findViewById(R.id.rl_no_Data);
         ll_root = view.findViewById(R.id.ll_root);
         mapView = view.findViewById(R.id.mapView);
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.frag);
-        ll_map = (LinearLayout) view.findViewById(R.id.ll_map);
         rl_distribution = (RelativeLayout) view.findViewById(R.id.rl_distribution);
         tv_distribution = (TextView) view.findViewById(R.id.tv_distribution);
         rl_arrow = (RelativeLayout) view.findViewById(R.id.rl_arrow);
         rl_unOperate1 = (RelativeLayout) view.findViewById(R.id.rl_unOperate1);
         rl_unOperate = (RelativeLayout) view.findViewById(R.id.rl_unOperate);
-        tv_operate_title = (TextView) view.findViewById(R.id.tv_operate_title);
+        iv_operate_title = (ImageView) view.findViewById(R.id.iv_operate_title);
         tv_unOperate = (TextView) view.findViewById(R.id.tv_unOperate);
         tv_operate = (TextView) view.findViewById(R.id.tv_operate);
         tv_beizhu = (TextView) view.findViewById(R.id.tv_beizhu);
@@ -379,7 +382,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
         list.clear();
         adapter = new ConfirmOrderNewAdapter(R.layout.item_confirm_order_new, list);
         unOperateAdapter = new UnOperateAdapter(R.layout.item_confirm_order_new, listUnOperate);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         recyclerView.setAdapter(adapter);
         iv_time_arrow.setOnClickListener(new View.OnClickListener() {
@@ -405,32 +407,15 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
     public void getDistribution(DisTributionSelfEvent disTributionEvent) {
         tv_distribution.setText(disTributionEvent.getDesc());
         disType = 1;
-//        if(disTributionEvent.getType()==0) {
-//            tv_distribution.setText(disTributionEvent.getDesc());
-//            disType = disTributionEvent.getType();
-//        }else {
-//            tv_distribution.setText(disTributionEvent.getDesc());
-//            disType = disTributionEvent.getType();
-//        }
+        iv_self_arrow.setImageResource(R.mipmap.iv_deliver_arrow);
     }
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void getDistribution(DisTributionSelf1Event disTributionEvent) {
-//        tv_distribution.setText(disTributionEvent.getDesc());
-//        disType = disTributionEvent.getType();
-//    }
-//
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void getDistribution(DisTributionSelfEvent disTributionEvent) {
-//        tv_distribution.setText(disTributionEvent.getDesc());
-//        disType = disTributionEvent.getType();
-//    }
 
+    com.tencent.tencentmap.mapsdk.maps.model.LatLng latLng1;
+    com.tencent.tencentmap.mapsdk.maps.model.LatLng latLng;
     protected void geocoder(String address) {
         TencentSearch tencentSearch = new TencentSearch(mActivity);
-        Address2GeoParam address2GeoParam =
-                new Address2GeoParam(address).region(UserInfoHelper.getCity(mActivity));
+        Address2GeoParam address2GeoParam = new Address2GeoParam(address).region(UserInfoHelper.getCity(mActivity));
         tencentSearch.address2geo(address2GeoParam, new HttpResponseListener<BaseObject>() {
-
             @Override
             public void onSuccess(int arg0, BaseObject arg1) {
                 if (arg1 == null) {
@@ -444,7 +429,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                 } else {
                     sb.append("\n无坐标");
                 }
-                com.tencent.tencentmap.mapsdk.maps.model.LatLng latLng = obj.result.latLng;
+                latLng = obj.result.latLng;
                 CameraUpdate cameraSigma =
                         CameraUpdateFactory.newCameraPosition(new CameraPosition(
                                 new com.tencent.tencentmap.mapsdk.maps.model.LatLng(latLng.latitude,latLng.longitude),
@@ -455,6 +440,52 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                 mapss.moveCamera(cameraSigma);
                 getWalkingRoute(latLng);
 
+                //用户地址
+                Address2GeoParam address2GeoParam1 = new Address2GeoParam(UserInfoHelper.getProvince(mActivity)+UserInfoHelper.getCity(mActivity)
+                        +UserInfoHelper.getAreaName(mActivity)).region(UserInfoHelper.getCity(mActivity));
+                tencentSearch.address2geo(address2GeoParam1, new HttpResponseListener<BaseObject>() {
+                    @Override
+                    public void onSuccess(int arg0, BaseObject arg1) {
+                        if (arg1 == null) {
+                            return;
+                        }
+                        Address2GeoResultObject obj = (Address2GeoResultObject)arg1;
+                        StringBuilder sb = new StringBuilder();
+                        sb.append("地址解析");
+                        if (obj.result.latLng != null) {
+                            sb.append("\n坐标：" + obj.result.latLng.toString());
+                        } else {
+                            sb.append("\n无坐标");
+                        }
+                        latLng1 = obj.result.latLng;
+
+                        DrivingParam drivingParam = new DrivingParam(latLng, latLng1); //创建导航参数
+
+                        drivingParam.roadType(DrivingParam.RoadType.ON_MAIN_ROAD_BELOW_BRIDGE);
+                        drivingParam.heading(90);
+                        drivingParam.accuracy(30);
+                        TencentSearch tencentSearch1 = new TencentSearch(mActivity);
+
+                        tencentSearch1.getRoutePlan(drivingParam, new HttpResponseListener<DrivingResultObject>() {
+
+                            @Override
+                            public void onSuccess(int i, DrivingResultObject drivingResultObject) {
+                                tv_dis.setText("距您"+Math.ceil(drivingResultObject.result.routes.get(0).distance/1000)+"公里");
+                            }
+
+                            @Override
+                            public void onFailure(int i, String s, Throwable throwable) {
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onFailure(int arg0, String arg1, Throwable arg2) {
+
+                    }
+                });
+
             }
 
             @Override
@@ -462,6 +493,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                 Log.e("test", "error code:" + arg0 + ", msg:" + arg1);
             }
         });
+
     }
 
     private void getWalkingRoute(com.tencent.tencentmap.mapsdk.maps.model.LatLng latLng){
@@ -830,11 +862,11 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                             if(list.size()>0) {
                                 rl_unOperate.setVisibility(View.VISIBLE);
                                 recyclerView.setVisibility(View.VISIBLE);
-                                tv_operate_title.setVisibility(View.VISIBLE);
+                                iv_operate_title.setVisibility(View.VISIBLE);
                             }else {
                                 recyclerView.setVisibility(View.GONE);
                                 rl_unOperate.setVisibility(View.GONE);
-                                tv_operate_title.setVisibility(View.GONE);
+                                iv_operate_title.setVisibility(View.GONE);
                             }
 
                             if(listUnOperate.size()>0) {
@@ -1128,12 +1160,6 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
         this.beizhuEvent = beizhuEvent;
         tv_beizhu.setText(beizhuEvent.getBeizhu());
     }
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        list.clear();
-//    }
 
     public void showMapDialog() {
         mDialogMap = new BottomSheetDialog(mActivity);

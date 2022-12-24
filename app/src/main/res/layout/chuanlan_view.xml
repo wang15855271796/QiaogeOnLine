@@ -6,16 +6,35 @@
     android:id="@+id/rootview"
     android:layout_height="wrap_content">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv1"
+            android:src="@mipmap/iv_phone"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:layout_marginLeft="@dimen/size_5dp"
+            android:layout_toRightOf="@+id/iv1"
+            android:src="@mipmap/icon_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
 
     <TextView
         android:id="@+id/tv"
         android:layout_below="@+id/toolbar_register"
         android:text="欢迎注册!"
-        android:layout_marginLeft="@dimen/size_25dp"
+        android:layout_gravity="center_horizontal"
         android:textStyle="bold"
-        android:layout_marginTop="@dimen/size_20dp"
-        android:textColor="#333333"
-        android:textSize="30sp"
+        android:layout_marginTop="@dimen/size_10dp"
+        android:textColor="#FF4F2D"
+        android:textSize="16sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

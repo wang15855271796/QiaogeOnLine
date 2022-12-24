@@ -53,7 +53,7 @@ public class Coupon1InnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.D
     @Override
     protected void convert(BaseViewHolder helper, TeamActiveQueryModel.DataBean.ActivesBean item) {
         ImageView iv_flag = helper.getView(R.id.iv_flag);
-        ImageView iv_send = helper.getView(R.id.iv_send);
+        TextView tv_send = helper.getView(R.id.tv_send);
         rl_price = helper.getView(R.id.rl_price);
         tv_old_price = helper.getView(R.id.tv_old_price);
         tv_coupon = helper.getView(R.id.tv_coupon);
@@ -66,10 +66,9 @@ public class Coupon1InnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.D
 
         if(item.getNotSend()!=null) {
             if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
-                iv_send.setImageResource(R.mipmap.icon_not_send2);
-                iv_send.setVisibility(View.VISIBLE);
+                tv_send.setVisibility(View.VISIBLE);
             }else {
-                iv_send.setVisibility(View.GONE);
+                tv_send.setVisibility(View.GONE);
             }
         }
 

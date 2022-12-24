@@ -38,17 +38,25 @@
                 >
 
                 <TextView
+                    android:drawableLeft="@mipmap/icon_deliver"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/size_10dp"
                     android:text="配送至"
-                    android:textColor="#FF6B6B6B"
-                    android:textSize="@dimen/size_12dp" />
+                    android:layout_marginTop="@dimen/size_10dp"
+                    android:drawablePadding="@dimen/size_3dp"
+                    android:textColor="#FE5630"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:src="@mipmap/iv_line"
+                    android:layout_marginLeft="@dimen/size_14dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size_10dp"
                     android:layout_marginBottom="@dimen/size_10dp"
                     android:orientation="horizontal">
 
@@ -61,9 +69,12 @@
                         android:layout_weight="3"
                         android:gravity="left"
                         android:maxLines="3"
-                        android:text=""
-                        android:textColor="#FF333333"
-                        android:textSize="@dimen/size_18dp" />
+                        android:textStyle="bold"
+                        android:drawablePadding="@dimen/size_3dp"
+                        android:drawableLeft="@mipmap/icon_address_orange"
+                        android:text="杭州西湖区"
+                        android:textColor="#414141"
+                        android:textSize="@dimen/sp_14" />
 
                 </LinearLayout>
 
@@ -119,8 +130,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="收货人"
-                            android:textColor="#FF333333"
-                            android:textSize="@dimen/size_18dp" />
+                            android:textColor="#9F9F9F"
+                            android:textSize="@dimen/sp_14" />
 
                         <TextView
                             android:id="@+id/userPhone"
@@ -128,9 +139,10 @@
                             android:layout_height="match_parent"
                             android:layout_marginLeft="@dimen/size_15dp"
                             android:gravity="left"
+                            android:layout_gravity="center_vertical"
                             android:text="收货人手机号"
-                            android:textColor="#FF333333"
-                            android:textSize="@dimen/size_18dp" />
+                            android:textColor="#9F9F9F"
+                            android:textSize="@dimen/sp_14" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -140,13 +152,13 @@
 
             <ImageView
                 android:id="@+id/changeAddress"
-                android:layout_width="@dimen/size_20dp"
-                android:layout_height="@dimen/size_20dp"
+                android:layout_width="5dp"
+                android:layout_height="9dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="@dimen/size_15dp"
                 android:layout_marginTop="@dimen/size_25dp"
                 android:layout_marginRight="@dimen/size_15dp"
-                android:src="@mipmap/ic_address_icon_new" />
+                android:src="@mipmap/ic_left_open" />
         </RelativeLayout>
 
 
@@ -156,37 +168,33 @@
     <LinearLayout
         android:id="@+id/LinearLayoutAddress"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_height="@dimen/public_space_value_80"
         android:orientation="vertical"
         android:visibility="gone">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="@dimen/dp_10"
-            android:layout_marginBottom="15dp"
-            android:background="@color/app_line_gray" />
 
         <TextView
+            android:drawableLeft="@mipmap/icon_deliver"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/size_10dp"
             android:text="配送至"
-            android:textColor="#FF333333"
-            android:textSize="@dimen/size_12dp" />
+            android:drawablePadding="@dimen/size_3dp"
+            android:textColor="#FE5630"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:src="@mipmap/iv_line"
+            android:layout_marginLeft="@dimen/size_14dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_icon_address"
-                android:visibility="gone" />
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
@@ -194,13 +202,18 @@
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:gravity="left"
+                android:layout_marginLeft="@dimen/size_10dp"
+                android:drawablePadding="@dimen/size_3dp"
+                android:drawableLeft="@mipmap/icon_address_orange"
                 android:text="请选择收货地址"
-                android:textColor="@color/app_cancle_gray"
-                android:textSize="15dp" />
+                android:textColor="#414141"
+                android:textSize="14sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/size_15dp"
+                android:layout_gravity="center_vertical"
                 android:src="@mipmap/ic_order_arrow_deliver" />
         </LinearLayout>
 

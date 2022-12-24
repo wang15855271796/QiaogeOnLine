@@ -178,7 +178,6 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     TencentLocationListener mLocationListener = new TencentLocationListener() {
         @Override
         public void onLocationChanged(TencentLocation location, int i, String s) {
-
             district = location.getDistrict();
             city = location.getCity();
             String province = location.getProvince();

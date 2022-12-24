@@ -46,9 +46,9 @@ public class HotListAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean
         TextView tv_sale = helper.getView(R.id.tv_sale);
         TextView tv_spec = helper.getView(R.id.tv_spec);
         TextView tv_desc = helper.getView(R.id.tv_desc);
-        tv_stock_total.setText(item.getInventory());
+//        tv_stock_total.setText(item.getInventory());
         tv_name.setText(item.getProductName());
-        tv_sale.setText(item.getSalesVolume());
+//        tv_sale.setText(item.getSalesVolume());
         tv_spec.setText("规格:"+item.getSpec());
         Glide.with(mContext).load(item.getDefaultPic()).into(iv_pic);
         Glide.with(mContext).load(item.getSelfProd()).into(iv_style);

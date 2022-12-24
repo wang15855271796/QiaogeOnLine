@@ -69,7 +69,7 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
         ImageView iv_no_data = helper.getView(R.id.iv_no_data);
         iv_type = helper.getView(R.id.iv_type);
         tv_price.setTextColor(Color.parseColor("#FF2925"));
-        rl_spec.setBackgroundResource(R.drawable.shape_red_orders);
+        rl_spec.setBackgroundResource(R.drawable.shape_jianbian10);
         if(item.getNotSend()!=null) {
             if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
                 iv_send.setImageResource(R.mipmap.icon_not_send2);

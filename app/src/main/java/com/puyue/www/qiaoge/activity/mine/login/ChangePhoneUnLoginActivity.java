@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -68,6 +70,28 @@ public class ChangePhoneUnLoginActivity extends BaseSwipeActivity implements Vie
         tv_next.setOnClickListener(this);
         iv_back.setOnClickListener(this);
         oldPhone = getIntent().getStringExtra("oldPhone");
+
+        et_yzm.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(editable.toString().length()==6) {
+                    tv_next.setAlpha(1);
+                }else {
+                    tv_next.setAlpha(0.6f);
+                }
+            }
+        });
+
     }
 
     @Override

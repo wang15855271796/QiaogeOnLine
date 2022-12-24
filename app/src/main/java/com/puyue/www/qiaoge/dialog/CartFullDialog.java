@@ -6,6 +6,7 @@ import android.view.KeyboardShortcutGroup;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,7 +25,7 @@ public abstract class CartFullDialog extends Dialog implements View.OnClickListe
     TextView tv_num;
     RecyclerView recyclerView;
     TextView tv_time;
-    TextView tv_ok;
+    ImageView iv_ok;
     CartFullsModel.DataBean data;
     public CartFullDialog(@NonNull Context context, CartFullsModel.DataBean data) {
         super(context, R.style.promptDialog);
@@ -39,8 +40,8 @@ public abstract class CartFullDialog extends Dialog implements View.OnClickListe
         tv_time = (TextView) findViewById(R.id.tv_time);
         tv_num = (TextView) findViewById(R.id.tv_num);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        tv_ok = (TextView) findViewById(R.id.tv_ok);
-        tv_ok.setOnClickListener(this);
+        iv_ok = (ImageView) findViewById(R.id.iv_ok);
+        iv_ok.setOnClickListener(this);
 
         tv_time.setText(data.getStartTime()+"-"+data.getEndTime());
         tv_num.setText(data.getLimitInfo());
@@ -53,13 +54,12 @@ public abstract class CartFullDialog extends Dialog implements View.OnClickListe
 
     private void initView() {
 
-
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_ok:
+            case R.id.iv_ok:
                 close();
                 break;
 
@@ -67,6 +67,4 @@ public abstract class CartFullDialog extends Dialog implements View.OnClickListe
 
     }
     public abstract void close();
-
-
 }

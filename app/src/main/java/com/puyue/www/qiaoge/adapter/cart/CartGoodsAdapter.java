@@ -119,7 +119,7 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
 
         RecyclerView rv_price = helper.getView(R.id.rv_price);
         rv_price.setLayoutManager(new LinearLayoutManager(mContext));
-        CartPriceAdapter cartPriceAdapter = new CartPriceAdapter(R.layout.item_choose_content,item,item.getProductDescVOList(),cartAdapter);
+        CartPriceAdapter cartPriceAdapter = new CartPriceAdapter(R.layout.item_choose_content1,item,item.getProductDescVOList(),cartAdapter);
         rv_price.setAdapter(cartPriceAdapter);
 
         cb_item_out.setChecked(item.isSelected());

@@ -50,18 +50,12 @@ public class DisSelfDialog extends Dialog {
     TextView tv_sure;
     @BindView(R.id.tv_name)
     TextView tv_name;
-    @BindView(R.id.tv_huo)
-    TextView tv_huo;
     @BindView(R.id.tv_name2)
     TextView tv_name2;
     @BindView(R.id.rl_cb1)
     RelativeLayout rl_cb1;
     @BindView(R.id.rl_cb2)
     RelativeLayout rl_cb2;
-    @BindView(R.id.iv_choose1)
-    ImageView iv_choose1;
-    @BindView(R.id.iv_choose2)
-    ImageView iv_choose2;
     String sendAmount;
 
     int type;
@@ -84,9 +78,9 @@ public class DisSelfDialog extends Dialog {
         WindowManager.LayoutParams attributes = getWindow().getAttributes();
         attributes.width = Utils.getScreenWidth(context);
         getWindow().setAttributes(attributes);
-        tv_price.setText("满"+sendAmount+"元免配送费");
+        tv_price.setText("(到翘歌仓库自提)");
         tv_name.setText("到仓自提");
-        tv_price.setVisibility(View.GONE);
+//        tv_price.setVisibility(View.GONE);
 
 
         rl_cb1.setOnClickListener(new View.OnClickListener() {
@@ -94,24 +88,20 @@ public class DisSelfDialog extends Dialog {
             public void onClick(View v) {
                 if(isCb1) {
                     isCb1 = false;
-                    rl_cb1.setBackgroundResource(R.drawable.shape_grey9);
-                    iv_choose1.setVisibility(View.GONE);
+                    rl_cb1.setBackgroundResource(R.drawable.shape_shop_style);
                     if(isCb2) {
-                        rl_cb2.setBackgroundResource(R.drawable.shape_grey9);
-                        iv_choose2.setVisibility(View.GONE);
+                        rl_cb2.setBackgroundResource(R.drawable.shape_shop_style);
                     }
 
                 }else {
                     isCb1 = true;
                     isCb2 = false;
                     ToastUtil.showSuccessMsg(context,"配送方式已选好");
-                    rl_cb1.setBackgroundResource(R.drawable.shape_orange14);
-                    rl_cb2.setBackgroundResource(R.drawable.shape_grey9);
+                    rl_cb1.setBackgroundResource(R.drawable.shape_orange_choose);
+                    rl_cb2.setBackgroundResource(R.drawable.shape_shop_style);
                     EventBus.getDefault().post(new DisTributionEvent("翘歌配送",0));
                     EventBus.getDefault().post(new DisTributionSelfEvent("到仓自提",0));
                     dismiss();
-                    iv_choose1.setVisibility(View.VISIBLE);
-                    iv_choose2.setVisibility(View.GONE);
                 }
 
             }
@@ -122,11 +112,9 @@ public class DisSelfDialog extends Dialog {
             public void onClick(View v) {
                 if(isCb2) {
                     isCb2 = false;
-                    iv_choose2.setVisibility(View.GONE);
-                    rl_cb2.setBackgroundResource(R.drawable.shape_grey9);
+                    rl_cb2.setBackgroundResource(R.drawable.shape_shop_style);
                     if(isCb1) {
-                        iv_choose1.setVisibility(View.GONE);
-                        rl_cb1.setBackgroundResource(R.drawable.shape_grey9);
+                        rl_cb1.setBackgroundResource(R.drawable.shape_shop_style);
                     }
                 }else {
                     isCb2 = true;
@@ -139,10 +127,8 @@ public class DisSelfDialog extends Dialog {
 
                     EventBus.getDefault().post(new RefreshEvent());
                     dismiss();
-                    rl_cb1.setBackgroundResource(R.drawable.shape_grey9);
-                    rl_cb2.setBackgroundResource(R.drawable.shape_orange14);
-                    iv_choose2.setVisibility(View.VISIBLE);
-                    iv_choose1.setVisibility(View.GONE);
+                    rl_cb1.setBackgroundResource(R.drawable.shape_shop_style);
+                    rl_cb2.setBackgroundResource(R.drawable.shape_orange_choose);
                     ToastUtil.showSuccessMsg(context,"配送方式已选好");
                 }
             }

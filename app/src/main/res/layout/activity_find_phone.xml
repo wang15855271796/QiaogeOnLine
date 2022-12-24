@@ -95,6 +95,7 @@
 
         <TextView
             android:id="@+id/tv_next"
+            android:alpha="0.6"
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_45dp"
             android:layout_marginLeft="@dimen/size_21dp"

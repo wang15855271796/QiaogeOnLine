@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll_market"
-    android:background="#f8f8f8"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:hardwareAccelerated="true"
@@ -15,79 +14,90 @@
 
         <LinearLayout
             android:id="@+id/ll_data"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <RelativeLayout
-                android:background="#f5f5f5"
-                android:id="@+id/ll_market_search"
+            <LinearLayout
+                android:id="@+id/ll_root"
+                android:background="@drawable/shape_jianbian6"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="@dimen/size_36dp"
-                >
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/size_22dp"
-                    android:layout_marginRight="@dimen/size_22dp"
-                    android:background="@drawable/app_market_search_bg"
-                    android:gravity="center"
-                    android:padding="@dimen/size_5dp"
-                    android:text="@string/input_commodity"
-                    android:textColor="#0A0A0A"
-                    android:textSize="@dimen/size_14dp" />
-            </RelativeLayout>
-
-            <androidx.core.widget.NestedScrollView
-                android:scrollbars="none"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="167dp">
 
                 <RelativeLayout
-                    android:background="#f5f5f5"
+                    android:id="@+id/ll_market_search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_cate"
+                    <TextView
+                        android:id="@+id/tv_search"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="@dimen/size_50dp"
+                        android:layout_marginRight="16dp"
+                        android:background="@drawable/shape_white1"
+                        android:drawableLeft="@mipmap/icon_home_search"
+                        android:drawablePadding="@dimen/size_5dp"
+                        android:gravity="center_vertical"
+                        android:hint="商品搜索"
+                        android:padding="@dimen/size_5dp"
+                        android:textColor="#999999"
+                        android:textSize="@dimen/size_14dp" />
+                </RelativeLayout>
+
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
 
                     <LinearLayout
-                        android:id="@+id/ll_all"
-                        android:background="#f8f8f8"
-                        android:orientation="vertical"
-                        android:gravity="center_horizontal"
-                        android:layout_alignParentRight="true"
-                        android:layout_width="@dimen/size_47dp"
-                        android:layout_height="75dp">
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                        <TextView
-                            android:text="全"
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_marginLeft="@dimen/size_19dp"
+                            android:layout_marginTop="@dimen/size_20dp"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content">
 
-                        <TextView
-                            android:text="部"
-                            android:drawablePadding="@dimen/size_5dp"
-                            android:drawableBottom="@mipmap/icon_all"
-                            android:layout_width="wrap_content"
+                            <ImageView
+                                android:id="@+id/iv_all"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@mipmap/iv_all"
+                                android:layout_width="@dimen/size_35dp"
+                                android:layout_height="@dimen/size_35dp"/>
+
+                            <TextView
+                                android:text="全部分类"
+                                android:textSize="10sp"
+                                android:textColor="#414141"
+                                android:layout_marginTop="10dp"
+                                android:layout_below="@+id/iv_cate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                        </LinearLayout>
+
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_cate"
+                            android:layout_marginLeft="@dimen/size_15dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
 
                     </LinearLayout>
 
-                </RelativeLayout>
-
-
-            </androidx.core.widget.NestedScrollView>
+                </androidx.core.widget.NestedScrollView>
+            </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -104,14 +114,13 @@
 
                             <com.wang.avi.AVLoadingIndicatorView
                                 android:id="@+id/lav_activity_loading"
-                                android:layout_centerInParent="true"
+                                style="@style/AVLoadingIndicatorView.Large"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                app:indicatorName="BallPulseIndicator"
+                                android:layout_centerInParent="true"
                                 android:visibility="gone"
-                                style="@style/AVLoadingIndicatorView.Large"
                                 app:indicatorColor="#f40"
-                                />
+                                app:indicatorName="BallPulseIndicator" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -316,8 +325,5 @@
 
 
     </RelativeLayout>
-
-
-
 
 </LinearLayout>

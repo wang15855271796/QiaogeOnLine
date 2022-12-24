@@ -365,7 +365,7 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                 if(cb_register.isChecked()) {
                     if(password !=null && passwordSure !=null) {
                         if(password.equals(passwordSure)) {
-                            if(password.length()>6&& passwordSure.length()>6) {
+                            if(password.length()>=6&& passwordSure.length()>=6) {
                                 if (StringHelper.isLetterDigit(et_password.getText().toString())) {
                                     if(!etAuthor.equals("")) {
                                         getCompanyNames(etAuthor);

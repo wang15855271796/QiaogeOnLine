@@ -125,19 +125,6 @@ public class AddressListActivity extends BaseSwipeActivity {
                 refreshLayout.finishRefresh();
             }
         });
-//        mPtr.setOnLoadMoreListener(new OnLoadMoreListener() {
-//            @Override
-//            public void onLoadMore(RefreshLayout refreshLayout) {
-//                if(surpliListModels != null) {
-//                    if(surpliListModels.getData().isHasNextPage()) {
-//                        pageNum++;
-//                        getSupplierList(surplieId);
-//                        refreshLayout.finishLoadMore();      //加载完成
-//                    }else {
-//                        refreshLayout.finishLoadMoreWithNoMoreData();
-//                    }
-//            }
-//        });
 
         mAdapterAddress = new AddressAdapter(R.layout.item_address, mListData);
         mAdapterAddress.setOnItemChangeClickListener(new AddressAdapter.OnEventClickListener() {
@@ -512,7 +499,6 @@ public class AddressListActivity extends BaseSwipeActivity {
                             UserInfoHelper.saveAreaName(mActivity,areaName);
                             UserInfoHelper.saveProvince(mActivity,provinceName);
                             isShow();
-//                            EventBus.getDefault().post(new setFragmentsEvent());
                             finish();
                             EventBus.getDefault().post(new CityEvent());
                         } else {

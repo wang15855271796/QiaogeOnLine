@@ -7,6 +7,7 @@
 
     <ImageView
         android:id="@+id/iv_pic"
+        android:visibility="gone"
         android:src="@mipmap/icon_quan"
         android:layout_marginLeft="@dimen/size_22dp"
         android:layout_gravity="center_vertical"
@@ -20,7 +21,7 @@
         android:ellipsize="end"
         android:textSize="@dimen/size_11dp"
         android:layout_marginLeft="@dimen/size_11dp"
-        android:textColor="#FF2925"
+        android:textColor="#FF8A00"
         android:drawablePadding="@dimen/size_5dp"
         android:text="购买以下商品满2箱，赠 （可叠加5次）："
         android:layout_width="wrap_content"

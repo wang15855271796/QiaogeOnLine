@@ -61,11 +61,13 @@ public class TakeMessageActivity extends BaseSwipeActivity {
         hisAddressAdapter = new HisAddressAdapter(R.layout.item_his_address,lists);
         recyclerView.setAdapter(hisAddressAdapter);
 
+        tv_next.setAlpha(0.6f);
         hisAddressAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 id = lists.get(position).getId();
                 hisAddressAdapter.setNotify(position);
+                tv_next.setAlpha(1);
                 hisAddressAdapter.notifyDataSetChanged();
             }
         });

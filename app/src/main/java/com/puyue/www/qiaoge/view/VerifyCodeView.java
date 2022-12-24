@@ -65,7 +65,7 @@ public class VerifyCodeView extends RelativeLayout {
 
                 if (inputCompleteListener != null) {
                     if (inputContent.length() >= MAX) {
-                        inputCompleteListener.inputComplete();
+                        inputCompleteListener.inputComplete(editable);
                     } else {
                         inputCompleteListener.invalidContent();
                     }
@@ -91,7 +91,7 @@ public class VerifyCodeView extends RelativeLayout {
 
     public interface InputCompleteListener {
 
-        void inputComplete();
+        void inputComplete(Editable editable);
 
         void invalidContent();
     }

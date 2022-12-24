@@ -21,14 +21,18 @@
             android:layout_marginLeft="@dimen/size_12dp"
             tools:src="@mipmap/icon_baidu" />
 
-        <ImageView
-            android:id="@+id/iv_send"
+        <TextView
+            android:id="@+id/tv_send"
+            android:text="单点不送"
+            android:textColor="#FF7800"
+            android:textSize="9sp"
+            android:layout_marginLeft="@dimen/size_12dp"
+            android:background="@drawable/shape_yellow9"
             android:visibility="gone"
-            android:layout_marginTop="@dimen/size_20dp"
-            android:layout_marginLeft="@dimen/size_17dp"
-            android:src="@mipmap/icon_not_send2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:gravity="center"
+            android:layout_marginTop="108dp"
+            android:layout_width="108dp"
+            android:layout_height="15dp"/>
 
 
         <TextView
@@ -53,8 +57,8 @@
             android:visibility="visible"
             android:paddingLeft="@dimen/size_1dp"
             android:paddingRight="@dimen/size_1dp"
-            android:layout_marginTop="@dimen/size_88dp"
-            android:layout_marginLeft="@dimen/size_88dp"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:layout_marginLeft="@dimen/size_15dp"
             android:layout_height="@dimen/size_27dp"
             >
 

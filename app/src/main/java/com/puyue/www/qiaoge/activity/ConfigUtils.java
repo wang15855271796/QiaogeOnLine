@@ -30,9 +30,9 @@ public class ConfigUtils {
 //        Drawable logoImgPath = context.getResources().getDrawable(R.drawable.shanyan_logo);
 //        Drawable logBtnImgPath = context.getResources().getDrawable(R.drawable.authentication_button);
 //        Drawable uncheckedImgPath = context.getResources().getDrawable(R.drawable.sysdk_dialog_uncheck);
-        Drawable shapeOrange = context.getResources().getDrawable(R.drawable.shape_orange);
+        Drawable shapeOrange = context.getResources().getDrawable(R.drawable.shape_jianbian5);
         Drawable navReturnImgPath = context.getResources().getDrawable(R.drawable.sy_sdk_left);
-
+        Drawable mine_bg = context.getResources().getDrawable(R.mipmap.bg_cl);
         //loading自定义加载框
 //        LayoutInflater inflater = LayoutInflater.from(context);
 //        RelativeLayout view_dialog = (RelativeLayout) inflater.inflate(R.layout.dialog_layout, null);
@@ -43,7 +43,7 @@ public class ConfigUtils {
         LayoutInflater inflater1 = LayoutInflater.from(context);
         LinearLayout linearLayout = (LinearLayout) inflater1.inflate(R.layout.chuanlan_view, null);
         LinearLayout.LayoutParams layoutParamsOther = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        layoutParamsOther.setMargins(0, AbScreenUtils.dp2px(context, 25), 0, 10);
+        layoutParamsOther.setMargins(430, AbScreenUtils.dp2px(context, 25), 0, 10);
         linearLayout.setLayoutParams(layoutParamsOther);
 
         LayoutInflater inflater2 = LayoutInflater.from(context);
@@ -73,10 +73,9 @@ public class ConfigUtils {
                 .setNavTextColor(0xff080808) //设置标题栏文字颜色
                 .setNavReturnImgPath(navReturnImgPath)
                 .setNavTextSize(25)
-
                 .setNavReturnBtnWidth(35)
                 .setNavReturnBtnHeight(35)
-
+                .setAuthBGImgPath(mine_bg)
                 //授权页logo（logo的层级在次底层，仅次于自定义控件）
 //                .setLogoImgPath(logoImgPath)  //设置logo图片
                 // 设置logo高度

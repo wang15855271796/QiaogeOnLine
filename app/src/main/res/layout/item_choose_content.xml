@@ -15,11 +15,12 @@
             android:id="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/size_15dp"
-            tools:text="1.5/盒"
             android:layout_centerVertical="true"
-            android:textColor="#FF680A"
-            android:textSize="12sp" />
+            android:layout_marginLeft="@dimen/size_15dp"
+            android:textColor="#FE5630"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            tools:text="1.5/盒" />
 
         <TextView
             android:id="@+id/tv_unit"
@@ -75,7 +76,7 @@
                 android:id="@+id/tv_num"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/cart_add_bg"
+                android:background="@drawable/cart_price"
                 android:gravity="center"
                 android:inputType="number"
                 android:text="0"

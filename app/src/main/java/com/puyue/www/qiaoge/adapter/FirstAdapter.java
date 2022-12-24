@@ -32,11 +32,11 @@ public class FirstAdapter extends BaseQuickAdapter<ClassIfyModel.DataBean,BaseVi
         Glide.with(mContext).load(item.getImgUrl()).into(iv_icon);
 
         if(selectPosition == helper.getLayoutPosition()) {
-            tv_desc.setBackgroundResource(R.drawable.shape_red_orders);
+            tv_desc.setBackgroundResource(R.drawable.shape_markets);
             tv_desc.setTextColor(Color.parseColor("#ffffff"));
         }else {
             tv_desc.setBackground(null);
-            tv_desc.setTextColor(Color.parseColor("#333333"));
+            tv_desc.setTextColor(Color.parseColor("#5a5a5a"));
         }
     }
 

@@ -47,13 +47,13 @@ public class CartCouponAdapter extends BaseQuickAdapter<CartTestModel.DataBean.P
 
         if(item.getAdditionFlag()==2) {
             iv_head.setImageResource(R.mipmap.icon_grey_head);
-            tv_name.setBackgroundResource(R.mipmap.icon_grey_content);
+            tv_name.setBackgroundResource(R.drawable.shape_coupon_grey1);
             tv_name.setTextColor(Color.parseColor("#ffffff"));
             tv_num.setTextColor(Color.parseColor("#B2B2B2"));
             tv_desc.setVisibility(View.VISIBLE);
         }else {
             iv_head.setImageResource(R.mipmap.icon_red_head);
-            tv_name.setBackgroundResource(R.mipmap.icon_pink_content);
+            tv_name.setBackgroundResource(R.drawable.shape_coupon_red);
             tv_name.setTextColor(Color.parseColor("#FF0026"));
             tv_num.setTextColor(Color.parseColor("#FF0026"));
             tv_desc.setVisibility(View.GONE);

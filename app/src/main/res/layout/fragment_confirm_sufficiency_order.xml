@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#F0F0F0"
-
+    android:background="#f6f7f8"
     android:orientation="vertical"
     android:layout_height="match_parent">
 
@@ -36,23 +35,27 @@
                         android:orientation="vertical">
 
                         <RelativeLayout
-                            android:layout_marginRight="@dimen/dp_10"
-                            android:layout_marginLeft="@dimen/dp_10"
                             android:id="@+id/rl_distribution"
                             android:background="@drawable/shape_white1"
+                            android:layout_marginRight="@dimen/size_8dp"
                             android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginLeft="@dimen/size_8dp"
                             android:layout_marginBottom="@dimen/dp_10"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/size_60dp">
 
                             <TextView
-                                android:textColor="#333333"
-                                android:layout_marginLeft="@dimen/dp_10"
-                                android:layout_centerVertical="true"
-                                android:textSize="@dimen/sp_16"
-                                android:text="自提服务"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/dp_10"
+                                android:drawableLeft="@mipmap/iv_self"
+                                android:drawablePadding="@dimen/size_8dp"
+                                android:gravity="center"
+                                android:text="配送服务"
+                                android:textColor="#414141"
+                                android:textSize="@dimen/sp_14"
+                                android:textStyle="bold" />
 
                             <LinearLayout
                                 android:layout_alignParentRight="true"
@@ -66,13 +69,15 @@
                                     android:id="@+id/tv_distribution"
                                     android:textColor="#FF5C00"
                                     android:layout_alignParentRight="true"
-                                    android:textSize="@dimen/sp_16"
+                                    android:textSize="@dimen/sp_12"
                                     android:hint="请选择配送服务"
                                     android:gravity="right"
+                                    android:textColorHint="#414141"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
 
                                 <ImageView
+                                    android:id="@+id/iv_self_arrow"
                                     android:layout_marginLeft="@dimen/dp_10"
                                     android:layout_gravity="center_vertical"
                                     android:layout_toRightOf="@+id/tv_distribution"
@@ -80,6 +85,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
                             </LinearLayout>
+
 
                         </RelativeLayout>
 
@@ -95,16 +101,23 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/size_30dp">
 
-                            <TextView
-                                android:visibility="visible"
-                                android:text="包裹1"
-                                android:textColor="#343434"
+                            <ImageView
+                                android:src="@mipmap/iv_pack1"
                                 android:layout_marginLeft="@dimen/size_8dp"
                                 android:layout_centerVertical="true"
                                 android:textSize="@dimen/sp_14"
-                                android:id="@+id/tv_operate_title"
+                                android:id="@+id/iv_operate_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="10dp"
+                                android:layout_below="@+id/iv_operate_title"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginLeft="@dimen/size_8dp"
+                                android:background="@drawable/shape_dash_red" />
 
                         </RelativeLayout>
 
@@ -127,15 +140,22 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/size_30dp">
 
-                            <TextView
+                            <ImageView
                                 android:id="@+id/tv1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="@dimen/dp_10"
-                                android:text="包裹2"
-                                android:textColor="#333333"
-                                android:textSize="@dimen/sp_14" />
+                                android:src="@mipmap/iv_pack2" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="10dp"
+                                android:layout_below="@+id/tv1"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginLeft="@dimen/size_8dp"
+                                android:background="@drawable/shape_dash_red" />
 
                             <TextView
                                 android:layout_toRightOf="@+id/tv1"
@@ -460,6 +480,82 @@
                 />
         </RelativeLayout>
 
+<!--        <LinearLayout-->
+<!--            android:id="@+id/ll_collect_bills"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:visibility=""-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_above="@+id/LinearLayout"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:background="#FFFFF3C1"-->
+<!--            android:orientation="horizontal"-->
+<!--            >-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_vip_content_one"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:paddingLeft="8dp"-->
+<!--                    android:paddingTop="12dp"-->
+<!--                    android:paddingRight="2dp"-->
+<!--                    android:paddingBottom="12dp"-->
+<!--                    android:text="开通会员本单立减"-->
+<!--                    android:textColor="#FF666666"-->
+<!--                    android:textSize="12dp" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_amount_spec"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text=""-->
+<!--                    android:textColor="#FFF6551A"-->
+<!--                    android:textSize="12dp" />-->
+
+
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_tv_vip_content_two"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="，随后享受单单满减优惠"-->
+<!--                    android:textColor="#FF666666"-->
+<!--                    android:textSize="12dp" />-->
+<!--            </LinearLayout>-->
+
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/ll_go_market"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginLeft="@dimen/size_8dp"-->
+<!--                android:layout_marginRight="10dp"-->
+<!--                android:gravity="right"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_go"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="去开通"-->
+<!--                    android:textColor="#FFF6551A"-->
+<!--                    android:textSize="12dp" />-->
+
+<!--                <ImageView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_marginLeft="11dp"-->
+<!--                    android:src="@mipmap/qg_cart_jump" />-->
+<!--            </LinearLayout>-->
+
+<!--        </LinearLayout>-->
+
         <LinearLayout
             android:id="@+id/ll_collect_bills"
             android:layout_width="match_parent"
@@ -467,7 +563,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/LinearLayout"
             android:layout_gravity="center"
-            android:background="#FFFFF3C1"
+            android:background="@drawable/shape_jianbian17"
             android:orientation="horizontal"
             >
 
@@ -482,19 +578,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="8dp"
-                    android:paddingTop="12dp"
+                    android:paddingTop="8dp"
                     android:paddingRight="2dp"
-                    android:paddingBottom="12dp"
+                    android:drawableLeft="@mipmap/iv_vip"
+                    android:drawablePadding="@dimen/size_3dp"
+                    android:paddingBottom="8dp"
                     android:text="开通会员本单立减"
-                    android:textColor="#FF666666"
-                    android:textSize="12dp" />
+                    android:textColor="#ffffff"
+                    android:textSize="10sp"/>
 
                 <TextView
                     android:id="@+id/tv_amount_spec"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
-                    android:textColor="#FFF6551A"
+                    android:textColor="#ffffff"
                     android:textSize="12dp" />
 
 
@@ -503,8 +601,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="，随后享受单单满减优惠"
-                    android:textColor="#FF666666"
-                    android:textSize="12dp" />
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
             </LinearLayout>
 
 
@@ -523,18 +621,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="去开通"
-                    android:textColor="#FFF6551A"
+                    android:textColor="#ffffff"
                     android:textSize="12dp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="11dp"
-                    android:src="@mipmap/qg_cart_jump" />
+                    android:layout_marginLeft="5dp"
+                    android:src="@mipmap/ic_arrow_right" />
             </LinearLayout>
 
         </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/LinearLayout"
@@ -552,19 +651,20 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="5dp"
                     android:text="合计"
-                    android:textColor="@color/app_black"
-                    android:textSize="@dimen/size_15dp" />
+                    android:textColor="#414141"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
                     android:id="@+id/totalPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/size_15dp"
-                    android:text="价格"
-                    android:textColor="@color/color_FF5B01"
-                    android:textSize="@dimen/size_15dp" />
+                    tools:text="200"
+                    android:textStyle="bold"
+                    android:textColor="#F50404"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
                     android:id="@+id/textViewDiscount"
@@ -572,21 +672,67 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/size_15dp"
                     android:text="已优惠"
-                    android:textColor="@color/color_E8E8E8" />
+                    android:textSize="12sp"
+                    android:textColor="#858585" />
 
             </LinearLayout>
 
             <TextView
                 android:id="@+id/buttonPay"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/color_F6551A"
+                android:layout_width="@dimen/size_86dp"
+                android:layout_height="@dimen/size_30dp"
+                android:background="@drawable/shape_jianbian18"
                 android:gravity="center"
-                android:padding="@dimen/size_10dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/size_18dp"
                 android:text="@string/goPay"
                 android:textColor="@color/white"
-                android:textSize="@dimen/size_18dp" />
+                android:textSize="@dimen/sp_14" />
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="2"-->
+<!--                android:padding="@dimen/size_10dp">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginLeft="20dp"-->
+<!--                    android:text="合计"-->
+<!--                    android:textColor="@color/app_black"-->
+<!--                    android:textSize="@dimen/size_15dp" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/totalPrice"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginLeft="@dimen/size_15dp"-->
+<!--                    android:text="价格"-->
+<!--                    android:textColor="@color/color_FF5B01"-->
+<!--                    android:textSize="@dimen/size_15dp" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textViewDiscount"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginLeft="@dimen/size_15dp"-->
+<!--                    android:text="已优惠"-->
+<!--                    android:textColor="@color/color_E8E8E8" />-->
+
+<!--            </LinearLayout>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/buttonPay"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:background="@color/color_F6551A"-->
+<!--                android:gravity="center"-->
+<!--                android:padding="@dimen/size_10dp"-->
+<!--                android:text="@string/goPay"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="@dimen/size_18dp" />-->
         </LinearLayout>
 
     </LinearLayout>
@@ -607,14 +753,15 @@
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:layout_marginTop="@dimen/size_5dp"
             android:id="@+id/tv_no_Data"
-            android:layout_centerHorizontal="true"
-            android:textSize="@dimen/size_18dp"
-            android:layout_below="@+id/iv_no_Data"
-            android:text="暂未开启到仓自提服务"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_no_Data"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/size_5dp"
+            android:text="暂未开启到仓自提服务哦~"
+            android:textColor="#FF6324"
+            android:textSize="12sp" />
 
     </RelativeLayout>
 

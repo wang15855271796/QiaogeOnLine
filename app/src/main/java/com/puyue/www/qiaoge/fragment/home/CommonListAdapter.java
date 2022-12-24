@@ -79,7 +79,7 @@ public class CommonListAdapter extends BaseQuickAdapter<ProductNormalModel.DataB
         if(item.getHotProdFlag()==1) {
             //1热销
             ll_champion.setVisibility(View.VISIBLE);
-            v_champion.setVisibility(View.VISIBLE);
+            v_champion.setVisibility(View.GONE);
         }else {
             ll_champion.setVisibility(View.GONE);
             v_champion.setVisibility(View.GONE);

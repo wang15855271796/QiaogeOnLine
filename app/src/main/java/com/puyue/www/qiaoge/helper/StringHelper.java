@@ -58,26 +58,29 @@ public class StringHelper {
      */
 
     public static boolean isLetterDigit(String str) {
-        boolean isDigit = false;//定义一个boolean值，用来表示是否包含数字
+//        boolean isDigit = false;//定义一个boolean值，用来表示是否包含数字
 //        boolean isLetter = false;//定义一个boolean值，用来表示是否包含字母
-        for (int i = 0; i < str.length()-1; i++) {
+//        for (int i = 0; i < str.length(); i++) {
 //            if (Character.isDigit(str.charAt(i))) {   //用char包装类中的判断数字的方法判断每一个字符
 //                isDigit = true;
 //            } else if (Character.isLetter(str.charAt(i))) {  //用char包装类中的判断字母的方法判断每一个字符
 //                isLetter = true;
 //            }
+//        }
 
-
-            String num = String.valueOf(str.charAt(i));
-            String num_ = String.valueOf(str.charAt(i+1));
-            if(num.equals(num_)) {
-                isDigit = false;
+        boolean isSame = false;
+        String[] str1 = str.split("");
+        for (int i = 0; i < str1.length-1; i++) {
+            if(str1[i].equals(str1[i+1])) {
+                isSame = true;
             }else {
-                isDigit = true;
+                isSame = false;
             }
         }
+        Log.d("efasededa.......",isSame+"---");
+
         String regex = "^[a-zA-Z0-9]+$";
-        boolean isRight = isDigit && str.matches(regex);
+        boolean isRight = str.matches(regex) && !isSame;
         return isRight;
     }
 }

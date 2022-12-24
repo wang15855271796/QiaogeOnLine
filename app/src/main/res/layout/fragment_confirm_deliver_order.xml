@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#F0F0F0"
     android:orientation="vertical"
     android:layout_height="match_parent">
 
@@ -31,20 +30,24 @@
 
                     <RelativeLayout
                         android:id="@+id/rl_distribution"
-                        android:background="@drawable/shape_white1"
                         android:layout_marginTop="@dimen/dp_10"
+                        android:background="@drawable/shape_white1"
                         android:layout_marginBottom="@dimen/dp_10"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_60dp">
 
                         <TextView
-                            android:textColor="#333333"
-                            android:layout_marginLeft="@dimen/dp_10"
-                            android:layout_centerVertical="true"
-                            android:textSize="@dimen/sp_16"
-                            android:text="配送服务"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:drawableLeft="@mipmap/ic_deliver"
+                            android:drawablePadding="@dimen/size_8dp"
+                            android:gravity="center"
+                            android:text="配送服务"
+                            android:textColor="#414141"
+                            android:textSize="@dimen/sp_14"
+                            android:textStyle="bold" />
 
                         <LinearLayout
                             android:layout_alignParentRight="true"
@@ -58,13 +61,15 @@
                                 android:id="@+id/tv_distribution"
                                 android:textColor="#FF5C00"
                                 android:layout_alignParentRight="true"
-                                android:textSize="@dimen/sp_16"
+                                android:textSize="@dimen/sp_12"
                                 android:hint="请选择配送服务"
                                 android:gravity="right"
+                                android:textColorHint="#414141"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
 
                             <ImageView
+                                android:id="@+id/iv_deliver"
                                 android:layout_marginLeft="@dimen/dp_10"
                                 android:layout_gravity="center_vertical"
                                 android:layout_toRightOf="@+id/tv_distribution"
@@ -90,16 +95,23 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/size_50dp">
 
-                            <TextView
+                            <ImageView
                                 android:id="@+id/tv_operate_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="@dimen/size_16dp"
-                                android:text="包裹1"
-                                android:textColor="#343434"
-                                android:textSize="@dimen/sp_14"
-                                android:textStyle="bold" />
+                                android:src="@mipmap/iv_pack1"
+                                android:text="包裹1" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="10dp"
+                                android:layout_below="@+id/tv_operate_title"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginLeft="@dimen/size_16dp"
+                                android:layout_marginTop="8dp"
+                                android:background="@drawable/shape_dash_red" />
 
                             <ImageView
                                 android:visibility="gone"
@@ -119,7 +131,7 @@
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
                                 android:layout_marginRight="@dimen/dp_10"
-                                android:textColor="#F56E24"
+                                android:textColor="#FD552E"
                                 android:textSize="@dimen/dp_10"
                                 tools:text="现在下单，预计明天日(9月19日)开始配送" />
 
@@ -159,16 +171,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/size_40dp">
 
-                            <TextView
+                            <ImageView
                                 android:id="@+id/tv2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="@dimen/size_16dp"
                                 android:text="包裹2"
-                                android:textStyle="bold"
-                                android:textColor="#343434"
-                                android:textSize="@dimen/sp_14" />
+                                android:src="@mipmap/iv_pack2" />
 
                             <TextView
                                 android:id="@+id/tv_title"
@@ -180,6 +190,15 @@
                                 android:text="以下商品暂不支持 “我自己叫货拉拉”"
                                 android:textColor="#FF2925"
                                 android:textSize="@dimen/sp_14" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="10dp"
+                                android:layout_below="@+id/tv2"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginLeft="@dimen/size_16dp"
+                                android:background="@drawable/shape_dash_red" />
 
                             <ImageView
                                 android:id="@+id/iv_pic"
@@ -320,11 +339,12 @@
                                 android:textSize="@dimen/size_12dp" />
 
                             <TextView
+                                tools:text="123"
                                 android:id="@+id/distributionFee"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/size_10dp"
-                                android:textColor="@color/color_939393"
+                                android:textColor="#FF6A0A"
                                 android:textSize="@dimen/size_11dp" />
 
                             <TextView
@@ -465,18 +485,18 @@
                             android:textSize="@dimen/size_12dp" />
 
                         <TextView
-                            android:layout_alignParentRight="true"
                             android:id="@+id/tv_beizhu"
                             android:layout_width="215dp"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
                             android:layout_marginRight="@dimen/size_5dp"
-                            android:drawablePadding="@dimen/size_11dp"
                             android:drawableRight="@mipmap/ic_address_icon"
-                            android:hint="请输入你的备注"
+                            android:drawablePadding="@dimen/size_11dp"
+                            android:ellipsize="end"
+                            android:gravity="right"
+                            android:hint="请输入您的备注"
                             android:maxLines="1"
                             android:singleLine="true"
-                            android:gravity="right"
-                            android:ellipsize="end"
                             android:textColor="#999999"
                             android:textSize="@dimen/size_12dp" />
 
@@ -495,7 +515,7 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/LinearLayout"
                 android:layout_gravity="center"
-                android:background="#FFFFF3C1"
+                android:background="@drawable/shape_jianbian17"
                 android:orientation="horizontal"
                 >
 
@@ -510,19 +530,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="8dp"
-                        android:paddingTop="12dp"
+                        android:paddingTop="8dp"
                         android:paddingRight="2dp"
-                        android:paddingBottom="12dp"
+                        android:drawableLeft="@mipmap/iv_vip"
+                        android:drawablePadding="@dimen/size_3dp"
+                        android:paddingBottom="8dp"
                         android:text="开通会员本单立减"
-                        android:textColor="#FF666666"
-                        android:textSize="12dp" />
+                        android:textColor="#ffffff"
+                        android:textSize="10sp"/>
 
-                    <TextView
+                        <TextView
                         android:id="@+id/tv_amount_spec"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textColor="#FFF6551A"
+                        android:textColor="#ffffff"
                         android:textSize="12dp" />
 
 
@@ -531,8 +553,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="，随后享受单单满减优惠"
-                        android:textColor="#FF666666"
-                        android:textSize="12dp" />
+                        android:textColor="#ffffff"
+                        android:textSize="10sp" />
                 </LinearLayout>
 
 
@@ -551,20 +573,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="去开通"
-                        android:textColor="#FFF6551A"
+                        android:textColor="#ffffff"
                         android:textSize="12dp" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="11dp"
-                        android:src="@mipmap/qg_cart_jump" />
+                        android:layout_marginLeft="5dp"
+                        android:src="@mipmap/ic_arrow_right" />
                 </LinearLayout>
 
             </LinearLayout>
-            <LinearLayout
 
+            <LinearLayout
                 android:id="@+id/LinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -574,25 +596,25 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-
                     android:padding="@dimen/size_10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginLeft="5dp"
                         android:text="合计"
-                        android:textColor="@color/app_black"
-                        android:textSize="@dimen/size_15dp" />
+                        android:textColor="#414141"
+                        android:textSize="@dimen/sp_14" />
 
                     <TextView
                         android:id="@+id/totalPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/size_15dp"
-                        android:text="价格"
-                        android:textColor="@color/color_FF5B01"
-                        android:textSize="@dimen/size_15dp" />
+                        tools:text="200"
+                        android:textStyle="bold"
+                        android:textColor="#F50404"
+                        android:textSize="@dimen/sp_14" />
 
                     <TextView
                         android:id="@+id/textViewDiscount"
@@ -600,21 +622,22 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/size_15dp"
                         android:text="已优惠"
-                        android:textColor="@color/color_E8E8E8" />
+                        android:textSize="12sp"
+                        android:textColor="#858585" />
 
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/buttonPay"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@color/color_F6551A"
+                    android:layout_width="@dimen/size_86dp"
+                    android:layout_height="@dimen/size_30dp"
+                    android:background="@drawable/shape_jianbian18"
                     android:gravity="center"
-                    android:padding="@dimen/size_10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="@dimen/size_18dp"
                     android:text="@string/goPay"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/size_18dp" />
+                    android:textSize="@dimen/sp_14" />
             </LinearLayout>
 
         </LinearLayout>

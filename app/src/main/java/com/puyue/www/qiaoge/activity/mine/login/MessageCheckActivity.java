@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -101,6 +102,22 @@ public class MessageCheckActivity extends BaseSwipeActivity {
             @Override
             public void onClick(View v) {
                 requestSendCode(phones);
+            }
+        });
+
+        verify_code_view.setInputCompleteListener(new VerifyCodeView.InputCompleteListener() {
+            @Override
+            public void inputComplete(Editable editable) {
+                if(editable.toString().length() == 6) {
+                    tv_next.setAlpha(1);
+                }else {
+                    tv_next.setAlpha(0.6f);
+                }
+            }
+
+            @Override
+            public void invalidContent() {
+
             }
         });
     }

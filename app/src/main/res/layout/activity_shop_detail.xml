@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#f7f7f7"
     android:orientation="vertical"
+    android:background="#ffffff"
     android:layout_height="wrap_content">
 
 
-    <com.puyue.www.qiaoge.view.CompatToolbar
-        android:layout_marginTop="@dimen/size_30dp"
+    <RelativeLayout
+        android:background="@mipmap/info_detail_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -17,26 +17,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="@dimen/size_50dp"
             android:padding="10dp"
             android:src="@mipmap/ic_back_arrow" />
 
         <TextView
-            android:text="信息详情"
             android:id="@+id/tv_pp_input_code_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="13dp"
-            android:layout_marginTop="13dp"
-            android:textStyle="bold"
+            android:layout_marginTop="@dimen/size_56dp"
+            android:text="信息详情"
+            android:layout_centerHorizontal="true"
             android:textColor="@color/app_top_bar_text"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:textStyle="bold" />
 
-    </com.puyue.www.qiaoge.view.CompatToolbar>
-
+    </RelativeLayout>
 
     <RelativeLayout
-        android:background="#f7f7f7"
+        android:layout_marginTop="-50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -54,9 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="210dp"
                     android:layout_marginLeft="@dimen/size_14dp"
-                    android:layout_marginTop="@dimen/size_17dp"
                     android:layout_marginRight="@dimen/size_14dp"
-                    android:background="@mipmap/info_detail_bg"
                     android:orientation="vertical">
 
                     <RelativeLayout
@@ -95,6 +92,12 @@
                             android:text="良好"
                             android:textColor="#ffffff" />
 
+                        <ImageView
+                            android:layout_alignParentRight="true"
+                            android:src="@mipmap/iv_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
                     </RelativeLayout>
 
                     <TextView
@@ -113,7 +116,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ll_content"
                     android:layout_marginLeft="@dimen/size_9dp"
-                    android:background="@drawable/shape_white6"
                     android:orientation="vertical">
 
                     <TextView

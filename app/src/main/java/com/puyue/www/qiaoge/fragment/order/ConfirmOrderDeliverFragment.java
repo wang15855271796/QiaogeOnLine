@@ -149,7 +149,6 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     // 判断是否匹配优惠券，0否1是，默认1
     CartBalanceModel cModel;
     //  优惠卷
-    private RecyclerView couponsRecyclerView;
     private TextView noData;
 
     private int currentDay;
@@ -209,6 +208,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     TextView tv_title;
     int disType = 0;
     RelativeLayout rl_arrow;
+    ImageView iv_deliver;
     UnOperate1Adapter unOperate1Adapter;
     @Override
     public int setLayoutId() {
@@ -222,6 +222,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
 
     @Override
     public void findViewById(View view) {
+        iv_deliver = (ImageView) view.findViewById(R.id.iv_deliver);
         tv_title = (TextView) view.findViewById(R.id.tv_title);
         tv_open = (TextView) view.findViewById(R.id.tv_open);
         iv_open = (ImageView) view.findViewById(R.id.iv_open);
@@ -262,8 +263,6 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
         tv_beizhu = (TextView) view.findViewById(R.id.tv_beizhu);
         payMoney = (TextView) view.findViewById(R.id.payMoney);
         linearLayoutCoupons = (LinearLayout) view.findViewById(R.id.linearLayoutCoupons);
-        couponsRecyclerView = (RecyclerView) view.findViewById(R.id.couponsRecyclerView);
-
         relativeLayoutVIP = (RelativeLayout) view.findViewById(R.id.relativeLayoutVIP);
         vipSubtractionLinearLayout = (LinearLayout) view.findViewById(R.id.vipSubtractionLinearLayout);
         subtractionActivitiesLinearLayout = (LinearLayout) view.findViewById(R.id.subtractionActivitiesLinearLayout);
@@ -948,6 +947,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
         tv_distribution.setText(disTributionEvent.getDesc());
         disType = disTributionEvent.getType();
         NewgiftDetailNo = "";
+        iv_deliver.setImageResource(R.mipmap.iv_deliver_arrow);
         requestCartBalance(NewgiftDetailNo, 0,disType);
     }
 

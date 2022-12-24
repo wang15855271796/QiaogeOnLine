@@ -91,8 +91,6 @@ public class TeamInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.Data
         Glide.with(mContext).load(item.getDefaultPic()).into(iv_pic);
         helper.setText(R.id.tv_name,item.getActiveName());
         helper.setText(R.id.tv_spec,item.getSpec());
-//        helper.setText(R.id.tv_price,item.getPrice());
-//        helper.setText(R.id.tv_old_price,item.getOldPrice());
         rl_root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,7 +118,7 @@ public class TeamInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.Data
                     tv_add.setBackgroundResource(R.drawable.shape_detail_grey);
                 } else {
                     tv_add.setText("立即加购");
-                    tv_add.setBackgroundResource(R.drawable.shape_orange);
+                    tv_add.setBackgroundResource(R.drawable.shape_jianbian21);
                 }
             } else {
                 rl_price.setVisibility(View.VISIBLE);
@@ -132,7 +130,7 @@ public class TeamInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.Data
             tv_add.setVisibility(View.VISIBLE);
             tv_price.setText(item.getPrice());
             tv_add.setText("立即加购");
-            tv_add.setBackgroundResource(R.drawable.shape_orange);
+            tv_add.setBackgroundResource(R.drawable.shape_jianbian21);
         }
 
         tv_add.setOnClickListener(new View.OnClickListener() {
@@ -163,7 +161,7 @@ public class TeamInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.Data
             tv_add.setBackgroundResource(R.drawable.shape_detail_grey);
         }else {
             tv_add.setText("立即加购");
-            tv_add.setBackgroundResource(R.drawable.shape_orange);
+            tv_add.setBackgroundResource(R.drawable.shape_jianbian21);
         }
         tv_old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         tv_old_price.getPaint().setAntiAlias(true);//抗锯齿

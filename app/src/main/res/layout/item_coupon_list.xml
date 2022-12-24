@@ -24,10 +24,8 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_time">
+            android:layout_below="@+id/tv_time"/>
 
-
-        </androidx.recyclerview.widget.RecyclerView>
 
 
 

@@ -14,6 +14,6 @@
         android:padding="@dimen/size_5dp"
         android:text="佣金充值"
         android:textColor="#414141"
-        android:textSize="@dimen/size_14dp" />
+        android:textSize="@dimen/sp_12" />
 
 </FrameLayout>

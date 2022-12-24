@@ -63,8 +63,6 @@ public class CouponDetailActivity extends BaseSwipeActivity implements View.OnCl
     @BindView(R.id.iv_un_start)
     ImageView iv_un_start;
     private FragmentTransaction mFragmentTransaction;
-    private final String[] mTitles = {"进行中", "待开始"};
-    private ViewPagerAdapters adapter;
     private static final String Coupon_HOME1 = "coupon_home1";
     private static final String Coupon_HOME2 = "coupon_home2";
     @Override

@@ -51,7 +51,6 @@ public class NewAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
 
     @Override
     protected void convert(BaseViewHolder helper, ProductNormalModel.DataBean.ListBean item) {
-        Log.d("swfasdwdsda.......","123");
         ll_champion = helper.getView(R.id.ll_champion);
         tv_champion = helper.getView(R.id.tv_champion);
         v_champion = helper.getView(R.id.v_champion);
@@ -77,7 +76,7 @@ public class NewAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
         if(item.getHotProdFlag()==1) {
             //1热销
             ll_champion.setVisibility(View.VISIBLE);
-            v_champion.setVisibility(View.VISIBLE);
+            v_champion.setVisibility(View.GONE);
         }else {
             ll_champion.setVisibility(View.GONE);
             v_champion.setVisibility(View.GONE);

@@ -54,7 +54,7 @@ public class FeedBackActivity extends BaseSwipeActivity {
     @Override
     public void setViewData() {
         mBtnNext.setEnabled(false);
-        mBtnNext.setTextColor(getResources().getColor(R.color.app_btn_unable));
+//        mBtnNext.setTextColor(getResources().getColor(R.color.app_btn_unable));
     }
 
     @Override

@@ -122,6 +122,7 @@ public class MineFragment extends BaseFragment {
     private int mStateCode;
     TextView tv_phone;
     ImageView iv_back;
+    NestedScrollView nestedScrollView;
     CoordinatorLayout coordinator;
     private SuperTextView mViewCollectionNum;
     TextView tv_qiao_ge;
@@ -141,19 +142,19 @@ public class MineFragment extends BaseFragment {
     private String commissionUrl;
     Must2Adapter mustAdapter;
     SmartRefreshLayout refreshLayout;
-    private ImageView iv_vip;
+//    private ImageView iv_vip;
     private TextView tv_amount;
     private TextView tv_commission;//佣金
     private TextView tv_inviteAward;//佣金奖励
     private TextView tv_point;//积分
     private TextView tv_deductNum;//优惠券数量
     private TextView tv_expiredInfo;//优惠券到期通知
-    private LinearLayout ll_expiredInfo;
+    private RelativeLayout ll_expiredInfo;
     private ImageView iv_setting;//设置
     private TextView tv_use_deduct;//使用优惠券
     private ImageView iv_use_deduct;//使用优惠券
     RelativeLayout rl_zizhi;
-    TextView tv_tip;
+//    TextView tv_tip;
     private int day;
     private String giftNo;
     private LinearLayout ll_amount;//余额
@@ -231,6 +232,7 @@ public class MineFragment extends BaseFragment {
     @Override
     public void findViewById(View view) {
         EventBus.getDefault().register(this);
+        nestedScrollView = (view.findViewById(R.id.nestedScrollView ));
         rl_zizhi2 = (view.findViewById(R.id.rl_zizhi2));
         rl_un_vip =  (view.findViewById(R.id.rl_un_vip));
 //        tv_look = (view.findViewById(R.id.tv_look));
@@ -239,12 +241,12 @@ public class MineFragment extends BaseFragment {
         rl_zizhi1 = (view.findViewById(R.id.rl_zizhi1));
         ll_fill = (view.findViewById(R.id.ll_fill));
         tv_qiao_ge =  (view.findViewById(R.id.tv_qiao_ge));
-        tv_tip =  (view.findViewById(R.id.tv_tip));
+//        tv_tip =  (view.findViewById(R.id.tv_tip));
         refreshLayout = (view.findViewById(R.id.smart));
         coordinator = (view.findViewById(R.id.coordinator));
         rv2 =  (view.findViewById(R.id.rv2));
         scrollView = (view.findViewById(R.id.scrollView));
-//        iv_back = (view.findViewById(R.id.iv_back));
+        iv_back = (view.findViewById(R.id.iv_back));
         rv1 = (view.findViewById(R.id.rv1));
         rl_zizhi = (view.findViewById(R.id.rl_zizhi));
         tv_number1 = (view.findViewById(R.id.tv_number1));
@@ -265,7 +267,7 @@ public class MineFragment extends BaseFragment {
         accountManagement = (view.findViewById(R.id.accountManagement));//子账号管理
         relativeLayoutVip = (view.findViewById(R.id.relativeLayoutVip)); // 会员中心
         vipDesc = (view.findViewById(R.id.vipDesc));// 会员中心角标
-        iv_vip = (view.findViewById(R.id.iv_vip));
+//        iv_vip = (view.findViewById(R.id.iv_vip));
         tv_amount = (view.findViewById(R.id.tv_amount));
         tv_commission = (view.findViewById(R.id.tv_commission));
         tv_inviteAward = (view.findViewById(R.id.tv_inviteAward));
@@ -289,14 +291,12 @@ public class MineFragment extends BaseFragment {
 
         refreshLayout.setEnableRefresh(false);
         refreshLayout.setEnableLoadMore(false);
-//        iv_back.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //置顶
-//
-////                appBarLayout.setExpanded(true);
-//            }
-//        });
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nestedScrollView.smoothScrollTo(0,0);
+            }
+        });
 
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -305,6 +305,7 @@ public class MineFragment extends BaseFragment {
                 list.clear();
                 getProductsList();
                 refreshLayout.finishRefresh();
+                refreshLayout.setNoMoreData(false);
             }
         });
 
@@ -584,9 +585,7 @@ public class MineFragment extends BaseFragment {
 
             {//积分
                 startActivity(CommonH5Activity.getIntent(getContext(), MinerIntegralActivity.class));
-            }  else if (view == relativeLayoutVip || view == tv_vip)
-
-            { //会员中心
+            }  else if (view == relativeLayoutVip || view == tv_vip) { //会员中心
                 Intent intent = new Intent(getContext(), NewWebViewActivity.class);
                 intent.putExtra("URL", urlVIP);
                 intent.putExtra("TYPE", 1);
@@ -792,19 +791,10 @@ public class MineFragment extends BaseFragment {
                             commissionUrl = myOrderNumModel.getData().getCommissionUrl();
                             mTvPhone.setVisibility(View.VISIBLE);
                             mTvPhone.setText(myOrderNumModel.getData().getPhone());
-
-                            if (myOrderNumModel.getData().isVipUser()) {
-                                iv_vip.setImageResource(R.mipmap.icon_my_vip);
-                                iv_vip.setVisibility(View.VISIBLE);
-                                tv_tip.setText("已省"+myOrderNumModel.getData().getVipDeductAmt());
-                            } else {
-                                iv_vip.setVisibility(View.GONE);
-                                tv_tip.setText("会员中心");
-                            }
                             if (myOrderNumModel.getData().getBalance() != null) {
-                                tv_amount.setText("¥" + myOrderNumModel.getData().getBalance());
+                                tv_amount.setText(myOrderNumModel.getData().getBalance());
                             } else {
-                                tv_amount.setText("¥" + "0.00");
+                                tv_amount.setText("0.00");
                             }
                             if (myOrderNumModel.getData().getCommission() != null) {
                                 tv_commission.setText("¥" + myOrderNumModel.getData().getCommission());
@@ -865,14 +855,14 @@ public class MineFragment extends BaseFragment {
                                 //非会员
                                 relativeLayoutVip.setVisibility(View.GONE);
                                 tv_qiao_ge.setVisibility(View.GONE);
-                                tv_tip.setVisibility(View.GONE);
+//                                tv_tip.setVisibility(View.GONE);
                                 rl_un_vip.setVisibility(View.VISIBLE);
                                 tv_desc1.setVisibility(View.GONE);
 
                             }else {
                                 relativeLayoutVip.setVisibility(View.VISIBLE);
                                 tv_qiao_ge.setVisibility(View.VISIBLE);
-                                tv_tip.setVisibility(View.VISIBLE);
+//                                tv_tip.setVisibility(View.VISIBLE);
                                 rl_un_vip.setVisibility(View.GONE);
                                 tv_desc1.setVisibility(View.VISIBLE);
                                 ll_fill.setVisibility(View.VISIBLE);
@@ -1055,7 +1045,6 @@ public class MineFragment extends BaseFragment {
                     public void onNext(ProductNormalModel getCommonProductModel) {
                         if (getCommonProductModel.isSuccess()) {
                             productModels = getCommonProductModel;
-                            list.clear();
                             mustAdapter.notifyDataSetChanged();
                             if(getCommonProductModel.getData().getList().size()>0) {
                                 list.addAll(getCommonProductModel.getData().getList());

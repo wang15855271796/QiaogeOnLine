@@ -36,7 +36,6 @@ public class CartAdapter extends BaseQuickAdapter<CartTestModel.DataBean.ProdsBe
     List<CartTestModel.DataBean.ProdsBeanX> data;
     CartGoodsAdapter cartGoodsAdapter;
     private OnRefreshListener mOnRefreshListener;
-    boolean isSelect;
     private Onclick onclick;
 
     public CartAdapter(int layoutResId, @Nullable List<CartTestModel.DataBean.ProdsBeanX> data,Onclick onclick) {

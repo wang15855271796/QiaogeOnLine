@@ -30,11 +30,12 @@
                 android:layout_height="@dimen/dp_40">
 
                 <ImageView
-                    android:src="@mipmap/bg_skill_active"
-                    android:layout_marginTop="@dimen/size_12dp"
-                    android:layout_marginLeft="@dimen/size_12dp"
+                    android:id="@+id/iv_title"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/size_12dp"
+                    android:layout_marginTop="@dimen/size_12dp"
+                    android:src="@mipmap/bg_skill_active" />
 
                 <TextView
                     android:id="@+id/tv_skill_more"
@@ -53,6 +54,7 @@
                 <com.puyue.www.qiaoge.view.SnapUpCountDownTimerViewss
                     android:id="@+id/snap1"
                     android:visibility="gone"
+                    android:layout_toRightOf="@+id/iv_title"
                     android:layout_width="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="@dimen/size_5dp"
@@ -66,6 +68,7 @@
                     android:visibility="gone"
                     android:id="@+id/tv_skill_time1"
                     android:text="10天20小时"
+                    android:layout_toRightOf="@+id/iv_title"
                     android:textColor="#ffffff"
                     android:layout_marginRight="@dimen/size_2dp"
                     android:paddingBottom="@dimen/size_1dp"
@@ -460,15 +463,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <ImageView
+            android:scaleType="fitXY"
+            android:layout_marginTop="@dimen/size_6dp"
+            android:id="@+id/iv_huo_company"
+            android:src="@mipmap/icon_huo_lala"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <!-- 热销 -->
         <LinearLayout
             android:id="@+id/ll_city"
             android:layout_marginTop="@dimen/size_6dp"
-            android:layout_marginBottom="@dimen/size_6dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -482,7 +492,7 @@
                     android:layout_marginLeft="@dimen/size_6dp"
                     android:textColor="#000000"
                     android:textSize="@dimen/sp_14"
-                    android:drawableBottom="@mipmap/icon_hot"
+                    android:drawableBottom="@mipmap/ic_hot"
                     android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -505,13 +515,6 @@
             </LinearLayout>
 
         </LinearLayout>
-
-        <ImageView
-            android:scaleType="fitXY"
-            android:id="@+id/iv_huo_company"
-            android:src="@mipmap/icon_huo_lala"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

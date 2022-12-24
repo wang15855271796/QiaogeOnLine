@@ -133,9 +133,7 @@ public class MarketsFragment extends BaseFragment {
     private int mSecondCode;
     private int pageNum = 1;//切换一级分类和二级分类的时候都要将这个pageNum置为1
 //    private LoadingDailog dialog;
-    private String cell; // 客服电话
     private ImageView mIvNoData;
-    private ImageView iv_no_data_prod;
     TextView tv_select_good;
     TextView tv_price;
     ImageView iv_tip;
@@ -170,7 +168,6 @@ public class MarketsFragment extends BaseFragment {
     private String saleVolume = "";
     private String priceUp = "";
     private String newProduct = "";
-    private boolean isCheck = false;
     private boolean hasPage = true;
     EditText et_goods;
     LinearLayout ll_select;
@@ -183,7 +180,8 @@ public class MarketsFragment extends BaseFragment {
     private AlertDialog mTypedialog;
     boolean flag = false;
     LinearLayout ll_price;
-    LinearLayout ll_all;
+    ImageView iv_all;
+    LinearLayout ll_root;
     public static MarketsFragment getInstance() {
         MarketsFragment fragment = new MarketsFragment();
         Bundle bundle = new Bundle();
@@ -244,8 +242,8 @@ public class MarketsFragment extends BaseFragment {
     public void findViewById(View view) {
         context = getActivity();
         EventBus.getDefault().register(this);
-        ll_all = view.findViewById(R.id.ll_all);
-        iv_no_data_prod = view.findViewById(R.id.iv_no_data_prod);
+        iv_all = view.findViewById(R.id.iv_all);
+        ll_root = view.findViewById(R.id.ll_root);
         tv_select_good = view.findViewById(R.id.tv_select_good);
         iv_tip = view.findViewById(R.id.iv_tip);
         tv_price = view.findViewById(R.id.tv_price);
@@ -266,9 +264,7 @@ public class MarketsFragment extends BaseFragment {
         lav_activity_loading = view.findViewById(R.id.lav_activity_loading);
         mllMarket = view.findViewById(R.id.ll_market);
 
-
-
-        ll_all.setOnClickListener(new View.OnClickListener() {
+        iv_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 shopListView();
@@ -346,15 +342,17 @@ public class MarketsFragment extends BaseFragment {
         tv_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectBrandName = et_goods.getText().toString();
-                pageNum = 1;
-                if(mModelMarketGoods.getData().getBrandProd().isHasNextPage()) {
-                    hasPage = true;
-                    getData();
-                }else {
-                    hasPage = false;
-                    getData();
-                }
+                Intent intent = new Intent(mContext,SearchStartActivity.class);
+                startActivity(intent);
+//                selectBrandName = et_goods.getText().toString();
+//                pageNum = 1;
+//                if(mModelMarketGoods.getData().getBrandProd().isHasNextPage()) {
+//                    hasPage = true;
+//                    getData();
+//                }else {
+//                    hasPage = false;
+//                    getData();
+//                }
             }
         });
 
@@ -529,7 +527,6 @@ public class MarketsFragment extends BaseFragment {
         RecyclerView recyclerView = contentView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(mContext,5));
         recyclerView.setAdapter(firstAdapter);
-
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -544,6 +541,7 @@ public class MarketsFragment extends BaseFragment {
                 .setView(contentView)
                 .create()
                 .showAsDropDown(mLlSearch);
+
     }
 
     /**
@@ -978,7 +976,6 @@ public class MarketsFragment extends BaseFragment {
     }
 
     private void getData() {
-        isCheck = false;
         sendSelectGood(saleVolume, priceUp, priceDown, newProduct,selectBrandName, minPrice, maxPrice);
     }
 

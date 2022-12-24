@@ -104,16 +104,14 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     TextView tv_total_price;
     @BindView(R.id.ll_NoData)
     LinearLayout ll_NoData;
-    @BindView(R.id.iv_buy)
-    ImageView iv_buy;
+    @BindView(R.id.tv_buy)
+    TextView tv_buy;
     @BindView(R.id.ll_go_market)
     LinearLayout ll_go_market;
     @BindView(R.id.tv_price_desc)
     TextView tv_price_desc;
     @BindView(R.id.ll_service)
     LinearLayout ll_service;
-    @BindView(R.id.iv_back)
-    ImageView iv_back;
     @BindView(R.id.rv_invalid)
     TagFlowLayout rv_invalid;
     @BindView(R.id.tv_arrow)
@@ -134,9 +132,10 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     SmartRefreshLayout smart;
     @BindView(R.id.rv_recommend)
     RecyclerView rv_recommend;
-    @BindView(R.id.iv_recommend)
-    ImageView iv_recommend;
-
+    @BindView(R.id.tv_recommend)
+    TextView tv_recommend;
+    @BindView(R.id.rl_recommend)
+    RelativeLayout rl_recommend;
     @BindView(R.id.tv_reduce)
     TextView tv_reduce;
     @BindView(R.id.tv_given)
@@ -165,7 +164,6 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
 
     @Override
     public void initViews(View view) {
-//        setStatusBar();
     }
 
     @Override
@@ -180,11 +178,10 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     public void findViewById(View view) {
         bind = ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
-        iv_back.setVisibility(View.GONE);
 
         smart.autoRefresh();
         cb_select_all.setOnClickListener(this);
-        iv_buy.setOnClickListener(this);
+        tv_buy.setOnClickListener(this);
         ll_go_market.setOnClickListener(this);
         tv_delete.setOnClickListener(this);
         tv_clear.setOnClickListener(this);
@@ -198,6 +195,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                 getProductsList();
                 getScrollData();
                 smart.finishRefresh();
+                smart.setNoMoreData(false);
             }
         });
 
@@ -497,9 +495,9 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                             //为您推荐列表
                             productModels = getCommonProductModel;
                             if(getCommonProductModel.getData()!=null) {
-                                iv_recommend.setVisibility(View.VISIBLE);
+                                rl_recommend.setVisibility(View.VISIBLE);
                             }else {
-                                iv_recommend.setVisibility(View.GONE);
+                                rl_recommend.setVisibility(View.GONE);
                             }
 
                             if(getCommonProductModel.getData().getList().size()>0) {
@@ -612,7 +610,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                 }
                 break;
 
-            case R.id.iv_buy:
+            case R.id.tv_buy:
                 EventBus.getDefault().post(new GoToMarketEvent());
                 break;
 

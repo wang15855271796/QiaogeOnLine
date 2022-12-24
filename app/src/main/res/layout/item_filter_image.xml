@@ -10,17 +10,17 @@
 
         <ImageView
             android:id="@+id/fiv"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="@dimen/public_space_value_80"
+            android:layout_height="@dimen/public_space_value_80"
             android:layout_marginTop="10dp"
             android:contentDescription="@null"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/post_photo"/>
+            android:scaleType="fitXY"
+            android:src="@mipmap/post_photo" />
 
         <LinearLayout
             android:id="@+id/ll_del"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/size_25dp"
+            android:layout_height="@dimen/size_25dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:gravity="end"
@@ -28,11 +28,13 @@
 
             <ImageView
                 android:id="@+id/iv_del"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="@dimen/size_2dp"
+                android:layout_marginRight="5dp"
                 android:contentDescription="@null"
                 android:scaleType="fitXY"
-                android:src="@drawable/delete"/>
+                android:src="@drawable/delete" />
 
         </LinearLayout>
 
@@ -49,7 +51,7 @@
             android:text="00:00"
             android:textColor="@color/white"
             android:textSize="12sp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </RelativeLayout>
 

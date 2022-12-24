@@ -92,7 +92,7 @@ public class Team1InnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.Dat
         tv_add.setVisibility(View.VISIBLE);
         tv_price.setText(item.getPrice());
         tv_add.setText("未开始");
-        tv_add.setBackgroundResource(R.drawable.shape_orange);
+        tv_add.setBackgroundResource(R.drawable.shape_jianbian21);
         tv_add.setEnabled(false);
     }
 

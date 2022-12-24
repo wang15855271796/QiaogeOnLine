@@ -96,8 +96,7 @@ public class HuoDriverActivity extends BaseActivity implements View.OnClickListe
     private void getWalkingRoute(){
         LatLng fromPoint = new LatLng(sendAddress.getLatLon().getLat(), sendAddress.getLatLon().getLon());
         LatLng toPoint = new LatLng(receiveAddress.getLatLon().getLat(), receiveAddress.getLatLon().getLon());
-        CameraUpdate cameraSigma =
-                CameraUpdateFactory.newCameraPosition(new CameraPosition(
+        CameraUpdate cameraSigma = CameraUpdateFactory.newCameraPosition(new CameraPosition(
                         new LatLng(sendAddress.getLatLon().getLat(),sendAddress.getLatLon().getLon()),
                         12,
                         0f,

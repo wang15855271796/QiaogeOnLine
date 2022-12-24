@@ -5,7 +5,6 @@
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools">
 
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -149,7 +148,7 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/size_12dp"/>
+                android:layout_marginRight="@dimen/size_12dp" />
 
 
             <com.scwang.smartrefresh.layout.footer.ClassicsFooter
@@ -168,28 +167,15 @@
 
         <include layout="@layout/view_nodata"/>
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:background="#ffffff"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-        </LinearLayout>
-
         <ImageView
             android:id="@+id/iv_back"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
+            android:paddingBottom="@dimen/dp_10"
             android:src="@mipmap/icon_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
     </RelativeLayout>
 
 </LinearLayout>

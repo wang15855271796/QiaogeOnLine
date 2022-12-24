@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
@@ -36,16 +39,13 @@ public class ConfirmNewOrderActivity extends BaseSwipeActivity implements Confir
 
     private static final String TAB_DELIVER = "tab_deliver";
     private static final String TAB_SUFFICIENCY = "tab_sufficiency";
-    private FrameLayout fr_confirm_oder;
     private TextView tv_deliver_order;
     private TextView tv_sufficiency_order;
-    private TextView tv_deliver_order_two;
-    private TextView tv_sufficiency_order_two;
     private Fragment mFragmentDeliver;//送货上门
     private Fragment mFragmentSufficiency;//自提货物
     private FragmentTransaction mFragmentTransaction;
-    private Toolbar toolbar;
-
+    private ImageView iv_back;
+    LinearLayout ll_bg;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -58,13 +58,10 @@ public class ConfirmNewOrderActivity extends BaseSwipeActivity implements Confir
 
     @Override
     public void findViewById() {
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        fr_confirm_oder = findViewById(R.id.fr_confirm_oder);
+        ll_bg = (LinearLayout) findViewById(R.id.ll_bg);
+        iv_back = (ImageView) findViewById(R.id.iv_back);
         tv_deliver_order = findViewById(R.id.tv_deliver_order);
         tv_sufficiency_order = findViewById(R.id.tv_sufficiency_order);
-        tv_deliver_order_two = findViewById(R.id.tv_deliver_order_two);
-        tv_sufficiency_order_two = findViewById(R.id.tv_sufficiency_order_two);
     }
 
     @Override
@@ -72,36 +69,27 @@ public class ConfirmNewOrderActivity extends BaseSwipeActivity implements Confir
         EventBus.getDefault().register(this);
         switchTab(TAB_DELIVER);
         setTranslucentStatus();
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
+        ll_bg.setBackgroundResource(R.mipmap.bg_left);
     }
 
     @Override
     public void setClickEvent() {
-        toolbar.setNavigationOnClickListener(new NoDoubleClickListener() {
+        iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onNoDoubleClick(View view) {
+            public void onClick(View view) {
                 finish();
             }
-        });
+        });;
+
         tv_deliver_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tv_sufficiency_order.setVisibility(View.VISIBLE);
-                tv_sufficiency_order_two.setVisibility(View.GONE);
-                tv_deliver_order_two.setVisibility(View.GONE);
                 switchTab(TAB_DELIVER);
+                ll_bg.setBackgroundResource(R.mipmap.bg_left);
+                tv_deliver_order.setTextColor(Color.parseColor("#FB4800"));
+                tv_deliver_order.setTextSize(16);
+                tv_sufficiency_order.setTextColor(Color.parseColor("#000000"));
+                tv_sufficiency_order.setTextSize(14);
                 EventBus.getDefault().postSticky(new ChangeDeliverEvent());
             }
         });
@@ -109,38 +97,17 @@ public class ConfirmNewOrderActivity extends BaseSwipeActivity implements Confir
         tv_sufficiency_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tv_sufficiency_order.setVisibility(View.GONE);
-                tv_deliver_order.setVisibility(View.GONE);
-                tv_deliver_order_two.setVisibility(View.VISIBLE);
-                tv_sufficiency_order_two.setVisibility(View.VISIBLE);
+                ll_bg.setBackgroundResource(R.mipmap.bg_right);
                 switchTab(TAB_SUFFICIENCY);
-            }
-        });
-        tv_deliver_order_two.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tv_deliver_order_two.setVisibility(View.GONE);
-                tv_deliver_order.setVisibility(View.VISIBLE);
-                tv_sufficiency_order.setVisibility(View.VISIBLE);
-                tv_sufficiency_order_two.setVisibility(View.GONE);
-                switchTab(TAB_DELIVER);
-                EventBus.getDefault().postSticky(new ChangeDeliverEvent());
-
-            }
-        });
-        tv_sufficiency_order_two.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tv_deliver_order_two.setVisibility(View.VISIBLE);
-                tv_deliver_order.setVisibility(View.GONE);
-                tv_sufficiency_order.setVisibility(View.GONE);
-                switchTab(TAB_SUFFICIENCY);
+                tv_sufficiency_order.setTextColor(Color.parseColor("#FB4800"));
+                tv_sufficiency_order.setTextSize(16);
+                tv_deliver_order.setTextColor(Color.parseColor("#000000"));
+                tv_deliver_order.setTextSize(14);
             }
         });
     }
 
     private void switchTab(String tab) {
-//        Log.d("wefsfewfs......","124444");
         //开始事务
         mFragmentTransaction = getSupportFragmentManager().beginTransaction();
         if (mFragmentDeliver != null) {
@@ -193,10 +160,6 @@ public class ConfirmNewOrderActivity extends BaseSwipeActivity implements Confir
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getMessageEvent(RefreshEvent refreshEvent) {
-        tv_sufficiency_order.setVisibility(View.VISIBLE);
-        tv_deliver_order.setVisibility(View.VISIBLE);
-        tv_deliver_order_two.setVisibility(View.GONE);
-        tv_sufficiency_order_two.setVisibility(View.GONE);
         switchTab(TAB_DELIVER);
     }
 
