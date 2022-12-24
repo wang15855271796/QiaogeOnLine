@@ -1110,8 +1110,6 @@ public class MineFragment extends BaseFragment {
                                     rl_zizhi2.setVisibility(View.GONE);
                                     rl_zizhi1.setVisibility(View.VISIBLE);
                                     ll_fill.setVisibility(View.VISIBLE);
-
-
                                 }
                             }
 
