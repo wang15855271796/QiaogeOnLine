@@ -173,34 +173,14 @@ public class AccountCenterActivity extends BaseSwipeActivity {
             } else if (view == mRlLoginPassword) {
                 startActivity(EditPasswordInputCodeActivity.getIntent(mContext, EditPasswordInputCodeActivity.class, "0", mUserCell, "login","",0,0));
             } else if (view == mRlPayPassword) {
-//                if(!TextUtils.isEmpty(mModelAccountCenter.data.phone)) {
-//                    try {
-//                        mUserCells = EnCodeUtil.encryptByPublicKey(mModelAccountCenter.data.phone, publicKeyStr);
-//
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                }
                 checkFirstChange();
-//                Intent intent = new Intent(mContext,PayActivity.class);
-//                startActivity(intent);
-//                if (StringHelper.notEmptyAndNull(mUserCell) && StringHelper.notEmptyAndNull(hasSetPayPwd)) {
-//                    if (hasSetPayPwd.equals("1")) {
-//                        UserInfoHelper.saveForgetPas(mContext, "");
-//                        startActivity(EditPasswordInputCodeActivity.getIntent(mContext, EditPasswordInputCodeActivity.class, "1", mUserCell, "pay","",0,0));
-//                    } else if (hasSetPayPwd.equals("0")) {
-//                        startActivity(EditPasswordInputCodeActivity.getIntent(mContext, EditPasswordInputCodeActivity.class, "0", mUserCell, "pay","",0,0));
-//                    }
-//                } else {
-//                    AppHelper.showMsg(mContext, "手机号有误");
-//                }
             } else if (view == mRlAuthorization) {
             } else if (view == mRlLogout) {
                 DialogHelper.showLogoutDialog(mContext, new NoDoubleClickListener() {
                     @Override
                     public void onNoDoubleClick(View view) {
                         requestLogout();
+                        SharedPreferencesUtil.saveString(mContext,"login","0");
                     }
                 });
             }else if(view == rl_limit) {
@@ -263,7 +243,6 @@ public class AccountCenterActivity extends BaseSwipeActivity {
 
                     @Override
                     public void onError(Throwable e) {
-
                     }
 
                     @Override
@@ -272,6 +251,7 @@ public class AccountCenterActivity extends BaseSwipeActivity {
                         if (mModelLogout.success) {
                             if (EasyPermissions.hasPermissions(getApplicationContext(),params)) {//检查是否获取该权限
                                 logoutAndToHomes(mContext, -10000);
+
                                 //全部允许
                             } else {//第二次请求
                                 //存在不允许的权限  对话框为什么一会出来一会不出来
@@ -288,8 +268,8 @@ public class AccountCenterActivity extends BaseSwipeActivity {
                                     finish();
 
                                 EasyPermissions.requestPermissions(this, "需要加载必要的权限。", 1, params);
-                            }
 
+                            }
 
                         } else {
                             AppHelper.showMsg(mContext, mModelLogout.message);
@@ -305,6 +285,7 @@ public class AccountCenterActivity extends BaseSwipeActivity {
         instance.requestSingleFreshLocation(null, mLocationListener, Looper.getMainLooper());
         TencentLocationRequest request = TencentLocationRequest.create();
         request.setRequestLevel(3);
+
         //清空UserId
         if (mStateCode == -10000 || mStateCode == -10001) {
             UserInfoHelper.saveUserId(context, "");

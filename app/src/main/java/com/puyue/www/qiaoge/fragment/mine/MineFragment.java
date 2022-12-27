@@ -35,6 +35,7 @@ import com.puyue.www.qiaoge.activity.mine.FeedBackActivity;
 import com.puyue.www.qiaoge.activity.mine.MessageCenterActivity;
 import com.puyue.www.qiaoge.activity.mine.MyCollectionActivity;
 import com.puyue.www.qiaoge.activity.mine.SubAccountActivity;
+import com.puyue.www.qiaoge.activity.mine.VipActivity;
 import com.puyue.www.qiaoge.activity.mine.account.AccountCenterActivity;
 import com.puyue.www.qiaoge.activity.mine.account.AddressListActivity;
 import com.puyue.www.qiaoge.activity.mine.coupons.MyCouponsActivity;
@@ -53,6 +54,7 @@ import com.puyue.www.qiaoge.api.mine.AccountCenterAPI;
 import com.puyue.www.qiaoge.api.mine.UpdateAPI;
 import com.puyue.www.qiaoge.api.mine.order.MyOrderListAPI;
 import com.puyue.www.qiaoge.api.mine.order.MyOrderNumAPI;
+import com.puyue.www.qiaoge.api.mine.order.VipPayAPI;
 import com.puyue.www.qiaoge.api.mine.subaccount.MineAccountAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.base.BaseModel;
@@ -70,6 +72,8 @@ import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.IsAuthModel;
 import com.puyue.www.qiaoge.model.OrderNumsModel;
+import com.puyue.www.qiaoge.model.VipCenterModel;
+import com.puyue.www.qiaoge.model.VipListModel;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 import com.puyue.www.qiaoge.model.mine.AccountCenterModel;
 import com.puyue.www.qiaoge.model.mine.UpdateModel;
@@ -124,14 +128,12 @@ public class MineFragment extends BaseFragment {
     ImageView iv_back;
     NestedScrollView nestedScrollView;
     CoordinatorLayout coordinator;
-    private SuperTextView mViewCollectionNum;
-    TextView tv_qiao_ge;
+    private TextView mViewCollectionNum;
     RelativeLayout rl_zizhi1;
     RecyclerView rv1;
     private AlertDialog mDialog;
     private String mCustomerPhone;
     private SuperTextView mViewMessageNum;
-    TextView tv_desc1;
     private UpdateModel mModelUpdate;
     private boolean update;
     private RelativeLayout accountAddress;
@@ -144,8 +146,6 @@ public class MineFragment extends BaseFragment {
     SmartRefreshLayout refreshLayout;
 //    private ImageView iv_vip;
     private TextView tv_amount;
-    private TextView tv_commission;//佣金
-    private TextView tv_inviteAward;//佣金奖励
     private TextView tv_point;//积分
     private TextView tv_deductNum;//优惠券数量
     private TextView tv_expiredInfo;//优惠券到期通知
@@ -168,13 +168,16 @@ public class MineFragment extends BaseFragment {
     private ImageView iv_message;
     TextView tv_company;
     RelativeLayout rl_zizhi2;
-//    TextView tv_look;
     private List<MyOrderNumModel.DataBean> mListData = new ArrayList<>();
     private RelativeLayout ll_self_sufficiency;
-    private LinearLayout ll_deliver_order;
+    private RelativeLayout ll_deliver_order;
     TextView tv_number;
-    LinearLayout ll_fill;
     RelativeLayout rl_un_vip;
+    ImageView iv_vip_state;
+    RelativeLayout rl_vip;
+    TextView tv_save;
+    RelativeLayout rl_order;
+    RelativeLayout rl_vip1;
     public static MineFragment getInstance() {
         MineFragment fragment = new MineFragment();
         Bundle bundle = new Bundle();
@@ -232,16 +235,16 @@ public class MineFragment extends BaseFragment {
     @Override
     public void findViewById(View view) {
         EventBus.getDefault().register(this);
+        tv_save = (view.findViewById(R.id.tv_save));
+        rl_vip1 = (view.findViewById(R.id.rl_vip1));
+        rl_order = (view.findViewById(R.id.rl_order));
         nestedScrollView = (view.findViewById(R.id.nestedScrollView ));
+        rl_vip =  (view.findViewById(R.id.rl_vip ));
+        iv_vip_state = (view.findViewById(R.id.iv_vip_state));
         rl_zizhi2 = (view.findViewById(R.id.rl_zizhi2));
         rl_un_vip =  (view.findViewById(R.id.rl_un_vip));
-//        tv_look = (view.findViewById(R.id.tv_look));
         tv_company =  (view.findViewById(R.id.tv_company));
-        tv_desc1 = (view.findViewById(R.id.tv_desc1));
         rl_zizhi1 = (view.findViewById(R.id.rl_zizhi1));
-        ll_fill = (view.findViewById(R.id.ll_fill));
-        tv_qiao_ge =  (view.findViewById(R.id.tv_qiao_ge));
-//        tv_tip =  (view.findViewById(R.id.tv_tip));
         refreshLayout = (view.findViewById(R.id.smart));
         coordinator = (view.findViewById(R.id.coordinator));
         rv2 =  (view.findViewById(R.id.rv2));
@@ -269,8 +272,6 @@ public class MineFragment extends BaseFragment {
         vipDesc = (view.findViewById(R.id.vipDesc));// 会员中心角标
 //        iv_vip = (view.findViewById(R.id.iv_vip));
         tv_amount = (view.findViewById(R.id.tv_amount));
-        tv_commission = (view.findViewById(R.id.tv_commission));
-        tv_inviteAward = (view.findViewById(R.id.tv_inviteAward));
         tv_point = (view.findViewById(R.id.tv_point));
         tv_deductNum = (view.findViewById(R.id.tv_deductNum));
         tv_expiredInfo = (view.findViewById(R.id.tv_expiredInfo));
@@ -283,12 +284,8 @@ public class MineFragment extends BaseFragment {
         ll_deduct = (view.findViewById(R.id.ll_deduct));
         tv_vip = (view.findViewById(R.id.tv_vip));
         iv_message = (view.findViewById(R.id.iv_message));
-
         ll_deliver_order = (view.findViewById(R.id.ll_deliver_order));
         ll_self_sufficiency = (view.findViewById(R.id.ll_self_sufficiency));
-
-
-
         refreshLayout.setEnableRefresh(false);
         refreshLayout.setEnableLoadMore(false);
         iv_back.setOnClickListener(new View.OnClickListener() {
@@ -326,15 +323,6 @@ public class MineFragment extends BaseFragment {
             }
         });
         tv_company.getBackground().setAlpha(30);
-
-//        tv_look.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = MyOrdersActivity.getIntent(getContext(), MyOrdersActivity.class, AppConstant.ALL);
-//                intent.putExtra("orderDeliveryType",0);
-//                startActivity(intent);
-//            }
-//        });
     }
 
 
@@ -379,6 +367,7 @@ public class MineFragment extends BaseFragment {
         rv1.setAdapter(mustAdapter);
         requestUpdate();
         getProductsList();
+        getVipCenter();
     }
 
     @Override
@@ -398,6 +387,8 @@ public class MineFragment extends BaseFragment {
                 startActivity(intent);
             }
         });
+
+        rl_order.setOnClickListener(noDoubleClickListener);
         mIvAvatar.setOnClickListener(noDoubleClickListener);
         rl_return_order.setOnClickListener(noDoubleClickListener);//售后
         mRlCollection.setOnClickListener(noDoubleClickListener);//我的收藏
@@ -465,7 +456,7 @@ public class MineFragment extends BaseFragment {
 
         }
     }
-    ShowKeFuDialog showKeFuDialog;
+
     private NoDoubleClickListener noDoubleClickListener = new NoDoubleClickListener() {
         @Override
         public void onNoDoubleClick(View view) {
@@ -498,6 +489,10 @@ public class MineFragment extends BaseFragment {
                 Intent intent = MyOrdersActivity.getIntent(getContext(), MyOrdersActivity.class, AppConstant.ALL);
                 intent.putExtra("orderDeliveryType",0);
                 startActivity(intent);
+            }else if(view == rl_order) {
+                Intent intent = MyOrdersActivity.getIntent(getContext(), MyOrdersActivity.class, AppConstant.ALL);
+                intent.putExtra("orderDeliveryType",0);
+                startActivity(intent);
             } else if (view == ll_self_sufficiency) {
                 //自提订单
                 Intent intent1 = MyOrdersActivity.getIntent(getContext(), MyOrdersActivity.class, AppConstant.ALL);
@@ -509,51 +504,22 @@ public class MineFragment extends BaseFragment {
 
                 intent.putExtra("showType",1);
                 startActivity(intent);
-            } else if (view == mRlCollection)
-
-            {
+            } else if (view == mRlCollection) {
                 //我的收藏
                 startActivity(MyCollectionActivity.getIntent(getContext(), MyCollectionActivity.class));
-            } else if (view == mRlContact)
-
-            {
+            } else if (view == mRlContact) {
                 //联系客服
                 if (StringHelper.notEmptyAndNull(mCustomerPhone)) {
-
-                    // 进入七鱼客服首页（即智能机器人页面）
-//                    showKeFuDialog = new ShowKeFuDialog(mActivity, mCustomerPhone,onlineTime) {
-//                        @Override
-//                        public void Confirm1(String mCustomerPhone) {
-//                            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + mCustomerPhone));
-//                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                            startActivity(intent);
-//                            showKeFuDialog.dismiss();
-//                        }
-//
-//                        @Override
-//                        public void Confirm2() {
-//                            UnicornManager.inToUnicorn(getContext());
-//                            showKeFuDialog.dismiss();
-//                        }
-//                    };
-//                    showKeFuDialog.show();
-//                    showKeFuDialog.setCanceledOnTouchOutside(true);
-//                    showKeFuDialog.setCancelable(true);
                     showPhoneDialog(mCustomerPhone);
                 }
-            } else if (view == mRlFeedback)
-
-            {
+            } else if (view == mRlFeedback) {
                 //建议反馈
                 startActivity(FeedBackActivity.getIntent(getContext(), FeedBackActivity.class));
-            } else if (view == mRlVersion)
-
-            {
+            } else if (view == mRlVersion) {
                 //版本
                 //后面做版本更新的功能,需要重新对接
                 if (update) {
                     UserInfoHelper.saveGuide(mActivity, "");
-//                    showUpdateDialog();
                 } else {
                     //已经是最新版本
                     final AlertDialog mDialog = new AlertDialog.Builder(getContext()).create();
@@ -586,10 +552,10 @@ public class MineFragment extends BaseFragment {
             {//积分
                 startActivity(CommonH5Activity.getIntent(getContext(), MinerIntegralActivity.class));
             }  else if (view == relativeLayoutVip || view == tv_vip) { //会员中心
-                Intent intent = new Intent(getContext(), NewWebViewActivity.class);
-                intent.putExtra("URL", urlVIP);
-                intent.putExtra("TYPE", 1);
-                intent.putExtra("name", "");
+                Intent intent = new Intent(getContext(), VipActivity.class);
+//                intent.putExtra("URL", urlVIP);
+//                intent.putExtra("TYPE", 1);
+//                intent.putExtra("name", "");
                 startActivity(intent);
 
             }  else if (view == tv_use_deduct)
@@ -781,7 +747,9 @@ public class MineFragment extends BaseFragment {
                             if(myOrderNumModel.getData().getCompanyName()!=null) {
                                 tv_company.setText(myOrderNumModel.getData().getCompanyName());
                                 tv_company.setVisibility(View.VISIBLE);
+                                iv_vip_state.setVisibility(View.GONE);
                             }else {
+                                iv_vip_state.setVisibility(View.VISIBLE);
                                 tv_company.setVisibility(View.GONE);
                             }
 
@@ -790,32 +758,20 @@ public class MineFragment extends BaseFragment {
                             giftNo = myOrderNumModel.getData().getGiftNo();
                             commissionUrl = myOrderNumModel.getData().getCommissionUrl();
                             mTvPhone.setVisibility(View.VISIBLE);
+
                             mTvPhone.setText(myOrderNumModel.getData().getPhone());
                             if (myOrderNumModel.getData().getBalance() != null) {
                                 tv_amount.setText(myOrderNumModel.getData().getBalance());
                             } else {
                                 tv_amount.setText("0.00");
                             }
-                            if (myOrderNumModel.getData().getCommission() != null) {
-                                tv_commission.setText("¥" + myOrderNumModel.getData().getCommission());
-                            } else {
-                                tv_commission.setText("¥" + "0.00");
-                            }
-
-                            if (myOrderNumModel.getData().getInviteAward() != null) {
-                                tv_inviteAward.setVisibility(View.VISIBLE);
-                                tv_inviteAward.setText(myOrderNumModel.getData().getInviteAward());
-                            } else {
-                                tv_inviteAward.setVisibility(View.GONE);
-                            }
-
 
                             tv_point.setText(String.valueOf(myOrderNumModel.getData().getPoint()));
                             tv_deductNum.setText(String.valueOf(myOrderNumModel.getData().getDeductNum()));
 
                             if (myOrderNumModel.getData().getCollectNum() > 0) {
                                 mViewCollectionNum.setVisibility(View.VISIBLE);
-                                mViewCollectionNum.setText(String.valueOf(myOrderNumModel.getData().getCollectNum()));
+                                mViewCollectionNum.setText(myOrderNumModel.getData().getCollectNum()+"");
                             } else {
                                 mViewCollectionNum.setVisibility(View.GONE);
                             }
@@ -827,7 +783,6 @@ public class MineFragment extends BaseFragment {
                                 ll_expiredInfo.setVisibility(View.GONE);
                             }
 
-                            //  mViewPager.setAdapter(mPagerAdapter);
                             // 会员中心 url
                             if (!TextUtils.isEmpty(myOrderNumModel.getData().getVipCenter())) {
                                 urlVIP = myOrderNumModel.getData().getVipCenter();
@@ -851,62 +806,117 @@ public class MineFragment extends BaseFragment {
                                 mViewMessageNum.setVisibility(View.GONE);
                             }
 
-                            if(myOrderNumModel.getData().getShowVip()==0) {
-                                //非会员
-                                relativeLayoutVip.setVisibility(View.GONE);
-                                tv_qiao_ge.setVisibility(View.GONE);
-//                                tv_tip.setVisibility(View.GONE);
-                                rl_un_vip.setVisibility(View.VISIBLE);
-                                tv_desc1.setVisibility(View.GONE);
-
+                            if(myOrderNumModel.getData().isVipUser()) {
+                                //会员
+                                iv_vip_state.setImageResource(R.mipmap.icon_vip_orange);
                             }else {
-                                relativeLayoutVip.setVisibility(View.VISIBLE);
-                                tv_qiao_ge.setVisibility(View.VISIBLE);
-//                                tv_tip.setVisibility(View.VISIBLE);
-                                rl_un_vip.setVisibility(View.GONE);
-                                tv_desc1.setVisibility(View.VISIBLE);
-                                ll_fill.setVisibility(View.VISIBLE);
+                                iv_vip_state.setImageResource(R.mipmap.icon_vip_grey);
                             }
 
                             if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
                                 //企业版
                                 ll_amount.setVisibility(View.GONE);
+                                ll_self_sufficiency.setVisibility(View.GONE);
+                                ll_deliver_order.setVisibility(View.GONE);
+                                rl_order.setVisibility(View.VISIBLE);
                                 accountManagement.setVisibility(View.GONE);
-                                //17586858586
+
                                 if(myOrderNumModel.getData().getShowVip()==0) {
                                     //非会员 不展示
-                                    rl_zizhi.setVisibility(View.VISIBLE);
-                                    rl_zizhi2.setVisibility(View.INVISIBLE);
-                                    rl_zizhi1.setVisibility(View.GONE);
-                                    ll_fill.setVisibility(View.GONE);
+                                    rl_zizhi2.setVisibility(View.GONE);
+                                    rl_vip.setVisibility(View.GONE);
+                                    rl_un_vip.setVisibility(View.VISIBLE);
+                                    relativeLayoutVip.setVisibility(View.GONE);
                                 }else {
-                                    rl_zizhi.setVisibility(View.GONE);
-                                    rl_zizhi2.setVisibility(View.VISIBLE);
-                                    rl_zizhi1.setVisibility(View.GONE);
-                                    ll_fill.setVisibility(View.GONE);
+                                    if(myOrderNumModel.getData().isVipUser()) {
+                                        //已开通
+                                        rl_vip.setVisibility(View.VISIBLE);
+                                        rl_un_vip.setVisibility(View.GONE);
+                                        rl_vip1.setVisibility(View.GONE);
+                                    }else {
+                                        //未开通
+                                        rl_vip.setVisibility(View.GONE);
+                                        rl_un_vip.setVisibility(View.GONE);
+                                        rl_vip1.setVisibility(View.VISIBLE);
+                                    }
+
+                                    rl_zizhi2.setVisibility(View.INVISIBLE);
+                                    relativeLayoutVip.setVisibility(View.VISIBLE);
                                 }
+
+                                Log.d("wdasdd.........","123");
                             }else {
                                 //城市版
                                 ll_amount.setVisibility(View.VISIBLE);
+                                ll_self_sufficiency.setVisibility(View.VISIBLE);
+                                ll_deliver_order.setVisibility(View.VISIBLE);
+                                rl_order.setVisibility(View.GONE);
                                 accountManagement.setVisibility(View.VISIBLE);
                                 if(myOrderNumModel.getData().getShowVip()==0) {
                                     //非会员 不展示
-                                    rl_zizhi.setVisibility(View.VISIBLE);
+//                                    rl_zizhi.setVisibility(View.VISIBLE);
                                     rl_zizhi2.setVisibility(View.GONE);
-                                    rl_zizhi1.setVisibility(View.GONE);
-                                    ll_fill.setVisibility(View.GONE);
+                                    rl_vip.setVisibility(View.GONE);
+                                    rl_un_vip.setVisibility(View.VISIBLE);
+//                                    rl_zizhi1.setVisibility(View.GONE);
+//                                    ll_fill.setVisibility(View.GONE);
+                                    relativeLayoutVip.setVisibility(View.GONE);
                                 }else {
-                                    rl_zizhi.setVisibility(View.GONE);
-                                    rl_zizhi2.setVisibility(View.GONE);
-                                    rl_zizhi1.setVisibility(View.VISIBLE);
-                                    ll_fill.setVisibility(View.VISIBLE);
 
-
+                                    if(myOrderNumModel.getData().isVipUser()) {
+                                        //已开通
+                                        rl_vip.setVisibility(View.VISIBLE);
+                                        rl_un_vip.setVisibility(View.GONE);
+                                        rl_vip1.setVisibility(View.GONE);
+                                    }else {
+                                        //未开通
+                                        rl_vip.setVisibility(View.GONE);
+                                        rl_un_vip.setVisibility(View.GONE);
+                                        rl_vip1.setVisibility(View.VISIBLE);
+                                    }
+                                    rl_zizhi2.setVisibility(View.INVISIBLE);
+                                    relativeLayoutVip.setVisibility(View.VISIBLE);
                                 }
                             }
 
                         } else {
                             AppHelper.showMsg(mActivity, myOrderNumModel.message);
+                        }
+                    }
+                });
+    }
+
+    private void getVipCenter() {
+        VipPayAPI.getVipCenter(mActivity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<VipCenterModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(VipCenterModel vipListModel) {
+                        if (vipListModel.getCode()==1) {
+                            if(vipListModel.getData()!=null) {
+                                String saveAmountDesc = vipListModel.getData().getSaveAmountDesc();
+                                Log.d("fefsfdsf........",saveAmountDesc+"--");
+                                if(saveAmountDesc.equals("")) {
+                                    tv_save.setText("已用翘歌会员省下"+0+"元");
+                                }else {
+                                    tv_save.setText("已用翘歌会员省下"+saveAmountDesc+"元");
+                                }
+                            }
+
+                        } else {
+                            AppHelper.showMsg(mActivity, vipListModel.getMessage());
+
                         }
                     }
                 });

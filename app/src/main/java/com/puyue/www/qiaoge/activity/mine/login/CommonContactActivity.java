@@ -138,7 +138,7 @@ public class CommonContactActivity extends BaseSwipeActivity {
                         if (baseModel.success) {
 //                            Intent intent = new Intent(mContext,CommonContactActivity.class);
 //                            startActivity(intent);
-                            ContactDialog contactDialog = new ContactDialog(mContext) {
+                            ContactDialog contactDialog = new ContactDialog(mContext,phoness) {
                                 @Override
                                 public void confirmNo() {
                                     Intent intent = new Intent(mContext,SetUnLoginSecret1Activity.class);

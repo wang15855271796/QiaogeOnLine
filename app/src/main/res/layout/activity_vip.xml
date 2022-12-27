@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:background="@drawable/shape_white4"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:background="@mipmap/mine_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_marginTop="@dimen/size_30dp"
+                    android:layout_marginBottom="@dimen/size_5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="7dp"
+                        android:padding="10dp"
+                        android:src="@mipmap/ic_back_arrow" />
+
+                    <TextView
+                        android:text="VIP会员"
+                        android:id="@+id/tv_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:textColor="@color/app_top_bar_text"
+                        android:textSize="18dp" />
+
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="@dimen/size_14dp"
+                    android:background="@mipmap/bg_vip"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:text="VIP每单立减"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFE7A2"
+                        android:layout_marginLeft="@dimen/size_25dp"
+                        android:layout_marginTop="@dimen/size_40dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_phone"
+                            android:visibility="gone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/size_25dp"
+                            android:layout_marginTop="@dimen/size_40dp"
+                            android:textColor="#FFE7A2"
+                            android:textSize="16sp"
+                            tools:text="123456789" />
+
+                        <TextView
+                            android:id="@+id/tv_date"
+                            android:visibility="gone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/size_5dp"
+                            android:layout_marginTop="@dimen/size_43dp"
+                            android:layout_toRightOf="@+id/tv_phone"
+                            android:background="@drawable/shape_yellow10"
+                            android:padding="@dimen/size_2dp"
+                            android:textColor="#FF574B"
+                            android:textSize="8sp"
+                            tools:text="2022-12-31到期" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tv_desc"
+                        android:text="翘歌VIP会员可与优惠券叠加使用"
+                        android:textSize="@dimen/sp_12"
+                        android:textColor="#ffffff"
+                        android:layout_marginTop="@dimen/size_5dp"
+                        android:layout_marginLeft="@dimen/size_25dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:background="@drawable/shape_white4"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:text="购买VIP"
+                        android:textColor="#414141"
+                        android:textSize="18sp"
+                        android:layout_marginLeft="@dimen/size_14dp"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_marginTop="@dimen/size_24dp"
+                        android:layout_marginLeft="@dimen/size_14dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:text="规则说明"
+                        android:textColor="#FF5B49"
+                        android:layout_marginLeft="@dimen/size_14dp"
+                        android:layout_marginTop="@dimen/size_18dp"
+                        android:textSize="@dimen/sp_12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:textSize="12sp"
+                        android:layout_marginTop="@dimen/size_5dp"
+                        android:textColor="#9B9B9B"
+                        android:layout_marginLeft="@dimen/size_14dp"
+                        android:text="翘歌会员，仅限于在会员有效期内享受会员服务"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:textSize="12sp"
+                        android:textColor="#9B9B9B"
+                        android:layout_marginLeft="@dimen/size_14dp"
+                        android:layout_marginTop="@dimen/size_5dp"
+                        android:text="会员过期后，无法享受会员服务;"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <ImageView
+                        android:src="@mipmap/bg_vip1"
+                        android:layout_marginLeft="@dimen/size_14dp"
+                        android:layout_marginTop="@dimen/size_22dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tv_state"
+                android:text="立即开通"
+                android:textColor="#ffffff"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/size_20dp"
+                android:layout_marginRight="@dimen/size_14dp"
+                android:layout_marginLeft="@dimen/size_14dp"
+                android:textSize="@dimen/sp_16"
+                android:layout_marginBottom="@dimen/size_20dp"
+                android:background="@drawable/shape_jianbian5"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_45dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</LinearLayout>

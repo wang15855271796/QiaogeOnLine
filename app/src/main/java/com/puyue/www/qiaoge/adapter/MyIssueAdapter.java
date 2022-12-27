@@ -101,9 +101,10 @@ public class MyIssueAdapter extends BaseQuickAdapter<InfoListModel.DataBean.List
 
         }else if(item.getCheckStatus().equals("2")){
             tv_status1.setVisibility(View.VISIBLE);
-            tv_status.setVisibility(View.GONE);
-            SpannableStringBuilder text = StringSpecialHelper.buildSpanColorStyle("查看原因", 1, 4, Color.parseColor("#FF4424"));
-            tv_status1.setText(text);
+            tv_status.setVisibility(View.VISIBLE);
+            tv_status.setText("审核未通过");
+//            SpannableStringBuilder text = StringSpecialHelper.buildSpanColorStyle("查看原因", 1, 4, Color.parseColor("#FF4424"));
+//            tv_status1.setText(text);
             iv_state.setBackgroundResource(R.mipmap.ic_unpass);
             tv_edit.setVisibility(View.VISIBLE);
             tv_look.setVisibility(View.GONE);

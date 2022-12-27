@@ -7,6 +7,8 @@ import android.net.Uri;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
@@ -37,7 +39,8 @@ public class TeamFragment1 extends BaseFragment {
     private Unbinder bind;
     @BindView(R.id.recyclerView)
     RecyclerView recycleView;
-
+    @BindView(R.id.ll_root)
+    RelativeLayout ll_root;
     //团购集合
     List<TeamActiveQueryModel.DataBean> teamList = new ArrayList<>();
     private Team2Adapter team2Adapter;
@@ -59,7 +62,6 @@ public class TeamFragment1 extends BaseFragment {
         team2Adapter = new Team2Adapter(R.layout.item_coupons_list, teamList, new Team2Adapter.Onclick() {
             @Override
             public void addDialog() {
-//                showPhoneDialog(cell);
                 AppHelper.ShowAuthDialog(mActivity,cell);
             }
         });
@@ -157,6 +159,11 @@ public class TeamFragment1 extends BaseFragment {
                                 teamList.addAll(teamActiveQueryModel.getData());
                                 team2Adapter.notifyDataSetChanged();
 
+                                if(teamActiveQueryModel.getData().size()>0) {
+                                    ll_root.setVisibility(View.GONE);
+                                }else {
+                                    ll_root.setVisibility(View.VISIBLE);
+                                }
                             }
                         }
                     }

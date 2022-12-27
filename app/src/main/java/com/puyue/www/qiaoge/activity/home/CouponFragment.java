@@ -7,7 +7,10 @@ import android.net.Uri;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
@@ -35,15 +38,11 @@ import rx.schedulers.Schedulers;
  * 折扣列表页
  */
 public class CouponFragment extends BaseFragment {
-    private boolean isFirst = true;
     private Unbinder bind;
     @BindView(R.id.recyclerView)
     RecyclerView recycleView;
-
     private String cell; // 客服电话
     private AlertDialog mTypedialog;
-    int isSelected;
-    int shopTypeId;
     //折扣集合
     List<TeamActiveQueryModel.DataBean> couponList = new ArrayList<>();
     private CouponsAdapter couponsAdapter;
@@ -72,23 +71,13 @@ public class CouponFragment extends BaseFragment {
         couponsAdapter = new CouponsAdapter(R.layout.item_coupon_list, couponList, new CouponsAdapter.Onclick() {
             @Override
             public void addDialog() {
-//                showPhoneDialog(cell);
                 AppHelper.ShowAuthDialog(mActivity,cell);
             }
         });
         recycleView.setLayoutManager(new LinearLayoutManager(mActivity));
         recycleView.setAdapter(couponsAdapter);
 
-//        couponsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//                Intent intent = new Intent(mActivity,SpecialGoodDetailActivity.class);
-//                intent.putExtra(AppConstant.ACTIVEID,633);
-//                mActivity.startActivity(intent);
-//            }
-//        });
         getCouponList();
-//        getCustomerPhone();
     }
 
     /**
@@ -143,98 +132,6 @@ public class CouponFragment extends BaseFragment {
             }
         });
     }
-
-
-    /**
-     * 选择店铺类型
-     * @param authorizationCode
-     */
-//    private void showSelectType(String authorizationCode) {
-//        GetRegisterShopAPI.requestData(mActivity, authorizationCode)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Subscriber<GetRegisterShopModel>() {
-//                    @Override
-//                    public void onCompleted() {
-////                        ptr.refreshComplete();
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-////                        ptr.refreshComplete();
-//                    }
-//
-//                    @Override
-//                    public void onNext(GetRegisterShopModel getRegisterShopModel) {
-//                        UserInfoHelper.saveIsRegister(mActivity, "is_register_type");
-//                        if (getRegisterShopModel.isSuccess()) {
-//                            isFirst = true;
-//                            List<GetRegisterShopModel.DataBean> mList = new ArrayList<>();
-//                            mList.addAll(getRegisterShopModel.getData());
-//                            mTypedialog.show();
-//                            Window window = mTypedialog.getWindow();
-//                            window.setContentView(R.layout.select_type);
-//                            WindowManager.LayoutParams attributes = window.getAttributes();
-//                            attributes.width = LinearLayout.LayoutParams.MATCH_PARENT;
-//                            attributes.height = LinearLayout.LayoutParams.MATCH_PARENT;
-//                            window.setAttributes(attributes);
-//                            Log.i("cccao.......",attributes+"");
-//                            RecyclerView rl_type = window.findViewById(R.id.rl_type);
-//                            TextView tv_ok = window.findViewById(R.id.tv_ok);
-//                            rl_type.setLayoutManager(new GridLayoutManager(mActivity, 3));
-//                            RegisterShopAdapterTwo mRegisterAdapterType = new RegisterShopAdapterTwo(mActivity, mList);
-//                            rl_type.setAdapter(mRegisterAdapterType);
-//                            mRegisterAdapterType.setOnItemClickListener(new OnItemClickListener() {
-//                                @Override
-//                                public void onItemClick(View view, int position) {
-//                                    isSelected = position;
-//                                    mRegisterAdapterType.selectPosition(position);
-//
-//                                    shopTypeId = mList.get(isSelected).getId();
-//                                    isChecked = true;
-//                                }
-//
-//                                @Override
-//                                public void onItemLongClick(View view, int position) {
-//
-//                                }
-//                            });
-//
-//                            tv_ok.setOnClickListener(new View.OnClickListener() {
-//                                @Override
-//                                public void onClick(View v) {
-//                                    if (isChecked) {
-//                                        mTypedialog.dismiss();
-//                                        updateUserInvitation(authorizationCode, shopTypeId);
-//                                    } else {
-//                                        AppHelper.showMsg(mActivity, "请选择店铺类型");
-//                                    }
-//                                }
-//                            });
-//                        }
-//                    }
-//                });
-//    }
-//
-//    /**
-//     * 获取客服电话
-//     */
-//    private void getCustomerPhone() {
-//        PublicRequestHelper.getCustomerPhone(mActivity, new OnHttpCallBack<GetCustomerPhoneModel>() {
-//            @Override
-//            public void onSuccessful(GetCustomerPhoneModel getCustomerPhoneModel) {
-//                if (getCustomerPhoneModel.isSuccess()) {
-//                    cell = getCustomerPhoneModel.getData();
-//                } else {
-//                    AppHelper.showMsg(mActivity, getCustomerPhoneModel.getMessage());
-//                }
-//            }
-//
-//            @Override
-//            public void onFaild(String errorMsg) {
-//            }
-//        });
-//    }
 
     /**
      * 获取折扣列表

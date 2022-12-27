@@ -65,6 +65,7 @@ public class SetUnLoginSecretActivity extends BaseSwipeActivity {
 
     @Override
     public void setContentView() {
+
         setContentView(R.layout.activity_set_login_secret);
     }
 
@@ -78,6 +79,8 @@ public class SetUnLoginSecretActivity extends BaseSwipeActivity {
     public void setViewData() {
         verifyCode = getIntent().getStringExtra("verifyCode");
         phone = getIntent().getStringExtra("phone");
+        et_login.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        et_login_sure.setTransformationMethod(PasswordTransformationMethod.getInstance());
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,7 +90,6 @@ public class SetUnLoginSecretActivity extends BaseSwipeActivity {
                     et_login.setSelection(et_login.getText().toString().length());
                     showPassword = !showPassword;
                 } else {// 隐藏密码
-
                     iv_close.setImageResource(R.mipmap.icon_eye_close);
                     et_login.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     et_login.setSelection(et_login.getText().toString().length());

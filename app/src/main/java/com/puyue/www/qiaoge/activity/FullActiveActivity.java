@@ -251,7 +251,7 @@ public class FullActiveActivity extends BaseSwipeActivity implements View.OnClic
                                 rv_full_given.setLayoutParams(lp);
 
                                 int total = sendGifts.size();
-                                if(total>4) {
+                                if(total>3) {
                                     tv_more.setVisibility(View.VISIBLE);
                                 }else {
                                     tv_more.setVisibility(View.GONE);

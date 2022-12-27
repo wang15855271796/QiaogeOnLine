@@ -82,7 +82,8 @@ public class SetLoginSecretActivity extends BaseSwipeActivity {
     @Override
     public void setViewData() {
         phone = getIntent().getStringExtra("phone");
-
+        et_login.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        et_login_sure.setTransformationMethod(PasswordTransformationMethod.getInstance());
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

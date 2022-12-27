@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/ll_root"
+        android:background="@drawable/shape_grey15"
+        android:layout_width="105dp"
+        android:orientation="vertical"
+        android:layout_height="127dp">
+
+        <TextView
+            android:id="@+id/tv_month"
+            android:text="3"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#414141"
+            android:layout_marginTop="@dimen/size_20dp"
+            android:textSize="@dimen/sp_16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="￥"
+                android:textStyle="bold"
+                android:textColor="#FF574B"
+                android:textSize="@dimen/sp_12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:text="12"
+                android:textSize="27sp"
+                android:textColor="#FF574B"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_open"
+            android:text="首次开通"
+            android:textColor="#ffffff"
+            android:layout_marginTop="@dimen/size_5dp"
+            android:paddingRight="@dimen/size_12dp"
+            android:paddingLeft="@dimen/size_12dp"
+            android:paddingTop="@dimen/size_3dp"
+            android:paddingBottom="@dimen/size_3dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/shape_jianbian10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</LinearLayout>

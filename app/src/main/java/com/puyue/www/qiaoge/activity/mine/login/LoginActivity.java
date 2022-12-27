@@ -80,6 +80,7 @@ public class LoginActivity extends BaseSwipeActivity {
     private LoginModel mModelLogin;
     private LinearLayout linPsd;
     ImageView iv_eye;
+    TextView tv1;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -94,6 +95,7 @@ public class LoginActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
+        tv1 =  (TextView) findViewById(R.id.tv1);
         iv_eye = (ImageView) findViewById(R.id.iv_eye);
         mEditAccount = (EditText) findViewById(R.id.edit_login_account);
         mEditPassword = (EditText) findViewById(R.id.edit_login_password);
@@ -104,6 +106,12 @@ public class LoginActivity extends BaseSwipeActivity {
         linPsd = (LinearLayout) findViewById(R.id.linPsd);
         mRelative = (RelativeLayout) findViewById(R.id.relativeLayout);
         tv_login.setEnabled(false);
+        String login = SharedPreferencesUtil.getString(mContext, "login");
+        if(login.equals("0")) {
+            tv1.setText("欢迎回来");
+        }else {
+            tv1.setText("欢迎登录");
+        }
     }
 
     @Override

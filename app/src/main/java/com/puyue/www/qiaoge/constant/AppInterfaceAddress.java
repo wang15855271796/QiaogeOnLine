@@ -651,6 +651,8 @@ public class AppInterfaceAddress {
     public static final String AUTHQUERYHOMEPROPUP = "auth/queryHomePropup";
     public static final String AUTHPOPVIEW = "auth/popupView";
     public static final String VIPPAY = "vip/pay";
+
+    public static final String VIP_Center = "vip/vipCenter";
     public static final String VIP_List = "vip/vipPayChannel";
     public static final String VIPPAYRESULT = "vip/payResult";
     public static final String CARTGETREDUCTDESC = "cart/getCityDeductInfo";

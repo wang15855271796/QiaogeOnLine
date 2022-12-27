@@ -61,6 +61,7 @@ public class QiaoGeApplication extends MultiDexApplication {
         context = getApplicationContext();
 //        HookUtils.hookMacAddress("Z-Application",getApplicationContext());
 //        UMConfigure.preInit();
+
         Tencent.setIsPermissionGranted(true);
         disableAPIDialog();
 

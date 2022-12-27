@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
 import com.puyue.www.qiaoge.helper.RestHelper;
+import com.puyue.www.qiaoge.model.VipCenterModel;
 import com.puyue.www.qiaoge.model.VipListModel;
 import com.puyue.www.qiaoge.model.cart.GetOrderDetailModel;
 import com.puyue.www.qiaoge.model.mine.order.CartGetReductModel;
@@ -42,5 +43,16 @@ public class VipPayAPI  {
         Observable<VipListModel> changeOrderAddressModelObservable = RestHelper.getBaseRetrofit(context).create(VipPayListService.class).setParams();
         return changeOrderAddressModelObservable;
     }
+
+    public interface VipCenterService {
+        @POST(AppInterfaceAddress.VIP_Center)
+        Observable<VipCenterModel> setParams();
+    }
+
+    public static Observable<VipCenterModel> getVipCenter(Context context) {
+        Observable<VipCenterModel> changeOrderAddressModelObservable = RestHelper.getBaseRetrofit(context).create(VipCenterService.class).setParams();
+        return changeOrderAddressModelObservable;
+    }
+
 
 }

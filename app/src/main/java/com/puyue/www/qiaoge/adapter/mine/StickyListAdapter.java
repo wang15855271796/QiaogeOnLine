@@ -89,6 +89,7 @@ public class StickyListAdapter extends BaseAdapter implements StickyListHeadersA
 		tv_income.setText("收入 ￥"+lists.get(position).getInAmt());
 		tv_expenditure.setText("支出 ￥"+lists.get(position).getOutAmt());
 		tv_month_select.setText(list.get(position).getDateTime());
+		Log.d("wdadwdsdwad.........",list.get(position).getDateTime());
 		tv_month_select.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
@@ -37,6 +38,8 @@ public class CouponFragment1 extends BaseFragment {
     private Unbinder bind;
     @BindView(R.id.recyclerView)
     RecyclerView recycleView;
+    @BindView(R.id.ll_root)
+    RelativeLayout ll_root;
     TeamActiveQueryModel teamActiveQueryModels;
     //折扣集合
     List<TeamActiveQueryModel.DataBean> couponList = new ArrayList<>();
@@ -155,7 +158,12 @@ public class CouponFragment1 extends BaseFragment {
                             if (teamActiveQueryModel.getData() != null) {
                                 couponList.addAll(teamActiveQueryModel.getData());
                                 coupon1Adapter.notifyDataSetChanged();
+                                if(teamActiveQueryModel.getData().size()>0) {
+                                    ll_root.setVisibility(View.GONE);
+                                }else {
+                                    ll_root.setVisibility(View.VISIBLE);
 
+                                }
                             }
                         }
                     }

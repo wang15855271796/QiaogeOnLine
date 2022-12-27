@@ -165,7 +165,6 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
                     GetWallertRecordByPageModel.DataBean data = getWallertRecordByPageModels.getData();
                     isrefreshormore = 2;
                     getWallertRecord(recordType, data.getLastYear(), data.getLastMonth(), null, showType, walletRecordChannelType);
-                    Log.e("123", data.getLastMonth() + "ss");
                 } else {
                     refreshLayout.finishLoadMoreWithNoMoreData();
                 }
@@ -177,7 +176,6 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
                 mListData.clear();
                 isrefreshormore = 1;
                 getWallertRecord(recordType, year, month, phone, showType, walletRecordChannelType);
-                Log.e("123", month + "ss" + year);
                 refreshLayout.finishRefresh();
             }
         });
@@ -220,10 +218,8 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
         long time = System.currentTimeMillis();
         mCalendar.setTimeInMillis(time);
         int i = mCalendar.get(Calendar.MONTH) + 1;
-
         month = i + "";
         year = mCalendar.get(Calendar.YEAR) + "";
-
         LoadingDailog.Builder loadBuilder = new LoadingDailog.Builder(mContext)
                 .setMessage("获取数据中")
                 .setCancelable(false)
@@ -318,12 +314,6 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
 
     @Override
     public void setClickEvent() {
-//        toolbar.setNavigationOnClickListener(new NoDoubleClickListener() {
-//            @Override
-//            public void onNoDoubleClick(View view) {
-//                finish();
-//            }
-//        });
 
         linearLayoutOnclick.setOnClickListener(noDoubleClickListener);
 

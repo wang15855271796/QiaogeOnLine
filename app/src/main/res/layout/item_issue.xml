@@ -124,19 +124,19 @@
 
             <TextView
                 android:id="@+id/tv_status1"
-                tools:text="查看原因"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/size_5dp"
-                android:background="@drawable/shape_orange14"
                 android:layout_toRightOf="@+id/tv_status"
-                android:textColor="#FF4424"
-                android:paddingRight="@dimen/size_6dp"
+                android:background="@drawable/shape_orange14"
                 android:paddingLeft="@dimen/size_6dp"
-                android:paddingBottom="@dimen/size_3dp"
                 android:paddingTop="@dimen/size_3dp"
-                android:textSize="8sp" />
+                android:paddingRight="@dimen/size_6dp"
+                android:paddingBottom="@dimen/size_3dp"
+                android:textColor="#FF4424"
+                android:textSize="8sp"
+                android:text="查看原因" />
 
 
             <TextView

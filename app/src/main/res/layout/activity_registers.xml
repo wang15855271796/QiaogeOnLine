@@ -225,6 +225,7 @@
 
 <!--        店铺类型-->
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/rl_shop_style"
             android:layout_marginTop="@dimen/size_16dp"
             android:layout_width="match_parent"

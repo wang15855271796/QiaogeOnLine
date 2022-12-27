@@ -16,21 +16,19 @@
         android:layout_height="150dp">
 
 
-
         <TextView
             android:id="@+id/tv1"
-            android:layout_below="@+id/tv"
-            android:layout_marginTop="23dp"
-            android:textColor="#333333"
-            android:lineHeight="@dimen/size_30dp"
-            android:textSize="@dimen/sp_14"
-            android:layout_marginLeft="@dimen/size_40dp"
-            android:layout_marginRight="@dimen/size_40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/size_40dp"
+            android:layout_marginTop="23dp"
+            android:layout_marginRight="@dimen/size_40dp"
+            android:lineHeight="@dimen/size_30dp"
             android:text="若当前帐号18203471798已停用，
 建议您立刻更换手机号。"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textColor="#333333"
+            android:textSize="@dimen/sp_14" />
 
 
 
