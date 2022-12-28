@@ -2,6 +2,7 @@ package com.puyue.www.qiaoge.fragment.mine;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -71,6 +72,7 @@ import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.IsAuthModel;
+import com.puyue.www.qiaoge.model.ModeModel;
 import com.puyue.www.qiaoge.model.OrderNumsModel;
 import com.puyue.www.qiaoge.model.VipCenterModel;
 import com.puyue.www.qiaoge.model.VipListModel;
@@ -104,6 +106,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static androidx.core.view.ViewCompat.TYPE_NON_TOUCH;
+import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
 /**
  * Created by Administrator on 2018/3/28.
@@ -680,6 +683,7 @@ public class MineFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         getOrderNum();
+        getMode();
         requestUserInfo();
         start = System.currentTimeMillis();
     }
@@ -816,9 +820,7 @@ public class MineFragment extends BaseFragment {
                             if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
                                 //企业版
                                 ll_amount.setVisibility(View.GONE);
-                                ll_self_sufficiency.setVisibility(View.GONE);
-                                ll_deliver_order.setVisibility(View.GONE);
-                                rl_order.setVisibility(View.VISIBLE);
+//                                rl_order.setVisibility(View.VISIBLE);
                                 accountManagement.setVisibility(View.GONE);
 
                                 if(myOrderNumModel.getData().getShowVip()==0) {
@@ -848,8 +850,8 @@ public class MineFragment extends BaseFragment {
                             }else {
                                 //城市版
                                 ll_amount.setVisibility(View.VISIBLE);
-                                ll_self_sufficiency.setVisibility(View.VISIBLE);
-                                ll_deliver_order.setVisibility(View.VISIBLE);
+//                                ll_self_sufficiency.setVisibility(View.VISIBLE);
+//                                ll_deliver_order.setVisibility(View.VISIBLE);
                                 rl_order.setVisibility(View.GONE);
                                 accountManagement.setVisibility(View.VISIBLE);
                                 if(myOrderNumModel.getData().getShowVip()==0) {
@@ -881,6 +883,46 @@ public class MineFragment extends BaseFragment {
 
                         } else {
                             AppHelper.showMsg(mActivity, myOrderNumModel.message);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 是否显示内容
+     */
+    ModeModel modeModel1;
+    public void getMode() {
+        IndexHomeAPI.getMode(mActivity, SharedPreferencesUtil.getInt(mActivity,"wad"))
+                .subscribeOn(Schedulers.io())
+                .observeOn(mainThread())
+                .subscribe(new Subscriber<ModeModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ModeModel modeModel) {
+                        if(modeModel.getCode()==1) {
+                            if(modeModel.getData()!=null) {
+                                modeModel1 = modeModel;
+                                if(modeModel1.getData().getPickBtn()==1) {
+                                    //关闭
+                                    ll_self_sufficiency.setVisibility(View.GONE);
+                                }else {
+                                    //0开启
+                                    ll_self_sufficiency.setVisibility(View.VISIBLE);
+                                }
+
+                            }
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,modeModel.getMessage());
                         }
                     }
                 });

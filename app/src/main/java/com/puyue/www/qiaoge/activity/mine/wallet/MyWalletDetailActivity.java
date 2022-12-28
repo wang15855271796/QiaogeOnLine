@@ -74,7 +74,6 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
     private LinearLayout linearLayoutOnclick;
     //    private PtrClassicFrameLayout ptrClassicFrameLayout;
     private RecyclerView recyclerView;
-    private LinearLayout noData;// 没有数据的界面
     private LinearLayout data; // 没有数据的界面
     private int pageNum = 1;
 
@@ -148,7 +147,6 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
         linearLayoutOnclick = (LinearLayout) findViewById(R.id.linearLayoutOnclick);
         ll_root = (LinearLayout) findViewById(R.id.ll_root);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        noData = (LinearLayout) findViewById(R.id.noData);
         data = (LinearLayout) findViewById(R.id.data);
         detailedImage = (ImageView) findViewById(R.id.detailedImage);
         tv_all = findViewById(R.id.tv_all);
@@ -597,17 +595,15 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
                             dialog.dismiss();
                             if (isrefreshormore == 1) {
                                 lists.clear();
+
                                 if (getWallertRecordByPageModel.getData().getRecords() != null && getWallertRecordByPageModel.getData().getRecords().size() > 0) {
                                     data.setVisibility(View.VISIBLE);
-                                    noData.setVisibility(View.GONE);
-
                                     records = getWallertRecordByPageModel.getData().getRecords();
                                     for (int i = 0; i < records.size(); i++) {
                                         recordsBean = records.get(i);
                                         GetWallertRecordByPageModel.DataBean data = getWallertRecordByPageModel.getData();
                                         lists.add(data);
                                     }
-
                                     mListData.addAll(records);
                                 } else {
                                     GetWallertRecordByPageModel.DataBean data = getWallertRecordByPageModel.getData();
@@ -703,6 +699,7 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
                 month = selectDate.split("-")[1];
                 dialog.show();
                 mListData.clear();
+
                 getWallertRecord(recordType, year, month, null, showType, null);
                 requsetPrice(recordType, year, month, phone, walletRecordChannelType, showType);
                 mLlTimeSelect.setVisibility(View.GONE);

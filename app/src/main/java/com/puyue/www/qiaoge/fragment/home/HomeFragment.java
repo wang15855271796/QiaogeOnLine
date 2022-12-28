@@ -559,11 +559,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                         int abs = Math.abs(y);
                         int totalScrollRange = appBarLayout.getTotalScrollRange()-bar_height;
                         if (abs>=totalScrollRange) {
-
                             ll_parent_top.setVisibility(View.VISIBLE);
                             ll_small_title.setVisibility(View.GONE);
                             ll_line.setVisibility(View.VISIBLE);
                             EventBus.getDefault().post(new changeEvent(true,"1"));
+
                             if(rb_must_common.isChecked()) {
                                 rb_must_common_top.setChecked(true);
                                 rb_new_top.setChecked(false);

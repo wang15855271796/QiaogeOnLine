@@ -245,7 +245,7 @@ public class ChangePhoneActivity extends BaseSwipeActivity implements View.OnCli
     CountDownTimer countDownTimer;
     boolean isSendingCode;
     private void handleCountDown() {
-        countDownTimer = new CountDownTimer(60000, 1000) {
+        countDownTimer = new CountDownTimer(120000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 isSendingCode = true;

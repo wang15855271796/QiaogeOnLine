@@ -199,7 +199,7 @@
             </LinearLayout>
         </LinearLayout>
 
-<!--        <include layout="@layout/activity_commont_no_data_layout" />-->
+        <include layout="@layout/activity_commont_no_data_layout" />
 
         <LinearLayout
             android:id="@+id/ll_activity_wallet_time"

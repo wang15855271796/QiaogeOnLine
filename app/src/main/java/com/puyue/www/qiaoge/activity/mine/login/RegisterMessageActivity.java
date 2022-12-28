@@ -209,7 +209,7 @@ public class RegisterMessageActivity extends BaseActivity implements View.OnClic
      * 倒计时
      */
     private void handleCountDown() {
-        countDownTimer = new CountDownTimer(60000, 1000) {
+        countDownTimer = new CountDownTimer(120000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 isSendingCode = true;

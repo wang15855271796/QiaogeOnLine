@@ -157,16 +157,16 @@ public class SnapUpCountDownTimerViewss extends LinearLayout {
             } else {
                 if (nowTime < startTime) {
                     //活动未开始,倒计时结束,活动开始
-                    tv_state.setText("距结束：");
+//                    tv_state.setText("距结束：");
                     changeTimeType(endTime - startTime);
                     start();
                 } else if (nowTime > endTime) {
-                    tv_state.setText("已结束");
+//                    tv_state.setText("已结束");
                     stop();
                     setTime(0, 0, 0);
                 } else {
                     //秒杀结束
-                    tv_state.setText("已结束");
+//                    tv_state.setText("已结束");
                     stop();
                     setTime(0, 0, 0);
                 }
@@ -256,7 +256,7 @@ public class SnapUpCountDownTimerViewss extends LinearLayout {
                 tv_state.setText("");
 
             } else {
-                tv_state.setText("已结束");
+//                tv_state.setText("已结束");
             }
             setTime(0, 0, 0);
 
@@ -264,9 +264,9 @@ public class SnapUpCountDownTimerViewss extends LinearLayout {
             if (type == 1) {
                 tv_state.setText("");
             } else {
-                tv_state.setText("距结束：");
+//                tv_state.setText("距结束：");
             }
-            tv_state.setText("距结束：");
+//            tv_state.setText("距结束：");
             timePoor = endTime - nowTime;
             changeTimeType(timePoor);
         }

@@ -203,7 +203,7 @@ public class MessageCheckActivity extends BaseSwipeActivity {
     boolean isSendingCode;
     CountDownTimer countDownTimer;
     private void handleCountDown() {
-        countDownTimer = new CountDownTimer(60000, 1000) {
+        countDownTimer = new CountDownTimer(120000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 isSendingCode = true;

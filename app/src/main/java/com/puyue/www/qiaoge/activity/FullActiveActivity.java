@@ -237,7 +237,14 @@ public class FullActiveActivity extends BaseSwipeActivity implements View.OnClic
                                     tv_total_price.setVisibility(View.GONE);
                                 }
 
-                                sendGifts.addAll(data.getSendGifts());
+                                if(data.getSendGifts().size()>3) {
+                                    sendGifts.add(data.getSendGifts().get(0));
+                                    sendGifts.add(data.getSendGifts().get(1));
+                                    sendGifts.add(data.getSendGifts().get(2));
+                                }else {
+                                    sendGifts.addAll(data.getSendGifts());
+                                }
+
                                 list.addAll(data.getProds());
 
                                 ViewGroup.LayoutParams lp = rv_full_given.getLayoutParams();
@@ -250,7 +257,7 @@ public class FullActiveActivity extends BaseSwipeActivity implements View.OnClic
                                 }
                                 rv_full_given.setLayoutParams(lp);
 
-                                int total = sendGifts.size();
+                                int total = data.getSendGifts().size();
                                 if(total>3) {
                                     tv_more.setVisibility(View.VISIBLE);
                                 }else {

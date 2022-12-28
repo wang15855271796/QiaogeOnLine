@@ -28,20 +28,10 @@ public class FullGivenAdapter extends BaseQuickAdapter<FullDetailModel.DataBean.
         tv_given.setText(item.getGiftName()+item.getSendNum());
         if(item.getType()==0) {
             //赠品
-//            tv_given.setEnabled(false);
             iv_pic.setImageResource(R.mipmap.icon_zeng);
         }else {
             //优惠券
-//            tv_given.setEnabled(true);
             iv_pic.setImageResource(R.mipmap.icon_quan);
         }
-
-//        tv_given.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                CouponFullListDialog couponFullListDialog = new CouponFullListDialog(mContext,item.getPoolNo());
-//                couponFullListDialog.show();
-//            }
-//        });
     }
 }

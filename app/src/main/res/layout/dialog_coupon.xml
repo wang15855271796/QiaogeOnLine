@@ -42,13 +42,13 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="@dimen/public_space_value_80"
+            android:layout_marginLeft="@dimen/size_45dp"
             android:layout_marginTop="23dp"
-            android:layout_marginRight="@dimen/public_space_value_80"
+            android:layout_marginRight="@dimen/size_45dp"
             android:gravity="center_horizontal"
             android:lineHeight="@dimen/size_20dp"
             android:lines="2"
-            android:text="新用户注册成功后将随机抽取无门槛优惠券哦!"
+            android:text="新用户注册成功后\n将随机抽取无门槛优惠券哦!"
             android:textColor="#ADADAD"
             android:textSize="@dimen/sp_12" />
 

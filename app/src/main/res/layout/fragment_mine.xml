@@ -405,7 +405,6 @@
 
                             <!--  订单  -->
                             <RelativeLayout
-                                android:visibility="gone"
                                 android:id="@+id/ll_deliver_order"
                                 android:layout_marginLeft="@dimen/size_12dp"
                                 android:background="@drawable/shape_white1"
