@@ -459,7 +459,7 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
                     pageNum = 1;
                     mListData.clear();
                     isrefreshormore = 1;
-                    refreshLayout.autoRefresh();
+//                    refreshLayout.autoRefresh();
                     getWallertRecord(recordType, year, month, "", showType, null);
                     requsetPrice(recordType, year, month, phone, walletRecordChannelType, 1);
 

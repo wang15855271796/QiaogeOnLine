@@ -88,8 +88,6 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
     TextView tv_search;
     @BindView(R.id.my_scroll)
     MyScrollView my_scroll;
-    @BindView(R.id.ll_title)
-    LinearLayout ll_title;
     @BindView(R.id.rl_bg)
     RelativeLayout rl_bg;
     ProductNormalModel productNormalModel;
@@ -232,26 +230,25 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
             }
         });
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            my_scroll.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-                @Override
-                public void onScrollChange(View view, int x, int y, int oldX, int oldY) {
-                    if (y > 100) {
-                        y = 500; // 当滑动到指定位置之后设置颜色为纯色，之前的话要渐变---实现下面的公式即可
-                    } else if (y < 0) {
-                        y = 0;
-                    }
-
-                    float scale = ((float) y / 255);
-                    Log.d("wdadwdadads......",scale+"---");
-
-                    float scale1 = 1-scale;
-                    ll_title.setAlpha(scale);
-                    rl_bg.setAlpha(scale1);
-                    tv_search.setAlpha(scale1);
-                }
-            });
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            my_scroll.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+//                @Override
+//                public void onScrollChange(View view, int x, int y, int oldX, int oldY) {
+//                    if (y > 100) {
+//                        y = 500; // 当滑动到指定位置之后设置颜色为纯色，之前的话要渐变---实现下面的公式即可
+//                    } else if (y < 0) {
+//                        y = 0;
+//                    }
+//
+//                    float scale = ((float) y / 255);
+//                    Log.d("wdadwdadads......",scale+"---");
+//
+//                    float scale1 = 1-scale;
+//                    rl_bg.setAlpha(scale1);
+//                    tv_search.setAlpha(scale1);
+//                }
+//            });
+//        }
     }
 
     CouponDialog couponDialog;

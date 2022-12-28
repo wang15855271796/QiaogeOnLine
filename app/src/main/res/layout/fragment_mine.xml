@@ -263,25 +263,12 @@
                                     android:layout_marginLeft="@dimen/size_21dp"
                                     android:src="@mipmap/mine_unvip_desc" />
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentRight="true"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginRight="@dimen/size_18dp"
-                                    android:background="@drawable/shape_grey12"
-                                    android:paddingLeft="@dimen/size_9dp"
-                                    android:paddingTop="@dimen/size_5dp"
-                                    android:paddingRight="@dimen/size_9dp"
-                                    android:paddingBottom="@dimen/size_5dp"
-                                    android:text="立即开通"
-                                    android:textColor="#414141"
-                                    android:textSize="11sp" />
 
                             </RelativeLayout>
 
                             <!-- 已经开通vip -->
                             <RelativeLayout
+                                android:visibility="gone"
                                 android:id="@+id/rl_vip"
                                 android:layout_marginTop="@dimen/size_5dp"
                                 android:layout_marginRight="@dimen/size_12dp"

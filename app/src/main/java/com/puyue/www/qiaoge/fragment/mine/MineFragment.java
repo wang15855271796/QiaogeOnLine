@@ -820,7 +820,6 @@ public class MineFragment extends BaseFragment {
                             if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
                                 //企业版
                                 ll_amount.setVisibility(View.GONE);
-//                                rl_order.setVisibility(View.VISIBLE);
                                 accountManagement.setVisibility(View.GONE);
 
                                 if(myOrderNumModel.getData().getShowVip()==0) {
@@ -828,6 +827,7 @@ public class MineFragment extends BaseFragment {
                                     rl_zizhi2.setVisibility(View.GONE);
                                     rl_vip.setVisibility(View.GONE);
                                     rl_un_vip.setVisibility(View.VISIBLE);
+                                    rl_vip1.setVisibility(View.GONE);
                                     relativeLayoutVip.setVisibility(View.GONE);
                                 }else {
                                     if(myOrderNumModel.getData().isVipUser()) {
@@ -846,25 +846,19 @@ public class MineFragment extends BaseFragment {
                                     relativeLayoutVip.setVisibility(View.VISIBLE);
                                 }
 
-                                Log.d("wdasdd.........","123");
                             }else {
                                 //城市版
                                 ll_amount.setVisibility(View.VISIBLE);
-//                                ll_self_sufficiency.setVisibility(View.VISIBLE);
-//                                ll_deliver_order.setVisibility(View.VISIBLE);
                                 rl_order.setVisibility(View.GONE);
                                 accountManagement.setVisibility(View.VISIBLE);
                                 if(myOrderNumModel.getData().getShowVip()==0) {
                                     //非会员 不展示
-//                                    rl_zizhi.setVisibility(View.VISIBLE);
                                     rl_zizhi2.setVisibility(View.GONE);
                                     rl_vip.setVisibility(View.GONE);
                                     rl_un_vip.setVisibility(View.VISIBLE);
-//                                    rl_zizhi1.setVisibility(View.GONE);
-//                                    ll_fill.setVisibility(View.GONE);
                                     relativeLayoutVip.setVisibility(View.GONE);
+                                    rl_vip1.setVisibility(View.GONE);
                                 }else {
-
                                     if(myOrderNumModel.getData().isVipUser()) {
                                         //已开通
                                         rl_vip.setVisibility(View.VISIBLE);
@@ -948,7 +942,6 @@ public class MineFragment extends BaseFragment {
                         if (vipListModel.getCode()==1) {
                             if(vipListModel.getData()!=null) {
                                 String saveAmountDesc = vipListModel.getData().getSaveAmountDesc();
-                                Log.d("fefsfdsf........",saveAmountDesc+"--");
                                 if(saveAmountDesc.equals("")) {
                                     tv_save.setText("已用翘歌会员省下"+0+"元");
                                 }else {
@@ -1098,6 +1091,7 @@ public class MineFragment extends BaseFragment {
                         if (getCommonProductModel.isSuccess()) {
                             productModels = getCommonProductModel;
                             mustAdapter.notifyDataSetChanged();
+
                             if(getCommonProductModel.getData().getList().size()>0) {
                                 list.addAll(getCommonProductModel.getData().getList());
                                 mustAdapter.notifyDataSetChanged();
@@ -1113,6 +1107,7 @@ public class MineFragment extends BaseFragment {
     //新改
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void changes(CityEvent cityEvent) {
+        list.clear();
 //        requestOrderNum();
         requestUserInfo();
 //        requestUpdate();
@@ -1122,6 +1117,7 @@ public class MineFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void changess(AddressEvent event) {
+        list.clear();
         requestOrderNum();
         //新改
         getProductsList();

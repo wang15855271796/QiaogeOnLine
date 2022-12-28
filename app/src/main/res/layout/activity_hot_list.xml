@@ -3,22 +3,22 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/refreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+<!--    <com.scwang.smartrefresh.layout.SmartRefreshLayout-->
+<!--        android:id="@+id/refreshLayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
 
-        <com.scwang.smartrefresh.header.MaterialHeader
-            android:id="@+id/header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+<!--        <com.scwang.smartrefresh.header.MaterialHeader-->
+<!--            android:id="@+id/header"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content" />-->
 
-            <com.puyue.www.qiaoge.view.selectmenu.MyScrollView
-                android:id="@+id/my_scroll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+<!--            <com.puyue.www.qiaoge.view.selectmenu.MyScrollView-->
+<!--                android:id="@+id/my_scroll"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content">-->
 
             <LinearLayout
                 android:orientation="vertical"
@@ -82,13 +82,26 @@
 
                 </RelativeLayout>
 
+                <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                    android:id="@+id/refreshLayout"
+                    android:layout_marginTop="-100dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <com.scwang.smartrefresh.header.MaterialHeader
+                    android:id="@+id/header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <com.puyue.www.qiaoge.view.selectmenu.MyScrollView
+                    android:id="@+id/my_scroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                 <LinearLayout
-                    android:layout_below="@+id/rl_title"
                     android:background="@drawable/shape_white7"
                     android:layout_width="match_parent"
                     android:orientation="vertical"
-                    android:layout_marginTop="-100dp"
                     android:layout_height="match_parent">
 
                     <TextView
@@ -115,21 +128,22 @@
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
 
+                </com.puyue.www.qiaoge.view.selectmenu.MyScrollView>
 
+                    <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </com.scwang.smartrefresh.layout.SmartRefreshLayout>
             </LinearLayout>
 
-        </com.puyue.www.qiaoge.view.selectmenu.MyScrollView>
 
-        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     <!--  标题  -->
     <LinearLayout
         android:id="@+id/ll_title"
         android:alpha="0"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:background="#ffffff"
         android:layout_height="@dimen/size_96dp">

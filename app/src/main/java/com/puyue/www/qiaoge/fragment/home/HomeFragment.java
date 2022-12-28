@@ -1002,6 +1002,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         ll_discount1.setVisibility(View.GONE);
         ll_team1.setVisibility(View.GONE);
         ll_full1.setVisibility(View.GONE);
+
+
+        ll_skill.setBackgroundResource(R.mipmap.bg_home_skill);
+        ll_discount.setBackgroundResource(R.mipmap.bg_home_coupon);
+        ll_team.setBackgroundResource(R.mipmap.bg_home_team);
+        ll_full.setBackgroundResource(R.mipmap.bg_home_full);
         VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short1,dataActive.getSpike().getActives(),onclickSkill);
         ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger = new ScrollSpeedLinearLayoutManger(mActivity);
         scrollSpeedLinearLayoutManger.setOrientation(RecyclerView.VERTICAL);
@@ -1142,6 +1148,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_team1.setVisibility(View.GONE);
             ll_discount1.setVisibility(View.GONE);
 
+            ll_skill.setBackgroundResource(R.mipmap.bg_home_skill);
+            ll_full.setBackgroundResource(R.mipmap.bg_home_full);
             VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives(),onclickSkill);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger8 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger8.setOrientation(RecyclerView.VERTICAL);
@@ -1172,6 +1180,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_discount.setVisibility(View.GONE);
             ll_full1.setVisibility(View.GONE);
             ll_discount1.setVisibility(View.GONE);
+
+            ll_skill.setBackgroundResource(R.mipmap.bg_home_skill);
+            ll_team1.setBackgroundResource(R.mipmap.bg_home_team);
             VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives(),onclickSkill);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger10 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger10.setOrientation(RecyclerView.VERTICAL);
@@ -1202,6 +1213,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_team.setVisibility(View.GONE);
             ll_discount.setVisibility(View.GONE);
             ll_full1.setVisibility(View.GONE);
+
+            ll_skill.setBackgroundResource(R.mipmap.bg_home_skill);
+            ll_discount1.setBackgroundResource(R.mipmap.bg_home_coupon);
 
             VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives(),onclickSkill);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger12 = new ScrollSpeedLinearLayoutManger(mActivity);
@@ -1234,6 +1248,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_team.setVisibility(View.GONE);
             ll_discount.setVisibility(View.GONE);
 
+            ll_full1.setBackgroundResource(R.mipmap.bg_home_full);
+            ll_team1.setBackgroundResource(R.mipmap.bg_home_team);
+
             VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives(),onclick);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger14 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger14.setOrientation(RecyclerView.VERTICAL);
@@ -1265,6 +1282,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_team.setVisibility(View.GONE);
             ll_discount.setVisibility(View.GONE);
 
+            ll_full1.setBackgroundResource(R.mipmap.bg_home_full);
+            ll_discount1.setBackgroundResource(R.mipmap.bg_home_coupon);
+
             VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives(),onclick);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger16 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger16.setOrientation(RecyclerView.VERTICAL);
@@ -1295,6 +1315,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_team1.setVisibility(View.GONE);
             ll_skill.setVisibility(View.GONE);
             ll_full.setVisibility(View.GONE);
+
+            ll_team.setBackgroundResource(R.mipmap.bg_home_team);
+            ll_discount.setBackgroundResource(R.mipmap.bg_home_coupon);
 
             VpTeamAdapter vpTeamAdapter = new VpTeamAdapter(mActivity,R.layout.item_active_short,dataActive.getTeam().getActives(),onclickTeam);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger18 = new ScrollSpeedLinearLayoutManger(mActivity);
@@ -2617,7 +2640,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
                 case R.id.rb_must_common:
                     position = 0;
-
                     getMustState();
                     switchMust();
                     break;

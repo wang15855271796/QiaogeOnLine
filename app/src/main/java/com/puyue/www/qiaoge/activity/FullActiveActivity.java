@@ -198,6 +198,7 @@ public class FullActiveActivity extends BaseSwipeActivity implements View.OnClic
     List<FullDetailModel.DataBean.ProdsBean> list = new ArrayList<>();
 
     List<FullDetailModel.DataBean.SendGiftsBean> sendGifts = new ArrayList<>();
+    List<FullDetailModel.DataBean.SendGiftsBean> sendGiftList;
     private void getOrder() {
         IndexHomeAPI.getFullDetail(mActivity,fullId)
                 .subscribeOn(Schedulers.io())
@@ -244,13 +245,13 @@ public class FullActiveActivity extends BaseSwipeActivity implements View.OnClic
                                 }else {
                                     sendGifts.addAll(data.getSendGifts());
                                 }
-
+                                sendGiftList = data.getSendGifts();
                                 list.addAll(data.getProds());
 
                                 ViewGroup.LayoutParams lp = rv_full_given.getLayoutParams();
-                                if(sendGifts.size()==1) {
+                                if(FullActiveActivity.this.sendGifts.size()==1) {
                                     lp.height = DensityUtil.dip2px(30 * 1,mContext);
-                                }else if(sendGifts.size()==2) {
+                                }else if(FullActiveActivity.this.sendGifts.size()==2) {
                                     lp.height = DensityUtil.dip2px(60 * 1,mContext);
                                 }else {
                                     lp.height = DensityUtil.dip2px(90 * 1,mContext);
@@ -288,7 +289,7 @@ public class FullActiveActivity extends BaseSwipeActivity implements View.OnClic
 
             case R.id.tv_more:
                 Intent intent3 = new Intent(mContext,FullActivity.class);
-                intent3.putExtra("sendGifts", (Serializable) sendGifts);
+                intent3.putExtra("sendGifts", (Serializable) sendGiftList);
                 startActivity(intent3);
                 break;
         }

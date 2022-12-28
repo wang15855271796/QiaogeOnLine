@@ -14,20 +14,19 @@
         android:layout_marginRight="@dimen/size_15dp"
         android:paddingBottom="@dimen/size_15dp">
 
-        <RelativeLayout
-            android:id="@+id/rl_pic"
-            android:background="@drawable/shape_orange23"
-            android:layout_centerVertical="true"
+        <ImageView
+            android:id="@+id/iv_pic"
             android:layout_width="@dimen/size_37dp"
-            android:layout_height="@dimen/size_37dp">
+            android:layout_height="@dimen/size_37dp"
+            android:layout_centerVertical="true">
 
-            <ImageView
-                android:id="@+id/iv_pic"
-                android:layout_width="@dimen/size_17dp"
-                android:layout_height="@dimen/size_17dp"
-                android:layout_centerInParent="true"
-                android:src="@mipmap/ic_account_detail" />
-        </RelativeLayout>
+            <!--            <ImageView-->
+            <!--                android:id="@+id/iv_pic"-->
+            <!--                android:layout_width="@dimen/size_17dp"-->
+            <!--                android:layout_height="@dimen/size_17dp"-->
+            <!--                android:layout_centerInParent="true"-->
+            <!--                android:src="@mipmap/ic_account_detail" />-->
+        </ImageView>
 
 
         <TextView
@@ -35,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/size_15dp"
-            android:layout_toRightOf="@+id/rl_pic"
+            android:layout_toRightOf="@+id/iv_pic"
             android:paddingTop="@dimen/size_10dp"
             android:paddingBottom="@dimen/size_10dp"
             android:textColor="@color/app_black"
@@ -59,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_title"
             android:layout_marginLeft="@dimen/size_15dp"
-            android:layout_toRightOf="@id/rl_pic"
+            android:layout_toRightOf="@id/iv_pic"
             android:textColor="@color/color_ACAAAD"
             android:textSize="10sp"
             tools:text="2019.3.2" />
