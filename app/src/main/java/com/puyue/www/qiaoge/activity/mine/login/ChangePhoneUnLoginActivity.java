@@ -222,7 +222,7 @@ public class ChangePhoneUnLoginActivity extends BaseSwipeActivity implements Vie
                 isSendingCode = true;
 //                ll_yzm.setEnabled(false);
                 tv_yzm.setEnabled(false);
-                tv_yzm.setText("重新获取"+"("+millisUntilFinished / 1000+")" + "s");
+                tv_yzm.setText(millisUntilFinished / 1000+"秒后重新获取");
                 tv_yzm.setTextColor(Color.parseColor("#A7A7A7"));
 
             }

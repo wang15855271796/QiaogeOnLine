@@ -127,9 +127,9 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_below="@+id/tv_mine_phone"
-                                    android:layout_marginLeft="@dimen/size_14dp"
-                                    android:layout_marginTop="@dimen/size_6dp"
-                                    android:layout_toRightOf="@+id/iv_mine_avatar"
+                                    android:layout_marginLeft="@dimen/size_4dp"
+                                    android:layout_marginTop="@dimen/size_5dp"
+                                    android:layout_toRightOf="@+id/iv_vip_state"
                                     android:background="@drawable/shape_orange19"
                                     android:padding="@dimen/size_2dp"
                                     android:text="杭州翘歌网络科技有限公司"
@@ -733,8 +733,6 @@
                                         android:text="我的账单"
                                         android:textColor="#414141"
                                         android:textSize="11sp" />
-
-
                                 </RelativeLayout>
 
                                 <RelativeLayout

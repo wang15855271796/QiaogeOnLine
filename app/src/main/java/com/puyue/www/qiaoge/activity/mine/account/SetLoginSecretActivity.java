@@ -67,8 +67,6 @@ public class SetLoginSecretActivity extends BaseSwipeActivity {
 
     @Override
     public void setContentView() {
-
-
         setContentView(R.layout.activity_set_login_secret);
     }
 

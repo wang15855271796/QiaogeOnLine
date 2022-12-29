@@ -454,6 +454,16 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:scaleType="fitXY"
+        android:layout_marginTop="@dimen/size_6dp"
+        android:id="@+id/iv_huo_company"
+        android:layout_marginRight="@dimen/size_10dp"
+        android:layout_marginLeft="@dimen/size_10dp"
+        android:src="@mipmap/icon_huo_lala"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <!--热销-->
     <LinearLayout
         android:id="@+id/ll_hot"
@@ -462,14 +472,6 @@
         android:layout_marginLeft="@dimen/size_10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <ImageView
-            android:scaleType="fitXY"
-            android:layout_marginTop="@dimen/size_6dp"
-            android:id="@+id/iv_huo_company"
-            android:src="@mipmap/icon_huo_lala"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
 
         <!-- 热销 -->
         <LinearLayout

@@ -170,7 +170,6 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         getCartLists();
-
     }
 
 

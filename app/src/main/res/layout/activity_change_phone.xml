@@ -22,7 +22,7 @@
             android:src="@mipmap/ic_back_arrow" />
 
         <RelativeLayout
-            android:layout_width="280dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal">
 
@@ -51,7 +51,7 @@
                 android:layout_below="@+id/iv_back"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/size_62dp"
-                android:text="请输入常用收货人及电话"
+                android:text="更换手机号"
                 android:textColor="#000000"
                 android:textSize="22sp" />
 

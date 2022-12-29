@@ -256,21 +256,20 @@
                                     android:layout_width="@dimen/size_100dp"
                                     android:layout_height="@dimen/size_33dp"
                                     android:layout_gravity="center"
-                                    android:text="去逛逛"
-                                    android:textColor="#ffffff"
-                                    android:gravity="center"
-                                    android:background="@drawable/shape_jianbian5"
                                     android:layout_marginTop="@dimen/size_15dp"
-                                     />
+                                    android:background="@drawable/shape_jianbian5"
+                                    android:gravity="center"
+                                    android:text="去逛逛"
+                                    android:textColor="#ffffff" />
                             </LinearLayout>
 
                             <!--推荐列表-->
                             <RelativeLayout
-                                android:visibility="gone"
                                 android:id="@+id/rl_recommend"
-                                android:layout_marginTop="@dimen/size_20dp"
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/size_20dp">
+                                android:layout_height="@dimen/size_20dp"
+                                android:layout_marginTop="@dimen/size_20dp"
+                                android:visibility="gone">
 
                                 <ImageView
                                     android:layout_width="@dimen/size_17dp"
@@ -279,6 +278,7 @@
                                     android:layout_marginRight="@dimen/size_6dp"
                                     android:layout_toLeftOf="@+id/tv_recommend"
                                     android:background="#CBCBCB" />
+
                                 <TextView
                                     android:id="@+id/tv_recommend"
                                     android:layout_width="wrap_content"

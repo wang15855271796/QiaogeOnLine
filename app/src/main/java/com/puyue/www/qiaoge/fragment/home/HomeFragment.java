@@ -2808,23 +2808,39 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         view_reduce.setBackgroundResource(R.drawable.shape_white1);
         view_new.setBackgroundResource(R.drawable.shape_white1);
         view_must.setBackgroundResource(R.drawable.shape_orange25);
+        Log.d("dwdasds.....","11111");
         view_common.setBackgroundResource(R.drawable.shape_white1);
     }
 
     private void getNewState() {
         position = 1;
-        view_common.setBackgroundResource(R.drawable.shape_white1);
+        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+            view_common.setVisibility(View.GONE);
+            view_must.setVisibility(View.GONE);
+        }else {
+            view_common.setVisibility(View.VISIBLE);
+            view_must.setVisibility(View.VISIBLE);
+            view_common.setBackgroundResource(R.drawable.shape_white1);
+            view_must.setBackgroundResource(R.drawable.shape_white1);
+        }
         view_new.setBackgroundResource(R.drawable.shape_orange25);
-        view_must.setBackgroundResource(R.drawable.shape_white1);
         view_reduce.setBackgroundResource(R.drawable.shape_white1);
     }
 
     private void getReduceState() {
         position = 2;
+        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+            view_common.setVisibility(View.GONE);
+            view_must.setVisibility(View.GONE);
+        }else {
+            view_common.setVisibility(View.VISIBLE);
+            view_must.setVisibility(View.VISIBLE);
+            view_common.setBackgroundResource(R.drawable.shape_white1);
+            view_must.setBackgroundResource(R.drawable.shape_white1);
+        }
+
         view_reduce.setBackgroundResource(R.drawable.shape_orange25);
         view_new.setBackgroundResource(R.drawable.shape_white1);
-        view_must.setBackgroundResource(R.drawable.shape_white1);
-        view_common.setBackgroundResource(R.drawable.shape_white1);
     }
 
     private void getCommonState() {
@@ -2901,8 +2917,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         v3s.setVisibility(View.INVISIBLE);
     }
 
-
-    boolean isDown = false;
     @Override
     public void initViews(View view) {
 //        my_scroll.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {

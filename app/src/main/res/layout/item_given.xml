@@ -106,7 +106,7 @@
                 android:textColor="@color/color_9B9B9B"
                 android:textSize="10dp" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -116,11 +116,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
+                    android:layout_marginRight="@dimen/size_20dp"
+                    android:layout_alignParentRight="true"
                     tools:text="赠:"
                     android:textColor="#FFF6551A"
                     android:textSize="14dp" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
         </LinearLayout>
 

@@ -270,7 +270,7 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
                             }
                             if (searchListModel.getData().getList2() != null && searchListModel.getData().getList2().size() > 0) {
                                 tv_all.setVisibility(View.VISIBLE);
-
+                                iv_all.setVisibility(View.VISIBLE);
                                 mList2.addAll(searchListModel.getData().getList2());
 
                                 if (mList2.size() > 0) {
@@ -296,6 +296,7 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
 
                             } else {
                                 tv_all.setVisibility(View.GONE);
+                                iv_all.setVisibility(View.GONE);
                             }
 
 
@@ -343,7 +344,7 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
      * 账户弹窗
      */
     String value;
-
+    String key;
     private void showAccount() {
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View vPopupWindow = inflater.inflate(R.layout.pop_account, null, false);//引入弹窗布局
@@ -365,6 +366,7 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 accountAdapter.setPos(position);
                 value = mList2.get(position).getValue();
+                key = mList2.get(position).getKey();
             }
         });
 
@@ -374,6 +376,11 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
                 mPopupWindowOne.dismiss();
                 fl_mark.setVisibility(View.GONE);
                 tv_all.setText(value);
+                pageNum = 1;
+                mListData.clear();
+                isrefreshormore = 1;
+                getWallertRecord(recordType,year,month,key,showType,null);
+                requsetPrice(recordType, year, month, key, walletRecordChannelType,1);
             }
         });
 

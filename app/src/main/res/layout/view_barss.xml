@@ -21,10 +21,10 @@
             <View
                 android:id="@+id/view_must"
                 android:layout_width="0dp"
-                android:layout_height="6dp"
+                android:layout_height="8dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="@dimen/size_26dp"
+                android:layout_marginTop="@dimen/size_32dp"
                 android:layout_weight="1"
                 android:background="@drawable/shape_orange25"
                 android:gravity="center_horizontal" />
@@ -32,10 +32,10 @@
             <View
                 android:id="@+id/view_new"
                 android:layout_width="0dp"
-                android:layout_height="6dp"
+                android:layout_height="8dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="@dimen/size_26dp"
+                android:layout_marginTop="@dimen/size_32dp"
                 android:layout_weight="1"
                 android:background="@drawable/shape_orange25"
                 android:gravity="center_horizontal" />
@@ -44,9 +44,9 @@
             <View
                 android:id="@+id/view_reduce"
                 android:layout_width="0dp"
-                android:layout_height="6dp"
+                android:layout_height="8dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="@dimen/size_26dp"
+                android:layout_marginTop="@dimen/size_32dp"
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/shape_orange25"
@@ -55,9 +55,9 @@
             <View
                 android:id="@+id/view_common"
                 android:layout_width="0dp"
-                android:layout_height="6dp"
+                android:layout_height="8dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="@dimen/size_26dp"
+                android:layout_marginTop="@dimen/size_32dp"
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/shape_orange25"
@@ -66,6 +66,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_title"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center"
@@ -154,7 +155,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="@dimen/size_35dp"
+                android:layout_marginTop="@dimen/size_40dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
@@ -167,7 +168,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="@dimen/size_35dp"
+                android:layout_marginTop="@dimen/size_40dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
@@ -183,7 +184,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="@dimen/size_35dp"
+                android:layout_marginTop="@dimen/size_40dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
@@ -196,7 +197,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="@dimen/size_35dp"
+                android:layout_marginTop="@dimen/size_40dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"

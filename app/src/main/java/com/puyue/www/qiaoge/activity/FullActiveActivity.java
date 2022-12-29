@@ -242,6 +242,7 @@ public class FullActiveActivity extends BaseSwipeActivity implements View.OnClic
                                     sendGifts.add(data.getSendGifts().get(0));
                                     sendGifts.add(data.getSendGifts().get(1));
                                     sendGifts.add(data.getSendGifts().get(2));
+                                    sendGifts.add(data.getSendGifts().get(3));
                                 }else {
                                     sendGifts.addAll(data.getSendGifts());
                                 }
@@ -253,8 +254,10 @@ public class FullActiveActivity extends BaseSwipeActivity implements View.OnClic
                                     lp.height = DensityUtil.dip2px(30 * 1,mContext);
                                 }else if(FullActiveActivity.this.sendGifts.size()==2) {
                                     lp.height = DensityUtil.dip2px(60 * 1,mContext);
-                                }else {
+                                }else if(FullActiveActivity.this.sendGifts.size()==3){
                                     lp.height = DensityUtil.dip2px(90 * 1,mContext);
+                                }else {
+                                    lp.height = DensityUtil.dip2px(120 * 1,mContext);
                                 }
                                 rv_full_given.setLayoutParams(lp);
 

@@ -152,14 +152,14 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         refreshLayout.setEnableLoadMore(false);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this) {
-            @Override
-            public boolean canScrollVertically() {
-                // 直接禁止垂直滑动
-                return false;
-            }
-        };
-        recyclerView.setLayoutManager(layoutManager);
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(this) {
+//            @Override
+//            public boolean canScrollVertically() {
+//                // 直接禁止垂直滑动
+//                return false;
+//            }
+//        };
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         hotAdapter = new HotListAdapter(R.layout.item_hot_list,list, new HotListAdapter.Onclick() {
             @Override
             public void addDialog() {
@@ -348,6 +348,7 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
                         if (getCommonProductModel.isSuccess()) {
                             productNormalModel = getCommonProductModel;
                             if(getCommonProductModel.getData()!=null) {
+
                                 if(getCommonProductModel.getData().getList().size()>0) {
                                     List<ProductNormalModel.DataBean.ListBean> lists = getCommonProductModel.getData().getList();
                                     if(pageNum==1) {
@@ -356,6 +357,7 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
                                     }else {
                                         list.addAll(lists);
                                     }
+                                    Log.d("wdawdadad.....",list.size()+"---");
 
                                     hotAdapter.notifyDataSetChanged();
                                 }

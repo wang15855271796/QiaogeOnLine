@@ -298,6 +298,7 @@ public class MineFragment extends BaseFragment {
             }
         });
 
+
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -395,7 +396,7 @@ public class MineFragment extends BaseFragment {
         mIvAvatar.setOnClickListener(noDoubleClickListener);
         rl_return_order.setOnClickListener(noDoubleClickListener);//售后
         mRlCollection.setOnClickListener(noDoubleClickListener);//我的收藏
-        //mRlReturnRent.setOnClickListener(noDoubleClickListener);
+        rl_vip1.setOnClickListener(noDoubleClickListener);
         mRlContact.setOnClickListener(noDoubleClickListener);//联系客服
         mRlFeedback.setOnClickListener(noDoubleClickListener);
         mRlVersion.setOnClickListener(noDoubleClickListener);//关于版本
@@ -584,6 +585,9 @@ public class MineFragment extends BaseFragment {
 //                startActivity(MyCouponsActivity.getIntent(getContext(), MyCouponsActivity.class));
                 Intent intent = new Intent(getContext(),MyCouponsActivity.class);
                 startActivity(intent);
+            }else if(view == rl_vip1) {
+                Intent intent = new Intent(getContext(),VipActivity.class);
+                startActivity(intent);
             }
         }
 
@@ -685,6 +689,7 @@ public class MineFragment extends BaseFragment {
         getOrderNum();
         getMode();
         requestUserInfo();
+        requestOrderNum();
         start = System.currentTimeMillis();
     }
 
@@ -751,9 +756,9 @@ public class MineFragment extends BaseFragment {
                             if(myOrderNumModel.getData().getCompanyName()!=null) {
                                 tv_company.setText(myOrderNumModel.getData().getCompanyName());
                                 tv_company.setVisibility(View.VISIBLE);
-                                iv_vip_state.setVisibility(View.GONE);
+//                                iv_vip_state.setVisibility(View.GONE);
                             }else {
-                                iv_vip_state.setVisibility(View.VISIBLE);
+//                                iv_vip_state.setVisibility(View.VISIBLE);
                                 tv_company.setVisibility(View.GONE);
                             }
 
@@ -948,10 +953,6 @@ public class MineFragment extends BaseFragment {
                                     tv_save.setText("已用翘歌会员省下"+saveAmountDesc+"元");
                                 }
                             }
-
-                        } else {
-                            AppHelper.showMsg(mActivity, vipListModel.getMessage());
-
                         }
                     }
                 });
@@ -1113,12 +1114,13 @@ public class MineFragment extends BaseFragment {
 //        requestUpdate();
         getProductsList();
         requestOrderNum();
+        getVipCenter();
     }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void changess(AddressEvent event) {
         list.clear();
         requestOrderNum();
+        getVipCenter();
         //新改
         getProductsList();
         requestUserInfo();

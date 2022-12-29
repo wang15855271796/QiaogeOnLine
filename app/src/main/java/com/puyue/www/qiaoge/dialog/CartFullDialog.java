@@ -43,7 +43,7 @@ public abstract class CartFullDialog extends Dialog implements View.OnClickListe
         iv_ok = (ImageView) findViewById(R.id.iv_ok);
         iv_ok.setOnClickListener(this);
 
-        tv_time.setText(data.getStartTime()+"-"+data.getEndTime());
+        tv_time.setText(data.getStartTime()+"至"+data.getEndTime());
         tv_num.setText(data.getLimitInfo());
         FullDescDialogAdapter fullDescDialogAdapter = new FullDescDialogAdapter(R.layout.item_full_cart,data.getDeductDetail());
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));

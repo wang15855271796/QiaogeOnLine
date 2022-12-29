@@ -187,11 +187,11 @@
                             android:layout_gravity="center"
                             android:gravity="center"
                             android:paddingTop="@dimen/size_8dp"
-                            android:paddingBottom="@dimen/size_8dp"
                             android:paddingRight="@dimen/size_23dp"
+                            android:paddingBottom="@dimen/size_8dp"
                             android:text="获取验证码"
                             android:textColor="#FF3E20"
-                            android:textSize="13sp" />
+                            android:textSize="12sp" />
                     </RelativeLayout>
 
 

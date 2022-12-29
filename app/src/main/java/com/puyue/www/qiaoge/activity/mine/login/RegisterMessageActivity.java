@@ -215,7 +215,7 @@ public class RegisterMessageActivity extends BaseActivity implements View.OnClic
                 isSendingCode = true;
                 ll_yzm.setEnabled(false);
                 tv_yzm.setEnabled(false);
-                tv_yzm.setText(millisUntilFinished / 1000 + "秒后" + "\n重新发送");
+                tv_yzm.setText(millisUntilFinished / 1000 + "秒后重新发送");
                 tv_yzm.setTextColor(Color.parseColor("#949494"));
 
             }

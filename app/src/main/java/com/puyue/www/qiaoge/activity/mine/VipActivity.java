@@ -166,7 +166,6 @@ public class VipActivity extends BaseActivity {
                             }
 
                         } else {
-                            AppHelper.showMsg(mActivity, vipListModel.getMessage());
 
                         }
                     }
