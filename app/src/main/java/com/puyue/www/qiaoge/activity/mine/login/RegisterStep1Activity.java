@@ -109,6 +109,8 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
     ImageView iv_arrow;
     @BindView(R.id.iv_back)
     ImageView iv_back;
+    @BindView(R.id.tv_phone)
+    TextView tv_phone;
     private String phone;
     private String yzm;
     String token1;
@@ -296,7 +298,6 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
 
         if(getIntent().getStringExtra("token1")!=null) {
             token1 = getIntent().getStringExtra("token1");
-
         }
 
         requestRegisterAgreement();
@@ -304,9 +305,11 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
         tv_register_secret.getPaint().setAntiAlias(true);//抗锯齿
         tv_register_agreement.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         tv_register_agreement.getPaint().setAntiAlias(true);//抗锯齿
-
+        getCustomerPhone();
         mTypedialog = new AlertDialog.Builder(mActivity, R.style.DialogStyle).create();
         mTypedialog.setCancelable(false);
+
+
     }
 
 
@@ -361,6 +364,13 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                 password = et_password.getText().toString();
                 passwordSure = et_password_sure.getText().toString();
                 etAuthor = et_author.getText().toString();
+                if(wad == 0) {
+                    if(tv_shop_style.getText().toString().equals("")) {
+                        AppHelper.showMsg(mContext, "请选择店铺类型");
+                        return;
+                    }
+                }
+
                 hintKbTwo();
                 if(cb_register.isChecked()) {
                     if(password !=null && passwordSure !=null) {
@@ -452,7 +462,7 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
 
     }
 
-    int wad;
+    int wad = -1;
     private void getCompanyName(String invitationCode) {
         IndexHomeAPI.getCompanyName(mActivity,invitationCode)
                 .subscribeOn(Schedulers.io())
@@ -526,6 +536,35 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
 
                         }else {
                             ToastUtil.showSuccessMsg(mContext,getCompanyModel.getMessage());
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 获取客服电话
+     */
+    private void getCustomerPhone() {
+        GetCustomerPhoneAPI.requestData(mContext)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GetCustomerPhoneModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(GetCustomerPhoneModel getCustomerPhoneModel) {
+                        if (getCustomerPhoneModel.isSuccess()) {
+                            tv_phone.setText(getCustomerPhoneModel.getData());
+                        } else {
+                            AppHelper.showMsg(mContext, getCustomerPhoneModel.getMessage());
                         }
                     }
                 });

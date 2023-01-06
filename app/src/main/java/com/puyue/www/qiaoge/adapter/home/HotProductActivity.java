@@ -357,7 +357,6 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
                                     }else {
                                         list.addAll(lists);
                                     }
-                                    Log.d("wdawdadad.....",list.size()+"---");
 
                                     hotAdapter.notifyDataSetChanged();
                                 }

@@ -66,7 +66,7 @@ public class VpDiscountAdapter extends RecyclerView.Adapter<VpDiscountAdapter.Ba
                 holder.tv_price.setText("价格授权后可见");
             }
         }else {
-            holder.tv_price.setText(activesBeanX.getMinMaxPrice());
+            holder.tv_price.setText(activesBeanX.getPrice());
         }
 
 

@@ -43,10 +43,7 @@ public class FullCartAdapter extends BaseQuickAdapter<CartFullsModel.DataBean.De
             tv_desc.setText(item.getLimitInfo());
         }else {
             String limitInfo = item.getLimitInfo();
-            SpannableString spannableString = new SpannableString(limitInfo);
-            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#FF2925")), 5, 6, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#FF2925")), 12, 13, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-            tv_desc.setText(spannableString);
+            tv_desc.setText(limitInfo);
         }
 
         tv_given.setText(item.getDeductInfo());

@@ -47,6 +47,7 @@
         </LinearLayout>
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_open"
             android:text="首次开通"
             android:textColor="#ffffff"

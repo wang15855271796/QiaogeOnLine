@@ -63,7 +63,7 @@ public class VpTeamAdapter extends RecyclerView.Adapter<VpTeamAdapter.BaseViewHo
                 holder.tv_price.setText("价格授权后可见");
             }
         }else {
-            holder.tv_price.setText(activesBeanX.getMinMaxPrice());
+            holder.tv_price.setText(activesBeanX.getPrice());
         }
 
         holder.tv_price.setOnClickListener(new View.OnClickListener() {

@@ -104,7 +104,7 @@ public class Coupon1InnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.D
             tv_price.setText(item.getPrice());
             tv_add.setText("未开始");
             tv_add.setEnabled(false);
-            tv_add.setBackgroundResource(R.drawable.shape_orange);
+            tv_add.setBackgroundResource(R.drawable.shape_yellow6);
         }
 
         tv_add.setOnClickListener(new View.OnClickListener() {

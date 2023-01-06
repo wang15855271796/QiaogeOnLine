@@ -8,18 +8,20 @@
     android:layout_height="90dp">
 
     <RelativeLayout
-        android:layout_width="78dp"
+        android:layout_width="65dp"
         android:layout_marginTop="@dimen/size_5dp"
         android:layout_height="wrap_content">
 
         <com.puyue.www.qiaoge.RoundImageView
             android:id="@+id/iv_pic"
-            android:layout_width="78dp"
-            android:layout_height="78dp" />
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginTop="@dimen/dp_10" />
 
         <ImageView
             android:id="@+id/iv_not_send"
             android:visibility="gone"
+            android:layout_marginTop="@dimen/dp_10"
             android:layout_alignParentRight="true"
             android:src="@mipmap/icon_not_send2"
             android:layout_width="wrap_content"
@@ -27,7 +29,7 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_marginTop="@dimen/size_5dp"
+        android:layout_marginTop="@dimen/size_10dp"
         android:orientation="vertical"
         android:layout_marginLeft="@dimen/size_12dp"
         android:layout_width="match_parent"
@@ -39,6 +41,7 @@
             android:textSize="10sp"
             android:lines="1"
             android:ellipsize="end"
+            android:layout_marginTop="@dimen/size_3dp"
             android:text="【翘歌】商品名称名称名称名称名称名称名称名称…"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -48,7 +51,7 @@
             android:textColor="#FF3E2E"
             android:textSize="8sp"
             android:text="赠商品、券"
-            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginTop="@dimen/size_15dp"
             android:paddingRight="@dimen/size_9dp"
             android:paddingLeft="@dimen/size_9dp"
             android:background="@drawable/shape_yellow2"
@@ -60,7 +63,7 @@
             android:textColor="#F11705"
             android:textSize="10sp"
             tools:text="120"
-            android:layout_marginTop="@dimen/size_6dp"
+            android:layout_marginTop="@dimen/size_10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

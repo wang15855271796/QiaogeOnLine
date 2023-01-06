@@ -250,8 +250,24 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     TextView tv_title3;
     @BindView(R.id.tv_title4)
     TextView tv_title4;
-    @BindView(R.id.ll_small_title)
-    LinearLayout ll_small_title;
+    @BindView(R.id.ll_must)
+    LinearLayout ll_must;
+    @BindView(R.id.ll_new)
+    LinearLayout ll_new;
+    @BindView(R.id.ll_reduce)
+    LinearLayout ll_reduce;
+    @BindView(R.id.ll_common)
+    LinearLayout ll_common;
+    @BindView(R.id.ll_must_top)
+    LinearLayout ll_must_top;
+    @BindView(R.id.ll_new_top)
+    LinearLayout ll_new_top;
+    @BindView(R.id.ll_reduce_top)
+    LinearLayout ll_reduce_top;
+    @BindView(R.id.ll_common_top)
+    LinearLayout ll_common_top;
+//    @BindView(R.id.ll_small_title)
+//    LinearLayout ll_small_title;
     @BindView(R.id.snap1)
     SnapUpCountDownTimerViewss snap1;
     @BindView(R.id.tv_skill_time1)
@@ -295,7 +311,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     @BindView(R.id.ll_parent)
     RelativeLayout ll_parent;
     @BindView(R.id.rl_inSide)
-    RelativeLayout rl_inSide;
+    LinearLayout rl_inSide;
     @BindView(R.id.rl_bar)
     RelativeLayout rl_bar;
     @BindView(R.id.ll_parent_top)
@@ -560,7 +576,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                         int totalScrollRange = appBarLayout.getTotalScrollRange()-bar_height;
                         if (abs>=totalScrollRange) {
                             ll_parent_top.setVisibility(View.VISIBLE);
-                            ll_small_title.setVisibility(View.GONE);
+//                            ll_small_title.setVisibility(View.GONE);
                             ll_line.setVisibility(View.VISIBLE);
                             EventBus.getDefault().post(new changeEvent(true,"1"));
 
@@ -615,7 +631,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                         } else {
                             EventBus.getDefault().post(new changeEvent(false,"1"));
                             ll_parent_top.setVisibility(View.GONE);
-                            ll_small_title.setVisibility(View.VISIBLE);
+//                            ll_small_title.setVisibility(View.VISIBLE);
                             ll_line.setVisibility(View.GONE);
                         }
 
@@ -803,10 +819,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rb_info_top.setText("常购清单");
             rb_must_common_top.setVisibility(View.GONE);
             rb_must_common.setVisibility(View.GONE);
-            tv_title2.setVisibility(View.GONE);
-            tv_title4.setVisibility(View.GONE);
-            v2s.setVisibility(View.GONE);
-            v4s.setVisibility(View.GONE);
+            ll_must.setVisibility(View.GONE);
+            ll_common.setVisibility(View.GONE);
+//            tv_title2.setVisibility(View.GONE);
+//            tv_title4.setVisibility(View.GONE);
+//            v2s.setVisibility(View.GONE);
+//            v4s.setVisibility(View.GONE);
+            ll_must_top.setVisibility(View.GONE);
+            ll_common_top.setVisibility(View.GONE);
             rb_common.setVisibility(View.GONE);
             rb_common_top.setVisibility(View.GONE);
             rg_new.check(R.id.rb_new);
@@ -818,10 +838,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             tv_title3.setText("物美价廉");
             rb_new_top.setText("新品上市");
             rb_info_top.setText("降价商品");
-            v2s.setVisibility(View.VISIBLE);
-            v4s.setVisibility(View.VISIBLE);
-            tv_title2.setVisibility(View.VISIBLE);
-            tv_title4.setVisibility(View.VISIBLE);
+//            v2s.setVisibility(View.VISIBLE);
+//            v4s.setVisibility(View.VISIBLE);
+//            tv_title2.setVisibility(View.VISIBLE);
+//            tv_title4.setVisibility(View.VISIBLE);
+            ll_must.setVisibility(View.VISIBLE);
+            ll_common.setVisibility(View.VISIBLE);
+            ll_must_top.setVisibility(View.VISIBLE);
+            ll_common_top.setVisibility(View.VISIBLE);
             rb_must_common_top.setVisibility(View.VISIBLE);
             rb_must_common.setVisibility(View.VISIBLE);
             rb_common.setVisibility(View.VISIBLE);
@@ -1150,7 +1174,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
             ll_skill.setBackgroundResource(R.mipmap.bg_home_skill);
             ll_full.setBackgroundResource(R.mipmap.bg_home_full);
-            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives(),onclickSkill);
+            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short1,dataActive.getSpike().getActives(),onclickSkill);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger8 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger8.setOrientation(RecyclerView.VERTICAL);
             rv_skill.setAdapter(vpSkillAdapter);
@@ -1160,7 +1184,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 rv_skill.stopScroll();
             }
 
-            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives(),onclick);
+            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short2,dataActive.getFullGift().getActives(),onclick);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger9 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger9.setOrientation(RecyclerView.VERTICAL);
             rv_full.setAdapter(vpFullAdapter);
@@ -1183,7 +1207,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
             ll_skill.setBackgroundResource(R.mipmap.bg_home_skill);
             ll_team1.setBackgroundResource(R.mipmap.bg_home_team);
-            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives(),onclickSkill);
+            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short1,dataActive.getSpike().getActives(),onclickSkill);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger10 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger10.setOrientation(RecyclerView.VERTICAL);
             rv_skill.setAdapter(vpSkillAdapter);
@@ -1217,7 +1241,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_skill.setBackgroundResource(R.mipmap.bg_home_skill);
             ll_discount1.setBackgroundResource(R.mipmap.bg_home_coupon);
 
-            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives(),onclickSkill);
+            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short1,dataActive.getSpike().getActives(),onclickSkill);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger12 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger12.setOrientation(RecyclerView.VERTICAL);
             rv_skill.setAdapter(vpSkillAdapter);
@@ -1251,7 +1275,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_full1.setBackgroundResource(R.mipmap.bg_home_full);
             ll_team1.setBackgroundResource(R.mipmap.bg_home_team);
 
-            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives(),onclick);
+            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short2,dataActive.getFullGift().getActives(),onclick);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger14 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger14.setOrientation(RecyclerView.VERTICAL);
             rv_full1.setAdapter(vpFullAdapter);
@@ -1285,7 +1309,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_full1.setBackgroundResource(R.mipmap.bg_home_full);
             ll_discount1.setBackgroundResource(R.mipmap.bg_home_coupon);
 
-            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives(),onclick);
+            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short2,dataActive.getFullGift().getActives(),onclick);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger16 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger16.setOrientation(RecyclerView.VERTICAL);
             rv_full1.setAdapter(vpFullAdapter);
@@ -1436,8 +1460,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_discount1.setVisibility(View.GONE);
             ll_team1.setVisibility(View.GONE);
 
-            ll_coupon.setBackgroundResource(R.mipmap.bg_home_coupon_l);
-            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives(),onclickSkill);
+            ll_discount.setBackgroundResource(R.mipmap.bg_home_coupon_l);
+            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short1,dataActive.getSpike().getActives(),onclickSkill);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger26 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger26.setOrientation(RecyclerView.VERTICAL);
             rv_skill.setAdapter(vpSkillAdapter);
@@ -1447,7 +1471,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 rv_skill.stopScroll();
             }
 
-            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives(),onclick);
+            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short2,dataActive.getFullGift().getActives(),onclick);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger27 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger27.setOrientation(RecyclerView.VERTICAL);
             rv_full.setAdapter(vpFullAdapter);
@@ -1480,7 +1504,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_team1.setVisibility(View.GONE);
 
             ll_team.setBackgroundResource(R.mipmap.bg_home_team_l);
-            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short,dataActive.getSpike().getActives(),onclickSkill);
+            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_short1,dataActive.getSpike().getActives(),onclickSkill);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger29 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger29.setOrientation(RecyclerView.VERTICAL);
             rv_skill.setAdapter(vpSkillAdapter);
@@ -1490,7 +1514,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 rv_skill.stopScroll();
             }
 
-            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short,dataActive.getFullGift().getActives(),onclick);
+            VpFullAdapter vpFullAdapter = new VpFullAdapter(mActivity,R.layout.item_active_short2,dataActive.getFullGift().getActives(),onclick);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger30 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger30.setOrientation(RecyclerView.VERTICAL);
             rv_full.setAdapter(vpFullAdapter);
@@ -2363,10 +2387,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
             case R.id.rl_message:
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(getActivity()))) {
-                    Intent intents = new Intent(getActivity(), MessageCenterActivity.class);
-                    startActivityForResult(intents, 101);
-//                    Intent intent2 = new Intent(getActivity(), TestActivity.class);
-//                    startActivity(intent2);
+//                    Intent intents = new Intent(getActivity(), MessageCenterActivity.class);
+//                    startActivityForResult(intents, 101);
+                    Intent intent2 = new Intent(getActivity(), TestActivity.class);
+                    startActivity(intent2);
 //                    appbar.setExpanded(false);
 //                    getReduceStateTop();
 //                    switchReduce();
@@ -2532,10 +2556,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rb_info_top.setText("常购清单");
             rb_must_common_top.setVisibility(View.GONE);
             rb_must_common.setVisibility(View.GONE);
-            tv_title2.setVisibility(View.GONE);
-            tv_title4.setVisibility(View.GONE);
-            v2s.setVisibility(View.GONE);
-            v4s.setVisibility(View.GONE);
+            ll_must.setVisibility(View.GONE);
+            ll_common.setVisibility(View.GONE);
+//            tv_title2.setVisibility(View.GONE);
+//            tv_title4.setVisibility(View.GONE);
+//            v2s.setVisibility(View.GONE);
+//            v4s.setVisibility(View.GONE);
+            ll_must_top.setVisibility(View.GONE);
+            ll_common_top.setVisibility(View.GONE);
             rb_common.setVisibility(View.GONE);
             rb_common_top.setVisibility(View.GONE);
             rg_new.check(R.id.rb_new);
@@ -2547,10 +2575,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             tv_title3.setText("物美价廉");
             rb_new_top.setText("新品上市");
             rb_info_top.setText("降价商品");
-            v2s.setVisibility(View.VISIBLE);
-            v4s.setVisibility(View.VISIBLE);
-            tv_title2.setVisibility(View.VISIBLE);
-            tv_title4.setVisibility(View.VISIBLE);
+//            v2s.setVisibility(View.VISIBLE);
+//            v4s.setVisibility(View.VISIBLE);
+//            tv_title2.setVisibility(View.VISIBLE);
+//            tv_title4.setVisibility(View.VISIBLE);
+            ll_must.setVisibility(View.VISIBLE);
+            ll_common.setVisibility(View.VISIBLE);
+            ll_must_top.setVisibility(View.VISIBLE);
+            ll_common_top.setVisibility(View.VISIBLE);
             rb_must_common_top.setVisibility(View.VISIBLE);
             rb_must_common.setVisibility(View.VISIBLE);
             rb_common.setVisibility(View.VISIBLE);
@@ -2574,10 +2606,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rb_info_top.setText("常购清单");
             rb_must_common_top.setVisibility(View.GONE);
             rb_must_common.setVisibility(View.GONE);
-            tv_title2.setVisibility(View.GONE);
-            tv_title4.setVisibility(View.GONE);
-            v2s.setVisibility(View.GONE);
-            v4s.setVisibility(View.GONE);
+//          tv_title2.setVisibility(View.GONE);
+//            tv_title4.setVisibility(View.GONE);
+//            v2s.setVisibility(View.GONE);
+//            v4s.setVisibility(View.GONE);
+            ll_must.setVisibility(View.GONE);
+            ll_common.setVisibility(View.GONE);
+            ll_must_top.setVisibility(View.GONE);
+            ll_common_top.setVisibility(View.GONE);
             rb_common.setVisibility(View.GONE);
             rb_common_top.setVisibility(View.GONE);
             rg_new.check(R.id.rb_new);
@@ -2589,10 +2625,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             tv_title3.setText("物美价廉");
             rb_new_top.setText("新品上市");
             rb_info_top.setText("降价商品");
-            v2s.setVisibility(View.VISIBLE);
-            v4s.setVisibility(View.VISIBLE);
-            tv_title2.setVisibility(View.VISIBLE);
-            tv_title4.setVisibility(View.VISIBLE);
+//            v2s.setVisibility(View.VISIBLE);
+//            v4s.setVisibility(View.VISIBLE);
+//            tv_title2.setVisibility(View.VISIBLE);
+//            tv_title4.setVisibility(View.VISIBLE);
+            ll_must.setVisibility(View.VISIBLE);
+            ll_common.setVisibility(View.VISIBLE);
+            ll_must_top.setVisibility(View.VISIBLE);
+            ll_common_top.setVisibility(View.VISIBLE);
             rb_must_common_top.setVisibility(View.VISIBLE);
             rb_must_common.setVisibility(View.VISIBLE);
             rb_common.setVisibility(View.VISIBLE);
@@ -2672,8 +2712,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             switch (checkedId) {
                 case R.id.rb_new_top:
-                   getNewStateTop();
-
+                    getNewStateTop();
                     switchNew();
                     break;
 
@@ -2808,7 +2847,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         view_reduce.setBackgroundResource(R.drawable.shape_white1);
         view_new.setBackgroundResource(R.drawable.shape_white1);
         view_must.setBackgroundResource(R.drawable.shape_orange25);
-        Log.d("dwdasds.....","11111");
         view_common.setBackgroundResource(R.drawable.shape_white1);
     }
 
@@ -2871,14 +2909,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         rb_reduce.setChecked(false);
         rb_common.setChecked(false);
         rb_must_common.setChecked(false);
-        v2s.setVisibility(View.VISIBLE);
+        v1s.setVisibility(View.VISIBLE);
         if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
             v4s.setVisibility(View.INVISIBLE);
-            v1s.setVisibility(View.GONE);
+            v2s.setVisibility(View.GONE);
             v3s.setVisibility(View.GONE);
         }else {
             v4s.setVisibility(View.INVISIBLE);
-            v1s.setVisibility(View.INVISIBLE);
+            v2s.setVisibility(View.INVISIBLE);
             v3s.setVisibility(View.INVISIBLE);
         }
     }
@@ -2904,6 +2942,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     }
 
     private void getCommonStateTop() {
+        Log.d("wsssss........","444");
         rb_common_top.setChecked(true);
         rb_new.setChecked(false);
         rb_reduce.setChecked(false);

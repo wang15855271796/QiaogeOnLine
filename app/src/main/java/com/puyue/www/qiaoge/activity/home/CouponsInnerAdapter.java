@@ -135,7 +135,7 @@ public class CouponsInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.D
         tv_add.setVisibility(View.VISIBLE);
         tv_price.setText(item.getPrice());
         tv_add.setText("立即加购");
-        tv_add.setBackgroundResource(R.drawable.shape_orange);
+        tv_add.setBackgroundResource(R.drawable.shape_yellow6);
 
     }
 

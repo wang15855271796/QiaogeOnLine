@@ -25,7 +25,7 @@ public class FullGivenAdapter extends BaseQuickAdapter<FullDetailModel.DataBean.
     protected void convert(BaseViewHolder helper, FullDetailModel.DataBean.SendGiftsBean item) {
         TextView tv_given = helper.getView(R.id.tv_given);
         ImageView iv_pic = helper.getView(R.id.iv_pic);
-        tv_given.setText(item.getGiftName()+item.getSendNum());
+        tv_given.setText(item.getGiftName()+ "  "+item.getSendNum());
         if(item.getType()==0) {
             //赠品
             iv_pic.setImageResource(R.mipmap.icon_zeng);

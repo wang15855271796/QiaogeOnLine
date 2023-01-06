@@ -46,7 +46,7 @@ public class TestActivity extends BaseActivity  {
 
     @Override
     public void setContentView() {
-        setContentView(R.layout.test6);
+        setContentView(R.layout.test5);
     }
 
     @Override

@@ -39,7 +39,6 @@
 
                     <TextView
                         android:text="VIP会员"
-                        android:id="@+id/tv_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
@@ -60,6 +59,7 @@
 
 
                     <TextView
+                        android:visibility="gone"
                         android:id="@+id/tv_title"
                         android:text="VIP每单立减"
                         android:textSize="20sp"
@@ -103,6 +103,7 @@
 
                     <TextView
                         android:id="@+id/tv_desc"
+                        android:visibility="gone"
                         android:text="翘歌VIP会员可与优惠券叠加使用"
                         android:textSize="@dimen/sp_12"
                         android:textColor="#ffffff"

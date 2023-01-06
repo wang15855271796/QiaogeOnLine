@@ -55,7 +55,8 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_address_list"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/size_60dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/dp_10" />
 
                 <ImageView
@@ -75,10 +76,10 @@
 
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/app_line_size"
-            android:background="@color/app_line_color" />
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/app_line_size"-->
+<!--            android:background="@color/app_line_color" />-->
     </LinearLayout>
 
 

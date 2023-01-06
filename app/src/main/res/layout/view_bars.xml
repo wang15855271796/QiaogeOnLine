@@ -15,138 +15,307 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/ll_line"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <View
-                android:id="@+id/v2s"
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/size_32dp"
-                android:layout_marginLeft="@dimen/size_20dp"
-                android:layout_marginRight="@dimen/size_20dp"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:background="@drawable/shape_orange25"
-                android:gravity="center_horizontal"
-                android:layout_height="8dp" />
-
-            <View
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/size_32dp"
-                android:id="@+id/v1s"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="@dimen/size_20dp"
-                android:layout_marginRight="@dimen/size_20dp"
-                android:background="@drawable/shape_orange25"
-                android:gravity="center_horizontal"
-                android:layout_height="8dp" />
-
-            <View
-                android:id="@+id/v3s"
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/size_32dp"
-                android:layout_width="0dp"
-                android:layout_marginLeft="@dimen/size_20dp"
-                android:layout_marginRight="@dimen/size_20dp"
-                android:layout_weight="1"
-                android:background="@drawable/shape_orange25"
-                android:gravity="center_horizontal"
-                android:layout_height="8dp" />
-
-            <View
-                android:id="@+id/v4s"
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/size_32dp"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="@dimen/size_20dp"
-                android:layout_marginRight="@dimen/size_20dp"
-                android:background="@drawable/shape_orange25"
-                android:gravity="center_horizontal"
-                android:layout_height="8dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <RadioGroup
-                android:id="@+id/rg_new_top"
+            <LinearLayout
+                android:id="@+id/ll_title"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="50dp"
                 android:gravity="center"
+                android:orientation="vertical">
+
+                <RadioGroup
+                    android:id="@+id/rg_new_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:textStyle="bold"
+                        android:background="@null"
+                        android:textColor="#0A0204"
+                        android:textSize="@dimen/sp_14"
+                        android:id="@+id/rb_must_common_top"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:checked="false"
+                        android:gravity="center"
+                        android:text="必买清单"/>
+
+                    <RadioButton
+                        android:textStyle="bold"
+                        android:id="@+id/rb_new_top"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="right"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:background="@null"
+                        android:textColor="#0A0204"
+                        android:textSize="@dimen/sp_14"
+                        android:gravity="center"
+                        android:text="新品上市"/>
+
+                    <RadioButton
+                        android:background="@null"
+                        android:textStyle="bold"
+                        android:textColor="#0A0204"
+                        android:textSize="@dimen/sp_14"
+                        android:checked="false"
+                        android:id="@+id/rb_info_top"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="降价商品"/>
+
+                    <RadioButton
+                        android:background="@null"
+                        android:textStyle="bold"
+                        android:textColor="#0A0204"
+                        android:textSize="@dimen/sp_14"
+                        android:checked="false"
+                        android:id="@+id/rb_common_top"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="常用清单"/>
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_line"
+                android:layout_marginTop="-18dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <RadioButton
-                    android:textStyle="bold"
-                    android:background="@null"
-                    android:textColor="#333333"
-                    android:textSize="@dimen/sp_14"
-                    android:id="@+id/rb_must_common_top"
+                <LinearLayout
+                    android:id="@+id/ll_must_top"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:button="@null"
-                    android:checked="false"
-                    android:gravity="center"
-                    android:text="必买清单"/>
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
 
+                    <View
+                        android:id="@+id/v2s"
+                        android:layout_width="@dimen/size_60dp"
+                        android:layout_height="8dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/shape_orange25"
+                        android:gravity="center_horizontal" />
 
-                <RadioButton
-                    android:textStyle="bold"
-                    android:id="@+id/rb_new_top"
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_new_top"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="right"
                     android:layout_weight="1"
-                    android:button="@null"
-                    android:background="@null"
-                    android:textColor="#333333"
-                    android:textSize="@dimen/sp_14"
-                    android:gravity="center"
-                    android:text="新品上市"/>
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
 
 
+                    <View
+                        android:id="@+id/v1s"
+                        android:layout_width="@dimen/size_60dp"
+                        android:layout_height="8dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/shape_orange25"
+                        android:gravity="center_horizontal" />
 
+                </LinearLayout>
 
-                <RadioButton
-                    android:background="@null"
-                    android:textStyle="bold"
-                    android:textColor="#333333"
-                    android:textSize="@dimen/sp_14"
-                    android:checked="false"
-                    android:id="@+id/rb_info_top"
+                <LinearLayout
+                    android:id="@+id/ll_reduce_top"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:text="降价商品"/>
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
 
-                <RadioButton
-                    android:background="@null"
-                    android:textStyle="bold"
-                    android:textColor="#333333"
-                    android:textSize="@dimen/sp_14"
-                    android:checked="false"
-                    android:id="@+id/rb_common_top"
+
+                    <View
+                        android:id="@+id/v3s"
+                        android:layout_width="@dimen/size_60dp"
+                        android:layout_height="8dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/shape_orange25"
+                        android:gravity="center_horizontal" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_common_top"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:text="常用清单"/>
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
 
-            </RadioGroup>
+                    <View
+                        android:id="@+id/v4s"
+                        android:layout_width="@dimen/size_60dp"
+                        android:layout_height="8dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/shape_orange25"
+                        android:gravity="center_horizontal" />
+
+                </LinearLayout>
+            </LinearLayout>
 
         </LinearLayout>
+
+<!--        111111111111-->
+<!--        <LinearLayout-->
+<!--            android:id="@+id/ll_line"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+
+<!--            <View-->
+<!--                android:id="@+id/v2s"-->
+<!--                android:visibility="gone"-->
+<!--                android:layout_marginTop="@dimen/size_32dp"-->
+<!--                android:layout_marginLeft="@dimen/size_20dp"-->
+<!--                android:layout_marginRight="@dimen/size_20dp"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:background="@drawable/shape_orange25"-->
+<!--                android:gravity="center_horizontal"-->
+<!--                android:layout_height="8dp" />-->
+
+<!--            <View-->
+<!--                android:visibility="gone"-->
+<!--                android:layout_marginTop="@dimen/size_32dp"-->
+<!--                android:id="@+id/v1s"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:layout_marginLeft="@dimen/size_20dp"-->
+<!--                android:layout_marginRight="@dimen/size_20dp"-->
+<!--                android:background="@drawable/shape_orange25"-->
+<!--                android:gravity="center_horizontal"-->
+<!--                android:layout_height="8dp" />-->
+
+<!--            <View-->
+<!--                android:id="@+id/v3s"-->
+<!--                android:visibility="gone"-->
+<!--                android:layout_marginTop="@dimen/size_32dp"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_marginLeft="@dimen/size_20dp"-->
+<!--                android:layout_marginRight="@dimen/size_20dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:background="@drawable/shape_orange25"-->
+<!--                android:gravity="center_horizontal"-->
+<!--                android:layout_height="8dp" />-->
+
+<!--            <View-->
+<!--                android:id="@+id/v4s"-->
+<!--                android:visibility="gone"-->
+<!--                android:layout_marginTop="@dimen/size_32dp"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:layout_marginLeft="@dimen/size_20dp"-->
+<!--                android:layout_marginRight="@dimen/size_20dp"-->
+<!--                android:background="@drawable/shape_orange25"-->
+<!--                android:gravity="center_horizontal"-->
+<!--                android:layout_height="8dp" />-->
+
+<!--        </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:gravity="center"-->
+<!--            android:orientation="vertical">-->
+
+<!--            <RadioGroup-->
+<!--                android:id="@+id/rg_new_top"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:gravity="center"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <RadioButton-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:background="@null"-->
+<!--                    android:textColor="#333333"-->
+<!--                    android:textSize="@dimen/sp_14"-->
+<!--                    android:id="@+id/rb_must_common_top"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:button="@null"-->
+<!--                    android:checked="false"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="必买清单"/>-->
+
+
+<!--                <RadioButton-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:id="@+id/rb_new_top"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_gravity="right"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:button="@null"-->
+<!--                    android:background="@null"-->
+<!--                    android:textColor="#333333"-->
+<!--                    android:textSize="@dimen/sp_14"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="新品上市"/>-->
+
+
+
+
+<!--                <RadioButton-->
+<!--                    android:background="@null"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:textColor="#333333"-->
+<!--                    android:textSize="@dimen/sp_14"-->
+<!--                    android:checked="false"-->
+<!--                    android:id="@+id/rb_info_top"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:button="@null"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="降价商品"/>-->
+
+<!--                <RadioButton-->
+<!--                    android:background="@null"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:textColor="#333333"-->
+<!--                    android:textSize="@dimen/sp_14"-->
+<!--                    android:checked="false"-->
+<!--                    android:id="@+id/rb_common_top"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:button="@null"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="常用清单"/>-->
+
+<!--            </RadioGroup>-->
+
+<!--        </LinearLayout>-->
 
     </RelativeLayout>
 

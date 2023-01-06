@@ -847,7 +847,7 @@ public class MineFragment extends BaseFragment {
                                         rl_vip1.setVisibility(View.VISIBLE);
                                     }
 
-                                    rl_zizhi2.setVisibility(View.INVISIBLE);
+                                    rl_zizhi2.setVisibility(View.GONE);
                                     relativeLayoutVip.setVisibility(View.VISIBLE);
                                 }
 

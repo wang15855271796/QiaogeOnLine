@@ -11,8 +11,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class TestActivity extends BaseActivity {
-    @BindView(R.id.banner)
-    Banner banner;
+
 
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
@@ -21,14 +20,12 @@ public class TestActivity extends BaseActivity {
 
     @Override
     public void setContentView() {
-        setContentView(R.layout.test11);
+        setContentView(R.layout.test5);
     }
 
     @Override
     public void findViewById() {
-        ButterKnife.bind(this);
 
-//        banner.addBannerLifecycleObserver(this);
     }
 
     @Override

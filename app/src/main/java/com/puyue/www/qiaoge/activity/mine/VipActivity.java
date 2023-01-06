@@ -66,16 +66,6 @@ public class VipActivity extends BaseActivity {
     public void findViewById() {
         bind = ButterKnife.bind(this);
         recyclerView.setLayoutManager(new GridLayoutManager(mActivity,3));
-        vipAdapter = new VipAdapter(R.layout.item_vip1,vipPackages);
-        recyclerView.setAdapter(vipAdapter);
-        vipAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                vipAdapter.setPos(position);
-                pos = position;
-                vipAdapter.notifyDataSetChanged();
-            }
-        });
 
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +94,8 @@ public class VipActivity extends BaseActivity {
     public void setClickEvent() {
 
     }
+
+    VipCenterModel.DataBean data;
     List<VipCenterModel.DataBean.VipPackagesBean> vipPackages = new ArrayList<>();
     private void getVipCenter() {
         VipPayAPI.getVipCenter(mActivity)
@@ -125,16 +117,18 @@ public class VipActivity extends BaseActivity {
                         if (vipListModel.getCode()==1) {
                             if(vipListModel.getData()!=null) {
                                 vipPackages.addAll(vipListModel.getData().getVipPackages());
-                                VipCenterModel.DataBean data = vipListModel.getData();
+                                data = vipListModel.getData();
                                 if(data.getState().equals("NONE")) {
                                     //未开通
+                                    tv_title.setVisibility(View.VISIBLE);
                                     tv_state.setText("立即开通");
                                     tv_desc.setText("翘歌VIP会员可与优惠券叠加使用");
                                     tv_phone.setVisibility(View.GONE);
                                     tv_date.setVisibility(View.GONE);
-                                    tv_title.setVisibility(View.VISIBLE);
+                                    tv_desc.setVisibility(View.VISIBLE);
                                 }else if(data.getState().equals("OVER")) {
                                     //过期
+                                    tv_title.setVisibility(View.VISIBLE);
                                     tv_state.setText("立即开通");
 //                                    tv_date.setText(data.getEndTimeDesc());
 //                                    String price = "已购买商品并会员满减"+data.getSaveAmountDesc()+"元";
@@ -148,20 +142,33 @@ public class VipActivity extends BaseActivity {
                                     tv_desc.setText("翘歌VIP会员可与优惠券叠加使用");
                                     tv_phone.setVisibility(View.GONE);
                                     tv_date.setVisibility(View.GONE);
-                                    tv_title.setVisibility(View.VISIBLE);
+                                    tv_desc.setVisibility(View.VISIBLE);
                                 }else {
                                     //ENABLED（已开通）
+                                    tv_title.setVisibility(View.GONE);
                                     tv_state.setText("立即续费");
                                     tv_date.setText(data.getEndTimeDesc());
                                     String price = "已购买商品并会员满减"+data.getSaveAmountDesc()+"元";
                                     SpannableStringBuilder spannableStringBuilder = StringSpecialHelper.buildSpanColorStyle(price, 9,
                                             data.getSaveAmountDesc().length(), Color.parseColor("#FFE7A2"));
                                     tv_desc.setText(spannableStringBuilder+"");
+                                    tv_desc.setVisibility(View.VISIBLE);
                                     tv_phone.setText(data.getPhone().substring(0,3)+"****"+data.getPhone().substring(7,11));
                                     tv_phone.setVisibility(View.VISIBLE);
                                     tv_date.setVisibility(View.VISIBLE);
-                                    tv_title.setVisibility(View.GONE);
+
                                 }
+
+                                vipAdapter = new VipAdapter(R.layout.item_vip1,vipPackages,data.getState());
+                                recyclerView.setAdapter(vipAdapter);
+                                vipAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                        vipAdapter.setPos(position);
+                                        pos = position;
+                                        vipAdapter.notifyDataSetChanged();
+                                    }
+                                });
                                 vipAdapter.notifyDataSetChanged();
                             }
 

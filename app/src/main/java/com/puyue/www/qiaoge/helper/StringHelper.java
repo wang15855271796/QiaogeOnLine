@@ -2,6 +2,8 @@ package com.puyue.www.qiaoge.helper;
 
 import android.util.Log;
 
+import com.puyue.www.qiaoge.utils.ToastUtil;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -77,10 +79,10 @@ public class StringHelper {
                 isSame = false;
             }
         }
-        Log.d("efasededa.......",isSame+"---");
 
         String regex = "^[a-zA-Z0-9]+$";
         boolean isRight = str.matches(regex) && !isSame;
+
         return isRight;
     }
 }

@@ -1,5 +1,6 @@
 package com.puyue.www.qiaoge.adapter;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
@@ -17,8 +18,10 @@ import java.util.List;
 public class VipAdapter extends BaseQuickAdapter<VipCenterModel.DataBean.VipPackagesBean, BaseViewHolder> {
 
     int pos = 0;
-    public VipAdapter(int layoutResId, @Nullable List<VipCenterModel.DataBean.VipPackagesBean> data) {
+    String state;
+    public VipAdapter(int layoutResId, @Nullable List<VipCenterModel.DataBean.VipPackagesBean> data, String state) {
         super(layoutResId, data);
+        this.state = state;
     }
 
     @Override
@@ -30,17 +33,24 @@ public class VipAdapter extends BaseQuickAdapter<VipCenterModel.DataBean.VipPack
         tv_month.setText(item.getTitle());
         tv_price.setText(item.getPrice());
 
+
+        if(state.equals("ENABLED") || state.equals("OVER")) {
+            tv_open.setVisibility(View.GONE);
+        }else {
+//            tv_open.setVisibility(View.VISIBLE);
+            if(helper.getAdapterPosition()==0) {
+                tv_open.setVisibility(View.VISIBLE);
+            }else {
+                tv_open.setVisibility(View.GONE);
+            }
+        }
         if(pos==helper.getAdapterPosition()) {
             ll_root.setBackgroundResource(R.drawable.shape_jianbian22);
         }else {
             ll_root.setBackgroundResource(R.drawable.shape_grey15);
         }
 
-        if(helper.getAdapterPosition()==0) {
-            tv_open.setVisibility(View.VISIBLE);
-        }else {
-            tv_open.setVisibility(View.GONE);
-        }
+
     }
 
     public void setPos(int position) {

@@ -26,6 +26,7 @@ public abstract class CartFullDialog extends Dialog implements View.OnClickListe
     RecyclerView recyclerView;
     TextView tv_time;
     ImageView iv_ok;
+    ImageView iv_close;
     CartFullsModel.DataBean data;
     public CartFullDialog(@NonNull Context context, CartFullsModel.DataBean data) {
         super(context, R.style.promptDialog);
@@ -37,12 +38,13 @@ public abstract class CartFullDialog extends Dialog implements View.OnClickListe
     }
 
     private void initAction() {
+        iv_close = (ImageView) findViewById(R.id.iv_close);
         tv_time = (TextView) findViewById(R.id.tv_time);
         tv_num = (TextView) findViewById(R.id.tv_num);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         iv_ok = (ImageView) findViewById(R.id.iv_ok);
         iv_ok.setOnClickListener(this);
-
+        iv_close.setOnClickListener(this);
         tv_time.setText(data.getStartTime()+"至"+data.getEndTime());
         tv_num.setText(data.getLimitInfo());
         FullDescDialogAdapter fullDescDialogAdapter = new FullDescDialogAdapter(R.layout.item_full_cart,data.getDeductDetail());
@@ -60,6 +62,10 @@ public abstract class CartFullDialog extends Dialog implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_ok:
+                close();
+                break;
+
+            case R.id.iv_close:
                 close();
                 break;
 

@@ -2,6 +2,8 @@ package com.puyue.www.qiaoge.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,13 +54,13 @@ public class VpSkillAdapter extends RecyclerView.Adapter<VpSkillAdapter.BaseView
     public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
         CouponModels.DataBean.SpikeBean.ActivesBean activesBean = actives.get(position % actives.size());
         if(!TextUtils.isEmpty(activesBean.getSpread()) && !activesBean.getSpread().equals("")) {
-            holder.tv_save_price.setText(activesBean.getSpread());
-            holder.tv_save_price.setBackgroundResource(R.drawable.shape_yellow2);
-        }else {
-            holder.tv_save_price.setBackgroundResource(R.drawable.shape_white);
-        }
+            holder.tv_save_price.setText(activesBean.getOldPrice());
+//            holder.tv_save_price.setTextColor(Color.parseColor("#8F8F8F"));
+            holder.tv_save_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG); //下划线
+            holder.tv_save_price.getPaint().setAntiAlias(true);//抗锯齿
+//            holder.tv_save_price.setBackgroundResource(R.drawable.shape_white1);
 
-//        holder.tv_price.setText(activesBean.getPrice());
+        }
         if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
             if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
                 holder.tv_price.setText(activesBean.getPrice());
@@ -66,7 +68,7 @@ public class VpSkillAdapter extends RecyclerView.Adapter<VpSkillAdapter.BaseView
                 holder.tv_price.setText("价格授权后可见");
             }
         }else {
-            holder.tv_price.setText(activesBean.getMinMaxPrice());
+            holder.tv_price.setText(activesBean.getPrice());
         }
 
         holder.tv_price.setOnClickListener(new View.OnClickListener() {

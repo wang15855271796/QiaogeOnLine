@@ -316,7 +316,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                                         cartIds.clear();
                                         cartIds.add(cartId);
                                         showDeleteCartDialog(0,cartIds);
-                                    }
+                                     }
                                 });
 
                                 rv_cart.setAdapter(cartAdapter);

@@ -105,7 +105,6 @@ public class ReturnOrdersItemAdapter  extends BaseQuickAdapter<OrdersModel.DataB
         // 1待付款订单 3待收货订单 11退货订单 7 已取消
 
         if (orderState == 11) { //退货订单 不显示按钮
-            Log.d("weeeesss..............","00000");
             rl.setVisibility(View.VISIBLE);
             imageGo.setVisibility(View.GONE);
             againBay.setVisibility(View.VISIBLE);
@@ -117,7 +116,6 @@ public class ReturnOrdersItemAdapter  extends BaseQuickAdapter<OrdersModel.DataB
         } else {
             if (item.orderStatusName.equals("待付款")) {
                 // 待付款不显示 再次购买 其他的显示，取消的显示
-                Log.d("weeeesss..............","11111");
                 rl.setVisibility(View.GONE);
                 imageGo.setVisibility(View.VISIBLE);
                 cancelOrder.setVisibility(View.VISIBLE);
@@ -126,7 +124,6 @@ public class ReturnOrdersItemAdapter  extends BaseQuickAdapter<OrdersModel.DataB
                 confirmOrder.setVisibility(View.GONE);
                 deleteOrder.setVisibility(View.GONE);
             } else if (item.orderStatusName.equals("已取消")) {
-                Log.d("weeeesss..............","22222");
                 rl.setVisibility(View.VISIBLE);
                 imageGo.setVisibility(View.GONE);
                 deleteOrder.setVisibility(View.VISIBLE);
@@ -135,7 +132,6 @@ public class ReturnOrdersItemAdapter  extends BaseQuickAdapter<OrdersModel.DataB
                 evaluateNow.setVisibility(View.GONE);
                 confirmOrder.setVisibility(View.GONE);
             } else if (item.orderStatusName.equals("待发货")) {
-                Log.d("weeeesss..............","33333");
                 rl.setVisibility(View.VISIBLE);
                 againBay.setVisibility(View.VISIBLE);
                 cancelOrder.setVisibility(View.GONE);
@@ -144,7 +140,6 @@ public class ReturnOrdersItemAdapter  extends BaseQuickAdapter<OrdersModel.DataB
                 deleteOrder.setVisibility(View.GONE);
                 confirmOrder.setVisibility(View.GONE);
             } else if (item.orderStatusName.equals("待收货")) {
-                Log.d("weeeesss..............","44444");
                 rl.setVisibility(View.VISIBLE);
                 confirmOrder.setVisibility(View.VISIBLE);
                 againBay.setVisibility(View.VISIBLE);
