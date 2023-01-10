@@ -165,8 +165,10 @@ public class ReturnGoodActivity extends BaseSwipeActivity {
             @Override
             public void onClick(View v) {
                 if (rd_check.isChecked()) {
+                    mDetailModel.getData().setAllReturn("1");
                   getState();
                 } else {
+                    mDetailModel.getData().setAllReturn("0");
                     mRyOrderDetail.removeAllViews();
                     mRvDetailAdapter = new ReturnGoodDetailTwoAdapter(mProductList, mContext,mDetailModel.getData().getAllReturn());
 
