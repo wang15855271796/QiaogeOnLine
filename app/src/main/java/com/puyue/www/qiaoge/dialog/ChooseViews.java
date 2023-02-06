@@ -25,7 +25,7 @@ import com.wang.avi.AVLoadingIndicatorView;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.dcloud.common.util.ReflectUtils.getApplicationContext;
+
 
 /**
  * Created by ${王涛} on 2021/1/8

@@ -251,7 +251,6 @@ public class AccountCenterActivity extends BaseSwipeActivity {
                         if (mModelLogout.success) {
                             if (EasyPermissions.hasPermissions(getApplicationContext(),params)) {//检查是否获取该权限
                                 logoutAndToHomes(mContext, -10000);
-
                                 //全部允许
                             } else {//第二次请求
                                 //存在不允许的权限  对话框为什么一会出来一会不出来

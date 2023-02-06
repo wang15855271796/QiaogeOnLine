@@ -178,6 +178,7 @@ public class ReturnNumChangeAdapter extends BaseQuickAdapter<ReturnOrderDetailMo
                 String orderId = UserInfoHelper.getOrderId(mContext);
                 int businessId = item.getBusinessId();
                 item.setItemUnitId(unitId);
+                item.setUnitId(unitId);
                 int businessType = item.getBusinessType();
                 tv_spec_num.setText(item.getReturnUnits().get(position).getUnitName());
                 //规格单位改变

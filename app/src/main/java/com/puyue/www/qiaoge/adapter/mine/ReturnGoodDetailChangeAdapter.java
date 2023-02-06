@@ -78,22 +78,22 @@ public class ReturnGoodDetailChangeAdapter extends RecyclerView.Adapter<ReturnGo
         //数量
         mListReturnNum.clear();
         mListReturnNum.addAll(mListProduct.get(position).getDetails());
-        if(allReturn.equals("1")) {
-
-        }else {
-            //选择单位 数量的adapter
-            mReturnNumAdapter = new ReturnNumChangeAdapter(R.layout.return_order_num, mListReturnNum,mListProduct.get(position).additionFlag,offerAmount);
-            mReturnNumAdapter.setListener(new ReturnNumChangeAdapter.OnReturnClickListener() {
-                @Override
-                public void onEventClick() {
-                    listener.onClick();
-                }
-            });
-
-            holder.mRyNum.setLayoutManager(new GridLayoutManager(context, 1));
-            holder.mRyNum.setAdapter(mReturnNumAdapter);
-            mReturnNumAdapter.notifyDataSetChanged();
-        }
+//        if(allReturn.equals("1")) {
+//
+//        }else {
+//            //选择单位 数量的adapter
+//            mReturnNumAdapter = new ReturnNumChangeAdapter(R.layout.return_order_num, mListReturnNum,mListProduct.get(position).additionFlag,offerAmount);
+//            mReturnNumAdapter.setListener(new ReturnNumChangeAdapter.OnReturnClickListener() {
+//                @Override
+//                public void onEventClick() {
+//                    listener.onClick();
+//                }
+//            });
+//
+//            holder.mRyNum.setLayoutManager(new GridLayoutManager(context, 1));
+//            holder.mRyNum.setAdapter(mReturnNumAdapter);
+//            mReturnNumAdapter.notifyDataSetChanged();
+//        }
 
         //规格
         mListSpec.clear();
@@ -108,11 +108,28 @@ public class ReturnGoodDetailChangeAdapter extends RecyclerView.Adapter<ReturnGo
 
         final boolean[] isSelect = {true};
 
+        EasySwipeMenuLayout easySwipeMenuLayout = holder.itemView.findViewById(R.id.es);
+        if(allReturn.equals("1")) {
+            easySwipeMenuLayout.setCanLeftSwipe(false);
+        }else {
+            easySwipeMenuLayout.setCanLeftSwipe(true);
+            //选择单位 数量的adapter
+            mReturnNumAdapter = new ReturnNumChangeAdapter(R.layout.return_order_num, mListReturnNum,mListProduct.get(position).additionFlag,offerAmount);
+            mReturnNumAdapter.setListener(new ReturnNumChangeAdapter.OnReturnClickListener() {
+                @Override
+                public void onEventClick() {
+                    listener.onClick();
+                }
+            });
 
+            holder.mRyNum.setLayoutManager(new GridLayoutManager(context, 1));
+            holder.mRyNum.setAdapter(mReturnNumAdapter);
+            mReturnNumAdapter.notifyDataSetChanged();
+        }
         mSpecAdaPter.setClick(new ReturnSpecAdapter.OnItemClick() {
             @Override
             public void delete() {
-                EasySwipeMenuLayout easySwipeMenuLayout = holder.itemView.findViewById(R.id.es);
+
 
                 if (isSelect[0]) {
                     easySwipeMenuLayout.handlerSwipeMenu(State.RIGHTOPEN);

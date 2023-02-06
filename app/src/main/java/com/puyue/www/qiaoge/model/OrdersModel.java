@@ -70,7 +70,7 @@ public class OrdersModel {
             public String orderTime;
             public List<String> pics;
             public String subBuyPhone;
-            public String returnOrderStatus;
+            public int returnOrderStatus;
             public String returnOrderStatusStr;
             public String returnProductMainId;
             public int saleSettle;
@@ -78,6 +78,7 @@ public class OrdersModel {
             public int deliverModel;
             public String hllOrderId;
             public String hllOrderStatusName;
+            public boolean bankReturnFlag;
         }
     }
 }

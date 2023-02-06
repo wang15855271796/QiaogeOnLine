@@ -167,8 +167,8 @@ public class ReturnNumAdapter extends BaseQuickAdapter<ReturnOrderDetailModel.Da
                 int unitId = item.getReturnUnits().get(position).getUnitId();
                 String orderId = UserInfoHelper.getOrderId(mContext);
                 int businessId = item.getBusinessId();
-
                 item.setItemUnitId(item.getReturnUnits().get(position).getUnitId());
+                item.setUnitId(unitId);
                 int businessType = item.getBusinessType();
                 tv_spec_num.setText(item.getReturnUnits().get(position).getUnitName());
                 GetReturnGoodNumAPI.requestSpec(mContext, orderId, businessId, businessType, 1, unitId, priceId, additionFlag)
@@ -203,7 +203,6 @@ public class ReturnNumAdapter extends BaseQuickAdapter<ReturnOrderDetailModel.Da
                 dialog.dismiss();
             }
         });
-
 
     }
 

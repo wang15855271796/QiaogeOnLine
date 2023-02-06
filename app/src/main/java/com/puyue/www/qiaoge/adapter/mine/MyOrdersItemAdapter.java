@@ -61,8 +61,6 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
     private ImageView cancelOrder;//取消订单
     private ImageView deleteOrder;//删除订单
     private ImageView confirmOrder;//确认收货
-//    private ImageView iv_order_self_return;//待提货售后
-//    private ImageView iv_confirm_order_self;//待提货确认收货
     private int orderDeliveryType;
     TextView tv_product_name;
     TextView tv_time;
@@ -81,7 +79,7 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
     protected void convert(final BaseViewHolder helper, final OrdersModel.DataBean.ListBean item) {
         helper.setIsRecyclable(false);
         tv_call = helper.getView(R.id.tv_call);
-        TextView tv_style = helper.getView(R.id.tv_style);
+        ImageView iv_style = helper.getView(R.id.iv_style);
         ImageView iv_order = helper.getView(R.id.iv_order);
         ImageView iv_pay = helper.getView(R.id.iv_pay);
         tv_subUserBuy = helper.getView(R.id.tv_subUserBuy);
@@ -105,17 +103,9 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
         tv_time.setText(item.orderTime);
         tv_subUserBuy.setText(item.subBuyPhone);
         if(item.deliverModel==0) {
-            tv_style.setText("【翘歌配送】");
-            tv_style.setTextColor(Color.parseColor("#3483FF"));
+            iv_style.setImageResource(R.mipmap.ic_qiaoge);
         }else {
-            if(item.hllOrderStatusName!=null) {
-                tv_style.setText("【我自己叫货拉拉】-"+item.hllOrderStatusName);
-                tv_style.setTextColor(Color.parseColor("#FD6601"));
-            }else {
-                tv_style.setText("【我自己叫货拉拉】");
-                tv_style.setTextColor(Color.parseColor("#FD6601"));
-            }
-
+            iv_style.setImageResource(R.mipmap.ic_huolala);
         }
 
         if(item.saleSettle==1) {
@@ -223,9 +213,9 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
         }
 //        helper.setText(R.id.orderTime, item.gmtCreate);
         // 文字渐变色
-        LinearGradient mLinearGradient = new LinearGradient(0, 0, 0, tv_status.getPaint().getTextSize(), Color.parseColor("#CEA6FF")
-                , Color.parseColor("#6F81FF"), Shader.TileMode.CLAMP);
-        tv_status.getPaint().setShader(mLinearGradient);
+//        LinearGradient mLinearGradient = new LinearGradient(0, 0, 0, tv_status.getPaint().getTextSize(), Color.parseColor("#CEA6FF")
+//                , Color.parseColor("#6F81FF"), Shader.TileMode.CLAMP);
+//        tv_status.getPaint().setShader(mLinearGradient);
 
 
         /**显示4张图*/

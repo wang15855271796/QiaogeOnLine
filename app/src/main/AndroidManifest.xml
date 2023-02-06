@@ -166,6 +166,43 @@
             </intent-filter>
         </activity>
 
+        <!--  极光  -->
+
+        <service
+            android:name="cn.jpush.android.service.DaemonService"
+            android:enabled="true"
+            android:exported="true"
+            tools:node="remove">
+            <intent-filter >
+                <action android:name="cn.jpush.android.intent.DaemonService" />
+                <category android:name="com.barbecue.app"/>
+            </intent-filter>
+        </service>
+
+        <provider
+            android:authorities="com.barbecue.app.DownloadProvider"
+            android:name="cn.jpush.android.service.DownloadProvider"
+            android:exported="true"
+            tools:node="remove"
+            />
+
+        <receiver android:name="cn.jpush.android.service.AlarmReceiver"  tools:node="remove"/>
+
+        <receiver
+            android:name="cn.jpush.android.service.PushReceiver"
+            android:enabled="true"
+            android:exported="false"
+            tools:node="replace">
+            <intent-filter android:priority="1000" >
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" /> <!-- Required  显示通知栏 -->
+                <category android:name="${JPUSH_PKGNAME}" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <!--     极光   -->
         <activity android:name=".activity.cart.TestActivity"/>
 
         <activity android:name=".activity.OrderAddressListActivity"
@@ -239,8 +276,6 @@
             android:screenOrientation="portrait" />
 
         <activity android:name=".fragment.mine.IntelliGencyActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".activity.mine.login.DcloudActvity"
             android:screenOrientation="portrait" />
         <!-- android:screenOrientation="portrait" -->
         <!--  -->

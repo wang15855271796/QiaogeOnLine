@@ -95,8 +95,36 @@ public class NewReturnOrderModel {
         private String checkDate;
         private List<ProductsBean> products;
         public String titleText;
+        String bankReturnDate;
+        boolean bankReturnFlag;
+        String cancelDate;
+
+        public String getCancelDate() {
+            return cancelDate;
+        }
+
+        public void setCancelDate(String cancelDate) {
+            this.cancelDate = cancelDate;
+        }
+
         public int getReturnProductMainId() {
             return returnProductMainId;
+        }
+
+        public String getBankReturnDate() {
+            return bankReturnDate;
+        }
+
+        public void setBankReturnDate(String bankReturnDate) {
+            this.bankReturnDate = bankReturnDate;
+        }
+
+        public boolean isBankReturnFlag() {
+            return bankReturnFlag;
+        }
+
+        public void setBankReturnFlag(boolean bankReturnFlag) {
+            this.bankReturnFlag = bankReturnFlag;
         }
 
         public String getTips() {

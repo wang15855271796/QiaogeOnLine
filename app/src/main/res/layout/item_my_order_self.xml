@@ -28,15 +28,15 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:layout_toRightOf="@+id/tv_title"
-            tools:text="隔日送达"
             android:id="@+id/tv2"
-            android:textSize="@dimen/sp_12"
-            android:textColor="#F46D23"
-            android:layout_marginTop="@dimen/size_15dp"
-            android:layout_marginLeft="@dimen/size_11dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/size_11dp"
+            android:layout_marginTop="@dimen/size_15dp"
+            android:layout_toRightOf="@+id/tv_title"
+            android:textColor="#F46D23"
+            android:textSize="@dimen/sp_12"
+            tools:text="隔日送达" />
 
         <TextView
             android:id="@+id/tv_num"
@@ -73,12 +73,13 @@
 
         <TextView
             android:id="@+id/tv_status"
+            android:textColor="#FE5630"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="代付款"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/size_15dp"
-            android:textSize="@dimen/size_12dp" />
+            android:textSize="@dimen/size_12dp"
+            tools:text="代付款" />
     </RelativeLayout>
 
     <LinearLayout
@@ -289,4 +290,13 @@
         android:paddingLeft="@dimen/size_5dp"
         android:layout_marginRight="102dp"
         android:background="@drawable/shape_orange10" />
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/iv_style"
+        android:src="@mipmap/ic_huolala"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:textSize="@dimen/size_11dp" />
 </LinearLayout>

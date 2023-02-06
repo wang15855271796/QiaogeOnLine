@@ -106,16 +106,16 @@ public class MyOrdersActivity extends BaseActivity {
     public void setViewData() {
         UserInfoHelper.saveDeliverType(mActivity, orderDeliveryType + "");
         if (orderDeliveryType == 0) {
-            tv_deliver_order.setTextColor(Color.parseColor("#FF000000"));
+            tv_deliver_order.setTextColor(Color.parseColor("#FE5630"));
             tv_line_one.setVisibility(View.VISIBLE);
-            tv_line_one.setBackgroundColor(Color.parseColor("#FFFF680A"));
+            tv_line_one.setBackgroundColor(Color.parseColor("#FE5630"));
             tv_line_two.setVisibility(View.GONE);
             tv_order_sufficiency.setTextColor(Color.parseColor("#FFA1A1A1"));
             initView();
         } else if (orderDeliveryType == 1) {
-            tv_order_sufficiency.setTextColor(Color.parseColor("#FF000000"));
+            tv_order_sufficiency.setTextColor(Color.parseColor("#FE5630"));
             tv_line_two.setVisibility(View.VISIBLE);
-            tv_line_two.setBackgroundColor(Color.parseColor("#FFFF680A"));
+            tv_line_two.setBackgroundColor(Color.parseColor("#FE5630"));
             tv_line_one.setVisibility(View.GONE);
             tv_deliver_order.setTextColor(Color.parseColor("#FFA1A1A1"));
             initViewSelf();
@@ -123,13 +123,10 @@ public class MyOrdersActivity extends BaseActivity {
     }
 
     private void initView() {
-
         mTab.removeAllTabs();
-
         mListTitles.clear();
         mListFragment.clear();
         mViewPager.removeAllViews();
-
         mListType.clear();
 
         mListTitles.addAll(Arrays.asList("全部", "待付款", "待发货", "待收货", "待评价", "退货"));
@@ -230,9 +227,9 @@ public class MyOrdersActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (orderDeliveryType == 1) {
-                    tv_deliver_order.setTextColor(Color.parseColor("#FF000000"));
+                    tv_deliver_order.setTextColor(Color.parseColor("#FE5630"));
                     tv_line_one.setVisibility(View.VISIBLE);
-                    tv_line_one.setBackgroundColor(Color.parseColor("#FFFF680A"));
+                    tv_line_one.setBackgroundColor(Color.parseColor("#FE5630"));
                     tv_line_two.setVisibility(View.GONE);
                     tv_order_sufficiency.setTextColor(Color.parseColor("#FFA1A1A1"));
                     orderDeliveryType = 0;
@@ -248,9 +245,9 @@ public class MyOrdersActivity extends BaseActivity {
             public void onClick(View v) {
                 if (orderDeliveryType == 0) {
                     orderDeliveryType = 1;
-                    tv_order_sufficiency.setTextColor(Color.parseColor("#FF000000"));
+                    tv_order_sufficiency.setTextColor(Color.parseColor("#FE5630"));
                     tv_line_two.setVisibility(View.VISIBLE);
-                    tv_line_two.setBackgroundColor(Color.parseColor("#FFFF680A"));
+                    tv_line_two.setBackgroundColor(Color.parseColor("#FE5630"));
                     tv_line_one.setVisibility(View.GONE);
                     tv_deliver_order.setTextColor(Color.parseColor("#FFA1A1A1"));
                     UserInfoHelper.saveDeliverType(mActivity, orderDeliveryType + "");

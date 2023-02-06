@@ -721,7 +721,8 @@ public class ReturnGoodActivity extends BaseSwipeActivity {
                 for (int j = 0; j < mProductList.get(i).getDetails().size(); j++) {
                     JSONObject jsonObject1 = new JSONObject();
                     jsonObject1.put("returnNum", mProductList.get(i).getDetails().get(j).getItemNum());
-                    jsonObject1.put("returnUnit", mProductList.get(i).getDetails().get(j).getItemUnitId());
+//                    jsonObject1.put("returnUnit", mProductList.get(i).getDetails().get(j).getItemUnitId());
+                    jsonObject1.put("returnUnit", mProductList.get(i).getDetails().get(j).getUnitId());
                     jsonObject1.put("priceId", mProductList.get(i).getDetails().get(j).getPriceId());
                     jsonObject1.put("returnTotalAmount", mProductList.get(i).getDetails().get(j).getItemPrice());
                     jsonArray1.put(jsonObject1);
