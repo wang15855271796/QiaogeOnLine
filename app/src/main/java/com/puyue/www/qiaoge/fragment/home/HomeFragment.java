@@ -2387,10 +2387,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
             case R.id.rl_message:
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(getActivity()))) {
-//                    Intent intents = new Intent(getActivity(), MessageCenterActivity.class);
-//                    startActivityForResult(intents, 101);
-                    Intent intent2 = new Intent(getActivity(), TestActivity.class);
-                    startActivity(intent2);
+                    Intent intents = new Intent(getActivity(), MessageCenterActivity.class);
+                    startActivityForResult(intents, 101);
+//                    Intent intent2 = new Intent(getActivity(), TestActivity.class);
+//                    startActivity(intent2);
 //                    appbar.setExpanded(false);
 //                    getReduceStateTop();
 //                    switchReduce();

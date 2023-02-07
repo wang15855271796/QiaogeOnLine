@@ -95,6 +95,7 @@ public class MyOrdersItemAdapter1 extends BaseQuickAdapter<OrdersModel.DataBean.
 //            if(item.bankReturnFlag) {
 //
 //            }else {
+
 //
 //            }
         }else {
