@@ -79,7 +79,7 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
     protected void convert(final BaseViewHolder helper, final OrdersModel.DataBean.ListBean item) {
         helper.setIsRecyclable(false);
         tv_call = helper.getView(R.id.tv_call);
-        ImageView iv_style = helper.getView(R.id.iv_style);
+        TextView tv_style = helper.getView(R.id.tv_style);
         ImageView iv_order = helper.getView(R.id.iv_order);
         ImageView iv_pay = helper.getView(R.id.iv_pay);
         tv_subUserBuy = helper.getView(R.id.tv_subUserBuy);
@@ -102,12 +102,24 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
 
         tv_time.setText(item.orderTime);
         tv_subUserBuy.setText(item.subBuyPhone);
+//        if(item.deliverModel==0) {
+//            iv_style.setImageResource(R.mipmap.ic_qiaoge);
+//        }else {
+//            iv_style.setImageResource(R.mipmap.ic_huolala);
+//        }
         if(item.deliverModel==0) {
-            iv_style.setImageResource(R.mipmap.ic_qiaoge);
+            tv_style.setText("【翘歌配送】");
+            tv_style.setTextColor(Color.parseColor("#3483FF"));
         }else {
-            iv_style.setImageResource(R.mipmap.ic_huolala);
-        }
+            if(item.hllOrderStatusName!=null) {
+                tv_style.setText("【我自己叫货拉拉】-"+item.hllOrderStatusName);
+                tv_style.setTextColor(Color.parseColor("#FD6601"));
+            }else {
+                tv_style.setText("【我自己叫货拉拉】");
+                tv_style.setTextColor(Color.parseColor("#FD6601"));
+            }
 
+        }
         if(item.saleSettle==1) {
             iv_order.setVisibility(View.VISIBLE);
         }else {

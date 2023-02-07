@@ -2,6 +2,7 @@ package com.puyue.www.qiaoge.adapter;
 
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -89,12 +90,15 @@ public class MyOrdersItemAdapter1 extends BaseQuickAdapter<OrdersModel.DataBean.
 
 
         if(item.returnOrderStatus== 1) {
-            if(item.bankReturnFlag) {
-                ll_return.setVisibility(View.VISIBLE);
-                helper.setText(R.id.tv_item_my_order_all_price, "退款成功￥"+item.totalAmount);//总价
-            }else {
-                ll_return.setVisibility(View.GONE);
-            }
+            ll_return.setVisibility(View.VISIBLE);
+            helper.setText(R.id.tv_item_my_order_all_price, "退款成功￥"+item.totalAmount);//总价
+//            if(item.bankReturnFlag) {
+//
+//            }else {
+//
+//            }
+        }else {
+            ll_return.setVisibility(View.GONE);
         }
 
         tv_return_money.setText("退款:￥"+item.totalAmount);
