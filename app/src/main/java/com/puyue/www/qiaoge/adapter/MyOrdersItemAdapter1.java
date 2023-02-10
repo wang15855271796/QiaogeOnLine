@@ -1,6 +1,7 @@
 package com.puyue.www.qiaoge.adapter;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -48,6 +49,7 @@ public class MyOrdersItemAdapter1 extends BaseQuickAdapter<OrdersModel.DataBean.
     TextView tv_time;
     TextView tv_subUserBuy;
     TextView tv_call;
+    TextView tv_state;
     public MyOrdersItemAdapter1(int layoutResId, @Nullable List<OrdersModel.DataBean.ListBean> data, int orderState, int orderDeliveryType, MyOrdersItemAdapter.OnClick onClick) {
         super(layoutResId, data);
         this.orderState = orderState;
@@ -71,6 +73,7 @@ public class MyOrdersItemAdapter1 extends BaseQuickAdapter<OrdersModel.DataBean.
         commodityFour = helper.getView(R.id.commodityFour);
         commodityMore = helper.getView(R.id.commodityMore);
         tv_status = helper.getView(R.id.tv_status);
+        tv_state = helper.getView(R.id.tv_state);
         imageGo = helper.getView(R.id.imageGo);
         deleteOrder = helper.getView(R.id.iv_delete_order);
         cancelOrder = helper.getView(R.id.iv_cancel_order);
@@ -82,12 +85,21 @@ public class MyOrdersItemAdapter1 extends BaseQuickAdapter<OrdersModel.DataBean.
         TextView tv_return_money = helper.getView(R.id.tv_return_money);
         tv_time.setText(item.orderTime);
         tv_subUserBuy.setText(item.subBuyPhone);
+//        if(item.deliverModel==0) {
+//            iv_style.setImageResource(R.mipmap.ic_qiaoge);
+//        }else {
+//            iv_style.setImageResource(R.mipmap.ic_huolala);
+//        }
+
         if(item.deliverModel==0) {
             iv_style.setImageResource(R.mipmap.ic_qiaoge);
         }else {
-            iv_style.setImageResource(R.mipmap.ic_huolala);
+            if(item.hllOrderStatusName!=null) {
+                iv_style.setImageResource(R.mipmap.ic_huolala);
+            }else {
+                iv_style.setImageResource(R.mipmap.ic_huolala);
+            }
         }
-
 
         if(item.returnOrderStatus== 1) {
             ll_return.setVisibility(View.VISIBLE);

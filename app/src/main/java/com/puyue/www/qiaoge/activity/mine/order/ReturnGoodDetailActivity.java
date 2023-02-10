@@ -99,6 +99,7 @@ public class ReturnGoodDetailActivity extends BaseActivity {
     TextView tv_cancel_time;
     TextView tv_apply_time5;
     TextView tv_return_time;
+    LinearLayout ll_root;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -111,6 +112,7 @@ public class ReturnGoodDetailActivity extends BaseActivity {
 
     @Override
     public void findViewById() {
+        ll_root = findViewById(R.id.ll_root);
         ll_tip = findViewById(R.id.ll_tip);
         tv_tip = findViewById(R.id.tv_tip);
         rv_full = findViewById(R.id.rv_full);
@@ -323,7 +325,7 @@ public class ReturnGoodDetailActivity extends BaseActivity {
                             }
 
                             if(newReturnOrderModel.getData().getTips()!=null&&!newReturnOrderModel.getData().getTips().equals("")) {
-                                ll_tip.setVisibility(View.GONE);
+                                ll_tip.setVisibility(View.VISIBLE);
                                 tv_tip.setText(newReturnOrderModel.getData().getTips());
                             }else {
                                 ll_tip.setVisibility(View.GONE);
@@ -350,6 +352,7 @@ public class ReturnGoodDetailActivity extends BaseActivity {
                                 ll_progress.setVisibility(View.GONE);
                                 ll_progress2.setVisibility(View.GONE);
                                 ll_progress3.setVisibility(View.GONE);
+                                ll_root.setBackgroundResource(R.mipmap.bg_return_check);
                             } else if (newReturnOrderModel.getData().getReturnState() == 1) {
                                 //成功
                                 tv_return_success.setVisibility(View.VISIBLE);
@@ -390,6 +393,7 @@ public class ReturnGoodDetailActivity extends BaseActivity {
                                     tv_apply_time2.setText(data.getApplyDate());
                                     tv_check_time2.setText(data.getCheckDate());
                                 }
+                                ll_root.setBackgroundResource(R.mipmap.bg_return_success);
                             } else if (newReturnOrderModel.getData().getReturnState() == 2) {
                                 //失败
                                 tv_return_success.setVisibility(View.VISIBLE);
@@ -415,7 +419,7 @@ public class ReturnGoodDetailActivity extends BaseActivity {
                                 ll_progress.setVisibility(View.GONE);
                                 ll_progress2.setVisibility(View.GONE);
                                 ll_progress3.setVisibility(View.VISIBLE);
-
+                                ll_root.setBackgroundResource(R.mipmap.bg_return_fail);
                             } else if (newReturnOrderModel.getData().getReturnState() == 4) {
                                 //已撤销
                                 ll_progress4.setVisibility(View.VISIBLE);
@@ -443,6 +447,7 @@ public class ReturnGoodDetailActivity extends BaseActivity {
                                 tv_cancel_time.setText(data.getCancelDate());
                                 tv_apply_time5.setText(data.getApplyDate());
                                 tv_cancel_return.setVisibility(View.GONE);
+                                ll_root.setBackgroundResource(R.mipmap.bg_return_cancel);
                             }
 
 

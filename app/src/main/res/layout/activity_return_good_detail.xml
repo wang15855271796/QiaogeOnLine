@@ -8,6 +8,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/ll_root"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:orientation="vertical"
@@ -45,7 +46,7 @@
             android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="#FFFFFF"
-            android:layout_marginTop="@dimen/size_22dp"
+            android:layout_marginTop="@dimen/size_15dp"
             android:layout_marginLeft="@dimen/size_25dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -86,7 +87,7 @@
             android:text="退款审核！"
             android:textSize="14sp"
             android:textColor="#FFFFFF"
-            android:layout_marginTop="@dimen/size_7dp"
+            android:layout_marginTop="@dimen/size_5dp"
             android:layout_marginLeft="@dimen/size_25dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -102,7 +103,7 @@
             android:paddingTop="@dimen/size_7dp"
             android:paddingBottom="@dimen/size_7dp"
             android:background="@drawable/shape_white"
-            android:layout_marginTop="@dimen/size_7dp"
+            android:layout_marginTop="@dimen/size_5dp"
             android:layout_marginLeft="@dimen/size_25dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -110,7 +111,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="-25dp"
+        android:layout_marginTop="-10dp"
         android:background="@drawable/shape_grey15"
         android:layout_width="match_parent"
         android:orientation="vertical"
@@ -127,23 +128,24 @@
 
                 <LinearLayout
                     android:id="@+id/ll_tip"
-                    android:visibility="gone"
-                    android:layout_marginBottom="@dimen/dp_10"
+                    android:visibility="visible"
                     android:layout_marginLeft="@dimen/size_15dp"
                     android:layout_marginRight="@dimen/size_15dp"
-                    android:background="@drawable/shape_white1"
+                    android:layout_marginTop="@dimen/dp_10"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/size_56dp">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/tv_tip"
                         android:textColor="#FF2925"
-                        android:layout_marginRight="@dimen/dp_10"
-                        android:layout_marginLeft="@dimen/dp_10"
+                        android:paddingLeft="@dimen/dp_10"
+                        android:paddingTop="@dimen/size_3dp"
+                        android:paddingBottom="@dimen/size_3dp"
                         android:layout_gravity="center_vertical"
                         android:drawablePadding="@dimen/dp_10"
+                        android:background="@drawable/shape_white1"
                         android:drawableLeft="@mipmap/icon_tips"
-                        tools:text="温馨提示：剩余订单金额不足配送费，退款金额抵扣运费10元。"
+                        android:text="温馨提示：剩余订单金额不足配送费，退款金额抵扣运费10元。"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
@@ -159,7 +161,7 @@
 
                     <RelativeLayout
                         android:background="@drawable/shape_white1"
-                        android:layout_marginTop="@dimen/size_15dp"
+                        android:layout_marginTop="@dimen/size_5dp"
                         android:layout_width="match_parent"
                         android:paddingBottom="@dimen/size_5dp"
                         android:layout_height="wrap_content">
@@ -702,10 +704,8 @@
 
                     </RelativeLayout>
 
-
                     <RelativeLayout
                         android:layout_width="match_parent"
-
                         android:layout_height="wrap_content">
 
                         <TextView
@@ -731,7 +731,6 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-
                         android:layout_height="wrap_content">
 
                         <TextView
