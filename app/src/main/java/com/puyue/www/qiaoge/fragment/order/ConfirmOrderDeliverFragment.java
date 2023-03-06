@@ -31,9 +31,11 @@ import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.BeizhuActivity;
 
+import com.puyue.www.qiaoge.activity.ChooseConfirmAddressActivity;
 import com.puyue.www.qiaoge.activity.flow.FlowLayout;
 import com.puyue.www.qiaoge.activity.flow.TagFlowLayout;
 import com.puyue.www.qiaoge.activity.flow.TagsFlowLayout;
+import com.puyue.www.qiaoge.activity.home.ChooseAddressActivity;
 import com.puyue.www.qiaoge.activity.mine.account.AddressListActivity;
 import com.puyue.www.qiaoge.activity.mine.account.AddressListsActivity;
 import com.puyue.www.qiaoge.activity.mine.coupons.ChooseCouponsActivity;
@@ -365,9 +367,10 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                     startActivity(intents);
                     break;
                 case R.id.linearLayoutAddressHead: // 地址切换
-                    ChooseAddressDialog chooseAddressDialog = new ChooseAddressDialog(getActivity(),orderId);
-                    chooseAddressDialog.show();
-
+//                    ChooseAddressDialog chooseAddressDialog = new ChooseAddressDialog(getActivity(),orderId);
+//                    chooseAddressDialog.show();
+                    Intent intentsss = new Intent(mActivity, ChooseConfirmAddressActivity.class);
+                    startActivityForResult(intentsss,1);
                     break;
                 case R.id.LinearLayoutAddress: // 添加地址
                     ChooseAddressDialog chooseAddressDialog1 = new ChooseAddressDialog(getActivity(),orderId);

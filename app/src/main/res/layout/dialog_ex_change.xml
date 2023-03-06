@@ -16,7 +16,7 @@
         <RelativeLayout
             android:paddingBottom="@dimen/size_20dp"
             android:layout_width="match_parent"
-            android:layout_height="480dp">
+            android:layout_height="500dp">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -25,6 +25,7 @@
 
                 <TextView
                     android:text="兑换优惠券"
+                    android:textStyle="bold"
                     android:layout_marginTop="@dimen/size_22dp"
                     android:layout_gravity="center_horizontal"
                     android:textColor="#333333"
@@ -40,7 +41,8 @@
 
                     <TextView
                         android:text="券额"
-                        android:textColor="#333333"
+                        android:textStyle="bold"
+                        android:textColor="#FF592E"
                         android:textSize="@dimen/sp_16"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
@@ -49,7 +51,8 @@
 
                     <TextView
                         android:text="数量"
-                        android:textColor="#333333"
+                        android:textStyle="bold"
+                        android:textColor="#FF592E"
                         android:textSize="@dimen/sp_16"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
@@ -58,7 +61,8 @@
 
                     <TextView
                         android:text="消耗余额"
-                        android:textColor="#333333"
+                        android:textStyle="bold"
+                        android:textColor="#FF592E"
                         android:textSize="@dimen/sp_16"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
@@ -69,9 +73,8 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp">
+                    android:layout_height="250dp"/>
 
-                </androidx.recyclerview.widget.RecyclerView>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -79,15 +82,18 @@
 
                     <TextView
                         android:id="@+id/tv_amount"
-                        android:layout_marginRight="@dimen/size_34dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_45dp"
                         android:layout_alignParentRight="true"
+                        android:layout_marginLeft="@dimen/size_20dp"
+                        android:layout_marginTop="@dimen/size_10dp"
+                        android:layout_marginRight="@dimen/size_34dp"
+                        android:background="@drawable/shape_pink1"
+                        android:gravity="center"
                         android:textColor="#FF6F08"
+                        android:textSize="@dimen/sp_16"
                         android:textStyle="bold"
-                        android:layout_marginTop="@dimen/size_20dp"
-                        android:textSize="@dimen/size_18dp"
-                        tools:text="兑换总额：10000元"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        tools:text="兑换总额：10000元" />
 
                 </RelativeLayout>
 
@@ -98,16 +104,16 @@
                 android:id="@+id/tv_add_car"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="@dimen/dp_10"
-                android:paddingBottom="@dimen/dp_10"
-                android:text="立即兑换"
+                android:layout_alignParentBottom="true"
                 android:layout_marginLeft="@dimen/size_13dp"
                 android:layout_marginRight="@dimen/size_13dp"
-                android:layout_alignParentBottom="true"
-                android:background="@drawable/shape_oranges_home"
+                android:background="@drawable/shape_jianbian5"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingRight="10dp"
+                android:paddingBottom="@dimen/dp_10"
+                android:text="立即兑换"
                 android:textColor="@color/app_color_white"
                 android:textSize="18dp" />
         </RelativeLayout>

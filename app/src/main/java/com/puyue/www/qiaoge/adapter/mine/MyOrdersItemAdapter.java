@@ -53,20 +53,22 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
     private ImageView commodityFour;
     private ImageView commodityMore;
     private TextView tv_status;
-    private ImageView imageGo;//立即付款
-    private ImageView evaluateNow; // 立即评价
-    private ImageView againBay;  // 再次购买
+    private TextView imageGo;//立即付款
+    private TextView evaluateNow; // 立即评价
+    private TextView againBay;  // 再次购买
     private OnClick onClick;
     private LinearLayout linearLayoutItem;
     private ImageView cancelOrder;//取消订单
-    private ImageView deleteOrder;//删除订单
-    private ImageView confirmOrder;//确认收货
-    private int orderDeliveryType;
+    private TextView deleteOrder;//删除订单
+    private TextView confirmOrder;//确认收货
     TextView tv_product_name;
     TextView tv_time;
-    TextView tv_subUserBuy;
-    HuoConnentionDialog huoConnentionDialog;
+    TextView tv_sub_account;
     TextView tv_call;
+    TextView tv_status_name;
+    int orderDeliveryType;
+    TextView tv_total;
+    LinearLayout ll_info;
     public MyOrdersItemAdapter(int layoutResId, @Nullable List<OrdersModel.DataBean.ListBean> data, int orderState, int orderDeliveryType,OnClick onClick) {
         super(layoutResId, data);
         this.orderState = orderState;
@@ -78,14 +80,17 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
     @Override
     protected void convert(final BaseViewHolder helper, final OrdersModel.DataBean.ListBean item) {
         helper.setIsRecyclable(false);
+        ll_info = helper.getView(R.id.ll_info);
         tv_call = helper.getView(R.id.tv_call);
-        TextView tv_style = helper.getView(R.id.tv_style);
-        ImageView iv_order = helper.getView(R.id.iv_order);
-        ImageView iv_pay = helper.getView(R.id.iv_pay);
-        tv_subUserBuy = helper.getView(R.id.tv_subUserBuy);
+        tv_total = helper.getView(R.id.tv_total);
+        ImageView iv_style = helper.getView(R.id.iv_style);
+        TextView tv_order = helper.getView(R.id.tv_order);
+        TextView tv_pay = helper.getView(R.id.tv_pay);
         tv_time = helper.getView(R.id.tv_time);
         tv_product_name = helper.getView(R.id.tv_product_name);
         againBay = helper.getView(R.id.againBay);
+        tv_sub_account = helper.getView(R.id.tv_sub_account);
+        tv_status_name = helper.getView(R.id.tv_status_name);
         commodityOne = helper.getView(R.id.commodityOne);
         commodityTwo = helper.getView(R.id.commodityTwo);
         commodityThree = helper.getView(R.id.commodityThree);
@@ -93,47 +98,66 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
         commodityMore = helper.getView(R.id.commodityMore);
         tv_status = helper.getView(R.id.tv_status);
         imageGo = helper.getView(R.id.imageGo);
-        deleteOrder = helper.getView(R.id.iv_delete_order);
+        deleteOrder = helper.getView(R.id.tv_delete_order);
         cancelOrder = helper.getView(R.id.iv_cancel_order);
         evaluateNow = helper.getView(R.id.evaluateNow);
         linearLayoutItem = helper.getView(R.id.linearLayoutItem);
-        confirmOrder = helper.getView(R.id.iv_confirm_order);
+        confirmOrder = helper.getView(R.id.tv_confirm_order);
         tv_product_name.setText(item.prodName);
 
         tv_time.setText(item.orderTime);
-        tv_subUserBuy.setText(item.subBuyPhone);
-//        if(item.deliverModel==0) {
-//            iv_style.setImageResource(R.mipmap.ic_qiaoge);
-//        }else {
-//            iv_style.setImageResource(R.mipmap.ic_huolala);
-//        }
-        if(item.deliverModel==0) {
-            tv_style.setText("【翘歌配送】");
-            tv_style.setTextColor(Color.parseColor("#3483FF"));
+        if(item.subBuyPhone!=null && !item.subBuyPhone.equals("")) {
+            tv_sub_account.setText("子账号"+item.subBuyPhone+"订单");
+            ll_info.setVisibility(View.VISIBLE);
         }else {
-            if(item.hllOrderStatusName!=null) {
-                tv_style.setText("【我自己叫货拉拉】-"+item.hllOrderStatusName);
-                tv_style.setTextColor(Color.parseColor("#FD6601"));
-            }else {
-                tv_style.setText("【我自己叫货拉拉】");
-                tv_style.setTextColor(Color.parseColor("#FD6601"));
-            }
-
+            ll_info.setVisibility(View.GONE);
         }
-        if(item.saleSettle==1) {
-            iv_order.setVisibility(View.VISIBLE);
+
+//        tv_total.setText(item.);
+
+        if(orderDeliveryType==0) {
+            //配送
+            iv_style.setVisibility(View.VISIBLE);
+            if(item.deliverModel==0) {
+                iv_style.setImageResource(R.mipmap.ic_qiaoge);
+                tv_status_name.setVisibility(View.GONE);
+                tv_status_name.setBackgroundResource(R.drawable.shape_white1);
+            }else {
+                if(item.hllOrderStatusName!=null) {
+                    iv_style.setImageResource(R.mipmap.ic_huolala);
+                }else {
+                    iv_style.setImageResource(R.mipmap.ic_huolala);
+                }
+
+                if(item.hllOrderStatusName!=null&&item.hllOrderStatusName.equals("")) {
+                    tv_status_name.setText(item.hllOrderStatusName);
+                    tv_status_name.setVisibility(View.VISIBLE);
+                    tv_status_name.setBackgroundResource(R.drawable.shape_orange12);
+                }else {
+                    tv_status_name.setVisibility(View.GONE);
+                    tv_status_name.setBackgroundResource(R.drawable.shape_white1);
+                }
+            }
         }else {
-            iv_order.setVisibility(View.GONE);
+            //自提
+            tv_status_name.setVisibility(View.GONE);
+            iv_style.setVisibility(View.GONE);
+        }
+
+        if(item.saleSettle==1) {
+            tv_order.setVisibility(View.VISIBLE);
+        }else {
+            tv_order.setVisibility(View.GONE);
         }
 
         if(item.salePay==1) {
-            iv_pay.setVisibility(View.VISIBLE);
+            tv_pay.setVisibility(View.VISIBLE);
         }else {
-            iv_pay.setVisibility(View.GONE);
+            tv_pay.setVisibility(View.GONE);
         }
 
 
-        helper.setText(R.id.tv_item_my_order_all_price, "合计￥"+item.totalAmount);//总价
+        helper.setText(R.id.tv_item_my_order_all_price, "￥"+item.totalAmount);//总价
 
         // orderState 0全部 orderState 2 待发货订单 orderState 5 待评价订单
         // 1待付款订单 3待收货订单 11退货订单 7 已取消
@@ -223,18 +247,12 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
         }else {
             tv_status.setText(item.orderStatusName);
         }
-//        helper.setText(R.id.orderTime, item.gmtCreate);
-        // 文字渐变色
-//        LinearGradient mLinearGradient = new LinearGradient(0, 0, 0, tv_status.getPaint().getTextSize(), Color.parseColor("#CEA6FF")
-//                , Color.parseColor("#6F81FF"), Shader.TileMode.CLAMP);
-//        tv_status.getPaint().setShader(mLinearGradient);
 
 
         /**显示4张图*/
         if (item.pics.size() >= 1) {
             if (item.pics.get(0)!= null) {
                 GlideModel.disPlayError(mContext, item.pics.get(0), commodityOne);
-                //  Glide.with(mContext).load(item.productVOList.get(0).picUrl).transform(new GlideRoundTransform(mContext, 3)).into(commodityOne);
             }
 
             commodityOne.setVisibility(View.VISIBLE);
@@ -246,7 +264,6 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
         if (item.pics.size() >= 2) {
             if (item.pics.get(1) != null) {
                 GlideModel.disPlayError(mContext, item.pics.get(1), commodityTwo);
-                //  Glide.with(mContext).load(item.productVOList.get(1).picUrl).transform(new GlideRoundTransform(mContext, 3)).into(commodityTwo);
             }
 
             commodityTwo.setVisibility(View.VISIBLE);
@@ -257,7 +274,6 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
         if ((item.pics.size() >= 3)) {
             if (item.pics.get(2) != null) {
                 GlideModel.disPlayError(mContext, item.pics.get(2), commodityThree);
-                //Glide.with(mContext).load(item.productVOList.get(2).picUrl).transform(new GlideRoundTransform(mContext, 3)).into(commodityThree);
             }
 
             commodityThree.setVisibility(View.VISIBLE);
@@ -269,7 +285,6 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
         if (item.pics.size() >= 4) {
             if (item.pics.get(3) != null) {
                 GlideModel.disPlayError(mContext, item.pics.get(3), commodityFour);
-                //  Glide.with(mContext).load(item.productVOList.get(3).picUrl).transform(new GlideRoundTransform(mContext, 3)).into(commodityFour);
             }
 
             commodityFour.setVisibility(View.VISIBLE);
@@ -405,8 +420,8 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
 
         void requestConfirmGetGoods(String orderId);
 
-
         void confirmSelfOrder(String orderId);
+
         void confirmSelfReturnOrder(String orderId, int pos);
 
     }

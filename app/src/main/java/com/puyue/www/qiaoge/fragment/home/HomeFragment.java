@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.frankfancode.marqueeview.MarqueeView;
+import com.google.android.exoplayer2.Player;
 import com.google.android.material.appbar.AppBarLayout;
 
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -64,6 +65,7 @@ import com.puyue.www.qiaoge.activity.ChooseCompanyActivity;
 import com.puyue.www.qiaoge.activity.CommonH6Activity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.HuoHomeActivity;
+import com.puyue.www.qiaoge.activity.PlayerActivity;
 import com.puyue.www.qiaoge.activity.TopEvent;
 import com.puyue.www.qiaoge.activity.cart.TestActivity;
 import com.puyue.www.qiaoge.activity.home.ChangeCityActivity;
@@ -85,6 +87,7 @@ import com.puyue.www.qiaoge.activity.mine.order.NewOrderDetailActivity;
 import com.puyue.www.qiaoge.activity.mine.wallet.MinerIntegralActivity;
 import com.puyue.www.qiaoge.activity.mine.wallet.MyWalletNewActivity;
 
+import com.puyue.www.qiaoge.activity.view.SchoolActivity;
 import com.puyue.www.qiaoge.adapter.HotAdapter;
 import com.puyue.www.qiaoge.adapter.IndexRecommendAdapter;
 import com.puyue.www.qiaoge.adapter.MarqueeAdapter;
@@ -118,6 +121,7 @@ import com.puyue.www.qiaoge.dialog.CouponListDialog;
 import com.puyue.www.qiaoge.dialog.HomeActivityDialog;
 import com.puyue.www.qiaoge.dialog.HuoOrderDialog;
 import com.puyue.www.qiaoge.dialog.Privacy4Dialog;
+import com.puyue.www.qiaoge.dialog.SchoolDialog;
 import com.puyue.www.qiaoge.dialog.TurnTableDialog;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.BackEvent;
@@ -382,6 +386,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     View view_new;
     @BindView(R.id.ll_city)
     LinearLayout ll_city;
+    @BindView(R.id.ll_school)
+    LinearLayout ll_school;
+    @BindView(R.id.iv_school)
+    ImageView iv_school;
     List<String> list = new ArrayList<>();
     private static final float ENDMARGINLEFT = 50;
     private static final float ENDMARGINTOP = 5;
@@ -472,9 +480,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             if(scrollStateScroll == 1) {
                 ll_coupon.setVisibility(View.VISIBLE);
                 iv_coupon.setVisibility(View.GONE);
+//                ll_school.setVisibility(View.VISIBLE);
+//                iv_school.setVisibility(View.GONE);
             }else {
                 ll_coupon.setVisibility(View.GONE);
                 iv_coupon.setVisibility(View.VISIBLE);
+//                ll_school.setVisibility(View.GONE);
+//                iv_school.setVisibility(View.VISIBLE);
             }
         }else {
             ll_coupon.setVisibility(View.GONE);
@@ -491,17 +503,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     public void findViewById(View view) {
         bind = ButterKnife.bind(this, view);
         anim = (AnimationDrawable)ll_coupon.getBackground();
-//        boolean isSame = false;
-//        String str = "aaaaaa";
-//        String[] str1 = str.split("");
-//        for (int i = 0; i < str1.length-1; i++) {
-//            if(str1[i].equals(str1[i+1])) {
-//                isSame = true;
-//            }else {
-//                isSame = false;
-//            }
-//        }
-//        Log.d("efasededa.......",isSame+"---");
         setListener();
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
@@ -723,6 +724,22 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             }
         });
 
+        SchoolDialog schoolDialog = new SchoolDialog(mActivity) {
+            @Override
+            public void GoToSchool() {
+                Intent intent = new Intent(mActivity, PlayerActivity.class);
+                startActivity(intent);
+                dismiss();
+            }
+
+            @Override
+            public void Confirm() {
+                dismiss();
+            }
+        };
+
+        schoolDialog.show();
+
 
         tv_change.setOnClickListener(this);
         tv_change_address.setOnClickListener(this);
@@ -735,6 +752,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         iv_huo_company.setOnClickListener(this);
         ll_coupon.setOnClickListener(this);
         lav_activity_loading.show();
+        ll_school.setOnClickListener(this);
         requestUpdate();
         refreshLayout.autoRefresh();
         mTypedialog = new AlertDialog.Builder(mActivity, R.style.DialogStyle).create();
@@ -891,6 +909,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             initDialog();
         }
     }
+
+
 
     @Override
     public void setClickEvent() {
@@ -2340,6 +2360,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.ll_school:
+                Intent intentsc = new Intent(mActivity, SchoolActivity.class);
+                startActivity(intentsc);
+            break;
             case R.id.rl_huo:
                 if(data.getHllOrderCallNum()>1) {
                     Intent intent = MyOrdersActivity.getIntent(getContext(), MyOrdersActivity.class, AppConstant.ALL);

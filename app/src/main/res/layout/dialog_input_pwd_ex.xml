@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/app_dialog_background"
+    android:background="@mipmap/bg_pay_dia"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -50,10 +50,9 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:paddingLeft="15dp"
+            android:gravity="center_horizontal"
             android:paddingTop="30dp"
             android:paddingBottom="10dp"
             android:text="请输入您的支付密码"
@@ -64,17 +63,17 @@
             android:id="@+id/et_dialog_paypwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="120dp"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/order_pay_pw_bg"
+            android:layout_marginRight="120dp"
+            android:background="@color/translucent"
             android:hint="请输入支付密码"
+            android:gravity="center"
             android:inputType="textPassword"
             android:paddingLeft="15dp"
             android:paddingTop="15dp"
             android:paddingRight="20dp"
             android:paddingBottom="10dp"
-
             android:textColor="#6E6E74"
             android:textColorHint="@color/app_cancle_gray"
             android:textSize="15dp" />
@@ -95,20 +94,20 @@
         android:layout_marginBottom="3dp"
         android:text="温馨提示：交易密码为6-12位字母与数字组合"
         android:textSize="11dp"
-        android:textColor="#555555"
+        android:textColor="#F75B2E"
+        android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
+        />
 
     <TextView
         android:id="@+id/tv_dialog_sure"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/shape_wallet_sure"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/shape_jianbian5"
         android:gravity="center"
         android:paddingLeft="23dp"
         android:paddingTop="8dp"
@@ -116,7 +115,7 @@
         android:paddingBottom="8dp"
         android:text="确认"
         android:textColor="@color/white"
-        android:textSize="12dp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_dialog_cancle"
@@ -132,6 +131,6 @@
         android:paddingRight="23dp"
         android:paddingBottom="8dp"
         android:text="忘记密码"
-        android:textColor="#555555"
-        android:textSize="12dp" />
+        android:textColor="#979797"
+        android:textSize="14sp" />
 </LinearLayout>

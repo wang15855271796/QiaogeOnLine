@@ -53,8 +53,8 @@ public class ModifyActivity extends BaseSwipeActivity implements View.OnClickLis
     TextView tv_phone;
     @BindView(R.id.iv_back)
     ImageView iv_back;
-    @BindView(R.id.tv_amount_remind)
-    TextView tv_amount_remind;
+//    @BindView(R.id.tv_amount_remind)
+//    TextView tv_amount_remind;
     @BindView(R.id.et_amount)
     TextView et_amount;
     private AmountSetDialog amountSetDialog;
@@ -102,7 +102,7 @@ public class ModifyActivity extends BaseSwipeActivity implements View.OnClickLis
     public void setViewData() {
         ButterKnife.bind(this);
         iv_back.setOnClickListener(this);
-        tv_amount_remind.setOnClickListener(this);
+//        tv_amount_remind.setOnClickListener(this);
         EventBus.getDefault().register(this);
 
         swipe.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -138,26 +138,6 @@ public class ModifyActivity extends BaseSwipeActivity implements View.OnClickLis
             }
         });
 
-//        swipe3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if(isChecked) {
-//                    SharedPreferencesUtil.saveString(mActivity,"notification","0");
-//                }else {
-//                    SharedPreferencesUtil.saveString(mActivity,"notification","1");
-//                }
-//                if(isChecked) {
-//                    amountSetDialog = new AmountSetDialog(mContext) {
-//                        @Override
-//                        public void Confirm() {
-//                            amountSetDialog.dismiss();
-//                        }
-//                    };
-//                    amountSetDialog.show();
-//                }
-//            }
-//        });
-
         swipe3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,9 +154,6 @@ public class ModifyActivity extends BaseSwipeActivity implements View.OnClickLis
                 }
             }
         });
-
-
-
 
         et_amount.setOnClickListener(this);
         tv_commit.setOnClickListener(new NoDoubleClickListener() {
@@ -230,7 +207,7 @@ public class ModifyActivity extends BaseSwipeActivity implements View.OnClickLis
                                 SharedPreferencesUtil.saveString(mContext,"amount",baseModel.getData().getAmount());
                             }
 
-                            tv_amount_remind.setText(baseModel.getData().getWarnAmount());
+//                            tv_amount_remind.setText(baseModel.getData().getWarnAmount());
 
                             if(baseModel.getData().getNotification().equals("0")) {
                                 swipe3.setChecked(false);
@@ -238,13 +215,13 @@ public class ModifyActivity extends BaseSwipeActivity implements View.OnClickLis
                                 swipe3.setChecked(true);
                             }
 
-                            if(baseModel.getData().getNotification().equals("0")) {
-                                tv_amount_remind.setText("可设置金额提醒");
-                            }else if(baseModel.getData().getNotification().equals("1")) {
-                                tv_amount_remind.setText("任意金额提醒");
-                            }else {
-                                tv_amount_remind.setText("满"+baseModel.getData().getWarnAmount()+"提醒");
-                            }
+//                            if(baseModel.getData().getNotification().equals("0")) {
+//                                tv_amount_remind.setText("可设置金额提醒");
+//                            }else if(baseModel.getData().getNotification().equals("1")) {
+//                                tv_amount_remind.setText("任意金额提醒");
+//                            }else {
+//                                tv_amount_remind.setText("满"+baseModel.getData().getWarnAmount()+"提醒");
+//                            }
 
                             if(baseModel.getData().getInBalance()==1) {
                                 swipe1.setChecked(false);
@@ -328,7 +305,7 @@ public class ModifyActivity extends BaseSwipeActivity implements View.OnClickLis
                 amountMaxDialog.show();
                 break;
 
-            case R.id.tv_amount_remind:
+//            case R.id.tv_amount_remind:
 //                amountSetDialog = new AmountSetDialog(mContext) {
 //                    @Override
 //                    public void Confirm() {
@@ -337,7 +314,7 @@ public class ModifyActivity extends BaseSwipeActivity implements View.OnClickLis
 //                };
 //
 //                amountSetDialog.show();
-                break;
+//                break;
         }
     }
 
@@ -345,9 +322,9 @@ public class ModifyActivity extends BaseSwipeActivity implements View.OnClickLis
     public void getAmount(SetAmountEvent event) {
         if(SharedPreferencesUtil.getString(mActivity,"flag").equals("2")) {
             if(event.amount.length()==0) {
-                tv_amount_remind.setText("请添加金额");
+//                tv_amount_remind.setText("请添加金额");
             }else {
-                tv_amount_remind.setText("满"+event.amount+"元消费提醒");
+//                tv_amount_remind.setText("满"+event.amount+"元消费提醒");
                 SharedPreferencesUtil.saveString(mContext,"amount_limit","1");
                 SharedPreferencesUtil.saveString(mContext,"warn_amount",event.amount);
                 SharedPreferencesUtil.saveString(mContext,"notification","2");
@@ -363,7 +340,7 @@ public class ModifyActivity extends BaseSwipeActivity implements View.OnClickLis
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getAmounts(SetAmountsEvent event) {
         if(SharedPreferencesUtil.getString(mActivity,"flag").equals("1")) {
-            tv_amount_remind.setText("任意金额提醒");
+//            tv_amount_remind.setText("任意金额提醒");
             swipe3.setChecked(true);
             SharedPreferencesUtil.saveString(mContext,"amount_limit","1");
             SharedPreferencesUtil.saveString(mContext,"warn_amount","0");
@@ -372,7 +349,7 @@ public class ModifyActivity extends BaseSwipeActivity implements View.OnClickLis
         }
 
         if(SharedPreferencesUtil.getString(mActivity,"flag").equals("0")) {
-            tv_amount_remind.setText("添加金额提醒");
+//            tv_amount_remind.setText("添加金额提醒");
             swipe3.setChecked(false);
             SharedPreferencesUtil.saveString(mContext,"amount_limit","0");
             SharedPreferencesUtil.saveString(mContext,"notification","0");

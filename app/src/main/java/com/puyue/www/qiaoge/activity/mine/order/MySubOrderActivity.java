@@ -192,13 +192,11 @@ public class MySubOrderActivity extends BaseActivity {
         mAdapterViewPager = new MyOrdersViewPagerAdapter(getSupportFragmentManager(), mListTitles, mListFragment);
 
 
-
         mViewPager.setOffscreenPageLimit(5);
         mAdapterViewPager.clear(mViewPager);
 
         mViewPager.setAdapter(mAdapterViewPager);
         mTab.setupWithViewPager(mViewPager);
-        Log.i("wwrarqrq", "initView: " + mType);
         if (StringHelper.notEmptyAndNull(mType)) {
             if (mType.equals(AppConstant.ALL)) {
                 //全部订单

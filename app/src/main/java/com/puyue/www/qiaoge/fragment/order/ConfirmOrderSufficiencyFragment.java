@@ -470,7 +470,8 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
 
                             @Override
                             public void onSuccess(int i, DrivingResultObject drivingResultObject) {
-                                tv_dis.setText("距您"+Math.ceil(drivingResultObject.result.routes.get(0).distance/1000)+"公里");
+                                String dis = "距您"+Math.ceil(drivingResultObject.result.routes.get(0).distance/1000)+"公里";
+                                tv_dis.setText(dis);
                             }
 
                             @Override

@@ -311,8 +311,8 @@ public class HomeFragmentsss extends BaseFragment implements View.OnClickListene
     RecyclerView rv_hot1;
     @BindView(R.id.tv_coupon_more)
     TextView tv_coupon_more;
-    @BindView(R.id.rv_test)
-    RecyclerView rv_test;
+//    @BindView(R.id.rv_test)
+//    RecyclerView rv_test;
     HotAdapter hotAdapter;
     Skill5Adapter skill5Adapter;
     IndexRecommendAdapter indexRecommendAdapter;
@@ -1201,8 +1201,8 @@ public class HomeFragmentsss extends BaseFragment implements View.OnClickListene
             listss.add(""+i);
         }
         frameLayout.setNestedScrollingEnabled(false);
-        rv_test.setLayoutManager(new LinearLayoutManager(mActivity));
-        rv_test.setAdapter(new MyAdapter(mActivity,listss));
+//        rv_test.setLayoutManager(new LinearLayoutManager(mActivity));
+//        rv_test.setAdapter(new MyAdapter(mActivity,listss));
         //秒杀短
 //        skill5Adapter = new Skill5Adapter(mActivity,skillActive3);
 //        rv_auto_view.setAdapter(skill5Adapter);

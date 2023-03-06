@@ -2,13 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f6f6f6"
+    android:background="#ffffff"
     android:orientation="vertical">
 
     <LinearLayout
         android:background="#ffffff"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_30dp"/>
+
     <com.puyue.www.qiaoge.view.CompatToolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,70 +35,125 @@
             android:textSize="15dp" />
     </com.puyue.www.qiaoge.view.CompatToolbar>
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_margin="@dimen/dp_10"
+        android:background="@drawable/shape_detail"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="220dp">
 
-        <ImageView
-            android:id="@+id/imageViewTitle"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/size_90dp"
-            android:layout_marginLeft="@dimen/size_15dp"
-            android:layout_marginRight="@dimen/size_15dp"
-            android:layout_marginTop="@dimen/size_15dp"
-            android:scaleType="fitXY"
-            android:src="@mipmap/bg_point" />
+            android:orientation="horizontal"
+            android:layout_height="@dimen/size_70dp">
 
-        <ImageView
-            android:id="@+id/pointButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_alignBottom="@+id/tvIntegral"
-            android:layout_marginRight="@dimen/size_25dp"
-            android:src="@mipmap/ic_ic_point_button" />
+            <RelativeLayout
+                android:id="@+id/rl_root1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="@dimen/size_70dp">
 
-        <ImageView
-            android:src="@mipmap/icon_city"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/size_32dp"
-            android:layout_marginTop="@dimen/size_25dp"
-            android:textColor="@color/white" />
+                <TextView
+                    android:id="@+id/tv1"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/size_11dp"
+                    android:layout_marginTop="@dimen/size_14dp"
+                    android:drawableLeft="@mipmap/ic_company_tip"
+                    android:drawablePadding="@dimen/size_5dp"
+                    android:text="企业名称"
+                    android:textColor="#FF1C04" />
 
-        <TextView
-            android:id="@+id/tv_city"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/size_55dp"
-            android:layout_marginTop="@dimen/size_20dp"
-            android:text="杭州"
-            android:textColor="@color/white"
-            android:textSize="@dimen/size_16dp" />
+                <TextView
+                    android:id="@+id/tv_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv1"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    android:layout_marginLeft="@dimen/size_14dp"
+                    android:layout_marginTop="@dimen/size_7dp"
+                    android:background="@drawable/shape_pink2"
+                    android:padding="@dimen/size_2dp"
+                    android:text="杭州翘歌网络科技有限公司"
+                    android:textColor="#FF1B02"
+                    android:textSize="11sp" />
 
-        <TextView
-            android:id="@+id/tvIntegral"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/size_32dp"
-            android:layout_marginTop="@dimen/size_40dp"
-            android:text="1000"
-            android:textColor="@color/white"
-            android:textSize="@dimen/size_35dp" />
+            </RelativeLayout>
 
-        <TextView
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="@dimen/size_70dp">
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tvIntegral"
-            android:layout_marginLeft="@dimen/size_5dp"
-            android:layout_toRightOf="@+id/tvIntegral"
-            android:paddingBottom="@dimen/size_10dp"
-            android:text="分"
-            android:textColor="@color/white"
-            android:textSize="@dimen/size_18dp" />
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/size_11dp"
+                    android:layout_marginTop="@dimen/size_14dp"
+                    android:drawableLeft="@mipmap/ic_jf_tip"
+                    android:drawablePadding="@dimen/size_5dp"
+                    android:text="积分商城"
+                    android:textColor="#FF1C04"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/pointButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv2"
+                    android:layout_marginLeft="@dimen/size_14dp"
+                    android:layout_marginTop="@dimen/size_7dp"
+                    android:background="@drawable/shape_red1"
+                    android:padding="@dimen/size_2dp"
+                    android:text="进入积分商城>>"
+                    android:textColor="#ffffff"
+                    android:textSize="11sp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_margin="@dimen/dp_10"
+            android:background="@mipmap/bg_point"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/size_22dp"
+                android:layout_marginTop="@dimen/size_32dp"
+                android:text="我的积分"
+                android:textColor="#ffffff"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tvIntegral"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv1"
+                android:layout_marginLeft="@dimen/size_22dp"
+                android:text="3320"
+                android:textColor="#ffffff"
+                android:textSize="33sp" />
+
+            <TextView
+                android:text="分"
+                android:textColor="#ffffff"
+                android:layout_below="@+id/tv1"
+                android:layout_marginTop="@dimen/size_18dp"
+                android:layout_toRightOf="@+id/tvIntegral"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textViewTitle"
@@ -105,6 +161,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/size_5dp"
         android:padding="@dimen/size_10dp"
+        android:drawablePadding="@dimen/size_5dp"
+        android:drawableLeft="@mipmap/ic_point"
         android:text="@string/mineIntegralDetailed"
         android:textColor="@color/app_black"
         android:textSize="@dimen/size_15dp" />
@@ -116,10 +174,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
-            android:layout_margin="@dimen/dp_10"
-            android:background="@drawable/shape_white1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
     </in.srain.cube.views.ptr.PtrClassicFrameLayout>
 
     <include layout="@layout/view_nodata" />

@@ -28,11 +28,11 @@
             android:layout_height="wrap_content" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_below="@+id/tv"
-            android:layout_marginTop="@dimen/size_20dp"
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv"
+            android:layout_marginTop="@dimen/size_20dp">
 
         </androidx.recyclerview.widget.RecyclerView>
 
@@ -49,10 +49,10 @@
             android:layout_height="wrap_content" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_below="@+id/tv1"
             android:id="@+id/recyclerView1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv1">
 
         </androidx.recyclerview.widget.RecyclerView>
 

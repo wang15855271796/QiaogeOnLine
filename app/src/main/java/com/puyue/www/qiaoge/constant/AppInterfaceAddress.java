@@ -6,7 +6,7 @@ package com.puyue.www.qiaoge.constant;
 public class AppInterfaceAddress {
     //https://shaokao.qoger.com/qiaoge/正式   http://192.168.2.188:8082/qiaoge/
     //http://116.62.67.230:8082/qiaoge/   测试http://120.55.55.99:8082/qiaoge/
-    public static final String BASE_URL = "http://192.168.2.203:8088/";
+    public static final String BASE_URL = " http://192.168.2.188:8082/qiaoge/";
     // 正式https://shaokao.qoger.com/qiaoge/
     //http://192.168.1.45/   本地192.168.101.69:8088
     //http://qg.zhiyun88u.com/shen
@@ -349,6 +349,13 @@ public class AppInterfaceAddress {
      * 支付列表
      */
     public static final String Pay_List = "app/payChannelList";
+
+    /**
+     *
+     * 支付列表2
+     */
+    public static final String Pay_Info_List = "common/getMsgPayChannel";
+
     /**
      *
      * 判断地址是否在配送范围内
@@ -645,7 +652,10 @@ public class AppInterfaceAddress {
      * 生成订单
      */
     public static final String CART_GENERATEORDER = "cart/generateOrder";
+    //我的积分
     public static final String POINT_MYPOINT = "point/myPoint";
+    //积分商城
+    public static final String Point_Shop = "user/queryMallGiftList";
     public static final String WALLETGETMYBALANCEINFO = "wallet/getMyBalanceInfo";
     public static final String COMMONSHARGETSHAREINFO = "common/share/getShareInfo";
     public static final String AUTHQUERYHOMEPROPUP = "auth/queryHomePropup";

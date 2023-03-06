@@ -38,7 +38,6 @@ public class NewOrderDetailAdapter extends BaseQuickAdapter<GetOrderDetailModel.
     RelativeLayout rl;
     TextView tv_copy;
     Activity mActivity;
-    ImageView iv_operate_pic;
     public NewOrderDetailAdapter(Activity mActivity,int layoutResId, @Nullable List<GetOrderDetailModel.DataBean.OrderProdsBean> data, String orderId) {
         super(layoutResId, data);
         this.orderId = orderId;
@@ -47,17 +46,19 @@ public class NewOrderDetailAdapter extends BaseQuickAdapter<GetOrderDetailModel.
 
     @Override
     protected void convert(BaseViewHolder helper, GetOrderDetailModel.DataBean.OrderProdsBean item) {
-        iv_operate_pic = helper.getView(R.id.iv_operate_pic);
-        tv_title = helper.getView(R.id.tv_title);
         tv_time = helper.getView(R.id.tv_time);
         tv_num = helper.getView(R.id.tv_num);
         rv1 = helper.getView(R.id.rv1);
         rl = helper.getView(R.id.rl);
         tv_copy = helper.getView(R.id.tv_copy);
         tv_num.setText("订单编号:"+item.orderId);
-        tv_title.setText(item.title);
-        tv_time.setText(item.sendTimeStr);
-        Glide.with(mContext).load(item.sendTimeTpl).into(iv_operate_pic);
+        if(null!=item.sendTimeStr && !item.sendTimeStr.equals("")) {
+            tv_time.setText(item.sendTimeStr);
+            tv_time.setVisibility(View.VISIBLE);
+        }else {
+            tv_time.setVisibility(View.GONE);
+        }
+
         tv_copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

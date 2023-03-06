@@ -69,11 +69,14 @@ import com.puyue.www.qiaoge.view.GCJ02ToWGS84Util;
 import com.puyue.www.qiaoge.view.GradientColorTextView;
 import com.puyue.www.qiaoge.view.PickCityUtil;
 import com.puyue.www.qiaoge.view.SnapUpCountDownTimerView;
+import com.puyue.www.qiaoge.view.SnapUpCountDownTimerView3;
 import com.tencent.lbssearch.TencentSearch;
 import com.tencent.lbssearch.httpresponse.BaseObject;
 import com.tencent.lbssearch.httpresponse.HttpResponseListener;
 import com.tencent.lbssearch.object.param.Address2GeoParam;
+import com.tencent.lbssearch.object.param.DrivingParam;
 import com.tencent.lbssearch.object.result.Address2GeoResultObject;
+import com.tencent.lbssearch.object.result.DrivingResultObject;
 import com.tencent.mapsdk.raster.model.GeoPoint;
 import com.tencent.tencentmap.mapsdk.map.ItemizedOverlay;
 import com.tencent.tencentmap.mapsdk.map.MapView;
@@ -113,7 +116,7 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
     // 非退货订单layout 头部
     private LinearLayout orderLinearLayout;
     private TextView tvOrderTitle; //订单类型
-    private SnapUpCountDownTimerView orderTimerView; //倒计时
+    private SnapUpCountDownTimerView3 orderTimerView; //倒计时
     private TextView tvOrderContent; //订单内容
     private LinearLayout threeButtonLayout; //三个按钮（退货按钮 评价按钮 在次购买按钮）
     private TextView buttonReturnGoods; // 退货按钮
@@ -148,8 +151,6 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
     TextView tv_beizhu;
 
     //以下是每个订单详情都有的订单信息
-    private TextView tvNewOrderAddresseeName;
-    private TextView tvNewOrderAddress;
     private TextView tvNewOrderTime;//下单时间
     private LinearLayout ll_pay;
     private TextView tvNewOrderRemarks; //备注
@@ -194,7 +195,6 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
 
     private TextView mTvDeliverTime;
     private LinearLayout mLinearLayoutDeliver;
-    private LinearLayout linearLayoutAddressArrow;
     private TextView sendAmountStr;
     private TextView tvDeductDsc;
     private TextView tvNomalReductDesc;
@@ -204,25 +204,15 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
     private LinearLayout mLinearLayoutShipped;
 
     private LinearLayout mLinearLayoutEvalute;
-    private LinearLayout mLinearLayoutReciverOrder;
     //复制订单
     private TextView tvCopyOrderOne;
     private TextView tvCopyOrderTwo;
     private TextView tvCopyOrderThree;
 
     private TextView mTvConfirmOrder;
-    //物流信息
-    private RelativeLayout mRelativeDriver;
-    private TextView mTvDriverDeliverTime;
-    private ImageView mFreshDriverStatus;
-    private TextView mTvOrderStatus;
-    private TextView mTvSeeDriverStatus;
-    private TextView mTvDriverName;
     private TextView mTvOrderReturn;
-    private TextView tv_return_reason;
 
     private TextView tv_return_status;
-    private TextView tv_driver_phone;
     private TextView tv_normal_vip_desc;
     private LoadingDailog dialog;
     private TextView buttonReturnGood_two;
@@ -235,38 +225,16 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
     MapView mMapView;
     double latitude1;//仓库位置
     double longitude1;
-
-    double latitude2;//用户位置
-    double longitude2;
     private TextView tv_address;
-
     private BottomSheetDialog mDialogMap;
     private String title;
     private String content;
-
-
-    private LinearLayout iv_time_arrow;
     private TextView tv_year;
-    private TextView tv_hour;
-
-
-    private String mYear;
-    private String mHour;
-    private TextView et_time;
-    private String deliverTimeStart = "";
-    private String deliverTimeEnd = "";
-
-    private String deliverTimeName = "";
-
     private TextView address;
 
     private LinearLayout ll_activity_order_address;
     private LinearLayout ll_one;
     private LinearLayout ll_two;
-
-
-    private TextView tv_phone;
-
     private LinearLayout ll_deliver;
     private List<GetOrderDetailModel.DataBean.SendGiftInfo> list_full = new ArrayList<>();
 
@@ -283,7 +251,7 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
     TextView tv_payWay;
     TextView tv_total_amount;
     LinearLayout deliver_linearLayout;
-
+    TextView tv_dis;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -317,7 +285,7 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         orderLinearLayout = (LinearLayout) findViewById(R.id.orderLinearLayout);
         tvOrderTitle = (TextView) findViewById(R.id.tvOrderTitle);
-        orderTimerView = (SnapUpCountDownTimerView) findViewById(R.id.orderTimerView);
+        orderTimerView = (SnapUpCountDownTimerView3) findViewById(R.id.orderTimerView);
         tvOrderContent = (TextView) findViewById(R.id.tvOrderContent);
         threeButtonLayout = (LinearLayout) findViewById(R.id.threeButtonLayout);
         buttonReturnGoods = (TextView) findViewById(R.id.buttonReturnGoods);
@@ -347,9 +315,6 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
         tvNewOrderTime = (TextView) findViewById(R.id.tvNewOrderTime);
 //        tvNewOrderPay = (ImageView) findViewById(R.id.tvNewOrderPay);
         tvNewOrderRemarks = (TextView) findViewById(R.id.tvNewOrderRemarks);
-
-        tvNewOrderAddresseeName = (TextView) findViewById(R.id.tvNewOrderAddresseeName);
-        tvNewOrderAddress = (TextView) findViewById(R.id.tvNewOrderAddress);
         tvNewOrderPayTimeLinearLayout = (LinearLayout) findViewById(R.id.tvNewOrderPayTimeLinearLayout);
         tvNewOrderPayTime = (TextView) findViewById(R.id.tvNewOrderPayTime);
         newOrderReturnTimeLinearLayout = (LinearLayout) findViewById(R.id.newOrderReturnTimeLinearLayout);
@@ -368,26 +333,15 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
         tv_buttonAgainBuy = (TextView) findViewById(R.id.tv_buttonAgainBuy);
         mTvDeliverTime = findViewById(R.id.tv_deliver_time);
         mLinearLayoutDeliver = findViewById(R.id.deliver_linearLayout);
-        linearLayoutAddressArrow = findViewById(R.id.linearLayout_address_arrow);
         sendAmountStr = findViewById(R.id.tv_send_amount_str);
         tvDeductDsc = findViewById(R.id.tv_deduct_desc);
-//        tvNomalReductDesc = findViewById(R.id.tv_normal_reduct_desc);
-
+        tv_dis = findViewById(R.id.tv_dis);
         mLinearLayoutShipped = findViewById(R.id.linearLayout_shipped);
         mLinearLayoutEvalute = findViewById(R.id.linearLayout_evalute);
-        mLinearLayoutReciverOrder = findViewById(R.id.linearLayout_get_order);
         tvCopyOrderOne = findViewById(R.id.copy_order);
         tvCopyOrderTwo = findViewById(R.id.tv_get_order_copy);
         tvCopyOrderThree = findViewById(R.id.tv_copy_order);
         mTvConfirmOrder = findViewById(R.id.tv_confirm_order);
-        mRelativeDriver = findViewById(R.id.relativeLayout_driver);
-        mTvDriverDeliverTime = findViewById(R.id.tv_driver_content);
-        mFreshDriverStatus = findViewById(R.id.iv_fresh_status);
-        mTvOrderStatus = findViewById(R.id.tv_order_status);
-        mTvSeeDriverStatus = findViewById(R.id.tv_order_driver_message);
-        mTvDriverName = findViewById(R.id.tv_driver_name);
-        tv_return_reason = findViewById(R.id.tv_return_reason);
-        tv_driver_phone = findViewById(R.id.tv_driver_phone);
         tv_normal_vip_desc = findViewById(R.id.tv_normal_vip_desc);
         buttonReturnGood_two = findViewById(R.id.buttonReturnGood_two);
         et_name = (TextView) findViewById(R.id.et_name);
@@ -395,28 +349,25 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
         tv_address = (TextView) findViewById(R.id.tv_address);
         //获取地图控件引用
         mMapView = (MapView) findViewById(R.id.bmapView);
-        iv_time_arrow = (LinearLayout) findViewById(R.id.iv_time_arrow);
         tv_year = (TextView) findViewById(R.id.tv_year);
-        tv_hour = (TextView) findViewById(R.id.tv_hour);
-        et_time = (TextView) findViewById(R.id.et_time);
+//        et_time = (TextView) findViewById(R.id.et_time);
 
 
         address = (TextView) findViewById(R.id.address);
         ll_activity_order_address = findViewById(R.id.ll_activity_order_address);
         ll_one = findViewById(R.id.ll_one);
         ll_two = findViewById(R.id.ll_two);
-        tv_phone = findViewById(R.id.tv_phone);
         ll_deliver = findViewById(R.id.ll_deliver);
         tv_evaluate = findViewById(R.id.tv_evaluate);
     }
 
-    TencentMap map;
+    com.tencent.tencentmap.mapsdk.maps.model.LatLng latLng1;
+    com.tencent.tencentmap.mapsdk.maps.model.LatLng latLng;
     @Override
     public void setViewData() {
 
         // setTranslucentStatus();
 //        EventBus.getDefault().register(this);
-
         mLinearLayoutDeliver.setVisibility(View.GONE);
         newOrderReturnTimeLinearLayout.setVisibility(View.GONE);
         examineTimeLinearLayout.setVisibility(View.GONE);
@@ -428,8 +379,7 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
 
         goAccount = getIntent().getStringExtra("goAccount");
         account = getIntent().getStringExtra("account");
-        et_time.setVisibility(View.GONE);
-        tv_hour.setVisibility(View.VISIBLE);
+//        et_time.setVisibility(View.GONE);
         tv_year.setVisibility(View.VISIBLE);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         mapss = supportMapFragment.getMap();
@@ -453,28 +403,20 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
 //            }
 //        });
 
-        iv_time_arrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
-
-        et_time.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showGetTime();
-            }
-        });
+//        et_time.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showGetTime();
+//            }
+//        });
 
         //未支付，15分钟后跳转到取消订单
-        orderTimerView.setTimeout(new SnapUpCountDownTimerView.Timeout() {
+        orderTimerView.setTimeout(new SnapUpCountDownTimerView3.Timeout() {
             @Override
             public void getStop() {
                 if (orderStatusRequest == 1) {
                     cancelOrder(orderId);
                 }
-
-
             }
         });
 
@@ -491,44 +433,128 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
         tvInfo.getPaint().setShader(mLinearGradient);
     }
 
-    protected void geocoder(String address) {
-        TencentSearch tencentSearch = new TencentSearch(mActivity);
-        Address2GeoParam address2GeoParam =
-                new Address2GeoParam(address).region(UserInfoHelper.getCity(mActivity));
-        tencentSearch.address2geo(address2GeoParam, new HttpResponseListener<BaseObject>() {
-
-            @Override
-            public void onSuccess(int arg0, BaseObject arg1) {
-                if (arg1 == null) {
-                    return;
-                }
-                Address2GeoResultObject obj = (Address2GeoResultObject)arg1;
-                StringBuilder sb = new StringBuilder();
-                sb.append("地址解析");
-                if (obj.result.latLng != null) {
-                    sb.append("\n坐标：" + obj.result.latLng.toString());
-                } else {
-                    sb.append("\n无坐标");
-                }
-                com.tencent.tencentmap.mapsdk.maps.model.LatLng latLng = obj.result.latLng;
-                CameraUpdate cameraSigma =
-                        CameraUpdateFactory.newCameraPosition(new CameraPosition(
-                                new com.tencent.tencentmap.mapsdk.maps.model.LatLng(latLng.latitude,latLng.longitude),
-                                15,
-                                0f,
-                                0f));
-                //移动地图
-                mapss.moveCamera(cameraSigma);
-                getWalkingRoute(latLng);
-
+//    protected void geocoder(String address) {
+//        TencentSearch tencentSearch = new TencentSearch(mActivity);
+//        Address2GeoParam address2GeoParam =
+//                new Address2GeoParam(address).region(UserInfoHelper.getCity(mActivity));
+//        tencentSearch.address2geo(address2GeoParam, new HttpResponseListener<BaseObject>() {
+//
+//            @Override
+//            public void onSuccess(int arg0, BaseObject arg1) {
+//                if (arg1 == null) {
+//                    return;
+//                }
+//                Address2GeoResultObject obj = (Address2GeoResultObject)arg1;
+//                StringBuilder sb = new StringBuilder();
+//                sb.append("地址解析");
+//                if (obj.result.latLng != null) {
+//                    sb.append("\n坐标：" + obj.result.latLng.toString());
+//                } else {
+//                    sb.append("\n无坐标");
+//                }
+//                com.tencent.tencentmap.mapsdk.maps.model.LatLng latLng = obj.result.latLng;
+//                CameraUpdate cameraSigma =
+//                        CameraUpdateFactory.newCameraPosition(new CameraPosition(
+//                                new com.tencent.tencentmap.mapsdk.maps.model.LatLng(latLng.latitude,latLng.longitude),
+//                                15,
+//                                0f,
+//                                0f));
+//                //移动地图
+//                mapss.moveCamera(cameraSigma);
+//                getWalkingRoute(latLng);
+//
+//            }
+//
+//            @Override
+//            public void onFailure(int arg0, String arg1, Throwable arg2) {
+//                Log.e("test", "error code:" + arg0 + ", msg:" + arg1);
+//            }
+//        });
+//    }
+protected void geocoder(String address) {
+    TencentSearch tencentSearch = new TencentSearch(mActivity);
+    Address2GeoParam address2GeoParam = new Address2GeoParam(address).region(UserInfoHelper.getCity(mActivity));
+    tencentSearch.address2geo(address2GeoParam, new HttpResponseListener<BaseObject>() {
+        @Override
+        public void onSuccess(int arg0, BaseObject arg1) {
+            if (arg1 == null) {
+                return;
             }
-
-            @Override
-            public void onFailure(int arg0, String arg1, Throwable arg2) {
-                Log.e("test", "error code:" + arg0 + ", msg:" + arg1);
+            Address2GeoResultObject obj = (Address2GeoResultObject)arg1;
+            StringBuilder sb = new StringBuilder();
+            sb.append("地址解析");
+            if (obj.result.latLng != null) {
+                sb.append("\n坐标：" + obj.result.latLng.toString());
+            } else {
+                sb.append("\n无坐标");
             }
-        });
-    }
+            latLng = obj.result.latLng;
+            CameraUpdate cameraSigma =
+                    CameraUpdateFactory.newCameraPosition(new CameraPosition(
+                            new com.tencent.tencentmap.mapsdk.maps.model.LatLng(latLng.latitude,latLng.longitude),
+                            15,
+                            0f,
+                            0f));
+            //移动地图
+            mapss.moveCamera(cameraSigma);
+            getWalkingRoute(latLng);
+
+            //用户地址
+            Address2GeoParam address2GeoParam1 = new Address2GeoParam(UserInfoHelper.getProvince(mActivity)+UserInfoHelper.getCity(mActivity)
+                    +UserInfoHelper.getAreaName(mActivity)).region(UserInfoHelper.getCity(mActivity));
+            tencentSearch.address2geo(address2GeoParam1, new HttpResponseListener<BaseObject>() {
+                @Override
+                public void onSuccess(int arg0, BaseObject arg1) {
+                    if (arg1 == null) {
+                        return;
+                    }
+                    Address2GeoResultObject obj = (Address2GeoResultObject)arg1;
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("地址解析");
+                    if (obj.result.latLng != null) {
+                        sb.append("\n坐标：" + obj.result.latLng.toString());
+                    } else {
+                        sb.append("\n无坐标");
+                    }
+                    latLng1 = obj.result.latLng;
+
+                    DrivingParam drivingParam = new DrivingParam(latLng, latLng1); //创建导航参数
+
+                    drivingParam.roadType(DrivingParam.RoadType.ON_MAIN_ROAD_BELOW_BRIDGE);
+                    drivingParam.heading(90);
+                    drivingParam.accuracy(30);
+                    TencentSearch tencentSearch1 = new TencentSearch(mActivity);
+
+                    tencentSearch1.getRoutePlan(drivingParam, new HttpResponseListener<DrivingResultObject>() {
+
+                        @Override
+                        public void onSuccess(int i, DrivingResultObject drivingResultObject) {
+                            String dis = "距您"+Math.ceil(drivingResultObject.result.routes.get(0).distance/1000)+"公里";
+                            tv_dis.setText(dis);
+                        }
+
+                        @Override
+                        public void onFailure(int i, String s, Throwable throwable) {
+                        }
+                    });
+
+                }
+
+                @Override
+                public void onFailure(int arg0, String arg1, Throwable arg2) {
+
+                }
+            });
+
+        }
+
+        @Override
+        public void onFailure(int arg0, String arg1, Throwable arg2) {
+            Log.e("test", "error code:" + arg0 + ", msg:" + arg1);
+        }
+    });
+
+}
 
     private void getWalkingRoute(com.tencent.tencentmap.mapsdk.maps.model.LatLng latLng){
         MarkerOptions options = new MarkerOptions(latLng);
@@ -624,15 +650,12 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
         buttonAgainBuy.setOnClickListener(noDoubleClickListener);
         tv_delete.setOnClickListener(noDoubleClickListener);
         tv_buttonAgainBuy.setOnClickListener(noDoubleClickListener);
-        linearLayoutAddressArrow.setOnClickListener(noDoubleClickListener);
 
         tvCopyOrderOne.setOnClickListener(noDoubleClickListener);
         tvCopyOrderTwo.setOnClickListener(noDoubleClickListener);
         tvCopyOrderThree.setOnClickListener(noDoubleClickListener);
         mTvConfirmOrder.setOnClickListener(noDoubleClickListener);
-        mFreshDriverStatus.setOnClickListener(noDoubleClickListener);
         mTvOrderReturn.setOnClickListener(noDoubleClickListener);
-        mTvSeeDriverStatus.setOnClickListener(noDoubleClickListener);
         buttonReturnGood_two.setOnClickListener(noDoubleClickListener);
 
         et_phone.setOnClickListener(noDoubleClickListener);
@@ -661,7 +684,6 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
         double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) +
                 Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
         s = s * EARTH_RADIUS * 1000;
-//	   s = Math.round(s * 10000) / 10000;
         return s;
     }
 
@@ -673,122 +695,9 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
     protected void onResume() {
         super.onResume();
         getOrderDetail(orderId);
-
-
     }
 
     private GetTimeOrderModel dataBean;
-
-    private void showGetTime() {
-        GetOrderDeliverTimeAPI.requestOrderSelfTime(mActivity)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<GetTimeOrderModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(GetTimeOrderModel getTimeOrderModel) {
-                        List<String> listYear = new ArrayList<>();
-
-                        List<List<String>> listTimer = new ArrayList<>();
-                        if (getTimeOrderModel.isSuccess()) {
-                            dataBean = getTimeOrderModel;
-
-                            for (int i = 0; i < getTimeOrderModel.getData().size(); i++) {
-                                listYear.add(getTimeOrderModel.getData().get(i).getDateTime());
-                            }
-
-                            for (int i = 0; i < getTimeOrderModel.getData().size(); i++) {
-                                List<String> listTime = new ArrayList<>();
-                                for (int j = 0; j < getTimeOrderModel.getData().get(i).getDetailTime().size(); j++) {
-                                    listTime.add(getTimeOrderModel.getData().get(i).getDetailTime().get(j).getName() + "(" + getTimeOrderModel.getData().get(i).getDetailTime().get(j).getStartTime() + "-" + getTimeOrderModel.getData().get(i).getDetailTime().get(j).getEndTime() + ")");
-
-                                }
-                                listTimer.add(listTime);
-                            }
-
-                            PickCityUtil.showDoublePickView(mActivity, listYear, listTimer, "请选择自提时间段", new PickCityUtil.ChooseDPositionListener() {
-                                @Override
-                                public void choosePosition(int position1, int position2, String s) {
-                                    et_time.setVisibility(View.GONE);
-                                    tv_hour.setVisibility(View.VISIBLE);
-                                    tv_year.setVisibility(View.VISIBLE);
-                                    mYear = listYear.get(position1);
-
-
-                                    // tv_year.setText(mYear);
-                                    //  deliverTimeStart = dataBean.getData().get(position1).getDetailTime().get(position2).getStartTime();
-                                    //  deliverTimeEnd = dataBean.getData().get(position1).getDetailTime().get(position2).getEndTime();
-                                    //   deliverTimeName = dataBean.getData().get(position1).getDetailTime().get(position2).getName();
-                                    //    tv_hour.setText(dataBean.getData().get(position1).getDetailTime().get(position2).getStartTime() + "-" + dataBean.getData().get(position1).getDetailTime().get(position2).getEndTime());
-
-                                    PostModifyMesAPI.requestModifyMsg(mContext, orderId, et_name.getText().toString(), et_phone.getText().toString(), listYear.get(position1), dataBean.getData().get(position1).getDetailTime().get(position2).getStartTime(), dataBean.getData().get(position1).getDetailTime().get(position2).getEndTime(), dataBean.getData().get(position1).getDetailTime().get(position2).getName())
-                                            .subscribeOn(Schedulers.io())
-                                            .observeOn(AndroidSchedulers.mainThread())
-                                            .subscribe(new Subscriber<BaseModel>() {
-                                                @Override
-                                                public void onCompleted() {
-
-                                                }
-
-                                                @Override
-                                                public void onError(Throwable e) {
-
-                                                }
-
-                                                @Override
-                                                public void onNext(BaseModel baseModel) {
-                                                    if (baseModel.success) {
-
-                                                        tv_year.setText(mYear);
-                                                        deliverTimeStart = dataBean.getData().get(position1).getDetailTime().get(position2).getStartTime();
-                                                        deliverTimeEnd = dataBean.getData().get(position1).getDetailTime().get(position2).getEndTime();
-                                                        deliverTimeName = dataBean.getData().get(position1).getDetailTime().get(position2).getName();
-                                                        tv_hour.setText(dataBean.getData().get(position1).getDetailTime().get(position2).getStartTime() + "-" + dataBean.getData().get(position1).getDetailTime().get(position2).getEndTime());
-
-                                                    } else {
-                                                        AppHelper.showMsg(mContext, baseModel.message);
-                                                    }
-
-                                                }
-                                            });
-                                }
-                            });
-                        }
-                    }
-                });
-
-
-        List<String> list1 = new ArrayList<>();
-        list1.clear();
-        list1.add("AAA");
-        list1.add("BBB");
-        list1.add("CCC");
-        list1.add("DDD");
-
-        List<String> list2 = new ArrayList<>();
-        list2.clear();
-        list2.add("aaa");
-        list2.add("bbb");
-        list2.add("ccc");
-        list2.add("ddd");
-
-        List<List<String>> list = new ArrayList<>();
-        list.clear();
-        for (int i = 0; i < list1.size(); i++) {
-            list.add(list2);
-        }
-
-
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -803,7 +712,6 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
 
     @Subscribe
     public void onEventMainThread(AddressEvent event) {
-
         list.clear();
         getOrderDetail(orderId);
 
@@ -872,14 +780,9 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
                             content = orderDetailModel.data.wareAddress;
                             if (orderDetailModel != null) {
                                 setText(orderDetailModel);
-//                                mCoder.geocode(new GeoCodeOption()
-//                                        .city("杭州")
-//                                        .address(orderDetailModel.data.wareAddress));
-                                tv_year.setText(orderDetailModel.data.sendStartTime);
-                                tv_hour.setText(orderDetailModel.data.deliverTimeStart + "-" + orderDetailModel.data.deliverTimeEnd);
+                                tv_year.setText(orderDetailModel.data.sendStartTime + orderDetailModel.data.deliverTimeEnd);
                                 et_name.setText(orderDetailModel.data.pickUserName);
                                 et_phone.setText(orderDetailModel.data.pickPhone);
-//                                address.setText(orderDetailModel.data.wareName);
                                 tv_address.setText(orderDetailModel.data.wareAddress);
                                 list.clear();
                                 if (orderDetailModel.data.orderProds.size() > 0) {
@@ -946,30 +849,8 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
         //优惠券描述
         tvDeductDsc.setText(getOrderDetailModel.giftName);
         tvNewOrderPayTime.setText(getOrderDetailModel.payDate);
-        mTvDriverName.setText(getOrderDetailModel.driverName);
-        tv_driver_phone.setText(getOrderDetailModel.driverPhone);
-        tvNewOrderAddresseeName.setText(getOrderDetailModel.addressVO.userName + "    "
-                + getOrderDetailModel.addressVO.contactPhone);
-        tvNewOrderAddress.setText(getOrderDetailModel.addressVO.provinceName + getOrderDetailModel.addressVO.cityName
-                + getOrderDetailModel.addressVO.areaName + getOrderDetailModel.addressVO.detailAddress);
         tvNewOrderVipSubtractionPrice.setText(" ￥ " + getOrderDetailModel.vipReduct);
         tvNewOrderRemarks.setText(getOrderDetailModel.remark);
-
-        if (orderStatusRequest == 2) {
-            mTvDriverDeliverTime.setText(getOrderDetailModel.payDate);
-        } else if (orderStatusRequest == 14) {
-            mTvDriverDeliverTime.setText(getOrderDetailModel.waitSendReceiveTime);
-        } else if (orderStatusRequest == 3) {
-            mTvDriverDeliverTime.setText(getOrderDetailModel.confirmDate);
-        }
-
-        if (orderStatusRequest == 2) {
-            mTvOrderStatus.setText("等待接收订单");
-        } else if (orderStatusRequest == 14) {
-            mTvOrderStatus.setText("订单已接收");
-        } else if (orderStatusRequest == 3) {
-            mTvOrderStatus.setText("装车完成-已发货");
-        }
 
         //倒计时设置
         orderTimerView.SnapUpCountDownTimerViewType(mContext, 1);
@@ -1016,7 +897,6 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
         ll_activity_order_address.setVisibility(orderStatusRequest == 1 || orderStatusRequest == 2 ? View.VISIBLE : View.GONE);
         ll_one.setVisibility(orderStatusRequest == 1 || orderStatusRequest == 2 ? View.VISIBLE : View.GONE);
         ll_two.setVisibility(orderStatusRequest == 1 || orderStatusRequest == 2 ? View.VISIBLE : View.GONE);
-        iv_time_arrow.setVisibility(orderStatusRequest == 1 || orderStatusRequest == 2 ? View.VISIBLE : View.GONE);
 
         et_name.setEnabled(orderStatusRequest == 1 || orderStatusRequest == 2 ? true : false);
         et_phone.setEnabled(orderStatusRequest == 1 || orderStatusRequest == 2 ? true : false);
@@ -1030,10 +910,9 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
 
         if (orderStatusRequest == 1) {
             orderTimerView.setVisibility(View.VISIBLE);
-            linearLayoutAddressArrow.setVisibility(View.VISIBLE);
+
         } else {
             orderTimerView.setVisibility(View.GONE);
-            linearLayoutAddressArrow.setVisibility(View.GONE);
         }
 
         //  orderTimerView.setVisibility(orderStatusRequest == 1 ? View.VISIBLE : View.GONE);
@@ -1369,14 +1248,6 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
                 case R.id.tv_delete:
                     deleteOrder();
                     break;
-                case R.id.linearLayout_address_arrow:
-                    Intent intent_ = new Intent(mContext, AddressListActivity.class);
-
-                    intent_.putExtra("orderId", orderId);
-                    intent_.putExtra("type", 1);
-                    startActivity(intent_);
-                    break;
-
 
                 case R.id.copy_order:
                     requestCopyToCart();
@@ -1388,24 +1259,7 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
                 case R.id.tv_copy_order:
                     requestCopyToCart();
                     break;
-                case R.id.iv_fresh_status:
-                    LoadingDailog.Builder loadBuilder = new LoadingDailog.Builder(mContext)
-                            .setMessage("获取数据中")
-                            .setCancelable(false)
 
-                            .setCancelOutside(true);
-                    dialog = loadBuilder.create();
-                    dialog.show();
-                    getOrderDetailDialog(orderId);
-                    break;
-
-                //查看物流信息
-                case R.id.tv_order_driver_message:
-
-                    Intent intent1 = new Intent(mContext, MapOrderMessageActivity.class);
-                    intent1.putExtra("orderId", orderId);
-                    startActivity(intent1);
-                    break;
                 case R.id.et_name:
                     showModifyMsg(1);
                     break;

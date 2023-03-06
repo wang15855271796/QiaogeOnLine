@@ -515,7 +515,6 @@ public class EditAddressActivity extends BaseSwipeActivity  {
                 tv_edit_address_area.setText(tx);
                 tv_edit_address_area.setTextColor(Color.parseColor("#333333"));
                 cityName = options2Items.get(options1).get(options2)+"";
-
                 areaName1 = options3Items.get(options1).get(options2).get(options3)+"";
                 clickFlag = false;
             }

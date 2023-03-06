@@ -1,35 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/size_66dp"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/app_color_white"
+    android:background="@drawable/shape_white1"
+    android:layout_marginLeft="@dimen/dp_10"
+    android:layout_marginRight="@dimen/dp_10"
+    android:layout_marginTop="@dimen/dp_10"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/ll_item_sub_account_mes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="15dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
         android:orientation="vertical">
 
         <TextView
-            android:text="名称"
             android:id="@+id/tv_item_sub_account_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="名称"
             android:textColor="@color/app_top_bar_text"
             tools:textSize="15dp" />
 
         <TextView
             android:id="@+id/tv_item_sub_account_phone"
-            tools:text="18757104843"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textColor="#666666"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            tools:text="18757104843" />
     </LinearLayout>
 
     <LinearLayout
@@ -43,46 +46,50 @@
             android:id="@+id/tv_look"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="8dp"
+            android:paddingBottom="4dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:drawablePadding="@dimen/size_3dp"
+            android:drawableLeft="@mipmap/ic_sub_search"
+            android:background="@drawable/shape_pink3"
             android:text="查看"
             android:textColor="#F56D23"
-            android:textSize="15sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_item_sub_account_modify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="8dp"
+            android:paddingBottom="4dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:drawableLeft="@mipmap/ic_sub_edit"
+            android:layout_marginLeft="@dimen/size_15dp"
+            android:background="@drawable/shape_pink3"
             android:text="编辑"
+            android:drawablePadding="@dimen/size_3dp"
             android:textColor="#F56D23"
-            android:textSize="15sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_item_sub_account_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
-            android:paddingBottom="8dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="8dp"
+            android:paddingBottom="4dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:layout_marginLeft="@dimen/size_15dp"
+            android:paddingTop="4dp"
             android:text="删除"
+            android:drawablePadding="@dimen/size_3dp"
+            android:drawableLeft="@mipmap/ic_sub_delete"
+            android:background="@drawable/shape_pink3"
             android:textColor="#F56D23"
-            android:textSize="15sp" />
-
+            android:textSize="12sp" />
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_below="@id/ll_item_sub_account_mes"
-        android:layout_marginTop="15dp"
-        android:background="@color/app_line_color" />
 </RelativeLayout>

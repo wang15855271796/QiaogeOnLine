@@ -283,20 +283,6 @@ public class CouponListssAdapter extends BaseQuickAdapter<ItemModel,BaseViewHold
             }
         }
 
-
-//        for (int i = 0; i < datas.size(); i++) {
-//            Double s = Double.valueOf(datas.get(i).getNum());
-//            total2+=s;
-//            BigDecimal bigDecimal = new BigDecimal(datas.get(i).getNum());
-//            total5 = total5.add(bigDecimal);
-//            Log.d("dwsssssssss......",total5.toString()+"ff");
-//            Log.d("dwsssssssss......",amount+"gg");
-//            if(amount.equals(total5)) {
-//                ToastUtil.showSuccessMsg(context,"可兑换余额不足");
-//                return;
-//            }
-//        }
-
     }
 
     //  添加数据
@@ -321,54 +307,6 @@ public class CouponListssAdapter extends BaseQuickAdapter<ItemModel,BaseViewHold
             return;
         }
 
-//        Double totals3 = Double.valueOf(amount);
-//        for (int i = 0; i < datas.size(); i++) {
-//            if(et.getText().toString().equals(amount)) {
-////                ToastUtil.showSuccessMsg(mContext,"可兑换余额不足");
-//                return;
-//            }else {
-//                total1 = 0.0;
-//                Double num = Double.valueOf(datas.get(i).getNum());
-//                total1+=num;
-//                String total2 = String.valueOf(total1);
-//
-//                if(total1> totals3) {
-//                        et.setText(amount);
-////                    ToastUtil.showSuccessMsg(mContext,"可兑换余额不足");
-//                    return;
-//                }
-//                if(total2.equals(amount)) {
-//                    et.setText(amount);
-////                    ToastUtil.showSuccessMsg(mContext,"可兑换余额不足");
-//                    return;
-//                }
-//            }
-//        }
-
-        //-----------------------------------------------
-//        for (int i = 0; i <datas.size() ; i++) {
-//            if(datas.size()==1&&holders.et.getText().toString().equals(amount)) {
-//                ToastUtil.showSuccessMsg(context,"可兑换余额不足");
-//                return;
-//            }else if(datas.size()>1){
-//                total1 = 0.0;
-//                for (int j = 0; j < datas.size(); j++) {
-//                    Double num = Double.valueOf(datas.get(j).getNum());
-//                    total1+=num;
-//                    String total2 = String.valueOf(total1);
-//                    Log.d("dasdssssssss.......",total2+"");
-//                    if(total1> totals3) {
-//                        holders.et.setText(amount);
-//                        ToastUtil.showSuccessMsg(context,"可兑换余额不足");
-//                        return;
-//                    }
-//                    if(total2.equals(amount)) {
-//                        ToastUtil.showSuccessMsg(context,"可兑换余额不足");
-//                        return;
-//                    }
-//                }
-//            }
-//        }
 //      在list中添加数据，并通知条目加入一条
         itemModel.setFocus(true);
         if(datas.size()<10) {

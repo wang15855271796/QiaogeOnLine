@@ -152,7 +152,7 @@ public class EvaluatedOrderFragment extends BaseFragment {
 
             });
         }else if (orderDeliveryType==1){
-            mAdapterMyOrders = new MyOrdersItemAdapter(R.layout.item_my_order_self, mListResult, 5,orderDeliveryType, new MyOrdersItemAdapter.OnClick() {
+            mAdapterMyOrders = new MyOrdersItemAdapter(R.layout.item_my_order, mListResult, 5,orderDeliveryType, new MyOrdersItemAdapter.OnClick() {
 
 
                 @Override

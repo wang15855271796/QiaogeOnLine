@@ -603,11 +603,12 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
                             if (isrefreshormore == 1) {
                                 lists.clear();
 
-                                if (getWallertRecordByPageModel.getData().getRecords() != null && getWallertRecordByPageModel.getData().getRecords().size() > 0) {
+                                if (getWallertRecordByPageModel.getData().getRecords() != null
+                                        && getWallertRecordByPageModel.getData().getRecords().size() > 0) {
                                     data.setVisibility(View.VISIBLE);
                                     records = getWallertRecordByPageModel.getData().getRecords();
                                     for (int i = 0; i < records.size(); i++) {
-                                        recordsBean = records.get(i);
+//                                        recordsBean = records.get(i);
                                         GetWallertRecordByPageModel.DataBean data = getWallertRecordByPageModel.getData();
                                         lists.add(data);
                                     }
@@ -624,7 +625,7 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
                                 if (getWallertRecordByPageModels.getData() != null && getWallertRecordByPageModels.getData().getRecords().size() > 0) {
                                     records = getWallertRecordByPageModel.getData().getRecords();
                                     for (int i = 0; i < records.size(); i++) {
-                                        recordsBean = records.get(i);
+//                                        recordsBean = records.get(i);
                                         GetWallertRecordByPageModel.DataBean data = getWallertRecordByPageModel.getData();
                                         lists.add(data);
                                     }

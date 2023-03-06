@@ -66,7 +66,6 @@ public class AllOrdersFragment extends BaseFragment {
     private List<OrdersModel.DataBean.ListBean> mListResult = new ArrayList<>();
     private CopyToCartModel mModelCopyToCart;
     private List<OrderEvaluateListModel> mListEvaluate = new ArrayList<>();
-    private boolean isFirstLoading = true;
     String subId;
     private int orderDeliveryType;
 
@@ -105,8 +104,6 @@ public class AllOrdersFragment extends BaseFragment {
         mPtr = ((PtrClassicFrameLayout) view.findViewById(R.id.ptr_my_orders));
         mRv = ((RecyclerView) view.findViewById(R.id.rv_my_orders));
         mIvNoData = ((ImageView) view.findViewById(R.id.iv_my_orders_no_data));
-
-
     }
 
 
@@ -127,7 +124,6 @@ public class AllOrdersFragment extends BaseFragment {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 pageNum = 1;
-//                requestOrdersList(0);
             }
         });
         subId = getArguments().getString("subId");

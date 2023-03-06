@@ -19,6 +19,8 @@ import com.puyue.www.qiaoge.activity.flow.AlertViewAdapter;
 import com.puyue.www.qiaoge.adapter.HotAdapter;
 import com.puyue.www.qiaoge.model.mine.GetWallertRecordByPageModel;
 import com.puyue.www.qiaoge.utils.DateUtils;
+import com.puyue.www.qiaoge.view.EasySwipeMenuLayout;
+import com.puyue.www.qiaoge.view.State;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -71,6 +73,13 @@ public class StickyListAdapter extends BaseAdapter implements StickyListHeadersA
 			holder.UpdateUI(parent.getContext(), list, position);
 		}
 
+		Holder finalHolder = holder;
+		holder.ll_cancel.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				finalHolder.es_swiper.handlerSwipeMenu(State.CLOSE);
+			}
+		});
 		return view;
 	}
 
@@ -122,7 +131,11 @@ public class StickyListAdapter extends BaseAdapter implements StickyListHeadersA
 		private  TextView tv_price;
 		private  TextView tv_title;
 		private ImageView iv_pic;
+		LinearLayout ll_cancel;
+		EasySwipeMenuLayout es_swiper;
 		public Holder(View view) {
+			es_swiper = (EasySwipeMenuLayout) view.findViewById(R.id.es_swiper);
+			ll_cancel = (LinearLayout) view.findViewById(R.id.ll_cancel);
 			tv_time = (TextView) view.findViewById(R.id.tv_time);
 			tv_price = (TextView) view.findViewById(R.id.tv_price);
 			tv_title = (TextView) view.findViewById(R.id.tv_title);
@@ -148,7 +161,4 @@ public class StickyListAdapter extends BaseAdapter implements StickyListHeadersA
 	public interface Onclick {
 		void clicks();
 	}
-
-
-
 }

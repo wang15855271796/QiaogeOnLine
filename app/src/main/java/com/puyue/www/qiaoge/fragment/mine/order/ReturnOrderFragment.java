@@ -142,9 +142,8 @@ public class ReturnOrderFragment extends BaseFragment {
                 public void confirmSelfReturnOrder(String orderId, int pos) {
 
                 }
-
-
             });
+
         }else if (orderDeliveryType==1){
             mAdapterMyOrders = new MyOrdersItemAdapter1(R.layout.item_my_order1, mListResult, 11, orderDeliveryType,new MyOrdersItemAdapter.OnClick() {
 

@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="50dp"
+    android:background="@drawable/shape_white4"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/layer_top_line"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -13,11 +13,13 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <ImageView
+        <TextView
             android:id="@+id/iv_include_common_customer"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@mipmap/ic_detail_customer" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#414141"
+            android:drawableTop="@mipmap/ic_detail_customer"
+            android:text="客服" />
 
     </LinearLayout>
 
@@ -65,11 +67,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:text="购物车"
-                android:visibility="gone"
-                android:textColor="@color/app_dark_gray"
-                android:textSize="12dp" />
+                android:textColor="#414141"
+                />
         </LinearLayout>
 
         <TextView
@@ -110,7 +110,7 @@
             android:layout_marginTop="5dp"
             android:gravity="center"
             android:maxLines="1"
-            android:textColor="#ffa7a7a7"
+            android:textColor="#FF5215"
             android:textSize="12dp"
          />
 
@@ -118,12 +118,13 @@
 
     <TextView
         android:id="@+id/tv_add_car"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="@dimen/size_99dp"
+        android:layout_height="33dp"
         android:gravity="center"
+        android:layout_marginRight="@dimen/size_18dp"
+        android:layout_gravity="center_vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="加入购物车"
-        android:textColor="@color/app_color_white"
-        android:textSize="18dp" />
+        android:textColor="@color/app_color_white" />
 </LinearLayout>

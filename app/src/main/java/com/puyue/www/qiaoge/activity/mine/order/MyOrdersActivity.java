@@ -122,6 +122,7 @@ public class MyOrdersActivity extends BaseActivity {
         }
     }
 
+    //配送订单
     private void initView() {
         mTab.removeAllTabs();
         mListTitles.clear();
@@ -139,10 +140,7 @@ public class MyOrdersActivity extends BaseActivity {
         mListFragment.add(new ReceivedOrderFragment());
         mListFragment.add(new EvaluatedOrderFragment());
         mListFragment.add(new ReturnOrderFragment());
-
         mAdapterViewPager = new MyOrdersViewPagerAdapter(getSupportFragmentManager(), mListTitles, mListFragment);
-
-
         mViewPager.setOffscreenPageLimit(5);
         mAdapterViewPager.clear(mViewPager);
         mViewPager.setAdapter(mAdapterViewPager);
@@ -167,12 +165,12 @@ public class MyOrdersActivity extends BaseActivity {
 
             } else if (mType.equals(AppConstant.RETURN)) {
                 //退货
-
                 mTab.getTabAt(5).select();
             }
         }
     }
 
+    //自提
     private void initViewSelf() {
         mTab.removeAllTabs();
         mListTitles.clear();

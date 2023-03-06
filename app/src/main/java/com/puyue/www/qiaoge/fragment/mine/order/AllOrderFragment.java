@@ -252,7 +252,7 @@ public class AllOrderFragment extends BaseFragment {
 
             });
         } else if (orderDeliveryType == 1) {
-            mAdapterMyOrders = new MyOrdersItemAdapter(R.layout.item_my_order_self, mListResult, 0, orderDeliveryType, new MyOrdersItemAdapter.OnClick() {
+            mAdapterMyOrders = new MyOrdersItemAdapter(R.layout.item_my_order, mListResult, 0, orderDeliveryType, new MyOrdersItemAdapter.OnClick() {
 
                 @Override
                 public void callHuo(int deliveryMode, String orderId, String hllOrderId) {
@@ -294,8 +294,6 @@ public class AllOrderFragment extends BaseFragment {
                             mDialog.dismiss();
                             //取消订单的接口
                             cancelOrder(orderId);
-                            //   mPtr.refreshComplete();
-                            //   mAdapterMyOrders.notifyDataSetChanged();
                         }
                     });
 

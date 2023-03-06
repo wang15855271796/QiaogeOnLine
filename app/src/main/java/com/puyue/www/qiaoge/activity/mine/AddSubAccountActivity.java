@@ -74,8 +74,8 @@ public class AddSubAccountActivity extends BaseSwipeActivity implements View.OnC
     ImageView iv_back;
     @BindView(R.id.et_amount)
     TextView et_amount;
-    @BindView(R.id.tv_amount_remind)
-    TextView tv_amount_remind;
+//    @BindView(R.id.tv_amount_remind)
+//    TextView tv_amount_remind;
     private BaseModel mModelAddSubAccount;
     private String phone;
     boolean isSendingCode;
@@ -109,7 +109,6 @@ public class AddSubAccountActivity extends BaseSwipeActivity implements View.OnC
         EventBus.getDefault().register(this);
         ll_yzm.setOnClickListener(this);
         iv_back.setOnClickListener(this);
-        tv_amount_remind.setOnClickListener(this);
         et_amount.setOnClickListener(this);
         //关闭1 打开0
         SharedPreferencesUtil.saveString(mActivity,"inPoint","1");
@@ -291,17 +290,6 @@ public class AddSubAccountActivity extends BaseSwipeActivity implements View.OnC
                 finish();
                 break;
 
-            case R.id.tv_amount_remind:
-//                amountSetDialog = new AmountSetDialog(mContext) {
-//                    @Override
-//                    public void Confirm() {
-//                        amountSetDialog.dismiss();
-//                    }
-//                };
-//
-//                amountSetDialog.show();
-                break;
-
             case R.id.et_amount:
                 amountMaxDialog = new AmountMaxDialog(mContext) {
                     @Override
@@ -369,8 +357,9 @@ public class AddSubAccountActivity extends BaseSwipeActivity implements View.OnC
                 isSendingCode = true;
                 ll_yzm.setEnabled(false);
                 tv_yzm.setEnabled(false);
-                tv_yzm.setText(millisUntilFinished / 1000 + "秒后" + "\n重新发送验证码");
+                tv_yzm.setText(millisUntilFinished / 1000 + "秒后" + "重新获取");
                 tv_yzm.setTextColor(Color.parseColor("#A7A7A7"));
+                tv_yzm.setBackgroundResource(R.drawable.shape_grey3);
 
             }
 
@@ -379,6 +368,7 @@ public class AddSubAccountActivity extends BaseSwipeActivity implements View.OnC
                 isSendingCode = false;
                 ll_yzm.setEnabled(true);
                 tv_yzm.setText("点击发送验证码");
+                tv_yzm.setBackgroundResource(R.drawable.pink);
                 tv_yzm.setEnabled(true);
                 tv_yzm.setTextColor(Color.parseColor("#232131"));
             }
@@ -389,9 +379,9 @@ public class AddSubAccountActivity extends BaseSwipeActivity implements View.OnC
     public void getAmount(SetAmountEvent event) {
         if(SharedPreferencesUtil.getString(mActivity,"flag").equals("2")) {
             if(event.amount.length()==0) {
-                tv_amount_remind.setText("请添加金额");
+//                tv_amount_remind.setText("请添加金额");
             }else {
-                tv_amount_remind.setText("满"+event.amount+"元消费提醒");
+//                tv_amount_remind.setText("满"+event.amount+"元消费提醒");
                 swipe3.setChecked(true);
                 amountRemind = event.amount;
                 //0开启
@@ -406,14 +396,14 @@ public class AddSubAccountActivity extends BaseSwipeActivity implements View.OnC
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getAmounts(SetAmountsEvent event) {
         if(SharedPreferencesUtil.getString(mActivity,"flag").equals("1")) {
-            tv_amount_remind.setText("任意金额提醒");
+//            tv_amount_remind.setText("任意金额提醒");
             swipe3.setChecked(true);
             amountRemind = "0";
             SharedPreferencesUtil.saveString(mContext,"notification","1");
         }
 
         if(SharedPreferencesUtil.getString(mActivity,"flag").equals("0")) {
-            tv_amount_remind.setText("添加金额提醒");
+//            tv_amount_remind.setText("添加金额提醒");
             swipe3.setChecked(false);
             amountRemind = "0";
             SharedPreferencesUtil.saveString(mContext,"notification","0");

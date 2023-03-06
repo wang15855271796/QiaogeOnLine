@@ -28,7 +28,6 @@ public class AddressAdapter extends BaseQuickAdapter<AddressModel.DataBean, Base
 
     public interface OnEventClickListener {
         void onEventClick(View view, int position, String flag);
-
         void onEventLongClick(View view, int position, String flag);
     }
 

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f7f7f7"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:background="#ffffff"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_30dp"/>
+
+            <com.puyue.www.qiaoge.view.CompatToolbar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/app_border_bottom_bg">
+
+                <ImageView
+                    android:id="@+id/iv_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:padding="10dp"
+                    android:src="@mipmap/ic_back_arrow" />
+
+                <TextView
+                    android:id="@+id/tv_pp_input_password_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="13dp"
+                    android:layout_marginTop="13dp"
+                    android:text="积分商城"
+                    android:textColor="@color/app_black"
+                    android:textSize="15dp" />
+            </com.puyue.www.qiaoge.view.CompatToolbar>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_margin="@dimen/dp_10"
+                android:background="@drawable/shape_detail"
+                android:layout_width="match_parent"
+                android:layout_height="180dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:src="@mipmap/iv_text_img"
+                        android:layout_width="wrap_content"
+                        android:layout_marginTop="@dimen/size_15dp"
+                        android:layout_marginLeft="@dimen/size_15dp"
+                        android:layout_height="wrap_content"/>
+
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_margin="@dimen/dp_10"
+                    android:background="@mipmap/bg_jifen_shop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/size_22dp"
+                        android:layout_marginTop="@dimen/size_32dp"
+                        android:text="我的积分"
+                        android:textColor="#ffffff"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tv_point"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv1"
+                        android:layout_marginLeft="@dimen/size_22dp"
+                        android:text="3320"
+                        android:textColor="#ffffff"
+                        android:textSize="33sp" />
+
+                    <TextView
+                        android:text="分"
+                        android:textColor="#ffffff"
+                        android:layout_below="@+id/tv1"
+                        android:layout_marginTop="@dimen/size_18dp"
+                        android:layout_toRightOf="@+id/tv_point"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/size_5dp"
+                android:padding="@dimen/size_10dp"
+                android:drawablePadding="@dimen/size_5dp"
+                android:drawableLeft="@mipmap/iv_jifen_coupon"
+                android:text="抵扣券"
+                android:textColor="@color/app_black"
+                android:textSize="@dimen/size_15dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="@dimen/size_14dp"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textViewTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/size_5dp"
+                    android:padding="@dimen/size_10dp"
+                    android:drawablePadding="@dimen/size_5dp"
+                    android:drawableLeft="@mipmap/ic_jifen_good"
+                    android:text="实物区"
+                    android:textColor="@color/app_black"
+                    android:textSize="@dimen/size_15dp" />
+
+                <TextView
+                    android:id="@+id/textViewTitle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="敬请期待~"
+                    android:textColor="#A4A4A4"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+
+
+</LinearLayout>

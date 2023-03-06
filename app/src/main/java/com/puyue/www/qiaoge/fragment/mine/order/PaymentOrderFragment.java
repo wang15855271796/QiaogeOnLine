@@ -196,7 +196,7 @@ public class PaymentOrderFragment extends BaseFragment {
 
             });
         }else if (orderDeliveryType==1){
-            mAdapterMyOrders = new MyOrdersItemAdapter(R.layout.item_my_order_self, mListResult, 1,orderDeliveryType, new MyOrdersItemAdapter.OnClick() {
+            mAdapterMyOrders = new MyOrdersItemAdapter(R.layout.item_my_order, mListResult, 1,orderDeliveryType, new MyOrdersItemAdapter.OnClick() {
 
                 @Override
                 public void callHuo(int deliveryMode, String orderId, String hllOrderId) {

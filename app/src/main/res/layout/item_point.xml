@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="@dimen/size_14dp"
+    android:layout_marginRight="@dimen/size_14dp"
+    android:background="@drawable/shape_white1"
+    android:paddingBottom="@dimen/size_14dp"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥"
+                android:textColor="#FF5928"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10"
+                android:textColor="#FF5928"
+                android:textSize="40sp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_condition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="满1000元使用"
+            android:textColor="#414141"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="85dp"
+            android:layout_marginTop="@dimen/size_5dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/shape_pink"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_exchange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_10dp"
+                android:text="兑换价：1000积分"
+                android:textColor="#FF5A28"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="有效期：长期有效"
+                android:textColor="#FF5A28"
+                android:textSize="10sp" />
+
+
+            <TextView
+                android:layout_width="@dimen/public_space_value_120"
+                android:layout_height="@dimen/size_24dp"
+                android:layout_marginTop="@dimen/size_5dp"
+                android:background="@drawable/shape_jianbian7"
+                android:gravity="center"
+                android:text="立即兑换"
+                android:textColor="#ffffff" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_role"
+        android:layout_width="@dimen/size_60dp"
+        android:layout_height="@dimen/size_20dp"
+        android:background="@drawable/shape_jianbian23"
+        android:gravity="center"
+        android:text="与活动同享"
+        android:textColor="#ffffff"
+        android:textSize="10sp" />
+</RelativeLayout>

@@ -15,6 +15,7 @@ import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
 
 
+import com.puyue.www.qiaoge.activity.JiFenShopActivity;
 import com.puyue.www.qiaoge.adapter.mine.MinerIntegralAdapter;
 import com.puyue.www.qiaoge.api.mine.PointApI;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
@@ -48,7 +49,7 @@ public class MinerIntegralActivity extends BaseSwipeActivity {
     private int pageNum=1;
     private LinearLayout linearLayoutData;
     private TextView tvIntegral;
-    private ImageView pointButton;
+    private TextView pointButton;
     private String Url;
     TextView tv_city;
 
@@ -71,7 +72,7 @@ public class MinerIntegralActivity extends BaseSwipeActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         linearLayoutData = (LinearLayout) findViewById(R.id.linearLayoutData);
         tvIntegral = (TextView) findViewById(R.id.tvIntegral);
-        pointButton = (ImageView) findViewById(R.id.pointButton);
+        pointButton = (TextView) findViewById(R.id.pointButton);
     }
 
     @Override
@@ -203,11 +204,11 @@ public class MinerIntegralActivity extends BaseSwipeActivity {
         pointButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MinerIntegralActivity.this, NewWebViewActivity.class);
-                intent.putExtra("URL", Url);
-                intent.putExtra("TYPE",1);
-                intent.putExtra("name","");
-                intent.putExtra("changeFlag", UserInfoHelper.getChangeFlag(mContext));
+                Intent intent = new Intent(MinerIntegralActivity.this, JiFenShopActivity.class);
+//                intent.putExtra("URL", Url);
+//                intent.putExtra("TYPE",1);
+//                intent.putExtra("name","");
+//                intent.putExtra("changeFlag", UserInfoHelper.getChangeFlag(mContext));
                 startActivity(intent);
 
             }

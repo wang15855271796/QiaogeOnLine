@@ -59,9 +59,6 @@ public class SubAccountActivity extends BaseSwipeActivity implements View.OnClic
     private PtrClassicFrameLayout mPtr;
     private SubAccountModel mModelSubAccount;
     private BaseModel mModelDeleteSubAccount;
-    private boolean isSendingCode = false;
-    private BaseModel mModelSendCode;
-    private CountDownTimer countDownTimer;
     ImageView iv_message;
     TextView tv_number;
     @Override

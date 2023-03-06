@@ -337,13 +337,13 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
                 ll_service.setVisibility(View.GONE);
                 mTvAddCar.setEnabled(true);
                 mTvAddCar.setText("加入购物车");
-                mTvAddCar.setBackgroundResource(R.drawable.app_car_orange);
+                mTvAddCar.setBackgroundResource(R.drawable.shape_jianbian5);
 
             }else {
                 getProductDetail(productId,num);
                 ll_service.setVisibility(View.VISIBLE);
                 mTvAddCar.setEnabled(false);
-                mTvAddCar.setBackgroundResource(R.drawable.app_car);
+                mTvAddCar.setBackgroundResource(R.drawable.shape_grey);
 
             }
         }else {
@@ -351,7 +351,7 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
             getProductDetail(productId,num);
 
             mTvAddCar.setText("加入购物车");
-            mTvAddCar.setBackgroundResource(R.drawable.app_car_orange);
+            mTvAddCar.setBackgroundResource(R.drawable.shape_jianbian5);
         }
 
         getCartNumber();
@@ -768,13 +768,13 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
 
                             if(currentTime<startTime) {
                                 mTvAddCar.setText("     未开始     ");
-                                mTvAddCar.setBackgroundResource(R.drawable.app_car);
+                                mTvAddCar.setBackgroundResource(R.drawable.shape_grey);
 
                             }else {
                                 if (model.getData().getSaleDone() == 0) {
                                     mTvAddCar.setEnabled(false);
                                     mTvAddCar.setText("     已售罄     ");
-                                    mTvAddCar.setBackgroundResource(R.drawable.app_car);
+                                    mTvAddCar.setBackgroundResource(R.drawable.shape_grey);
                                 } else {
                                     mTvAddCar.setEnabled(true);
                                     mTvAddCar.setText("加入购物车");

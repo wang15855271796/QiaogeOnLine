@@ -3,43 +3,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/app_color_white"
     android:orientation="vertical">
 
-    <com.puyue.www.qiaoge.view.CompatToolbar
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/size_30dp"
-        android:layout_height="@dimen/size_60dp"
-        android:background="@drawable/app_border_bottom_bg">
+        android:layout_height="wrap_content"
+        android:background="@mipmap/bg_sub">
 
         <RelativeLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_marginTop="@dimen/size_20dp"
+            android:layout_height="@dimen/size_45dp">
 
             <ImageView
                 android:id="@+id/iv_sub_account_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:padding="10dp"
                 android:layout_centerVertical="true"
+                android:padding="10dp"
                 android:src="@mipmap/ic_back_arrow" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
                 android:text="子账户管理"
+                android:layout_centerVertical="true"
                 android:textColor="@color/app_top_bar_text"
                 android:textSize="18dp" />
 
             <ImageView
                 android:id="@+id/iv_message"
                 android:layout_marginRight="@dimen/size_30dp"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:src="@mipmap/ic_home_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -60,13 +59,13 @@
 
         </RelativeLayout>
 
-    </com.puyue.www.qiaoge.view.CompatToolbar>
+    </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/app_color_white">
+        android:layout_marginTop="-45dp"
+        android:layout_weight="1">
 
         <ImageView
             android:id="@+id/iv_no_data"
@@ -99,8 +98,8 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/app_sub_account_button"
-        android:text="  ＋  添加子账号"
+        android:background="@drawable/shape_jianbian5"
+        android:text="添加子账号"
         android:textColor="@color/app_color_white"
         android:textSize="18dp" />
 </LinearLayout>

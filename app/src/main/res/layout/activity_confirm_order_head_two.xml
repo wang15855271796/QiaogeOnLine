@@ -38,21 +38,21 @@
                 >
 
                 <TextView
-                    android:drawableLeft="@mipmap/icon_deliver"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/size_10dp"
-                    android:text="配送至"
                     android:layout_marginTop="@dimen/size_10dp"
+                    android:drawableLeft="@mipmap/icon_deliver"
                     android:drawablePadding="@dimen/size_3dp"
+                    android:text="配送至"
                     android:textColor="#FE5630"
                     android:textSize="12sp" />
 
                 <ImageView
-                    android:src="@mipmap/iv_line"
-                    android:layout_marginLeft="@dimen/size_14dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/size_14dp"
+                    android:src="@mipmap/iv_line" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -67,14 +67,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="3"
+                        android:drawableLeft="@mipmap/icon_address_orange"
+                        android:drawablePadding="@dimen/size_3dp"
                         android:gravity="left"
                         android:maxLines="3"
-                        android:textStyle="bold"
-                        android:drawablePadding="@dimen/size_3dp"
-                        android:drawableLeft="@mipmap/icon_address_orange"
                         android:text="杭州西湖区"
                         android:textColor="#414141"
-                        android:textSize="@dimen/sp_14" />
+                        android:textSize="@dimen/sp_14"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -137,9 +137,9 @@
                             android:id="@+id/userPhone"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
                             android:layout_marginLeft="@dimen/size_15dp"
                             android:gravity="left"
-                            android:layout_gravity="center_vertical"
                             android:text="收货人手机号"
                             android:textColor="#9F9F9F"
                             android:textSize="@dimen/sp_14" />

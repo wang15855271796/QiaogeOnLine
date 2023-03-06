@@ -4,11 +4,13 @@ import android.content.Context;
 
 import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
 import com.puyue.www.qiaoge.helper.RestHelper;
+import com.puyue.www.qiaoge.model.mine.GetWalletAmountModel;
 import com.puyue.www.qiaoge.model.mine.wallet.GetWalletInfoModel;
 import com.puyue.www.qiaoge.model.mine.wallet.MinerIntegralModel;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 import rx.Observable;
 
@@ -29,5 +31,15 @@ public class PointApI {
         Observable<MinerIntegralModel> getPointService = RestHelper.getBaseRetrofit(context).create(PointService.class).setParams(pageNum,pageSize);
         return getPointService;
     }
+
+     private interface PointShopService {
+            @POST(AppInterfaceAddress.Point_Shop)
+            Observable<PointShopModel> getData();
+        }
+
+        public static Observable<PointShopModel> requestData(Context context) {
+            PointShopService service = RestHelper.getBaseRetrofit(context).create(PointShopService.class);
+            return service.getData();
+        }
 
 }

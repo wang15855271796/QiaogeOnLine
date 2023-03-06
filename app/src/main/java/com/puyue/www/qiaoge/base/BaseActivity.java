@@ -60,8 +60,8 @@ public abstract class BaseActivity extends AppCompatActivity  {
 
         mResources = this.getResources();
         mBundle = savedInstanceState;
-        mImmersionBar = ImmersionBar.with(this).fullScreen(false)   ;
-        mImmersionBar.init();   //所有子类都将继承这些相同的属性
+//        mImmersionBar = ImmersionBar.with(this).fullScreen(false)   ;
+//        mImmersionBar.init();   //所有子类都将继承这些相同的属性
         ButterKnife.bind(this);
         findViewById();
         setViewData();

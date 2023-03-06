@@ -220,6 +220,27 @@
         <activity android:name=".activity.BannerActivity"
             android:screenOrientation="portrait"
             />
+
+        <activity android:name=".activity.view.SchoolActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.AskActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"
+            />
+
+        <activity android:name=".activity.ChooseConfirmAddressActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.ChSchoolAddActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.PlayerActivity"
+            android:screenOrientation="portrait"
+            />
         <!--  -->
 
         <activity android:name=".activity.mine.VipActivity"
@@ -414,6 +435,10 @@
 
         <activity android:name=".activity.IssueInfoActivity"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.JiFenShopActivity"
             android:screenOrientation="portrait"
             />
 

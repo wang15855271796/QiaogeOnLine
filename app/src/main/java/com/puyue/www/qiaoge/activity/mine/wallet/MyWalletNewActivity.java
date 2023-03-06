@@ -8,17 +8,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.cart.ExChangesActivity;
 import com.puyue.www.qiaoge.activity.cart.ExchangeActivity;
+import com.puyue.www.qiaoge.adapter.RemainAdapter;
 import com.puyue.www.qiaoge.api.mine.GetMyBalanceAPI;
+import com.puyue.www.qiaoge.api.mine.GetWallertRecordByPageAPI;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.event.BackEvent;
 import com.puyue.www.qiaoge.event.ExBackEvent;
+import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.mine.GetMyBalanceModle;
+import com.puyue.www.qiaoge.model.mine.GetWallertRecordByPageModel;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -30,6 +36,12 @@ import rx.schedulers.Schedulers;
 
 import static com.umeng.socialize.utils.ContextUtil.getContext;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by ${daff}
  * on 2018/10/16
@@ -37,19 +49,9 @@ import static com.umeng.socialize.utils.ContextUtil.getContext;
  */
 public class MyWalletNewActivity extends BaseSwipeActivity {
     private ImageView imageViewBack;
-    private RelativeLayout relativeLayoutBalance;
-    private RelativeLayout relativeLayoutMyCommission;
-    private TextView balanceNum;
-    private TextView balancePrice;
-    private TextView myCommissionPrice;
-    private ImageView banner;
-    private String bannerUrl;
-    private String commissionUrl;
-    private String num = "0";
     GetMyBalanceModle getMyBalanceModles;
-
     private TextView tv_amount;
-
+    RecyclerView recyclerView;
     private RelativeLayout relative_account_detail;
 
     @Override
@@ -66,14 +68,16 @@ public class MyWalletNewActivity extends BaseSwipeActivity {
     public void findViewById() {
         EventBus.getDefault().register(this);
         imageViewBack = (ImageView) findViewById(R.id.imageViewBack);
-        relativeLayoutBalance = (RelativeLayout) findViewById(R.id.relativeLayoutBalance);
-        relativeLayoutMyCommission = (RelativeLayout) findViewById(R.id.relativeLayoutMyCommission);
-        balanceNum = (TextView) findViewById(R.id.balanceNum);
-        balancePrice = (TextView) findViewById(R.id.balancePrice);
-        myCommissionPrice = (TextView) findViewById(R.id.myCommissionPrice);
-        banner = (ImageView) findViewById(R.id.banner);
         tv_amount = (TextView) findViewById(R.id.tv_amount);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         relative_account_detail = (RelativeLayout) findViewById(R.id.relative_account_detail);
+        imageViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
 
     }
 
@@ -97,6 +101,7 @@ public class MyWalletNewActivity extends BaseSwipeActivity {
         requestGoodsList();
     }
 
+    RemainAdapter remainAdapter;
     @Override
     public void setClickEvent() {
         imageViewBack.setOnClickListener(new NoDoubleClickListener() {
@@ -105,35 +110,22 @@ public class MyWalletNewActivity extends BaseSwipeActivity {
                 finish();
             }
         });
-        relativeLayoutBalance.setOnClickListener(new View.OnClickListener() {
+
+        getWalletRecord("","","","",0,"1");
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        remainAdapter = new RemainAdapter(R.layout.item_remain,lists);
+        recyclerView.setAdapter(remainAdapter);
+
+        remainAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mActivity, MyWalletDetailActivity.class);
-                UserInfoHelper.saveUserWalletNum(getContext(), num);
-                intent.putExtra("showType",2);
-                startActivity(intent);
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(mContext, MyCountDetailActivity.class);
+                intent.putExtra("id", lists.get(position).getId());
+                intent.putExtra("type", lists.get(position).getType());
+                mContext.startActivity(intent);
             }
         });
-        banner.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, NewWebViewActivity.class);
-                intent.putExtra("URL", bannerUrl);
-                intent.putExtra("TYPE", 1);
-                intent.putExtra("name", "");
-                startActivity(intent);
-            }
-        });
-        relativeLayoutMyCommission.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, NewWebViewActivity.class);
-                intent.putExtra("URL", commissionUrl);
-                intent.putExtra("TYPE", 1);
-                intent.putExtra("name", "");
-                startActivity(intent);
-            }
-        });
+
 
     }
 
@@ -170,4 +162,38 @@ public class MyWalletNewActivity extends BaseSwipeActivity {
                     }
                 });
     }
+
+    List<GetWallertRecordByPageModel.DataBean.RecordsBean> lists = new ArrayList();
+
+    private void getWalletRecord(String types, String year, String month, String phone, int showType, String walletRecordChannelType) {
+        GetWallertRecordByPageAPI.requestData(mContext, types, year, month, phone, showType, walletRecordChannelType)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GetWallertRecordByPageModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(GetWallertRecordByPageModel getWallertRecordByPageModel) {
+                        if(getWallertRecordByPageModel.getCode()==1) {
+                            if(getWallertRecordByPageModel.getData()!=null && getWallertRecordByPageModel.getData().getRecords()!=null
+                            &&getWallertRecordByPageModel.getData().getRecords().size()>0) {
+                                lists.addAll(getWallertRecordByPageModel.getData().getRecords());
+                                remainAdapter.notifyDataSetChanged();
+                            }
+
+                        }else {
+                            ToastUtil.showSuccessMsg(mContext,getWallertRecordByPageModel.getMessage());
+                        }
+                    }
+                });
+    }
+
 }

@@ -55,7 +55,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="200dp"/>
 
-
                         <LinearLayout
                             android:orientation="vertical"
                             android:layout_width="match_parent"
@@ -95,10 +94,10 @@
                                     <!--顶部的六种推荐-->
                                     <androidx.recyclerview.widget.RecyclerView
                                         android:id="@+id/rv_recommend"
-                                        android:layout_marginRight="@dimen/size_20dp"
-                                        android:layout_marginLeft="@dimen/size_20dp"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content" />
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="@dimen/size_20dp"
+                                        android:layout_marginRight="@dimen/size_20dp" />
 
                                     <com.puyue.www.qiaoge.banner.Banner
                                         android:id="@+id/banner"
@@ -414,6 +413,7 @@
                 </RelativeLayout>
             </RelativeLayout>
 
+            <!--  优惠券  -->
             <LinearLayout
                 android:visibility="gone"
                 android:id="@+id/ll_coupon"
@@ -455,6 +455,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/size_15dp"/>
             </LinearLayout>
+            <!--  优惠券  -->
 
             <ImageView
                 android:visibility="gone"
@@ -462,6 +463,44 @@
                 android:layout_width="wrap_content"
                 android:orientation="vertical"
                 android:src="@mipmap/icon_red_half"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/size_88dp">
+
+            </ImageView>
+
+            <!--  学堂  -->
+            <LinearLayout
+                android:id="@+id/ll_school"
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_marginBottom="240dp">
+
+                <ImageView
+                    android:id="@+id/iv_school"
+                    android:background="@mipmap/iv_school"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:src="@mipmap/icon_enter"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+            <!--  学堂  -->
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv_school"
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:src="@mipmap/iv_half_school"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"

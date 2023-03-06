@@ -59,7 +59,6 @@
         android:layout_marginTop="@dimen/size_15dp">
 
 
-
         <TextView
             android:id="@+id/tv_product_name"
             android:layout_width="240dp"
@@ -67,9 +66,23 @@
             android:layout_marginRight="@dimen/size_70dp"
             android:ellipsize="end"
             android:lines="1"
-            tools:text="sdsds"
             android:textColor="#333333"
-            android:textSize="@dimen/size_14dp" />
+            android:textSize="@dimen/size_14dp"
+            tools:text="sdsds" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_status_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/size_5dp"
+            android:layout_marginTop="@dimen/size_5dp"
+            android:layout_toRightOf="@+id/iv_style"
+            android:background="@drawable/shape_orange12"
+            android:padding="1dp"
+            android:text="运送中"
+            android:textColor="#FE7559"
+            android:textSize="8sp" />
 
         <TextView
             android:id="@+id/tv_status"
@@ -80,6 +93,8 @@
             android:layout_marginRight="@dimen/size_15dp"
             android:textSize="@dimen/size_12dp"
             tools:text="代付款" />
+
+
     </RelativeLayout>
 
     <LinearLayout
@@ -194,7 +209,27 @@
             android:src="@mipmap/ic_cancel_order"
             android:visibility="gone" />
 
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_order"
+            android:text="代下单"
+            android:textColor="#306AFE"
+            android:textSize="10sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true" />
 
+        <TextView
+            android:id="@+id/tv_pay"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_toRightOf="@+id/tv_order"
+            android:text="代支付"
+            android:textColor="#306AFE"
+            android:textSize="10sp" />
         <ImageView
             android:id="@+id/evaluateNow"
             android:layout_width="wrap_content"
@@ -215,15 +250,21 @@
             android:src="@mipmap/ic_pay_now_two"
             android:visibility="gone" />
 
-        <ImageView
+        <TextView
             android:id="@+id/againBay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="@dimen/size_15dp"
-            android:src="@mipmap/ic_again_buy" />
+            android:layout_marginTop="5dp"
+            android:text="再次购买"
+            android:textColor="#ffffff"
+            android:background="@drawable/shape_order_list"
+            android:paddingLeft="@dimen/size_11dp"
+            android:paddingTop="@dimen/size_6dp"
+            android:paddingRight="@dimen/size_11dp"
+            android:paddingBottom="@dimen/size_6dp"
+            android:layout_marginRight="@dimen/size_15dp" />
 
         <ImageView
             android:id="@+id/iv_delete_order"

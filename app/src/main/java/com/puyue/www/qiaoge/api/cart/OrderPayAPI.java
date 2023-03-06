@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
 import com.puyue.www.qiaoge.helper.RestHelper;
+import com.puyue.www.qiaoge.model.PayInfoListModel;
 import com.puyue.www.qiaoge.model.PayListModel;
 import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
 import com.puyue.www.qiaoge.model.cart.OrderPayModel;
@@ -45,4 +46,15 @@ public class OrderPayAPI {
         PayListService service = RestHelper.getBaseRetrofit(context).create(PayListService.class);
         return service.setParams();
     }
+
+    private interface PayInfoListService {
+        @POST(AppInterfaceAddress.Pay_Info_List)
+        Observable<PayInfoListModel> setParams();
+    }
+
+    public static Observable<PayInfoListModel> getPayList(Context context) {
+        PayInfoListService service = RestHelper.getBaseRetrofit(context).create(PayInfoListService.class);
+        return service.setParams();
+    }
+
 }

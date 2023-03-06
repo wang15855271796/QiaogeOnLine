@@ -37,6 +37,7 @@ import com.puyue.www.qiaoge.api.home.InfoListAPI;
 import com.puyue.www.qiaoge.api.mine.order.SendImageAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
+import com.puyue.www.qiaoge.dialog.InfoPayDialog;
 import com.puyue.www.qiaoge.dialog.ShopStyleDialog;
 import com.puyue.www.qiaoge.event.MyShopEvent;
 import com.puyue.www.qiaoge.event.ShopStyleEvent;
@@ -87,6 +88,8 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
     RelativeLayout rl;
     @BindView(R.id.tv_sure)
     TextView tv_sure;
+    @BindView(R.id.tv_money)
+    TextView tv_money;
     String msgId;
     ShopImageViewssAdapter shopImageViewAdapter;
     private List<String> picList = new ArrayList();
@@ -132,6 +135,8 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                InfoPayDialog infoPayDialog = new InfoPayDialog(mActivity);
+                infoPayDialog.show();
                 String phone = et_phone.getText().toString();
                 int result = checkPhoneNum(phone);
                 if (result == 2) {

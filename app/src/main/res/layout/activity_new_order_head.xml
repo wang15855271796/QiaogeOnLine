@@ -6,7 +6,6 @@
 
 
     <LinearLayout
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/size_15dp"
@@ -25,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size_15dp"
                 android:gravity="center_horizontal"
-                android:text=""
+                android:text="标题"
                 android:textColor="@color/white"
                 android:textSize="@dimen/size_18dp" />
 
@@ -139,7 +138,7 @@
                 android:layout_marginTop="@dimen/size_25dp"
                 android:gravity="center"
                 android:orientation="horizontal"
-               >
+                >
 
 
                 <TextView
@@ -185,6 +184,7 @@
                     android:text="评价"
                     android:textColor="@color/white"
                     android:textSize="@dimen/size_15dp" />
+
                 <TextView
                     android:visibility="gone"
                     android:id="@+id/tv_evaluate"
@@ -378,7 +378,7 @@
                     android:text="复制订单"
                     android:textColor="@color/color_785DFD"
                     android:textSize="@dimen/size_15dp" />
-                />
+
             </LinearLayout>
         </LinearLayout>
 
@@ -389,13 +389,13 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:visibility="gone"
-         >
+            >
 
             <TextView
                 android:id="@+id/ReturnGoodsTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-android:layout_marginTop="@dimen/size_40dp"
+                android:layout_marginTop="@dimen/size_40dp"
                 android:gravity="center_horizontal"
                 android:text="@string/app_name"
                 android:textColor="@color/white"
@@ -416,8 +416,4 @@ android:layout_marginTop="@dimen/size_40dp"
 
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@mipmap/ic_view_icon" />
 </LinearLayout>

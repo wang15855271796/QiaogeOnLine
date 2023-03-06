@@ -319,20 +319,20 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
                 getProductDetail(productId,num, this);
                 ll_service.setVisibility(View.GONE);
                 mTvAddCar.setText("加入购物车");
-                mTvAddCar.setBackgroundResource(R.drawable.app_car_orange);
+                mTvAddCar.setBackgroundResource(R.drawable.shape_jianbian5);
 
             }else {
                 getProductDetail(productId,num, this);
                 ll_service.setVisibility(View.VISIBLE);
                 mTvAddCar.setEnabled(false);
-                mTvAddCar.setBackgroundResource(R.drawable.app_car);
+                mTvAddCar.setBackgroundResource(R.drawable.shape_grey);
 
             }
         }else {
             mTvAddCar.setEnabled(false);
             getProductDetail(productId,num,this);
             mTvAddCar.setText("加入购物车");
-            mTvAddCar.setBackgroundResource(R.drawable.app_car_orange);
+            mTvAddCar.setBackgroundResource(R.drawable.shape_jianbian5);
         }
 
         getAllCommentList(pageNum, pageSize, productId, businessType);
@@ -741,7 +741,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
                             if(model.getData().getIntroduction()==null||model.getData().getIntroduction().equals("")) {
                                 ll_desc.setVisibility(View.GONE);
                             }else {
-                                tv_desc.setText(model.getData().getIntroduction());
+//                                tv_desc.setText(model.getData().getIntroduction());
                                 ll_desc.setVisibility(View.VISIBLE);
                             }
                             tv_desc.setOnClickListener(new View.OnClickListener() {
@@ -1225,7 +1225,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
             public void onSuccessful(GetCartNumModel getCartNumModel) {
                 if (getCartNumModel.isSuccess()) {
                     if (Integer.valueOf(getCartNumModel.getData().getNum()) > 0) {
-                        mIvCar.setImageResource(R.mipmap.ic_buy_car_fill);
+                        mIvCar.setImageResource(R.mipmap.ic_detail_car);
                         mTvCarNum.setVisibility(View.VISIBLE);
                         mTvCarNum.setText(getCartNumModel.getData().getNum());
                         mTvAmount.setText("￥" + getCartNumModel.getData().getTotalPrice() + "元");
@@ -1233,7 +1233,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
                         mTvFee.setVisibility(View.VISIBLE);
                         mTvFee.setText("满" + getCartNumModel.getData().getSendAmount() + "元免配送费");
                     } else {
-                        mIvCar.setImageResource(R.mipmap.ic_buy_car);
+                        mIvCar.setImageResource(R.mipmap.ic_detail_car);
                         mTvCarNum.setVisibility(View.GONE);
                         mTvAmount.setText("未选购商品");
                         mTvAmount.setTextColor(Color.parseColor("#A7A7A7"));

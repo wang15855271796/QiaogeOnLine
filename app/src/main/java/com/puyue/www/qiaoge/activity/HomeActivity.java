@@ -60,6 +60,7 @@ import com.puyue.www.qiaoge.fragment.home.HomeFragment2;
 import com.puyue.www.qiaoge.fragment.home.InfoFragment;
 import com.puyue.www.qiaoge.fragment.market.MarketsFragment;
 import com.puyue.www.qiaoge.fragment.mine.MineFragment;
+import com.puyue.www.qiaoge.fragment.mine.MineWyFragment;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.PublicRequestHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
@@ -129,7 +130,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     @Override
     public void onAttachFragment(Fragment fragment) {
         //重新让新的Fragment指向了原本未被销毁的fragment，它就是onAttach方法对应的Fragment对象
-        if (mTabHome == null && fragment instanceof HomeFragment)
+        if (mTabHome == null && fragment instanceof HomeFragment2)
             mTabHome = fragment;
         if (mTabMarket == null && fragment instanceof MarketsFragment)
             mTabMarket = fragment;
@@ -137,7 +138,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
             mTabCart = fragment;
         if (mTabInfo == null && fragment instanceof InfoFragment)
             mTabInfo = fragment;
-        if (mTabMine == null && fragment instanceof MineFragment)
+        if (mTabMine == null && fragment instanceof MineWyFragment)
             mTabMine = fragment;
         super.onAttachFragment(fragment);
     }
@@ -411,7 +412,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                 SharedPreferencesUtil.saveString(mActivity,"index","1");
                 SharedPreferencesUtil.saveString(mActivity,"index2","2");
                 if (mTabHome == null) {
-                    mTabHome = new HomeFragment();
+                    mTabHome = new HomeFragment2();
                     mFragmentTransaction.add(R.id.layout_home_container, mTabHome);
                 } else {
                     mFragmentTransaction.show(mTabHome);
@@ -461,7 +462,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                 SharedPreferencesUtil.saveString(mActivity,"index1","1");
 
                 if (mTabMine == null) {
-                    mTabMine = new MineFragment();
+                    mTabMine = new MineWyFragment();
                     mFragmentTransaction.add(R.id.layout_home_container, mTabMine);
                 } else {
                     mFragmentTransaction.show(mTabMine);

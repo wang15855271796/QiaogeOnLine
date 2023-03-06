@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/icon_address_oval" android:state_checked="true" />
-    <item android:drawable="@drawable/checkbox_no" android:state_checked="false" />
-    <item android:drawable="@drawable/checkbox_no" />
+    <item android:drawable="@mipmap/ic_sc_choose" android:state_checked="true" />
+    <item android:drawable="@mipmap/ic_sc_un_choose" android:state_checked="false" />
+    <item android:drawable="@mipmap/ic_sc_un_choose" />
 </selector>
