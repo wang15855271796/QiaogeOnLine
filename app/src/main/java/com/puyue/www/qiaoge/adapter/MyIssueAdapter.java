@@ -49,6 +49,7 @@ public class MyIssueAdapter extends BaseQuickAdapter<InfoListModel.DataBean.List
         ImageView iv_state =  helper.getView(R.id.iv_state);
         TextView tv_look = helper.getView(R.id.tv_look);
         TextView tv_status1 = helper.getView(R.id.tv_status1);
+        TextView tv_status2 = helper.getView(R.id.tv_status2);
         tv_look.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,34 +68,39 @@ public class MyIssueAdapter extends BaseQuickAdapter<InfoListModel.DataBean.List
         }
 
         TextView tv_deleted = helper.getView(R.id.tv_deleted);
-        if(item.getMsgType().equals("1")) {
-            helper.setText(R.id.tv_title,"店铺转让");
-        }else if(item.getMsgType().equals("2")) {
-            helper.setText(R.id.tv_title,"器具转让");
-        }else if(item.getMsgType().equals("3")) {
-            helper.setText(R.id.tv_title,"厨师招聘");
-        }else if(item.getMsgType().equals("4")) {
-            helper.setText(R.id.tv_title,"其他信息");
+        TextView tv_title = helper.getView(R.id.tv_title);
+        if(!item.getMsgTypeStr().equals("") && item.getMsgTypeStr()!=null) {
+            tv_title.setText(item.getMsgTypeStr());
+            tv_title.setBackgroundResource(R.drawable.shape_jianbian8);
+        }else {
+            tv_title.setBackgroundResource(R.drawable.shape_white1);
         }
 
         helper.setText(R.id.tv_desc,item.getContent());
         helper.setText(R.id.tv_time,item.getCreateTime());
         helper.setText(R.id.tv_num,item.getBrowseNum()+"人看过");
         TextView tv_status = helper.getView(R.id.tv_status);
+        tv_status.setText(item.getCheckStr());
         TextView tv_edit = helper.getView(R.id.tv_edit);
         if(item.getCheckStatus().equals("1")) {
             //已审核
             tv_status1.setVisibility(View.GONE);
             tv_status.setVisibility(View.VISIBLE);
-            tv_status.setText("审核信息已通过");
             iv_state.setBackgroundResource(R.mipmap.ic_pass);
             tv_edit.setVisibility(View.GONE);
             tv_look.setVisibility(View.VISIBLE);
+
+            if(item.isDeleteFlag()) {
+                tv_status2.setVisibility(View.VISIBLE);
+                tv_deleted.setVisibility(View.GONE);
+            }else {
+                tv_deleted.setVisibility(View.VISIBLE);
+                tv_status2.setVisibility(View.GONE);
+            }
         }else if(item.getCheckStatus().equals("0")) {
             //待审核
             tv_status1.setVisibility(View.GONE);
             tv_status.setVisibility(View.VISIBLE);
-            tv_status.setText("审核中");
             iv_state.setBackgroundResource(R.mipmap.ic_verify);
             tv_edit.setVisibility(View.VISIBLE);
             tv_look.setVisibility(View.GONE);
@@ -102,9 +108,6 @@ public class MyIssueAdapter extends BaseQuickAdapter<InfoListModel.DataBean.List
         }else if(item.getCheckStatus().equals("2")){
             tv_status1.setVisibility(View.VISIBLE);
             tv_status.setVisibility(View.VISIBLE);
-            tv_status.setText("审核未通过");
-//            SpannableStringBuilder text = StringSpecialHelper.buildSpanColorStyle("查看原因", 1, 4, Color.parseColor("#FF4424"));
-//            tv_status1.setText(text);
             iv_state.setBackgroundResource(R.mipmap.ic_unpass);
             tv_edit.setVisibility(View.VISIBLE);
             tv_look.setVisibility(View.GONE);

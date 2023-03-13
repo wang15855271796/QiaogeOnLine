@@ -70,13 +70,12 @@ public class ShopImageViewAdapter extends RecyclerView.Adapter<ShopImageViewAdap
 
         ImageView mImg;
         LinearLayout ll_del;
-        TextView tv_duration;
-
+        ImageView iv_player;
         public ViewHolder(View view) {
             super(view);
+            iv_player = (ImageView) view.findViewById(R.id.iv_player);
             mImg = (ImageView) view.findViewById(R.id.fiv);
             ll_del = (LinearLayout) view.findViewById(R.id.ll_del);
-            tv_duration = (TextView) view.findViewById(R.id.tv_duration);
         }
     }
 
@@ -149,6 +148,8 @@ public class ShopImageViewAdapter extends RecyclerView.Adapter<ShopImageViewAdap
             });
             LocalMedia media = list.get(position);
             String mimeType = media.getMimeType();
+            viewHolder.iv_player.setVisibility(PictureMimeType.isHasVideo(media.getMimeType()) ? View.VISIBLE : View.GONE);
+
             String path = "";
             if (media.isCut() && !media.isCompressed()) {
                 // 裁剪过
@@ -171,30 +172,15 @@ public class ShopImageViewAdapter extends RecyclerView.Adapter<ShopImageViewAdap
             if (media.isCut()) {
                 Log.i("裁剪地址::", media.getCutPath());
             }
-//            long duration = media.getDuration();
-//            viewHolder.tv_duration.setVisibility(pictureType == PictureConfig.TYPE_VIDEO
-//                    ? View.VISIBLE : View.GONE);
-//            if (mimeType == PictureMimeType.ofAudio()) {
-//                viewHolder.tv_duration.setVisibility(View.VISIBLE);
-//                Drawable drawable = ContextCompat.getDrawable(context, R.drawable.picture_audio);
-//                StringUtils.modifyTextViewDrawable(viewHolder.tv_duration, drawable, 0);
-//            } else {
-//                Drawable drawable = ContextCompat.getDrawable(context, R.drawable.video_icon);
-//                StringUtils.modifyTextViewDrawable(viewHolder.tv_duration, drawable, 0);
-//            }
-//            viewHolder.tv_duration.setText(DateUtils.timeParse(duration));
-//            if (mimeType == PictureMimeType.ofAudio()) {
-//                viewHolder.mImg.setImageResource(R.drawable.audio_placeholder);
-//            } else {
-                RequestOptions options = new RequestOptions()
-                        .centerCrop()
-                        .placeholder(R.color.color_f6)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL);
-                Glide.with(viewHolder.itemView.getContext())
-                        .load(path)
-                        .apply(options)
-                        .into(viewHolder.mImg);
-//            }
+
+            RequestOptions options = new RequestOptions()
+                    .centerCrop()
+                    .placeholder(R.color.color_f6)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL);
+            Glide.with(viewHolder.itemView.getContext())
+                    .load(path)
+                    .apply(options)
+                    .into(viewHolder.mImg);
             //itemView 的点击事件
             if (mItemClickListener != null) {
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {

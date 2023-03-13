@@ -16,6 +16,22 @@ public class AppInterfaceAddress {
 //    queryReturnProdIsContainFullGift
 
     /**
+     *视频详情
+     */
+    public static final String School_Video_Detail = "common/getAppQgSchoolVideoDetail ";
+    /**
+     *记录视频浏览量
+     */
+    public static final String School_Video_Num = "common/appViewVideo";
+    /**
+     * 学堂资讯申请
+     */
+    public static final String School_Video_Ask = "common/appApplyQgSchool";
+    /**
+     *获取视频列表
+     */
+    public static final String School_Video_List = "common/getAppQgSchoolVideoList";
+    /**
      *授权前判定
      */
     public static final String Judge = "user/authorizeJudge";
@@ -185,6 +201,16 @@ public class AppInterfaceAddress {
      *  顶部首页推荐
      */
     public static final String Recommend_List = "common/getProdHotKey";
+
+    /**
+     * 获取风格模板
+     */
+
+    public static final String Get_Style = "common/initAppTemplateModel";
+    /**
+     *切换首页tab
+     */
+    public static final String Get_Style_Tab = "common/initAppBottomModule ";
     /**
      *获取资讯详情
      */
@@ -193,6 +219,10 @@ public class AppInterfaceAddress {
      * 发布资讯
      */
     public static final String Info_Issue = "message/addMessage";
+    /**
+     * 判断是否需要支付
+     */
+    public static final String Info_Is_Pay = "common/getMsgShouldPay";
     /**
      *删除资讯
      */
@@ -356,6 +386,10 @@ public class AppInterfaceAddress {
      */
     public static final String Pay_Info_List = "common/getMsgPayChannel";
 
+    /**
+     * 生成支付信息
+     */
+    public static final String Get_Pay_Info = "message/getPayInfo";
     /**
      *
      * 判断地址是否在配送范围内
@@ -607,7 +641,10 @@ public class AppInterfaceAddress {
      * 删除订单
      */
     public static final String DELETEORDER = "commonOrder/deleteOrder";
-
+    /**
+     * 删除订单2
+     */
+    public static final String Delete_Order = "commonOrder/removeUserFinishOrder";
     public static final String GETWALLETAMOUNT = "wallet/getWalletAmount?";
     /**
      * 我的账单列表
@@ -656,6 +693,10 @@ public class AppInterfaceAddress {
     public static final String POINT_MYPOINT = "point/myPoint";
     //积分商城
     public static final String Point_Shop = "user/queryMallGiftList";
+    /**
+     * 积分兑换
+     */
+    public static final String Point_Exchange = "user/exchangeMallGift";
     public static final String WALLETGETMYBALANCEINFO = "wallet/getMyBalanceInfo";
     public static final String COMMONSHARGETSHAREINFO = "common/share/getShareInfo";
     public static final String AUTHQUERYHOMEPROPUP = "auth/queryHomePropup";
@@ -665,6 +706,11 @@ public class AppInterfaceAddress {
     public static final String VIP_Center = "vip/vipCenter";
     public static final String VIP_List = "vip/vipPayChannel";
     public static final String VIPPAYRESULT = "vip/payResult";
+    /**
+     * 行业资讯的支付结果查询
+     */
+    public static final String Info_Pay_Result = "common/getMsgPayResult";
+
     public static final String CARTGETREDUCTDESC = "cart/getCityDeductInfo";
     public static final String CARTPOSTCHANGEORDERDETAIL = "cart/cartNumChange";
 
@@ -707,6 +753,10 @@ public class AppInterfaceAddress {
     public static final String Full_Cart_Detail = "cart/getCityDeductInfoDetail";
     //满减详情(新)
     public static final String Full_Cart_Details = "cart/getCityDeductInfoDetailV3";
+    /**
+     * 计算满减
+     */
+    public static final String Computed_Full = "cart/platDeductAmtPlan";
     /**
      * 获取退货订单信息
      */
@@ -758,7 +808,6 @@ public class AppInterfaceAddress {
      * 生成退货单
      */
     public static final String RETURNORDER = "order/onlineUserReturnOrder";
-
     /**
      * 获取物流信息
      */
@@ -858,6 +907,14 @@ public class AppInterfaceAddress {
      * 账单明细搜索
      */
     public static final String WALLETSEARCH = "wallet/getSearchList";
+    /**
+     * 删除账单
+     */
+    public static final String Delete_Account = "wallet/removeWalletRecord";
+    /**
+     *余额明细
+     */
+    public static final String Balance_Detail = "wallet/getBalanceRecordLog";
     /**
      * 我的账单列表总计
      */

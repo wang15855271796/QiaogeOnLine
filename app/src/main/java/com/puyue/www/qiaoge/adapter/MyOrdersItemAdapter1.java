@@ -254,7 +254,7 @@ public class MyOrdersItemAdapter1 extends BaseQuickAdapter<OrdersModel.DataBean.
         deleteOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClick.deleteOnclick(item.orderId);
+                onClick.deleteOnclick(item.orderId,item.orderStatus);
             }
         });
         imageGo.setOnClickListener(new View.OnClickListener() {

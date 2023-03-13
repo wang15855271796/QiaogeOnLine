@@ -35,7 +35,7 @@
                 android:layout_height="@dimen/size_60dp"/>
 
             <TextView
-                android:id="@+id/tv_style"
+                android:id="@+id/tv_player_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -66,11 +66,13 @@
             android:textSize="@dimen/sp_14" />
 
         <TextView
-            android:id="@+id/tv_address"
-            android:layout_below="@+id/tv_title"
+            android:id="@+id/tv_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_title"
             android:layout_marginLeft="@dimen/dp_10"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:layout_marginTop="@dimen/size_5dp"
             android:text="地址：浙江省杭州市"
             android:textColor="#AEAEAE"
@@ -78,7 +80,7 @@
 
         <LinearLayout
             android:id="@+id/ll_desc"
-            android:layout_below="@+id/tv_address"
+            android:layout_below="@+id/tv_desc"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_30dp">

@@ -141,7 +141,7 @@ public class EvaluatedOrdersFragment extends BaseFragment {
                 }
 
                 @Override
-                public void deleteOnclick(String orderId) {
+                public void deleteOnclick(String orderId,int orderStatus) {
 
                 }
 
@@ -193,7 +193,7 @@ public class EvaluatedOrdersFragment extends BaseFragment {
                 }
 
                 @Override
-                public void deleteOnclick(String orderId) {
+                public void deleteOnclick(String orderId,int orderStatus) {
 
                 }
 

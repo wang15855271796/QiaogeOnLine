@@ -105,6 +105,7 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-sdk tools:overrideLibrary="com.shuyu.gsyvideoplayer.lib"/>
 <!--    tools:replace="android:appComponentFactory"-->
+<!--    android:requestLegacyExternalStorage="true"-->
     <application
         android:name=".QiaoGeApplication"
         android:allowBackup="true"
@@ -218,6 +219,10 @@
 
 
         <activity android:name=".activity.BannerActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.InfoPayResultActivity"
             android:screenOrientation="portrait"
             />
 
@@ -633,8 +638,6 @@
             android:screenOrientation="portrait"
             />
 
-        <activity android:name=".activity.mine.order.MyConfireOrdersActivity"
-            android:screenOrientation="portrait" />
         <activity android:name=".activity.mine.wallet.MyWalletNewActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.mine.order.NewOrderDetailActivity"

@@ -7,10 +7,10 @@
     android:orientation="vertical">
 
     <com.puyue.www.qiaoge.view.CompatToolbar
-        android:layout_marginTop="@dimen/size_20dp"
         android:id="@+id/compatToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_20dp"
         android:background="@drawable/app_border_bottom_bg">
 
         <ImageView
@@ -26,8 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="13dp"
             android:layout_marginTop="13dp"
+            android:layout_marginBottom="13dp"
             android:text="支付结果"
             android:textColor="@color/app_top_bar_text"
             android:textSize="18dp" />

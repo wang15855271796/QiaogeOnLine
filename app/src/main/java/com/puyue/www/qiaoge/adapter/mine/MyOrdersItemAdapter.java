@@ -207,7 +207,7 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
             tv_time.setVisibility(View.GONE);
             evaluateNow.setVisibility(View.VISIBLE);
             againBay.setVisibility(View.VISIBLE);
-            deleteOrder.setVisibility(View.GONE);
+            deleteOrder.setVisibility(View.VISIBLE);
             cancelOrder.setVisibility(View.GONE);
             imageGo.setVisibility(View.GONE);
             confirmOrder.setVisibility(View.GONE);
@@ -218,7 +218,7 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
             againBay.setVisibility(View.VISIBLE);
             evaluateNow.setVisibility(View.GONE);
             confirmOrder.setVisibility(View.GONE);
-            deleteOrder.setVisibility(View.GONE);
+            deleteOrder.setVisibility(View.VISIBLE);
             cancelOrder.setVisibility(View.GONE);
             tv_call.setVisibility(View.GONE);
         }else if(item.orderStatus==7) {
@@ -370,7 +370,7 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
         deleteOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClick.deleteOnclick(item.orderId);
+                onClick.deleteOnclick(item.orderId,item.orderStatus);
             }
         });
         imageGo.setOnClickListener(new View.OnClickListener() {
@@ -414,7 +414,7 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
 
         void cancelOnclick(String orderId);
 
-        void deleteOnclick(String orderId);
+        void deleteOnclick(String orderId,int orderStatus);
 
         void imageGo(String orderId, String totalAmount);
 

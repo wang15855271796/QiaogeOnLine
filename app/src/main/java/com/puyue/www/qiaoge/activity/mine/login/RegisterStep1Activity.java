@@ -268,7 +268,8 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                                 if(shopStyleDialog == null) {
                                     shopStyleDialog = new ShopDialog(mContext, mList) {
                                         @Override
-                                        public void confirm(String name) {
+                                        public void confirm(String name,int id) {
+                                            shopTypeId = id;
                                             tv_shop_style.setText(name);
                                             tv_shop_style.setTextColor(Color.parseColor("#FF3B00"));
                                             iv_arrow.setImageResource(R.mipmap.icon_shop_arrow);
@@ -708,8 +709,8 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getCartNum(ShopEvent event) {
-        tv_shop_style.setText(event.name);
-        shopTypeId = event.id;
+//        tv_shop_style.setText(event.name);
+//        shopTypeId = event.id;
     }
 
 

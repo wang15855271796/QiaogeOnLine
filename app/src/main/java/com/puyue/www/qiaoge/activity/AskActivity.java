@@ -1,5 +1,7 @@
 package com.puyue.www.qiaoge.activity;
 
+import static rx.android.schedulers.AndroidSchedulers.mainThread;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -17,14 +19,17 @@ import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.api.home.SchoolVideoApi;
 import com.puyue.www.qiaoge.api.mine.address.AddressListAPI;
 import com.puyue.www.qiaoge.api.mine.address.AreaModel;
 import com.puyue.www.qiaoge.base.BaseActivity;
+import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.event.ScAddressEvent;
 import com.puyue.www.qiaoge.event.UpdateAddressEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.model.mine.address.AddressModel;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -49,6 +54,12 @@ public class AskActivity extends BaseActivity implements View.OnClickListener {
     EditText edit_message;
     @BindView(R.id.edit_address)
     EditText edit_address;
+    @BindView(R.id.edit_name)
+    EditText edit_name;
+    @BindView(R.id.tv_ok)
+    TextView tv_ok;
+    @BindView(R.id.edit_phone)
+    EditText edit_phone;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -70,21 +81,9 @@ public class AskActivity extends BaseActivity implements View.OnClickListener {
         rl_choose_address.setOnClickListener(this);
         tv_edit_address.setOnClickListener(this);
         iv_back.setOnClickListener(this);
+        tv_ok.setOnClickListener(this);
         selectCity();
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    public void setClickEvent() {
-
-    }
-
-
 
     public String mProvinceCode;
     public String mCityCode;
@@ -152,6 +151,36 @@ public class AskActivity extends BaseActivity implements View.OnClickListener {
                 });
     }
 
+
+
+    private void getSchoolVideoList() {
+        SchoolVideoApi.getVideoAsk(mActivity,editName,editPhone,provinceName,cityName,areaName,detailAddress,memo)
+                .subscribeOn(Schedulers.io())
+                .observeOn(mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+                        if (baseModel.code==1) {
+                            ToastUtil.showSuccessMsg(mContext,baseModel.message);
+                            finish();
+                        }else {
+                            ToastUtil.showSuccessMsg(mContext,baseModel.message);
+                        }
+                    }
+                });
+    }
+
     private void parseData(List<AreaModel.DataBean> data) {
         options1Items = data;
 ////     遍历省
@@ -192,6 +221,27 @@ public class AskActivity extends BaseActivity implements View.OnClickListener {
 //        isLoaded = true;
     }
 
+    //选择地址
+    AddressModel.DataBean dataBean;
+    String detailAddress;
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateAddress(ScAddressEvent event) {
+        dataBean = event.getDataBean();
+        mAreaCode = dataBean.getAreaCode();
+        mProvinceCode = dataBean.getProvinceCode();
+        mCityCode = dataBean.getCityCode();
+        areaName = dataBean.getAreaName();
+        cityName = dataBean.getCityName();
+        provinceName = dataBean.getProvinceName();
+        detailAddress = dataBean.getDetailAddress();
+        tv_edit_address.setText(provinceName+cityName+areaName);
+        edit_address.setText(detailAddress);
+    }
+
+
+    String editName ="";
+    String editPhone ="";
+    String memo ="";
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -208,6 +258,19 @@ public class AskActivity extends BaseActivity implements View.OnClickListener {
             case R.id.iv_back:
                 finish();
                 break;
+
+            case R.id.tv_ok:
+                editName = edit_name.getText().toString();
+                editPhone = edit_phone.getText().toString();
+                memo = edit_message.getText().toString();
+                if(editName!= null && editPhone!= null &&editName.equals("")&&editPhone.equals("")) {
+                    ToastUtil.showSuccessMsg(mContext,"请填写收货人和联系电话");
+                    return;
+                }
+                getSchoolVideoList();
+                break;
+
+
         }
     }
 
@@ -221,19 +284,16 @@ public class AskActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    //选择地址
-    AddressModel.DataBean dataBean;
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void updateAddress(ScAddressEvent event) {
-        dataBean = event.getDataBean();
-        mAreaCode = dataBean.getAreaCode();
-        mProvinceCode = dataBean.getProvinceCode();
-        mCityCode = dataBean.getCityCode();
-        areaName = dataBean.getAreaName();
-        cityName = dataBean.getCityName();
-        provinceName = dataBean.getProvinceName();
-        String detailAddress = dataBean.getDetailAddress();
-        tv_edit_address.setText(provinceName+cityName+areaName);
-        edit_address.setText(detailAddress);
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
+
+    @Override
+    public void setClickEvent() {
+
+    }
+
 }

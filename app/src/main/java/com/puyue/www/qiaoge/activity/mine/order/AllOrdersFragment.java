@@ -177,7 +177,7 @@ public class AllOrdersFragment extends BaseFragment {
                 }
 
                 @Override
-                public void deleteOnclick(String orderId) {
+                public void deleteOnclick(String orderId,int orderStatus) {
                     final AlertDialog mDialog = new AlertDialog.Builder(getContext()).create();
                     mDialog.show();
                     mDialog.getWindow().setContentView(R.layout.dialog_delete_order);
@@ -197,7 +197,12 @@ public class AllOrdersFragment extends BaseFragment {
                         public void onClick(View v) {
                             mDialog.dismiss();
                             //取消订单的接口
-                            deleteOrder(orderId);
+                            if(orderStatus == 5 || orderStatus == 6) {
+                                deleteOrder1(orderId);
+                            }else {
+                                deleteOrder(orderId);
+                            }
+
                             //   mPtr.refreshComplete();
                             //   mAdapterMyOrders.notifyDataSetChanged();
                         }
@@ -325,7 +330,7 @@ public class AllOrdersFragment extends BaseFragment {
                 }
 
                 @Override
-                public void deleteOnclick(String orderId) {
+                public void deleteOnclick(String orderId,int orderStatus) {
                     final AlertDialog mDialog = new AlertDialog.Builder(getContext()).create();
                     mDialog.show();
                     mDialog.getWindow().setContentView(R.layout.dialog_delete_order);
@@ -345,9 +350,11 @@ public class AllOrdersFragment extends BaseFragment {
                         public void onClick(View v) {
                             mDialog.dismiss();
                             //取消订单的接口
-                            deleteOrder(orderId);
-                            //   mPtr.refreshComplete();
-                            //   mAdapterMyOrders.notifyDataSetChanged();
+                            if(orderStatus == 5 || orderStatus == 6) {
+                                deleteOrder1(orderId);
+                            }else {
+                                deleteOrder(orderId);
+                            }
                         }
                     });
 
@@ -867,6 +874,40 @@ public class AllOrdersFragment extends BaseFragment {
                 });
     }
 
+    //删除订单
+    private void deleteOrder1(String orderId) {
+        DeleteOrderAPI.deleteOrder(getContext(), orderId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<CancelOrderModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(CancelOrderModel cancelOrderModel) {
+                        if (cancelOrderModel.success) {
+                            //删除成功
+                            AppHelper.showMsg(mActivity, "删除订单成功");
+
+                            // getOrderDetail(orderId, orderState, returnProductMainId);
+                            //mPtr.autoRefresh();
+                            pageNum = 1;
+                            mPtr.autoRefresh();
+                            requestOrdersList(0);
+
+                        } else {
+                            AppHelper.showMsg(mActivity, cancelOrderModel.message);
+                        }
+                    }
+                });
+    }
     @Override
     public void onResume() {
         super.onResume();

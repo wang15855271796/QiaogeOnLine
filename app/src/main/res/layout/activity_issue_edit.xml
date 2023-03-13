@@ -267,36 +267,38 @@
 <!--                    android:layout_width="wrap_content"-->
 <!--                    android:layout_height="wrap_content"/>-->
 
-                <TextView
-                    android:id="@+id/tv_money"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/rl2"
-                    android:layout_marginLeft="@dimen/size_18dp"
-                    android:layout_marginRight="@dimen/size_18dp"
-                    android:layout_marginBottom="@dimen/size_38dp"
-                    android:gravity="center_horizontal"
-                    android:text="当前收费0.5元/条，若审核未通过将退回"
-                    android:textColor="#FF1601"/>
-
-                <TextView
-                    android:id="@+id/tv_sure"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/rl2"
-                    android:layout_marginLeft="@dimen/size_18dp"
-                    android:layout_marginTop="@dimen/size_20dp"
-                    android:layout_marginRight="@dimen/size_18dp"
-                    android:layout_marginBottom="@dimen/size_35dp"
-                    android:background="@drawable/shape_jianbian5"
-                    android:gravity="center_horizontal"
-                    android:paddingTop="@dimen/size_14dp"
-                    android:paddingBottom="@dimen/size_14dp"
-                    android:text="确认发表"
-                    android:textColor="#ffffff"
-                    android:textSize="@dimen/sp_16" />
 
             </RelativeLayout>
+
+
+<!--            <TextView-->
+<!--                android:layout_marginTop="@dimen/size_34dp"-->
+<!--                android:id="@+id/tv_money"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@+id/rl2"-->
+<!--                android:layout_marginLeft="@dimen/size_18dp"-->
+<!--                android:layout_marginRight="@dimen/size_18dp"-->
+<!--                android:gravity="center_horizontal"-->
+<!--                android:text="当前收费0.5元/条，若审核未通过将退回"-->
+<!--                android:textColor="#FF1601"/>-->
+
+            <TextView
+                android:id="@+id/tv_sure"
+                android:layout_marginTop="@dimen/size_5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl2"
+                android:layout_marginLeft="@dimen/size_18dp"
+                android:layout_marginRight="@dimen/size_18dp"
+                android:layout_marginBottom="@dimen/size_45dp"
+                android:background="@drawable/shape_jianbian5"
+                android:gravity="center_horizontal"
+                android:paddingTop="@dimen/size_14dp"
+                android:paddingBottom="@dimen/size_14dp"
+                android:text="确认发表"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/sp_16" />
 
         </LinearLayout>
     </ScrollView>

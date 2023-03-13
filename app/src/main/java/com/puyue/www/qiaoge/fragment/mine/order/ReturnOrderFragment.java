@@ -119,7 +119,7 @@ public class ReturnOrderFragment extends BaseFragment {
                 }
 
                 @Override
-                public void deleteOnclick(String orderId) {
+                public void deleteOnclick(String orderId,int orderStatus) {
 
                 }
 
@@ -170,7 +170,7 @@ public class ReturnOrderFragment extends BaseFragment {
                 }
 
                 @Override
-                public void deleteOnclick(String orderId) {
+                public void deleteOnclick(String orderId,int orderStatus) {
 
                 }
 

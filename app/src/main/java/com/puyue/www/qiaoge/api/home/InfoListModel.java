@@ -172,6 +172,33 @@ public class InfoListModel {
             private String areaName;
             private List<String> pictureList;
             private String msgTypeName;
+            private boolean deleteFlag;
+            private String checkStr;
+            private String msgTypeStr;
+
+            public boolean isDeleteFlag() {
+                return deleteFlag;
+            }
+
+            public void setDeleteFlag(boolean deleteFlag) {
+                this.deleteFlag = deleteFlag;
+            }
+
+            public String getCheckStr() {
+                return checkStr;
+            }
+
+            public void setCheckStr(String checkStr) {
+                this.checkStr = checkStr;
+            }
+
+            public String getMsgTypeStr() {
+                return msgTypeStr;
+            }
+
+            public void setMsgTypeStr(String msgTypeStr) {
+                this.msgTypeStr = msgTypeStr;
+            }
 
             public String getMsgTypeName() {
                 return msgTypeName;

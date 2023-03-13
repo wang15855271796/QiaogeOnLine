@@ -2,10 +2,14 @@ package com.puyue.www.qiaoge.api.home;
 
 import android.content.Context;
 
+import com.puyue.www.qiaoge.api.mine.PointApI;
+import com.puyue.www.qiaoge.api.mine.PointShopModel;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
 import com.puyue.www.qiaoge.helper.RestHelper;
 import com.puyue.www.qiaoge.model.InfoDetailIssueModel;
+import com.puyue.www.qiaoge.model.InfoIsPayModel;
+import com.puyue.www.qiaoge.model.InfoPubModel;
 import com.puyue.www.qiaoge.model.MyInfoListModel;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 
@@ -70,12 +74,12 @@ public class InfoListAPI {
     private interface InfoIssue {
         @FormUrlEncoded
         @POST(AppInterfaceAddress.Info_Issue)
-        Observable<BaseModel> getData(@Field("msgId") String msgId,@Field("msgType") int msgType,@Field("content") String content,@Field("pictureJson") String pictureJson,@Field("provinceCode") String provinceCode,@Field("cityCode") String cityCode,@Field("detailAddress") String detailAddress,@Field("phone")String phone);
+        Observable<InfoPubModel> getData(@Field("msgType") int msgType, @Field("content") String content, @Field("pictureJson") String pictureJson, @Field("provinceCode") String provinceCode, @Field("cityCode") String cityCode, @Field("detailAddress") String detailAddress, @Field("phone")String phone);
     }
 
-    public static Observable<BaseModel> InfoIssue(Context context,String msgId,int msgType,String content,String pictureJson,String provinceCode,String cityCode,String detailAddress,String phone) {
+    public static Observable<InfoPubModel> InfoIssue(Context context,int msgType,String content,String pictureJson,String provinceCode,String cityCode,String detailAddress,String phone) {
         InfoIssue service = RestHelper.getBaseRetrofit(context).create(InfoIssue.class);
-        return service.getData(msgId,msgType,content,pictureJson,provinceCode,cityCode,detailAddress,phone);
+        return service.getData(msgType,content,pictureJson,provinceCode,cityCode,detailAddress,phone);
     }
 
     /**
@@ -105,5 +109,18 @@ public class InfoListAPI {
     public static Observable<BaseModel> EditInfo(Context context,String msgId,int msgType,String content,String pictureJson,String provinceCode,String cityCode,String detailAddress,String phone) {
         InfoClassifyIssue service = RestHelper.getBaseRetrofit(context).create(InfoClassifyIssue.class);
         return service.getData(msgId,msgType,content,pictureJson,provinceCode,cityCode,detailAddress,phone);
+    }
+
+    /**
+     * 判断是否需要支付
+     */
+    private interface PointIsPayService {
+        @POST(AppInterfaceAddress.Info_Is_Pay)
+        Observable<InfoIsPayModel> getData();
+    }
+
+    public static Observable<InfoIsPayModel> getIsPay(Context context) {
+        PointIsPayService service = RestHelper.getBaseRetrofit(context).create(PointIsPayService.class);
+        return service.getData();
     }
 }

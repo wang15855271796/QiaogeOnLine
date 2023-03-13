@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="@dimen/size_60dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/size_20dp"
+        android:layout_marginRight="@dimen/size_20dp">
+
+        <ImageView
+            android:id="@+id/iv_pic"
+            android:layout_width="@dimen/size_16dp"
+            android:layout_height="@dimen/size_16dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_balance_pay" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/size_10dp"
+            android:layout_toRightOf="@+id/iv_pic"
+            android:gravity="center"
+            android:text="@string/balance"
+            android:textColor="@color/app_black"
+            android:textSize="@dimen/size_16dp" />
+
+
+        <ImageView
+            android:id="@+id/iv_choose"
+            android:layout_width="@dimen/size_30dp"
+            android:layout_height="@dimen/size_30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/size_6dp"
+            android:src="@mipmap/icon_uncheck_oval" />
+
+    </RelativeLayout>
+
+</LinearLayout>

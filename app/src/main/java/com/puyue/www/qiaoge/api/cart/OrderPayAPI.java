@@ -5,6 +5,7 @@ import android.content.Context;
 import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
 import com.puyue.www.qiaoge.helper.RestHelper;
 import com.puyue.www.qiaoge.model.PayInfoListModel;
+import com.puyue.www.qiaoge.model.PayInfoModel;
 import com.puyue.www.qiaoge.model.PayListModel;
 import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
 import com.puyue.www.qiaoge.model.cart.OrderPayModel;
@@ -55,6 +56,21 @@ public class OrderPayAPI {
     public static Observable<PayInfoListModel> getPayList(Context context) {
         PayInfoListService service = RestHelper.getBaseRetrofit(context).create(PayInfoListService.class);
         return service.setParams();
+    }
+
+
+    //行业资讯 生成支付信息
+    private interface PayInfoService {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Get_Pay_Info)
+        Observable<PayInfoModel> getData(@Field("payChannel") int payChannel,
+                                         @Field("payAmount") String payAmount,
+                                         @Field("msgId") String msgId);
+    }
+
+    public static Observable<PayInfoModel> getPayInfo(Context context, int payChannel, String payAmount, String msgId) {
+        PayInfoService service = RestHelper.getBaseRetrofit(context).create(PayInfoService.class);
+        return service.getData( payChannel, payAmount, msgId);
     }
 
 }

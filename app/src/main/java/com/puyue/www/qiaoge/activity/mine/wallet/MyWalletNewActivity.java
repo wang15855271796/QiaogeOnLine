@@ -22,6 +22,7 @@ import com.puyue.www.qiaoge.event.ExBackEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
+import com.puyue.www.qiaoge.model.BalanceDetailModel;
 import com.puyue.www.qiaoge.model.mine.GetMyBalanceModle;
 import com.puyue.www.qiaoge.model.mine.GetWallertRecordByPageModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
@@ -111,7 +112,7 @@ public class MyWalletNewActivity extends BaseSwipeActivity {
             }
         });
 
-        getWalletRecord("","","","",0,"1");
+        getWalletRecord();
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         remainAdapter = new RemainAdapter(R.layout.item_remain,lists);
         recyclerView.setAdapter(remainAdapter);
@@ -163,13 +164,13 @@ public class MyWalletNewActivity extends BaseSwipeActivity {
                 });
     }
 
-    List<GetWallertRecordByPageModel.DataBean.RecordsBean> lists = new ArrayList();
+    List<BalanceDetailModel.DataBean> lists = new ArrayList();
 
-    private void getWalletRecord(String types, String year, String month, String phone, int showType, String walletRecordChannelType) {
-        GetWallertRecordByPageAPI.requestData(mContext, types, year, month, phone, showType, walletRecordChannelType)
+    private void getWalletRecord() {
+        GetWallertRecordByPageAPI.getBalanceDetail(mContext)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<GetWallertRecordByPageModel>() {
+                .subscribe(new Subscriber<BalanceDetailModel>() {
                     @Override
                     public void onCompleted() {
 
@@ -181,16 +182,15 @@ public class MyWalletNewActivity extends BaseSwipeActivity {
                     }
 
                     @Override
-                    public void onNext(GetWallertRecordByPageModel getWallertRecordByPageModel) {
-                        if(getWallertRecordByPageModel.getCode()==1) {
-                            if(getWallertRecordByPageModel.getData()!=null && getWallertRecordByPageModel.getData().getRecords()!=null
-                            &&getWallertRecordByPageModel.getData().getRecords().size()>0) {
-                                lists.addAll(getWallertRecordByPageModel.getData().getRecords());
+                    public void onNext(BalanceDetailModel balanceDetailModel) {
+                        if(balanceDetailModel.getCode()==1) {
+                            if(balanceDetailModel.getData()!=null && balanceDetailModel.getData().size()>0) {
+                                lists.addAll(balanceDetailModel.getData());
                                 remainAdapter.notifyDataSetChanged();
                             }
 
                         }else {
-                            ToastUtil.showSuccessMsg(mContext,getWallertRecordByPageModel.getMessage());
+                            ToastUtil.showSuccessMsg(mContext,balanceDetailModel.getMessage());
                         }
                     }
                 });

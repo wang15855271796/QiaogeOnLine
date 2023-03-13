@@ -189,51 +189,167 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/ll_info"
+                    android:layout_marginRight="@dimen/size_9dp"
+                    android:layout_marginLeft="@dimen/size_9dp"
+                    android:layout_below="@+id/ll_desc"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/size_10dp"
+                    android:background="@drawable/shape_white1"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:id="@+id/rl_pay"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_30dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/size_12dp"
+                            android:text="支付费用"
+                            android:textColor="#000000" />
+
+                        <TextView
+                            android:id="@+id/tv_pay"
+                            android:textColor="#414141"
+                            tools:text="0"
+                            android:textSize="12sp"
+                            android:layout_marginRight="@dimen/size_14dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rl_pay_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_30dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/size_12dp"
+                            android:text="支付时间"
+                            android:textColor="#000000" />
+
+                        <TextView
+                            android:textColor="#414141"
+                            tools:text="0"
+                            android:id="@+id/tv_pay_time"
+                            android:textSize="12sp"
+                            android:layout_marginRight="@dimen/size_14dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rl_return_account"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_30dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/size_12dp"
+                            android:text="退回费用"
+                            android:textColor="#000000" />
+
+                        <TextView
+                            android:textColor="#414141"
+                            tools:text="0"
+                            android:id="@+id/tv_return_account"
+                            android:textSize="12sp"
+                            android:layout_marginRight="@dimen/size_14dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rl_return_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_30dp">
+
+                        <TextView
+                            android:textColor="#000000"
+                            android:text="退回时间"
+                            android:layout_marginLeft="@dimen/size_12dp"
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/tv_return_time"
+                            android:textColor="#414141"
+                            tools:text="0"
+                            android:layout_marginRight="@dimen/size_14dp"
+                            android:textSize="12sp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </RelativeLayout>
+                </LinearLayout>
+
             </RelativeLayout>
 
         </ScrollView>
 
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/size_84dp"
-            android:layout_alignParentBottom="true">
+<!--        <RelativeLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/size_84dp"-->
+<!--            android:layout_alignParentBottom="true">-->
 
-            <TextView
-                android:id="@+id/tv1"
-                android:textColor="#FF4F20"
-                android:textSize="10sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/size_15dp"
-                android:layout_centerHorizontal="true"
-                android:text="拨打电话时，请先说明是在翘歌平台看到的!" />
-
-
-            <RelativeLayout
-                android:layout_alignParentBottom="true"
-                android:layout_width="match_parent"
-                android:layout_marginBottom="@dimen/size_25dp"
-                android:layout_height="@dimen/dp_40"
-                android:layout_marginLeft="@dimen/size_16dp"
-                android:layout_marginRight="@dimen/size_16dp"
-                android:background="@drawable/shape_jianbian5">
-
-                <TextView
-                    android:id="@+id/tv_call"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv1"
-                    android:layout_centerInParent="true"
-                    android:drawableLeft="@mipmap/info_detail_phone"
-                    android:drawablePadding="@dimen/size_3dp"
-                    android:text="电话联系"
-                    android:textColor="#ffffff"
-                    android:textSize="@dimen/size_18dp" />
-            </RelativeLayout>
+<!--            <TextView-->
+<!--                android:id="@+id/tv1"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:layout_marginLeft="@dimen/size_15dp"-->
+<!--                android:text="拨打电话时，请先说明是在翘歌平台看到的!"-->
+<!--                android:textColor="#FF4F20"-->
+<!--                android:textSize="10sp" />-->
 
 
-        </RelativeLayout>
+<!--            <RelativeLayout-->
+<!--                android:layout_alignParentBottom="true"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_marginBottom="@dimen/size_25dp"-->
+<!--                android:layout_height="@dimen/dp_40"-->
+<!--                android:layout_marginLeft="@dimen/size_16dp"-->
+<!--                android:layout_marginRight="@dimen/size_16dp"-->
+<!--                android:background="@drawable/shape_jianbian5">-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_call"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_below="@+id/tv1"-->
+<!--                    android:layout_centerInParent="true"-->
+<!--                    android:drawableLeft="@mipmap/info_detail_phone"-->
+<!--                    android:drawablePadding="@dimen/size_3dp"-->
+<!--                    android:text="电话联系"-->
+<!--                    android:textColor="#ffffff"-->
+<!--                    android:textSize="@dimen/size_18dp" />-->
+<!--            </RelativeLayout>-->
+
+
+<!--        </RelativeLayout>-->
     </RelativeLayout>
 
 </LinearLayout>

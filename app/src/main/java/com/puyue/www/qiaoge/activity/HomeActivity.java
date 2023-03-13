@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.chuanglan.shanyan_sdk.OneKeyLoginManager;
 import com.chuanglan.shanyan_sdk.listener.GetPhoneInfoListener;
 import com.chuanglan.shanyan_sdk.listener.InitListener;
@@ -36,6 +37,7 @@ import com.puyue.www.qiaoge.activity.mine.login.LogoutsEvent;
 import com.puyue.www.qiaoge.adapter.Test3Adapter;
 import com.puyue.www.qiaoge.api.PostLoadAmountAPI;
 import com.puyue.www.qiaoge.api.SendJsPushAPI;
+import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.api.home.SendLocationAPI;
 import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.base.BaseModel;
@@ -66,6 +68,8 @@ import com.puyue.www.qiaoge.helper.PublicRequestHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
+import com.puyue.www.qiaoge.model.HomeStyleModel;
+import com.puyue.www.qiaoge.model.HomeStyleTabModel;
 import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
 import com.puyue.www.qiaoge.model.home.GetAddressModel;
 import com.puyue.www.qiaoge.utils.LoginUtil;
@@ -117,10 +121,9 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     private TextView tv_info;
     private long mExitTime = 0;
     private TextView mTvCarNum;
-    private ImageView iv_home;
+//    private ImageView iv_home;
     private String token;
     private String locationMessage = "";
-    private String guide;
     private boolean isSend = false;
     private String city;
     private String type;
@@ -208,7 +211,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
 
     @Override
     public void findViewById() {
-        iv_home = (ImageView) findViewById(R.id.iv_home);
+//        iv_home = (ImageView) findViewById(R.id.iv_home);
         iv_info = (ImageView) findViewById(R.id.iv_info);
         tv_info = (TextView) findViewById(R.id.tv_info);
         ll_info = (LinearLayout) findViewById(R.id.ll_info);
@@ -240,17 +243,125 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         }
         token = AppConstant.TOKEN;
         EventBus.getDefault().post(new InitEvent());
-        guide = UserInfoHelper.getGuide(mActivity);
         UserInfoHelper.saveChangeFlag(mContext,0+"");
-        mTvHome.setVisibility(View.GONE);
-        mIvHome.setVisibility(View.GONE);
-        iv_home.setVisibility(View.VISIBLE);
+//        mTvHome.setVisibility(View.GONE);
+//        mIvHome.setVisibility(View.GONE);
 
         UserInfoHelper.saveCity(mActivity, "杭州市");
         UserInfoHelper.saveAreaName(mContext, "上城区");
-        switchTab(TAB_HOME);
+        getHomeStyle();
 
 }
+
+    /**
+     * 获取首页风格
+     */
+    HomeStyleModel.DataBean data;
+    private void getHomeStyle() {
+        IndexHomeAPI.getStyle(mActivity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<HomeStyleModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(HomeStyleModel homeStyleModel) {
+                        if(homeStyleModel.getCode()==1) {
+                            if(homeStyleModel.getData()!=null) {
+                                data = homeStyleModel.getData();
+
+                                getHomeTabStyle();
+
+//                                normal常规，black_white黑白，may_day五一，national_day国庆，spring_festival春节
+
+                            }
+
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,homeStyleModel.getMessage());
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 获取首页Tab风格
+     */
+    String picUrl1;
+    String choosePicUrl1;
+    String picUrl2;
+    String choosePicUrl2;
+    String picUrl3;
+    String choosePicUrl3;
+    String picUrl4;
+    String choosePicUrl4;
+    String picUrl5;
+    String choosePicUrl5;
+    HomeStyleTabModel.DataBean homeTabData;
+    private void getHomeTabStyle() {
+        IndexHomeAPI.getTabStyle(mActivity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<HomeStyleTabModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(HomeStyleTabModel homeStyleTabModel) {
+                        if(homeStyleTabModel.getCode()==1) {
+                            if(homeStyleTabModel.getData()!=null) {
+                                homeTabData = homeStyleTabModel.getData();
+
+                                if(data.getTemplateStyle().equals("normal")) {
+                                    mTvHome.setVisibility(View.GONE);
+//                                    iv_home.setVisibility(View.VISIBLE);
+//                                    mIvHome.setVisibility(View.GONE);
+                                }else {
+                                    mTvHome.setVisibility(View.VISIBLE);
+//                                    mIvHome.setVisibility(View.VISIBLE);
+//                                    iv_home.setVisibility(View.GONE);
+                                }
+
+                                if(homeTabData.getChangeFlag()==1) {
+                                    //是
+                                    picUrl1 = homeTabData.getTab1().getPicUrl();
+                                    choosePicUrl1 = homeTabData.getTab1().getChoosePicUrl();
+                                    picUrl2 = homeTabData.getTab2().getPicUrl();
+                                    choosePicUrl2 = homeTabData.getTab2().getChoosePicUrl();
+                                    picUrl3 = homeTabData.getTab3().getPicUrl();
+                                    choosePicUrl3 = homeTabData.getTab3().getChoosePicUrl();
+                                    picUrl4 = homeTabData.getTab4().getPicUrl();
+                                    choosePicUrl4 = homeTabData.getTab4().getChoosePicUrl();
+                                    picUrl5 = homeTabData.getTab5().getPicUrl();
+                                    choosePicUrl5 = homeTabData.getTab5().getChoosePicUrl();
+//                                    Glide.with(mContext).load(picUrl1).into(mIvHome);
+//                                    Glide.with(mContext).load(picUrl2).into(mIvMarket);
+//                                    Glide.with(mContext).load(picUrl3).into(mIvCart);
+//                                    Glide.with(mContext).load(picUrl4).into(iv_info);
+//                                    Glide.with(mContext).load(picUrl5).into(mIvMine);
+                                }
+                                switchTab(TAB_HOME);
+                            }
+
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,homeStyleTabModel.getMessage());
+                        }
+                    }
+                });
+    }
 
     private void sendLocation() {
         SendLocationAPI.requestData(mContext, locationMessage)
@@ -289,14 +400,14 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void change1(changeEvent changeEvent) {
         if(changeEvent.isB()) {
-            iv_home.setImageResource(R.mipmap.icon_go_top);
+            mIvHome.setImageResource(R.mipmap.icon_go_top);
             SharedPreferencesUtil.saveBoolean(mActivity,"isScroll",true);
         }else {
-            iv_home.setImageResource(R.mipmap.ic_tab_home_enable);
+            mIvHome.setImageResource(R.mipmap.ic_tab_home_enable);
             SharedPreferencesUtil.saveBoolean(mActivity,"isScroll",false);
         }
-    }
 
+    }
 
     //在这个方法里面拿到回传回来的数据修改UI即可
     @Override
@@ -309,48 +420,25 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         public void onNoDoubleClick(View view) {
             if (view == mLlHome) {
                 switchTab(TAB_HOME);
-//                Window window = getWindow();
-//                window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                mTvHome.setVisibility(View.GONE);
-                mIvHome.setVisibility(View.GONE);
-                iv_home.setVisibility(View.VISIBLE);
             } else if (view == mLlMarket&&!mLlMarket.isSelected()) {
                 switchTab(TAB_MARKET);
-                mTvHome.setVisibility(View.VISIBLE);
-                mIvHome.setVisibility(View.VISIBLE);
-                iv_home.setVisibility(View.GONE);
             } else if (view == mLlCart&&!mLlCart.isSelected())  {
-                mTvHome.setVisibility(View.VISIBLE);
-                mIvHome.setVisibility(View.VISIBLE);
-                iv_home.setVisibility(View.GONE);
                 //从首页判断用户没有登录跳转到登录界面,登录成功回来的时候要重新请求数据,
                 //由于是从首页和商城页点击进入的登录界面,回到原来界面的时候需要首页刷新或者商城界面刷新分类和细节数据
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     switchTab(TAB_CART);
-//                    Window window = getWindow();
-//                    window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                 } else {
                     initDialog();
                 }
             } else if (view == mLlMine&&!mLlMine.isSelected()) {
-                mTvHome.setVisibility(View.VISIBLE);
-                mIvHome.setVisibility(View.VISIBLE);
-                iv_home.setVisibility(View.GONE);
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     switchTab(TAB_MINE);
-//                    Window window = getWindow();
-//                    window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                 } else {
                     initDialog();
                 }
             }else if(view == ll_info&&!ll_info.isSelected()) {
-                mTvHome.setVisibility(View.VISIBLE);
-                mIvHome.setVisibility(View.VISIBLE);
-                iv_home.setVisibility(View.GONE);
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     switchTab(TAB_INFO);
-//                    Window window = getWindow();
-//                    window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                 } else {
                     initDialog();
                 }
@@ -394,16 +482,28 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         if (mTabMine != null) {
             mFragmentTransaction.hide(mTabMine);
         }
+
         //重置所有的tabStyle
-        iv_home.setImageResource(R.mipmap.ic_tab_home_enable);
-        mIvMarket.setImageResource(R.mipmap.ic_tab_goods_unable);
+        if(homeTabData.getChangeFlag() == 0) {
+//            iv_home.setImageResource(R.mipmap.ic_tab_home_enable);
+            mIvHome.setImageResource(R.mipmap.ic_tab_home_unable);
+            mIvMarket.setImageResource(R.mipmap.ic_tab_goods_unable);
+            mIvCart.setImageResource(R.mipmap.ic_tab_cart_unable);
+            mIvMine.setImageResource(R.mipmap.ic_tab_mine_unable);
+            iv_info.setImageResource(R.mipmap.ic_tab_info_un);
+        }else {
+            Glide.with(mContext).load(picUrl1).into(mIvHome);
+            Glide.with(mContext).load(picUrl2).into(mIvMarket);
+            Glide.with(mContext).load(picUrl3).into(mIvCart);
+            Glide.with(mContext).load(picUrl4).into(iv_info);
+            Glide.with(mContext).load(picUrl5).into(mIvMine);
+        }
+
         mTvMarket.setTextColor(getResources().getColor(R.color.app_color_bottom_gray));
-        mIvCart.setImageResource(R.mipmap.ic_tab_cart_unable);
         mTvCart.setTextColor(getResources().getColor(R.color.app_color_bottom_gray));
-        mIvMine.setImageResource(R.mipmap.ic_tab_mine_unable);
         mTvMine.setTextColor(getResources().getColor(R.color.app_color_bottom_gray));
-        iv_info.setImageResource(R.mipmap.ic_tab_info_un);
         tv_info.setTextColor(getResources().getColor(R.color.app_color_bottom_gray));
+        mTvHome.setTextColor(getResources().getColor(R.color.app_color_bottom_gray));
         //切换被选中的tab
         switch (tab) {
             case TAB_HOME:
@@ -411,17 +511,52 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                 SharedPreferencesUtil.saveString(mActivity,"index1","1");
                 SharedPreferencesUtil.saveString(mActivity,"index","1");
                 SharedPreferencesUtil.saveString(mActivity,"index2","2");
-                if (mTabHome == null) {
-                    mTabHome = new HomeFragment2();
-                    mFragmentTransaction.add(R.id.layout_home_container, mTabHome);
-                } else {
-                    mFragmentTransaction.show(mTabHome);
-                }
 
                 if(isScroll) {
                     EventBus.getDefault().postSticky(new TopEvent(true));
                 }
+                Glide.with(mContext).load(choosePicUrl1).into(mIvHome);
+                switch (data.getTemplateStyle()) {
+                    case "normal":
+                        if (mTabHome == null) {
+                            mTabHome = new HomeFragment();
+                            mFragmentTransaction.add(R.id.layout_home_container, mTabHome);
+                        } else {
+                            mFragmentTransaction.show(mTabHome);
+                        }
+                        break;
 
+                    case "black_white":
+
+                        break;
+
+                    case "may_day":
+                        if (mTabHome == null) {
+                            mTabHome = new HomeFragment2();
+                            mFragmentTransaction.add(R.id.layout_home_container, mTabHome);
+                        } else {
+                            mFragmentTransaction.show(mTabHome);
+                        }
+
+                        mTvHome.setTextColor(getResources().getColor(R.color.app_tab_selected));
+                        if(homeTabData.getChangeFlag() == 0) {
+
+                        }else {
+
+                        }
+                        break;
+
+                    case "national_day":
+
+                        break;
+
+                    case "spring_festival":
+
+                        break;
+                    default:
+
+
+                }
                 break;
 
             case TAB_MARKET:
@@ -436,9 +571,40 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                     mFragmentTransaction.show(mTabMarket);
                 }
 
-                mIvMarket.setImageResource(R.mipmap.ic_tab_goods_enable);
+//                mIvMarket.setImageResource(R.mipmap.ic_tab_goods_enable);
+                Glide.with(mContext).load(choosePicUrl2).into(mIvMarket);
                 mTvMarket.setTextColor(getResources().getColor(R.color.app_tab_selected));
                 getCartPoductNum();
+
+                switch (data.getTemplateStyle()) {
+                    case "normal":
+                        if (mTabHome == null) {
+                            mTabHome = new HomeFragment();
+                            mFragmentTransaction.add(R.id.layout_home_container, mTabHome);
+                        } else {
+                            mFragmentTransaction.show(mTabHome);
+                        }
+                        break;
+
+                    case "black_white":
+
+                        break;
+
+                    case "may_day":
+
+                        break;
+
+                    case "national_day":
+
+                        break;
+
+                    case "spring_festival":
+
+                        break;
+                    default:
+
+
+                }
 
                 break;
             case TAB_CART:
@@ -452,7 +618,8 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                     mFragmentTransaction.show(mTabCart);
                 }
 
-                mIvCart.setImageResource(R.mipmap.ic_tab_cart_enable);
+//                mIvCart.setImageResource(R.mipmap.ic_tab_cart_enable);
+                Glide.with(mContext).load(choosePicUrl3).into(mIvCart);
                 mTvCart.setTextColor(getResources().getColor(R.color.app_tab_selected));
                 getCartPoductNum();
                 break;
@@ -460,15 +627,44 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                 SharedPreferencesUtil.saveString(mActivity,"index2","1");
                 SharedPreferencesUtil.saveString(mActivity,"index","5");
                 SharedPreferencesUtil.saveString(mActivity,"index1","1");
+                switch (data.getTemplateStyle()) {
+                    case "normal":
+                        if (mTabHome == null) {
+                            mTabHome = new MineFragment();
+                            mFragmentTransaction.add(R.id.layout_home_container, mTabHome);
+                        } else {
+                            mFragmentTransaction.show(mTabHome);
+                        }
+                        break;
 
-                if (mTabMine == null) {
-                    mTabMine = new MineWyFragment();
-                    mFragmentTransaction.add(R.id.layout_home_container, mTabMine);
-                } else {
-                    mFragmentTransaction.show(mTabMine);
+                    case "black_white":
+
+                        break;
+
+                    case "may_day":
+                        if (mTabMine == null) {
+                            mTabMine = new MineWyFragment();
+                            mFragmentTransaction.add(R.id.layout_home_container, mTabMine);
+                        } else {
+                            mFragmentTransaction.show(mTabMine);
+                        }
+
+                        Glide.with(mContext).load(choosePicUrl5).into(mIvMine);
+                        break;
+
+                    case "national_day":
+
+                        break;
+
+                    case "spring_festival":
+
+                        break;
+                    default:
+
+
                 }
 
-                mIvMine.setImageResource(R.mipmap.ic_tab_mine_enable);
+                Glide.with(mContext).load(choosePicUrl5).into(mIvMine);
                 mTvMine.setTextColor(getResources().getColor(R.color.app_tab_selected));
                 getCartPoductNum();
                 break;
@@ -478,6 +674,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                 SharedPreferencesUtil.saveString(mActivity,"index","4");
                 SharedPreferencesUtil.saveString(mActivity,"index1","1");
 
+
                 if (mTabInfo == null) {
                     mTabInfo = new InfoFragment();
                     mFragmentTransaction.add(R.id.layout_home_container, mTabInfo);
@@ -485,17 +682,15 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                     mFragmentTransaction.show(mTabInfo);
                 }
 
-                iv_info.setImageResource(R.mipmap.ic_tab_info_en);
+//                iv_info.setImageResource(R.mipmap.ic_tab_info_en);
+                Glide.with(mContext).load(choosePicUrl4).into(iv_info);
                 tv_info.setTextColor(getResources().getColor(R.color.app_tab_selected));
                 getCartPoductNum();
                 break;
-
-
         }
         //提交事务
         mFragmentTransaction.commitAllowingStateLoss();
     }
-
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getMessageEvent(LogoutEvent logoutEvent) {
@@ -527,10 +722,9 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getMessageEvent(GoToMarketEvent goToMarketEvent) {
-//        mTabMarket = null;
         mTvHome.setVisibility(View.VISIBLE);
-        mIvHome.setVisibility(View.VISIBLE);
-        iv_home.setVisibility(View.GONE);
+//        mIvHome.setVisibility(View.VISIBLE);
+//        iv_home.setVisibility(View.GONE);
         switchTab(TAB_MARKET);
     }
 
@@ -538,8 +732,8 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     public void goToCartFragment(GoToCartFragmentEvent goToCartFragmentEvent) {
         switchTab(TAB_CART);
         mTvHome.setVisibility(View.VISIBLE);
-        mIvHome.setVisibility(View.VISIBLE);
-        iv_home.setVisibility(View.GONE);
+//        mIvHome.setVisibility(View.VISIBLE);
+//        iv_home.setVisibility(View.GONE);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -602,8 +796,8 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(LogoutsEvent mainEvent) {
         mTvHome.setVisibility(View.GONE);
-        mIvHome.setVisibility(View.GONE);
-        iv_home.setVisibility(View.VISIBLE);
+//        mIvHome.setVisibility(View.GONE);
+//        iv_home.setVisibility(View.VISIBLE);
         switchTab(TAB_HOME);
     }
 

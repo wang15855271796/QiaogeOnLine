@@ -35,6 +35,7 @@ import com.puyue.www.qiaoge.adapter.mine.StickyListAdapter;
 import com.puyue.www.qiaoge.api.home.GetSumPriceAPI;
 import com.puyue.www.qiaoge.api.mine.GetWallertRecordByPageAPI;
 import com.puyue.www.qiaoge.api.mine.subaccount.SearchAccountAPI;
+import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.DividerItemDecoration;
@@ -44,6 +45,7 @@ import com.puyue.www.qiaoge.model.home.GetSumPriceModel;
 import com.puyue.www.qiaoge.model.home.SearchListModel;
 import com.puyue.www.qiaoge.model.mine.GetWallertRecordByPageModel;
 import com.puyue.www.qiaoge.popupwindow.MyWallDetailPopuwindow;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.datepicker.CustomDatePicker;
 import com.puyue.www.qiaoge.view.selectmenu.MenuBarTwo;
 import com.puyue.www.qiaoge.view.selectmenu.MyListView;
@@ -69,10 +71,8 @@ import rx.schedulers.Schedulers;
  * 备注 我的明细
  */ //tv_month_select
 public class MyWalletDetailActivity extends BaseSwipeActivity {
-//    private Toolbar toolbar;
     private TextView textViewDetailed;
     private LinearLayout linearLayoutOnclick;
-    //    private PtrClassicFrameLayout ptrClassicFrameLayout;
     private RecyclerView recyclerView;
     private LinearLayout data; // 没有数据的界面
     private int pageNum = 1;
@@ -157,9 +157,7 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                Log.e("123", "onLoadMore");
                 if (getWallertRecordByPageModels.getData().getLastMonth() != null) {
-
                     GetWallertRecordByPageModel.DataBean data = getWallertRecordByPageModels.getData();
                     isrefreshormore = 2;
                     getWallertRecord(recordType, data.getLastYear(), data.getLastMonth(), null, showType, walletRecordChannelType);
@@ -198,15 +196,22 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
         });
         lv.setAdapter(adapters);
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        adapters.setOnItemBillListener(new StickyListAdapter.OnItemBillClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (!mListData.get(position).isNullData()) {
+            public void onItemClick(int pos) {
+                if (!mListData.get(pos).isNullData()) {
                     Intent intent = new Intent(mContext, MyCountDetailActivity.class);
-                    intent.putExtra("id", mListData.get(position).getId());
-                    intent.putExtra("type", mListData.get(position).getType());
+                    intent.putExtra("id", mListData.get(pos).getId());
+                    intent.putExtra("type", mListData.get(pos).getType());
                     mContext.startActivity(intent);
                 }
+            }
+        });
+
+        adapters.setOnItemDeleteListener(new StickyListAdapter.OnItemDeleteListener() {
+            @Override
+            public void onItemDelete(int pos,String id) {
+                deleteItem(id);
             }
         });
 
@@ -235,6 +240,41 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
     }
 
     MyListView myListView2;
+
+    /**
+     * 删除
+     */
+    private void deleteItem(String recordId) {
+        SearchAccountAPI.deleteAccount(mContext, recordId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+                        if(baseModel.code == 1) {
+                            isrefreshormore = 1;
+                            records.clear();
+                            mListData.clear();
+                            getWallertRecord(recordType, year, month, phone, showType, walletRecordChannelType);
+                            ToastUtil.showSuccessMsg(mContext,baseModel.message);
+                        }else {
+                            ToastUtil.showSuccessMsg(mContext,baseModel.message);
+                        }
+                    }
+                });
+
+
+    }
 
     /**
      * 获取搜索条件
@@ -608,7 +648,6 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
                                     data.setVisibility(View.VISIBLE);
                                     records = getWallertRecordByPageModel.getData().getRecords();
                                     for (int i = 0; i < records.size(); i++) {
-//                                        recordsBean = records.get(i);
                                         GetWallertRecordByPageModel.DataBean data = getWallertRecordByPageModel.getData();
                                         lists.add(data);
                                     }
@@ -625,7 +664,6 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
                                 if (getWallertRecordByPageModels.getData() != null && getWallertRecordByPageModels.getData().getRecords().size() > 0) {
                                     records = getWallertRecordByPageModel.getData().getRecords();
                                     for (int i = 0; i < records.size(); i++) {
-//                                        recordsBean = records.get(i);
                                         GetWallertRecordByPageModel.DataBean data = getWallertRecordByPageModel.getData();
                                         lists.add(data);
                                     }

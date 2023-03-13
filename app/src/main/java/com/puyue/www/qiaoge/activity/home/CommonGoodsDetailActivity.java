@@ -1146,8 +1146,6 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
                 });
     }
 
-
-
     /**
      * 点击收藏
      */

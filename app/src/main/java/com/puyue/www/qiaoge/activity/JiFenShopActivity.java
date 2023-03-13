@@ -9,13 +9,17 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.luck.picture.lib.tools.ToastUtils;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.adapter.PointShopAdapter;
 import com.puyue.www.qiaoge.api.mine.PointApI;
 import com.puyue.www.qiaoge.api.mine.PointShopModel;
 import com.puyue.www.qiaoge.base.BaseActivity;
+import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.model.mine.wallet.MinerIntegralModel;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +58,13 @@ public class JiFenShopActivity extends BaseActivity implements View.OnClickListe
         recyclerView.setLayoutManager(new GridLayoutManager(mContext,2));
         shopAdapter = new PointShopAdapter(R.layout.item_point,deducts);
         recyclerView.setAdapter(shopAdapter);
+        shopAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                exchangePoint(deducts.get(position).getPoolNo());
+            }
+        });
+
         getPointList();
     }
 
@@ -90,6 +101,33 @@ public class JiFenShopActivity extends BaseActivity implements View.OnClickListe
 
                                 }
                             }
+                        }
+                    }
+                });
+    }
+
+    private void exchangePoint(String poolNo) {
+        PointApI.exchangePoint(mContext,poolNo)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+                        if(baseModel.code==1) {
+                            ToastUtil.showSuccessMsg(mContext,baseModel.message);
+                            finish();
+                        }else {
+                            ToastUtil.showSuccessMsg(mContext,baseModel.message);
                         }
                     }
                 });

@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -19,22 +20,36 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chinaums.pppay.unify.UnifyPayPlugin;
+import com.chinaums.pppay.unify.UnifyPayRequest;
 import com.google.gson.Gson;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.mine.login.LogoutsEvent;
+import com.puyue.www.qiaoge.activity.mine.order.VipPayResultActivity;
 import com.puyue.www.qiaoge.activity.view.GlideEngine;
+import com.puyue.www.qiaoge.adapter.PayInfoListAdapter;
+import com.puyue.www.qiaoge.api.cart.OrderPayAPI;
 import com.puyue.www.qiaoge.api.home.CityChangeAPI;
 import com.puyue.www.qiaoge.api.home.InfoListAPI;
 import com.puyue.www.qiaoge.api.mine.order.SendImageAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
+import com.puyue.www.qiaoge.dialog.InfoPayDialog;
 import com.puyue.www.qiaoge.dialog.ShopStyleDialog;
+import com.puyue.www.qiaoge.event.InfoPayEvent;
 import com.puyue.www.qiaoge.event.MyShopEvent;
 import com.puyue.www.qiaoge.event.ShopStyleEvent;
+import com.puyue.www.qiaoge.event.WeChatPayEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.model.InfoIsPayModel;
+import com.puyue.www.qiaoge.model.InfoPubModel;
+import com.puyue.www.qiaoge.model.PayInfoListModel;
+import com.puyue.www.qiaoge.model.PayInfoModel;
 import com.puyue.www.qiaoge.model.home.CityChangeModel;
 import com.puyue.www.qiaoge.model.mine.order.SendImageModel;
 import com.puyue.www.qiaoge.pictureselectordemo.FullyGridLayoutManager;
@@ -42,10 +57,14 @@ import com.puyue.www.qiaoge.pictureselectordemo.ShopImageViewAdapter;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.CascadingMenuPopWindow;
 import com.puyue.www.qiaoge.view.CascadingMenuViewOnSelectListener;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -84,6 +103,8 @@ public class IssueInfoActivity extends BaseSwipeActivity {
     TextView tv_area;
     @BindView(R.id.iv_back)
     ImageView iv_back;
+    @BindView(R.id.tv_money)
+    TextView tv_money;
     PopupWindow pop;
     private int maxSelectNum = 6;
     private List<String> picList = new ArrayList();
@@ -121,7 +142,6 @@ public class IssueInfoActivity extends BaseSwipeActivity {
         shopImageViewAdapter = new ShopImageViewAdapter(mContext,onAddPicClickListener);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(shopImageViewAdapter);
-        msgId = getIntent().getStringExtra("msgId");
         shopImageViewAdapter.setOnItemClickListener(new ShopImageViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, View v) {
@@ -181,9 +201,8 @@ public class IssueInfoActivity extends BaseSwipeActivity {
                     Toast.makeText(getApplicationContext(), "请输入正确的手机号", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
-                    IssueInfo(msgId,et.getText().toString(),tv_address.getText().toString(),et_phone.getText().toString());
+                    getIsPay();
                 }
-
             }
         });
 
@@ -287,7 +306,7 @@ public class IssueInfoActivity extends BaseSwipeActivity {
                     case R.id.tv_album:
                         //相册
                         PictureSelector.create(IssueInfoActivity.this)
-                                .openGallery(PictureMimeType.ofImage())
+                                .openGallery(PictureMimeType.ofAll())
                                 .maxSelectNum(maxSelectNum - selectList.size())
                                 .minSelectNum(1)
                                 .imageSpanCount(4)
@@ -339,7 +358,7 @@ public class IssueInfoActivity extends BaseSwipeActivity {
                     images = PictureSelector.obtainMultipleResult(data);
                     selectList.addAll(images);
                     for (int i = 0; i < images.size(); i++) {
-                        picList.add(images.get(i).getCompressPath());
+                        picList.add(images.get(i).getRealPath());
                     }
                     shopImageViewAdapter.setList(selectList);
                     shopImageViewAdapter.notifyDataSetChanged();
@@ -445,12 +464,15 @@ public class IssueInfoActivity extends BaseSwipeActivity {
                 });
     }
 
-
-    private void IssueInfo(String msgIds,String content,String address,String phone) {
-        InfoListAPI.InfoIssue(mContext,msgIds,position,content,returnPic,provinceCode,cityCode,address,phone)
+    /**
+     * 判断是否需要支付
+     */
+    String amount;
+    private void getIsPay() {
+        InfoListAPI.getIsPay(mContext)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BaseModel>() {
+                .subscribe(new Subscriber<InfoIsPayModel>() {
                     @Override
                     public void onCompleted() {
 
@@ -461,13 +483,78 @@ public class IssueInfoActivity extends BaseSwipeActivity {
                     }
 
                     @Override
-                    public void onNext(BaseModel infoListModel) {
-                        if (infoListModel.success) {
-                            ToastUtil.showSuccessMsg(mContext,infoListModel.message);
+                    public void onNext(InfoIsPayModel infoIsPayModel) {
+                        if(infoIsPayModel.getCode()==1) {
+                            if(infoIsPayModel.getData().getPayFlag()==1) {
+                                //是
+                                tv_money.setText(infoIsPayModel.getData().getMsg());
+                                tv_money.setVisibility(View.VISIBLE);
+                                amount = infoIsPayModel.getData().getShouldPayAmt();
+                                InfoPayDialog infoPayDialog = new InfoPayDialog(mContext,amount);
+                                infoPayDialog.show();
+                            }else {
+                                //否
+                                tv_money.setVisibility(View.GONE);
+                                IssueInfo(et.getText().toString(),tv_address.getText().toString(),et_phone.getText().toString());
+                            }
+                        }
+                    }
+                });
+    }
+
+    //发布资讯
+    private void IssueInfo(String content,String address,String phone) {
+        InfoListAPI.InfoIssue(mContext,position,content,returnPic,provinceCode,cityCode,address,phone)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<InfoPubModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(InfoPubModel infoPubModel) {
+                        if (infoPubModel.getCode()==1) {
+                            ToastUtil.showSuccessMsg(mContext,infoPubModel.getMessage());
                             finish();
+                            msgId = infoPubModel.getData();
                             EventBus.getDefault().post(new MyShopEvent());
                         } else {
-                            AppHelper.showMsg(mContext, infoListModel.message);
+                            AppHelper.showMsg(mContext, infoPubModel.getMessage());
+                        }
+                    }
+                });
+    }
+
+    //发布资讯
+    private void IssueInfo1(String content,String address,String phone) {
+        InfoListAPI.InfoIssue(mContext,position,content,returnPic,provinceCode,cityCode,address,phone)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<InfoPubModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(InfoPubModel infoPubModel) {
+                        if (infoPubModel.getCode()==1) {
+                            ToastUtil.showSuccessMsg(mContext,infoPubModel.getMessage());
+                            msgId = infoPubModel.getData();
+                            EventBus.getDefault().post(new MyShopEvent());
+                            getPayInfo(flag,amount,msgId);
+                        } else {
+                            AppHelper.showMsg(mContext, infoPubModel.getMessage());
                         }
                     }
                 });
@@ -478,5 +565,103 @@ public class IssueInfoActivity extends BaseSwipeActivity {
         public void onDismiss() {
             backgroundAlpha(1f);
         }
+    }
+
+    /**
+     * 生成订单信息
+     * @param flag
+     * @param amount
+     * @param msgId
+     */
+    String payToken;
+    String outTradeNo;
+    private void getPayInfo(int flag, String amount, String msgId) {
+        OrderPayAPI.getPayInfo(mContext,flag,amount,msgId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<PayInfoModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(PayInfoModel payInfoModel) {
+                        if (payInfoModel.getCode()==1) {
+                            payToken = payInfoModel.getData().getPayToken();
+                            outTradeNo = payInfoModel.getData().getOutTradeNo();
+                            if(flag==14) {
+                                payAliPay(payInfoModel.getData().getPayToken());
+                            }else {
+                                //微信 官方
+                                weChatPay2(payInfoModel.getData().getPayToken());
+                            }
+                        } else {
+                            AppHelper.showMsg(mContext, payInfoModel.getMessage());
+                        }
+                    }
+                });
+    }
+
+    private void payAliPay(String parms) {
+        UnifyPayRequest msg = new UnifyPayRequest();
+        msg.payChannel = UnifyPayRequest.CHANNEL_ALIPAY;
+        msg.payData = parms;
+        UnifyPayPlugin.getInstance(mContext).sendPayRequest(msg);
+    }
+
+    private void weChatPay2(String json) {
+        try {
+            IWXAPI api = WXAPIFactory.createWXAPI(mContext, "wxbc18d7b8fee86977");
+            JSONObject obj = new JSONObject(json);
+            PayReq request = new PayReq();
+            request.appId = obj.optString("appId");
+            request.partnerId = obj.optString("mchID");
+            request.prepayId = obj.optString("prepayId");
+            request.packageValue = obj.optString("pkg");
+            request.nonceStr = obj.optString("nonceStr");
+            request.timeStamp = obj.optString("timeStamp");
+            request.sign = obj.optString("paySign");
+            api.sendReq(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 微信支付的回调,使用的eventBus.......((‵□′))
+     **/
+    @Subscribe
+    public void onEventMainThread(WeChatPayEvent event) {
+        Intent intent = new Intent(mContext, InfoPayResultActivity.class);
+        intent.putExtra("payChannel", flag);
+        intent.putExtra("outTradeNo", outTradeNo);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(outTradeNo!=null) {
+            Intent intent = new Intent(mContext, InfoPayResultActivity.class);
+            intent.putExtra("payChannel", flag);
+            intent.putExtra("outTradeNo", outTradeNo);
+            startActivity(intent);
+            finish();
+        }
+
+    }
+
+    int flag;
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(InfoPayEvent infoPayEvent) {
+        flag = infoPayEvent.getS();
+        IssueInfo1(et.getText().toString(),tv_address.getText().toString(),et_phone.getText().toString());
     }
 }

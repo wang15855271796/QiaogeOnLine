@@ -134,9 +134,26 @@
                 android:paddingTop="@dimen/size_3dp"
                 android:paddingRight="@dimen/size_6dp"
                 android:paddingBottom="@dimen/size_3dp"
+                android:text="查看原因"
                 android:textColor="#FF4424"
-                android:textSize="8sp"
-                android:text="查看原因" />
+                android:textSize="8sp" />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_status2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/size_5dp"
+                android:layout_toRightOf="@+id/tv_status"
+                android:background="@drawable/shape_grey11"
+                android:paddingLeft="@dimen/size_6dp"
+                android:paddingTop="@dimen/size_3dp"
+                android:paddingRight="@dimen/size_6dp"
+                android:paddingBottom="@dimen/size_3dp"
+                android:text="已删除"
+                android:textColor="#414141"
+                android:textSize="8sp" />
 
 
             <TextView
@@ -166,6 +183,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -180,6 +198,7 @@
                     android:textColor="#414141" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_look"
                     android:drawablePadding="@dimen/size_3dp"
                     android:drawableLeft="@mipmap/iv_look"

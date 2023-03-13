@@ -67,7 +67,7 @@
                         android:textSize="18dp" />
 
                     <EditText
-                        android:id="@+id/edit_edit_address_name"
+                        android:id="@+id/edit_name"
                         android:layout_width="0dp"
                         android:layout_marginLeft="@dimen/size_20dp"
                         android:layout_height="match_parent"
@@ -98,7 +98,7 @@
                         android:textSize="18dp" />
 
                     <EditText
-                        android:id="@+id/edit_edit_address_phone"
+                        android:id="@+id/edit_phone"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginRight="20dp"

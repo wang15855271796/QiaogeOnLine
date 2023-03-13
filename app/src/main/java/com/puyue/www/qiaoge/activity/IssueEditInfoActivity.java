@@ -3,9 +3,11 @@ package com.puyue.www.qiaoge.activity;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -29,6 +31,8 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.listener.OnItemClickListener;
+import com.luck.picture.lib.style.PictureWindowAnimationStyle;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.view.GlideEngine;
 import com.puyue.www.qiaoge.adapter.ShopImageViewssAdapter;
@@ -88,8 +92,8 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
     RelativeLayout rl;
     @BindView(R.id.tv_sure)
     TextView tv_sure;
-    @BindView(R.id.tv_money)
-    TextView tv_money;
+//    @BindView(R.id.tv_money)
+//    TextView tv_money;
     String msgId;
     ShopImageViewssAdapter shopImageViewAdapter;
     private List<String> picList = new ArrayList();
@@ -135,8 +139,8 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InfoPayDialog infoPayDialog = new InfoPayDialog(mActivity);
-                infoPayDialog.show();
+//                InfoPayDialog infoPayDialog = new InfoPayDialog(mActivity,"123");
+//                infoPayDialog.show();
                 String phone = et_phone.getText().toString();
                 int result = checkPhoneNum(phone);
                 if (result == 2) {
@@ -235,8 +239,10 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
 
     public List<MultipartBody.Part> filesToMultipartBodyParts(List<String> localUrls) {
         List<MultipartBody.Part> parts = new ArrayList<>(localUrls.size());
+
         for (String url : localUrls) {
             File file = new File(url);
+
             RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
             MultipartBody.Part part = MultipartBody.Part.createFormData("detailFiles", file.getName(), requestBody);
             parts.add(part);
@@ -399,11 +405,12 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
                     case R.id.tv_album:
                         //相册
                         PictureSelector.create(IssueEditInfoActivity.this)
-                                .openGallery(PictureMimeType.ofImage())
+                                .openGallery(PictureMimeType.ofAll())
                                 .maxSelectNum(1)
                                 .minSelectNum(1)
                                 .imageSpanCount(4)
-                                .compress(true)
+//                                .compress(true)
+                                .isCompress(true)
                                 .isCamera(false)
                                 .loadImageEngine(GlideEngine.createGlideEngine())
                                 .selectionMode(PictureConfig.MULTIPLE)
@@ -419,6 +426,8 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
                                 .setOutputCameraPath("/CustomPath")
                                 .forResult(PictureConfig.CHOOSE_REQUEST);
                         break;
+
+
                     case R.id.tv_cancel:
                         //取消
                         //closePopupWindow();
@@ -440,15 +449,14 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
         }
     }
 
-    List<LocalMedia> images;
+    List<LocalMedia> images = new ArrayList<>();
     @TargetApi(Build.VERSION_CODES.KITKAT)
     private void handleImgeOnKitKat(Intent data) {
         images = PictureSelector.obtainMultipleResult(data);
         picList.clear();
         for (int i = 0; i < images.size(); i++) {
-            picList.add(images.get(i).getCompressPath());
+            picList.add(images.get(i).getRealPath());
         }
-
         List<MultipartBody.Part> parts = filesToMultipartBodyParts(picList);
         upImage(parts);
 

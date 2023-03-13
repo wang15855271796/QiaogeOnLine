@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -31,6 +32,8 @@ public class StickyListAdapter extends BaseAdapter implements StickyListHeadersA
 	private List<GetWallertRecordByPageModel.DataBean.RecordsBean> list;
 	Activity mActivity;
 	List<GetWallertRecordByPageModel.DataBean> lists;
+	OnItemBillClickListener onItemBillListener;
+	OnItemDeleteListener onItemDeleteListener;
 	public StickyListAdapter(Activity mActivity, List<GetWallertRecordByPageModel.DataBean.RecordsBean> list, List<GetWallertRecordByPageModel.DataBean> lists,Onclick onclick) {
 		this.list = list;
 		this.onclick = onclick;
@@ -78,6 +81,25 @@ public class StickyListAdapter extends BaseAdapter implements StickyListHeadersA
 			@Override
 			public void onClick(View view) {
 				finalHolder.es_swiper.handlerSwipeMenu(State.CLOSE);
+			}
+		});
+
+		holder.ll_delete.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				if(onItemDeleteListener!=null) {
+					onItemDeleteListener.onItemDelete(position,list.get(position).getId()+"");
+					finalHolder.es_swiper.handlerSwipeMenu(State.CLOSE);
+				}
+			}
+		});
+
+		holder.rl_content.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				if(onItemBillListener!=null) {
+					onItemBillListener.onItemClick(position);
+				}
 			}
 		});
 		return view;
@@ -132,8 +154,12 @@ public class StickyListAdapter extends BaseAdapter implements StickyListHeadersA
 		private  TextView tv_title;
 		private ImageView iv_pic;
 		LinearLayout ll_cancel;
+		RelativeLayout rl_content;
+		LinearLayout ll_delete;
 		EasySwipeMenuLayout es_swiper;
 		public Holder(View view) {
+			ll_delete = (LinearLayout) view.findViewById(R.id.ll_delete);
+			rl_content = (RelativeLayout) view.findViewById(R.id.rl_content);
 			es_swiper = (EasySwipeMenuLayout) view.findViewById(R.id.es_swiper);
 			ll_cancel = (LinearLayout) view.findViewById(R.id.ll_cancel);
 			tv_time = (TextView) view.findViewById(R.id.tv_time);
@@ -160,5 +186,21 @@ public class StickyListAdapter extends BaseAdapter implements StickyListHeadersA
 
 	public interface Onclick {
 		void clicks();
+	}
+
+	public interface OnItemBillClickListener {
+		void onItemClick(int pos);
+	}
+
+	public void setOnItemBillListener(OnItemBillClickListener onItemBillListener) {
+		this.onItemBillListener = onItemBillListener;
+	}
+
+	public interface OnItemDeleteListener {
+		void onItemDelete(int pos,String id);
+	}
+
+	public void setOnItemDeleteListener(OnItemDeleteListener onItemDeleteListener) {
+		this.onItemDeleteListener = onItemDeleteListener;
 	}
 }

@@ -9,9 +9,14 @@
     <RelativeLayout
         android:id="@+id/rl_root"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@mipmap/bg_school">
+        android:layout_height="wrap_content">
 
+        <ImageView
+            android:id="@+id/iv_top"
+            android:scaleType="fitXY"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/bg_school" />
 
         <ImageView
             android:id="@+id/iv_back"
@@ -23,12 +28,12 @@
             android:src="@mipmap/ic_back_arrow" />
 
         <ImageView
-            android:layout_below="@+id/iv_back"
-            android:layout_marginTop="150dp"
-            android:layout_centerHorizontal="true"
-            android:src="@mipmap/iv_school_tip"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_back"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="150dp"
+            android:src="@mipmap/iv_school_tip" />
 
     </RelativeLayout>
 

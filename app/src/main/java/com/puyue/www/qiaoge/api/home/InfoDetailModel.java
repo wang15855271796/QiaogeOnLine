@@ -103,6 +103,51 @@ public class InfoDetailModel {
         private boolean deleteFlag;
         private Object checkDate;
         private List<String> pictureList;
+        private int payFlag;
+        private String payAmt;
+        private String payTime;
+        private String returnAmt;
+        private String returnTime;
+
+        public int getPayFlag() {
+            return payFlag;
+        }
+
+        public void setPayFlag(int payFlag) {
+            this.payFlag = payFlag;
+        }
+
+        public String getPayAmt() {
+            return payAmt;
+        }
+
+        public void setPayAmt(String payAmt) {
+            this.payAmt = payAmt;
+        }
+
+        public String getPayTime() {
+            return payTime;
+        }
+
+        public void setPayTime(String payTime) {
+            this.payTime = payTime;
+        }
+
+        public String getReturnAmt() {
+            return returnAmt;
+        }
+
+        public void setReturnAmt(String returnAmt) {
+            this.returnAmt = returnAmt;
+        }
+
+        public String getReturnTime() {
+            return returnTime;
+        }
+
+        public void setReturnTime(String returnTime) {
+            this.returnTime = returnTime;
+        }
 
         public String getMsgId() {
             return msgId;

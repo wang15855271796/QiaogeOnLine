@@ -6,6 +6,7 @@ import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
 import com.puyue.www.qiaoge.helper.RestHelper;
 import com.puyue.www.qiaoge.model.CartFullModel;
 import com.puyue.www.qiaoge.model.CartFullsModel;
+import com.puyue.www.qiaoge.model.ComputedFullModel;
 import com.puyue.www.qiaoge.model.cart.CartListModel;
 import com.puyue.www.qiaoge.model.cart.CartTestModel;
 import com.puyue.www.qiaoge.model.cart.CartsListModel;
@@ -66,5 +67,17 @@ public class CartListAPI {
     public static Observable<CartFullsModel> getFullDetails(Context context, int type) {
         CartFullDetailsServices service = RestHelper.getBaseRetrofit(context).create(CartFullDetailsServices.class);
         return service.getData(type);
+    }
+
+    //计算满减优惠
+    public interface CartComputedServices {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Computed_Full)
+        Observable<ComputedFullModel> getData(@Field("amount") String amount);
+    }
+
+    public static Observable<ComputedFullModel> getFullReduce(Context context, String amount) {
+        CartComputedServices service = RestHelper.getBaseRetrofit(context).create(CartComputedServices.class);
+        return service.getData(amount);
     }
 }

@@ -169,7 +169,7 @@ public class PaymentOrdersFragment extends BaseFragment {
                 }
 
                 @Override
-                public void deleteOnclick(String orderId) {
+                public void deleteOnclick(String orderId,int orderStatus) {
                /* final AlertDialog mDialog = new AlertDialog.Builder(getContext()).create();
                 mDialog.show();
                 mDialog.getWindow().setContentView(R.layout.dailog_cancel);
@@ -284,7 +284,7 @@ public class PaymentOrdersFragment extends BaseFragment {
                 }
 
                 @Override
-                public void deleteOnclick(String orderId) {
+                public void deleteOnclick(String orderId,int orderStatus) {
                /* final AlertDialog mDialog = new AlertDialog.Builder(getContext()).create();
                 mDialog.show();
                 mDialog.getWindow().setContentView(R.layout.dailog_cancel);

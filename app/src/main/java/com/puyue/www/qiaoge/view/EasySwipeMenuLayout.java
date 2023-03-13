@@ -243,11 +243,14 @@ public class EasySwipeMenuLayout extends ViewGroup {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
+        boolean intercepted = false;
+//        getParent().requestDisallowInterceptTouchEvent(false);
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                intercepted = false;
+                Log.d("swdsadawd....","down");
                 boolean isSwipeing;
-            {
-                //   System.out.println(">>>>dispatchTouchEvent() ACTION_DOWN");
+                {
 
                 isSwipeing = false;
                 if (mLastP == null) {
@@ -265,6 +268,7 @@ public class EasySwipeMenuLayout extends ViewGroup {
                     }
 //                    getParent().requestDisallowInterceptTouchEvent(true);
                 }
+
                 break;
             }
             case MotionEvent.ACTION_MOVE: {
@@ -285,15 +289,19 @@ public class EasySwipeMenuLayout extends ViewGroup {
 
                 //越界修正
                 if (getScrollX() < 0) {
+                    Log.d("swdsadawd....","move1");
                     if (!mCanRightSwipe || mLeftView == null) {
                         scrollTo(0, 0);
                     } else {//左滑
+
                         if (getScrollX() < mLeftView.getLeft()) {
                             scrollTo(mLeftView.getLeft(), 0);
                         }
 
                     }
                 } else if (getScrollX() > 0) {
+                    Log.d("swdsadawd....","move2");
+                    intercepted = true;
                     if (!mCanLeftSwipe || mRightView == null) {
                         scrollTo(0, 0);
                     } else {
@@ -335,11 +343,11 @@ public class EasySwipeMenuLayout extends ViewGroup {
         return super.dispatchTouchEvent(ev);
 
     }
-
+//
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
 
-        Log.i("lyy", "dispatchTouchEvent() called with: " + "ev = [" + event + "]");
+        Log.d("onInterceptTouchEvent", "onInterceptTouchEvent");
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
                 break;

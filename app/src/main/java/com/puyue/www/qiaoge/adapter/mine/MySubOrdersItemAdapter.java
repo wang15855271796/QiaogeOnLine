@@ -355,7 +355,7 @@ public class MySubOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBea
         deleteOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClick.deleteOnclick(item.orderId);
+                onClick.deleteOnclick(item.orderId,item.orderStatus);
             }
         });
         imageGo.setOnClickListener(new View.OnClickListener() {
@@ -399,7 +399,7 @@ public class MySubOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBea
 
         void cancelOnclick(String orderId);
 
-        void deleteOnclick(String orderId);
+        void deleteOnclick(String orderId,int orderStatus);
 
         void imageGo(String orderId, String totalAmount);
 

@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
@@ -26,8 +28,8 @@ import rx.schedulers.Schedulers;
  * Created by ${王涛} on 2021/1/4
  */
 public class ShopDetailActivity extends BaseSwipeActivity {
-    @BindView(R.id.tv_call)
-    TextView tv_call;
+//    @BindView(R.id.tv_call)
+//    TextView tv_call;
     @BindView(R.id.iv_back)
     ImageView iv_back;
     String msgId;
@@ -43,6 +45,24 @@ public class ShopDetailActivity extends BaseSwipeActivity {
     TextView tv_address;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.rl_pay)
+    RelativeLayout rl_pay;
+    @BindView(R.id.tv_pay)
+    TextView tv_pay;
+    @BindView(R.id.rl_pay_time)
+    RelativeLayout rl_pay_time;
+    @BindView(R.id.tv_pay_time)
+    TextView tv_pay_time;
+    @BindView(R.id.rl_return_account)
+    RelativeLayout rl_return_account;
+    @BindView(R.id.tv_return_account)
+    TextView tv_return_account;
+    @BindView(R.id.rl_return_time)
+    RelativeLayout rl_return_time;
+    @BindView(R.id.tv_return_time)
+    TextView tv_return_time;
+    @BindView(R.id.ll_info)
+    LinearLayout ll_info;
     InfoDetailModel.DataBean lists;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
@@ -68,14 +88,7 @@ public class ShopDetailActivity extends BaseSwipeActivity {
                 finish();
             }
         });
-        tv_call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + lists.getContactPhone()));
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-        });
+
 
         getCityList();
 
@@ -111,16 +124,29 @@ public class ShopDetailActivity extends BaseSwipeActivity {
                                 tv_contact.setText(lists.getContactPhone());
                                 tv_address.setText(lists.getDetailAddress());
 
+                                if(lists.getPayFlag() ==0) {
+                                    ll_info.setVisibility(View.GONE);
+                                }else if(lists.getPayFlag() ==1) {
+                                    ll_info.setVisibility(View.VISIBLE);
+                                    rl_pay.setVisibility(View.VISIBLE);
+                                    rl_pay_time.setVisibility(View.VISIBLE);
+                                    rl_return_account.setVisibility(View.GONE);
+                                    rl_return_time.setVisibility(View.GONE);
+                                    tv_pay.setText(lists.getPayAmt());
+                                    tv_pay_time.setText(lists.getPayTime());
+                                }else {
+                                    ll_info.setVisibility(View.VISIBLE);
+                                    rl_pay.setVisibility(View.GONE);
+                                    rl_pay_time.setVisibility(View.GONE);
+                                    rl_return_account.setVisibility(View.VISIBLE);
+                                    rl_return_time.setVisibility(View.VISIBLE);
+                                    tv_return_time.setText(lists.getReturnTime());
+                                    tv_return_account.setText(lists.getReturnAmt());
+                                }
                                 ImageViewAdapter imageViewAdapter = new ImageViewAdapter(R.layout.item_image,lists.getPictureList());
                                 recyclerView.setLayoutManager(new GridLayoutManager(mContext,3));
                                 recyclerView.setAdapter(imageViewAdapter);
 
-//                                imageViewAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-//                                    @Override
-//                                    public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
-//
-//                                    }
-//                                });
                             }
                         } else {
                             AppHelper.showMsg(mActivity, infoListModel.getMessage());

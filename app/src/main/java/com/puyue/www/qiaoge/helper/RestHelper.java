@@ -139,7 +139,7 @@ public class RestHelper {
                         .addQueryParameter("wad", SharedPreferencesUtil.getInt(context,"wad")+"")
                         .build();
                 Request commonRequest = originalRequest.newBuilder().url(commonUrl).build();
-                Log.d("----->", commonRequest + AppConstant.TOKEN);
+                Log.d("----->",UserInfoHelper.getUserId(context));
                 return chain.proceed(commonRequest);
             }
         };

@@ -140,6 +140,7 @@ import com.puyue.www.qiaoge.model.ChangeCityModel;
 import com.puyue.www.qiaoge.model.CouponModels;
 import com.puyue.www.qiaoge.model.HomeBannerModel;
 import com.puyue.www.qiaoge.model.HomeCouponModel;
+import com.puyue.www.qiaoge.model.HomeStyleModel;
 import com.puyue.www.qiaoge.model.IsAuthModel;
 import com.puyue.www.qiaoge.model.IsShowModel;
 import com.puyue.www.qiaoge.model.OrderModel;

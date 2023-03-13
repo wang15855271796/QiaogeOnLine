@@ -32,8 +32,7 @@ import android.widget.TextView;
 public class StickyListHeadersListView extends ListView {
 	
 	public interface OnHeaderClickListener {
-		public void onHeaderClick(StickyListHeadersListView l, View header,
-				int itemPosition, long headerId, boolean currentlySticky);
+		void onHeaderClick(StickyListHeadersListView l, View header, int itemPosition, long headerId, boolean currentlySticky);
 	}
 
 	public OnScrollListener mOnScrollListenerDelegate;

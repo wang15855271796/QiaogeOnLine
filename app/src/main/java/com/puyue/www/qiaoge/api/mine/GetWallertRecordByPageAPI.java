@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
 import com.puyue.www.qiaoge.helper.RestHelper;
+import com.puyue.www.qiaoge.model.BalanceDetailModel;
 import com.puyue.www.qiaoge.model.mine.GetWallertRecordByPageModel;
 
 import retrofit2.http.Field;
@@ -35,4 +36,15 @@ public class GetWallertRecordByPageAPI {
         GetWallertRecordByPageService service = RestHelper.getBaseRetrofit(context).create(GetWallertRecordByPageService.class);
         return service.getData(types, year, month, phone, showType, walletRecordChannelType);
     }
+
+    public interface BalanceService {
+        @POST(AppInterfaceAddress.Balance_Detail)
+        Observable<BalanceDetailModel> setParams();
+    }
+
+    public static Observable<BalanceDetailModel> getBalanceDetail(Context context) {
+        Observable<BalanceDetailModel> intellGencyModelObservable = RestHelper.getBaseRetrofit(context).create(BalanceService.class).setParams();
+        return intellGencyModelObservable;
+    }
+
 }

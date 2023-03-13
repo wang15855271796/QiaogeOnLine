@@ -32,6 +32,7 @@ import com.puyue.www.qiaoge.activity.flow.TagAdapter;
 import com.puyue.www.qiaoge.activity.flow.TagFlowLayout;
 import com.puyue.www.qiaoge.activity.home.SearchReasultActivity;
 import com.puyue.www.qiaoge.activity.mine.order.ConfirmNewOrderActivity;
+import com.puyue.www.qiaoge.adapter.FullCartAdapter;
 import com.puyue.www.qiaoge.adapter.Must2Adapter;
 import com.puyue.www.qiaoge.adapter.cart.CartAdapter;
 import com.puyue.www.qiaoge.api.cart.CartBalanceAPI;
@@ -55,6 +56,8 @@ import com.puyue.www.qiaoge.helper.BigDecimalUtils;
 import com.puyue.www.qiaoge.helper.PublicRequestHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.CartFullModel;
+import com.puyue.www.qiaoge.model.CartFullsModel;
+import com.puyue.www.qiaoge.model.ComputedFullModel;
 import com.puyue.www.qiaoge.model.cart.CartActivityGoodsModel;
 import com.puyue.www.qiaoge.model.cart.CartBalanceModel;
 import com.puyue.www.qiaoge.model.cart.CartCommonGoodsModel;
@@ -125,7 +128,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     @BindView(R.id.ll_unList)
     LinearLayout ll_unList;
     @BindView(R.id.btn_sure)
-    Button btn_sure;
+    TextView btn_sure;
     @BindView(R.id.loading)
     AVLoadingIndicatorView loading;
     @BindView(R.id.smart)
@@ -146,6 +149,12 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     RelativeLayout rl_given;
     @BindView(R.id.ll_scroll)
     LinearLayout ll_scroll;
+    @BindView(R.id.tv_reduced)
+    TextView tv_reduced;
+    @BindView(R.id.tv_next_reduce)
+    TextView tv_next_reduce;
+    @BindView(R.id.tv_need)
+    TextView tv_need;
     CartAdapter cartAdapter;
     private double sendAmount;
     boolean mSelect;
@@ -216,6 +225,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
 
         //获取滚动数据
         getScrollData();
+        getFullReduce();
     }
 
     long start;
@@ -450,6 +460,48 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
         }
 
         tv_total_price.setText(allPrice+"");
+        Log.d("Ceswdcasd...",allPrice+"--");
+    }
+
+    /**
+     * 计算满减总金额
+     */
+    private void getFullReduce() {
+        CartListAPI.getFullReduce(mActivity,allPrice+"")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ComputedFullModel>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(ComputedFullModel computedFullModel) {
+                        if(computedFullModel.getCode()==1) {
+                            if(computedFullModel.getData()!=null) {
+                                ComputedFullModel.DataBean data = computedFullModel.getData();
+                                String nextOfferAmt = data.getNextOfferAmt();
+                                String offerAmt = data.getOfferAmt();
+                                String needBuyAmt = data.getNeedBuyAmt();
+                                String tips = data.getTips();
+
+                                tv_next_reduce.setText(nextOfferAmt);
+                                tv_reduced.setText(offerAmt);
+                                tv_need.setText(needBuyAmt);
+                            }
+
+
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,computedFullModel.getMessage());
+                        }
+
+                    }
+                });
     }
 
     /**

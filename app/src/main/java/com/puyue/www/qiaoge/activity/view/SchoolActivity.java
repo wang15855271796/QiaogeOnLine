@@ -1,26 +1,38 @@
 package com.puyue.www.qiaoge.activity.view;
 
+import static rx.android.schedulers.AndroidSchedulers.mainThread;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.AskActivity;
 import com.puyue.www.qiaoge.activity.PlayerActivity;
 import com.puyue.www.qiaoge.adapter.SchoolAdapter;
+import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
+import com.puyue.www.qiaoge.api.home.SchoolVideoApi;
 import com.puyue.www.qiaoge.base.BaseActivity;
+import com.puyue.www.qiaoge.model.CouponModels;
+import com.puyue.www.qiaoge.model.SchoolVideoListModel;
+import com.puyue.www.qiaoge.utils.DateUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import rx.Subscriber;
+import rx.schedulers.Schedulers;
 
 public class SchoolActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.iv_back)
@@ -29,6 +41,10 @@ public class SchoolActivity extends BaseActivity implements View.OnClickListener
     TextView tv_ok;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.rl_root)
+    RelativeLayout rl_root;
+    @BindView(R.id.iv_top)
+    ImageView iv_top;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -43,29 +59,64 @@ public class SchoolActivity extends BaseActivity implements View.OnClickListener
     public void findViewById() {
     }
 
+    SchoolAdapter schoolAdapter;
     @Override
     public void setViewData() {
-        ArrayList<String> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            list.add(i+"ss");
-        }
         recyclerView.setLayoutManager(new GridLayoutManager(mContext,2));
-        SchoolAdapter schoolAdapter = new SchoolAdapter(R.layout.item_school,list);
+        schoolAdapter = new SchoolAdapter(R.layout.item_school,videos);
         recyclerView.setAdapter(schoolAdapter);
 
         schoolAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(mActivity, PlayerActivity.class);
+                intent.putExtra("url",videos.get(position).getVideoUrl());
+                intent.putExtra("id",videos.get(position).getVideoId());
                 startActivity(intent);
             }
         });
+
+        getSchoolVideoList();
     }
 
     @Override
     public void setClickEvent() {
         tv_ok.setOnClickListener(this);
         iv_back.setOnClickListener(this);
+    }
+
+
+    List<SchoolVideoListModel.DataBean.VideosBean> videos = new ArrayList<>();
+    private void getSchoolVideoList() {
+        SchoolVideoApi.getVideoList(mActivity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(mainThread())
+                .subscribe(new Subscriber<SchoolVideoListModel>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(SchoolVideoListModel schoolVideoListModel) {
+                        if (schoolVideoListModel.getCode()==1) {
+                            if(schoolVideoListModel.getData()!=null) {
+                                if(schoolVideoListModel.getData().getVideos()!=null && schoolVideoListModel.getData().getVideos().size()>0) {
+                                    videos.addAll(schoolVideoListModel.getData().getVideos());
+                                    schoolAdapter.notifyDataSetChanged();
+                                }
+                                String backgroundUrl = schoolVideoListModel.getData().getBackgroundUrl();
+                                Glide.with(mActivity).load(backgroundUrl).into(iv_top);
+                            }
+                        }
+                    }
+                });
     }
 
     @Override

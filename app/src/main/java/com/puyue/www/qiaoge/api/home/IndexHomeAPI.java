@@ -21,6 +21,8 @@ import com.puyue.www.qiaoge.model.FullDetailModel;
 import com.puyue.www.qiaoge.model.GetCompanyModel;
 import com.puyue.www.qiaoge.model.HomeBannerModel;
 import com.puyue.www.qiaoge.model.HomeCouponModel;
+import com.puyue.www.qiaoge.model.HomeStyleModel;
+import com.puyue.www.qiaoge.model.HomeStyleTabModel;
 import com.puyue.www.qiaoge.model.JudegModel;
 import com.puyue.www.qiaoge.model.ModeModel;
 import com.puyue.www.qiaoge.model.OrderModel;
@@ -505,5 +507,26 @@ public class IndexHomeAPI {
         return spikeActiveQueryService.getData();
     }
 
+    //首页风格
+    private interface HomeStyleService {
+        @POST(AppInterfaceAddress.Get_Style)
+        Observable<HomeStyleModel> getData();
+    }
+
+    public static Observable<HomeStyleModel> getStyle(Context context) {
+        HomeStyleService homeStyleService = RestHelper.getBaseRetrofit(context).create(HomeStyleService.class);
+        return homeStyleService.getData();
+    }
+
+    //首页tab风格
+    private interface HomeTabStyleService {
+        @POST(AppInterfaceAddress.Get_Style_Tab)
+        Observable<HomeStyleTabModel> getData();
+    }
+
+    public static Observable<HomeStyleTabModel> getTabStyle(Context context) {
+        HomeTabStyleService homeStyleService = RestHelper.getBaseRetrofit(context).create(HomeTabStyleService.class);
+        return homeStyleService.getData();
+    }
 
 }

@@ -29,4 +29,16 @@ public class VipPayResultAPI  {
         Observable<VipPayResultModel> orderEvaluateModelObservable = RestHelper.getBaseRetrofit(context).create(VipPayResultService.class).setParams(outTradeNo);
         return orderEvaluateModelObservable;
     }
+
+
+    public interface InfoPayResultService {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Info_Pay_Result)
+        Observable<VipPayResultModel> setParams(@Field("outTradeNo") String outTradeNo);
+    }
+
+    public static Observable<VipPayResultModel> getResult(Context context, String outTradeNo) {
+        Observable<VipPayResultModel> orderEvaluateModelObservable = RestHelper.getBaseRetrofit(context).create(InfoPayResultService.class).setParams(outTradeNo);
+        return orderEvaluateModelObservable;
+    }
 }

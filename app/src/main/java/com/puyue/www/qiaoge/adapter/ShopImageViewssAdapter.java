@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.listener.OnItemClickListener;
 import com.puyue.www.qiaoge.R;
 
 import java.util.List;
@@ -58,7 +60,24 @@ public class ShopImageViewssAdapter extends RecyclerView.Adapter<ShopImageViewss
                 }
             });
             viewHolder.ll_del.setVisibility(View.VISIBLE);
+
+            if(mItemClickListener!=null) {
+                viewHolder.itemView.setOnClickListener(view -> {
+                    int adapterPosition = viewHolder.getAbsoluteAdapterPosition();
+                    mItemClickListener.onItemClick(view, adapterPosition);
+                });
+            }
+
+
+
         }
+    }
+
+
+    private OnItemClickListener mItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener l) {
+        this.mItemClickListener = l;
     }
 
     public static final int TYPE_CAMERA = 1;
@@ -95,9 +114,10 @@ public class ShopImageViewssAdapter extends RecyclerView.Adapter<ShopImageViewss
 
         ImageView iv_pic;
         LinearLayout ll_del;
-
+        ImageView iv_player;
         public ViewHolder(View view) {
             super(view);
+            iv_player = (ImageView) view.findViewById(R.id.iv_player);
             iv_pic = (ImageView) view.findViewById(R.id.iv_pic);
             ll_del = (LinearLayout) view.findViewById(R.id.ll_del);
         }

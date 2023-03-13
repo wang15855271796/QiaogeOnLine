@@ -17,14 +17,12 @@
         android:paddingTop="10dp">
 
         <ImageView
-            android:visibility="gone"
             android:id="@+id/iv_tab_bar_home_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_tab_home_unable" />
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/tv_tab_bar_home_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

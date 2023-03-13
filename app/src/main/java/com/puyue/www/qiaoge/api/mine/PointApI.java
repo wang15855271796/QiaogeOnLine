@@ -2,6 +2,7 @@ package com.puyue.www.qiaoge.api.mine;
 
 import android.content.Context;
 
+import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
 import com.puyue.www.qiaoge.helper.RestHelper;
 import com.puyue.www.qiaoge.model.mine.GetWalletAmountModel;
@@ -42,4 +43,16 @@ public class PointApI {
             return service.getData();
         }
 
+
+
+    public interface PointExchangeService {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Point_Exchange)
+        Observable<BaseModel> setParams(@Field("poolNo") String poolNo);
+    }
+
+    public static Observable<BaseModel> exchangePoint(Context context,String poolNo) {
+        Observable<BaseModel> getPointService = RestHelper.getBaseRetrofit(context).create(PointExchangeService.class).setParams(poolNo);
+        return getPointService;
+    }
 }

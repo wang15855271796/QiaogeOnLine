@@ -259,7 +259,6 @@
 
             <TextView
                 android:id="@+id/evaluateNow"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -269,10 +268,10 @@
                 android:paddingLeft="@dimen/size_11dp"
                 android:paddingTop="@dimen/size_6dp"
                 android:paddingRight="@dimen/size_11dp"
+                android:paddingBottom="@dimen/size_6dp"
                 android:text="立即评价"
                 android:textColor="#ffffff"
-                android:paddingBottom="@dimen/size_6dp"
-                />
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_call"
@@ -329,7 +328,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="5dp"
-                android:layout_marginRight="102dp"
+                android:layout_marginRight="195dp"
                 android:background="@drawable/shape_order_red"
                 android:paddingLeft="@dimen/size_11dp"
                 android:paddingTop="@dimen/size_6dp"

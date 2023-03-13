@@ -17,12 +17,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.xrecyclerview.DensityUtil;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.mine.login.ShopEvent;
 import com.puyue.www.qiaoge.adapter.RoleAdapter;
 import com.puyue.www.qiaoge.adapter.ShopAdapter;
 import com.puyue.www.qiaoge.adapter.ShopTypeAdapter;
 import com.puyue.www.qiaoge.model.home.GetRegisterShopModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.utils.Utils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -47,6 +50,7 @@ public abstract class ShopDialog extends Dialog implements View.OnClickListener 
     }
 
     int pos = -1;
+    int id;
     public void init() {
         view = View.inflate(context, R.layout.dialog_style, null);
         view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -68,6 +72,7 @@ public abstract class ShopDialog extends Dialog implements View.OnClickListener 
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 shopAdapter.setPos(position);
                 pos = position;
+                id = mList.get(position).getId();
             }
         });
     }
@@ -80,11 +85,11 @@ public abstract class ShopDialog extends Dialog implements View.OnClickListener 
                     ToastUtil.showSuccessMsg(context,"请选择店铺类型");
                     return;
                 }
-                confirm(mList.get(pos).getName());
+                confirm(mList.get(pos).getName(),mList.get(pos).getId());
                 break;
         }
     }
 
-    public abstract void confirm(String name);
+    public abstract void confirm(String name,int shopTypeId);
 
 }
