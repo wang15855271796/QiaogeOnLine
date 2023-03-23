@@ -15,33 +15,51 @@
 
         <include layout="@layout/activity_self_order_head" />
 
-        <include layout="@layout/activity_confirm_order_head_four" />
-
-        <LinearLayout
+        <ScrollView
+            android:background="@drawable/shape_white1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="10dp"
-            android:orientation="vertical"
-            android:layout_marginBottom="@dimen/size_10dp"
-            android:background="@drawable/confirm_order_three">
+            android:layout_marginTop="-10dp"
+            android:layout_height="wrap_content">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:background="@drawable/confirm_order_three"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_below="@+id/recyclerView"
-                android:id="@+id/rv_full"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                <include layout="@layout/activity_confirm_order_head_four" />
 
-        </LinearLayout>
-        <include layout="@layout/activity_new_order_foot" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="@dimen/size_10dp"
+                    android:background="@drawable/confirm_order_three">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:background="@drawable/confirm_order_three"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_below="@+id/recyclerView"
+                        android:id="@+id/rv_full"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <include layout="@layout/activity_new_order_foot" />
+            </LinearLayout>
+        </ScrollView>
+
+
+
+
     </LinearLayout>
 
 

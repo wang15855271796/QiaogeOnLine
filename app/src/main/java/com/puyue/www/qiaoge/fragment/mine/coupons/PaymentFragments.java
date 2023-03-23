@@ -45,6 +45,7 @@ import com.puyue.www.qiaoge.api.mine.AccountCenterAPI;
 import com.puyue.www.qiaoge.api.mine.login.LoginAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.constant.AppConstant;
+import com.puyue.www.qiaoge.dialog.PayErrorDialog;
 import com.puyue.www.qiaoge.dialog.YueDialog;
 import com.puyue.www.qiaoge.event.WeChatPayEvent;
 import com.puyue.www.qiaoge.event.WeChatUnPayEvent;
@@ -266,93 +267,108 @@ public class PaymentFragments extends DialogFragment {
 
                     @Override
                     public void onNext(OrderPayModel orderPayModel) {
-                        if (orderPayModel.success) {
-                            outTradeNo = orderPayModel.data.outTradeNo;
-                            String orderNoList = orderPayModel.data.orderNoList;
-                            String businessCstNo = orderPayModel.data.businessCstNo;
-                            String merchantNo = orderPayModel.data.merchantNo;
-                            UserInfoHelper.saveWalletStatus(getContext(), outTradeNo);
+                        if (orderPayModel.code==1) {
+                            if(orderPayModel.data!=null) {
+                                outTradeNo = orderPayModel.data.outTradeNo;
+                                String orderNoList = orderPayModel.data.orderNoList;
+                                String businessCstNo = orderPayModel.data.businessCstNo;
+                                String merchantNo = orderPayModel.data.merchantNo;
+                                UserInfoHelper.saveWalletStatus(getContext(), outTradeNo);
 
-                            JSONObject jsonObject = new JSONObject();
-                            try {
-                                jsonObject.put("orderFlowNo",orderNoList);
-                                jsonObject.put("businessCstNo",businessCstNo);
-                                jsonObject.put("platMerCstNo",merchantNo);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            //台州银行
-                            if(orderPayModel.data.payType==16) {
-                                CashierManager.getInstance().init(getActivity());
-                                CashierManager.getInstance().launchPayment(jsonObject.toString(), new PaymentCallback() {
-                                    @Override
-                                    public void paymentResult(String s) {
-                                        switch (s){
-                                            case "10":
-                                                //初始状态
-                                                break;
+                                JSONObject jsonObject = new JSONObject();
+                                try {
+                                    jsonObject.put("orderFlowNo",orderNoList);
+                                    jsonObject.put("businessCstNo",businessCstNo);
+                                    jsonObject.put("platMerCstNo",merchantNo);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                //台州银行
+                                if(orderPayModel.data.payType==16) {
+                                    CashierManager.getInstance().init(getActivity());
+                                    CashierManager.getInstance().launchPayment(jsonObject.toString(), new PaymentCallback() {
+                                        @Override
+                                        public void paymentResult(String s) {
+                                            switch (s){
+                                                case "10":
+                                                    //初始状态
+                                                    break;
 
-                                            case "70":
-                                                //失败
-                                                getPayResult(outTradeNo);
-                                                break;
+                                                case "70":
+                                                    //失败
+                                                    getPayResult(outTradeNo);
+                                                    break;
 
-                                            case "80":
-                                                //关闭
-                                                ToastUtil.showSuccessMsg(getContext(),"支付通道关闭");
-                                                break;
+                                                case "80":
+                                                    //关闭
+                                                    ToastUtil.showSuccessMsg(getContext(),"支付通道关闭");
+                                                    break;
 
-                                            case "90":
-                                                //成功
-                                                getPayResult(outTradeNo);
-                                                break;
+                                                case "90":
+                                                    //成功
+                                                    getPayResult(outTradeNo);
+                                                    break;
+                                            }
                                         }
+                                    });
+                                }
+                                if (payChannel == 1) {
+                                    //余额支付
+                                    //ok
+                                    SharedPreferencesUtil.saveString(getContext(),"payKey","1");
+                                    accountCenter();
+
+                                } else if (payChannel == 2&&orderPayModel.data.payType==2) {
+                                    //支付宝支付 已经改好了
+                                    if(DateUtils.isZhiFuBao(getActivity())) {
+                                        SharedPreferencesUtil.saveString(getContext(),"payKey","2");
+                                        aliPay(orderPayModel.data.payToken);
                                     }
-                                });
-                            }
-                            if (payChannel == 1) {
-                                //余额支付
-                                //ok
-                                SharedPreferencesUtil.saveString(getContext(),"payKey","1");
-                                accountCenter();
 
-                            } else if (payChannel == 2&&orderPayModel.data.payType==2) {
-                                //支付宝支付 已经改好了
-                                if(DateUtils.isZhiFuBao(getActivity())) {
-                                    SharedPreferencesUtil.saveString(getContext(),"payKey","2");
-                                    aliPay(orderPayModel.data.payToken);
-                                }
+                                } else if (payChannel == 3&&jumpWx==1) {
+                                    //微信支付(小程序)
+                                    if(DateUtils.isWeixin(getActivity())) {
+                                        SharedPreferencesUtil.saveString(getContext(),"payKey","3");
+                                        Intent lan = getActivity().getPackageManager().getLaunchIntentForPackage("com.tencent.mm");
+                                        Intent t2 = new Intent(Intent.ACTION_MAIN);
+                                        t2.addCategory(Intent.CATEGORY_LAUNCHER);
+                                        t2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        t2.setComponent(lan.getComponent());
+                                        startActivity(t2);
+                                        weChatPay(orderPayModel.data.payToken);
+                                    }
+                                }else if(payChannel == 3&&jumpWx==0) {
+                                    //微信支付
+                                    if(DateUtils.isWeixin(getActivity())) {
+                                        SharedPreferencesUtil.saveString(getContext(),"payKey","3");
+                                        weChatPay2(orderPayModel.data.payToken);
+                                    }
 
-                            } else if (payChannel == 3&&jumpWx==1) {
-                                //微信支付(小程序)
-                                if(DateUtils.isWeixin(getActivity())) {
-                                    SharedPreferencesUtil.saveString(getContext(),"payKey","3");
-                                    Intent lan = getActivity().getPackageManager().getLaunchIntentForPackage("com.tencent.mm");
-                                    Intent t2 = new Intent(Intent.ACTION_MAIN);
-                                    t2.addCategory(Intent.CATEGORY_LAUNCHER);
-                                    t2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    t2.setComponent(lan.getComponent());
-                                    startActivity(t2);
-                                    weChatPay(orderPayModel.data.payToken);
-                                }
-                            }else if(payChannel == 3&&jumpWx==0) {
-                                //微信支付
-                                if(DateUtils.isWeixin(getActivity())) {
-                                    SharedPreferencesUtil.saveString(getContext(),"payKey","3");
-                                    weChatPay2(orderPayModel.data.payToken);
-                                }
-
-                            }else if(orderPayModel.data.payType==14&&payChannel == 2) {
-                                //银联
-                                if(DateUtils.isZhiFuBao(getActivity())) {
-                                    SharedPreferencesUtil.saveString(getContext(),"payKey","4");
-                                    payAliPay(orderPayModel.data.payToken);
+                                }else if(orderPayModel.data.payType==14&&payChannel == 2) {
+                                    //银联
+                                    if(DateUtils.isZhiFuBao(getActivity())) {
+                                        SharedPreferencesUtil.saveString(getContext(),"payKey","4");
+                                        payAliPay(orderPayModel.data.payToken);
+                                    }
                                 }
                             }
                             lav_activity_loading.setVisibility(View.GONE);
                             lav_activity_loading.hide();
-                        } else {
+                        } else if(orderPayModel.code == 100006){
                             //ok
+                            PayErrorDialog payErrorDialog = new PayErrorDialog(getContext(), orderPayModel.message) {
+                                @Override
+                                public void Confirm() {
+                                    orderPays(orderId, payChannel, payAmount, remark);
+                                }
+
+                                @Override
+                                public void Cancel() {
+                                    dismiss();
+                                }
+                            };
+                            payErrorDialog.show();
+                        }else {
                             lav_activity_loading.setVisibility(View.GONE);
                             lav_activity_loading.hide();
                             ToastUtil.showSuccessMsg(getContext(),orderPayModel.message);

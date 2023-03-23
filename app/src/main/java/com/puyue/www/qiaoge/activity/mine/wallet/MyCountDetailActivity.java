@@ -13,6 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -56,7 +57,6 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
     private LinearLayout ll_one; //关联记录
     private TextView tv_recode;//关联标题
     private ImageView iv_arrow;//关联箭头
-    View v1;
     LinearLayout ll_desc;
     LinearLayout ll_orderId;
     private TextView tv_vip_date;//会员到期时间
@@ -93,11 +93,16 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
 
     private String orderId;
 
-    private String returnProductMainId;
     private String returnMainId;
 
-    private Toolbar toolbar;
-
+    private ImageView iv_back;
+    TextView tv_style;
+    TextView tv_style_desc;
+    LinearLayout ll_rent;
+    TextView tv_time;
+    TextView tv_time_desc;
+    LinearLayout ll_three;
+    RelativeLayout rl_zero;
     private List<Integer> mReturnList = new ArrayList<>();
 
     @Override
@@ -112,8 +117,11 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
-        v1 = findViewById(R.id.v1);
-        ll_desc = findViewById(R.id.ll_desc);
+        ll_rent = findViewById(R.id.ll_rent);
+        tv_time = findViewById(R.id.tv_time);
+        tv_time_desc = findViewById(R.id.tv_time_desc);
+        tv_style = findViewById(R.id.tv_style);
+        tv_style_desc = findViewById(R.id.tv_style_desc);
         ll_orderId = findViewById(R.id.ll_orderId);
         tv_bill_type = findViewById(R.id.tv_bill_type);
         iv_flag = findViewById(R.id.iv_flag);
@@ -134,7 +142,9 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
         tv_order_user = findViewById(R.id.tv_order_user);
         ll_two = findViewById(R.id.ll_two);
         ll_user = findViewById(R.id.ll_user);
-        toolbar = findViewById(R.id.toolbar);
+        iv_back = findViewById(R.id.iv_back);
+        ll_three = findViewById(R.id.ll_three);
+        rl_zero = findViewById(R.id.rl_zero);
     }
 
     @Override
@@ -150,9 +160,9 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
 
     @Override
     public void setClickEvent() {
-        toolbar.setNavigationOnClickListener(new NoDoubleClickListener() {
+        iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onNoDoubleClick(View view) {
+            public void onClick(View view) {
                 finish();
             }
         });
@@ -161,15 +171,11 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
             @Override
             public void onClick(View v) {
                 if (type == 1) {
-
-
                     if (orderDeliverType == 0) {
-
                         Intent intent = new Intent(mContext, NewOrderDetailActivity.class);
                         intent.putExtra(AppConstant.ORDERID, orderId);
                         intent.putExtra(AppConstant.ORDERSTATE, orderStatus);
                         intent.putExtra("account","0");
-                        //  intent.putExtra(AppConstant.RETURNPRODUCTMAINID, returnProductMainId);
                         intent.putExtra("goAccount", "goAccount");
                         startActivity(intent);
 
@@ -178,7 +184,6 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
                         intent.putExtra(AppConstant.ORDERID, orderId);
                         intent.putExtra("account","0");
                         intent.putExtra(AppConstant.ORDERSTATE, orderStatus);
-                        //      intent.putExtra(AppConstant.RETURNPRODUCTMAINID, returnProductMainId);
                         intent.putExtra("goAccount", "goAccount");
                         startActivity(intent);
 
@@ -217,9 +222,7 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
         });
 
 
-        ll_one.setOnClickListener(new View.OnClickListener()
-
-        {
+        ll_one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (type == 1 || type == 4) {
@@ -252,12 +255,10 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
                         public void onClick(View v) {
 
                             if (orderDeliverType == 0) {
-
                                 Intent intent = new Intent(mContext, NewOrderDetailActivity.class);
                                 intent.putExtra(AppConstant.ORDERID, orderId);
                                 intent.putExtra(AppConstant.ORDERSTATE, orderStatus);
                                 intent.putExtra("account", "0");
-                                //  intent.putExtra(AppConstant.RETURNPRODUCTMAINID, returnProductMainId);
                                 intent.putExtra("goAccount", "goAccount");
                                 startActivity(intent);
 
@@ -266,7 +267,6 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
                                 intent.putExtra(AppConstant.ORDERID, orderId);
                                 intent.putExtra("account", "0");
                                 intent.putExtra(AppConstant.ORDERSTATE, orderStatus);
-                                //      intent.putExtra(AppConstant.RETURNPRODUCTMAINID, returnProductMainId);
                                 intent.putExtra("goAccount", "goAccount");
                                 startActivity(intent);
 
@@ -315,8 +315,6 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
             }
 
         });
-
-
     }
 
 
@@ -340,33 +338,37 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
 
                         if (walletDetailModel.isSuccess()) {
                             mReturnList.clear();
-                            orderId = walletDetailModel.getData().getOrderId();
-                            returnMainId = walletDetailModel.getData().returnMainId;
-                            orderDeliverType = walletDetailModel.getData().orderDeliveryType;
-                            if (walletDetailModel.getData().returnMainIdList != null && walletDetailModel.getData().returnMainIdList.size() > 0) {
-
-                                returnProductMainId = String.valueOf(walletDetailModel.getData().returnMainIdList.get(0).byteValue());
-                                mReturnList.addAll(walletDetailModel.getData().returnMainIdList);
+                            WalletDetailModel.DataBean data = walletDetailModel.getData();
+                            orderId = data.getOrderId();
+                            returnMainId = data.returnMainId;
+                            orderDeliverType = data.orderDeliveryType;
+                            if (data.returnMainIdList != null && data.returnMainIdList.size() > 0) {
+                                mReturnList.addAll(data.returnMainIdList);
                             }
-                            orderStatus = walletDetailModel.getData().orderStatus;
+                            orderStatus = data.orderStatus;
+                            vipUrl = data.goUrl;
 
-                            vipUrl = walletDetailModel.getData().goUrl;
+                            tv_amount.setText(String.valueOf(data.amount));
+                            tv_bill_type.setText(data.flowRecordTypeStr);
+                            tv_pay_order.setText(data.getChannelType());
 
-                            tv_amount.setText(String.valueOf(walletDetailModel.getData().amount));
-                            tv_bill_type.setText(walletDetailModel.getData().flowRecordTypeStr);
-                            tv_pay_order.setText(walletDetailModel.getData().getChannelType());
+                            tv_order_time.setText(data.getTime());
+                            tv_order_num.setText(data.getOrderId());
 
-                            tv_order_time.setText(walletDetailModel.getData().getTime());
-                            tv_order_num.setText(walletDetailModel.getData().getOrderId());
-
-                            if (walletDetailModel.getData().getSubUser() != null && StringHelper.notEmptyAndNull(String.valueOf(walletDetailModel.getData().getSubUser()))) {
+                            tv_order_status.setText(data.orderStatusStr);
+                            if (data.getSubUser() != null && !data.getSubUser().equals("")) {
                                 ll_user.setVisibility(View.VISIBLE);
-                                tv_order_user.setText(String.valueOf(walletDetailModel.getData().getSubUser()));
+                                tv_order_user.setText(data.getSubUser()+"");
                             } else {
                                 ll_user.setVisibility(View.GONE);
                             }
                             if (type == 1) {
-                                if (walletDetailModel.getData().returnMainIdList != null && walletDetailModel.getData().returnMainIdList.size() > 0) {
+                                ll_two.setVisibility(View.VISIBLE);
+                                tv_pay.setText("支付方式");
+                                tv_pay_order.setText(data.getChannelType());
+                                tv_explain.setText("积分奖励");
+
+                                if (data.returnMainIdList != null && data.returnMainIdList.size() > 0) {
                                     ll_one.setVisibility(View.VISIBLE);
                                     tv_recode.setText("关联记录");
                                     iv_arrow.setVisibility(View.VISIBLE);
@@ -377,26 +379,56 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
                                     ll_one.setVisibility(View.GONE);
                                     tv_detail.setText("订单详情");
                                 }
+
+                                ll_rent.setVisibility(View.GONE);
+
                             } else if (type == 4) {
                                 ll_one.setVisibility(View.VISIBLE);
                                 tv_recode.setText("关联记录");
                                 iv_arrow.setVisibility(View.VISIBLE);
                                 tv_vip_date.setVisibility(View.GONE);
                                 tv_detail.setText("订单详情");
+
+                                tv_explain.setText("商品说明");
+                                ll_two.setVisibility(View.VISIBLE);
+                                tv_pay.setText("退款方式");
+                                tv_pay_order.setText(data.getChannelType());
+
+
+                                ll_rent.setVisibility(View.GONE);
+
                             } else if (type == 2) {
+                                //---
                                 ll_one.setVisibility(View.VISIBLE);
                                 tv_recode.setText("付款方式");
                                 iv_arrow.setVisibility(View.GONE);
                                 tv_vip_date.setVisibility(View.VISIBLE);
-                                tv_vip_date.setText(walletDetailModel.getData().getChannelType());
+                                tv_vip_date.setText(data.getChannelType());
                                 tv_detail.setText("我的余额");
+
+
+                                ll_two.setVisibility(View.VISIBLE);
+                                tv_pay.setText("付款方式");
+                                tv_explain.setText("商品说明");
+                                tv_pay_order.setText(data.getChannelType());
+
+                                ll_rent.setVisibility(View.GONE);
                             } else if (type == 7 || type == 8) {
+                                //---
                                 ll_one.setVisibility(View.VISIBLE);
                                 tv_recode.setText("会员到期日");
                                 iv_arrow.setVisibility(View.GONE);
                                 tv_vip_date.setVisibility(View.VISIBLE);
-                                tv_vip_date.setText(String.valueOf(walletDetailModel.getData().getExpireTime()));
+                                tv_vip_date.setText(data.getExpireTime()+"");
                                 tv_detail.setText("会员中心");
+
+                                ll_two.setVisibility(View.VISIBLE);
+                                tv_pay.setText("付款方式");
+                                tv_explain.setText("商品说明");
+                                tv_pay_order.setText(data.getChannelType());
+
+
+                                ll_rent.setVisibility(View.GONE);
 
                             } else if (type == 3 || type == 5) {
                                 ll_one.setVisibility(View.VISIBLE);
@@ -404,50 +436,80 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
                                 iv_arrow.setVisibility(View.VISIBLE);
                                 tv_vip_date.setVisibility(View.GONE);
 
+
+                                ll_two.setVisibility(View.GONE);
+
+
+                                ll_rent.setVisibility(View.GONE);
+
+
                             }else if(type == 9) {
                                 tv_recode.setText("使用条件");
                                 tv_vip_date.setText("无门槛");
                                 tv_vip_date.setVisibility(View.VISIBLE);
                                 tv_pay_order.setText("平台余额");
                                 ll_detail.setVisibility(View.GONE);
-                                v1.setVisibility(View.GONE);
                                 ll_desc.setVisibility(View.GONE);
                                 ll_orderId.setVisibility(View.GONE);
+
+                                ll_rent.setVisibility(View.GONE);
                             }
 
-
                             if (type == 1) {
-                                ll_two.setVisibility(View.VISIBLE);
-                                tv_pay.setText("支付方式");
-                                tv_pay_order.setText(walletDetailModel.getData().getChannelType());
-                                tv_explain.setText("积分奖励");
+//                                ll_two.setVisibility(View.VISIBLE);
+//                                tv_pay.setText("支付方式");
+//                                tv_pay_order.setText(data.getChannelType());
+//                                tv_explain.setText("积分奖励");
 
 
                             } else if (type == 4) {
-                                tv_explain.setText("商品说明");
-                                ll_two.setVisibility(View.VISIBLE);
-                                tv_pay.setText("退款方式");
-                                tv_pay_order.setText(walletDetailModel.getData().getChannelType());
+//                                tv_explain.setText("商品说明");
+//                                ll_two.setVisibility(View.VISIBLE);
+//                                tv_pay.setText("退款方式");
+//                                tv_pay_order.setText(data.getChannelType());
                             } else if (type == 2 || type == 7 || type == 8) {
-                                ll_two.setVisibility(View.VISIBLE);
-                                tv_pay.setText("付款方式");
-                                tv_explain.setText("商品说明");
-                                tv_pay_order.setText(walletDetailModel.getData().getChannelType());
+//                                ll_two.setVisibility(View.VISIBLE);
+//                                tv_pay.setText("付款方式");
+//                                tv_explain.setText("商品说明");
+//                                tv_pay_order.setText(data.getChannelType());
                             } else if (type == 5 || type == 3) {
+//                                ll_two.setVisibility(View.GONE);
+                            }
 
+                            if(type == 13) {
+                                //转让招租 付款
+                                tv_style_desc.setText("支付方式");
+                                tv_time_desc.setText("支付时间");
+                                tv_style.setText(data.getChannelType());
+                                tv_time.setText(data.getTime());
+
+                                rl_zero.setVisibility(View.GONE);
                                 ll_two.setVisibility(View.GONE);
+                                ll_three.setVisibility(View.GONE);
 
+
+                                ll_rent.setVisibility(View.VISIBLE);
+                            }else if(type == 14) {
+                                //转让招租 退款
+                                tv_style_desc.setText("退款方式");
+                                tv_time_desc.setText("退款时间");
+                                tv_style.setText(data.getChannelType());
+                                tv_time.setText(data.getTime());
+
+                                rl_zero.setVisibility(View.GONE);
+                                ll_two.setVisibility(View.GONE);
+                                ll_three.setVisibility(View.GONE);
+                                ll_rent.setVisibility(View.VISIBLE);
                             }
-                            tv_explain_content.setText(walletDetailModel.getData().getProDesc());
 
-                            if (walletDetailModel.getData().amount.doubleValue() > 0) {
-                                tv_amount.setTextColor(Color.parseColor("#fff6551a"));
+                            if (data.amount.doubleValue() > 0) {
+                                tv_amount.setTextColor(Color.parseColor("#FF2710"));
                             } else {
-                                tv_amount.setTextColor(Color.parseColor("#ff333333"));
+                                tv_amount.setTextColor(Color.parseColor("#414141"));
                             }
 
-                            Glide.with(mContext).load(walletDetailModel.getData().iconUrl).into(iv_flag);
-
+                            tv_explain_content.setText(data.getProDesc());
+                            Glide.with(mContext).load(data.iconUrl).into(iv_flag);
 
                         } else {
                             AppHelper.showMsg(mContext, walletDetailModel.getMessage());

@@ -31,6 +31,7 @@ import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.utils.EnCodeUtil;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
+import com.tencent.mm.opensdk.utils.Log;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -150,18 +151,6 @@ public class AddSubAccountActivity extends BaseSwipeActivity implements View.OnC
             }
         });
 
-//        swipe3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                //0 不提醒 1 任意提醒 2 达到金额提醒
-//                if(isChecked) {
-//                    SharedPreferencesUtil.saveString(mActivity,"notification","0");
-//                }else {
-//                    SharedPreferencesUtil.saveString(mActivity,"notification","1");
-//                }
-//            }
-//        });
-
         swipe3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,6 +176,9 @@ public class AddSubAccountActivity extends BaseSwipeActivity implements View.OnC
                 String inBalance = SharedPreferencesUtil.getString(mActivity, "inBalance");
                 String inGift = SharedPreferencesUtil.getString(mActivity, "inGift");
                 String amount = et_amount.getText().toString();
+                if(amount.equals("无")) {
+                    amount = "";
+                }
                 SharedPreferencesUtil.saveString(mActivity, "amount",amount);
                 String amount_limit = SharedPreferencesUtil.getString(mActivity, "amount_limit");
                 String notification = SharedPreferencesUtil.getString(mActivity, "notification");

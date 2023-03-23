@@ -1,3 +1,4 @@
 include ':citypicker'
 include ':banner'
 include ':app', ':xrecyclerview', ':library', ':wheelview', ':pickerview', ':StickyListHeaders_lib', ':MarqueeViewLib'
+include ':videoprocessor'

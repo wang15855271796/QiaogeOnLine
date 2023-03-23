@@ -86,7 +86,7 @@ public class WalletDetailModel {
         private String time;
         private String orderId;
         private String businessNo;
-        private Object subUser;
+        private String subUser;
         private String proDesc;
      public List<Integer> returnMainIdList;
         private Object expireTime;
@@ -147,11 +147,11 @@ public String returnMainId;
             this.businessNo = businessNo;
         }
 
-        public Object getSubUser() {
+        public String getSubUser() {
             return subUser;
         }
 
-        public void setSubUser(Object subUser) {
+        public void setSubUser(String subUser) {
             this.subUser = subUser;
         }
 

@@ -8,50 +8,10 @@
     android:background="@color/white"
     android:orientation="horizontal">
 
-    <com.puyue.www.qiaoge.view.EasySwipeMenuLayout
+    <com.puyue.www.qiaoge.view.EasyView
         android:id="@+id/es_swiper"
-        app:contentView="@+id/rl_content"
-        app:rightMenuView="@+id/right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:id="@+id/right"
-            android:layout_width="140dp"
-            android:orientation="horizontal"
-            android:layout_height="@dimen/size_70dp">
-
-            <LinearLayout
-                android:id="@+id/ll_delete"
-                android:background="#FF4C2F"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="@dimen/size_70dp">
-
-                <TextView
-                    android:text="删除"
-                    android:gravity="center"
-                    android:textColor="#ffffff"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_cancel"
-                android:background="#ECECEC"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="@dimen/size_70dp">
-
-                <TextView
-                    android:text="取消"
-                    android:textColor="#414141"
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-            </LinearLayout>
-
-        </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/rl_content"
@@ -111,7 +71,45 @@
 
         </RelativeLayout>
 
-    </com.puyue.www.qiaoge.view.EasySwipeMenuLayout>
+        <LinearLayout
+            android:id="@+id/right"
+            android:layout_width="140dp"
+            android:orientation="horizontal"
+            android:layout_height="@dimen/size_70dp">
+
+            <LinearLayout
+                android:id="@+id/ll_delete"
+                android:background="#FF4C2F"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="@dimen/size_70dp">
+
+                <TextView
+                    android:text="删除"
+                    android:gravity="center"
+                    android:textColor="#ffffff"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_cancel"
+                android:background="#ECECEC"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="@dimen/size_70dp">
+
+                <TextView
+                    android:text="取消"
+                    android:textColor="#414141"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.puyue.www.qiaoge.view.EasyView>
 
 
 </LinearLayout>

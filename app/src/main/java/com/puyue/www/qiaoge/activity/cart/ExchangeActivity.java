@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -93,10 +94,11 @@ public class ExchangeActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onArticleOnItemClick(EditText et) {
                 Amount = 0.0;
+                Log.d("swczsdwas.....",couponListsAdapter.getItemCount()+"--");
                 for (int i = 0; i < couponListsAdapter.getItemCount(); i++) {
                     String amount = couponListsAdapter.getItem(i).getNum();
+                    Log.d("swczsdwas.....",amount+"-----");
                     if (TextUtils.isEmpty(amount)) {
-
                         amount = "0";
                     }
                     Amount = BigDecimalUtils.add(Double.parseDouble(amount),Amount);
@@ -146,7 +148,13 @@ public class ExchangeActivity extends BaseActivity implements View.OnClickListen
 
                 break;
             case R.id.tv_add:
-                couponListsAdapter.addData(new ItemModel(),amount);
+                if(tv_amount.getText().toString().equals("0")) {
+                    ToastUtil.showSuccessMsg(mActivity,"兑换金额已为0");
+                    return;
+                }else {
+                    couponListsAdapter.addData(new ItemModel(),amount);
+                }
+
                 break;
 
             case R.id.tv_exchange:

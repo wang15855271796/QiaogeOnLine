@@ -7,11 +7,11 @@
     <LinearLayout
         android:id="@+id/ll_root"
         android:background="@drawable/shouye"
-        android:layout_marginTop="@dimen/size_10dp"
+        android:layout_marginTop="@dimen/size_5dp"
         android:layout_marginRight="@dimen/size_13dp"
         android:layout_marginLeft="@dimen/size_13dp"
         android:layout_width="match_parent"
-        android:layout_height="98dp">
+        android:layout_height="68dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -20,38 +20,39 @@
             <EditText
                 android:id="@+id/et"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/size_36dp"
+                android:layout_height="@dimen/size_20dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="@dimen/size_23dp"
-                android:layout_marginTop="@dimen/size_20dp"
+                android:layout_marginTop="@dimen/size_10dp"
                 android:layout_marginRight="@dimen/size_23dp"
                 android:background="@drawable/shape_white1"
                 android:gravity="center"
-                android:imeOptions=""
                 android:hint="请输入优惠券金额"
+                android:textSize="@dimen/sp_14"
+                android:imeOptions=""
                 android:inputType="number|numberDecimal" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_below="@+id/et"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="@dimen/size_27dp"
-                android:layout_below="@+id/et"
+                android:layout_marginTop="5dp"
                 android:text="无门槛不限期优惠券（1）张"
                 android:textColor="#FF6F08"
                 android:textSize="@dimen/sp_12" />
 
             <ImageView
                 android:id="@+id/iv_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/et"
-                android:padding="@dimen/size_5dp"
+                android:layout_alignParentRight="true"
                 android:layout_marginTop="@dimen/size_5dp"
                 android:layout_marginRight="@dimen/size_20dp"
-                android:layout_alignParentRight="true"
-                android:src="@mipmap/icon_clear_record"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:padding="@dimen/size_5dp"
+                android:src="@mipmap/icon_clear_record" />
 
         </RelativeLayout>
 

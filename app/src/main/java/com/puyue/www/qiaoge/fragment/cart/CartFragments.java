@@ -155,10 +155,18 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     TextView tv_next_reduce;
     @BindView(R.id.tv_need)
     TextView tv_need;
+    @BindView(R.id.tv_need_desc)
+    TextView tv_need_desc;
+    @BindView(R.id.tv_next_desc)
+    TextView tv_next_desc;
+    @BindView(R.id.tv_reduced_desc)
+    TextView tv_reduced_desc;
+    @BindView(R.id.tv_free_tip)
+    TextView tv_free_tip;
     CartAdapter cartAdapter;
     private double sendAmount;
     boolean mSelect;
-    private BigDecimal allPrice;
+    public BigDecimal allPrice;
     List<Integer> cartIdList = new ArrayList<>();
     List<Integer> cartIdInList = new ArrayList<>();
     private CartActivityGoodsModel mModelCartActivityGoods = new CartActivityGoodsModel();
@@ -225,7 +233,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
 
         //获取滚动数据
         getScrollData();
-        getFullReduce();
+
     }
 
     long start;
@@ -411,6 +419,12 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                                 }
                                 //配送金额
                                 sendAmount = data.getSendAmount();
+                                String s = sendAmount + "";
+                                if(s.equals("0")) {
+                                    tv_free_tip.setText("已免配送费");
+                                }else {
+                                    tv_free_tip.setText("满"+sendAmount+"元免配送费");
+                                }
 
                                 //初始化状态
                                 cartAdapter.setRefreshListener(new CartAdapter.OnRefreshListener() {
@@ -448,7 +462,6 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
         }
 
         double allPrices = allPrice.doubleValue();
-
         //去凑单显示与否
         if(allPrices>sendAmount) {
             ll_service.setVisibility(View.GONE);
@@ -458,9 +471,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
             tv_price_desc.setText(""+result);
             ll_service.setVisibility(View.VISIBLE);
         }
-
-        tv_total_price.setText(allPrice+"");
-        Log.d("Ceswdcasd...",allPrice+"--");
+        getFullReduce();
     }
 
     /**
@@ -488,11 +499,54 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                                 String nextOfferAmt = data.getNextOfferAmt();
                                 String offerAmt = data.getOfferAmt();
                                 String needBuyAmt = data.getNeedBuyAmt();
-                                String tips = data.getTips();
 
-                                tv_next_reduce.setText(nextOfferAmt);
-                                tv_reduced.setText(offerAmt);
-                                tv_need.setText(needBuyAmt);
+                                if(!nextOfferAmt.equals("")) {
+                                    tv_next_reduce.setText(nextOfferAmt);
+                                    tv_next_reduce.setVisibility(View.VISIBLE);
+                                    tv_next_desc.setVisibility(View.VISIBLE);
+                                }else {
+                                    tv_next_reduce.setVisibility(View.GONE);
+                                    tv_next_desc.setVisibility(View.GONE);
+                                }
+
+                                if(data.getDeductAmt()!=null && !data.getDeductAmt().equals("")) {
+                                    BigDecimal deductAmt = new BigDecimal(data.getDeductAmt());
+                                    BigDecimal subtract = allPrice.subtract(deductAmt);
+                                    tv_total_price.setText(subtract+"");
+                                }else {
+                                    tv_total_price.setText(allPrice+"");
+                                }
+
+
+                                if(!offerAmt.equals("")) {
+                                    tv_reduced.setText(offerAmt);
+                                    tv_reduced.setVisibility(View.VISIBLE);
+                                    tv_reduced_desc.setVisibility(View.VISIBLE);
+                                }else {
+                                    tv_reduced.setVisibility(View.GONE);
+                                    tv_reduced_desc.setVisibility(View.GONE);
+                                }
+
+
+                                if(!needBuyAmt.equals("")) {
+                                    Log.d("efdasedfew....","123");
+                                    tv_need.setText(needBuyAmt);
+                                    tv_need.setVisibility(View.VISIBLE);
+                                    tv_need_desc.setVisibility(View.VISIBLE);
+                                }else {
+                                    Log.d("efdasedfew....","456");
+                                    tv_need.setVisibility(View.GONE);
+                                    tv_need_desc.setVisibility(View.GONE);
+                                }
+
+                            }else {
+                                tv_next_reduce.setVisibility(View.GONE);
+                                tv_next_desc.setVisibility(View.GONE);
+                                tv_reduced.setVisibility(View.GONE);
+                                tv_reduced_desc.setVisibility(View.GONE);
+                                tv_need.setVisibility(View.GONE);
+                                tv_need_desc.setVisibility(View.GONE);
+                                tv_total_price.setText(allPrice+"");
                             }
 
 
@@ -933,7 +987,8 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     //总金额
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getAllPrice(UpdateEvent updateEvent) {
-        tv_total_price.setText(updateEvent.getDiscribe());
+        allPrice = new BigDecimal(updateEvent.getDiscribe());
+        getFullReduce();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

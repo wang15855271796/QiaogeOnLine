@@ -25,7 +25,7 @@ public class RemainAdapter extends BaseQuickAdapter<BalanceDetailModel.DataBean,
     @Override
     protected void convert(BaseViewHolder helper, BalanceDetailModel.DataBean item) {
         helper.setText(R.id.tv_title,item.getFlowRecordTypeName());
-        helper.setText(R.id.tv_time,item.getDateTime());
+        helper.setText(R.id.tv_time,item.getCreateDate());
         helper.setText(R.id.tv_price,item.getAmount());
         ImageView iv_pic = helper.getView(R.id.iv_pic);
         Glide.with(mContext).load(item.getIconUrl()).into(iv_pic);

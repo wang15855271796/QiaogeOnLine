@@ -234,7 +234,7 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
      * 获取地址列表
      */
     private void requestAddressList() {
-        AddressListAPI.requestAddressModel(mContext)
+        AddressListAPI.requestAddressModel(mContext,"")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<AddressModel>() {

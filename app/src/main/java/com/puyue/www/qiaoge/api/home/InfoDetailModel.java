@@ -108,6 +108,24 @@ public class InfoDetailModel {
         private String payTime;
         private String returnAmt;
         private String returnTime;
+        private String videoUrl;
+        private String videoCoverUrl;
+
+        public String getVideoUrl() {
+            return videoUrl;
+        }
+
+        public void setVideoUrl(String videoUrl) {
+            this.videoUrl = videoUrl;
+        }
+
+        public String getVideoCoverUrl() {
+            return videoCoverUrl;
+        }
+
+        public void setVideoCoverUrl(String videoCoverUrl) {
+            this.videoCoverUrl = videoCoverUrl;
+        }
 
         public int getPayFlag() {
             return payFlag;

@@ -137,12 +137,12 @@
 
                     <TextView
                         android:id="@+id/tv9"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="@dimen/size_33dp"
-                        android:paddingLeft="@dimen/size_15dp"
                         android:drawableLeft="@mipmap/ic_sub_share"
                         android:drawablePadding="@dimen/size_5dp"
                         android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/size_15dp"
                         android:text="资产共享设置"
                         android:textColor="#FF5A20"
                         android:textSize="@dimen/size_15dp"
@@ -151,8 +151,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/size_20dp"
                         android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/size_10dp"
                         android:layout_toRightOf="@+id/tv9"
                         android:text="(共享后，账号之间将共同使用该“资产”)"
                         android:textColor="#FF5F30"

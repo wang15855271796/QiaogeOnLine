@@ -45,7 +45,7 @@ public class MySubOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBea
     private TextView againBay;  // 再次购买
     private MySubOrdersItemAdapter.OnClick onClick;
     private LinearLayout linearLayoutItem;
-    private ImageView cancelOrder;//取消订单
+    private TextView cancelOrder;//取消订单
     private TextView deleteOrder;//删除订单
     private TextView confirmOrder;//确认收货
     TextView tv_product_name;
@@ -85,7 +85,7 @@ public class MySubOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBea
         tv_status = helper.getView(R.id.tv_status);
         imageGo = helper.getView(R.id.imageGo);
         deleteOrder = helper.getView(R.id.tv_delete_order);
-        cancelOrder = helper.getView(R.id.iv_cancel_order);
+        cancelOrder = helper.getView(R.id.tv_cancel_order);
         evaluateNow = helper.getView(R.id.evaluateNow);
         linearLayoutItem = helper.getView(R.id.linearLayoutItem);
         confirmOrder = helper.getView(R.id.tv_confirm_order);

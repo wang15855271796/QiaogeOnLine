@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
 import com.puyue.www.qiaoge.helper.RestHelper;
+import com.puyue.www.qiaoge.model.VipPayInfoResultModel;
 import com.puyue.www.qiaoge.model.mine.order.OrderEvaluateModel;
 import com.puyue.www.qiaoge.model.mine.order.VipPayResultModel;
 
@@ -34,11 +35,11 @@ public class VipPayResultAPI  {
     public interface InfoPayResultService {
         @FormUrlEncoded
         @POST(AppInterfaceAddress.Info_Pay_Result)
-        Observable<VipPayResultModel> setParams(@Field("outTradeNo") String outTradeNo);
+        Observable<VipPayInfoResultModel> setParams(@Field("outTradeNo") String outTradeNo);
     }
 
-    public static Observable<VipPayResultModel> getResult(Context context, String outTradeNo) {
-        Observable<VipPayResultModel> orderEvaluateModelObservable = RestHelper.getBaseRetrofit(context).create(InfoPayResultService.class).setParams(outTradeNo);
+    public static Observable<VipPayInfoResultModel> getResult(Context context, String outTradeNo) {
+        Observable<VipPayInfoResultModel> orderEvaluateModelObservable = RestHelper.getBaseRetrofit(context).create(InfoPayResultService.class).setParams(outTradeNo);
         return orderEvaluateModelObservable;
     }
 }

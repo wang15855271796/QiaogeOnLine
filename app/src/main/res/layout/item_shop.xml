@@ -21,11 +21,11 @@
 
             <com.puyue.www.qiaoge.view.RoundImageView
                 android:id="@+id/iv_pic"
-                android:scaleType="fitXY"
-                android:layout_centerHorizontal="true"
-                android:src="@mipmap/bg_emptys"
                 android:layout_width="match_parent"
-                android:layout_height="171dp" />
+                android:layout_height="171dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitXY"
+                android:src="@mipmap/bg_emptys" />
 
             <TextView
                 android:id="@+id/tv_style"

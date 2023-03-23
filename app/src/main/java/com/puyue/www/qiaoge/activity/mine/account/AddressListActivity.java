@@ -250,7 +250,7 @@ public class AddressListActivity extends BaseSwipeActivity {
     }
 
     private void requestAddressList() {
-        AddressListAPI.requestAddressModel(mContext)
+        AddressListAPI.requestAddressModel(mContext,"")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<AddressModel>() {

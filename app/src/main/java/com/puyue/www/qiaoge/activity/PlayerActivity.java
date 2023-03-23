@@ -2,8 +2,10 @@ package com.puyue.www.qiaoge.activity;
 
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
@@ -47,12 +49,12 @@ public class PlayerActivity extends BaseActivity {
     TextView tv_title;
     @BindView(R.id.tv_desc)
     TextView tv_desc;
+    @BindView(R.id.tv_ok)
+    TextView tv_ok;
     String url;
     String id;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
-        url = getIntent().getStringExtra("url");
-        id = getIntent().getStringExtra("id");
         return false;
     }
 
@@ -63,13 +65,31 @@ public class PlayerActivity extends BaseActivity {
 
     @Override
     public void findViewById() {
-        video_player.setUp(url, true, "");
-        video_player.startPlayLogic();
+
     }
 
     @Override
     public void setViewData() {
+        url = getIntent().getStringExtra("url");
+        id = getIntent().getStringExtra("id");
+        video_player.setUp(url, true, "");
+        video_player.startPlayLogic();
         getSchoolVideoDetail();
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        tv_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mActivity, AskActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -103,7 +123,7 @@ public class PlayerActivity extends BaseActivity {
                     public void onNext(BaseModel baseModel) {
                         if (baseModel.code==1) {
 //                            ToastUtil.showSuccessMsg(mContext,baseModel.message);
-                            finish();
+//                            finish();
                         }else {
 //                            ToastUtil.showSuccessMsg(mContext,baseModel.message);
                         }
@@ -136,6 +156,7 @@ public class PlayerActivity extends BaseActivity {
                                 tv_desc.setText(data.getVideoDesc());
                                 tv_time.setText(data.getDateTime());
                                 tv_num.setText(data.getViewNum());
+                                Log.d("sddadas....",data.getViewNum()+"--");
                             }
                         }else {
                             ToastUtil.showSuccessMsg(mContext,videoDetailModel.getMessage());

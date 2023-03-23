@@ -454,7 +454,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/size_90dp"
+                        android:layout_marginLeft="@dimen/size_85dp"
                         android:layout_marginRight="@dimen/size_5dp">
 
                         <TextView
@@ -462,35 +462,47 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/size_3dp"
+                            android:layout_toLeftOf="@+id/tv1"
                             android:background="@drawable/shape_pink5"
                             android:paddingLeft="@dimen/size_3dp"
                             android:paddingTop="@dimen/size_1dp"
                             android:paddingRight="@dimen/size_3dp"
                             android:paddingBottom="@dimen/size_1dp"
-                            android:text="满200元免配送费"
                             android:textColor="#F5480A"
-                            android:textSize="10sp" />
+                            android:textSize="10sp"
+                            tools:text="满200元免配送费" />
 
                         <TextView
                             android:id="@+id/tv1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/size_6dp"
-                            android:layout_toRightOf="@+id/tv_free_tip"
-                            android:text="合计:"
+                            android:layout_toLeftOf="@+id/tv_tip"
+                            android:text="合计"
                             android:textColor="@color/app_black"
                             android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_tip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/size_8dp"
+                            android:layout_toLeftOf="@+id/tv_total_price"
+                            android:text="￥"
+                            android:textColor="#F50404"
+                            android:textSize="9sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tv_total_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/tv1"
-                            android:text="￥ 0.0"
+                            android:layout_alignParentRight="true"
                             android:textColor="#F50404"
                             android:textSize="16sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:text="0.0" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -501,34 +513,70 @@
                             android:textSize="@dimen/dp_10"
                             android:visibility="gone" />
 
-                        <LinearLayout
+                        <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/tv_total_price">
+                            android:layout_below="@+id/tv_total_price"
+                            android:layout_alignParentRight="true">
+
+                            <TextView
+                                android:id="@+id/tv_reduced_desc"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="已减"
+                                android:textSize="10sp"
+                                android:visibility="gone" />
 
                             <TextView
                                 android:id="@+id/tv_reduced"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="金额"
-                                android:textSize="10sp" />
+                                android:layout_toRightOf="@+id/tv_reduced_desc"
+                                android:textColor="#F50404"
+                                android:textSize="10sp"
+                                android:visibility="gone"
+                                tools:text="100" />
+
+                            <TextView
+                                android:id="@+id/tv_need_desc"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@+id/tv_reduced"
+                                android:text="再买"
+                                android:textSize="10sp"
+                                android:visibility="gone" />
 
                             <TextView
                                 android:id="@+id/tv_need"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="￥10"
-                                android:textSize="10sp" />
+                                android:layout_toRightOf="@+id/tv_need_desc"
+                                android:textColor="#F50404"
+                                android:textSize="10sp"
+                                android:visibility="gone"
+                                tools:text="￥10" />
+
+                            <TextView
+                                android:id="@+id/tv_next_desc"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@+id/tv_need"
+                                android:text="可享"
+                                android:textSize="10sp"
+                                android:visibility="gone" />
 
                             <TextView
                                 android:id="@+id/tv_next_reduce"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="100"
-                                android:textSize="10sp" />
+                                android:layout_toRightOf="@+id/tv_next_desc"
+                                android:textColor="#F50404"
+                                android:textSize="10sp"
+                                android:visibility="gone"
+                                tools:text="100" />
 
 
-                        </LinearLayout>
+                        </RelativeLayout>
 
                     </RelativeLayout>
 
@@ -544,8 +592,8 @@
                     android:layout_gravity="center_vertical"
                     android:paddingTop="@dimen/size_3dp"
                     android:paddingBottom="@dimen/size_3dp"
-                    android:paddingLeft="@dimen/size_10dp"
-                    android:paddingRight="@dimen/size_10dp"
+                    android:paddingLeft="@dimen/size_15dp"
+                    android:paddingRight="@dimen/size_15dp"
                     android:gravity="center"
                     android:textColor="@color/app_color_white"
                     android:textSize="15dp" />

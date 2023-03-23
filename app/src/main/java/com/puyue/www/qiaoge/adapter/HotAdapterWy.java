@@ -1,6 +1,7 @@
 package com.puyue.www.qiaoge.adapter;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -40,7 +41,7 @@ public class HotAdapterWy extends BaseQuickAdapter<ProductNormalModel.DataBean.L
         tv_price.setText(item.getMinMaxPrice());
         iv_not_send = helper.getView(R.id.iv_not_send);
         Glide.with(mContext).load(item.getDefaultPic()).into(iv_pic);
-
+        Log.d("asdfasda.....",activesBean.size()+"-");
         if(activesBean.size()>=3) {
             if(helper.getAdapterPosition()==0) {
                 iv_order.setVisibility(View.VISIBLE);

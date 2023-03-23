@@ -21,16 +21,19 @@ import com.puyue.www.qiaoge.activity.ShopStartActivity;
 import com.puyue.www.qiaoge.activity.mine.IssueActivity;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.CityChangeAPI;
+import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.api.home.InfoListAPI;
 import com.puyue.www.qiaoge.api.home.InfoListModel;
 import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.dialog.CatePopWindow;
 import com.puyue.www.qiaoge.dialog.ChooseCityPopWindow;
+import com.puyue.www.qiaoge.event.RentEvent;
 import com.puyue.www.qiaoge.event.SearchShopEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.PopWindowListener;
+import com.puyue.www.qiaoge.model.HomeStyleTabModel;
 import com.puyue.www.qiaoge.model.home.CityChangeModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.Time;
@@ -84,6 +87,8 @@ public class InfoFragment extends BaseFragment {
     TextView tv_address;
     @BindView(R.id.tv_search)
     TextView tv_search;
+    @BindView(R.id.tv_title)
+    TextView tv_title;
     List<InfoListModel.DataBean.ListBean> list = new ArrayList<>();
     int pageNum = 1;
     int pageSize = 10;
@@ -119,6 +124,7 @@ public class InfoFragment extends BaseFragment {
         recyclerView.setAdapter(marketsAdapter);
         List<String> strings = Arrays.asList(data);
         getCityChoose();
+        getHomeTabStyle();
         search = tv_search.getText().toString();
         tv_search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -224,6 +230,9 @@ public class InfoFragment extends BaseFragment {
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 list.clear();
                 pageNum=1;
+                getHomeTabStyle();
+                //修改首页行业资讯名称
+                EventBus.getDefault().post(new RentEvent());
                 if(pos==0) {
                     getCityList(search,"",cityCode,provinceCode);
                 }else if(pos==1) {
@@ -267,6 +276,43 @@ public class InfoFragment extends BaseFragment {
 
         getCityList("","","","");
     }
+
+    String rentName;
+    HomeStyleTabModel.DataBean homeTabData;
+    private void getHomeTabStyle() {
+        IndexHomeAPI.getTabStyle(mActivity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<HomeStyleTabModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(HomeStyleTabModel homeStyleTabModel) {
+                        if(homeStyleTabModel.getCode()==1) {
+                            if(homeStyleTabModel.getData()!=null) {
+                                homeTabData = homeStyleTabModel.getData();
+
+                                if(!homeTabData.getRentName().equals("") && homeTabData.getRentName()!=null) {
+                                    rentName = homeTabData.getRentName();
+                                    tv_title.setText(rentName);
+                                }
+                            }
+
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,homeStyleTabModel.getMessage());
+                        }
+                    }
+                });
+    }
+
 
 
     /**
@@ -455,6 +501,7 @@ public class InfoFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         start = System.currentTimeMillis();
+
     }
 
     @Override

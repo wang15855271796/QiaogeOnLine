@@ -1,9 +1,15 @@
 package com.puyue.www.qiaoge.activity;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaMetadataRetriever;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +19,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -20,10 +27,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.tu.loadingdialog.LoadingDailog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chinaums.pppay.unify.UnifyPayPlugin;
 import com.chinaums.pppay.unify.UnifyPayRequest;
 import com.google.gson.Gson;
+import com.hw.videoprocessor.VideoProcessor;
+import com.hw.videoprocessor.VideoUtil;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -45,6 +55,7 @@ import com.puyue.www.qiaoge.event.InfoPayEvent;
 import com.puyue.www.qiaoge.event.MyShopEvent;
 import com.puyue.www.qiaoge.event.ShopStyleEvent;
 import com.puyue.www.qiaoge.event.WeChatPayEvent;
+import com.puyue.www.qiaoge.event.WeChatUnPayEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.model.InfoIsPayModel;
 import com.puyue.www.qiaoge.model.InfoPubModel;
@@ -60,6 +71,7 @@ import com.puyue.www.qiaoge.view.CascadingMenuViewOnSelectListener;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -68,6 +80,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -96,7 +109,7 @@ public class IssueInfoActivity extends BaseSwipeActivity {
     @BindView(R.id.tv_message_style)
     TextView tv_message_style;
     @BindView(R.id.tv_address)
-    TextView tv_address;
+    EditText tv_address;
     @BindView(R.id.tv_sure)
     TextView tv_sure;
     @BindView(R.id.tv_area)
@@ -105,18 +118,23 @@ public class IssueInfoActivity extends BaseSwipeActivity {
     ImageView iv_back;
     @BindView(R.id.tv_money)
     TextView tv_money;
+    @BindView(R.id.lav_activity_loading)
+    AVLoadingIndicatorView loadingIndicatorView;
     PopupWindow pop;
     private int maxSelectNum = 6;
     private List<String> picList = new ArrayList();
     private List<LocalMedia> selectList = new ArrayList<>();
     private ShopImageViewAdapter shopImageViewAdapter;
     String returnPic = "";
+    String videoUrl = "";
+    String videoCoverUrl = "";
     CascadingMenuPopWindow cascadingMenuPopWindow;
     String provinceCode;
     String provinceName;
     String cityName;
     String cityCode;
     String msgId;
+    private ProgressDialog progressDialog;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -145,15 +163,17 @@ public class IssueInfoActivity extends BaseSwipeActivity {
         shopImageViewAdapter.setOnItemClickListener(new ShopImageViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, View v) {
+                List<LocalMedia> selectList = shopImageViewAdapter.getData();
                 if (selectList.size() > 0) {
                     LocalMedia media = selectList.get(position);
                     String pictureType = media.getMimeType();
                     int mediaType = PictureMimeType.getMimeType(pictureType);
+
                     switch (mediaType) {
                         case 1:
                             // 预览图片 可自定长按保存路径
                             //PictureSelector.create(MainActivity.this).externalPicturePreview(position, "/custom_file", selectList);
-                            PictureSelector.create(mActivity).externalPicturePreview(position, selectList,position);
+//                            PictureSelector.create(mActivity).externalPicturePreview(position, selectList,position);
                             break;
                         case 2:
                             // 预览视频
@@ -221,7 +241,14 @@ public class IssueInfoActivity extends BaseSwipeActivity {
             }
         });
         getCityList();
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle(null);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("视频压缩中......");
+
     }
+
 
     private int checkPhoneNum(String username){
         if (TextUtils.isEmpty(username)){
@@ -268,7 +295,8 @@ public class IssueInfoActivity extends BaseSwipeActivity {
         @Override
         public void onAddPicClick() {
             showPop();
-
+            hintKbTwo();
+            et.clearFocus();
         }
     };
 
@@ -309,10 +337,12 @@ public class IssueInfoActivity extends BaseSwipeActivity {
                                 .openGallery(PictureMimeType.ofAll())
                                 .maxSelectNum(maxSelectNum - selectList.size())
                                 .minSelectNum(1)
+                                .maxVideoSelectNum(1)
                                 .imageSpanCount(4)
                                 .loadImageEngine(GlideEngine.createGlideEngine())
                                 .compress(true)
                                 .isCamera(false)
+                                .recordVideoSecond(30)
                                 .selectionMode(PictureConfig.MULTIPLE)
                                 .forResult(PictureConfig.CHOOSE_REQUEST);
                         break;
@@ -347,30 +377,160 @@ public class IssueInfoActivity extends BaseSwipeActivity {
         }
     }
 
+    String path;
+    Uri selectedVideoUri;
+    private List<String> coverList = new ArrayList();
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         List<LocalMedia> images;
+        selectedVideoUri = data.getData();
+//         == REQUEST_TAKE_GALLERY_VIDEO
+
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case PictureConfig.CHOOSE_REQUEST:
                     // 图片选择结果回调
                     images = PictureSelector.obtainMultipleResult(data);
                     selectList.addAll(images);
-                    for (int i = 0; i < images.size(); i++) {
-                        picList.add(images.get(i).getRealPath());
+                    for (LocalMedia media : images) {
+                        path = media.getPath();
+                        picList.add(media.getRealPath());
+
+                        if(media.getRealPath().contains("jpeg") || media.getRealPath().contains("jpg")) {
+                            //图片
+                            upImage(filesToMultipartBodyParts(picList));
+                        }else {
+                            //视频
+                            coverList.add(media.getRealPath());
+                            upCover(filesToMultipartBodyParts(coverList));
+//                            String realPath = media.getRealPath();
+//                            executeScaleVideo(realPath);
+                        }
                     }
                     shopImageViewAdapter.setList(selectList);
                     shopImageViewAdapter.notifyDataSetChanged();
-                    upImage(filesToMultipartBodyParts(picList));
 
                     break;
             }
         }
     }
+    private String filePath;
+    private void executeScaleVideo(String selectedVideoUri) {
+        File moviesDir = getTempMovieDir();
+        progressDialog.show();
+        Uri parse = Uri.parse(selectedVideoUri);
+        String filePrefix = "scale_video";
+        String fileExtn = ".mp4";
+        File dest = new File(moviesDir, filePrefix + fileExtn);
+        int fileNo = 0;
+        while (dest.exists()) {
+            fileNo++;
+            dest = new File(moviesDir, filePrefix + fileNo + fileExtn);
+        }
+        filePath = dest.getAbsolutePath();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean success = true;
+                try {
+                    MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                    retriever.setDataSource(IssueInfoActivity.this,parse);
+                    int originWidth = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
+                    int originHeight = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
+                    int bitrate = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE));
 
-    private void upImage(List<MultipartBody.Part> parts) {
-        SendImageAPI.requestImgDetail(mContext, parts)
+                    int outWidth = originWidth / 2;
+                    int outHeight = originHeight / 2;
+
+                    VideoProcessor.processor(getApplicationContext())
+                            .input(selectedVideoUri)
+                            .output(filePath)
+                            .outWidth(outWidth)
+                            .outHeight(outHeight)
+//                            .startTimeMs(startMs)
+//                            .endTimeMs(endMs)
+                            .bitrate(bitrate / 2)
+                            .process();
+                } catch (Exception e) {
+                    success = false;
+                    e.printStackTrace();
+                    postError();
+                }
+                if(success){
+                    startPreviewActivity(filePath);
+                }
+                progressDialog.dismiss();
+            }
+        }).start();
+    }
+
+    private void startPreviewActivity(String videoPath){
+        String name = new File(videoPath).getName();
+        int end = name.lastIndexOf('.');
+        if(end>0){
+            name = name.substring(0,end);
+        }
+        String strUri = VideoUtil.savaVideoToMediaStore(this, videoPath, name, "From VideoProcessor", "video/mp4");
+        Log.d("wdasdwsdss....",strUri+"--");
+        coverList.add(strUri);
+        upCover(filesToMultipartBodyParts(coverList));
+
+    }
+
+    private void postError() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), "process error!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private File getTempMovieDir(){
+        File movie = new File(getCacheDir(), "movie");
+        movie.mkdirs();
+        return movie;
+    }
+
+
+    private void upCover(List<MultipartBody.Part> filesToMultipartBodyParts) {
+        SendImageAPI.requestImgDetail(mContext, filesToMultipartBodyParts)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<SendImageModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("ewdfasda.....",e.getMessage()+"--");
+                    }
+
+                    @Override
+                    public void onNext(SendImageModel baseModel) {
+                        if (baseModel.success) {
+                            videoCoverUrl = "";
+                            if (baseModel.data != null) {
+                                String[] data = baseModel.data;
+                                for(String url: data) {
+                                    videoCoverUrl = url;
+                                }
+                            }
+
+                            Log.d("ewdfasda.....",videoCoverUrl+"--");
+
+                        } else {
+                            AppHelper.showMsg(mContext, baseModel.message);
+                        }
+                    }
+                });
+    }
+
+    private void upVideo(List<MultipartBody.Part> filesToMultipartBodyParts) {
+        SendImageAPI.requestImgDetail(mContext, filesToMultipartBodyParts)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<SendImageModel>() {
@@ -387,18 +547,46 @@ public class IssueInfoActivity extends BaseSwipeActivity {
                     @Override
                     public void onNext(SendImageModel baseModel) {
                         if (baseModel.success) {
+                            videoUrl = "";
+                            if (baseModel.data != null) {
+                                String[] data = baseModel.data;
+                                for(String url: data) {
+                                    videoUrl = url;
+                                }
+                                Log.d("wddwdasdad....",videoUrl+"videoUrl");
+                            }
+
+                        } else {
+                            AppHelper.showMsg(mContext, baseModel.message);
+                        }
+                    }
+                });
+    }
+
+    private void upImage(List<MultipartBody.Part> parts) {
+        SendImageAPI.requestImgDetail(mContext, parts)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<SendImageModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(SendImageModel baseModel) {
+                        if (baseModel.success) {
                             returnPic = "";
                             if (baseModel.data != null) {
-//                                for (int i = 0; i < baseModel.data.length; i++) {
-//                                    returnPic += baseModel.data[i] + ",";
-//                                }
                                 String[] data = baseModel.data;
-
                                 Gson gson = new Gson();
                                 returnPic = gson.toJson(data);
                             }
-                            Log.i("wwwwbbb", "onNext: " + returnPic);
-                            //  sendMgs();
+
                         } else {
                             AppHelper.showMsg(mContext, baseModel.message);
                         }
@@ -468,6 +656,7 @@ public class IssueInfoActivity extends BaseSwipeActivity {
      * 判断是否需要支付
      */
     String amount;
+    InfoPayDialog infoPayDialog;
     private void getIsPay() {
         InfoListAPI.getIsPay(mContext)
                 .subscribeOn(Schedulers.io())
@@ -490,7 +679,8 @@ public class IssueInfoActivity extends BaseSwipeActivity {
                                 tv_money.setText(infoIsPayModel.getData().getMsg());
                                 tv_money.setVisibility(View.VISIBLE);
                                 amount = infoIsPayModel.getData().getShouldPayAmt();
-                                InfoPayDialog infoPayDialog = new InfoPayDialog(mContext,amount);
+                                tv_money.setText("当前收费"+amount+"元/条，若审核未通过将退回");
+                                infoPayDialog = new InfoPayDialog(mContext,amount);
                                 infoPayDialog.show();
                             }else {
                                 //否
@@ -504,7 +694,7 @@ public class IssueInfoActivity extends BaseSwipeActivity {
 
     //发布资讯
     private void IssueInfo(String content,String address,String phone) {
-        InfoListAPI.InfoIssue(mContext,position,content,returnPic,provinceCode,cityCode,address,phone)
+        InfoListAPI.InfoIssue(mContext,position,content,returnPic,provinceCode,cityCode,address,phone,videoUrl,videoCoverUrl)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<InfoPubModel>() {
@@ -533,7 +723,7 @@ public class IssueInfoActivity extends BaseSwipeActivity {
 
     //发布资讯
     private void IssueInfo1(String content,String address,String phone) {
-        InfoListAPI.InfoIssue(mContext,position,content,returnPic,provinceCode,cityCode,address,phone)
+        InfoListAPI.InfoIssue(mContext,position,content,returnPic,provinceCode,cityCode,address,phone,videoUrl,videoCoverUrl)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<InfoPubModel>() {
@@ -544,16 +734,17 @@ public class IssueInfoActivity extends BaseSwipeActivity {
 
                     @Override
                     public void onError(Throwable e) {
+                        dialog.dismiss();
                     }
 
                     @Override
                     public void onNext(InfoPubModel infoPubModel) {
                         if (infoPubModel.getCode()==1) {
-                            ToastUtil.showSuccessMsg(mContext,infoPubModel.getMessage());
                             msgId = infoPubModel.getData();
                             EventBus.getDefault().post(new MyShopEvent());
                             getPayInfo(flag,amount,msgId);
                         } else {
+                            dialog.dismiss();
                             AppHelper.showMsg(mContext, infoPubModel.getMessage());
                         }
                     }
@@ -587,11 +778,13 @@ public class IssueInfoActivity extends BaseSwipeActivity {
 
                     @Override
                     public void onError(Throwable e) {
+                        dialog.dismiss();
                     }
 
                     @Override
                     public void onNext(PayInfoModel payInfoModel) {
                         if (payInfoModel.getCode()==1) {
+                            dialog.dismiss();
                             payToken = payInfoModel.getData().getPayToken();
                             outTradeNo = payInfoModel.getData().getOutTradeNo();
                             if(flag==14) {
@@ -601,6 +794,7 @@ public class IssueInfoActivity extends BaseSwipeActivity {
                                 weChatPay2(payInfoModel.getData().getPayToken());
                             }
                         } else {
+                            dialog.dismiss();
                             AppHelper.showMsg(mContext, payInfoModel.getMessage());
                         }
                     }
@@ -641,27 +835,88 @@ public class IssueInfoActivity extends BaseSwipeActivity {
         intent.putExtra("payChannel", flag);
         intent.putExtra("outTradeNo", outTradeNo);
         startActivity(intent);
-        finish();
+        if(event.getCode().equals("1")) {
+            //支付成功
+            finish();
+        }
+        infoPayDialog.dismiss();
+        tv_address.clearFocus();
+    }
+
+    /**
+     * 微信支付的回调,使用的eventBus.......取消支付
+     **/
+    @Subscribe
+    public void onEventMainThread(WeChatUnPayEvent event) {
+        Intent intent = new Intent(mContext, InfoPayResultActivity.class);
+        intent.putExtra("payChannel", flag);
+        intent.putExtra("outTradeNo", outTradeNo);
+        startActivity(intent);
+        infoPayDialog.dismiss();
+        tv_address.clearFocus();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        hintKbTwo();
+        if(flag == 14) {
+            if(outTradeNo!=null) {
+                Intent intent = new Intent(mContext, InfoPayResultActivity.class);
+                intent.putExtra("payChannel", flag);
+                intent.putExtra("outTradeNo", outTradeNo);
+                startActivity(intent);
+                finish();
 
-        if(outTradeNo!=null) {
-            Intent intent = new Intent(mContext, InfoPayResultActivity.class);
-            intent.putExtra("payChannel", flag);
-            intent.putExtra("outTradeNo", outTradeNo);
-            startActivity(intent);
-            finish();
+            }
         }
+    }
 
+    public static Bitmap getBitmapFormUrl(String url) {
+        Bitmap bitmap = null;
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        try {
+            if (Build.VERSION.SDK_INT >= 14) {
+                retriever.setDataSource(url, new HashMap<String, String>());
+            } else {
+                retriever.setDataSource(url);
+            }
+        /*getFrameAtTime()--->在setDataSource()之后调用此方法。 如果可能，该方法在任何时间位置找到代表性的帧，
+         并将其作为位图返回。这对于生成输入数据源的缩略图很有用。**/
+            bitmap = retriever.getFrameAtTime();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                retriever.release();
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            }
+        }
+        return bitmap;
     }
 
     int flag;
+    LoadingDailog dialog;
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(InfoPayEvent infoPayEvent) {
         flag = infoPayEvent.getS();
+        LoadingDailog.Builder loadBuilder = new LoadingDailog.Builder(mContext)
+                .setMessage("加载中......")
+                .setCancelable(false)
+                .setCancelOutside(true);
+        dialog = loadBuilder.create();
+        dialog.show();
+        dialog.setCanceledOnTouchOutside(false);
         IssueInfo1(et.getText().toString(),tv_address.getText().toString(),et_phone.getText().toString());
+    }
+
+    private void hintKbTwo() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm.isActive() && getCurrentFocus() != null) {
+            if (getCurrentFocus().getWindowToken() != null) {
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
     }
 }

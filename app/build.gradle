@@ -130,6 +130,8 @@ dependencies {
     implementation files('libs\\hellocharts-library-1.5.8.jar')
     implementation project(path: ':citypicker')
     implementation files('libs/open_sdk_3.5.12.2_r97423a8_lite.jar')
+    implementation project(path: ':videoprocessor')
+//    implementation project(path: ':picture_library')
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
     implementation 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
     implementation 'androidx.appcompat:appcompat:1.0.0'

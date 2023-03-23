@@ -197,7 +197,7 @@ public class AllOrdersFragment extends BaseFragment {
                         public void onClick(View v) {
                             mDialog.dismiss();
                             //取消订单的接口
-                            if(orderStatus == 5 || orderStatus == 6) {
+                            if(orderStatus == 5 || orderStatus == 6 || orderStatus == 11) {
                                 deleteOrder1(orderId);
                             }else {
                                 deleteOrder(orderId);
@@ -275,11 +275,10 @@ public class AllOrdersFragment extends BaseFragment {
                 public void confirmSelfReturnOrder(String orderId, int pos) {
 
                 }
-
-
             });
+
         } else if (orderDeliveryType == 1) {
-            mAdapterMyOrders = new MySubOrdersItemAdapter(R.layout.item_my_order_self,mListResult, 0, orderDeliveryType, new MySubOrdersItemAdapter.OnClick() {
+            mAdapterMyOrders = new MySubOrdersItemAdapter(R.layout.item_my_order,mListResult, 0, orderDeliveryType, new MySubOrdersItemAdapter.OnClick() {
 
 
                 @Override
@@ -350,7 +349,7 @@ public class AllOrdersFragment extends BaseFragment {
                         public void onClick(View v) {
                             mDialog.dismiss();
                             //取消订单的接口
-                            if(orderStatus == 5 || orderStatus == 6) {
+                            if(orderStatus == 5 || orderStatus == 6 || orderStatus == 11) {
                                 deleteOrder1(orderId);
                             }else {
                                 deleteOrder(orderId);
@@ -864,7 +863,7 @@ public class AllOrdersFragment extends BaseFragment {
                             // getOrderDetail(orderId, orderState, returnProductMainId);
                             //mPtr.autoRefresh();
                             pageNum = 1;
-                            mPtr.autoRefresh();
+//                            mPtr.autoRefresh();
                             requestOrdersList(0);
 
                         } else {
@@ -899,7 +898,7 @@ public class AllOrdersFragment extends BaseFragment {
                             // getOrderDetail(orderId, orderState, returnProductMainId);
                             //mPtr.autoRefresh();
                             pageNum = 1;
-                            mPtr.autoRefresh();
+//                            mPtr.autoRefresh();
                             requestOrdersList(0);
 
                         } else {

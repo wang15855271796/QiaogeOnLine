@@ -3,6 +3,8 @@ package com.puyue.www.qiaoge.fragment.home;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,6 +37,21 @@ public class RvIconAdapter extends BaseQuickAdapter<IndexInfoModel.DataBean.Clas
     protected void convert(BaseViewHolder helper, IndexInfoModel.DataBean.ClassifyListBean item) {
         ImageView iv_icon = helper.getView(R.id.iv_icon);
         TextView tv_desc = helper.getView(R.id.tv_desc);
+        TextView tv_tip = helper.getView(R.id.tv_tip);
+
+        if(item.getFloatText().equals("") || item.getFloatText()== null) {
+            tv_tip.setBackgroundResource(R.drawable.shape_white1);
+            tv_tip.setVisibility(View.GONE);
+        }else {
+            tv_tip.setText(item.getFloatText()+"新鲜");
+            tv_tip.setVisibility(View.VISIBLE);
+            tv_tip.setBackgroundResource(R.drawable.shape_red1);
+        }
+
+        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.anim_scale_in);
+        animation.setFillAfter(true);
+        tv_tip.startAnimation(animation);
+
         Glide.with(mContext).load(item.getImg()).into(iv_icon);
         tv_desc.setText(item.getTitle());
     }

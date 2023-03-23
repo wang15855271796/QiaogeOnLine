@@ -106,7 +106,6 @@ public class InfoPayDialog extends Dialog {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 payListAdapter.selectionPosition(position);
                 flag = list.get(position).getFlag();
-                Log.d("aswdfadeaw....","1233");
             }
         });
 

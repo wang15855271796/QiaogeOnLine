@@ -40,7 +40,7 @@ public class MyOrdersItemAdapter1 extends BaseQuickAdapter<OrdersModel.DataBean.
     private TextView againBay;  // 再次购买
     private MyOrdersItemAdapter.OnClick onClick;
     private LinearLayout linearLayoutItem;
-    private ImageView cancelOrder;//取消订单
+    private TextView cancelOrder;//取消订单
     private ImageView deleteOrder;//删除订单
     private ImageView confirmOrder;//确认收货
     private int orderDeliveryType;
@@ -133,54 +133,56 @@ public class MyOrdersItemAdapter1 extends BaseQuickAdapter<OrdersModel.DataBean.
         }
 
 
-        /**显示4张图*/
-        if (item.pics.size() >= 1) {
-            if (item.pics.get(0)!= null) {
-                GlideModel.disPlayError(mContext, item.pics.get(0), commodityOne);
+        if(item.pics!=null) {
+            if (item.pics.size() >= 1) {
+                if (item.pics.get(0)!= null) {
+                    GlideModel.disPlayError(mContext, item.pics.get(0), commodityOne);
+                }
+
+                commodityOne.setVisibility(View.VISIBLE);
+            } else {
+
+                commodityOne.setVisibility(View.GONE);
+                commodityOne.setImageResource(R.mipmap.ic_launcher_round);
             }
+            if (item.pics.size() >= 2) {
+                if (item.pics.get(1) != null) {
+                    GlideModel.disPlayError(mContext, item.pics.get(1), commodityTwo);
+                }
 
-            commodityOne.setVisibility(View.VISIBLE);
-        } else {
-
-            commodityOne.setVisibility(View.GONE);
-            commodityOne.setImageResource(R.mipmap.ic_launcher_round);
-        }
-        if (item.pics.size() >= 2) {
-            if (item.pics.get(1) != null) {
-                GlideModel.disPlayError(mContext, item.pics.get(1), commodityTwo);
+                commodityTwo.setVisibility(View.VISIBLE);
+            } else {
+                commodityTwo.setVisibility(View.GONE);
+                commodityTwo.setImageResource(R.mipmap.ic_launcher_round);
             }
+            if ((item.pics.size() >= 3)) {
+                if (item.pics.get(2) != null) {
+                    GlideModel.disPlayError(mContext, item.pics.get(2), commodityThree);
+                }
 
-            commodityTwo.setVisibility(View.VISIBLE);
-        } else {
-            commodityTwo.setVisibility(View.GONE);
-            commodityTwo.setImageResource(R.mipmap.ic_launcher_round);
-        }
-        if ((item.pics.size() >= 3)) {
-            if (item.pics.get(2) != null) {
-                GlideModel.disPlayError(mContext, item.pics.get(2), commodityThree);
+                commodityThree.setVisibility(View.VISIBLE);
+
+            } else {
+                commodityThree.setVisibility(View.GONE);
+                commodityThree.setImageResource(R.mipmap.ic_launcher_round);
             }
+            if (item.pics.size() >= 4) {
+                if (item.pics.get(3) != null) {
+                    GlideModel.disPlayError(mContext, item.pics.get(3), commodityFour);
+                }
 
-            commodityThree.setVisibility(View.VISIBLE);
-
-        } else {
-            commodityThree.setVisibility(View.GONE);
-            commodityThree.setImageResource(R.mipmap.ic_launcher_round);
-        }
-        if (item.pics.size() >= 4) {
-            if (item.pics.get(3) != null) {
-                GlideModel.disPlayError(mContext, item.pics.get(3), commodityFour);
+                commodityFour.setVisibility(View.VISIBLE);
+            } else {
+                commodityFour.setVisibility(View.GONE);
+                commodityFour.setImageResource(R.mipmap.ic_launcher_round);
             }
+            if (item.pics.size() >= 4) {
+                commodityMore.setVisibility(View.VISIBLE);
+            } else {
+                commodityMore.setVisibility(View.GONE);
+            }
+        }
 
-            commodityFour.setVisibility(View.VISIBLE);
-        } else {
-            commodityFour.setVisibility(View.GONE);
-            commodityFour.setImageResource(R.mipmap.ic_launcher_round);
-        }
-        if (item.pics.size() >= 4) {
-            commodityMore.setVisibility(View.VISIBLE);
-        } else {
-            commodityMore.setVisibility(View.GONE);
-        }
 
         tv_call.setOnClickListener(new View.OnClickListener() {
             @Override

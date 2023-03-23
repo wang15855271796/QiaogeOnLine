@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.puyue.www.qiaoge.view.EasyView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipeMenuLayout"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+
+    <LinearLayout
+        android:background="#777777"
+        android:id="@+id/item_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:text="1111"
+            android:id="@+id/id_item_list_title"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:textColor="#333333" />
+
+        <TextView
+            android:text="111"
+            android:id="@+id/id_item_list_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:textColor="@color/black" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/item_delete"
+        android:layout_width="72dp"
+        android:layout_height="80dp"
+        android:layout_alignParentEnd="true"
+        android:background="#555555"
+        android:gravity="center"
+        android:text="删除"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+</com.puyue.www.qiaoge.view.EasyView>

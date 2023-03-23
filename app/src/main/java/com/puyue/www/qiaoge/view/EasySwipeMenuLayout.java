@@ -183,6 +183,7 @@ public class EasySwipeMenuLayout extends ViewGroup {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+//        onTouchEvent用于事件消费
         return super.onTouchEvent(event);
     }
 
@@ -243,127 +244,187 @@ public class EasySwipeMenuLayout extends ViewGroup {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        boolean intercepted = false;
+//  dispatchTouchEvent 用于事件分发或事件处理
+//  【对于ViewGroup要先走分发流程，再走处理流程；对于View，只能走处理流程】
 //        getParent().requestDisallowInterceptTouchEvent(false);
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                intercepted = false;
-                Log.d("swdsadawd....","down");
-                boolean isSwipeing;
-                {
+//        switch (ev.getAction()) {
+//            case MotionEvent.ACTION_DOWN:
+//                boolean isSwipeing;
+//                {
+//
+//                isSwipeing = false;
+//                if (mLastP == null) {
+//                    mLastP = new PointF();
+//                }
+//                mLastP.set(ev.getRawX(), ev.getRawY());
+//                if (mFirstP == null) {
+//                    mFirstP = new PointF();
+//                }
+//                mFirstP.set(ev.getRawX(), ev.getRawY());
+//                if (mViewCache != null) {
+//                    if (mViewCache != this) {
+//                        mViewCache.handlerSwipeMenu(State.CLOSE);
+//
+//                    }
+//                }
+//
+//                break;
+//            }
+//            case MotionEvent.ACTION_MOVE: {
+//                isClick = false;
+//
+//                // System.out.println(">>>>dispatchTouchEvent() ACTION_MOVE getScrollX:" + getScrollX());
+//                isSwipeing = true;
+//                float distanceX = mLastP.x - ev.getRawX();
+//                float distanceY = mLastP.y - ev.getRawY();
+//                if (Math.abs(distanceY) > mScaledTouchSlop * 2) {
+//                    break;
+//                }
+//                //当处于水平滑动时，禁止父类拦截
+//              /*  if (Math.abs(distanceX) > mScaledTouchSlop * 2 || Math.abs(getScrollX()) > mScaledTouchSlop * 2) {
+//                    requestDisallowInterceptTouchEvent(true);
+//                }*/
+//                scrollBy((int) (distanceX), 0);//滑动使用scrollBy
+//
+//                //越界修正
+//                if (getScrollX() < 0) {
+//                    Log.d("swdsadawd....","move1");
+//                    if (!mCanRightSwipe || mLeftView == null) {
+//                        scrollTo(0, 0);
+//                    } else {//左滑
+//
+//                        if (getScrollX() < mLeftView.getLeft()) {
+//                            scrollTo(mLeftView.getLeft(), 0);
+//                        }
+//
+//                    }
+//                } else if (getScrollX() > 0) {
+//                    Log.d("swdsadawd....","move2");
+//                    intercepted = true;
+//                    if (!mCanLeftSwipe || mRightView == null) {
+//                        scrollTo(0, 0);
+//                    } else {
+//                        if (getScrollX() >(mRightView.getRight() - mContentView.getRight() - mContentViewLp.rightMargin)) {
+//                            Log.i("ccaa", "dispatchTouchEvent: "+(mRightView.getRight() - mContentView.getRight() - mContentViewLp.rightMargin));
+//                            scrollTo(mRightView.getRight() - mContentView.getRight() - mContentViewLp.rightMargin, 0);
+//                        }
+//                    }
+//                }
+//                mLastP.set(ev.getRawX(), ev.getRawY());
+//                break;
+//            }
+//            case MotionEvent.ACTION_UP:
+//                //    System.out.println(">>>>dispatchTouchEvent() ACTION_CANCEL OR ACTION_UP");
+//                State result1 = isShouldOpen(getScrollX());
+//                handlerSwipeMenu(result1);
+//
+//                if (!isClick) {
+//                    isClick = true;
+//
+//                }
+//                break;
+//            case MotionEvent.ACTION_CANCEL: {
+//                //    System.out.println(">>>>dispatchTouchEvent() ACTION_CANCEL OR ACTION_UP");
+//                State result = isShouldOpen(getScrollX());
+//                handlerSwipeMenu(result);
+//
+//                if (!isClick) {
+//                    isClick = true;
+//                    return false;
+//                }
+//                break;
+//            }
+//            default: {
+//                break;
+//            }
+//        }
 
-                isSwipeing = false;
+        return super.dispatchTouchEvent(ev);
+
+    }
+
+    int mLastX;
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+//      onInterceptTouchEvent 用于事件拦截
+//      【返回true，代表拦截了不会分发下去；返回false，代表不拦截会分发下去】
+        Log.d("onInterceptTouchEvent", "onInterceptTouchEvent");
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                mLastX = (int) event.getX();
                 if (mLastP == null) {
                     mLastP = new PointF();
                 }
-                mLastP.set(ev.getRawX(), ev.getRawY());
+                mLastP.set(event.getRawX(), event.getRawY());
                 if (mFirstP == null) {
                     mFirstP = new PointF();
                 }
-                mFirstP.set(ev.getRawX(), ev.getRawY());
-                if (mViewCache != null) {
-                    if (mViewCache != this) {
-                        mViewCache.handlerSwipeMenu(State.CLOSE);
-
-                    }
-//                    getParent().requestDisallowInterceptTouchEvent(true);
-                }
-
+                mFirstP.set(event.getRawX(), event.getRawY());
+                Log.d("wdwdswdasda.....","down");
                 break;
-            }
-            case MotionEvent.ACTION_MOVE: {
-                isClick = false;
 
-                // System.out.println(">>>>dispatchTouchEvent() ACTION_MOVE getScrollX:" + getScrollX());
-                isSwipeing = true;
-                float distanceX = mLastP.x - ev.getRawX();
-                float distanceY = mLastP.y - ev.getRawY();
+            case MotionEvent.ACTION_MOVE:
+                isClick = false;
+                float distanceX = mLastP.x - event.getRawX();
+                float distanceY = mLastP.y - event.getRawY();
                 if (Math.abs(distanceY) > mScaledTouchSlop * 2) {
                     break;
                 }
                 //当处于水平滑动时，禁止父类拦截
-              /*  if (Math.abs(distanceX) > mScaledTouchSlop * 2 || Math.abs(getScrollX()) > mScaledTouchSlop * 2) {
-                    requestDisallowInterceptTouchEvent(true);
-                }*/
+//                if (Math.abs(distanceX) > mScaledTouchSlop * 2 || Math.abs(getScrollX()) > mScaledTouchSlop * 2) {
+//                    requestDisallowInterceptTouchEvent(true);
+//                }
                 scrollBy((int) (distanceX), 0);//滑动使用scrollBy
 
                 //越界修正
                 if (getScrollX() < 0) {
-                    Log.d("swdsadawd....","move1");
                     if (!mCanRightSwipe || mLeftView == null) {
-                        scrollTo(0, 0);
-                    } else {//左滑
-
+                        //右滑
+//                        scrollTo(0, 0);
+                        Log.d("aswdasddasda.....","111111");
+                    } else {
+                        //左滑
+                        Log.d("aswdasddasda.....","222222");
                         if (getScrollX() < mLeftView.getLeft()) {
+                            Log.d("aswdasddasda.....","33333");
                             scrollTo(mLeftView.getLeft(), 0);
                         }
 
                     }
                 } else if (getScrollX() > 0) {
-                    Log.d("swdsadawd....","move2");
-                    intercepted = true;
+                    Log.d("aswdasddasda.....","44444");
                     if (!mCanLeftSwipe || mRightView == null) {
+                        Log.d("aswdasddasda.....","55555");
                         scrollTo(0, 0);
                     } else {
+                        Log.d("aswdasddasda.....","666666");
                         if (getScrollX() >(mRightView.getRight() - mContentView.getRight() - mContentViewLp.rightMargin)) {
-                            Log.i("ccaa", "dispatchTouchEvent: "+(mRightView.getRight() - mContentView.getRight() - mContentViewLp.rightMargin));
+                            Log.d("aswdasddasda.....","777777");
+//                            Log.i("ccaa", "dispatchTouchEvent: "+(mRightView.getRight() - mContentView.getRight() - mContentViewLp.rightMargin));
                             scrollTo(mRightView.getRight() - mContentView.getRight() - mContentViewLp.rightMargin, 0);
                         }
                     }
                 }
-                mLastP.set(ev.getRawX(), ev.getRawY());
+                mLastP.set(event.getRawX(), event.getRawY());
                 break;
-            }
-            case MotionEvent.ACTION_UP:
-                //    System.out.println(">>>>dispatchTouchEvent() ACTION_CANCEL OR ACTION_UP");
-                State result1 = isShouldOpen(getScrollX());
-                handlerSwipeMenu(result1);
-
-                if (!isClick) {
-                    isClick = true;
-
-                }
-                break;
-            case MotionEvent.ACTION_CANCEL: {
-                //    System.out.println(">>>>dispatchTouchEvent() ACTION_CANCEL OR ACTION_UP");
-                State result = isShouldOpen(getScrollX());
-                handlerSwipeMenu(result);
-
-                if (!isClick) {
-                    isClick = true;
-                    return false;
-                }
-                break;
-            }
-            default: {
-                break;
-            }
         }
-
-        return super.dispatchTouchEvent(ev);
-
-    }
+//        switch (event.getAction()) {
+//            case MotionEvent.ACTION_DOWN: {
+//                break;
+//            }
+//            case MotionEvent.ACTION_MOVE: {
+//                //对左边界进行处理
+//                float distance = mLastP.x - event.getRawX();
+//                if (Math.abs(distance) > mScaledTouchSlop) {
+//                    // 当手指拖动值大于mScaledTouchSlop值时，认为应该进行滚动，拦截子控件的事件
+//                    return true;
+//                }
+//                break;
 //
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent event) {
-
-        Log.d("onInterceptTouchEvent", "onInterceptTouchEvent");
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN: {
-                break;
-            }
-            case MotionEvent.ACTION_MOVE: {
-                //对左边界进行处理
-                float distance = mLastP.x - event.getRawX();
-                if (Math.abs(distance) > mScaledTouchSlop) {
-                    // 当手指拖动值大于mScaledTouchSlop值时，认为应该进行滚动，拦截子控件的事件
-                    return true;
-                }
-                break;
-
-            }
-
-        }
+//            }
+//
+//        }
         return super.onInterceptTouchEvent(event);
     }
 

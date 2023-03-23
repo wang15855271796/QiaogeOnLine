@@ -187,6 +187,8 @@ public class IssueActivity extends BaseSwipeActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void myShop(MyShopEvent event) {
+        list.clear();
         refreshLayout.autoRefresh();
+        Log.d("wdadd........","123");
     }
 }

@@ -37,13 +37,13 @@ public class SchoolVideoApi {
         @FormUrlEncoded
         @POST(AppInterfaceAddress.School_Video_Ask)
         Observable<BaseModel> getData(@Field("contactName") String contactName, @Field("contactPhone") String contactPhone
-        , @Field("provinceName") String provinceName, @Field("cityName") String cityName,
-                                      @Field("areaName") String areaName, @Field("detailAddress") String detailAddress, @Field("memo") String memo);
+        , @Field("pName") String pName, @Field("cName") String cName,
+                                      @Field("aName") String aName, @Field("detailAddress") String detailAddress, @Field("memo") String memo);
     }
 
-    public static Observable<BaseModel> getVideoAsk(Context context,String contactName,String contactPhone,String provinceName,String cityName,String areaName,String detailAddress,String memo) {
+    public static Observable<BaseModel> getVideoAsk(Context context,String contactName,String contactPhone,String pName,String cName,String aName,String detailAddress,String memo) {
         SchoolAskService service = RestHelper.getBaseRetrofit(context).create(SchoolAskService.class);
-        return service.getData(contactName,contactPhone,provinceName,cityName,areaName,detailAddress,memo);
+        return service.getData(contactName,contactPhone,pName,cName,aName,detailAddress,memo);
     }
 
     /**

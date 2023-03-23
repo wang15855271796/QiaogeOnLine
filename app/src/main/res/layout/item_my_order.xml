@@ -55,8 +55,6 @@
                 android:textSize="14sp"
                 tools:text="sdsds" />
 
-
-
             <TextView
                 android:id="@+id/tv_status"
                 android:layout_width="wrap_content"
@@ -95,31 +93,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
-
-<!--        <LinearLayout-->
-<!--            android:visibility="gone"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginLeft="@dimen/size_15dp"-->
-<!--            android:layout_marginTop="5dp">-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/tv_time"-->
-<!--                tools:text="2020.5.0"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:textColor="@color/color_AEAEAE"-->
-<!--                android:textSize="@dimen/dp_10" />-->
-
-<!--            <TextView-->
-<!--                tools:text="sdsds"-->
-<!--                android:id="@+id/tv_subUserBuy"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginLeft="@dimen/size_5dp"-->
-<!--                android:textColor="@color/color_AEAEAE"-->
-<!--                android:textSize="@dimen/dp_10" />-->
-<!--        </LinearLayout>-->
 
         <!-- 图片展示-->
         <RelativeLayout
@@ -247,14 +220,20 @@
                 android:textColor="#306AFE"
                 android:textSize="10sp" />
 
-            <ImageView
-                android:id="@+id/iv_cancel_order"
+            <TextView
+                android:id="@+id/tv_cancel_order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="6dp"
                 android:layout_marginRight="102dp"
-                android:src="@mipmap/ic_cancel_order"
+                android:text="取消订单"
+                android:background="@drawable/shape_order_red"
+                android:paddingLeft="@dimen/size_11dp"
+                android:paddingTop="@dimen/size_6dp"
+                android:paddingRight="@dimen/size_11dp"
+                android:paddingBottom="@dimen/size_6dp"
+                android:textColor="#FE5630"
                 android:visibility="gone" />
 
             <TextView
@@ -328,10 +307,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="5dp"
-                android:layout_marginRight="195dp"
+                android:layout_marginRight="105dp"
                 android:background="@drawable/shape_order_red"
                 android:paddingLeft="@dimen/size_11dp"
                 android:paddingTop="@dimen/size_6dp"
+                android:layout_toLeftOf="@+id/evaluateNow"
                 android:paddingRight="@dimen/size_11dp"
                 android:paddingBottom="@dimen/size_6dp"
                 android:text="删除订单"

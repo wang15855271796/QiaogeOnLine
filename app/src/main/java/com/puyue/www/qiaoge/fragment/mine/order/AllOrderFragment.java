@@ -95,6 +95,7 @@ public class AllOrderFragment extends BaseFragment {
     @Override
     public void setViewData() {
         mListResult.clear();
+
         if (UserInfoHelper.getDeliverType(mActivity) != null && StringHelper.notEmptyAndNull(UserInfoHelper.getDeliverType(mActivity))) {
             orderDeliveryType = Integer.parseInt(UserInfoHelper.getDeliverType(mActivity));
         }
@@ -108,6 +109,7 @@ public class AllOrderFragment extends BaseFragment {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 pageNum = 1;
+                mListResult.clear();
                 requestOrdersList(0);
             }
         });
@@ -183,7 +185,7 @@ public class AllOrderFragment extends BaseFragment {
                         public void onClick(View v) {
                             mDialog.dismiss();
                             //取消订单的接口
-                            if(orderStatus == 5 || orderStatus == 6) {
+                            if(orderStatus == 5 || orderStatus == 6 || orderStatus == 11) {
                                 deleteOrder1(orderId);
                             }else {
                                 deleteOrder(orderId);
@@ -323,7 +325,7 @@ public class AllOrderFragment extends BaseFragment {
                         public void onClick(View v) {
                             mDialog.dismiss();
                             //取消订单的接口
-                            if(orderStatus == 5 || orderStatus == 6) {
+                            if(orderStatus == 5 || orderStatus == 6 || orderStatus == 11) {
                                 deleteOrder1(orderId);
                             }else {
                                 deleteOrder(orderId);
@@ -543,10 +545,10 @@ public class AllOrderFragment extends BaseFragment {
 
                     @Override
                     public void onNext(OrdersModel myOrdersModel) {
-                        mPtr.refreshComplete();
+                        Log.d("wdasds........","123");
+
                         mModelMyOrders = myOrdersModel;
                         if (mModelMyOrders.success) {
-
                             updateOrderList();
                         } else {
                             AppHelper.showMsg(getActivity(), mModelMyOrders.message);
@@ -676,7 +678,6 @@ public class AllOrderFragment extends BaseFragment {
 
 
     private void updateOrderList() {
-
         if (pageNum == 1) {
             //第一次加载
             if (mModelMyOrders.data != null && mModelMyOrders.data.list.size() > 0) {
@@ -814,7 +815,7 @@ public class AllOrderFragment extends BaseFragment {
                             //删除成功
                             AppHelper.showMsg(mActivity, "删除订单成功");
                             pageNum = 1;
-                            mPtr.autoRefresh();
+//                            mPtr.autoRefresh();
                             requestOrdersList(0);
 
                         } else {
@@ -846,7 +847,7 @@ public class AllOrderFragment extends BaseFragment {
                             //删除成功
                             AppHelper.showMsg(mActivity, "删除订单成功");
                             pageNum = 1;
-                            mPtr.autoRefresh();
+//                            mPtr.autoRefresh();
                             requestOrdersList(0);
 
                         } else {

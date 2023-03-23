@@ -129,7 +129,7 @@ public class ChooseAddressDialog extends Dialog {
     List<AddressModel.DataBean> data0 = new ArrayList<>();
     List<AddressModel.DataBean> data1 = new ArrayList<>();
     private void getAddress() {
-        AddressListAPI.requestAddressModel(mContext)
+        AddressListAPI.requestAddressModel(mContext,"")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<AddressModel>() {

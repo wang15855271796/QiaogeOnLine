@@ -82,7 +82,7 @@
 
                 <TextView
                     android:id="@+id/tv_amount"
-                    android:text="3562.00"
+                    tools:text="3562.00"
                     android:textColor="#F76033"
                     android:textSize="27sp"
                     android:textStyle="bold"
@@ -141,10 +141,10 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_marginTop="-20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_root" />
+        android:layout_below="@+id/ll_root"
+        android:layout_marginTop="-20dp" />
 
     <TextView
         android:id="@+id/bt_sure"

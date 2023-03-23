@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.FVHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
+import com.puyue.www.qiaoge.model.VipPayInfoResultModel;
 import com.puyue.www.qiaoge.model.mine.order.VipPayResultModel;
 
 import java.util.Timer;
@@ -32,20 +34,11 @@ import rx.schedulers.Schedulers;
 
 public class InfoPayResultActivity extends BaseActivity {
     private ImageView mIvBack;
-    private ImageView mIvSuccess;
-    private ImageView mIvError;
     private TextView mTvOrderDetail;
-
     private int payChannal;
     private String outTradeNo;
-    private String mUserCell;
-    private String orderId;
-    private AlertDialog mDialog;
     private Handler handler = new Handler();
     private  TextView textViewSuccess; //支付成功文案
-    private  ImageView imageViewRecommend;
-    private String imageUrl;
-    private TextView otherMessage;
 
 
     @Override
@@ -55,18 +48,14 @@ public class InfoPayResultActivity extends BaseActivity {
 
     @Override
     public void setContentView() {
-        setContentView(R.layout.activity_vippayresult);
+        setContentView(R.layout.activity_pay_info_result);
     }
 
     @Override
     public void findViewById() {
         mIvBack = FVHelper.fv(this, R.id.iv_activity_back);
-        mIvSuccess = FVHelper.fv(this, R.id.iv_activity_order_success);
-        mIvError = FVHelper.fv(this, R.id.iv_activity_order_error);
         mTvOrderDetail = FVHelper.fv(this, R.id.tv_activity_order_look);
         textViewSuccess=FVHelper.fv(this, R.id.textViewSuccess);
-        imageViewRecommend=FVHelper.fv(this,R.id.imageViewRecommend);
-        otherMessage =FVHelper.fv(this,R.id.otherMessage);
     }
 
     Timer timer;
@@ -78,7 +67,7 @@ public class InfoPayResultActivity extends BaseActivity {
 
         timer = new Timer();
         timer.schedule(task,0,2000);
-
+        getPayResult(outTradeNo);
         LoadingDailog.Builder loadBuilder = new LoadingDailog.Builder(mContext)
                 .setMessage("获取支付结果中")
                 .setCancelable(false)
@@ -101,22 +90,15 @@ public class InfoPayResultActivity extends BaseActivity {
     private TimerTask task = new TimerTask() {
         @Override
         public void run() {
-            getPayResult(outTradeNo);
+            if(payChannal == 14) {
+                getPayResult(outTradeNo);
+            }
         }
     };
 
 
     @Override
     public void setClickEvent() {
-        imageViewRecommend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, NewWebViewActivity.class);
-                intent.putExtra("URL", imageUrl);
-                intent.putExtra("name","");
-                startActivity(intent);
-            }
-        });
         mIvBack.setOnClickListener(new NoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View view) {
@@ -136,7 +118,7 @@ public class InfoPayResultActivity extends BaseActivity {
         VipPayResultAPI.getResult(mContext, outTradeNo)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<VipPayResultModel>() {
+                .subscribe(new Subscriber<VipPayInfoResultModel>() {
                     @Override
                     public void onCompleted() {
 
@@ -148,48 +130,27 @@ public class InfoPayResultActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(VipPayResultModel vipPayResultModel) {
+                    public void onNext(VipPayInfoResultModel vipPayResultModel) {
                         if (vipPayResultModel.getCode()==1) {
                             //支付成功
                             if (vipPayResultModel.getData()!=null) {
-                                mIvSuccess.setVisibility(View.VISIBLE);
-                                mIvError.setVisibility(View.GONE);
+
+                                VipPayInfoResultModel.DataBean data = vipPayResultModel.getData();
                                 //支付成功
-                                if(vipPayResultModel.getData().getPayMsg().equals("支付成功")) {
-                                    textViewSuccess.setText(vipPayResultModel.getData().getPayMsg());
+                                if(data.getStatus().equals("TRADE_SUCCESS")) {
+                                    textViewSuccess.setText(data.getMessage());
                                     dialog.dismiss();
-                                }else if(vipPayResultModel.getData().getPayMsg().equals("支付失败")) {
-                                    textViewSuccess.setText(vipPayResultModel.getData().getPayMsg());
+                                }else if(data.getStatus().equals("FAILED")) {
+                                    textViewSuccess.setText(data.getMessage());
                                     dialog.dismiss();
                                 }else {
                                     //支付中
                                     dialog.show();
-                                    textViewSuccess.setText(vipPayResultModel.getData().getPayMsg());
+                                    textViewSuccess.setText(data.getMessage());
                                 }
 
-                                if(vipPayResultModel.getData().getPayMsg().equals("支付成功")) {
+                                if(data.getStatus().equals("TRADE_SUCCESS")) {
                                     handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            if(timer!=null) {
-                                                timer.cancel();
-                                                timer = null;
-                                            }
-                                        }
-                                    });
-
-                                }else if(vipPayResultModel.getData().getPayMsg().equals("支付失败")) {
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            if(timer!=null) {
-                                                timer.cancel();
-                                                timer = null;
-                                            }
-                                        }
-                                    });
-                                }else {
-                                    handler.postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
                                             if(timer!=null) {
@@ -198,27 +159,49 @@ public class InfoPayResultActivity extends BaseActivity {
                                             }
                                             dialog.dismiss();
                                         }
-                                    },20000);
-                                }
+                                    });
 
-                                if (!TextUtils.isEmpty(vipPayResultModel.getData().getErrorMsg())) {
-                                    otherMessage.setText(vipPayResultModel.getData().getErrorMsg());
-                                    otherMessage.setVisibility(View.GONE);
-                                } else {
-                                    otherMessage.setVisibility(View.GONE);
-                                }
+                                }else if(data.getStatus().equals("FAILED")) {
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if(timer!=null) {
+                                                timer.cancel();
+                                                timer = null;
+                                            }
+                                            dialog.dismiss();
+                                        }
+                                    });
+                                }else {
+                                    Log.d("swefaswedas.....",payChannal+"--");
+                                    if(payChannal == 14) {
+                                        handler.postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if(timer!=null) {
+                                                    timer.cancel();
+                                                    timer = null;
+                                                }
+                                                dialog.dismiss();
+                                            }
+                                        },6000);
+                                    }else {
+                                        handler.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if(timer!=null) {
+                                                    timer.cancel();
+                                                    timer = null;
+                                                }
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                    }
 
-                                Glide.with(mActivity).load(vipPayResultModel.getData().getVo().getBannerUrl()).into(imageViewRecommend);
-                                imageUrl = vipPayResultModel.getData().getVo().getBannerDetailUrl();
-                                textViewSuccess.setVisibility(View.VISIBLE);
-                            } else {
-                                mIvSuccess.setVisibility(View.GONE);
-                                mIvError.setVisibility(View.VISIBLE);
-                                textViewSuccess.setVisibility(View.GONE);
+                                }
                             }
                         } else {
-                            AppHelper.showMsg(mContext, vipPayResultModel.getData().getPayMsg());
-                            mIvError.setVisibility(View.VISIBLE);
+                            AppHelper.showMsg(mContext, vipPayResultModel.getMessage());
                         }
                     }
                 });
@@ -231,5 +214,6 @@ public class InfoPayResultActivity extends BaseActivity {
             dialog.dismiss();
         }
         handler.removeCallbacksAndMessages(null);
+        task.cancel();
     }
 }

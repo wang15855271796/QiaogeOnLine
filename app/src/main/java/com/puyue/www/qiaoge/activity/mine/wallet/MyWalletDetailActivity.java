@@ -37,6 +37,7 @@ import com.puyue.www.qiaoge.api.mine.GetWallertRecordByPageAPI;
 import com.puyue.www.qiaoge.api.mine.subaccount.SearchAccountAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
+import com.puyue.www.qiaoge.dialog.DeleteAccountDialog;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.DividerItemDecoration;
 import com.puyue.www.qiaoge.helper.FVHelper;
@@ -211,7 +212,19 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
         adapters.setOnItemDeleteListener(new StickyListAdapter.OnItemDeleteListener() {
             @Override
             public void onItemDelete(int pos,String id) {
-                deleteItem(id);
+                DeleteAccountDialog deleteAccountDialog = new DeleteAccountDialog(mActivity) {
+                    @Override
+                    public void Confirm() {
+                        deleteItem(id);
+                        dismiss();
+                    }
+
+                    @Override
+                    public void Cancel() {
+                        dismiss();
+                    }
+                };
+                deleteAccountDialog.show();
             }
         });
 

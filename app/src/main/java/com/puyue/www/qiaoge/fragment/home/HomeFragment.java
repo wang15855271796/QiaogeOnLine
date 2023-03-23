@@ -391,6 +391,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     LinearLayout ll_school;
     @BindView(R.id.iv_school)
     ImageView iv_school;
+    @BindView(R.id.iv_enter)
+    ImageView iv_enter;
+    @BindView(R.id.iv_half_school)
+    ImageView iv_half_school;
     List<String> list = new ArrayList<>();
     private static final float ENDMARGINLEFT = 50;
     private static final float ENDMARGINTOP = 5;
@@ -725,21 +729,21 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             }
         });
 
-        SchoolDialog schoolDialog = new SchoolDialog(mActivity) {
-            @Override
-            public void GoToSchool() {
-                Intent intent = new Intent(mActivity, PlayerActivity.class);
-                startActivity(intent);
-                dismiss();
-            }
-
-            @Override
-            public void Confirm() {
-                dismiss();
-            }
-        };
-
-        schoolDialog.show();
+//        SchoolDialog schoolDialog = new SchoolDialog(mActivity) {
+//            @Override
+//            public void GoToSchool() {
+//                Intent intent = new Intent(mActivity, SchoolActivity.class);
+//                startActivity(intent);
+//                dismiss();
+//            }
+//
+//            @Override
+//            public void Confirm() {
+//                dismiss();
+//            }
+//        };
+//
+//        schoolDialog.show();
 
 
         tv_change.setOnClickListener(this);
@@ -2001,6 +2005,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                                     getDialog(indexInfoModel);
                                 }
 
+                                if(couponListModels.isShowQgSchool()) {
+                                    ll_school.setVisibility(View.VISIBLE);
+                                }else {
+                                    ll_school.setVisibility(View.GONE);
+                                }
+
                                 tv_times.setText(indexInfoModel.getData().getReturnAmountTime() + "小时快速退款");
                                 tv_amount.setText("满" + indexInfoModel.getData().getSendAmount() + "元免配送费");
                                 tv_title3.setText("物美价廉");
@@ -2361,10 +2371,22 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.ll_school:
+            case R.id.iv_school:
                 Intent intentsc = new Intent(mActivity, SchoolActivity.class);
                 startActivity(intentsc);
-            break;
+                break;
+
+            case R.id.iv_enter:
+                iv_school.setVisibility(View.GONE);
+                iv_enter.setVisibility(View.GONE);
+                iv_half_school.setVisibility(View.VISIBLE);
+                break;
+
+            case R.id.iv_half_school:
+                iv_school.setVisibility(View.VISIBLE);
+                iv_enter.setVisibility(View.VISIBLE);
+                iv_half_school.setVisibility(View.GONE);
+                break;
             case R.id.rl_huo:
                 if(data.getHllOrderCallNum()>1) {
                     Intent intent = MyOrdersActivity.getIntent(getContext(), MyOrdersActivity.class, AppConstant.ALL);
@@ -2463,7 +2485,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 int newPosition = data.getIntExtra("NewPosition", 5);//NewPosition
                 if (newPosition > 0) {
                     tv_num.setVisibility(View.VISIBLE);
-                    tv_num.setText("  " + newPosition + "  ");
+                    tv_num.setText(newPosition + "");
                 } else {
                     tv_num.setVisibility(View.GONE);
                 }
@@ -2504,7 +2526,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         //消息中心
         if (mModelMyOrderNum.getData().getNotice() > 0) {
             tv_num.setVisibility(View.VISIBLE);
-            tv_num.setText("  " + mModelMyOrderNum.getData().getNotice() + "  ");
+            tv_num.setText(mModelMyOrderNum.getData().getNotice() + "");
         } else {
             tv_num.setVisibility(View.GONE);
         }

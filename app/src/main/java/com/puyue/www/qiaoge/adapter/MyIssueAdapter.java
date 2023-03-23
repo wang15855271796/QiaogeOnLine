@@ -5,6 +5,7 @@ import android.graphics.Color;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import android.text.SpannableStringBuilder;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -59,13 +60,18 @@ public class MyIssueAdapter extends BaseQuickAdapter<InfoListModel.DataBean.List
             }
         });
 
-        if(item.getPictureList().size()>0) {
-            for (int i = 0; i < item.getPictureList().size(); i++) {
-                Glide.with(mContext).load(item.getPictureList().get(i)).into(iv_pic);
-            }
+        if(item.getVideoCoverUrl()!=null) {
+            Glide.with(mContext).load(item.getVideoCoverUrl()).into(iv_pic);
         }else {
-            iv_pic.setImageResource(R.mipmap.bg_emptys);
+            if(item.getPictureList().size()>0) {
+                for (int i = 0; i < item.getPictureList().size(); i++) {
+                    Glide.with(mContext).load(item.getPictureList().get(i)).into(iv_pic);
+                }
+            }else {
+                iv_pic.setImageResource(R.mipmap.bg_emptys);
+            }
         }
+
 
         TextView tv_deleted = helper.getView(R.id.tv_deleted);
         TextView tv_title = helper.getView(R.id.tv_title);
@@ -109,8 +115,8 @@ public class MyIssueAdapter extends BaseQuickAdapter<InfoListModel.DataBean.List
             tv_status1.setVisibility(View.VISIBLE);
             tv_status.setVisibility(View.VISIBLE);
             iv_state.setBackgroundResource(R.mipmap.ic_unpass);
-            tv_edit.setVisibility(View.VISIBLE);
-            tv_look.setVisibility(View.GONE);
+            tv_edit.setVisibility(View.GONE);
+            tv_look.setVisibility(View.VISIBLE);
 
             tv_status1.setOnClickListener(new View.OnClickListener() {
                 @Override

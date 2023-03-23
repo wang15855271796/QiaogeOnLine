@@ -17,6 +17,7 @@ import com.puyue.www.qiaoge.api.mine.PointApI;
 import com.puyue.www.qiaoge.api.mine.PointShopModel;
 import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.base.BaseModel;
+import com.puyue.www.qiaoge.dialog.PointExchangeDialog;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.model.mine.wallet.MinerIntegralModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
@@ -61,7 +62,20 @@ public class JiFenShopActivity extends BaseActivity implements View.OnClickListe
         shopAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                exchangePoint(deducts.get(position).getPoolNo());
+                PointExchangeDialog pointExchangeDialog = new PointExchangeDialog(mContext) {
+                    @Override
+                    public void Confirm() {
+                        exchangePoint(deducts.get(position).getPoolNo());
+                        dismiss();
+                    }
+
+                    @Override
+                    public void Cancel() {
+                        dismiss();
+                    }
+                };
+                pointExchangeDialog.show();
+
             }
         });
 

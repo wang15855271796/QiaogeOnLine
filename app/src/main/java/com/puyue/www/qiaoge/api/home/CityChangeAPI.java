@@ -49,15 +49,4 @@ public class CityChangeAPI {
         Observable<RecommendModel> cityChangeModelObservable = RestHelper.getBaseRetrofit(context).create(SearchHotService.class).setParam();
         return cityChangeModelObservable;
     }
-    //店铺搜索
-    public interface InfoSearchService{
-        @FormUrlEncoded
-        @POST(AppInterfaceAddress.Info_Search)
-        Observable<ClickCollectionModel> getData(@Field("keyword") String keyword);
-    }
-
-    public static Observable<ClickCollectionModel> getShopList(Context context, String keyword) {
-        InfoSearchService service = RestHelper.getBaseRetrofit(context).create(InfoSearchService.class);
-        return service.getData(keyword);
-    }
 }

@@ -105,6 +105,24 @@ public class InfoDetailIssueModel {
         private boolean deleteFlag;
         private Object checkDate;
         private List<String> pictureList;
+        private String videoUrl;
+        private String videoCoverUrl;
+
+        public String getVideoUrl() {
+            return videoUrl;
+        }
+
+        public void setVideoUrl(String videoUrl) {
+            this.videoUrl = videoUrl;
+        }
+
+        public String getVideoCoverUrl() {
+            return videoCoverUrl;
+        }
+
+        public void setVideoCoverUrl(String videoCoverUrl) {
+            this.videoCoverUrl = videoCoverUrl;
+        }
 
         public String getMsgId() {
             return msgId;

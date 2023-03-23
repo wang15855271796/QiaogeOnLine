@@ -2,6 +2,9 @@ package com.puyue.www.qiaoge.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -75,6 +78,7 @@ public class ChSchoolAddActivity extends BaseActivity implements View.OnClickLis
     }
 
     AddressModel.DataBean dataBean;
+    String searchKey;
     @Override
     public void setViewData() {
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
@@ -115,6 +119,25 @@ public class ChSchoolAddActivity extends BaseActivity implements View.OnClickLis
         tv_ok.setOnClickListener(this);
         tv_add.setOnClickListener(this);
         iv_clear.setOnClickListener(this);
+
+        et_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                searchKey = editable.toString();
+                list.clear();
+                requestAddressList();
+            }
+        });
     }
 
     @Override
@@ -122,9 +145,10 @@ public class ChSchoolAddActivity extends BaseActivity implements View.OnClickLis
 
     }
 
+
     List<AddressModel.DataBean> list = new ArrayList<>();
     private void requestAddressList() {
-        AddressListAPI.requestAddressModel(mContext)
+        AddressListAPI.requestAddressModel(mContext,searchKey)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<AddressModel>() {
@@ -143,6 +167,9 @@ public class ChSchoolAddActivity extends BaseActivity implements View.OnClickLis
                         if(addressModel.code == 1) {
                             if(addressModel.data!=null && addressModel.data.size()>0) {
                                 list.addAll(addressModel.data);
+                                scAddAdapter.notifyDataSetChanged();
+                            }else {
+                                list.clear();
                                 scAddAdapter.notifyDataSetChanged();
                             }
                         }else {

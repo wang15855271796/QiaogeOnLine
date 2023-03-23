@@ -19,6 +19,7 @@ import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.api.home.SchoolVideoApi;
 import com.puyue.www.qiaoge.api.mine.address.AddressListAPI;
 import com.puyue.www.qiaoge.api.mine.address.AreaModel;
@@ -28,6 +29,7 @@ import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.event.ScAddressEvent;
 import com.puyue.www.qiaoge.event.UpdateAddressEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.mine.address.AddressModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 
@@ -60,6 +62,8 @@ public class AskActivity extends BaseActivity implements View.OnClickListener {
     TextView tv_ok;
     @BindView(R.id.edit_phone)
     EditText edit_phone;
+    @BindView(R.id.tv_address)
+    TextView tv_address;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -82,15 +86,21 @@ public class AskActivity extends BaseActivity implements View.OnClickListener {
         tv_edit_address.setOnClickListener(this);
         iv_back.setOnClickListener(this);
         tv_ok.setOnClickListener(this);
+
+        if(UserInfoHelper.getUserId(mActivity)!=null && !UserInfoHelper.getUserId(mActivity).equals("")) {
+            rl_choose_address.setVisibility(View.VISIBLE);
+        }else {
+            rl_choose_address.setVisibility(View.GONE);
+        }
         selectCity();
     }
 
     public String mProvinceCode;
     public String mCityCode;
     public String mAreaCode;
-    String provinceName;
-    String cityName;
-    String areaName;
+    String provinceName = "";
+    String cityName = "";
+    String areaName = "";
     //  省
     private List<AreaModel.DataBean> options1Items = new ArrayList<>();
     //  市
@@ -150,8 +160,6 @@ public class AskActivity extends BaseActivity implements View.OnClickListener {
                     }
                 });
     }
-
-
 
     private void getSchoolVideoList() {
         SchoolVideoApi.getVideoAsk(mActivity,editName,editPhone,provinceName,cityName,areaName,detailAddress,memo)
@@ -223,7 +231,7 @@ public class AskActivity extends BaseActivity implements View.OnClickListener {
 
     //选择地址
     AddressModel.DataBean dataBean;
-    String detailAddress;
+    String detailAddress = "";
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void updateAddress(ScAddressEvent event) {
         dataBean = event.getDataBean();
@@ -236,6 +244,10 @@ public class AskActivity extends BaseActivity implements View.OnClickListener {
         detailAddress = dataBean.getDetailAddress();
         tv_edit_address.setText(provinceName+cityName+areaName);
         edit_address.setText(detailAddress);
+        edit_name.setText(dataBean.getUserName());
+        edit_phone.setText(dataBean.getContactPhone());
+
+        tv_address.setText(provinceName+cityName+areaName+detailAddress);
     }
 
 
@@ -252,7 +264,13 @@ public class AskActivity extends BaseActivity implements View.OnClickListener {
 
             case R.id.tv_edit_address:
                 hintKbTwo();
-                showPickerView();
+                if(UserInfoHelper.getUserId(mActivity)!=null && !UserInfoHelper.getUserId(mActivity).equals("")) {
+                    showPickerView();
+                }else {
+                    Intent intent1 = new Intent(mContext, LoginActivity.class);
+                    startActivity(intent1);
+                }
+
                 break;
 
             case R.id.iv_back:

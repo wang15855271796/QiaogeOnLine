@@ -27,10 +27,15 @@ public class MarketsAdapter extends BaseQuickAdapter<InfoListModel.DataBean.List
     @Override
     protected void convert(BaseViewHolder helper, InfoListModel.DataBean.ListBean item) {
         helper.setIsRecyclable(false);
-        if(item.getPictureList()!=null&&item.getPictureList().size()>0) {
-            RoundImageView iv_pic = helper.getView(R.id.iv_pic);
-            Glide.with(mContext).load(item.getPictureList().get(0)).into(iv_pic);
+        RoundImageView iv_pic = helper.getView(R.id.iv_pic);
+        if(item.getVideoCoverUrl()!=null) {
+            Glide.with(mContext).load(item.getVideoCoverUrl()).into(iv_pic);
+        }else {
+            if(item.getPictureList()!=null&&item.getPictureList().size()>0) {
+                Glide.with(mContext).load(item.getPictureList().get(0)).into(iv_pic);
+            }
         }
+
         if(item.getMsgType().equals("1")) {
             helper.setText(R.id.tv_style,"店铺转让");
         }else if(item.getMsgType().equals("2")) {

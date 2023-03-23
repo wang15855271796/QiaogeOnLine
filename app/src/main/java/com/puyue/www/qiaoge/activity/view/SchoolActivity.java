@@ -24,6 +24,9 @@ import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.model.CouponModels;
 import com.puyue.www.qiaoge.model.SchoolVideoListModel;
 import com.puyue.www.qiaoge.utils.DateUtils;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +48,8 @@ public class SchoolActivity extends BaseActivity implements View.OnClickListener
     RelativeLayout rl_root;
     @BindView(R.id.iv_top)
     ImageView iv_top;
+    @BindView(R.id.smart)
+    SmartRefreshLayout smart;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -65,6 +70,14 @@ public class SchoolActivity extends BaseActivity implements View.OnClickListener
         recyclerView.setLayoutManager(new GridLayoutManager(mContext,2));
         schoolAdapter = new SchoolAdapter(R.layout.item_school,videos);
         recyclerView.setAdapter(schoolAdapter);
+
+        smart.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                getSchoolVideoList();
+                refreshLayout.finishRefresh();
+            }
+        });
 
         schoolAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override

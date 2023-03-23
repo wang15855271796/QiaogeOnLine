@@ -53,6 +53,7 @@ public class MyWalletNewActivity extends BaseSwipeActivity {
     GetMyBalanceModle getMyBalanceModles;
     private TextView tv_amount;
     RecyclerView recyclerView;
+    TextView tv_all;
     private RelativeLayout relative_account_detail;
 
     @Override
@@ -70,6 +71,7 @@ public class MyWalletNewActivity extends BaseSwipeActivity {
         EventBus.getDefault().register(this);
         imageViewBack = (ImageView) findViewById(R.id.imageViewBack);
         tv_amount = (TextView) findViewById(R.id.tv_amount);
+        tv_all = (TextView) findViewById(R.id.tv_all);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         relative_account_detail = (RelativeLayout) findViewById(R.id.relative_account_detail);
         imageViewBack.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +81,13 @@ public class MyWalletNewActivity extends BaseSwipeActivity {
             }
         });
 
+        tv_all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mActivity,MyWalletDetailActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

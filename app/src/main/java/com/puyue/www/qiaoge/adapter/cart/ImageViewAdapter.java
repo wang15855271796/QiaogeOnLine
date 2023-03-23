@@ -28,7 +28,6 @@ public class ImageViewAdapter extends BaseQuickAdapter<String,BaseViewHolder> {
     protected void convert(BaseViewHolder helper, String item) {
         imageView = helper.getView(R.id.iv_image);
         Glide.with(mContext).load(item).into(imageView);
-
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

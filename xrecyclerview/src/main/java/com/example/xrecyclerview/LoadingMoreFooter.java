@@ -58,6 +58,8 @@ public class LoadingMoreFooter extends LinearLayout {
                 }
                 mIvProgress.setVisibility(View.VISIBLE);
                 mText.setText(getContext().getText(R.string.listview_loading));
+//                mText.setVisibility(View.GONE);
+//                mIvProgress.setVisibility(View.GONE);
                 this.setVisibility(View.VISIBLE);
                 break;
             case STATE_COMPLETE:

@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -46,12 +47,13 @@ public class CouponListssAdapter extends BaseQuickAdapter<ItemModel,BaseViewHold
 
     @Override
     protected void convert(BaseViewHolder helper, ItemModel item) {
+        helper.setIsRecyclable(false);
         this.item = item;
         this.helper = helper;
         //第0 不能有删除功能
         int position = helper.getAdapterPosition();
         iv_clear = helper.getView(R.id.iv_clear);
-        et = helper.getView(R.id.et);
+         et = helper.getView(R.id.et);
 
 
         MoneyInputFilter filter = new MoneyInputFilter();
@@ -88,11 +90,17 @@ public class CouponListssAdapter extends BaseQuickAdapter<ItemModel,BaseViewHold
         iv_clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                datas.remove(position);
+                notifyItemRemoved(position);
+                if (onArticleClickListener != null) {
+                    onArticleClickListener.onArticleOnItemClick(et);
+                }
+
                 if (position != 0) {
 //                    amounts.remove(position);
-                    datas.remove(position);
+//                    datas.remove(position);
                     notifyDataSetChanged();
-                    notifyItemRemoved(position);
+
                     if (position != datas.size()) {
                         notifyItemRangeChanged(position, getItemCount());
                     }
@@ -216,10 +224,11 @@ public class CouponListssAdapter extends BaseQuickAdapter<ItemModel,BaseViewHold
         }else {
             total=0.0;
             //当item大于1，并且当前item无任何内容时处理
-            if(et.getText().toString().equals("")||et.getText().toString().equals("0")||et.getText().toString().equals("0.0")||et.getText().toString().equals("0.00")||et.getText().toString().equals("0.")) {
-                ToastUtil.showSuccessMsg(mContext,"请输入数字");
-                return;
-            }
+//            if(et.getText().toString().equals("")||et.getText().toString().equals("0")||et.getText().toString().equals("0.0")||et.getText().toString().equals("0.00")||et.getText().toString().equals("0.")) {
+//                ToastUtil.showSuccessMsg(mContext,"请输入数字");
+//                Log.d("wwwww...","111");
+//                return;
+//            }
             if(et.getText().toString().equals("")||et.getText().toString().equals("0")||et.getText().toString().equals("0.0")||et.getText().toString().equals("0.00")||et.getText().toString().equals("0.")) {
                 for (int i = 0; i <datas.size()-1 ; i++) {
                     Double s = Double.valueOf(datas.get(i).getNum());
@@ -235,7 +244,6 @@ public class CouponListssAdapter extends BaseQuickAdapter<ItemModel,BaseViewHold
                 }
 
             }else {
-
                 total = 0.0;
                 //当item大于1，并且当前item有内容时处理
                 new android.os.Handler().postDelayed(new Runnable() {
@@ -243,6 +251,7 @@ public class CouponListssAdapter extends BaseQuickAdapter<ItemModel,BaseViewHold
                         for (int i = 0; i <datas.size()-1 ; i++) {
                             if(datas.get(i).getNum()==null||datas.get(i).getNum().equals("")||datas.get(i).getNum().equals("0")||datas.get(i).getNum().equals("0.")||datas.get(i).getNum().equals("0.0")||datas.get(i).getNum().equals("0.00")) {
                                 ToastUtil.showSuccessMsg(mContext,"请输入数字");
+                                Log.d("wwwww...","222");
                                 return;
                             }else {
                                 Double s = Double.valueOf(datas.get(i).getNum());
@@ -310,7 +319,9 @@ public class CouponListssAdapter extends BaseQuickAdapter<ItemModel,BaseViewHold
 //      在list中添加数据，并通知条目加入一条
         itemModel.setFocus(true);
         if(datas.size()<10) {
+            Log.d("ewdadwds.....",datas.size()+"--");
             datas.add(datas.size(), itemModel);
+            Log.d("ewdadwds.....",datas.size()+"----");
             items++;
         }else {
             ToastUtil.showSuccessMsg(mContext,"单次最多兑换10张");

@@ -131,30 +131,41 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="余额明细"
-            android:textStyle="bold"
-            android:layout_marginTop="@dimen/size_16dp"
             android:layout_marginLeft="@dimen/size_16dp"
+            android:layout_marginTop="@dimen/size_16dp"
+            android:text="余额明细"
             android:textColor="#414141"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="查看全部>"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="@dimen/size_16dp"
             android:layout_marginLeft="@dimen/size_16dp"
-            android:textColor="#A3A3A3"
+            android:layout_marginTop="@dimen/size_16dp"
             android:layout_marginRight="@dimen/sp_14"
+            android:text="查看全部>"
+            android:textColor="#A3A3A3"
             android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:background="#e2e2e2"
+            android:id="@+id/v1"
+            android:layout_below="@+id/tv_all"
+            android:layout_marginRight="@dimen/size_17dp"
+            android:layout_marginLeft="@dimen/size_17dp"
+            android:layout_marginTop="@dimen/size_14dp"
+            android:layout_height="@dimen/public_space_value_0.5"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
+            android:layout_marginTop="@dimen/size_5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_all" />
+            android:layout_below="@+id/v1" />
     </RelativeLayout>
 
 </LinearLayout>

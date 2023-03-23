@@ -107,7 +107,6 @@ import rx.schedulers.Schedulers;
  * 备注  改版后的 订单详情
  */
 public class NewOrderDetailActivity extends BaseSwipeActivity {
-
     private ImageView imageViewBreak;
     private RecyclerView recyclerView;
     RelativeLayout rl_unOperate;
@@ -257,6 +256,7 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
     ImageView iv_address_arrow;
     RelativeLayout rl_drive_info;
     LinearLayout ll_bg;
+    RelativeLayout rl_hll_order;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -269,6 +269,7 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
+        rl_hll_order = (RelativeLayout) findViewById(R.id.rl_hll_order);
         ll_bg = (LinearLayout) findViewById(R.id.ll_bg);
         rl_drive_info = (RelativeLayout) findViewById(R.id.rl_drive_info);
         iv_address_arrow = (ImageView) findViewById(R.id.iv_address_arrow);
@@ -441,6 +442,7 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
         tv_style.setOnClickListener(noDoubleClickListener);
         tv_call.setOnClickListener(noDoubleClickListener);
         tv_order_num.setOnClickListener(noDoubleClickListener);
+        iv_address_arrow.setOnClickListener(noDoubleClickListener);
     }
 
     @Override
@@ -531,8 +533,8 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
                                 list.clear();
                                 orderId = orderDetailModels.data.orderId;
                                 list_full.clear();
-                                if (orderDetailModel.data.orderProds.size() > 0) {
 
+                                if (orderDetailModel.data.orderProds.size() > 0) {
                                     list.addAll(orderDetailModel.data.orderProds);
                                     adapter.notifyDataSetChanged();
                                     if(orderDetailModel.data.sendGiftInfo!=null) {
@@ -543,16 +545,15 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
                                         rv_full.setVisibility(View.GONE);
                                     }
                                 }
+
                                 if(orderDetailModels.data!=null) {
                                     tv_style.setText(orderDetailModels.data.hllOrderStatusName+">");
                                 }
-
                                 if(orderDetailModel.data.saleSettle==1) {
                                     ll_order1.setVisibility(View.VISIBLE);
                                 }else {
                                     ll_order1.setVisibility(View.GONE);
                                 }
-
                                 if(orderDetailModel.data.salePay==1) {
                                     ll_order2.setVisibility(View.VISIBLE);
                                 }else {
@@ -560,8 +561,6 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
                                 }
 
                             }
-
-
                             if(orderDetailModel.data.getDeliveryModel()==0) {
                                 tv_distribution.setText("翘歌配送");
                             }else {
@@ -582,11 +581,13 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
                                 isShowed = true;
                                 getDeliverChangeTime();
                             }
-                            hllConnectOrderIds.clear();
-                            if(orderDetailModel.data.hllConnectOrderIds!=null&&orderDetailModel.data.hllConnectOrderIds.size()>0) {
-                                rv_huo.setVisibility(View.VISIBLE);
-                                hllConnectOrderIds.addAll(orderDetailModel.data.hllConnectOrderIds);
 
+                            hllConnectOrderIds.clear();
+
+                            if(orderDetailModel.data.hllConnectOrderIds!=null&&orderDetailModel.data.hllConnectOrderIds.size()>0) {
+
+                                rl_hll_order.setVisibility(View.VISIBLE);
+                                hllConnectOrderIds.addAll(orderDetailModel.data.hllConnectOrderIds);
                                 unAbleAdapter = new TagAdapter<String>(hllConnectOrderIds){
                                     @Override
                                     public View getView(FlowLayout parent, int position, String desc) {
@@ -612,7 +613,7 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
                                     tv_order_num.setVisibility(View.GONE);
                                 }
                             }else {
-                                rv_huo.setVisibility(View.GONE);
+                                rl_hll_order.setVisibility(View.GONE);
                             }
                         } else {
                             AppHelper.showMsg(mContext, orderDetailModel.message);
@@ -680,9 +681,12 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
         }
         if (orderStatusRequest == 2) {
             mTvOrderStatus.setText("等待接收订单");
+            mTvOrderStatus.setTextColor(Color.parseColor("#FE5630"));
         } else if (orderStatusRequest == 14) {
             mTvOrderStatus.setText("订单已接收");
+            mTvOrderStatus.setTextColor(Color.parseColor("#999999"));
         } else if (orderStatusRequest == 3) {
+            mTvOrderStatus.setTextColor(Color.parseColor("#999999"));
             mTvOrderStatus.setText("装车完成-已发货");
         }
 
@@ -729,6 +733,7 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
         } else {
             newOrderReturnTimeLinearLayout.setVisibility(View.GONE);
         }
+
         if (!TextUtils.isEmpty(getOrderDetailModel.finishDate)) {
             tvExamineTime.setText(getOrderDetailModel.finishDate);
             examineTimeLinearLayout.setVisibility(View.VISIBLE);
@@ -784,12 +789,12 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
         mLinearLayoutReciverOrder.setVisibility(orderStatusRequest == 14 ? View.VISIBLE : View.GONE);
         //待收货
         threeButtonLayout.setVisibility(orderStatusRequest == 3 ? View.VISIBLE : View.GONE);
-
+        rl_drive_info.setVisibility(orderStatusRequest == 3 ? View.VISIBLE : View.GONE);
 //司机物流信息
         mRelativeDriver.setVisibility(orderStatusRequest == 2 || orderStatusRequest == 14 || orderStatusRequest == 3 ? View.VISIBLE : View.GONE);
-        mTvSeeDriverStatus.setVisibility(orderStatusRequest == 3 ? View.VISIBLE : View.GONE);
-        mTvDriverName.setVisibility(orderStatusRequest == 3 ? View.VISIBLE : View.GONE);
-        tv_driver_phone.setVisibility(orderStatusRequest == 3 ? View.VISIBLE : View.GONE);
+//        mTvSeeDriverStatus.setVisibility(orderStatusRequest == 3 ? View.VISIBLE : View.GONE);
+//        mTvDriverName.setVisibility(orderStatusRequest == 3 ? View.VISIBLE : View.GONE);
+//        tv_driver_phone.setVisibility(orderStatusRequest == 3 ? View.VISIBLE : View.GONE);
 
         //状态是待付款 或者是待支付 显示二个个按钮(取消订单 去支付) 其他状态需要不显示
         twoButtonLayout.setVisibility(orderStatusRequest == 1 ? View.VISIBLE : View.GONE);
@@ -1090,6 +1095,17 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
         @Override
         public void onNoDoubleClick(View view) {
             switch (view.getId()) {
+
+                case R.id.iv_address_arrow:
+                    Intent intent_ = new Intent(mContext, OrderAddressListActivity.class);
+                    intent_.putExtra("orderId", orderId);
+                    intent_.putExtra("type", 1);
+                    intent_.putExtra("mineAddress", "address");
+                    intent_.putExtra("UseAddress", getOrderDetailModel.addressVO.provinceName + getOrderDetailModel.addressVO.cityName
+                            + getOrderDetailModel.addressVO.areaName + getOrderDetailModel.addressVO.detailAddress);
+                    startActivityForResult(intent_, 42);
+                    break;
+
                 case R.id.tv_order_num:
                     HllOrderDialog hllOrderDialog = new HllOrderDialog(mActivity, orderDetailModels.data.hllConnectOrderIds) {
                         @Override
@@ -1207,13 +1223,13 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
                     deleteOrder();
                     break;
                 case R.id.linearLayout_address_arrow:
-                    Intent intent_ = new Intent(mContext, OrderAddressListActivity.class);
-                    intent_.putExtra("orderId", orderId);
-                    intent_.putExtra("type", 1);
-                    intent_.putExtra("mineAddress", "address");
-                    intent_.putExtra("UseAddress", getOrderDetailModel.addressVO.provinceName + getOrderDetailModel.addressVO.cityName
+                    Intent intent3 = new Intent(mContext, OrderAddressListActivity.class);
+                    intent3.putExtra("orderId", orderId);
+                    intent3.putExtra("type", 1);
+                    intent3.putExtra("mineAddress", "address");
+                    intent3.putExtra("UseAddress", getOrderDetailModel.addressVO.provinceName + getOrderDetailModel.addressVO.cityName
                             + getOrderDetailModel.addressVO.areaName + getOrderDetailModel.addressVO.detailAddress);
-                    startActivityForResult(intent_, 42);
+                    startActivityForResult(intent3, 42);
                     break;
 
                 case R.id.copy_order:

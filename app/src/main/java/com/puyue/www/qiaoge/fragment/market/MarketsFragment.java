@@ -514,7 +514,7 @@ public class MarketsFragment extends BaseFragment {
             }
             long end = (System.currentTimeMillis()-start)/1000;
             long time = Time.getTime(end);
-            getDatas(time);
+//            getDatas(time);
         }else {
             start = System.currentTimeMillis();
         }
@@ -605,7 +605,7 @@ public class MarketsFragment extends BaseFragment {
 
     //筛选确定
     private void sendSelectGood(String saleVolume, String priceUp,String priceDown, String newProduct, String brandName, String minPrices, String maxPrices) {
-        MarketGoodSelcetAPI.getClassifyRight(mActivity, pageNum, 12, mFirstCode, mSecondCode, saleVolume, priceUp,priceDown, newProduct, brandName, minPrices, maxPrices)
+        MarketGoodSelcetAPI.getClassifyRight(mActivity, pageNum, 20, mFirstCode, mSecondCode, saleVolume, priceUp,priceDown, newProduct, brandName, minPrices, maxPrices)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<MarketRightModel>() {

@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -52,6 +53,13 @@ public class ShopImageViewssAdapter extends RecyclerView.Adapter<ShopImageViewss
             });
             viewHolder.ll_del.setVisibility(View.INVISIBLE);
         }else {
+
+            if(pictureList.get(position).contains(".mp4")) {
+                viewHolder.iv_player.setVisibility(View.VISIBLE);
+            }else {
+                viewHolder.iv_player.setVisibility(View.GONE);
+            }
+
             Glide.with(mActivity).load(pictureList.get(position)).into(viewHolder.iv_pic);
             viewHolder.ll_del.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -67,12 +75,8 @@ public class ShopImageViewssAdapter extends RecyclerView.Adapter<ShopImageViewss
                     mItemClickListener.onItemClick(view, adapterPosition);
                 });
             }
-
-
-
         }
     }
-
 
     private OnItemClickListener mItemClickListener;
 

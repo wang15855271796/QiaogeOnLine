@@ -65,7 +65,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                                <RelativeLayout
+                                <ImageView
                                     android:id="@+id/ll_bgc"
                                     android:layout_width="match_parent"
                                     android:layout_height="200dp"
@@ -88,16 +88,6 @@
                                     android:background="@drawable/shape_white1"
                                     android:orientation="vertical">
 
-                                    <com.frankfancode.marqueeview.MarqueeView
-                                        android:id="@+id/marquee"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="@dimen/size_32dp"
-                                        android:layout_marginLeft="@dimen/dp_10"
-                                        android:layout_marginTop="@dimen/size_6dp"
-                                        android:layout_marginRight="@dimen/dp_10"
-                                        android:background="@drawable/shape_white1"
-                                        android:visibility="gone" />
-
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -107,6 +97,13 @@
                                         android:background="@drawable/shape_white1"
                                         android:orientation="vertical">
 
+                                        <com.frankfancode.marqueeview.MarqueeView
+                                            android:id="@+id/marquee"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="@dimen/size_32dp"
+                                            android:layout_marginTop="@dimen/size_6dp"
+                                            android:background="@drawable/shape_white1"
+                                            android:visibility="gone" />
 
                                         <!--顶部的六种推荐-->
                                         <androidx.recyclerview.widget.RecyclerView
@@ -127,52 +124,52 @@
                                             android:layout_gravity="center_horizontal"
                                             android:layout_marginBottom="@dimen/size_5dp" />
 
+                                        <RelativeLayout
+                                            android:id="@+id/rl_huo"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="@dimen/size_38dp"
+                                            android:layout_marginBottom="@dimen/size_5dp"
+                                            android:background="@drawable/shape_orange11"
+                                            android:visibility="gone">
+
+                                            <TextView
+                                                android:drawableLeft="@mipmap/ic_gantan_wy"
+                                                android:id="@+id/tv_order_num"
+                                                android:drawablePadding="@dimen/size_3dp"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_centerVertical="true"
+                                                android:layout_marginLeft="@dimen/size_11dp"
+                                                android:text="您有一笔订单呼叫货拉拉"
+                                                android:textColor="#FF0000"
+                                                android:textSize="@dimen/sp_14" />
+
+                                            <TextView
+                                                android:id="@+id/tv_look"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_alignParentRight="true"
+                                                android:layout_centerVertical="true"
+                                                android:layout_marginRight="@dimen/size_15dp"
+                                                android:background="@drawable/shape_jianbian10"
+                                                android:paddingLeft="8dp"
+                                                android:paddingTop="@dimen/size_3dp"
+                                                android:paddingRight="@dimen/size_8dp"
+                                                android:paddingBottom="@dimen/size_3dp"
+                                                android:text="请查看"
+                                                android:textColor="#ffffff"
+                                                android:textSize="@dimen/sp_12" />
+
+                                        </RelativeLayout>
+
                                         <com.puyue.www.qiaoge.banner.Banner
                                             android:id="@+id/banner"
                                             android:layout_width="match_parent"
-                                            android:layout_height="120dp"
-                                            android:layout_marginLeft="@dimen/dp_10"
-                                            android:layout_marginRight="@dimen/dp_10" />
+                                            android:layout_height="120dp" />
 
                                     </LinearLayout>
 
-                                    <RelativeLayout
-                                        android:id="@+id/rl_huo"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="@dimen/size_38dp"
-                                        android:layout_marginLeft="@dimen/size_12dp"
-                                        android:layout_marginTop="@dimen/dp_10"
-                                        android:layout_marginRight="@dimen/size_12dp"
-                                        android:background="@drawable/shape_orange11"
-                                        android:visibility="gone">
 
-                                        <TextView
-                                            android:id="@+id/tv_order_num"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_centerVertical="true"
-                                            android:layout_marginLeft="@dimen/size_11dp"
-                                            android:text="您有一笔订单呼叫货拉拉"
-                                            android:textColor="#FF481A"
-                                            android:textSize="@dimen/sp_14" />
-
-                                        <TextView
-                                            android:id="@+id/tv_look"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_alignParentRight="true"
-                                            android:layout_centerVertical="true"
-                                            android:layout_marginRight="@dimen/size_15dp"
-                                            android:background="@drawable/shape_jianbian1"
-                                            android:paddingLeft="8dp"
-                                            android:paddingTop="@dimen/size_3dp"
-                                            android:paddingRight="@dimen/size_8dp"
-                                            android:paddingBottom="@dimen/size_3dp"
-                                            android:text="请查看"
-                                            android:textColor="#ffffff"
-                                            android:textSize="@dimen/sp_12" />
-
-                                    </RelativeLayout>
 
                                     <include layout="@layout/home_view_wy" />
 
@@ -381,6 +378,7 @@
                         android:layout_toRightOf="@+id/homeMessage"
                         android:background="@drawable/bg_msg_count"
                         android:text="4"
+                        android:gravity="center"
                         android:textColor="@color/white"
                         android:textSize="9dp"
                         android:visibility="gone" />
@@ -452,10 +450,10 @@
                 android:id="@+id/ll_school"
                 android:layout_width="wrap_content"
                 android:orientation="vertical"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginRight="@dimen/dp_10"
                 android:layout_marginBottom="240dp">
 
                 <ImageView
@@ -465,8 +463,18 @@
                     android:layout_height="wrap_content"/>
 
                 <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/iv_half_school"
+                    android:background="@mipmap/iv_half_school"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:id="@+id/iv_enter"
                     android:src="@mipmap/icon_enter"
                     android:layout_width="wrap_content"
+                    android:padding="@dimen/size_5dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_height="wrap_content"/>
 

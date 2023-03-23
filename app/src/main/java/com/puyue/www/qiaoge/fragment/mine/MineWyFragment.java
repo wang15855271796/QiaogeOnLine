@@ -20,6 +20,7 @@ import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.CommonH5Activity;
@@ -59,6 +60,7 @@ import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
+import com.puyue.www.qiaoge.model.HomeStyleModel;
 import com.puyue.www.qiaoge.model.ModeModel;
 import com.puyue.www.qiaoge.model.OrderNumsModel;
 import com.puyue.www.qiaoge.model.VipCenterModel;
@@ -157,6 +159,7 @@ public class MineWyFragment extends BaseFragment {
     TextView tv_save;
     RelativeLayout rl_order;
     RelativeLayout rl_vip1;
+    ImageView iv_my_bg;
 
     @Override
     public int setLayoutId() {
@@ -209,6 +212,7 @@ public class MineWyFragment extends BaseFragment {
     @Override
     public void findViewById(View view) {
         EventBus.getDefault().register(this);
+        iv_my_bg = (view.findViewById(R.id.iv_my_bg));
         tv_save = (view.findViewById(R.id.tv_save));
         rl_vip1 = (view.findViewById(R.id.rl_vip1));
         rl_order = (view.findViewById(R.id.rl_order));
@@ -343,6 +347,7 @@ public class MineWyFragment extends BaseFragment {
         requestUpdate();
         getProductsList();
         getVipCenter();
+        getHomeStyle();
     }
 
     @Override
@@ -563,6 +568,43 @@ public class MineWyFragment extends BaseFragment {
         }
 
     };
+
+    /**
+     * 获取首页风格
+     */
+    HomeStyleModel.DataBean styleData;
+    private void getHomeStyle() {
+        IndexHomeAPI.getStyle(mActivity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<HomeStyleModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(HomeStyleModel homeStyleModel) {
+                        if(homeStyleModel.getCode()==1) {
+                            if(homeStyleModel.getData()!=null) {
+                                styleData = homeStyleModel.getData();
+                                if(styleData.getAppHomeUrl()!=null&& styleData.getAppHomeUrl().equals("")) {
+                                    Glide.with(mActivity).load(styleData.getAppMyUrl()).into(iv_my_bg);
+                                }
+//                                normal常规，black_white黑白，may_day五一，national_day国庆，spring_festival春节
+
+                            }
+
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,homeStyleModel.getMessage());
+                        }
+                    }
+                });
+    }
 
     private void useAccount() {
         MineAccountAPI.requestMineAccount(mActivity, day, giftNo)

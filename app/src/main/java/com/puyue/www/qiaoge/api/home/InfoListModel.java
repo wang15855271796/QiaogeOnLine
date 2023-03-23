@@ -175,6 +175,24 @@ public class InfoListModel {
             private boolean deleteFlag;
             private String checkStr;
             private String msgTypeStr;
+            private String videoUrl;
+            private String videoCoverUrl;
+
+            public String getVideoUrl() {
+                return videoUrl;
+            }
+
+            public void setVideoUrl(String videoUrl) {
+                this.videoUrl = videoUrl;
+            }
+
+            public String getVideoCoverUrl() {
+                return videoCoverUrl;
+            }
+
+            public void setVideoCoverUrl(String videoCoverUrl) {
+                this.videoCoverUrl = videoCoverUrl;
+            }
 
             public boolean isDeleteFlag() {
                 return deleteFlag;

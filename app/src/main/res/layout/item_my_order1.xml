@@ -154,14 +154,20 @@
                 android:textColor="#414141"
                 android:textSize="12sp" />
 
-            <ImageView
+            <TextView
                 android:id="@+id/iv_cancel_order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="6dp"
                 android:layout_marginRight="102dp"
-                android:src="@mipmap/ic_cancel_order"
+                android:background="@drawable/shape_order_red"
+                android:paddingLeft="@dimen/size_11dp"
+                android:paddingTop="@dimen/size_6dp"
+                android:paddingRight="@dimen/size_11dp"
+                android:paddingBottom="@dimen/size_6dp"
+                android:text="取消订单"
+                android:textColor="#FE5630"
                 android:visibility="gone" />
 
             <ImageView

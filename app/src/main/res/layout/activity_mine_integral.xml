@@ -82,6 +82,12 @@
 
             </RelativeLayout>
 
+            <View
+                android:background="#FF1A03"
+                android:layout_marginBottom="@dimen/size_15dp"
+                android:layout_marginTop="@dimen/size_15dp"
+                android:layout_width="@dimen/public_space_value_0.5"
+                android:layout_height="match_parent"/>
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -167,6 +173,12 @@
         android:textColor="@color/app_black"
         android:textSize="@dimen/size_15dp" />
 
+    <View
+        android:layout_width="match_parent"
+        android:background="#E2E2E2"
+        android:layout_marginRight="@dimen/size_20dp"
+        android:layout_marginLeft="@dimen/size_20dp"
+        android:layout_height="@dimen/public_space_value_0.5"/>
     <in.srain.cube.views.ptr.PtrClassicFrameLayout
         android:id="@+id/ptrClassicFrameLayout"
         android:layout_width="match_parent"

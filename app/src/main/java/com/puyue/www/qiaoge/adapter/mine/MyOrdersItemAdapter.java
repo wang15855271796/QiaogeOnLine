@@ -58,7 +58,7 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
     private TextView againBay;  // 再次购买
     private OnClick onClick;
     private LinearLayout linearLayoutItem;
-    private ImageView cancelOrder;//取消订单
+    private TextView cancelOrder;//取消订单
     private TextView deleteOrder;//删除订单
     private TextView confirmOrder;//确认收货
     TextView tv_product_name;
@@ -99,7 +99,7 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
         tv_status = helper.getView(R.id.tv_status);
         imageGo = helper.getView(R.id.imageGo);
         deleteOrder = helper.getView(R.id.tv_delete_order);
-        cancelOrder = helper.getView(R.id.iv_cancel_order);
+        cancelOrder = helper.getView(R.id.tv_cancel_order);
         evaluateNow = helper.getView(R.id.evaluateNow);
         linearLayoutItem = helper.getView(R.id.linearLayoutItem);
         confirmOrder = helper.getView(R.id.tv_confirm_order);
@@ -207,7 +207,7 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
             tv_time.setVisibility(View.GONE);
             evaluateNow.setVisibility(View.VISIBLE);
             againBay.setVisibility(View.VISIBLE);
-            deleteOrder.setVisibility(View.VISIBLE);
+            deleteOrder.setVisibility(View.GONE);
             cancelOrder.setVisibility(View.GONE);
             imageGo.setVisibility(View.GONE);
             confirmOrder.setVisibility(View.GONE);
@@ -237,7 +237,7 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
             againBay.setVisibility(View.VISIBLE);
             evaluateNow.setVisibility(View.GONE);
             confirmOrder.setVisibility(View.GONE);
-            deleteOrder.setVisibility(View.GONE);
+            deleteOrder.setVisibility(View.VISIBLE);
             cancelOrder.setVisibility(View.GONE);
             tv_call.setVisibility(View.GONE);
         }
@@ -250,53 +250,56 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
 
 
         /**显示4张图*/
-        if (item.pics.size() >= 1) {
-            if (item.pics.get(0)!= null) {
-                GlideModel.disPlayError(mContext, item.pics.get(0), commodityOne);
+        if(item.pics!=null) {
+            if (item.pics.size() >= 1) {
+                if (item.pics.get(0)!= null) {
+                    GlideModel.disPlayError(mContext, item.pics.get(0), commodityOne);
+                }
+
+                commodityOne.setVisibility(View.VISIBLE);
+            } else {
+
+                commodityOne.setVisibility(View.GONE);
+                commodityOne.setImageResource(R.mipmap.ic_launcher_round);
             }
+            if (item.pics.size() >= 2) {
+                if (item.pics.get(1) != null) {
+                    GlideModel.disPlayError(mContext, item.pics.get(1), commodityTwo);
+                }
 
-            commodityOne.setVisibility(View.VISIBLE);
-        } else {
-
-            commodityOne.setVisibility(View.GONE);
-            commodityOne.setImageResource(R.mipmap.ic_launcher_round);
-        }
-        if (item.pics.size() >= 2) {
-            if (item.pics.get(1) != null) {
-                GlideModel.disPlayError(mContext, item.pics.get(1), commodityTwo);
+                commodityTwo.setVisibility(View.VISIBLE);
+            } else {
+                commodityTwo.setVisibility(View.GONE);
+                commodityTwo.setImageResource(R.mipmap.ic_launcher_round);
             }
+            if ((item.pics.size() >= 3)) {
+                if (item.pics.get(2) != null) {
+                    GlideModel.disPlayError(mContext, item.pics.get(2), commodityThree);
+                }
 
-            commodityTwo.setVisibility(View.VISIBLE);
-        } else {
-            commodityTwo.setVisibility(View.GONE);
-            commodityTwo.setImageResource(R.mipmap.ic_launcher_round);
-        }
-        if ((item.pics.size() >= 3)) {
-            if (item.pics.get(2) != null) {
-                GlideModel.disPlayError(mContext, item.pics.get(2), commodityThree);
+                commodityThree.setVisibility(View.VISIBLE);
+
+            } else {
+                commodityThree.setVisibility(View.GONE);
+                commodityThree.setImageResource(R.mipmap.ic_launcher_round);
             }
+            if (item.pics.size() >= 4) {
+                if (item.pics.get(3) != null) {
+                    GlideModel.disPlayError(mContext, item.pics.get(3), commodityFour);
+                }
 
-            commodityThree.setVisibility(View.VISIBLE);
-
-        } else {
-            commodityThree.setVisibility(View.GONE);
-            commodityThree.setImageResource(R.mipmap.ic_launcher_round);
-        }
-        if (item.pics.size() >= 4) {
-            if (item.pics.get(3) != null) {
-                GlideModel.disPlayError(mContext, item.pics.get(3), commodityFour);
+                commodityFour.setVisibility(View.VISIBLE);
+            } else {
+                commodityFour.setVisibility(View.GONE);
+                commodityFour.setImageResource(R.mipmap.ic_launcher_round);
             }
+            if (item.pics.size() >= 4) {
+                commodityMore.setVisibility(View.VISIBLE);
+            } else {
+                commodityMore.setVisibility(View.GONE);
+            }
+        }
 
-            commodityFour.setVisibility(View.VISIBLE);
-        } else {
-            commodityFour.setVisibility(View.GONE);
-            commodityFour.setImageResource(R.mipmap.ic_launcher_round);
-        }
-        if (item.pics.size() >= 4) {
-            commodityMore.setVisibility(View.VISIBLE);
-        } else {
-            commodityMore.setVisibility(View.GONE);
-        }
 
         tv_call.setOnClickListener(new View.OnClickListener() {
             @Override

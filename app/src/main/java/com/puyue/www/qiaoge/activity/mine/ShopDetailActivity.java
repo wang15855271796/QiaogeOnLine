@@ -5,18 +5,27 @@ import android.net.Uri;
 import android.os.Bundle;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.luck.picture.lib.PictureSelector;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.adapter.ImageVideoViewAdapter;
 import com.puyue.www.qiaoge.adapter.cart.ImageViewAdapter;
 import com.puyue.www.qiaoge.api.home.InfoDetailModel;
 import com.puyue.www.qiaoge.api.home.InfoListAPI;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.helper.AppHelper;
+
+import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -88,9 +97,8 @@ public class ShopDetailActivity extends BaseSwipeActivity {
                 finish();
             }
         });
-
-
         getCityList();
+
 
     }
 
@@ -143,9 +151,30 @@ public class ShopDetailActivity extends BaseSwipeActivity {
                                     tv_return_time.setText(lists.getReturnTime());
                                     tv_return_account.setText(lists.getReturnAmt());
                                 }
-                                ImageViewAdapter imageViewAdapter = new ImageViewAdapter(R.layout.item_image,lists.getPictureList());
+
+                                List<String> pictureList = lists.getPictureList();
+
+                                if(lists.getVideoUrl()!=null) {
+                                    pictureList.add(lists.getVideoUrl());
+                                }
+
+                                ImageVideoViewAdapter imageViewAdapter = new ImageVideoViewAdapter(R.layout.item_image,pictureList);
                                 recyclerView.setLayoutManager(new GridLayoutManager(mContext,3));
                                 recyclerView.setAdapter(imageViewAdapter);
+
+                                imageViewAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                        if(!pictureList.get(position).contains(".mp4")) {
+                                            List<String> result = Arrays.asList(pictureList.get(position).split(","));
+                                            AppHelper.showPhotoDetailDialog(mContext, result, position);
+                                        }else {
+
+                                            PictureSelector.create(ShopDetailActivity.this).externalPictureVideo("https://barbecue-img.oss-cn-hangzhou.aliyuncs.com/message/20230315/750d15898ff24ae1b709cb7e2f53b8fb.mp4");
+                                        }
+
+                                    }
+                                });
 
                             }
                         } else {

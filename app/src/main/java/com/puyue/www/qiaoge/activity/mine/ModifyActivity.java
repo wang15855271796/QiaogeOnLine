@@ -59,9 +59,12 @@ public class ModifyActivity extends BaseSwipeActivity implements View.OnClickLis
     TextView et_amount;
     private AmountSetDialog amountSetDialog;
     private String subId;
-    private String inPoint;
-    private String inBalance;
-    private String inGift;
+    private String inPoint ="";
+    private String inBalance = "";
+    private String inGift = "";
+    private String notification;
+    private String amountLimit;
+    private String warnAmount;
     private AmountMaxDialog amountMaxDialog;
     AccountDetailModel accountDetailModels;
     @Override
@@ -102,7 +105,6 @@ public class ModifyActivity extends BaseSwipeActivity implements View.OnClickLis
     public void setViewData() {
         ButterKnife.bind(this);
         iv_back.setOnClickListener(this);
-//        tv_amount_remind.setOnClickListener(this);
         EventBus.getDefault().register(this);
 
         swipe.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -199,6 +201,15 @@ public class ModifyActivity extends BaseSwipeActivity implements View.OnClickLis
                             inPoint = String.valueOf(baseModel.getData().getInPoint());
                             inGift = String.valueOf(baseModel.getData().getInGift());
                             inBalance = String.valueOf(baseModel.getData().getInBalance());
+                            notification = String.valueOf(baseModel.getData().getNotification());
+                            amountLimit = String.valueOf(baseModel.getData().getAmountLimit());
+                            warnAmount = String.valueOf(baseModel.getData().getWarnAmount());
+                            SharedPreferencesUtil.saveString(mActivity,"inGift",inGift);
+                            SharedPreferencesUtil.saveString(mActivity,"inPoint",inPoint);
+                            SharedPreferencesUtil.saveString(mActivity,"inBalance",inBalance);
+                            SharedPreferencesUtil.saveString(mActivity,"notification",notification);
+                            SharedPreferencesUtil.saveString(mActivity,"amountLimit",amountLimit);
+                            SharedPreferencesUtil.saveString(mActivity,"warnAmount",warnAmount);
                             if(SharedPreferencesUtil.getString(mActivity, "amount_limit").equals("0")) {
                                 et_amount.setText("");
                                 SharedPreferencesUtil.saveString(mContext,"amount","0");
@@ -207,21 +218,11 @@ public class ModifyActivity extends BaseSwipeActivity implements View.OnClickLis
                                 SharedPreferencesUtil.saveString(mContext,"amount",baseModel.getData().getAmount());
                             }
 
-//                            tv_amount_remind.setText(baseModel.getData().getWarnAmount());
-
                             if(baseModel.getData().getNotification().equals("0")) {
                                 swipe3.setChecked(false);
                             }else {
                                 swipe3.setChecked(true);
                             }
-
-//                            if(baseModel.getData().getNotification().equals("0")) {
-//                                tv_amount_remind.setText("可设置金额提醒");
-//                            }else if(baseModel.getData().getNotification().equals("1")) {
-//                                tv_amount_remind.setText("任意金额提醒");
-//                            }else {
-//                                tv_amount_remind.setText("满"+baseModel.getData().getWarnAmount()+"提醒");
-//                            }
 
                             if(baseModel.getData().getInBalance()==1) {
                                 swipe1.setChecked(false);

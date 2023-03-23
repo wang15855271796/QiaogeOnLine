@@ -3,6 +3,8 @@ package com.puyue.www.qiaoge.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,6 +28,7 @@ import com.puyue.www.qiaoge.dialog.ChangeCityDialog;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.model.mine.address.AddressModel;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -87,11 +90,30 @@ public class ChooseConfirmAddressActivity extends BaseActivity implements View.O
         getAddress();
     }
 
+    String searchKey;
     @Override
     public void setClickEvent() {
         iv_clear.setOnClickListener(this);
         iv_back.setOnClickListener(this);
         tv_add.setOnClickListener(this);
+        et_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                searchKey = editable.toString();
+//                requestAddressList();
+                getAddress();
+            }
+        });
     }
 
     AddressModel mModelAddress;
@@ -101,7 +123,7 @@ public class ChooseConfirmAddressActivity extends BaseActivity implements View.O
     ChooseAddressssAdapter addressAdapterss;
     ChooseAddresssAdapter addressAdapters;
     private void getAddress() {
-        AddressListAPI.requestAddressModel(mContext)
+        AddressListAPI.requestAddressModel(mContext,searchKey)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<AddressModel>() {
@@ -119,8 +141,10 @@ public class ChooseConfirmAddressActivity extends BaseActivity implements View.O
                     public void onNext(AddressModel addressModel) {
                         mModelAddress = addressModel;
                         if (mModelAddress.success) {
+                            mListData.clear();
+                            data0.clear();
+                            data1.clear();
                             if (mModelAddress.data.size() > 0 && mModelAddress.data != null) {
-                                mListData.clear();
                                 mListData.addAll(mModelAddress.data);
 
                                 for (int i = 0; i <mListData.size() ; i++) {
@@ -130,6 +154,7 @@ public class ChooseConfirmAddressActivity extends BaseActivity implements View.O
                                         data1.add(mListData.get(i));
                                     }
                                 }
+
                                 addressAdapters = new ChooseAddresssAdapter(R.layout.item_dialog_address,data0,"", new ChooseAddresssAdapter.Onclick() {
                                     @Override
                                     public void jump(int position) {
@@ -151,7 +176,6 @@ public class ChooseConfirmAddressActivity extends BaseActivity implements View.O
                                         startActivityForResult(intent,22);
                                     }
                                 });
-
                                 addressAdapters.setOnItemChangeClickListener(new ChooseAddresssAdapter.OnEventClickListener() {
                                     @Override
                                     public void onEventClick(View view, int position, String flag) {
@@ -190,8 +214,6 @@ public class ChooseConfirmAddressActivity extends BaseActivity implements View.O
                                 recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
                                 recyclerView.setAdapter(addressAdapters);
                                 addressAdapters.notifyDataSetChanged();
-
-
                                 addressAdapterss = new ChooseAddressssAdapter(R.layout.item_dialog_address,data1);
                                 if(data1.size()==0) {
                                     tv1.setVisibility(View.GONE);
@@ -200,9 +222,7 @@ public class ChooseConfirmAddressActivity extends BaseActivity implements View.O
                                 }
                                 recyclerView1.setLayoutManager(new LinearLayoutManager(mContext));
                                 recyclerView1.setAdapter(addressAdapterss);
-
                                 addressAdapterss.notifyDataSetChanged();
-
                                 addressAdapterss.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
@@ -224,6 +244,42 @@ public class ChooseConfirmAddressActivity extends BaseActivity implements View.O
                             }
                         } else {
                             AppHelper.showMsg(mContext, mModelAddress.message);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 搜索地址
+     */
+    List<AddressModel.DataBean> list = new ArrayList<>();
+    private void requestAddressList() {
+        AddressListAPI.requestAddressModel(mContext,searchKey)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<AddressModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(AddressModel addressModel) {
+                        if(addressModel.code == 1) {
+                            if(addressModel.data!=null && addressModel.data.size()>0) {
+                                mListData.addAll(addressModel.data);
+                                addressAdapters.notifyDataSetChanged();
+                            }else {
+                                mListData.clear();
+                                addressAdapters.notifyDataSetChanged();
+                            }
+                        }else {
+                            ToastUtil.showErroMsg(mActivity,addressModel.message);
                         }
                     }
                 });

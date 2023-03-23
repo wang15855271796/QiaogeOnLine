@@ -21,6 +21,7 @@ import com.puyue.www.qiaoge.adapter.HotAdapter;
 import com.puyue.www.qiaoge.model.mine.GetWallertRecordByPageModel;
 import com.puyue.www.qiaoge.utils.DateUtils;
 import com.puyue.www.qiaoge.view.EasySwipeMenuLayout;
+import com.puyue.www.qiaoge.view.EasyView;
 import com.puyue.www.qiaoge.view.State;
 
 import java.text.ParseException;
@@ -80,7 +81,7 @@ public class StickyListAdapter extends BaseAdapter implements StickyListHeadersA
 		holder.ll_cancel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				finalHolder.es_swiper.handlerSwipeMenu(State.CLOSE);
+				finalHolder.es_swiper.quickClose();
 			}
 		});
 
@@ -89,7 +90,7 @@ public class StickyListAdapter extends BaseAdapter implements StickyListHeadersA
 			public void onClick(View view) {
 				if(onItemDeleteListener!=null) {
 					onItemDeleteListener.onItemDelete(position,list.get(position).getId()+"");
-					finalHolder.es_swiper.handlerSwipeMenu(State.CLOSE);
+					finalHolder.es_swiper.quickClose();
 				}
 			}
 		});
@@ -156,11 +157,11 @@ public class StickyListAdapter extends BaseAdapter implements StickyListHeadersA
 		LinearLayout ll_cancel;
 		RelativeLayout rl_content;
 		LinearLayout ll_delete;
-		EasySwipeMenuLayout es_swiper;
+		EasyView es_swiper;
 		public Holder(View view) {
 			ll_delete = (LinearLayout) view.findViewById(R.id.ll_delete);
 			rl_content = (RelativeLayout) view.findViewById(R.id.rl_content);
-			es_swiper = (EasySwipeMenuLayout) view.findViewById(R.id.es_swiper);
+			es_swiper = (EasyView) view.findViewById(R.id.es_swiper);
 			ll_cancel = (LinearLayout) view.findViewById(R.id.ll_cancel);
 			tv_time = (TextView) view.findViewById(R.id.tv_time);
 			tv_price = (TextView) view.findViewById(R.id.tv_price);

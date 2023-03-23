@@ -11,6 +11,7 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
 import com.frankfancode.marqueeview.MarqueeView;
 
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -49,6 +50,7 @@ import com.puyue.www.qiaoge.activity.CommonH6Activity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.HuoHomeActivity;
 import com.puyue.www.qiaoge.activity.PlayerActivity;
+import com.puyue.www.qiaoge.activity.TestActivity;
 import com.puyue.www.qiaoge.activity.TopEvent;
 import com.puyue.www.qiaoge.activity.home.ChangeCityActivity;
 import com.puyue.www.qiaoge.activity.home.ChooseAddressActivity;
@@ -74,6 +76,7 @@ import com.puyue.www.qiaoge.adapter.HotAdapter;
 import com.puyue.www.qiaoge.adapter.HotAdapterWy;
 import com.puyue.www.qiaoge.adapter.IndexRecommendAdapter;
 import com.puyue.www.qiaoge.adapter.MarqueeAdapter;
+import com.puyue.www.qiaoge.adapter.MarqueeWyAdapter;
 import com.puyue.www.qiaoge.adapter.OrderMarqueeAdapter;
 import com.puyue.www.qiaoge.adapter.VpDiscountAdapter;
 import com.puyue.www.qiaoge.adapter.VpFullAdapter;
@@ -122,6 +125,7 @@ import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.ChangeCityModel;
 import com.puyue.www.qiaoge.model.CouponModels;
 import com.puyue.www.qiaoge.model.HomeCouponModel;
+import com.puyue.www.qiaoge.model.HomeStyleModel;
 import com.puyue.www.qiaoge.model.IsAuthModel;
 import com.puyue.www.qiaoge.model.IsShowModel;
 import com.puyue.www.qiaoge.model.OrderModel;
@@ -267,7 +271,7 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener,
     @BindView(R.id.rv_recommend)
     RecyclerView rv_recommend;
     @BindView(R.id.ll_bgc)
-    RelativeLayout ll_bgc;
+    ImageView ll_bgc;
     @BindView(R.id.rv_full)
     com.puyue.www.qiaoge.view.MarqueeView rv_full;
     @BindView(R.id.rg_new)
@@ -362,8 +366,12 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener,
     LinearLayout ll_school;
     @BindView(R.id.iv_school)
     ImageView iv_school;
+    @BindView(R.id.iv_half_school)
+    ImageView iv_half_school;
     @BindView(R.id.tv_all)
     TextView tv_all;
+    @BindView(R.id.iv_enter)
+    ImageView iv_enter;
     List<String> list = new ArrayList<>();
     private static final float ENDMARGINLEFT = 50;
     private static final float ENDMARGINTOP = 45;
@@ -450,6 +458,7 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener,
     }
 
     private void setScrollState(int scrollStateScroll) {
+
         if(couponNum>0) {
             if(scrollStateScroll == 1) {
                 ll_coupon.setVisibility(View.VISIBLE);
@@ -639,7 +648,7 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener,
 
                                 if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
                                     //企业
-                                    iv_location.setImageResource(R.mipmap.icon_company_white);
+                                    iv_location.setImageResource(R.mipmap.ic_company_wy);
                                 }else {
                                     //城市
                                     iv_location.setImageResource(R.mipmap.ic_address_white);
@@ -700,23 +709,21 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener,
             }
         });
 
-        SchoolDialog schoolDialog = new SchoolDialog(mActivity) {
-            @Override
-            public void GoToSchool() {
-                Intent intent = new Intent(mActivity, PlayerActivity.class);
-                startActivity(intent);
-                dismiss();
-            }
+//        SchoolDialog schoolDialog = new SchoolDialog(mActivity) {
+//            @Override
+//            public void GoToSchool() {
+//                Intent intent = new Intent(mActivity, SchoolActivity.class);
+//                startActivity(intent);
+//                dismiss();
+//            }
+//
+//            @Override
+//            public void Confirm() {
+//                dismiss();
+//            }
+//        };
 
-            @Override
-            public void Confirm() {
-                dismiss();
-            }
-        };
-
-        schoolDialog.show();
-
-
+//        schoolDialog.show();
         tv_change.setOnClickListener(this);
         tv_change_address.setOnClickListener(this);
         iv_location.setOnClickListener(this);
@@ -728,7 +735,9 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener,
         iv_huo_company.setOnClickListener(this);
         ll_coupon.setOnClickListener(this);
         lav_activity_loading.show();
-        ll_school.setOnClickListener(this);
+        iv_school.setOnClickListener(this);
+        iv_enter.setOnClickListener(this);
+        iv_half_school.setOnClickListener(this);
         requestUpdate();
         refreshLayout.autoRefresh();
         mTypedialog = new AlertDialog.Builder(mActivity, R.style.DialogStyle).create();
@@ -745,6 +754,7 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener,
                 isShow();
                 getOrder();
                 getBaseLists();
+                getHomeStyle();
                 getSpikeList();
                 getCustomerPhone();
                 getMessage();
@@ -1593,6 +1603,7 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener,
                                         listBeans.add(list.get(0));
                                         listBeans.add(list.get(1));
                                         listBeans.add(list.get(2));
+                                        listBeans.add(list.get(3));
                                     }else {
                                         listBeans.addAll(list);
                                     }
@@ -1950,7 +1961,7 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener,
     /**
      * 获取首页信息
      */
-    MarqueeAdapter marqueeAdapters;
+    MarqueeWyAdapter marqueeAdapters;
     private void getBaseLists() {
         IndexHomeAPI.getIndexInfo(mActivity)
                 .subscribeOn(Schedulers.io())
@@ -1980,12 +1991,12 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener,
                                 recommendList.clear();
                                 classifyList.clear();
                                 lav_activity_loading.hide();
-
                                 if(data.getNoticeInfo()!=null && data.getNoticeInfo().size()> 0) {
-                                    marqueeAdapters = new MarqueeAdapter();
+                                    marqueeAdapters = new MarqueeWyAdapter();
                                     marqueeAdapters.setData(data.getNoticeInfo(),getActivity());
                                     marqueeView.setAdapter(marqueeAdapters);
                                     marqueeView.setVisibility(View.VISIBLE);
+
                                 }else {
                                     marqueeView.setVisibility(View.GONE);
                                 }
@@ -2008,6 +2019,12 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener,
 
                                 if(!SharedPreferencesUtil.getString(mActivity,"once").equals("0")) {
                                     getDialog(indexInfoModel);
+                                }
+
+                                if(couponListModels.isShowQgSchool()) {
+                                    ll_school.setVisibility(View.VISIBLE);
+                                }else {
+                                    ll_school.setVisibility(View.GONE);
                                 }
 
                                 tv_times.setText(indexInfoModel.getData().getReturnAmountTime() + "小时快速退款");
@@ -2057,8 +2074,8 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener,
                                         banner.setIndicatorGravity(BannerConfig.RIGHT);
                                         ClickBanner(data.getBanners());
                                         banner.start();
-                                        List<IndexInfoModel.DataBean.BannersBean> banners = data.getBanners();
                                         ll_bgc.setVisibility(View.VISIBLE);
+
                                     } else {
                                         banner.setVisibility(View.GONE);
                                         ll_bgc.setVisibility(View.GONE);
@@ -2138,6 +2155,43 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener,
                         } else {
                             AppHelper.showMsg(mActivity, indexInfoModel.getMessage());
                             lav_activity_loading.hide();
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 获取首页风格
+     */
+    HomeStyleModel.DataBean styleData;
+    private void getHomeStyle() {
+        IndexHomeAPI.getStyle(mActivity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<HomeStyleModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(HomeStyleModel homeStyleModel) {
+                        if(homeStyleModel.getCode()==1) {
+                            if(homeStyleModel.getData()!=null) {
+                                styleData = homeStyleModel.getData();
+                                if(styleData.getAppHomeUrl()!=null&& styleData.getAppHomeUrl().equals("")) {
+                                    Glide.with(mActivity).load(styleData.getAppHomeUrl()).into(ll_bgc);
+                                }
+//                                normal常规，black_white黑白，may_day五一，national_day国庆，spring_festival春节
+
+                            }
+
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,homeStyleModel.getMessage());
                         }
                     }
                 });
@@ -2340,12 +2394,25 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener,
         });
     }
 
+    boolean isIndentation = false;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.ll_school:
+            case R.id.iv_school:
                 Intent intentsc = new Intent(mActivity, SchoolActivity.class);
                 startActivity(intentsc);
+                break;
+
+            case R.id.iv_enter:
+                iv_school.setVisibility(View.GONE);
+                iv_enter.setVisibility(View.GONE);
+                iv_half_school.setVisibility(View.VISIBLE);
+                break;
+
+               case R.id.iv_half_school:
+                   iv_school.setVisibility(View.VISIBLE);
+                   iv_enter.setVisibility(View.VISIBLE);
+                   iv_half_school.setVisibility(View.GONE);
                 break;
             case R.id.rl_huo:
                 if(data.getHllOrderCallNum()>1) {
@@ -2445,7 +2512,7 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener,
                 int newPosition = data.getIntExtra("NewPosition", 5);//NewPosition
                 if (newPosition > 0) {
                     tv_num.setVisibility(View.VISIBLE);
-                    tv_num.setText("  " + newPosition + "  ");
+                    tv_num.setText(newPosition + "");
                 } else {
                     tv_num.setVisibility(View.GONE);
                 }
@@ -2486,7 +2553,7 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener,
         //消息中心
         if (mModelMyOrderNum.getData().getNotice() > 0) {
             tv_num.setVisibility(View.VISIBLE);
-            tv_num.setText("  " + mModelMyOrderNum.getData().getNotice() + "  ");
+            tv_num.setText(mModelMyOrderNum.getData().getNotice() + "");
         } else {
             tv_num.setVisibility(View.GONE);
         }

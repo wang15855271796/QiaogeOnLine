@@ -22,6 +22,7 @@ import com.luck.picture.lib.tools.DateUtils;
 //import com.luck.picture.lib.tools.DebugUtil;
 import com.luck.picture.lib.tools.StringUtils;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -50,6 +51,10 @@ public class ShopImageViewAdapter extends RecyclerView.Adapter<ShopImageViewAdap
 
     public interface onAddPicClickListener {
         void onAddPicClick();
+    }
+
+    public List<LocalMedia> getData() {
+        return list == null ? new ArrayList<>() : list;
     }
 
     public ShopImageViewAdapter(Context context, onAddPicClickListener mOnAddPicClickListener) {
@@ -118,7 +123,6 @@ public class ShopImageViewAdapter extends RecyclerView.Adapter<ShopImageViewAdap
      */
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
-
         //少于8张，显示继续添加的图标
         if (getItemViewType(position) == TYPE_CAMERA) {
             viewHolder.mImg.setImageResource(R.mipmap.post_photo);
@@ -142,13 +146,17 @@ public class ShopImageViewAdapter extends RecyclerView.Adapter<ShopImageViewAdap
                         list.remove(index);
                         notifyItemRemoved(index);
                         notifyItemRangeChanged(index, list.size());
-//                        DebugUtil.i("delete position:", index + "--->remove after:" + list.size());
                     }
                 }
             });
             LocalMedia media = list.get(position);
-            String mimeType = media.getMimeType();
             viewHolder.iv_player.setVisibility(PictureMimeType.isHasVideo(media.getMimeType()) ? View.VISIBLE : View.GONE);
+//            long videoSize = media.getSize() / 1024 / 1024;
+//
+//            if(videoSize>100) {
+//                ToastUtil.showSuccessMsg(context,"视频不能大于100M");
+//                return;
+//            }
 
             String path = "";
             if (media.isCut() && !media.isCompressed()) {
@@ -168,7 +176,6 @@ public class ShopImageViewAdapter extends RecyclerView.Adapter<ShopImageViewAdap
             }
 
             Log.i("原图地址::", media.getPath());
-//            int pictureType = PictureMimeType.isPictureType(media.getPictureType());
             if (media.isCut()) {
                 Log.i("裁剪地址::", media.getCutPath());
             }
@@ -178,7 +185,7 @@ public class ShopImageViewAdapter extends RecyclerView.Adapter<ShopImageViewAdap
                     .placeholder(R.color.color_f6)
                     .diskCacheStrategy(DiskCacheStrategy.ALL);
             Glide.with(viewHolder.itemView.getContext())
-                    .load(path)
+                    .load(media.getPath())
                     .apply(options)
                     .into(viewHolder.mImg);
             //itemView 的点击事件

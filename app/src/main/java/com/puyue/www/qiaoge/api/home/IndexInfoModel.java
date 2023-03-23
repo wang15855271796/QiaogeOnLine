@@ -116,6 +116,15 @@ public class IndexInfoModel {
         private HllTip hllTip;
         String companyName;
         private List<NoticeInfoBean> noticeInfo;
+        boolean showQgSchool;
+
+        public boolean isShowQgSchool() {
+            return showQgSchool;
+        }
+
+        public void setShowQgSchool(boolean showQgSchool) {
+            this.showQgSchool = showQgSchool;
+        }
 
         public List<NoticeInfoBean> getNoticeInfo() {
             return noticeInfo;
@@ -1256,7 +1265,17 @@ public class IndexInfoModel {
             private String secTitle;
             private List<String> prodPics;
             private int itemType;
-//
+            private String floatText;
+
+            public String getFloatText() {
+                return floatText;
+            }
+
+            public void setFloatText(String floatText) {
+                this.floatText = floatText;
+            }
+
+            //
             public String getSecTitle() {
                 return secTitle;
             }

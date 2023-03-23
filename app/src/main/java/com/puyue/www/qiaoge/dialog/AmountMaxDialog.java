@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -46,7 +48,7 @@ public abstract class AmountMaxDialog extends Dialog implements View.OnClickList
         tv_ok.setOnClickListener(this);
         iv_close.setOnClickListener(this);
         //0不限制  1限制
-        SharedPreferencesUtil.saveString(mContext,"amount_limit","1");
+        SharedPreferencesUtil.saveString(mContext,"amount_limit","0");
         swipe.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             //0不限制 1限制

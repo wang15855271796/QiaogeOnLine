@@ -41,9 +41,4 @@
             android:textSize="@dimen/dp_10" />
 
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_1dp"
-        android:background="@color/color_F6F6F6" />
 </LinearLayout>

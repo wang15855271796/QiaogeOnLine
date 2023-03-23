@@ -62,6 +62,7 @@ public class ComputedFullModel {
         private String needBuyAmt;
         private String offerAmt;
         private String nextOfferAmt;
+        private String deductAmt;
         private String tips;
 
         @Override
@@ -72,6 +73,14 @@ public class ComputedFullModel {
                     ", nextOfferAmt='" + nextOfferAmt + '\'' +
                     ", tips='" + tips + '\'' +
                     '}';
+        }
+
+        public String getDeductAmt() {
+            return deductAmt;
+        }
+
+        public void setDeductAmt(String deductAmt) {
+            this.deductAmt = deductAmt;
         }
 
         public String getNeedBuyAmt() {

@@ -4,6 +4,7 @@ package com.barbecue.app.wxapi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 
 import com.puyue.www.qiaoge.event.WeChatPayEvent;
@@ -49,13 +50,13 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
             switch (code) {
                 case 0:
                     AppHelper.showMsg(this, "支付成功");
-                    EventBus.getDefault().post(new WeChatPayEvent());
+                    EventBus.getDefault().post(new WeChatPayEvent("1"));
 
                     finish();
                     break;
                 case -1:
                     AppHelper.showMsg(this, "支付失败");
-                    EventBus.getDefault().post(new WeChatPayEvent());
+                    EventBus.getDefault().post(new WeChatPayEvent("2"));
                     finish();
                     break;
                 case -2:
@@ -66,7 +67,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
                 default:
                     AppHelper.showMsg(this, "支付失败");
                     setResult(RESULT_OK);
-                    EventBus.getDefault().post(new WeChatPayEvent());
+                    EventBus.getDefault().post(new WeChatPayEvent("2"));
                     finish();
                     break;
             }
