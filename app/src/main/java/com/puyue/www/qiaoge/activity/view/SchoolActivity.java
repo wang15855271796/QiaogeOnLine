@@ -74,6 +74,7 @@ public class SchoolActivity extends BaseActivity implements View.OnClickListener
         smart.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
+                videos.clear();
                 getSchoolVideoList();
                 refreshLayout.finishRefresh();
             }

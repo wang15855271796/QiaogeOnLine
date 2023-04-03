@@ -157,8 +157,11 @@ public class MinerIntegralActivity extends BaseSwipeActivity {
     }
 
     private void updateOrderList(MinerIntegralModel minerIntegralModel) {
+        if(minerIntegralModel.getData().getPoint()!=null && !minerIntegralModel.getData().getPoint().equals("")) {
+            tvIntegral.setText(minerIntegralModel.getData().getPoint() + "");
+        }
+
         Url = minerIntegralModel.getData().getPointMallUrl();
-        tvIntegral.setText(minerIntegralModel.getData().getPoint() + "");
         tv_city.setText(minerIntegralModel.getData().getCompanyName());
         if (pageNum == 1) {
             //第一次加载

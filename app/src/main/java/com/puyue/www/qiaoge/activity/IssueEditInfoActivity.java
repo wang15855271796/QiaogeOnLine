@@ -106,6 +106,7 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
     private List<String> picList = new ArrayList();
     String returnPic;
     ProgressDialog progressDialog;
+    private List<LocalMedia> selectList = new ArrayList<>();
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -272,7 +273,7 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
                     int outHeight = originHeight / 2;
 
                     VideoProcessor.processor(getApplicationContext())
-                            .input(selectedVideoUri)
+                            .input(parse)
                             .output(filePath)
                             .outWidth(outWidth)
                             .outHeight(outHeight)
@@ -300,8 +301,7 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
             name = name.substring(0,end);
         }
         String strUri = VideoUtil.savaVideoToMediaStore(this, videoPath, name, "From VideoProcessor", "video/mp4");
-        Log.d("wdasdwsdss....",strUri+"--");
-        coverList.add(strUri);
+        coverList.add(videoPath);
         upCover(filesToMultipartBodyParts(coverList));
 
     }
@@ -476,6 +476,42 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
                             });
                             recyclerView.setLayoutManager(manager);
                             recyclerView.setAdapter(shopImageViewAdapter);
+
+                            shopImageViewAdapter.setOnItemClickListener(new OnItemClickListener() {
+                                @Override
+                                public void onItemClick(View v, int position) {
+//                                    List<LocalMedia> data = shopImageViewAdapter.getData();
+//                                    images.get(position).getRealPath()
+                                    if(pictureLists.get(position).contains(".mp4")) {
+                                        PictureSelector.create(mActivity).externalPictureVideo(pictureLists.get(position));
+                                    }else {
+                                        AppHelper.showPhotoDetailDialog(mContext, pictureLists, position);
+                                    }
+
+//                                    if (data.size() > 0) {
+//                                        LocalMedia media = images.get(position);
+//                                        String pictureType = media.getMimeType();
+//                                        int mediaType = PictureMimeType.getMimeType(pictureType);
+//
+//                                        switch (mediaType) {
+//                                            case 1:
+//                                                // 预览图片 可自定长按保存路径
+//                                                //PictureSelector.create(MainActivity.this).externalPicturePreview(position, "/custom_file", selectList);
+//                                              PictureSelector.create(ShopDetailActivity.this).externalPictureVideo(pictureList.get(position));
+////                            PictureSelector.create(ShopDetailActivity.this).externalPictureVideo(pictureList.get(position));
+//                                                break;
+//                                            case 2:
+//                                                // 预览视频
+//                                                PictureSelector.create(mActivity).externalPictureVideo(media.getPath());
+//                                                break;
+//                                            case 3:
+//                                                // 预览音频
+//                                                PictureSelector.create(mActivity).externalPictureAudio(media.getPath());
+//                                                break;
+//                                        }
+//                                    }
+                                }
+                            });
                         } else {
                             AppHelper.showMsg(mContext, infoListModel.getMessage());
                         }
@@ -522,6 +558,7 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
                                 .maxSelectNum(1)
                                 .maxVideoSelectNum(1)
 //                                .minSelectNum(1)
+                                .queryMaxFileSize(55)
                                 .imageSpanCount(4)
                                 .isCompress(true)
                                 .isCamera(false)
@@ -592,16 +629,23 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
                 upImage(filesToMultipartBodyParts(picList));
             }else {
                 //视频
-//                String realPath = media.getRealPath();
-//                executeScaleVideo(realPath);
-                coverList.add(media.getRealPath());
-//                upVideo(filesToMultipartBodyParts(picList));
-                upCover(filesToMultipartBodyParts(coverList));
-            }
-        }
 
-//        shopImageViewAdapter.setList(selectList);
-//        shopImageViewAdapter.notifyDataSetChanged();
+//                upVideo(filesToMultipartBodyParts(picList));
+                coverList.add(media.getRealPath());
+                upCover(filesToMultipartBodyParts(coverList));
+//                if(media.getSize()/1024/1024>30) {
+//                    String realPath = media.getRealPath();
+//                    executeScaleVideo(realPath);
+//                }else {
+//                    coverList.add(media.getRealPath());
+//                    upCover(filesToMultipartBodyParts(coverList));
+//                }
+
+            }
+
+            selectList.addAll(images);
+            shopImageViewAdapter.setList(selectList);
+        }
     }
 
 
@@ -626,7 +670,6 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("awsdas.....",e.getMessage()+"---");
                     }
 
                     @Override
@@ -638,6 +681,7 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
                                 pictureLists.addAll(baseModel.data);
                                 for(String url: baseModel.data) {
                                     videoCoverUrl = url;
+                                    videoUrl = url;
                                 }
                                 returnPic = gson.toJson(picsList);
                                 shopImageViewAdapter.notifyDataSetChanged();
@@ -651,40 +695,6 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
                 });
     }
 
-    private void upVideo(List<MultipartBody.Part> filesToMultipartBodyParts) {
-        SendImageAPI.requestImg(mContext, filesToMultipartBodyParts)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SendImagesModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(SendImagesModel baseModel) {
-                        if (baseModel.success) {
-                            videoUrl = "";
-                            Gson gson = new Gson();
-                            if (baseModel.data != null) {
-                                for(String url: baseModel.data) {
-                                    videoUrl = url;
-                                }
-                            }
-
-                            returnPic = gson.toJson(picsList);
-
-                        } else {
-                            AppHelper.showMsg(mContext, baseModel.message);
-                        }
-                    }
-                });
-    }
 
     String datum;
     int position = -1;

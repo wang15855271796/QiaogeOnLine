@@ -28,11 +28,11 @@
 
             <ImageView
                 android:id="@+id/iv_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/size_12dp"
                 android:layout_marginTop="@dimen/size_12dp"
                 android:padding="@dimen/dp_10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:src="@mipmap/iv_close_black" />
 
         </RelativeLayout>

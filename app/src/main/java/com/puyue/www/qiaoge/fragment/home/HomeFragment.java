@@ -485,13 +485,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             if(scrollStateScroll == 1) {
                 ll_coupon.setVisibility(View.VISIBLE);
                 iv_coupon.setVisibility(View.GONE);
-//                ll_school.setVisibility(View.VISIBLE);
-//                iv_school.setVisibility(View.GONE);
             }else {
                 ll_coupon.setVisibility(View.GONE);
                 iv_coupon.setVisibility(View.VISIBLE);
-//                ll_school.setVisibility(View.GONE);
-//                iv_school.setVisibility(View.VISIBLE);
             }
         }else {
             ll_coupon.setVisibility(View.GONE);
@@ -729,21 +725,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             }
         });
 
-//        SchoolDialog schoolDialog = new SchoolDialog(mActivity) {
-//            @Override
-//            public void GoToSchool() {
-//                Intent intent = new Intent(mActivity, SchoolActivity.class);
-//                startActivity(intent);
-//                dismiss();
-//            }
-//
-//            @Override
-//            public void Confirm() {
-//                dismiss();
-//            }
-//        };
-//
-//        schoolDialog.show();
 
 
         tv_change.setOnClickListener(this);
@@ -757,7 +738,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         iv_huo_company.setOnClickListener(this);
         ll_coupon.setOnClickListener(this);
         lav_activity_loading.show();
-        ll_school.setOnClickListener(this);
+        iv_school.setOnClickListener(this);
+        iv_enter.setOnClickListener(this);
+        iv_half_school.setOnClickListener(this);
         requestUpdate();
         refreshLayout.autoRefresh();
         mTypedialog = new AlertDialog.Builder(mActivity, R.style.DialogStyle).create();
@@ -2198,6 +2181,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             @Override
             public void OnBannerClick(int position) {
                 showType = banners.get(position).getShowType();
+
+                if(showType == 6) {
+                    mActivity.startActivity(new Intent(mActivity, HomeActivity.class));
+                    EventBus.getDefault().post(new GoToMarketEvent());
+                    EventBus.getDefault().postSticky(new FromIndexEvent(banners.get(position).getBusinessId() + ""));
+                }
+
                 if (showType == 1 || banners.get(position).getLinkSrc() != null) {
                     //链接 banners.get(position).getLinkSrc()
                     Intent intent = new Intent(getActivity(), NewWebViewActivity.class);
@@ -2280,8 +2270,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                         intent.putExtra(AppConstant.ACTIVEID, businessId);
                         startActivity(intent);
                     }
-
                 }
+
 
             }
         });
@@ -2371,6 +2361,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
             case R.id.iv_school:
                 Intent intentsc = new Intent(mActivity, SchoolActivity.class);
                 startActivity(intentsc);

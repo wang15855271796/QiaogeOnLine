@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -189,6 +190,7 @@ public class AskActivity extends BaseActivity implements View.OnClickListener {
                 });
     }
 
+    boolean isLoaded = false;
     private void parseData(List<AreaModel.DataBean> data) {
         options1Items = data;
 ////     遍历省
@@ -226,7 +228,7 @@ public class AskActivity extends BaseActivity implements View.OnClickListener {
 
         }
 
-//        isLoaded = true;
+        isLoaded = true;
     }
 
     //选择地址
@@ -264,13 +266,9 @@ public class AskActivity extends BaseActivity implements View.OnClickListener {
 
             case R.id.tv_edit_address:
                 hintKbTwo();
-                if(UserInfoHelper.getUserId(mActivity)!=null && !UserInfoHelper.getUserId(mActivity).equals("")) {
+                if(isLoaded) {
                     showPickerView();
-                }else {
-                    Intent intent1 = new Intent(mContext, LoginActivity.class);
-                    startActivity(intent1);
                 }
-
                 break;
 
             case R.id.iv_back:

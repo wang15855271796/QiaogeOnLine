@@ -35,10 +35,13 @@ import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
+import com.luck.picture.lib.PictureSelector;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.HomeActivity;
+import com.puyue.www.qiaoge.activity.mine.ShopDetailActivity;
 import com.puyue.www.qiaoge.adapter.FullDescDialogAdapter;
+import com.puyue.www.qiaoge.adapter.PhotoVideoViewAdapter;
 import com.puyue.www.qiaoge.adapter.market.PhotoViewAdapter;
 import com.puyue.www.qiaoge.api.cart.CartListAPI;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
@@ -786,4 +789,91 @@ public class AppHelper {
                     }
                 });
     }
+
+    /**
+     * 查看大图
+     */
+    public static void showIssueDetailDialog(Activity mContext, final List<String> mListUrl, int position) {
+        dialog = new Dialog(mContext, R.style.Theme_Light_Dialog);
+        dialogView = LayoutInflater.from(mContext).inflate(R.layout.dialog_show_photo, null);
+        //获得dialog的window窗口
+        Window window = dialog.getWindow();
+        //设置dialog在屏幕底部
+        window.setGravity(Gravity.BOTTOM);
+        //设置dialog弹出时的动画效果，从屏幕底部向上弹出
+        // window.setWindowAnimations(R.style.dialogStyle);
+        window.getDecorView().setPadding(0, 0, 0, 0);
+        //获得window窗口的属性
+        WindowManager.LayoutParams lp = window.getAttributes();
+        //设置窗口宽度为充满全屏
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        //设置窗口高度为包裹内容
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        //将设置好的属性set回去
+        window.setAttributes(lp);
+        //将自定义布局加载到dialog上
+        dialog.setContentView(dialogView);
+        final TextView mTv = dialog.findViewById(R.id.tv_dialog_photo);
+        PhotoViewPager mVp = dialog.findViewById(R.id.vp_dialog_photo);
+        FingerFrameLayout mFl = dialog.findViewById(R.id.ffl_dialog_photo);
+        mFl.setOnAlphaChangeListener(new FingerFrameLayout.onAlphaChangedListener() {
+            @Override
+            public void onAlphaChanged(float alpha) {
+                Log.e("fengan", "[onAlphaChanged]:alpha=" + alpha);
+            }
+
+            @Override
+            public void onTranslationYChanged(float translationY) {
+                Log.e("fengan", "[onTranslationYChanged]:translationY=" + translationY);
+            }
+
+            @Override
+            public void onFinishAction() {
+                hidePhotoDetailDialog();
+            }
+        });
+        PhotoVideoViewAdapter photoViewAdapter = new PhotoVideoViewAdapter(mListUrl, mContext);
+        mVp.setAdapter(photoViewAdapter);
+        mVp.setCurrentItem(position);
+        mTv.setText(position  + 1+"/" + mListUrl.size());
+
+        photoViewAdapter.setPhotoListener(new PhotoVideoViewAdapter.OnPhotoListener() {
+            @Override
+            public void onPhotoListenter() {
+                if (dialog!=null){
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        mVp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mTv.setText(position + 1 + "/" + mListUrl.size());
+                mTv.getBackground().setAlpha(100);
+
+                if(mListUrl.get(position).contains(".mp4")) {
+                    PictureSelector.create(mContext).externalPictureVideo(mListUrl.get(position));
+                }else {
+
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+
+
+        dialog.show();
+        isShow = true;
+    }
+
 }

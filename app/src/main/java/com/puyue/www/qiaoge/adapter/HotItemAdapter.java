@@ -100,7 +100,7 @@ public class HotItemAdapter extends BaseQuickAdapter<ExchangeProductModel.DataBe
         });
 
 
-        if(!item.getOldPrice().equals("")&&item.getOldPrice()!=null) {
+        if(item.getOldPrice()!=null&&!item.getOldPrice().equals("")) {
             iv_reduce.setImageResource(R.mipmap.icon_jiangjia);
             iv_reduce.setVisibility(View.VISIBLE);
         }else {

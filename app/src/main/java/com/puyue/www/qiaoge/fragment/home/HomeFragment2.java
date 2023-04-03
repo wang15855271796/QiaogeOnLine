@@ -463,13 +463,9 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener,
             if(scrollStateScroll == 1) {
                 ll_coupon.setVisibility(View.VISIBLE);
                 iv_coupon.setVisibility(View.GONE);
-//                ll_school.setVisibility(View.VISIBLE);
-//                iv_school.setVisibility(View.GONE);
             }else {
                 ll_coupon.setVisibility(View.GONE);
                 iv_coupon.setVisibility(View.VISIBLE);
-//                ll_school.setVisibility(View.GONE);
-//                iv_school.setVisibility(View.VISIBLE);
             }
         }else {
             ll_coupon.setVisibility(View.GONE);
@@ -2224,6 +2220,12 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener,
             @Override
             public void OnBannerClick(int position) {
                 showType = banners.get(position).getShowType();
+                if(showType == 6) {
+                    mActivity.startActivity(new Intent(mActivity, HomeActivity.class));
+                    EventBus.getDefault().post(new GoToMarketEvent());
+                    EventBus.getDefault().postSticky(new FromIndexEvent(banners.get(position).getBusinessId() + ""));
+                }
+
                 if (showType == 1 || banners.get(position).getLinkSrc() != null) {
                     //链接 banners.get(position).getLinkSrc()
                     Intent intent = new Intent(getActivity(), NewWebViewActivity.class);
@@ -3016,7 +3018,6 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener,
     }
 
     private void getCommonStateTop() {
-        Log.d("wsssss........","444");
         rb_common_top.setChecked(true);
         rb_new.setChecked(false);
         rb_reduce.setChecked(false);

@@ -4,6 +4,7 @@ import android.content.Intent;
 import androidx.annotation.Nullable;
 
 import android.view.View;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -28,10 +29,14 @@ public class MarketsAdapter extends BaseQuickAdapter<InfoListModel.DataBean.List
     protected void convert(BaseViewHolder helper, InfoListModel.DataBean.ListBean item) {
         helper.setIsRecyclable(false);
         RoundImageView iv_pic = helper.getView(R.id.iv_pic);
+        ImageView iv_player = helper.getView(R.id.iv_player);
+
         if(item.getVideoCoverUrl()!=null) {
+            iv_player.setVisibility(View.VISIBLE);
             Glide.with(mContext).load(item.getVideoCoverUrl()).into(iv_pic);
         }else {
             if(item.getPictureList()!=null&&item.getPictureList().size()>0) {
+                iv_player.setVisibility(View.GONE);
                 Glide.with(mContext).load(item.getPictureList().get(0)).into(iv_pic);
             }
         }

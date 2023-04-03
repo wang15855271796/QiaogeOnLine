@@ -250,42 +250,6 @@ public class ChooseConfirmAddressActivity extends BaseActivity implements View.O
     }
 
     /**
-     * 搜索地址
-     */
-    List<AddressModel.DataBean> list = new ArrayList<>();
-    private void requestAddressList() {
-        AddressListAPI.requestAddressModel(mContext,searchKey)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<AddressModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(AddressModel addressModel) {
-                        if(addressModel.code == 1) {
-                            if(addressModel.data!=null && addressModel.data.size()>0) {
-                                mListData.addAll(addressModel.data);
-                                addressAdapters.notifyDataSetChanged();
-                            }else {
-                                mListData.clear();
-                                addressAdapters.notifyDataSetChanged();
-                            }
-                        }else {
-                            ToastUtil.showErroMsg(mActivity,addressModel.message);
-                        }
-                    }
-                });
-    }
-
-    /**
      * 设置默认地址
      * @param defaultId
      * @param orderId

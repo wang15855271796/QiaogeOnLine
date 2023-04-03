@@ -27,13 +27,6 @@
                 android:scaleType="fitXY"
                 android:src="@mipmap/bg_emptys" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:background="@drawable/shape_grey_alpha1"
-                android:layout_alignParentBottom="true"
-                android:alpha="0.1"
-                android:layout_height="@dimen/size_60dp"/>
-
             <TextView
                 android:id="@+id/tv_player_num"
                 android:layout_width="wrap_content"

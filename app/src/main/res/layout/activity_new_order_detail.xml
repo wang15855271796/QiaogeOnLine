@@ -400,6 +400,23 @@
                             android:text="呼叫货拉拉"
                             android:textColor="#ffffff"
                             android:textSize="10sp" />
+
+                        <TextView
+                            android:id="@+id/tv_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/dp_10"
+                            android:text="配对中>"
+                            android:textColor="#ffffff"
+                            android:paddingLeft="@dimen/size_5dp"
+                            android:paddingRight="@dimen/size_5dp"
+                            android:paddingBottom="@dimen/size_3dp"
+                            android:paddingTop="@dimen/size_3dp"
+                            android:background="@drawable/shape_jianbian10"
+                            android:textSize="11sp"
+                            android:visibility="gone" />
+
                     </LinearLayout>
 
                     <RelativeLayout
@@ -411,7 +428,8 @@
                         android:layout_marginTop="@dimen/size_15dp"
                         android:layout_marginRight="@dimen/dp_10"
                         android:background="@drawable/shape_jianbian26"
-                        android:visibility="gone">
+                        android:visibility="gone"
+                        >
 
                         <TextView
                             android:id="@+id/tv_hll_order"
@@ -426,7 +444,7 @@
                         <com.puyue.www.qiaoge.activity.flow.TagFlowLayout
                             android:id="@+id/rv_huo"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/size_30dp"
+                            android:layout_height="wrap_content"
                             android:layout_below="@+id/tv_hll_order"
                             android:layout_marginLeft="@dimen/size_10dp"
                             android:layout_marginTop="@dimen/size_5dp"
@@ -435,7 +453,7 @@
                             android:background="@drawable/shape_white1"
                             app:is_limit="true"
                             app:limit_line_count="3"
-                            app:max_select="1"
+                            app:max_select="3"
                             app:tag_gravity="right" />
 
 
@@ -451,18 +469,6 @@
                             android:textSize="11sp"
                             android:visibility="gone" />
                     </RelativeLayout>
-
-                    <TextView
-                        android:id="@+id/tv_style"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/rv_huo"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginTop="@dimen/size_27dp"
-                        android:layout_marginRight="@dimen/dp_10"
-                        android:text="配对中>"
-                        android:textSize="11sp"
-                        android:visibility="gone" />
 
                 </RelativeLayout>
 

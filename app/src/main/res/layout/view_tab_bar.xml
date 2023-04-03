@@ -17,9 +17,10 @@
         android:paddingTop="10dp">
 
         <ImageView
+            android:visibility="gone"
             android:id="@+id/iv_tab_bar_home_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/size_20dp"
+            android:layout_height="@dimen/size_20dp"
             android:src="@mipmap/ic_tab_home_unable" />
 
         <TextView
@@ -35,8 +36,7 @@
             android:visibility="gone"
             android:id="@+id/iv_home"
             android:layout_width="@dimen/dp_40"
-            android:layout_height="@dimen/dp_40"
-            android:src="@mipmap/ic_tab_home_enable" />
+            android:layout_height="@dimen/dp_40" />
     </LinearLayout>
 
     <LinearLayout
@@ -50,8 +50,8 @@
 
         <ImageView
             android:id="@+id/iv_tab_bar_market_icon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="@dimen/size_20dp"
+            android:layout_height="wrap_content"
             android:src="@mipmap/ic_tab_goods_unable" />
 
         <TextView

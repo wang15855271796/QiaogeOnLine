@@ -72,7 +72,6 @@ public class ShopImageViewAdapter extends RecyclerView.Adapter<ShopImageViewAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
         ImageView mImg;
         LinearLayout ll_del;
         ImageView iv_player;

@@ -47,6 +47,7 @@ import com.puyue.www.qiaoge.api.mine.AccountCenterAPI;
 import com.puyue.www.qiaoge.api.mine.login.LoginAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.constant.AppConstant;
+import com.puyue.www.qiaoge.dialog.PayErrorDialog;
 import com.puyue.www.qiaoge.dialog.YueDialog;
 import com.puyue.www.qiaoge.event.WeChatPayEvent;
 import com.puyue.www.qiaoge.event.WeChatUnPayEvent;
@@ -144,6 +145,7 @@ public class PaymentFragment extends DialogFragment {
         btnPay.setOnClickListener(listener);
         tv_amount.setText(total);
         iv_close.setOnClickListener(listener);
+        tv_balance.setClickable(false);
         iv_closes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -291,8 +293,9 @@ public class PaymentFragment extends DialogFragment {
 
     // 支付
     String outTradeNo;
+    int errorFlag = 0;
     private void orderPays(final String orderId, final byte payChannel, double payAmount, String remark) {
-        OrderPayAPI.requestData(getContext(), orderId, payChannel, payAmount, remark)
+        OrderPayAPI.requestData(getContext(), orderId, payChannel, payAmount, remark,errorFlag)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<OrderPayModel>() {
@@ -394,6 +397,21 @@ public class PaymentFragment extends DialogFragment {
 
                             lav_activity_loading.setVisibility(View.GONE);
                             lav_activity_loading.hide();
+                        } else if(orderPayModel.code ==100006) {
+                            //ok
+                            PayErrorDialog payErrorDialog = new PayErrorDialog(getContext(), orderPayModel.message) {
+                                @Override
+                                public void Confirm() {
+                                    errorFlag = 1;
+                                    orderPays(orderId, payChannel, payAmount, remark);
+                                }
+
+                                @Override
+                                public void Cancel() {
+                                    dismiss();
+                                }
+                            };
+                            payErrorDialog.show();
                         } else {
                             //ok
                             lav_activity_loading.setVisibility(View.GONE);
@@ -812,11 +830,13 @@ public class PaymentFragment extends DialogFragment {
 
                     @Override
                     public void onError(Throwable e) {
+                        tv_balance.setClickable(true);
                     }
 
                     @Override
                     public void onNext(PayListModel payListModel) {
                         if (payListModel.success) {
+                            tv_balance.setClickable(true);
                             data = payListModel.getData();
                             list.clear();
                             list.addAll(data);
@@ -876,6 +896,7 @@ public class PaymentFragment extends DialogFragment {
                             });
 
                         } else {
+                            tv_balance.setClickable(true);
                             AppHelper.showMsg(getContext(), payListModel.message);
                         }
                     }

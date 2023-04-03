@@ -227,6 +227,7 @@ public class EditAndAddActivity extends BaseSwipeActivity {
         orderId = getIntent().getStringExtra(ORDERID);
         allAddress = getIntent().getStringExtra("allAddress");
 
+        cityName=mArea;
         if(mDefault.equals("false")) {
             isOpen = false;
         }else {
@@ -272,7 +273,7 @@ public class EditAndAddActivity extends BaseSwipeActivity {
             public void afterTextChanged(Editable arg0) {
                 if(!clickFlag) {
                     if(keyWorldsView.getText().toString().length()> 4 || keyWorldsView.getText().toString().length() == 4) {
-                        showPopWindow(mArea,keyWorldsView.getText().toString());
+                        showPopWindow(cityName,keyWorldsView.getText().toString());
                     }else {
                         if(choosePopWindow!=null) {
                             choosePopWindow.dismiss();
@@ -643,6 +644,7 @@ public class EditAndAddActivity extends BaseSwipeActivity {
                 });
     }
 
+    String cityName;
     private void showPickerView() {
 
         OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
@@ -656,6 +658,7 @@ public class EditAndAddActivity extends BaseSwipeActivity {
                         options2Items.get(options1).get(options2) +
                         options3Items.get(options1).get(options2).get(options3);
                 tv_edit_address_area.setText(tx);
+                cityName = options2Items.get(options1).get(options2)+"";
                 tv_edit_address_area.setTextColor(Color.parseColor("#333333"));
                 clickFlag = false;
             }

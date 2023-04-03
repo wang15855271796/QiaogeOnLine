@@ -46,7 +46,7 @@
             <TextView
                 android:id="@+id/tv_time"
                 android:textColor="#414141"
-                tools:text="在线客服 (08:30-17:30)"
+                android:text="在线客服 (08:30-17:30)"
                 android:textSize="@dimen/sp_14"
                 android:gravity="center"
                 android:paddingLeft="@dimen/size_12dp"

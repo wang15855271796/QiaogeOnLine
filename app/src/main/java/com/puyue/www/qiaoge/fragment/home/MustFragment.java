@@ -8,8 +8,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
@@ -57,6 +59,10 @@ public class MustFragment extends BaseFragment {
     RecyclerView recyclerView;
     @BindView(R.id.smart)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.rl_content)
+    RelativeLayout rl_content;
+    @BindView(R.id.ll_no_data)
+    LinearLayout ll_no_data;
     MustAdapter mustAdapter;
     View emptyView;
     CouponDialog couponDialog;
@@ -183,6 +189,7 @@ public class MustFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void messageEventBus(BackEvent event) {
 //        getCustomerPhone();
+        refreshLayout.setNoMoreData(false);
         refreshLayout.autoRefresh();
     }
 
@@ -204,13 +211,28 @@ public class MustFragment extends BaseFragment {
 
                     @Override
                     public void onNext(ProductNormalModel getCommonProductModel) {
-                        if (getCommonProductModel.isSuccess()) {
+                        if (getCommonProductModel.getCode()==1) {
                             productModels = getCommonProductModel;
                             mustAdapter.notifyDataSetChanged();
-                            List<ProductNormalModel.DataBean.ListBean> lists = getCommonProductModel.getData().getList();
-                            list.addAll(lists);
-                            mustAdapter.notifyDataSetChanged();
-                            refreshLayout.setEnableLoadMore(true);
+                            if(getCommonProductModel.getData()!=null) {
+                                if(getCommonProductModel.getData().getList()!=null && getCommonProductModel.getData().getList().size()>0) {
+                                    List<ProductNormalModel.DataBean.ListBean> lists = getCommonProductModel.getData().getList();
+                                    list.addAll(lists);
+
+                                    mustAdapter.notifyDataSetChanged();
+                                    refreshLayout.setEnableLoadMore(true);
+                                    rl_content.setVisibility(View.VISIBLE);
+                                    ll_no_data.setVisibility(View.GONE);
+                                }else {
+                                    rl_content.setVisibility(View.GONE);
+                                    ll_no_data.setVisibility(View.VISIBLE);
+                                }
+
+                            }else {
+                                rl_content.setVisibility(View.GONE);
+                                ll_no_data.setVisibility(View.VISIBLE);
+                            }
+
                         } else {
                             AppHelper.showMsg(mActivity, getCommonProductModel.getMessage());
                         }
@@ -237,6 +259,7 @@ public class MustFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getScrolls(TopEvent event) {
         recyclerView.smoothScrollToPosition(0);
+
     }
     /**
      * 提示用户去登录还是注册的弹窗

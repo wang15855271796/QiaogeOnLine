@@ -74,7 +74,6 @@ import rx.schedulers.Schedulers;
 public class MyWalletDetailActivity extends BaseSwipeActivity {
     private TextView textViewDetailed;
     private LinearLayout linearLayoutOnclick;
-    private RecyclerView recyclerView;
     private LinearLayout data; // 没有数据的界面
     private int pageNum = 1;
 
@@ -147,7 +146,6 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
         textViewDetailed = (TextView) findViewById(R.id.textViewDetailed);
         linearLayoutOnclick = (LinearLayout) findViewById(R.id.linearLayoutOnclick);
         ll_root = (LinearLayout) findViewById(R.id.ll_root);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         data = (LinearLayout) findViewById(R.id.data);
         detailedImage = (ImageView) findViewById(R.id.detailedImage);
         tv_all = findViewById(R.id.tv_all);
@@ -200,6 +198,7 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
         adapters.setOnItemBillListener(new StickyListAdapter.OnItemBillClickListener() {
             @Override
             public void onItemClick(int pos) {
+                Log.d("wdadsd.........",mListData.get(pos).getType()+"--");
                 if (!mListData.get(pos).isNullData()) {
                     Intent intent = new Intent(mContext, MyCountDetailActivity.class);
                     intent.putExtra("id", mListData.get(pos).getId());
@@ -698,7 +697,7 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
     }
 
     private void setRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+//        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
     }
 
     //  明细筛选

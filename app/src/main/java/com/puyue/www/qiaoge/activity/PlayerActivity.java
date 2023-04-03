@@ -90,6 +90,13 @@ public class PlayerActivity extends BaseActivity {
             }
         });
 
+
+        video_player.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                video_player.startWindowFullscreen(mContext,false,false);
+            }
+        });
     }
 
     @Override
@@ -156,7 +163,7 @@ public class PlayerActivity extends BaseActivity {
                                 tv_desc.setText(data.getVideoDesc());
                                 tv_time.setText(data.getDateTime());
                                 tv_num.setText(data.getViewNum());
-                                Log.d("sddadas....",data.getViewNum()+"--");
+                                tv_title.setText(data.getVideoName());
                             }
                         }else {
                             ToastUtil.showSuccessMsg(mContext,videoDetailModel.getMessage());
@@ -165,4 +172,9 @@ public class PlayerActivity extends BaseActivity {
                 });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        video_player.onVideoPause();
+    }
 }

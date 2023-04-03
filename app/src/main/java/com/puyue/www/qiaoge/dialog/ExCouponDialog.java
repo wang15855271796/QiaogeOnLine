@@ -195,44 +195,6 @@ public class ExCouponDialog extends Dialog {
         }
     }
 
-    private void checkFirstChange() {
-        LoginAPI.checkFirst(getContext(),mUserCell)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BaseModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(BaseModel baseModel) {
-                        //没余额
-                        if(baseModel.code==-1) {
-                            Intent intent = new Intent(getContext(),PayActivity.class);
-                            intent.putExtra("phone",mUserCell);
-                            getContext().startActivity(intent);
-                            mDialog.dismiss();
-                        }else if(baseModel.code ==1){
-                            Intent intent = new Intent(getContext(),HisActivity.class);
-                            intent.putExtra("phone",mUserCell);
-                            getContext().startActivity(intent);
-                            mDialog.dismiss();
-                        }else {
-                            ToastUtil.showSuccessMsg(getContext(),baseModel.message);
-                            mDialog.dismiss();
-                        }
-
-                    }
-
-                });
-    }
-
     private void accountCenter() {
         AccountCenterAPI.requestAccountCenter(context)
                 .subscribeOn(Schedulers.io())
@@ -252,6 +214,7 @@ public class ExCouponDialog extends Dialog {
                     public void onNext(AccountCenterModel accountCenterModel) {
 
                         if (accountCenterModel.success) {
+                            mUserCell = accountCenterModel.data.phone;
                             if (accountCenterModel.data.hasSetPayPwd) {
                                 showInputPwdDialog();
                             } else {
@@ -280,9 +243,10 @@ public class ExCouponDialog extends Dialog {
         mDialog.getWindow().findViewById(R.id.tv_dialog_goset).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context,AccountCenterActivity.class);
-                context.startActivity(intent);
-                mDialog.dismiss();
+                checkFirstChange();
+//                Intent intent = new Intent(context,AccountCenterActivity.class);
+//                context.startActivity(intent);
+//                mDialog.dismiss();
 //                UserInfoHelper.saveDeliverType(context,orderDeliveryType+"");
 //                UserInfoHelper.saveForgetPas(context, "wwwe");
 //                context.startActivity(EditPasswordInputCodeActivity.getIntent(context, EditPasswordInputCodeActivity.class, "0", mUserCell, "pay","forgetPsw",orderDeliveryType,payAmount));
@@ -297,6 +261,43 @@ public class ExCouponDialog extends Dialog {
 //                }, 1000);
             }
         });
+    }
+
+    private void checkFirstChange() {
+        LoginAPI.checkFirst(context,mUserCell)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+                        //没余额
+                        if(baseModel.code==-1) {
+                            Intent intent = new Intent(context,PayActivity.class);
+                            intent.putExtra("phone",mUserCell);
+                            context.startActivity(intent);
+                            mDialog.dismiss();
+                        }else if(baseModel.code ==1){
+                            Intent intent = new Intent(context,HisActivity.class);
+                            intent.putExtra("phone",mUserCell);
+                            context.startActivity(intent);
+                            mDialog.dismiss();
+                        }else {
+                            ToastUtil.showSuccessMsg(context,baseModel.message);
+                        }
+
+                    }
+
+                });
     }
 
     private void getExCoupon(String s) {

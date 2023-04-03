@@ -408,13 +408,11 @@ public class MapOrderMessageActivity extends BaseSwipeActivity {
 //                                0f));
 //                //移动地图
 //                mapss.moveCamera(cameraSigma);
-                Log.d("wdsdsdddddddd.....","111");
                 getWalkingRoute(userLocationVOList,latLng);
             }
 
             @Override
             public void onFailure(int arg0, String arg1, Throwable arg2) {
-                Log.d("wdsdsdddddddd.....","222");
 //                Log.e("test", "error code:" + arg0 + ", msg:" + arg1);
             }
         });

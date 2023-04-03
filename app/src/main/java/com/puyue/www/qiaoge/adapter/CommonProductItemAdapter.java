@@ -87,7 +87,7 @@ public class CommonProductItemAdapter extends BaseQuickAdapter<ExchangeProductMo
         helper.setText(R.id.tv_old_price,item.getOldPrice());
         TextView tv_num = helper.getView(R.id.tv_num);
 
-        if(!item.getOldPrice().equals("")&&item.getOldPrice()!=null) {
+        if(item.getOldPrice()!=null&&!item.getOldPrice().equals("")) {
             iv_reduce.setImageResource(R.mipmap.icon_jiangjia);
             iv_reduce.setVisibility(View.VISIBLE);
         }else {

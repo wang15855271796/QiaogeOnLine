@@ -91,7 +91,7 @@ public class SearchItem1Adapter extends BaseQuickAdapter<ExchangeProductModel.Da
         iv_cut = helper.getView(R.id.iv_cut);
         iv_add = helper.getView(R.id.iv_add);
 
-        if(!item.getOldPrice().equals("")&&item.getOldPrice()!=null) {
+        if(item.getOldPrice()!=null&&!item.getOldPrice().equals("")) {
             iv_reduce.setImageResource(R.mipmap.icon_jiangjia);
             iv_reduce.setVisibility(View.VISIBLE);
         }else {

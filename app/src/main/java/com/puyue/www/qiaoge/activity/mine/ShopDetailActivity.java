@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.adapter.ImageVideoViewAdapter;
 import com.puyue.www.qiaoge.adapter.cart.ImageViewAdapter;
@@ -158,6 +159,7 @@ public class ShopDetailActivity extends BaseSwipeActivity {
                                     pictureList.add(lists.getVideoUrl());
                                 }
 
+
                                 ImageVideoViewAdapter imageViewAdapter = new ImageVideoViewAdapter(R.layout.item_image,pictureList);
                                 recyclerView.setLayoutManager(new GridLayoutManager(mContext,3));
                                 recyclerView.setAdapter(imageViewAdapter);
@@ -167,12 +169,10 @@ public class ShopDetailActivity extends BaseSwipeActivity {
                                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                         if(!pictureList.get(position).contains(".mp4")) {
                                             List<String> result = Arrays.asList(pictureList.get(position).split(","));
-                                            AppHelper.showPhotoDetailDialog(mContext, result, position);
+                                            AppHelper.showIssueDetailDialog(mActivity, pictureList, position);
                                         }else {
-
-                                            PictureSelector.create(ShopDetailActivity.this).externalPictureVideo("https://barbecue-img.oss-cn-hangzhou.aliyuncs.com/message/20230315/750d15898ff24ae1b709cb7e2f53b8fb.mp4");
+                                            PictureSelector.create(ShopDetailActivity.this).externalPictureVideo(pictureList.get(position));
                                         }
-
                                     }
                                 });
 

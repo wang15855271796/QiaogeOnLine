@@ -252,6 +252,7 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
     TextView tv_total_amount;
     LinearLayout deliver_linearLayout;
     TextView tv_dis;
+    LinearLayout ll_bg;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -268,6 +269,7 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
     public void findViewById() {
         supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.frag);
         ll_order1 = (LinearLayout) findViewById(R.id.ll_order1);
+        ll_bg = (LinearLayout) findViewById(R.id.ll_bg);
         ll_order2 = (LinearLayout) findViewById(R.id.ll_order2);
         tv_full_price = (TextView) findViewById(R.id.tv_full_price);
         tv_full_desc = (TextView) findViewById(R.id.tv_full_desc);
@@ -924,8 +926,15 @@ protected void geocoder(String address) {
     }
 
     private void setOrderContent(int type) {
+
         switch (orderStatusRequest) {
+            case 1:
+                //代付款
+                ll_bg.setBackgroundResource(R.mipmap.bg_pay);
+                break;
+
             case 2:
+                ll_bg.setBackgroundResource(R.mipmap.bg_pick);
                 tvOrderContent.setText("有问题请及时联系客服，客服电话" + getOrderDetailModel.customerPhone);
                 break;
            /* case 3:
@@ -935,11 +944,12 @@ protected void geocoder(String address) {
                 tvOrderContent.setText("收到商品后，可以来评价试试");
                 break;
             case 5:
+                ll_bg.setBackgroundResource(R.mipmap.bg_eval);
                 tvOrderContent.setText("收到商品后，可以来评价试试");
                 break;  // 0审核 1 成功 2 失败
             case 7:
+                ll_bg.setBackgroundResource(R.mipmap.bg_cancel);
                 tvOrderContent.setText("您的订单已取消");
-
                 deleteButtonLayout.setVisibility(View.VISIBLE);
                 threeButtonLayout.setVisibility(View.GONE);
                 buttonAgainBuy.setVisibility(View.GONE);
@@ -960,6 +970,7 @@ protected void geocoder(String address) {
                 tvOrderContent.setText("我们将尽快发货，感谢您对翘歌的信任");
                 break;
             case 6:
+                ll_bg.setBackgroundResource(R.mipmap.bg_evaled);
                 tvOrderContent.setText("感谢您的评价！欢迎您再次使用翘歌！");
                 break;
         }

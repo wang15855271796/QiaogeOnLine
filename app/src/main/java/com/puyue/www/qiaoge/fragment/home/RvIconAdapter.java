@@ -39,11 +39,11 @@ public class RvIconAdapter extends BaseQuickAdapter<IndexInfoModel.DataBean.Clas
         TextView tv_desc = helper.getView(R.id.tv_desc);
         TextView tv_tip = helper.getView(R.id.tv_tip);
 
-        if(item.getFloatText().equals("") || item.getFloatText()== null) {
+        if(item.getFloatText()== null || item.getFloatText().equals("")) {
             tv_tip.setBackgroundResource(R.drawable.shape_white1);
             tv_tip.setVisibility(View.GONE);
         }else {
-            tv_tip.setText(item.getFloatText()+"新鲜");
+            tv_tip.setText(item.getFloatText());
             tv_tip.setVisibility(View.VISIBLE);
             tv_tip.setBackgroundResource(R.drawable.shape_red1);
         }

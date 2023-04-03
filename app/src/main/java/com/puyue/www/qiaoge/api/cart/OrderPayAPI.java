@@ -29,12 +29,13 @@ public class OrderPayAPI {
         Observable<OrderPayModel> getData(@Field("orderId") String orderId,
                                           @Field("payChannel") byte payChannel,
                                           @Field("payAmount") double payAmount,
-                                          @Field("remark") String remark);
+                                          @Field("remark") String remark,
+                                          @Field("errorFlag") int errorFlag);
     }
 
-    public static Observable<OrderPayModel> requestData(Context context, String orderId, byte payChannel, double payAmount, String remark) {
+    public static Observable<OrderPayModel> requestData(Context context, String orderId, byte payChannel, double payAmount, String remark,int errorFlag) {
         OrderPayService service = RestHelper.getBaseRetrofit(context).create(OrderPayService.class);
-        return service.getData(orderId, payChannel, payAmount, remark);
+        return service.getData(orderId, payChannel, payAmount, remark,errorFlag);
     }
 
 

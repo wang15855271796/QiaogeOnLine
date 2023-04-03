@@ -395,6 +395,9 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                                 };
                                 rv_invalid.setAdapter(unAbleAdapter);
                                 unAbleAdapter.notifyDataChanged();
+                                //配送金额
+                                sendAmount = data.getSendAmount();
+                                String s = sendAmount + "";
                                 //判断是否展示空数据界面
                                 if(prods.size()==0&&inProdss.size()==0) {
                                     ll_NoData.setVisibility(View.VISIBLE);
@@ -416,14 +419,6 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                                 }else {
                                     tv_delete.setVisibility(View.VISIBLE);
                                     ll_sure.setVisibility(View.VISIBLE);
-                                }
-                                //配送金额
-                                sendAmount = data.getSendAmount();
-                                String s = sendAmount + "";
-                                if(s.equals("0")) {
-                                    tv_free_tip.setText("已免配送费");
-                                }else {
-                                    tv_free_tip.setText("满"+sendAmount+"元免配送费");
                                 }
 
                                 //初始化状态
@@ -529,16 +524,13 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
 
 
                                 if(!needBuyAmt.equals("")) {
-                                    Log.d("efdasedfew....","123");
                                     tv_need.setText(needBuyAmt);
                                     tv_need.setVisibility(View.VISIBLE);
                                     tv_need_desc.setVisibility(View.VISIBLE);
                                 }else {
-                                    Log.d("efdasedfew....","456");
                                     tv_need.setVisibility(View.GONE);
                                     tv_need_desc.setVisibility(View.GONE);
                                 }
-
                             }else {
                                 tv_next_reduce.setVisibility(View.GONE);
                                 tv_next_desc.setVisibility(View.GONE);
@@ -549,6 +541,14 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                                 tv_total_price.setText(allPrice+"");
                             }
 
+                            BigDecimal sendAmounts = new BigDecimal(sendAmount);
+                            BigDecimal diffPrice = sendAmounts.subtract(allPrice);
+                            double v = Double.parseDouble(diffPrice + "");
+                            if(v>0) {
+                                tv_free_tip.setText("满"+sendAmount+"元免配送费");
+                            }else {
+                                tv_free_tip.setText("已免配送费");
+                            }
 
                         }else {
                             ToastUtil.showSuccessMsg(mActivity,computedFullModel.getMessage());

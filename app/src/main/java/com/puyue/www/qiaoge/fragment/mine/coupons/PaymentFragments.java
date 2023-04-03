@@ -102,6 +102,7 @@ public class PaymentFragments extends DialogFragment {
     ImageView iv_closes;
     AVLoadingIndicatorView lav_activity_loading;
     String remark;
+    int errorFlag = 0;
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -139,6 +140,7 @@ public class PaymentFragments extends DialogFragment {
         rePayWay.setOnClickListener(listener);
         btnPay.setOnClickListener(listener);
         tv_amount.setText(total);
+        tv_balance.setClickable(false);
         iv_close.setOnClickListener(listener);
         iv_closes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -251,7 +253,7 @@ public class PaymentFragments extends DialogFragment {
     // 支付
     String outTradeNo;
     private void orderPays(final String orderId, final byte payChannel, double payAmount, String remark) {
-        OrderPayAPI.requestData(getContext(), orderId, payChannel, payAmount, remark)
+        OrderPayAPI.requestData(getContext(), orderId, payChannel, payAmount, remark,errorFlag)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<OrderPayModel>() {
@@ -359,6 +361,7 @@ public class PaymentFragments extends DialogFragment {
                             PayErrorDialog payErrorDialog = new PayErrorDialog(getContext(), orderPayModel.message) {
                                 @Override
                                 public void Confirm() {
+                                    errorFlag = 1;
                                     orderPays(orderId, payChannel, payAmount, remark);
                                 }
 
@@ -494,7 +497,6 @@ public class PaymentFragments extends DialogFragment {
             switch (msg.what) {
                 case SDK_PAY_FLAG: {
                     Map<String, String> result = (Map<String, String>) msg.obj;
-                    Log.d("dsfwfefdsf....",result.get("resultStatus")+"a");
                     Log.e("TGA", result.get("resultStatus") + "");
                     if ("9000".equals(result.get("resultStatus"))) {
                         //okpay
@@ -788,11 +790,13 @@ public class PaymentFragments extends DialogFragment {
 
                     @Override
                     public void onError(Throwable e) {
+                        tv_balance.setClickable(true);
                     }
 
                     @Override
                     public void onNext(PayListModel payListModel) {
                         if (payListModel.getCode()==1) {
+                            tv_balance.setClickable(true);
                             list.clear();
                             if(payListModel.getData()!=null && payListModel.getData().size()> 0) {
                                 data = payListModel.getData();
@@ -853,6 +857,7 @@ public class PaymentFragments extends DialogFragment {
                             }
 
                         } else {
+                            tv_balance.setClickable(true);
                             AppHelper.showMsg(getContext(), payListModel.message);
                         }
                     }

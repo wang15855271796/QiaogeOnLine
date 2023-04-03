@@ -2257,6 +2257,10 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                         startActivity(intent);
                     }
 
+                }else if(showType == 6) {
+                    mActivity.startActivity(new Intent(mActivity, HomeActivity.class));
+                    EventBus.getDefault().post(new GoToMarketEvent());
+                    EventBus.getDefault().postSticky(new FromIndexEvent(banners.get(position).getBusinessId() + ""));
                 }
 
             }

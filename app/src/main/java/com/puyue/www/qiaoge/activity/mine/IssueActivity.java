@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.IssueInfoActivity;
+import com.puyue.www.qiaoge.activity.TestActivity;
 import com.puyue.www.qiaoge.adapter.MyIssueAdapter;
 import com.puyue.www.qiaoge.api.home.InfoListAPI;
 import com.puyue.www.qiaoge.api.home.InfoListModel;
@@ -111,7 +112,7 @@ public class IssueActivity extends BaseSwipeActivity {
         tv_issue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext,IssueInfoActivity.class);
+                Intent intent = new Intent(mContext, IssueInfoActivity.class);
                 startActivity(intent);
             }
         });

@@ -75,7 +75,7 @@ public class MyIssueAdapter extends BaseQuickAdapter<InfoListModel.DataBean.List
 
         TextView tv_deleted = helper.getView(R.id.tv_deleted);
         TextView tv_title = helper.getView(R.id.tv_title);
-        if(!item.getMsgTypeStr().equals("") && item.getMsgTypeStr()!=null) {
+        if(item.getMsgTypeStr()!=null&&!item.getMsgTypeStr().equals("")  ) {
             tv_title.setText(item.getMsgTypeStr());
             tv_title.setBackgroundResource(R.drawable.shape_jianbian8);
         }else {
@@ -110,14 +110,16 @@ public class MyIssueAdapter extends BaseQuickAdapter<InfoListModel.DataBean.List
             iv_state.setBackgroundResource(R.mipmap.ic_verify);
             tv_edit.setVisibility(View.VISIBLE);
             tv_look.setVisibility(View.GONE);
-
+            tv_status2.setVisibility(View.GONE);
+            tv_deleted.setVisibility(View.VISIBLE);
         }else if(item.getCheckStatus().equals("2")){
             tv_status1.setVisibility(View.VISIBLE);
             tv_status.setVisibility(View.VISIBLE);
             iv_state.setBackgroundResource(R.mipmap.ic_unpass);
             tv_edit.setVisibility(View.GONE);
             tv_look.setVisibility(View.VISIBLE);
-
+            tv_status2.setVisibility(View.GONE);
+            tv_deleted.setVisibility(View.VISIBLE);
             tv_status1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

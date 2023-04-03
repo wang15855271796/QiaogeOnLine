@@ -27,6 +27,14 @@
                 android:scaleType="fitXY"
                 android:src="@mipmap/bg_emptys" />
 
+            <ImageView
+                android:id="@+id/iv_player"
+                android:visibility="gone"
+                android:src="@mipmap/icon_player"
+                android:layout_centerInParent="true"
+                android:layout_width="@dimen/size_35dp"
+                android:layout_height="@dimen/size_35dp"/>
+
             <TextView
                 android:id="@+id/tv_style"
                 android:layout_width="wrap_content"

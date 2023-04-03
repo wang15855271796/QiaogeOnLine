@@ -173,7 +173,6 @@ public class InfoPayResultActivity extends BaseActivity {
                                         }
                                     });
                                 }else {
-                                    Log.d("swefaswedas.....",payChannal+"--");
                                     if(payChannal == 14) {
                                         handler.postDelayed(new Runnable() {
                                             @Override

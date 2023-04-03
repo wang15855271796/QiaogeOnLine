@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -61,7 +62,13 @@ public abstract class HllOrderDialog extends Dialog {
             view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             binder = ButterKnife.bind(this, view);
             setContentView(view);
-
+            ImageView iv_close = view.findViewById(R.id.iv_close);
+            iv_close.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismiss();
+                }
+            });
             getWindow().setGravity(Gravity.BOTTOM);
             WindowManager.LayoutParams attributes = getWindow().getAttributes();
             attributes.width = Utils.getScreenWidth(context);
@@ -77,6 +84,7 @@ public abstract class HllOrderDialog extends Dialog {
                 hllOrderAdapter.setSelectionPos(position);
                 pos = position;
 
+
             }
         });
         tv_sure.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +97,4 @@ public abstract class HllOrderDialog extends Dialog {
 
     }
     public abstract void close(int pos);
-
-
 }

@@ -94,10 +94,8 @@ public class ExchangeActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onArticleOnItemClick(EditText et) {
                 Amount = 0.0;
-                Log.d("swczsdwas.....",couponListsAdapter.getItemCount()+"--");
                 for (int i = 0; i < couponListsAdapter.getItemCount(); i++) {
                     String amount = couponListsAdapter.getItem(i).getNum();
-                    Log.d("swczsdwas.....",amount+"-----");
                     if (TextUtils.isEmpty(amount)) {
                         amount = "0";
                     }

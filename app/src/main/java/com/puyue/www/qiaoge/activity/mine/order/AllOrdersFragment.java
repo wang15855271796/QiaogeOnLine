@@ -348,7 +348,7 @@ public class AllOrdersFragment extends BaseFragment {
                         @Override
                         public void onClick(View v) {
                             mDialog.dismiss();
-                            //取消订单的接口
+                            //删除订单的接口
                             if(orderStatus == 5 || orderStatus == 6 || orderStatus == 11) {
                                 deleteOrder1(orderId);
                             }else {

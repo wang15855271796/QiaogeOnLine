@@ -286,9 +286,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
             getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(getContext(),R.color.white));
         }
     }
-
-    List<CartBalanceModel.DataBean.ProductVOListBean.AdditionVOList>additionVOList1 = new ArrayList<>();
-    List<CartBalanceModel.DataBean.ProductVOListBean.AdditionVOList>additionVOList2 = new ArrayList<>();
+    
 
     @Override
     public void setViewData() {

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -222,7 +224,7 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
         });
 
 
-        ll_one.setOnClickListener(new View.OnClickListener() {
+        rl_zero.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (type == 1 || type == 4) {
@@ -354,14 +356,21 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
 
                             tv_order_time.setText(data.getTime());
                             tv_order_num.setText(data.getOrderId());
-
-                            tv_order_status.setText(data.orderStatusStr);
+                            Log.d("wdsda......",data.orderStatusStr+"111");
+                            if(data.orderStatusStr!=null&&!data.orderStatusStr.equals("") ) {
+                                tv_order_status.setText(data.orderStatusStr);
+                                tv_order_status.setVisibility(View.VISIBLE);
+                            }else {
+                                tv_order_status.setVisibility(View.GONE);
+                            }
+                            Log.d("wdsda......","222");
                             if (data.getSubUser() != null && !data.getSubUser().equals("")) {
                                 ll_user.setVisibility(View.VISIBLE);
                                 tv_order_user.setText(data.getSubUser()+"");
                             } else {
                                 ll_user.setVisibility(View.GONE);
                             }
+
                             if (type == 1) {
                                 ll_two.setVisibility(View.VISIBLE);
                                 tv_pay.setText("支付方式");
@@ -454,28 +463,7 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
 
                                 ll_rent.setVisibility(View.GONE);
                             }
-
-                            if (type == 1) {
-//                                ll_two.setVisibility(View.VISIBLE);
-//                                tv_pay.setText("支付方式");
-//                                tv_pay_order.setText(data.getChannelType());
-//                                tv_explain.setText("积分奖励");
-
-
-                            } else if (type == 4) {
-//                                tv_explain.setText("商品说明");
-//                                ll_two.setVisibility(View.VISIBLE);
-//                                tv_pay.setText("退款方式");
-//                                tv_pay_order.setText(data.getChannelType());
-                            } else if (type == 2 || type == 7 || type == 8) {
-//                                ll_two.setVisibility(View.VISIBLE);
-//                                tv_pay.setText("付款方式");
-//                                tv_explain.setText("商品说明");
-//                                tv_pay_order.setText(data.getChannelType());
-                            } else if (type == 5 || type == 3) {
-//                                ll_two.setVisibility(View.GONE);
-                            }
-
+                            Log.d("wdsda......","333");
                             if(type == 13) {
                                 //转让招租 付款
                                 tv_style_desc.setText("支付方式");
@@ -500,6 +488,7 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
                                 ll_two.setVisibility(View.GONE);
                                 ll_three.setVisibility(View.GONE);
                                 ll_rent.setVisibility(View.VISIBLE);
+                                Log.d("wdsda......","122");
                             }
 
                             if (data.amount.doubleValue() > 0) {

@@ -39,6 +39,7 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.mine.ShopDetailActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LogoutsEvent;
 import com.puyue.www.qiaoge.activity.mine.order.VipPayResultActivity;
 import com.puyue.www.qiaoge.activity.view.GlideEngine;
@@ -61,6 +62,7 @@ import com.puyue.www.qiaoge.model.InfoIsPayModel;
 import com.puyue.www.qiaoge.model.InfoPubModel;
 import com.puyue.www.qiaoge.model.PayInfoListModel;
 import com.puyue.www.qiaoge.model.PayInfoModel;
+import com.puyue.www.qiaoge.model.SendImagesModel;
 import com.puyue.www.qiaoge.model.home.CityChangeModel;
 import com.puyue.www.qiaoge.model.mine.order.SendImageModel;
 import com.puyue.www.qiaoge.pictureselectordemo.FullyGridLayoutManager;
@@ -154,8 +156,11 @@ public class IssueInfoActivity extends BaseSwipeActivity {
         ButterKnife.bind(this);
     }
 
+    List<String> test = new ArrayList<>();
+    List<String> test1 = new ArrayList<>();
     @Override
     public void setViewData() {
+        getIsPay1();
         FullyGridLayoutManager manager = new FullyGridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
         shopImageViewAdapter = new ShopImageViewAdapter(mContext,onAddPicClickListener);
         recyclerView.setLayoutManager(manager);
@@ -173,7 +178,8 @@ public class IssueInfoActivity extends BaseSwipeActivity {
                         case 1:
                             // 预览图片 可自定长按保存路径
                             //PictureSelector.create(MainActivity.this).externalPicturePreview(position, "/custom_file", selectList);
-//                            PictureSelector.create(mActivity).externalPicturePreview(position, selectList,position);
+                            PictureSelector.create(mActivity).externalPicturePreview(position, selectList,position);
+//                            PictureSelector.create(ShopDetailActivity.this).externalPictureVideo(pictureList.get(position));
                             break;
                         case 2:
                             // 预览视频
@@ -189,8 +195,24 @@ public class IssueInfoActivity extends BaseSwipeActivity {
 
             @Override
             public void deletPic(int position) {
-                picList.remove(position);
-                upImage(filesToMultipartBodyParts(picList));
+                String url = picsList.get(position);
+                Gson gson1 = new Gson();
+                if(url.contains(".mp4")) {
+                    //删除的是视频
+                    picsList.remove(position);
+                    videoCoverUrl = "";
+                    videoUrl = "";
+                    returnPic = gson1.toJson(picsList);
+                }else {
+                    picsList.remove(position);
+                    for (int i = 0; i < picsList.size(); i++) {
+                        if(!picsList.get(i).contains(".mp4")) {
+                            test.add(picsList.get(i));
+                        }
+                    }
+
+                    returnPic = gson1.toJson(test);
+                }
             }
         });
         tv_area.setOnClickListener(new View.OnClickListener() {
@@ -247,6 +269,37 @@ public class IssueInfoActivity extends BaseSwipeActivity {
         progressDialog.setCancelable(false);
         progressDialog.setMessage("视频压缩中......");
 
+    }
+
+    private void getIsPay1() {
+        InfoListAPI.getIsPay(mContext)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<InfoIsPayModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(InfoIsPayModel infoIsPayModel) {
+                        if(infoIsPayModel.getCode()==1) {
+                            if(infoIsPayModel.getData().getPayFlag()==1) {
+                                //是
+                                tv_money.setVisibility(View.VISIBLE);
+                                amount = infoIsPayModel.getData().getShouldPayAmt();
+                                tv_money.setText("当前收费"+amount+"元/条，若审核未通过将退回");
+                            }else {
+                                //否
+                                tv_money.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                });
     }
 
 
@@ -336,9 +389,11 @@ public class IssueInfoActivity extends BaseSwipeActivity {
                         PictureSelector.create(IssueInfoActivity.this)
                                 .openGallery(PictureMimeType.ofAll())
                                 .maxSelectNum(maxSelectNum - selectList.size())
+//                                .maxSelectNum(1)
                                 .minSelectNum(1)
                                 .maxVideoSelectNum(1)
                                 .imageSpanCount(4)
+                                .queryMaxFileSize(55)
                                 .loadImageEngine(GlideEngine.createGlideEngine())
                                 .compress(true)
                                 .isCamera(false)
@@ -377,38 +432,57 @@ public class IssueInfoActivity extends BaseSwipeActivity {
         }
     }
 
-    String path;
-    Uri selectedVideoUri;
     private List<String> coverList = new ArrayList();
+    List<String> picsList = new ArrayList<>();
+    //记录所有的选中视频和图片
+    List<String> picsAllList = new ArrayList<>();
+    //图片集合
+    List<String> listPic = new ArrayList<>();
+    //视频集合
+    List<String> listVideo = new ArrayList<>();
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         List<LocalMedia> images;
-        selectedVideoUri = data.getData();
-//         == REQUEST_TAKE_GALLERY_VIDEO
-
+        listVideo.clear();
+        listPic.clear();
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case PictureConfig.CHOOSE_REQUEST:
                     // 图片选择结果回调
                     images = PictureSelector.obtainMultipleResult(data);
-                    selectList.addAll(images);
-                    for (LocalMedia media : images) {
-                        path = media.getPath();
-                        picList.add(media.getRealPath());
-
-                        if(media.getRealPath().contains("jpeg") || media.getRealPath().contains("jpg")) {
-                            //图片
-                            upImage(filesToMultipartBodyParts(picList));
+                    for (int i = 0; i < images.size(); i++) {
+                        if(images.get(i).getRealPath().contains(".mp4")) {
+                            if(videoUrl!=null&& !videoUrl.equals("")) {
+                                ToastUtil.showSuccessMsg(mContext,"只能上传一个视频");
+                                return;
+                            }else {
+                                picsAllList.add(images.get(i).getRealPath());
+                            }
                         }else {
-                            //视频
-                            coverList.add(media.getRealPath());
-                            upCover(filesToMultipartBodyParts(coverList));
-//                            String realPath = media.getRealPath();
-//                            executeScaleVideo(realPath);
+                            picsAllList.add(images.get(i).getRealPath());
                         }
                     }
+
+                    for (LocalMedia media : images) {
+                        if(media.getRealPath().contains(".mp4")) {
+                            listVideo.add(media.getRealPath());
+                        }else {
+                            listPic.add(media.getRealPath());
+                        }
+                    }
+
+                    if(listPic.size()>0) {
+                        upImage(filesToMultipartBodyParts(listPic));
+                    }
+
+                    if(listVideo.size()>0) {
+                        upCover(filesToMultipartBodyParts(listVideo));
+                    }
+
+                    selectList.addAll(images);
                     shopImageViewAdapter.setList(selectList);
+
                     shopImageViewAdapter.notifyDataSetChanged();
 
                     break;
@@ -472,7 +546,6 @@ public class IssueInfoActivity extends BaseSwipeActivity {
             name = name.substring(0,end);
         }
         String strUri = VideoUtil.savaVideoToMediaStore(this, videoPath, name, "From VideoProcessor", "video/mp4");
-        Log.d("wdasdwsdss....",strUri+"--");
         coverList.add(strUri);
         upCover(filesToMultipartBodyParts(coverList));
 
@@ -495,10 +568,10 @@ public class IssueInfoActivity extends BaseSwipeActivity {
 
 
     private void upCover(List<MultipartBody.Part> filesToMultipartBodyParts) {
-        SendImageAPI.requestImgDetail(mContext, filesToMultipartBodyParts)
+        SendImageAPI.requestImg(mContext, filesToMultipartBodyParts)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SendImageModel>() {
+                .subscribe(new Subscriber<SendImagesModel>() {
                     @Override
                     public void onCompleted() {
 
@@ -506,56 +579,20 @@ public class IssueInfoActivity extends BaseSwipeActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("ewdfasda.....",e.getMessage()+"--");
+
                     }
 
                     @Override
-                    public void onNext(SendImageModel baseModel) {
+                    public void onNext(SendImagesModel baseModel) {
                         if (baseModel.success) {
                             videoCoverUrl = "";
                             if (baseModel.data != null) {
-                                String[] data = baseModel.data;
-                                for(String url: data) {
+                                for(String url: baseModel.data) {
                                     videoCoverUrl = url;
-                                }
-                            }
-
-                            Log.d("ewdfasda.....",videoCoverUrl+"--");
-
-                        } else {
-                            AppHelper.showMsg(mContext, baseModel.message);
-                        }
-                    }
-                });
-    }
-
-    private void upVideo(List<MultipartBody.Part> filesToMultipartBodyParts) {
-        SendImageAPI.requestImgDetail(mContext, filesToMultipartBodyParts)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SendImageModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(SendImageModel baseModel) {
-                        if (baseModel.success) {
-                            videoUrl = "";
-                            if (baseModel.data != null) {
-                                String[] data = baseModel.data;
-                                for(String url: data) {
                                     videoUrl = url;
+                                    picsList.add(url);
                                 }
-                                Log.d("wddwdasdad....",videoUrl+"videoUrl");
                             }
-
                         } else {
                             AppHelper.showMsg(mContext, baseModel.message);
                         }
@@ -564,10 +601,10 @@ public class IssueInfoActivity extends BaseSwipeActivity {
     }
 
     private void upImage(List<MultipartBody.Part> parts) {
-        SendImageAPI.requestImgDetail(mContext, parts)
+        SendImageAPI.requestImg(mContext, parts)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SendImageModel>() {
+                .subscribe(new Subscriber<SendImagesModel>() {
                     @Override
                     public void onCompleted() {
 
@@ -578,13 +615,24 @@ public class IssueInfoActivity extends BaseSwipeActivity {
                     }
 
                     @Override
-                    public void onNext(SendImageModel baseModel) {
+                    public void onNext(SendImagesModel baseModel) {
                         if (baseModel.success) {
                             returnPic = "";
+                            test1.clear();
                             if (baseModel.data != null) {
-                                String[] data = baseModel.data;
                                 Gson gson = new Gson();
-                                returnPic = gson.toJson(data);
+                                for(String datas : baseModel.data) {
+                                    picsList.add(datas);
+                                }
+
+                                for (int i = 0; i < picsList.size(); i++) {
+                                    if(picsList.get(i).contains(".mp4")) {
+//                                        continue;
+                                    }else {
+                                        test1.add(picsList.get(i));
+                                    }
+                                }
+                                returnPic = gson.toJson(test1);
                             }
 
                         } else {
@@ -676,15 +724,12 @@ public class IssueInfoActivity extends BaseSwipeActivity {
                         if(infoIsPayModel.getCode()==1) {
                             if(infoIsPayModel.getData().getPayFlag()==1) {
                                 //是
-                                tv_money.setText(infoIsPayModel.getData().getMsg());
                                 tv_money.setVisibility(View.VISIBLE);
                                 amount = infoIsPayModel.getData().getShouldPayAmt();
-                                tv_money.setText("当前收费"+amount+"元/条，若审核未通过将退回");
                                 infoPayDialog = new InfoPayDialog(mContext,amount);
                                 infoPayDialog.show();
                             }else {
                                 //否
-                                tv_money.setVisibility(View.GONE);
                                 IssueInfo(et.getText().toString(),tv_address.getText().toString(),et_phone.getText().toString());
                             }
                         }
@@ -852,6 +897,7 @@ public class IssueInfoActivity extends BaseSwipeActivity {
         intent.putExtra("payChannel", flag);
         intent.putExtra("outTradeNo", outTradeNo);
         startActivity(intent);
+//        finish();
         infoPayDialog.dismiss();
         tv_address.clearFocus();
     }
@@ -918,5 +964,14 @@ public class IssueInfoActivity extends BaseSwipeActivity {
                 imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if( EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+
     }
 }

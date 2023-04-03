@@ -142,10 +142,11 @@
                                             android:id="@+id/rv_icon"
                                             android:layout_marginTop="@dimen/dp_4"
                                             android:layout_width="match_parent"
-                                            android:layout_height="120dp"/>
+                                            android:layout_height="140dp"/>
 
                                         <com.puyue.www.qiaoge.view.HIndicators
                                             android:id="@+id/indicator"
+                                            android:layout_marginTop="@dimen/size_5dp"
                                             android:layout_marginBottom="@dimen/size_5dp"
                                             android:layout_gravity="center_horizontal"
                                             android:layout_width="@dimen/size_22dp"
@@ -406,6 +407,7 @@
                         android:layout_toRightOf="@+id/homeMessage"
                         android:background="@drawable/bg_msg_count"
                         android:text="4"
+                        android:gravity="center"
                         android:textColor="@color/white"
                         android:textSize="9dp"
                         android:visibility="gone" />
@@ -470,43 +472,50 @@
 
             </ImageView>
 
-            <!--  学堂  -->
-            <LinearLayout
-                android:id="@+id/ll_school"
-                android:layout_width="wrap_content"
-                android:orientation="vertical"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
+            <RelativeLayout
                 android:layout_marginRight="@dimen/dp_10"
-                android:layout_marginBottom="240dp">
+                android:layout_marginBottom="200dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/iv_school"
-                    android:background="@mipmap/iv_school"
+                <!--  学堂  -->
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/ll_school"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true">
 
+                    <ImageView
+                        android:id="@+id/iv_school"
+                        android:background="@mipmap/iv_school"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <ImageView
+                        android:id="@+id/iv_enter"
+                        android:src="@mipmap/icon_enter"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+                <!--  学堂  -->
                 <ImageView
-                    android:src="@mipmap/icon_enter"
+                    android:visibility="gone"
+                    android:id="@+id/iv_half_school"
                     android:layout_width="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_height="wrap_content"/>
+                    android:orientation="vertical"
+                    android:src="@mipmap/iv_half_school"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/size_88dp"/>
 
-            </LinearLayout>
-            <!--  学堂  -->
-            <ImageView
-                android:visibility="gone"
-                android:id="@+id/iv_school"
-                android:layout_width="wrap_content"
-                android:orientation="vertical"
-                android:src="@mipmap/iv_half_school"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="@dimen/size_88dp">
+            </RelativeLayout>
 
-            </ImageView>
 
             <com.frankfancode.marqueeview.MarqueeView
                 android:id="@+id/order_marquee"

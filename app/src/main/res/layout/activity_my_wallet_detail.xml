@@ -159,26 +159,21 @@
 
                 <RelativeLayout
                     android:id="@+id/rl_account"
+                    android:layout_marginTop="-3dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/colorWhite">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView"
-                        android:visibility="gone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
 
                     <com.scwang.smartrefresh.layout.SmartRefreshLayout
                         android:id="@+id/refreshLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="wrap_content">
 
                         <com.scwang.smartrefresh.header.MaterialHeader
                             android:id="@+id/header"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="?attr/actionBarSize" />
+                            android:layout_height="wrap_content" />
 
                         <com.emilsjolander.components.stickylistheaders.StickyListHeadersListView
                             android:id="@+id/lv"

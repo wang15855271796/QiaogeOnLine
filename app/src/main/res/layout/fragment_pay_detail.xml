@@ -99,13 +99,13 @@
 
                     <TextView
                         android:id="@+id/tv_balance"
-                        android:layout_centerVertical="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        tools:text="余额(120)"
+                        android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/size_30dp"
-                        android:textColor="#333333" />
+                        android:textColor="#333333"
+                        tools:text="余额(120)" />
 
                     <ImageView
                         android:layout_alignParentRight="true"

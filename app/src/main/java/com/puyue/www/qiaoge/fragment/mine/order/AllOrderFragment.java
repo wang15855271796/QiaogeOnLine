@@ -545,7 +545,6 @@ public class AllOrderFragment extends BaseFragment {
 
                     @Override
                     public void onNext(OrdersModel myOrdersModel) {
-                        Log.d("wdasds........","123");
 
                         mModelMyOrders = myOrdersModel;
                         if (mModelMyOrders.success) {

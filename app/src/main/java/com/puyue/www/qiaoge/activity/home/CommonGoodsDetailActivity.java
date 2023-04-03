@@ -744,7 +744,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
 //                                tv_desc.setText(model.getData().getIntroduction());
                                 ll_desc.setVisibility(View.VISIBLE);
                             }
-                            tv_desc.setOnClickListener(new View.OnClickListener() {
+                            ll_desc.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     ProductDescDialog productDescDialog = new ProductDescDialog(mActivity,model.getData().getIntroduction());

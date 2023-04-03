@@ -17,6 +17,7 @@ import com.puyue.www.qiaoge.api.mine.PointApI;
 import com.puyue.www.qiaoge.api.mine.PointShopModel;
 import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.base.BaseModel;
+import com.puyue.www.qiaoge.dialog.ExchangeSuccessDialog;
 import com.puyue.www.qiaoge.dialog.PointExchangeDialog;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.model.mine.wallet.MinerIntegralModel;
@@ -62,7 +63,7 @@ public class JiFenShopActivity extends BaseActivity implements View.OnClickListe
         shopAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                PointExchangeDialog pointExchangeDialog = new PointExchangeDialog(mContext) {
+                PointExchangeDialog pointExchangeDialog = new PointExchangeDialog(mContext,deducts,position) {
                     @Override
                     public void Confirm() {
                         exchangePoint(deducts.get(position).getPoolNo());
@@ -110,9 +111,11 @@ public class JiFenShopActivity extends BaseActivity implements View.OnClickListe
                             if(pointShopModel.getData()!=null) {
                                 if(pointShopModel.getData().getDeducts()!=null && pointShopModel.getData().getDeducts().size()>0) {
                                     deducts.addAll(pointShopModel.getData().getDeducts());
-                                    tv_point.setText(pointShopModel.getData().getUserPoint());
                                     shopAdapter.notifyDataSetChanged();
+                                }
 
+                                if(pointShopModel.getData().getUserPoint()!=null && !pointShopModel.getData().getUserPoint().equals("")) {
+                                    tv_point.setText(pointShopModel.getData().getUserPoint());
                                 }
                             }
                         }
@@ -138,8 +141,10 @@ public class JiFenShopActivity extends BaseActivity implements View.OnClickListe
                     @Override
                     public void onNext(BaseModel baseModel) {
                         if(baseModel.code==1) {
-                            ToastUtil.showSuccessMsg(mContext,baseModel.message);
-                            finish();
+                            ExchangeSuccessDialog exchangeSuccessDialog = new ExchangeSuccessDialog(mContext);
+                            exchangeSuccessDialog.show();
+//                            ToastUtil.showSuccessMsg(mContext,baseModel.message);
+//                            finish();
                         }else {
                             ToastUtil.showSuccessMsg(mContext,baseModel.message);
                         }

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="#ffffff"
     android:orientation="vertical">
 
@@ -144,9 +145,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv1"
                 android:layout_marginLeft="@dimen/size_22dp"
-                android:text="3320"
                 android:textColor="#ffffff"
-                android:textSize="33sp" />
+                android:textSize="33sp"
+                android:text="0" />
 
             <TextView
                 android:text="分"

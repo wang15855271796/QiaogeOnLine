@@ -15,9 +15,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnItemClickListener;
 import com.puyue.www.qiaoge.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,11 +29,13 @@ public class ShopImageViewssAdapter extends RecyclerView.Adapter<ShopImageViewss
     Onclick onclick;
     List<String> pictureList;
     Activity mActivity;
+    private List<LocalMedia> list = new ArrayList<>();
     public ShopImageViewssAdapter(Activity mActivity, List<String> pictureList, Onclick onclick) {
         this.onclick  = onclick;
         this.pictureList = pictureList;
         this.mActivity = mActivity;
     }
+
 
     @NonNull
     @Override
@@ -92,6 +96,10 @@ public class ShopImageViewssAdapter extends RecyclerView.Adapter<ShopImageViewss
         return position == size;
     }
 
+    public List<LocalMedia> getData() {
+        return list == null ? new ArrayList<>() : list;
+    }
+
     @Override
     public int getItemViewType(int position) {
         if (isShowAddItem(position)) {
@@ -112,6 +120,10 @@ public class ShopImageViewssAdapter extends RecyclerView.Adapter<ShopImageViewss
             }
         }
       return 1;
+    }
+
+    public void setList(List<LocalMedia> selectList) {
+        this.list = selectList;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

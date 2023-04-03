@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -605,7 +606,7 @@ public class MarketsFragment extends BaseFragment {
 
     //筛选确定
     private void sendSelectGood(String saleVolume, String priceUp,String priceDown, String newProduct, String brandName, String minPrices, String maxPrices) {
-        MarketGoodSelcetAPI.getClassifyRight(mActivity, pageNum, 20, mFirstCode, mSecondCode, saleVolume, priceUp,priceDown, newProduct, brandName, minPrices, maxPrices)
+        MarketGoodSelcetAPI.getClassifyRight(mActivity, pageNum, 10, mFirstCode, mSecondCode, saleVolume, priceUp,priceDown, newProduct, brandName, minPrices, maxPrices)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<MarketRightModel>() {
@@ -1035,14 +1036,12 @@ public class MarketsFragment extends BaseFragment {
                                     mAdapterMarketSecond.selectPosition(0);
                                     mAdapterMarketSecond.notifyDataSetChanged();
                                     firstAdapter.notifyDataSetChanged();
-                                    Log.d("sfefdsfsda....","123");
                                 }
                             }else {
                                 mListSecondNow.clear();
                                 mList.clear();
                                 mListGoods.clear();
                                 mListProd.clear();
-                                Log.d("swfewdwd........","ccc");
                                 prodAdapter.notifyDataSetChanged();
                                 mAdapterMarketSecond.notifyDataSetChanged();
                                 firstAdapter.notifyDataSetChanged();
@@ -1085,11 +1084,9 @@ public class MarketsFragment extends BaseFragment {
             if (mModelMarketGoods.getData().getProdClassify().isHasNextPage()) {
                 hasPage = true;
                 mRvDetail.noMoreLoading(false);
-                Log.d("wwweddsds.....","ddd");
             } else {
                 hasPage = false;
                 mRvDetail.noMoreLoading(true);
-                Log.d("wwweddsds.....","eee");
             }
             mRvDetail.refreshComplete();
         }else {

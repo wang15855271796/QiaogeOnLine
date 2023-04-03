@@ -23,7 +23,7 @@
                 android:background="@drawable/shape_jianbian6"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="167dp">
+                android:layout_height="175dp">
 
                 <RelativeLayout
                     android:id="@+id/ll_market_search"

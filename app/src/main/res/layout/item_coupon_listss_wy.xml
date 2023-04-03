@@ -8,7 +8,6 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:background="@drawable/shape_white1"
         android:layout_marginTop="@dimen/size_6dp"
         android:gravity="center_horizontal"
         android:layout_width="@dimen/size_95dp"
@@ -20,14 +19,14 @@
 
             <RelativeLayout
                 android:layout_centerHorizontal="true"
-                android:layout_width="@dimen/size_70dp"
-                android:layout_height="@dimen/size_70dp">
+                android:layout_width="@dimen/size_95dp"
+                android:layout_height="106dp">
 
                 <com.puyue.www.qiaoge.RoundImageView
                     android:id="@+id/iv_pic"
-                    android:layout_width="@dimen/size_70dp"
-                    android:layout_height="@dimen/size_70dp"
-                    android:layout_marginTop="@dimen/dp_10" />
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:scaleType="fitXY" />
 
 
             </RelativeLayout>
@@ -35,6 +34,7 @@
             <ImageView
                 android:id="@+id/iv_order"
                 android:layout_width="@dimen/size_29dp"
+                android:layout_marginTop="@dimen/size_5dp"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/icon_one_wy" />
 

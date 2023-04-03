@@ -55,13 +55,13 @@ public class SplashActivity extends BaseActivity {
         Date time = Calendar.getInstance().getTime();
         int month =time.getMonth();
         int day = time.getDate();
-        Log.d("ewdadwsdas.....",month+"--"+day);
 
-        if(month+1 != 5 && day != 1) {
+        if(month+1 == 5 && day == 1) {
             iv_pic.setImageResource(R.mipmap.iv_wu_yi);
         }else {
             iv_pic.setImageResource(R.mipmap.ic_splash_three);
         }
+
         privacyDialog = new PrivacysDialog(mActivity);
         privacyDialog.setCanceledOnTouchOutside(false);
         privacyDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {

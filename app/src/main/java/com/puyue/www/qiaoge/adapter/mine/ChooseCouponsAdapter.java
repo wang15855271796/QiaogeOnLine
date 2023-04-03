@@ -103,7 +103,7 @@ public class ChooseCouponsAdapter extends BaseQuickAdapter<UserChooseDeductModel
         rv_role.setLayoutParams(lp);
 
 
-        if(!item.getReason().equals("") && item.getReason()!=null) {
+        if(item.getReason()!=null && !item.getReason().equals("")) {
             tv_use_limits.setText(item.getReason());
             tv_use_limits.setVisibility(View.VISIBLE);
         }else {
