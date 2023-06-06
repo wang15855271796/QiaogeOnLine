@@ -164,20 +164,20 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/size_11dp"
-                android:text="3件商品"
+                tools:text="3件商品"
                 android:textColor="#414141"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/tv1"
-                android:textColor="#414141"
-                android:textSize="12sp"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/tv_total"
-                android:layout_marginLeft="@dimen/size_5dp"
-                android:text="合计"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/size_5dp"
+                android:layout_toRightOf="@+id/tv_total"
+                android:text="合计"
+                android:textColor="#414141"
+                android:textSize="12sp" />
 
             <TextView
                 android:layout_toRightOf="@+id/tv1"
@@ -242,7 +242,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="5dp"
-                android:layout_marginRight="102dp"
+                android:layout_marginRight="200dp"
                 android:background="@drawable/shape_order_list"
                 android:paddingLeft="@dimen/size_11dp"
                 android:paddingTop="@dimen/size_6dp"

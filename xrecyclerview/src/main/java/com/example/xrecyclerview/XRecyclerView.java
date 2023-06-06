@@ -163,15 +163,12 @@ public class XRecyclerView extends RecyclerView {
             LayoutManager layoutManager = getLayoutManager();
             int lastVisibleItemPosition;   //最后可见索引
             if (layoutManager instanceof GridLayoutManager) {
-                Log.d("efsfesdf.....","1");
                 lastVisibleItemPosition = ((GridLayoutManager) layoutManager).findLastVisibleItemPosition();
             } else if (layoutManager instanceof StaggeredGridLayoutManager) {
-                Log.d("efsfesdf.....","12");
                 int[] into = new int[((StaggeredGridLayoutManager) layoutManager).getSpanCount()];
                 ((StaggeredGridLayoutManager) layoutManager).findLastVisibleItemPositions(into);
                 lastVisibleItemPosition = findMax(into);
             } else {
-                Log.d("efsfesdf.....","123");
                 lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
             }
 
@@ -188,13 +185,11 @@ public class XRecyclerView extends RecyclerView {
                 }
                 if (CheckNetwork.isNetworkConnected(getContext())) {
                     mLoadingListener.onLoadMore();
-                    Log.d("efsfesdf.....","1234");
                 } else {
                     postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             mLoadingListener.onLoadMore();
-                            Log.d("efsfesdf.....","12345");
                         }
                     }, 1000);
                 }

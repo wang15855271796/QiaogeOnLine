@@ -4,6 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,6 +23,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -33,6 +37,7 @@ import com.chinaums.pppay.unify.UnifyPayPlugin;
 import com.chinaums.pppay.unify.UnifyPayRequest;
 import com.puyue.www.qiaoge.R;
 
+import com.puyue.www.qiaoge.activity.CommonH6Activity;
 import com.puyue.www.qiaoge.activity.cart.PayResultActivity;
 import com.puyue.www.qiaoge.activity.mine.account.HisActivity;
 import com.puyue.www.qiaoge.activity.mine.account.PayActivity;
@@ -76,6 +81,9 @@ import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -145,7 +153,7 @@ public class PaymentFragment extends DialogFragment {
         btnPay.setOnClickListener(listener);
         tv_amount.setText(total);
         iv_close.setOnClickListener(listener);
-        tv_balance.setClickable(false);
+        rePayWay.setEnabled(false);
         iv_closes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -264,9 +272,13 @@ public class PaymentFragment extends DialogFragment {
     @Override
     public void onResume() {
         super.onResume();
-//        if(outTradeNo!=null&&SharedPreferencesUtil.getString(getContext(),"payKey").equals("4")) {
-////            getPayResult(outTradeNo);
-////        }
+        if(outTradeNo!=null&&SharedPreferencesUtil.getString(getContext(),"payKey").equals("5")) {
+            getPayResult(outTradeNo);
+        }
+
+        if(outTradeNo!=null&&SharedPreferencesUtil.getString(getContext(),"payKey").equals("4")) {
+            getPayResult(outTradeNo);
+        }
 ////
 ////        if(jumpWx==1) {
 ////            Intent intent = new Intent(getActivity(),NewOrderDetailActivity.class);
@@ -317,7 +329,6 @@ public class PaymentFragment extends DialogFragment {
                             String businessCstNo = orderPayModel.data.businessCstNo;
                             String merchantNo = orderPayModel.data.merchantNo;
                             UserInfoHelper.saveWalletStatus(getContext(), outTradeNo);
-
                             JSONObject jsonObject = new JSONObject();
                             try {
                                 jsonObject.put("orderFlowNo",orderNoList);
@@ -393,6 +404,10 @@ public class PaymentFragment extends DialogFragment {
                                     SharedPreferencesUtil.saveString(getContext(),"payKey","4");
                                     payAliPay(orderPayModel.data.payToken);
                                 }
+                            } else if(orderPayModel.data.payType==22) {
+                                //支付宝跳转小程序
+                                SharedPreferencesUtil.saveString(getContext(),"payKey","5");
+                                zhiFuBaoPay(orderPayModel.data.payToken);
                             }
 
                             lav_activity_loading.setVisibility(View.GONE);
@@ -426,13 +441,13 @@ public class PaymentFragment extends DialogFragment {
      * 支付宝
      * @param parms
      */
-
     private void payAliPay(String parms){
         UnifyPayRequest msg = new UnifyPayRequest();
         msg.payChannel = UnifyPayRequest.CHANNEL_ALIPAY;
         msg.payData = parms;
         UnifyPayPlugin.getInstance(getContext()).sendPayRequest(msg);
     }
+
 
     private void weChatPay2(String json) {
         try {
@@ -471,6 +486,34 @@ public class PaymentFragment extends DialogFragment {
     }
 
     /**
+     * 支付宝支付（小程序）
+     */
+    private void zhiFuBaoPay(String json) {
+        try {
+            String uri = json;
+            Intent intent = Intent.parseUri(uri, Intent.URI_INTENT_SCHEME);
+            startActivity(intent);
+//            String decode = URLDecoder.decode(uri);
+
+//            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+//            startActivity(intent);
+
+//            PackageManager packageManager = getActivity().getPackageManager();
+//            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+//            List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
+//            boolean isValid = !activities.isEmpty();
+//            if (isValid) {
+//                startActivity(intent);
+//            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    /**
      * 微信支付的回调,使用的eventBus.......((‵□′))
      **/
     @Subscribe
@@ -481,7 +524,6 @@ public class PaymentFragment extends DialogFragment {
         intent.putExtra(AppConstant.ORDERID, orderId);
         intent.putExtra(AppConstant.ORDERDELIVERYTYPE, orderDeliveryType+"");
         startActivity(intent);
-
     }
 
     /**
@@ -830,13 +872,13 @@ public class PaymentFragment extends DialogFragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        tv_balance.setClickable(true);
+                        rePayWay.setEnabled(true);
                     }
 
                     @Override
                     public void onNext(PayListModel payListModel) {
                         if (payListModel.success) {
-                            tv_balance.setClickable(true);
+                            rePayWay.setEnabled(true);
                             data = payListModel.getData();
                             list.clear();
                             list.addAll(data);
@@ -896,7 +938,7 @@ public class PaymentFragment extends DialogFragment {
                             });
 
                         } else {
-                            tv_balance.setClickable(true);
+                            rePayWay.setEnabled(true);
                             AppHelper.showMsg(getContext(), payListModel.message);
                         }
                     }

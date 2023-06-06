@@ -1,15 +1,20 @@
 package com.puyue.www.qiaoge.activity.mine;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.CommonH5Activity;
+import com.puyue.www.qiaoge.activity.CommonH7Activity;
 import com.puyue.www.qiaoge.activity.home.HomeGoodsListActivity;
 import com.puyue.www.qiaoge.activity.home.TeamDetailActivity;
 import com.puyue.www.qiaoge.adapter.mine.MessageCenterAdapter;
@@ -23,6 +28,7 @@ import com.puyue.www.qiaoge.model.mine.MessageDetailModel;
 import com.puyue.www.qiaoge.model.mine.UpdateMessageStateModel;
 import com.puyue.www.qiaoge.model.mine.MessageListModel;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +69,7 @@ public class MessageCenterActivity extends BaseSwipeActivity {
 
     //在这个地方拿到数据，并设置返回码把NP传过去
     //
-
+    TextView tv_message;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -76,10 +82,20 @@ public class MessageCenterActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
+        tv_message = (TextView) findViewById(R.id.tv_message);
         mIvBack = (ImageView) findViewById(R.id.iv_message_center_back);
         mPtr = (PtrClassicFrameLayout) findViewById(R.id.ptr_message_center);
         mRv = (RecyclerView) findViewById(R.id.rv_message_center);
         mIvNoData = (ImageView) findViewById(R.id.iv_message_no_data);
+        WebView myWebView2 = (WebView) findViewById(R.id.myWebView2);
+        tv_message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myWebView2.loadUrl("file:///android_asset/test1.html");
+//                Intent intent = new Intent(mContext, CommonH7Activity.class);
+//                startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -482,8 +482,9 @@ public class MarketsFragment extends BaseFragment {
                         mEtSearchGood.setText("");
                         mEtLowPrice.setText("");
                         mEtHighPrice.setText("");
-                        mAdapterBrand.setStat();
-
+                        if(mAdapterBrand!=null) {
+                            mAdapterBrand.setStat();
+                        }
                     }
                 });
                 mTvOk.setOnClickListener(new View.OnClickListener() {

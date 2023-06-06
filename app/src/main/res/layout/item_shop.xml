@@ -41,10 +41,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:background="@drawable/shape_jianbian20"
-                android:text="其他信息"
-                android:textSize="10sp"
                 android:padding="@dimen/size_2dp"
-                android:textColor="#ffffff" />
+                android:text="其他信息"
+                android:textColor="#ffffff"
+                android:textSize="10sp" />
         </RelativeLayout>
 
 

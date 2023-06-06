@@ -42,6 +42,7 @@ import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.mine.ShopDetailActivity;
 import com.puyue.www.qiaoge.adapter.FullDescDialogAdapter;
 import com.puyue.www.qiaoge.adapter.PhotoVideoViewAdapter;
+import com.puyue.www.qiaoge.adapter.VideoAdapter;
 import com.puyue.www.qiaoge.adapter.market.PhotoViewAdapter;
 import com.puyue.www.qiaoge.api.cart.CartListAPI;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
@@ -55,6 +56,7 @@ import com.puyue.www.qiaoge.model.CartFullModel;
 import com.puyue.www.qiaoge.model.CartFullsModel;
 import com.puyue.www.qiaoge.model.JudegModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
+import com.puyue.www.qiaoge.view.NoPreloadViewPager;
 import com.puyue.www.qiaoge.view.PhotoViewPager;
 import com.puyue.www.qiaoge.view.datepicker.FingerFrameLayout;
 
@@ -300,9 +302,11 @@ public class AppHelper {
     /**
      * 弹出电话号码
      */
-
     public static void showPhoneDialog(final Context context, final String cell) {
-        final AlertDialog mDialog = new AlertDialog.Builder(context).create();
+
+//        final AlertDialog mDialog = new AlertDialog.Builder(context).create();
+        AlertDialog mDialog = new AlertDialog.Builder(context, R.style.CommonDialogStyle).create();
+
         mDialog.show();
         mDialog.getWindow().setContentView(R.layout.dialog_call_phone);
         TextView tv_phones = mDialog.getWindow().findViewById(R.id.tv_phone);
@@ -471,7 +475,7 @@ public class AppHelper {
      */
     public static void showPhotoDetailDialog(Context mContext, final List<String> mListUrl, int position) {
         dialog = new Dialog(mContext, R.style.Theme_Light_Dialog);
-        dialogView = LayoutInflater.from(mContext).inflate(R.layout.dialog_show_photo, null);
+        dialogView = LayoutInflater.from(mContext).inflate(R.layout.dialog_show_photo2, null);
         //获得dialog的window窗口
         Window window = dialog.getWindow();
         //设置dialog在屏幕底部
@@ -490,7 +494,7 @@ public class AppHelper {
         //将自定义布局加载到dialog上
         dialog.setContentView(dialogView);
         final TextView mTv = dialog.findViewById(R.id.tv_dialog_photo);
-        PhotoViewPager mVp = dialog.findViewById(R.id.vp_dialog_photo);
+        NoPreloadViewPager mVp = dialog.findViewById(R.id.vp_dialog_photo);
         FingerFrameLayout mFl = dialog.findViewById(R.id.ffl_dialog_photo);
         mFl.setOnAlphaChangeListener(new FingerFrameLayout.onAlphaChangedListener() {
             @Override
@@ -509,6 +513,7 @@ public class AppHelper {
             }
         });
         PhotoViewAdapter photoViewAdapter = new PhotoViewAdapter(mListUrl, mContext);
+
         mVp.setAdapter(photoViewAdapter);
         mVp.setCurrentItem(position);
         mTv.setText(position  + 1+"/" + mListUrl.size());
@@ -521,7 +526,7 @@ public class AppHelper {
             }
         });
 
-        mVp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mVp.setOnPageChangeListener(new NoPreloadViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -531,7 +536,6 @@ public class AppHelper {
             public void onPageSelected(int position) {
                 mTv.setText(position + 1 + "/" + mListUrl.size());
                 mTv.getBackground().setAlpha(100);
-
             }
 
             @Override
@@ -539,6 +543,25 @@ public class AppHelper {
 
             }
         });
+
+//        mVp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//
+//            }
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//                mTv.setText(position + 1 + "/" + mListUrl.size());
+//                mTv.getBackground().setAlpha(100);
+//
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//
+//            }
+//        });
 
 
 
@@ -795,7 +818,8 @@ public class AppHelper {
      */
     public static void showIssueDetailDialog(Activity mContext, final List<String> mListUrl, int position) {
         dialog = new Dialog(mContext, R.style.Theme_Light_Dialog);
-        dialogView = LayoutInflater.from(mContext).inflate(R.layout.dialog_show_photo, null);
+        dialogView = LayoutInflater.from(mContext).inflate(R.layout.dialog_show_photo2,
+                null);
         //获得dialog的window窗口
         Window window = dialog.getWindow();
         //设置dialog在屏幕底部
@@ -814,7 +838,7 @@ public class AppHelper {
         //将自定义布局加载到dialog上
         dialog.setContentView(dialogView);
         final TextView mTv = dialog.findViewById(R.id.tv_dialog_photo);
-        PhotoViewPager mVp = dialog.findViewById(R.id.vp_dialog_photo);
+        NoPreloadViewPager mVp = dialog.findViewById(R.id.vp_dialog_photo);
         FingerFrameLayout mFl = dialog.findViewById(R.id.ffl_dialog_photo);
         mFl.setOnAlphaChangeListener(new FingerFrameLayout.onAlphaChangedListener() {
             @Override
@@ -836,7 +860,7 @@ public class AppHelper {
         mVp.setAdapter(photoViewAdapter);
         mVp.setCurrentItem(position);
         mTv.setText(position  + 1+"/" + mListUrl.size());
-
+        mVp.setOffscreenPageLimit(0);
         photoViewAdapter.setPhotoListener(new PhotoVideoViewAdapter.OnPhotoListener() {
             @Override
             public void onPhotoListenter() {
@@ -846,7 +870,7 @@ public class AppHelper {
             }
         });
 
-        mVp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mVp.setOnPageChangeListener(new NoPreloadViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -856,12 +880,6 @@ public class AppHelper {
             public void onPageSelected(int position) {
                 mTv.setText(position + 1 + "/" + mListUrl.size());
                 mTv.getBackground().setAlpha(100);
-
-                if(mListUrl.get(position).contains(".mp4")) {
-                    PictureSelector.create(mContext).externalPictureVideo(mListUrl.get(position));
-                }else {
-
-                }
             }
 
             @Override
@@ -869,6 +887,32 @@ public class AppHelper {
 
             }
         });
+//        mVp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//
+//            }
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//
+////                if(mListUrl.get(position).contains(".mp4")) {
+////                    PictureSelector.create(mContext).externalPictureVideo(mListUrl.get(position));
+////                }
+////                if(mListUrl.get(position).contains(".mp4")) {
+////                    mVp.setAdapter(videoAdapter);
+////                    Log.d("wsd11111",mListUrl.get(position)+"111");
+////                }else {
+////                    mVp.setAdapter(photoViewAdapter);
+////                    Log.d("wsd11111",mListUrl.get(position)+"222");
+////                }
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//
+//            }
+//        });
 
 
 

@@ -111,7 +111,6 @@ public class ReasonActivity extends BaseSwipeActivity {
         reasonAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
                 if(position==list.size()-1) {
                     selectionPosition = position;
                     edit.setVisibility(View.VISIBLE);

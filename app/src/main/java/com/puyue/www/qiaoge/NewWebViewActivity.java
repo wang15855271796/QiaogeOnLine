@@ -383,10 +383,9 @@ public class NewWebViewActivity extends BaseSwipeActivity {
 
                 //
             }
-
-
         }
     }
+
 
     public class JsPhone extends Object {
         @JavascriptInterface

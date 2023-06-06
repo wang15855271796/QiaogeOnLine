@@ -93,12 +93,17 @@ public class MySubOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBea
         ll_info = helper.getView(R.id.ll_info);
         tv_time.setText(item.orderTime);
         if(item.subBuyPhone!=null && !item.subBuyPhone.equals("")) {
-            tv_sub_account.setText("子账号"+item.subBuyPhone+"订单");
+            tv_sub_account.setText(item.subBuyPhone+"订单");
             ll_info.setVisibility(View.VISIBLE);
         }else {
             ll_info.setVisibility(View.GONE);
         }
-//        tv_total.setText(item.);
+        if(item.pics!=null && item.pics.size()>0) {
+            tv_total.setText("共"+item.pics.size()+"件商品");
+            tv_total.setVisibility(View.VISIBLE);
+        }else {
+            tv_total.setVisibility(View.GONE);
+        }
 
         if(orderDeliveryType==0) {
             //配送
@@ -192,7 +197,7 @@ public class MySubOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBea
             tv_time.setVisibility(View.GONE);
             evaluateNow.setVisibility(View.VISIBLE);
             againBay.setVisibility(View.VISIBLE);
-            deleteOrder.setVisibility(View.GONE);
+            deleteOrder.setVisibility(View.VISIBLE);
             cancelOrder.setVisibility(View.GONE);
             imageGo.setVisibility(View.GONE);
             confirmOrder.setVisibility(View.GONE);
@@ -203,7 +208,7 @@ public class MySubOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBea
             againBay.setVisibility(View.VISIBLE);
             evaluateNow.setVisibility(View.GONE);
             confirmOrder.setVisibility(View.GONE);
-            deleteOrder.setVisibility(View.GONE);
+            deleteOrder.setVisibility(View.VISIBLE);
             cancelOrder.setVisibility(View.GONE);
             tv_call.setVisibility(View.GONE);
         }else if(item.orderStatus==7) {
@@ -222,7 +227,7 @@ public class MySubOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBea
             againBay.setVisibility(View.VISIBLE);
             evaluateNow.setVisibility(View.GONE);
             confirmOrder.setVisibility(View.GONE);
-            deleteOrder.setVisibility(View.GONE);
+            deleteOrder.setVisibility(View.VISIBLE);
             cancelOrder.setVisibility(View.GONE);
             tv_call.setVisibility(View.GONE);
         }

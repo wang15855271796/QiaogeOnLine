@@ -2,7 +2,9 @@ package com.puyue.www.qiaoge.fragment.home;
 
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
+import android.Manifest;
 import android.animation.IntEvaluator;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +21,9 @@ import com.frankfancode.marqueeview.MarqueeView;
 import com.google.android.exoplayer2.Player;
 import com.google.android.material.appbar.AppBarLayout;
 
+import androidx.annotation.Size;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.viewpager.widget.ViewPager;
@@ -40,6 +44,7 @@ import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.PermissionRequest;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -180,6 +185,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import pub.devrel.easypermissions.EasyPermissions;
 import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -811,6 +817,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     VpDiscountAdapter.Onclick onclickDis;
     VpTeamAdapter.Onclick onclickTeam;
     VpSkillAdapter.Onclick onclickSkill;
+//    String[] params = { Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION};
     @Override
     public void setViewData() {
         //判断用户是否选择了企业
@@ -886,7 +893,34 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 getPriceDialog();
             }
         };
+
+//        if (EasyPermissions.hasPermissions(mActivity,params)) {//检查是否获取该权限
+//            logoutAndToHomes(mContext, -10000);
+            //全部允许
+//        } else {//第二次请求
+            //存在不允许的权限  对话框为什么一会出来一会不出来
+//            EasyPermissions.requestPermissions(this, "需要定位您当前的位置信息", 1, params);
+
+//        }
+//        requestPermissions(mActivity,"haha",1,params);
+//        if(!EasyPermissions.hasPermissions(mActivity,params)) {
+//            ActivityCompat.requestPermissions(mActivity, params, 1);
+//        }
+
     }
+
+    public static void requestPermissions(@NonNull Activity host, String rationale,
+                                          int requestCode, @Size(min = 1) @NonNull String... perms) {
+        // 需要原因说明弹窗的依然交给EasyPermission处理
+//        if (!TextUtils.isEmpty(rationale)) {
+//            EasyPermissions.requestPermissions(host, rationale, requestCode, perms);
+//        } else {
+//            // rational的值为空时，直接调用权限申请，绕过EasyPermission的判断
+//            PermissionRequest request = new PermissionRequest.Builder(host, requestCode, perms).build();
+//            request.getHelper().directRequestPermissions(requestCode, perms);
+//        }
+    }
+
 
     private void getPriceDialog() {
         if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mActivity))) {
@@ -1946,6 +1980,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
                     @Override
                     public void onNext(IndexInfoModel indexInfoModel) {
+//                        Log.d("wdasdwds")
                         if (indexInfoModel.getCode()==1) {
                             if(indexInfoModel.getData()!=null) {
                                 data = indexInfoModel.getData();

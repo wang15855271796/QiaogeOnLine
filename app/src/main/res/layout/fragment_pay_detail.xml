@@ -108,10 +108,10 @@
                         tools:text="余额(120)" />
 
                     <ImageView
-                        android:layout_alignParentRight="true"
-                        android:src="@mipmap/ic_right_arrow"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:src="@mipmap/ic_right_arrow" />
 
                 </RelativeLayout>
 
@@ -130,15 +130,15 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="48dp"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
             android:layout_marginTop="20dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="48dp"
             android:background="@drawable/shape_orange"
             android:padding="10dp"
-            android:textSize="@dimen/size_18dp"
             android:text="立即付款"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="@dimen/size_18dp" />
 
         <TextView
             android:textColor="#F6561A"

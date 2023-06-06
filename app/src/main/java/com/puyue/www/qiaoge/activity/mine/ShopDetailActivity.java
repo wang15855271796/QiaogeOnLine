@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.puyue.www.qiaoge.MyStandardGSYVideoPlayer;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.adapter.ImageVideoViewAdapter;
 import com.puyue.www.qiaoge.adapter.cart.ImageViewAdapter;
@@ -25,6 +26,7 @@ import com.puyue.www.qiaoge.api.home.InfoListAPI;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.helper.AppHelper;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -73,6 +75,8 @@ public class ShopDetailActivity extends BaseSwipeActivity {
     TextView tv_return_time;
     @BindView(R.id.ll_info)
     LinearLayout ll_info;
+    @BindView(R.id.player)
+    MyStandardGSYVideoPlayer player;
     InfoDetailModel.DataBean lists;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
@@ -108,6 +112,7 @@ public class ShopDetailActivity extends BaseSwipeActivity {
 
     }
 
+    List<String> videoList = new ArrayList<>();
     private void getCityList() {
         InfoListAPI.getDetail(mActivity,msgId)
                 .subscribeOn(Schedulers.io())
@@ -154,8 +159,8 @@ public class ShopDetailActivity extends BaseSwipeActivity {
                                 }
 
                                 List<String> pictureList = lists.getPictureList();
-
                                 if(lists.getVideoUrl()!=null) {
+                                    videoList.add(lists.getVideoUrl());
                                     pictureList.add(lists.getVideoUrl());
                                 }
 
@@ -167,11 +172,9 @@ public class ShopDetailActivity extends BaseSwipeActivity {
                                 imageViewAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                                        if(!pictureList.get(position).contains(".mp4")) {
-                                            List<String> result = Arrays.asList(pictureList.get(position).split(","));
+                                        if(pictureList.size()>0) {
+
                                             AppHelper.showIssueDetailDialog(mActivity, pictureList, position);
-                                        }else {
-                                            PictureSelector.create(ShopDetailActivity.this).externalPictureVideo(pictureList.get(position));
                                         }
                                     }
                                 });

@@ -12,6 +12,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.CommonH6Activity;
 import com.puyue.www.qiaoge.activity.HuoHomeActivity;
+import com.puyue.www.qiaoge.adapter.MyOrdersItemAdapter1;
 import com.puyue.www.qiaoge.adapter.mine.MyOrdersItemAdapter;
 import com.puyue.www.qiaoge.api.huolala.HuolalaAPI;
 import com.puyue.www.qiaoge.api.mine.order.CopyToCartAPI;
@@ -47,7 +48,7 @@ public class ReturnOrdersFragment extends BaseFragment {
 
     private PtrClassicFrameLayout mPtr;
     private RecyclerView mRv;
-    private MyOrdersItemAdapter mAdapterMyOrders;
+    private MyOrdersItemAdapter1 mAdapterMyOrders;
     private String mType;
     private int pageNum = 1;
     private ImageView mIvNoData;
@@ -112,7 +113,7 @@ public class ReturnOrdersFragment extends BaseFragment {
             }
         });
         if (orderDeliveryType==0){
-            mAdapterMyOrders = new MyOrdersItemAdapter(R.layout.item_my_order, mListResult, 11,orderDeliveryType, new MyOrdersItemAdapter.OnClick() {
+            mAdapterMyOrders = new MyOrdersItemAdapter1(R.layout.item_my_order1, mListResult, 11,orderDeliveryType, new MyOrdersItemAdapter.OnClick() {
 
 
                 @Override
@@ -164,7 +165,8 @@ public class ReturnOrdersFragment extends BaseFragment {
 
             });
         }else if (orderDeliveryType==1){
-            mAdapterMyOrders = new MyOrdersItemAdapter(R.layout.item_my_order_self, mListResult, 11, orderDeliveryType,new MyOrdersItemAdapter.OnClick() {
+            //item_my_order_self
+            mAdapterMyOrders = new MyOrdersItemAdapter1(R.layout.item_my_order1, mListResult, 11, orderDeliveryType,new MyOrdersItemAdapter.OnClick() {
 
 
                 @Override
@@ -392,7 +394,7 @@ public class ReturnOrdersFragment extends BaseFragment {
                     public void onNext(OrdersModel myOrdersModel) {
                         logoutAndToHome(getContext(), myOrdersModel.code);
                         mPtr.refreshComplete();
-//                        mModelMyOrders = myOrdersModel;
+                        mModelMyOrders = myOrdersModel;
                         if (mModelMyOrders.success) {
                             updateOrderList();
                         } else {

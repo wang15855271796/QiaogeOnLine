@@ -153,7 +153,6 @@ public class PayResultActivity extends BaseSwipeActivity {
                 intent.putExtra("URL", imageUrl);
                 intent.putExtra("name","");
                 startActivity(intent);
-//                Log.d("sssssssssssswwwwwwwwww","sdsdsdsdsd1111111");
             }
         }
     };
@@ -479,7 +478,7 @@ public class PayResultActivity extends BaseSwipeActivity {
                                             }
                                             dialog.dismiss();
                                         }
-                                    },20000);
+                                    },15000);
                                 }
 
                                 if(getPayResultModel.getData().getDeliverModel()==0) {

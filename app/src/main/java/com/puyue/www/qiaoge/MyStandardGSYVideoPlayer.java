@@ -28,4 +28,6 @@ public class MyStandardGSYVideoPlayer extends StandardGSYVideoPlayer {
     public int getLayoutId() {
         return R.layout.test_video;
     }
+
+
 }

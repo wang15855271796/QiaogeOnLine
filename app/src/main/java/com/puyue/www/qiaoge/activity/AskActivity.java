@@ -279,6 +279,7 @@ public class AskActivity extends BaseActivity implements View.OnClickListener {
                 editName = edit_name.getText().toString();
                 editPhone = edit_phone.getText().toString();
                 memo = edit_message.getText().toString();
+                detailAddress = edit_address.getText().toString();
                 if(editName!= null && editPhone!= null &&editName.equals("")&&editPhone.equals("")) {
                     ToastUtil.showSuccessMsg(mContext,"请填写收货人和联系电话");
                     return;

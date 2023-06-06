@@ -8,6 +8,7 @@ import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -159,6 +160,8 @@ public class SetLoginSecretActivity extends BaseSwipeActivity {
             }
         });
     }
+
+
 
     @Override
     public void setClickEvent() {

@@ -81,8 +81,10 @@ public class ChooseViews extends LinearLayout {
                     mOnSelectListener.cloese();
                     firstMenuListViewAdapter.setCustText("");
                     firstMenuListViewAdapter.notifyDataSetChanged();
-                    secondMenuListViewAdapter.setCustText("");
-                    secondMenuListViewAdapter.notifyDataSetChanged();
+                    if(secondMenuListViewAdapter!=null) {
+                        secondMenuListViewAdapter.setCustText("");
+                        secondMenuListViewAdapter.notifyDataSetChanged();
+                    }
                 }
             }
         });
@@ -135,11 +137,13 @@ public class ChooseViews extends LinearLayout {
 
 
         // 初始化二级主菜单
-        secondItem = menuItem.get(firstPosition).getCityNames();
-        secondMenuListViewAdapter = new MenuSecondItemAdapter(context, secondItem, R.drawable.choose_eara_item_selector, R.drawable.choose_eara_item_selector);
-        secondMenuListViewAdapter.setTextSize(15);
-        secondMenuListViewAdapter.setSelectedPositionNoNotify(secondPosition, secondItem);
-        secondMenuListView.setAdapter(secondMenuListViewAdapter);
+        if(menuItem!=null && menuItem.size()>0) {
+            secondItem = menuItem.get(firstPosition).getCityNames();
+            secondMenuListViewAdapter = new MenuSecondItemAdapter(context, secondItem, R.drawable.choose_eara_item_selector, R.drawable.choose_eara_item_selector);
+            secondMenuListViewAdapter.setTextSize(15);
+            secondMenuListViewAdapter.setSelectedPositionNoNotify(secondPosition, secondItem);
+            secondMenuListView.setAdapter(secondMenuListViewAdapter);
+        }
 
     }
 

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -125,6 +126,7 @@ public class SnapUpCountDownTimerView3 extends LinearLayout{
     }
 
     private void timeOutEvent() {
+
         if (nowTime == 0 || startTime == 0 || endTime == 0) {
 
 

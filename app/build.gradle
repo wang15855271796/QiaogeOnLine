@@ -28,7 +28,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 63
-        versionName "2.8.6"
+        versionName "2.8.7"
 //        manifestPlaceholders = [qqappid: "100424468"]
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         flavorDimensions "versionCode"
@@ -206,4 +206,5 @@ dependencies {
     implementation files('libs/open_sdk_3.5.12.2_r97423a8_lite.jar')
     implementation 'com.umeng.umsdk:share-wx:7.2.1'
 //    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.8.0'
+    implementation 'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.5.0'
 }

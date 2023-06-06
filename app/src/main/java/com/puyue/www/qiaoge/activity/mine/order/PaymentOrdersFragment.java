@@ -15,6 +15,7 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.CommonH6Activity;
 import com.puyue.www.qiaoge.activity.HuoHomeActivity;
 import com.puyue.www.qiaoge.adapter.mine.MyOrdersItemAdapter;
+import com.puyue.www.qiaoge.adapter.mine.MySubOrdersItemAdapter;
 import com.puyue.www.qiaoge.adapter.mine.NewOrderDetailAdapter;
 import com.puyue.www.qiaoge.api.cart.CancelOrderAPI;
 import com.puyue.www.qiaoge.api.cart.DeleteOrderAPI;
@@ -52,7 +53,7 @@ public class PaymentOrdersFragment extends BaseFragment {
 
     private PtrClassicFrameLayout mPtr;
     private RecyclerView mRv;
-    private MyOrdersItemAdapter mAdapterMyOrders;
+    private MySubOrdersItemAdapter mAdapterMyOrders;
     private String mType;
     private ImageView mIvNoData;
     private int pageNum = 1;
@@ -123,7 +124,7 @@ public class PaymentOrdersFragment extends BaseFragment {
             }
         });
         if (orderDeliveryType==0){
-            mAdapterMyOrders = new MyOrdersItemAdapter(R.layout.item_my_order, mListResult, 1,orderDeliveryType, new MyOrdersItemAdapter.OnClick() {
+            mAdapterMyOrders = new MySubOrdersItemAdapter(R.layout.item_my_order, mListResult, 1,orderDeliveryType, new MySubOrdersItemAdapter.OnClick() {
 
                 @Override
                 public void callHuo(int deliveryMode, String orderId, String hllOrderId) {
@@ -238,7 +239,7 @@ public class PaymentOrdersFragment extends BaseFragment {
 
             });
         }else if (orderDeliveryType==1){
-            mAdapterMyOrders = new MyOrdersItemAdapter(R.layout.item_my_order_self, mListResult, 1,orderDeliveryType, new MyOrdersItemAdapter.OnClick() {
+            mAdapterMyOrders = new MySubOrdersItemAdapter(R.layout.item_my_order, mListResult, 1,orderDeliveryType, new MySubOrdersItemAdapter.OnClick() {
 
                 @Override
                 public void callHuo(int deliveryMode, String orderId, String hllOrderId) {
@@ -620,7 +621,7 @@ public class PaymentOrdersFragment extends BaseFragment {
                     public void onNext(OrdersModel myOrdersModel) {
                         mPtr.refreshComplete();
                         logoutAndToHome(getContext(), myOrdersModel.code);
-//                        mModelMyOrders = MyOrdersModel;
+                        mModelMyOrders = myOrdersModel;
                         if (mModelMyOrders.success) {
                             updateOrderList();
                         } else {

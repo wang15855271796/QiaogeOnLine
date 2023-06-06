@@ -1,30 +1,26 @@
 package com.puyue.www.qiaoge.adapter;
 
-import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.VideoView;
 
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
-import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.photoview.OnPhotoTapListener;
 import com.luck.picture.lib.photoview.PhotoView;
-import com.puyue.www.qiaoge.MyStandardGSYVideoPlayer;
-import com.puyue.www.qiaoge.activity.mine.ShopDetailActivity;
 import com.puyue.www.qiaoge.adapter.market.PhotoViewAdapter;
-import com.puyue.www.qiaoge.view.MyStandard1GSYVideoPlayer;
-import com.puyue.www.qiaoge.view.PhotoVideoView;
 
 import java.util.List;
 
-public class PhotoVideoViewAdapter extends PagerAdapter {
+public class VideoAdapter  extends PagerAdapter {
     List<String> imagesUrl;
-    Activity context;
+    Context context;
 
     private OnPhotoListener photoListener;
     ScaleGestureDetector mScaleGestureDetector;
@@ -42,7 +38,7 @@ public class PhotoVideoViewAdapter extends PagerAdapter {
         void onPhotoListenter();
     }
 
-    public PhotoVideoViewAdapter(List<String> imagesUrl, Activity context) {
+    public VideoAdapter(List<String> imagesUrl, Context context) {
         this.imagesUrl = imagesUrl;
         this.context = context;
     }
@@ -55,35 +51,29 @@ public class PhotoVideoViewAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         String url = imagesUrl.get(position);
-        PhotoView photoView = new PhotoView(context);
-        MyStandardGSYVideoPlayer myStandardGSYVideoPlayer = new MyStandardGSYVideoPlayer(context);
-
+//        TestVideoView videoView = new TestVideoView();
+        VideoView videoView = new VideoView(context);
         if(url.contains(".mp4")) {
-            myStandardGSYVideoPlayer.setUp(url,false,"");
-            myStandardGSYVideoPlayer.startPlayLogic();
-            container.addView(myStandardGSYVideoPlayer);
-        }else {
-            Glide.with(context).load(url).into(photoView);
-            container.addView(photoView);
+            videoView.setVideoPath(url);
+            videoView.start();
         }
+        Log.d("wdasdwdas......",url);
+        container.addView(videoView);
+//        PhotoView photoView = new PhotoView(context);
+//        Glide.with(context).load(url).into(photoView);
+//        container.addView(photoView);
+//        photoView.isEnabled();
+//        photoView.setOnPhotoTapListener(new OnPhotoTapListener() {
+//            @Override
+//            public void onPhotoTap(ImageView view, float x, float y) {
+//                if (photoListener != null) {
+//                    photoListener.onPhotoListenter();
+//                }
+//            }
+//        });
 
 
-        photoView.isEnabled();
-        photoView.setOnPhotoTapListener(new OnPhotoTapListener() {
-            @Override
-            public void onPhotoTap(ImageView view, float x, float y) {
-                if (photoListener != null) {
-                    photoListener.onPhotoListenter();
-                }
-            }
-        });
-
-        if(url.contains(".mp4")) {
-            return myStandardGSYVideoPlayer;
-        }else {
-            return photoView;
-        }
-
+        return videoView;
     }
 
     @Override

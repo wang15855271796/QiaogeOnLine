@@ -356,7 +356,7 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
 
                             tv_order_time.setText(data.getTime());
                             tv_order_num.setText(data.getOrderId());
-                            Log.d("wdsda......",data.orderStatusStr+"111");
+
                             if(data.orderStatusStr!=null&&!data.orderStatusStr.equals("") ) {
                                 tv_order_status.setText(data.orderStatusStr);
                                 tv_order_status.setVisibility(View.VISIBLE);

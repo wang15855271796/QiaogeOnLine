@@ -2,6 +2,7 @@ package com.puyue.www.qiaoge.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -50,6 +51,13 @@ public class SplashActivity extends BaseActivity {
     @Override
     public void setViewData() {
         //是否点击了隐私权限
+        Log.d("wxSdqwda.....","12");
+//        Intent intent = getIntent();
+//        Uri uri = intent.getData();
+//        Log.d("swdaswdasd....",uri+"--");
+//        if (uri != null) {
+//            String pid = uri.getQueryParameter("pid");
+//        }
         iv_pic = findViewById(R.id.iv_pic);
         SharedPreferencesUtil.getString(mContext,"once").equals("-1");
         Date time = Calendar.getInstance().getTime();

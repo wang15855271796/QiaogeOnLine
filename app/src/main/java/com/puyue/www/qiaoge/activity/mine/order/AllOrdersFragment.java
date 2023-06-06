@@ -126,6 +126,7 @@ public class AllOrdersFragment extends BaseFragment {
                 pageNum = 1;
             }
         });
+
         subId = getArguments().getString("subId");
         if (orderDeliveryType == 0) {
             mAdapterMyOrders = new MySubOrdersItemAdapter(R.layout.item_my_order, mListResult, 0, orderDeliveryType, new MySubOrdersItemAdapter.OnClick() {

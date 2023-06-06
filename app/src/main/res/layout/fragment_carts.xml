@@ -428,7 +428,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:padding="10dp">
@@ -454,7 +453,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/size_85dp"
+                        android:layout_marginLeft="75dp"
                         android:layout_marginRight="@dimen/size_5dp">
 
                         <TextView
@@ -464,6 +463,7 @@
                             android:layout_marginTop="@dimen/size_3dp"
                             android:layout_toLeftOf="@+id/tv1"
                             android:background="@drawable/shape_pink5"
+                            android:lines="1"
                             android:paddingLeft="@dimen/size_3dp"
                             android:paddingTop="@dimen/size_1dp"
                             android:paddingRight="@dimen/size_3dp"

@@ -30,6 +30,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.hw.videoprocessor.VideoProcessor;
 import com.hw.videoprocessor.VideoUtil;
@@ -39,6 +40,7 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnItemClickListener;
 import com.luck.picture.lib.style.PictureWindowAnimationStyle;
+import com.puyue.www.qiaoge.MyStandardGSYVideoPlayer;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.view.GlideEngine;
 import com.puyue.www.qiaoge.adapter.ShopImageViewssAdapter;
@@ -59,6 +61,7 @@ import com.puyue.www.qiaoge.model.mine.order.SendImageModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.CascadingMenuPopWindow;
 import com.puyue.www.qiaoge.view.CascadingMenuViewOnSelectListener;
+import com.puyue.www.qiaoge.view.VideoPlayerIJK;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -170,7 +173,7 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle(null);
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("视频压缩中......");
+        progressDialog.setMessage("视频上传中......");
 
     }
 
@@ -448,45 +451,48 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
 
                                 @Override
                                 public void deletPic(int pos) {
-//                                    pictureLists.remove(pos);
-//                                    shopImageViewAdapter.notifyDataSetChanged();
-//                                    Gson gson1 = new Gson();
-//                                    returnPic = gson1.toJson(pictureLists);
-//                                    Log.d("wdasdwdas.......",pos+"--");
-
                                     Gson gson1 = new Gson();
-//                                    pictureLists.remove(pos);
-                                    String url = pictureLists.get(pos);
-//
-                                    if(url.endsWith(".mp4")) {
-                                        //删除的是视频
-                                        pictureLists.remove(pos);
-                                        returnPic = gson1.toJson(pictureLists);
-                                        videoCoverUrl = "";
-                                        videoUrl = "";
-                                    }else {
-                                        //删除的是图片
-                                        pictureLists.remove(pos);
-                                        picsList.remove(pos);
-                                        returnPic = gson1.toJson(picsList);
+                                    if(pictureLists.size()>0) {
+                                        String url = pictureLists.get(pos);
+
+                                        if(url.endsWith(".mp4")) {
+                                            //删除的是视频
+                                            pictureLists.remove(pos);
+                                            returnPic = gson1.toJson(pictureLists);
+                                            videoCoverUrl = "";
+                                            videoUrl = "";
+                                        }else {
+                                            //删除的是图片
+                                            pictureLists.remove(pos);
+//                                            picsList.remove(pos);
+                                            returnPic = gson1.toJson(picsList);
+                                        }
                                     }
+
 
                                     shopImageViewAdapter.notifyDataSetChanged();
                                 }
                             });
                             recyclerView.setLayoutManager(manager);
                             recyclerView.setAdapter(shopImageViewAdapter);
-
                             shopImageViewAdapter.setOnItemClickListener(new OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View v, int position) {
+                                    if(pictureLists.size()>0) {
+                                        AppHelper.showIssueDetailDialog(mActivity, pictureLists, position);
+                                    }
+
 //                                    List<LocalMedia> data = shopImageViewAdapter.getData();
 //                                    images.get(position).getRealPath()
-                                    if(pictureLists.get(position).contains(".mp4")) {
-                                        PictureSelector.create(mActivity).externalPictureVideo(pictureLists.get(position));
-                                    }else {
-                                        AppHelper.showPhotoDetailDialog(mContext, pictureLists, position);
-                                    }
+//                                    if(pictureLists.get(position).contains(".mp4")) {
+//                                        PictureSelector.create(mActivity).externalPictureVideo(pictureLists.get(position));
+//                                        Log.d("esfzdfdzasda....",pictureLists.get(position));
+//                                        MyStandardGSYVideoPlayer myStandardGSYVideoPlayer = new MyStandardGSYVideoPlayer(mActivity);
+//                                        myStandardGSYVideoPlayer.setUp(pictureLists.get(position),false,"");
+//                                        myStandardGSYVideoPlayer.startPlayLogic();
+//                                    }else {
+//                                        AppHelper.showIssueDetailDialog(mActivity, pictureLists, position);
+//                                    }
 
 //                                    if (data.size() > 0) {
 //                                        LocalMedia media = images.get(position);
@@ -597,7 +603,9 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
     public void onActivityResult(int requestCode,int resultCode,Intent data){
          if(requestCode==PictureConfig.CHOOSE_REQUEST&&resultCode==Activity.RESULT_OK){
             handleImgeOnKitKat(data);
-        }
+        }else {
+             progressDialog.dismiss();
+         }
     }
 
     String path;
@@ -608,7 +616,7 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
         images = PictureSelector.obtainMultipleResult(data);
         picList.clear();
         coverList.clear();
-
+        progressDialog.show();
         for (LocalMedia media : images) {
             path = media.getPath();
             picList.add(media.getRealPath());
@@ -617,6 +625,7 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
                 if(picUrl.contains(".mp4")) {
                     for (LocalMedia url: images) {
                         if(url.getRealPath().contains(".mp4")) {
+                            progressDialog.dismiss();
                             ToastUtil.showSuccessMsg(mContext,"只能上传一个视频");
                             return;
                         }
@@ -627,24 +636,16 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
             if(media.getMimeType().equals("image/jpeg")) {
                 //图片
                 upImage(filesToMultipartBodyParts(picList));
+                progressDialog.dismiss();
             }else {
                 //视频
-
-//                upVideo(filesToMultipartBodyParts(picList));
                 coverList.add(media.getRealPath());
                 upCover(filesToMultipartBodyParts(coverList));
-//                if(media.getSize()/1024/1024>30) {
-//                    String realPath = media.getRealPath();
-//                    executeScaleVideo(realPath);
-//                }else {
-//                    coverList.add(media.getRealPath());
-//                    upCover(filesToMultipartBodyParts(coverList));
-//                }
-
             }
 
             selectList.addAll(images);
             shopImageViewAdapter.setList(selectList);
+            Log.d("cwdadwd.......",selectList.size()+"a");
         }
     }
 
@@ -685,7 +686,7 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
                                 }
                                 returnPic = gson.toJson(picsList);
                                 shopImageViewAdapter.notifyDataSetChanged();
-
+                                progressDialog.dismiss();
                             }
 
                         } else {

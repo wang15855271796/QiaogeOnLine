@@ -107,10 +107,13 @@ public class CascadingMenuViews extends LinearLayout {
 
 
         // 初始化二级主菜单
-        secondItem = menuItem.get(firstPosition).getCityNames();
-        secondMenuListViewAdapter = new MenuSecondItemAdapter(context, secondItem, R.drawable.choose_eara_item_selector, R.drawable.choose_eara_item_selector);
-        secondMenuListViewAdapter.setTextSize(15);
-        secondMenuListViewAdapter.setSelectedPositionNoNotify(secondPosition, secondItem);
+        if(menuItem!=null && menuItem.size()>0) {
+            secondItem = menuItem.get(firstPosition).getCityNames();
+            secondMenuListViewAdapter = new MenuSecondItemAdapter(context, secondItem, R.drawable.choose_eara_item_selector, R.drawable.choose_eara_item_selector);
+            secondMenuListViewAdapter.setTextSize(15);
+            secondMenuListViewAdapter.setSelectedPositionNoNotify(secondPosition, secondItem);
+        }
+
         secondMenuListView.setAdapter(secondMenuListViewAdapter);
 
     }

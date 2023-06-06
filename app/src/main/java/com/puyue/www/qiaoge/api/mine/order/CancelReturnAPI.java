@@ -20,17 +20,10 @@ public class CancelReturnAPI {
         @FormUrlEncoded
         @POST(AppInterfaceAddress.USERCANCELORDER)
         Observable<BaseModel> setParam(@Field("returnMainId") String returnMainId);
-
-
     }
-
 
     public static Observable<BaseModel> requestCancelOrder(Context context,String returnMainId){
-
         Observable<BaseModel> baseModelObservable = RestHelper.getBaseRetrofit(context).create(CancelOrderService.class).setParam(returnMainId);
         return baseModelObservable;
-
     }
-
-
 }

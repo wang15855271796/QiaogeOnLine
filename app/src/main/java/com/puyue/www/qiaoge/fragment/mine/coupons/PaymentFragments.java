@@ -140,7 +140,7 @@ public class PaymentFragments extends DialogFragment {
         rePayWay.setOnClickListener(listener);
         btnPay.setOnClickListener(listener);
         tv_amount.setText(total);
-        tv_balance.setClickable(false);
+        rePayWay.setEnabled(false);
         iv_close.setOnClickListener(listener);
         iv_closes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -237,6 +237,14 @@ public class PaymentFragments extends DialogFragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        if(outTradeNo!=null&&SharedPreferencesUtil.getString(getContext(),"payKey").equals("5")) {
+            getPayResult(outTradeNo);
+        }
+
+        if(outTradeNo!=null&&SharedPreferencesUtil.getString(getContext(),"payKey").equals("4")) {
+            getPayResult(outTradeNo);
+        }
 
         if(jumpWx==1) {
             Intent intent = new Intent(getActivity(),NewOrderDetailActivity.class);
@@ -353,6 +361,11 @@ public class PaymentFragments extends DialogFragment {
                                         payAliPay(orderPayModel.data.payToken);
                                     }
                                 }
+                                else if(orderPayModel.data.payType==22) {
+                                    //支付宝跳转小程序
+                                    SharedPreferencesUtil.saveString(getContext(),"payKey","5");
+                                    zhiFuBaoPay(orderPayModel.data.payToken);
+                                }
                             }
                             lav_activity_loading.setVisibility(View.GONE);
                             lav_activity_loading.hide();
@@ -380,7 +393,25 @@ public class PaymentFragments extends DialogFragment {
                 });
     }
 
-
+    /**
+     * 支付宝支付（小程序）
+     */
+    private void zhiFuBaoPay(String json) {
+        try {
+            String uri = json;
+            Intent intent = Intent.parseUri(uri, Intent.URI_INTENT_SCHEME);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+//            String decode = URLDecoder.decode(uri);
+//            Log.d("swwwwww...",decode);
+//            Uri uri1 = Uri.parse(uri); // url为你要链接的地址
+//            Intent intent1 = new Intent(Intent.ACTION_VIEW, uri1);
+//            startActivity(intent1);
+//            startActivity(CommonH6Activity.getIntent(getContext(), CommonH6Activity.class,uri,outTradeNo));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * 支付宝
@@ -790,13 +821,13 @@ public class PaymentFragments extends DialogFragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        tv_balance.setClickable(true);
+                        rePayWay.setEnabled(true);
                     }
 
                     @Override
                     public void onNext(PayListModel payListModel) {
                         if (payListModel.getCode()==1) {
-                            tv_balance.setClickable(true);
+                            rePayWay.setEnabled(true);
                             list.clear();
                             if(payListModel.getData()!=null && payListModel.getData().size()> 0) {
                                 data = payListModel.getData();
@@ -857,7 +888,7 @@ public class PaymentFragments extends DialogFragment {
                             }
 
                         } else {
-                            tv_balance.setClickable(true);
+                            rePayWay.setEnabled(true);
                             AppHelper.showMsg(getContext(), payListModel.message);
                         }
                     }

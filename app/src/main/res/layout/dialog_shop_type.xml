@@ -15,10 +15,10 @@
 
         <ImageView
             android:id="@+id/iv_pic"
-            android:layout_marginLeft="@dimen/size_21dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/size_21dp"
             android:src="@mipmap/info_other" />
 
         <TextView

@@ -1,11 +1,13 @@
 package com.puyue.www.qiaoge.fragment.mine.order;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
@@ -14,6 +16,7 @@ import com.puyue.www.qiaoge.activity.CommonH6Activity;
 import com.puyue.www.qiaoge.activity.HuoHomeActivity;
 import com.puyue.www.qiaoge.activity.mine.order.OrderEvaluateActivity;
 import com.puyue.www.qiaoge.adapter.mine.MyOrdersItemAdapter;
+import com.puyue.www.qiaoge.api.cart.DeleteOrderAPI;
 import com.puyue.www.qiaoge.api.huolala.HuolalaAPI;
 import com.puyue.www.qiaoge.api.mine.order.CopyToCartAPI;
 import com.puyue.www.qiaoge.api.mine.order.MyOrderListAPI;
@@ -26,6 +29,7 @@ import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.HasConnectModel;
 import com.puyue.www.qiaoge.model.IsAuthModel;
 import com.puyue.www.qiaoge.model.OrdersModel;
+import com.puyue.www.qiaoge.model.cart.CancelOrderModel;
 import com.puyue.www.qiaoge.model.mine.order.CommonModel;
 import com.puyue.www.qiaoge.model.mine.order.CopyToCartModel;
 import com.puyue.www.qiaoge.model.mine.order.OrderEvaluateListModel;
@@ -126,6 +130,33 @@ public class EvaluatedOrderFragment extends BaseFragment {
 
                 @Override
                 public void deleteOnclick(String orderId,int orderStatus) {
+                    final AlertDialog mDialog = new AlertDialog.Builder(getContext()).create();
+                    mDialog.show();
+                    mDialog.getWindow().setContentView(R.layout.dialog_delete_order);
+                    TextView mBtnCancel = (TextView) mDialog.getWindow().findViewById(R.id.btnCancel);
+                    TextView mBtnOK = (TextView) mDialog.getWindow().findViewById(R.id.btnOK);
+
+                    mBtnCancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mDialog.dismiss();
+                        }
+                    });
+
+
+                    mBtnOK.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mDialog.dismiss();
+                            //取消订单的接口
+                            if(orderStatus == 5 || orderStatus == 6 || orderStatus == 11) {
+                                deleteOrder1(orderId);
+                            }else {
+                                deleteOrder(orderId);
+                            }
+
+                        }
+                    });
 
                 }
 
@@ -178,7 +209,33 @@ public class EvaluatedOrderFragment extends BaseFragment {
 
                 @Override
                 public void deleteOnclick(String orderId,int orderStatus) {
+                    final AlertDialog mDialog = new AlertDialog.Builder(getContext()).create();
+                    mDialog.show();
+                    mDialog.getWindow().setContentView(R.layout.dialog_delete_order);
+                    TextView mBtnCancel = (TextView) mDialog.getWindow().findViewById(R.id.btnCancel);
+                    TextView mBtnOK = (TextView) mDialog.getWindow().findViewById(R.id.btnOK);
 
+                    mBtnCancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mDialog.dismiss();
+                        }
+                    });
+
+
+                    mBtnOK.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mDialog.dismiss();
+                            //取消订单的接口
+                            if(orderStatus == 5 || orderStatus == 6 || orderStatus == 11) {
+                                deleteOrder1(orderId);
+                            }else {
+                                deleteOrder(orderId);
+                            }
+
+                        }
+                    });
                 }
 
                 @Override
@@ -239,6 +296,71 @@ public class EvaluatedOrderFragment extends BaseFragment {
             }
         });
 //        requestOrdersList(5);
+    }
+
+
+    //删除订单
+    private void deleteOrder(String orderId) {
+        DeleteOrderAPI.requestData(getContext(), orderId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<CancelOrderModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(CancelOrderModel cancelOrderModel) {
+                        if (cancelOrderModel.success) {
+                            //删除成功
+                            AppHelper.showMsg(mActivity, "删除订单成功");
+                            pageNum = 1;
+//                            mPtr.autoRefresh();
+                            requestOrdersList(5);
+
+                        } else {
+                            AppHelper.showMsg(mActivity, cancelOrderModel.message);
+                        }
+                    }
+                });
+    }
+
+    //删除订单2
+    private void deleteOrder1(String orderId) {
+        DeleteOrderAPI.deleteOrder(getContext(), orderId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<CancelOrderModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(CancelOrderModel cancelOrderModel) {
+                        if (cancelOrderModel.success) {
+                            //删除成功
+                            AppHelper.showMsg(mActivity, "删除订单成功");
+                            pageNum = 1;
+//                            mPtr.autoRefresh();
+                            requestOrdersList(5);
+
+                        } else {
+                            AppHelper.showMsg(mActivity, cancelOrderModel.message);
+                        }
+                    }
+                });
     }
 
     private void getConnection(String orderId, String hllOrderId) {

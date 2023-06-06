@@ -1,6 +1,5 @@
 package com.puyue.www.qiaoge.model.cart;
 
-import com.puyue.www.qiaoge.api.market.TestModel;
 
 import java.util.List;
 

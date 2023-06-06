@@ -58,6 +58,7 @@ public class MyOrdersItemAdapter1 extends BaseQuickAdapter<OrdersModel.DataBean.
     }
 
 
+
     @Override
     protected void convert(final BaseViewHolder helper, final OrdersModel.DataBean.ListBean item) {
         helper.setIsRecyclable(false);
@@ -75,6 +76,7 @@ public class MyOrdersItemAdapter1 extends BaseQuickAdapter<OrdersModel.DataBean.
         tv_status = helper.getView(R.id.tv_status);
         tv_state = helper.getView(R.id.tv_state);
         imageGo = helper.getView(R.id.imageGo);
+
         deleteOrder = helper.getView(R.id.iv_delete_order);
         cancelOrder = helper.getView(R.id.iv_cancel_order);
         evaluateNow = helper.getView(R.id.evaluateNow);
@@ -84,6 +86,7 @@ public class MyOrdersItemAdapter1 extends BaseQuickAdapter<OrdersModel.DataBean.
         ll_return = helper.getView(R.id.ll_return);
         TextView tv_return_money = helper.getView(R.id.tv_return_money);
         tv_time.setText(item.orderTime);
+
         tv_subUserBuy.setText(item.subBuyPhone);
 //        if(item.deliverModel==0) {
 //            iv_style.setImageResource(R.mipmap.ic_qiaoge);

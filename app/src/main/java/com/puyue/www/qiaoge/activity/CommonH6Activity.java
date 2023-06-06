@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.CookieManager;
@@ -199,6 +200,7 @@ public class CommonH6Activity extends BaseSwipeActivity {
                     super.onLoadResource(view, url);
                 }
             });
+            Log.d("eswdfadwdas....",mUrl+"--");
             mWv.loadUrl(mUrl);
 //            Log.e(TAG, "setViewData: "+mUrl );
         }

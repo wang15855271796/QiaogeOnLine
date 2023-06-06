@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="40dp"
+    android:layout_margin="30dp"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -13,8 +13,7 @@
         android:layout_height="292dp"
         android:layout_marginTop="@dimen/size_70dp"
         android:background="@mipmap/bg_login"
-        android:paddingLeft="@dimen/size_20dp"
-        android:paddingRight="@dimen/size_20dp">
+        android:paddingLeft="@dimen/size_20dp">
 
         <TextView
             android:id="@+id/tv"
@@ -33,7 +32,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginTop="@dimen/size_10dp"
-            android:padding="5dp"
+            android:layout_marginRight="@dimen/dp_10"
+            android:padding="16dp"
             android:src="@mipmap/ic_login_delete" />
 
         <TextView
@@ -83,6 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/size_43dp"
                     android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/size_20dp"
                     android:layout_weight="1"
                     android:background="@drawable/shape_jianbian5"
                     android:gravity="center"
@@ -97,8 +98,10 @@
     </RelativeLayout>
 
     <ImageView
-        android:layout_centerHorizontal="true"
-        android:src="@mipmap/icon_dialog"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/size_70dp"
+        android:layout_marginRight="@dimen/size_70dp"
+        android:src="@mipmap/icon_dialog" />
 </RelativeLayout>
