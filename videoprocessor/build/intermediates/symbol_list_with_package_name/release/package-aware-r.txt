@@ -1,0 +1,2 @@
+com.hw.videoprocessor
+string app_name

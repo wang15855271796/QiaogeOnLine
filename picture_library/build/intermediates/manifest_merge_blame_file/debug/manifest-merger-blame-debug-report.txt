@@ -1,0 +1,122 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    xmlns:tools="http://schemas.android.com/tools"
+4    package="com.luck.picture.lib"
+5    android:versionCode="58"
+6    android:versionName="v2.7.3-rc10" >
+7
+8    <uses-sdk
+8-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:6:5-10:16
+9        android:minSdkVersion="19"
+9-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:6:5-10:16
+10        android:targetSdkVersion="31"
+10-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:6:5-10:16
+11        tools:overrideLibrary="androidx.camera.view,     androidx.camera:camera-camera2,     androidx.camera.camera2,androidx.camera.lifecycle,     androidx.camera.core" >
+11-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:6:5-10:16
+12    </uses-sdk>
+13
+14    <application>
+14-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:12:5-73:19
+15        <provider
+15-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:13:9-22:20
+16            android:name="com.luck.picture.lib.PictureFileProvider"
+16-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:14:13-68
+17            android:authorities="${applicationId}.luckProvider"
+17-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:15:13-64
+18            android:exported="false"
+18-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:16:13-37
+19            android:grantUriPermissions="true" >
+19-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:17:13-47
+20            <meta-data
+20-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:18:13-21:25
+21                android:name="android.support.FILE_PROVIDER_PATHS"
+21-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:19:17-67
+22                android:resource="@xml/file_paths" >
+22-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:20:17-51
+23            </meta-data>
+24        </provider>
+25
+26        <activity
+26-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:24:9-27:20
+27            android:name="com.luck.picture.lib.PictureSelectorActivity"
+27-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:25:13-52
+28            android:configChanges="orientation|keyboardHidden|screenSize" >
+28-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:26:13-74
+29        </activity>
+30        <activity
+30-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:28:9-31:20
+31            android:name="com.luck.picture.lib.PictureSelectorWeChatStyleActivity"
+31-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:29:13-63
+32            android:configChanges="orientation|keyboardHidden|screenSize" >
+32-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:30:13-74
+33        </activity>
+34        <activity
+34-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:32:9-36:20
+35            android:name="com.luck.picture.lib.PictureSelectorCameraEmptyActivity"
+35-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:33:13-63
+36            android:configChanges="orientation|keyboardHidden|screenSize"
+36-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:34:13-74
+37            android:theme="@style/Picture.Theme.Translucent" >
+37-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:35:13-61
+38        </activity>
+39        <activity
+39-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:37:9-40:20
+40            android:name="com.luck.picture.lib.PictureCustomCameraActivity"
+40-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:38:13-56
+41            android:configChanges="orientation|keyboardHidden|screenSize" >
+41-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:39:13-74
+42        </activity>
+43        <activity
+43-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:42:9-45:20
+44            android:name="com.luck.picture.lib.PicturePreviewActivity"
+44-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:43:13-51
+45            android:configChanges="orientation|keyboardHidden|screenSize" >
+45-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:44:13-74
+46        </activity>
+47        <activity
+47-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:46:9-49:20
+48            android:name="com.luck.picture.lib.PictureSelectorPreviewWeChatStyleActivity"
+48-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:47:13-70
+49            android:configChanges="orientation|keyboardHidden|screenSize" >
+49-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:48:13-74
+50        </activity>
+51        <activity
+51-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:50:9-54:20
+52            android:name="com.luck.picture.lib.PictureVideoPlayActivity"
+52-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:51:13-53
+53            android:configChanges="orientation|keyboardHidden|screenSize"
+53-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:52:13-74
+54            android:screenOrientation="sensor" >
+54-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:53:13-47
+55        </activity>
+56        <activity
+56-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:55:9-58:20
+57            android:name="com.luck.picture.lib.PictureExternalPreviewActivity"
+57-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:56:13-59
+58            android:configChanges="orientation|keyboardHidden|screenSize" >
+58-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:57:13-74
+59        </activity>
+60        <activity
+60-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:60:9-63:20
+61            android:name="com.luck.picture.lib.PicturePlayAudioActivity"
+61-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:61:13-53
+62            android:configChanges="orientation|keyboardHidden|screenSize" >
+62-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:62:13-74
+63        </activity>
+64        <activity
+64-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:65:9-68:20
+65            android:name="com.yalantis.ucrop.UCropActivity"
+65-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:66:13-60
+66            android:theme="@style/Base.Theme.NoActionBar" >
+66-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:67:13-58
+67        </activity>
+68        <activity
+68-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:69:9-72:20
+69            android:name="com.yalantis.ucrop.PictureMultiCuttingActivity"
+69-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:70:13-74
+70            android:theme="@style/Base.Theme.NoActionBar" >
+70-->E:\Qiaoges\picture_library\src\main\AndroidManifest.xml:71:13-58
+71        </activity>
+72    </application>
+73
+74</manifest>
