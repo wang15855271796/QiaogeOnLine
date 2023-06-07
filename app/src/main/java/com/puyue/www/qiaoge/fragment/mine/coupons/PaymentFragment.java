@@ -279,17 +279,6 @@ public class PaymentFragment extends DialogFragment {
         if(outTradeNo!=null&&SharedPreferencesUtil.getString(getContext(),"payKey").equals("4")) {
             getPayResult(outTradeNo);
         }
-////
-////        if(jumpWx==1) {
-////            Intent intent = new Intent(getActivity(),NewOrderDetailActivity.class);
-////            intent.putExtra(AppConstant.ORDERID,orderId);
-////            startActivity(intent);
-////            getActivity().finish();
-////        }
-////
-////        if(outTradeNo!=null&&jumpWx==0) {
-////            getPayResult(outTradeNo);
-////        }
 
         if(jumpWx==1) {
             Intent intent = new Intent(getActivity(),NewOrderDetailActivity.class);
@@ -408,6 +397,7 @@ public class PaymentFragment extends DialogFragment {
                                 //支付宝跳转小程序
                                 SharedPreferencesUtil.saveString(getContext(),"payKey","5");
                                 zhiFuBaoPay(orderPayModel.data.payToken);
+                                Log.d("sedfwda......","123");
                             }
 
                             lav_activity_loading.setVisibility(View.GONE);
@@ -493,18 +483,6 @@ public class PaymentFragment extends DialogFragment {
             String uri = json;
             Intent intent = Intent.parseUri(uri, Intent.URI_INTENT_SCHEME);
             startActivity(intent);
-//            String decode = URLDecoder.decode(uri);
-
-//            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-//            startActivity(intent);
-
-//            PackageManager packageManager = getActivity().getPackageManager();
-//            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-//            List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
-//            boolean isValid = !activities.isEmpty();
-//            if (isValid) {
-//                startActivity(intent);
-//            }
 
         } catch (Exception e) {
             e.printStackTrace();

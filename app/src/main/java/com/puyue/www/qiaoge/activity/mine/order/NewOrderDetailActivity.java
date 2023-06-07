@@ -753,6 +753,7 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
 
     //返回上个页面
     private void backEvent() {
+        Log.d("sedfwda......",account+"aaa");
         if(account.equals("0")) {
             finish();
         }else if(account.equals("2")){
