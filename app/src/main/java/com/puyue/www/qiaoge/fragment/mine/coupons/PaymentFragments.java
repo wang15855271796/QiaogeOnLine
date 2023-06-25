@@ -237,14 +237,14 @@ public class PaymentFragments extends DialogFragment {
     @Override
     public void onResume() {
         super.onResume();
-
-        if(outTradeNo!=null&&SharedPreferencesUtil.getString(getContext(),"payKey").equals("5")) {
-            getPayResult(outTradeNo);
-        }
-
-        if(outTradeNo!=null&&SharedPreferencesUtil.getString(getContext(),"payKey").equals("4")) {
-            getPayResult(outTradeNo);
-        }
+//
+//        if(outTradeNo!=null&&SharedPreferencesUtil.getString(getContext(),"payKey").equals("5")) {
+//            getPayResult(outTradeNo);
+//        }
+//
+//        if(outTradeNo!=null&&SharedPreferencesUtil.getString(getContext(),"payKey").equals("4")) {
+//            getPayResult(outTradeNo);
+//        }
 
         if(jumpWx==1) {
             Intent intent = new Intent(getActivity(),NewOrderDetailActivity.class);

@@ -200,7 +200,6 @@ public class CommonH6Activity extends BaseSwipeActivity {
                     super.onLoadResource(view, url);
                 }
             });
-            Log.d("eswdfadwdas....",mUrl+"--");
             mWv.loadUrl(mUrl);
 //            Log.e(TAG, "setViewData: "+mUrl );
         }

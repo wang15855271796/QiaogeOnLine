@@ -764,6 +764,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 getOrder();
                 getBaseLists();
                 getSpikeList();
+                getHomeStyle();
                 getCustomerPhone();
                 getMessage();
                 hintKbTwo();
@@ -1752,6 +1753,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         super.onResume();
         start = System.currentTimeMillis();
         getCartNum();
+//        setStatusBar1();
     }
 
     @Override
@@ -2077,8 +2079,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                                         ClickBanner(data.getBanners());
                                         banner.start();
                                         List<IndexInfoModel.DataBean.BannersBean> banners = data.getBanners();
-                                        iv_fill.setVisibility(View.GONE);
-                                        ll_bgc.setVisibility(View.VISIBLE);
+//                                        iv_fill.setVisibility(View.GONE);
+//                                        ll_bgc.setVisibility(View.VISIBLE);
                                         banner.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                                             @Override
                                             public void onPageScrolled(int i, float v, int i1) {
@@ -2090,7 +2092,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                                                 if(data.getBanners().size()>0) {
                                                     if (!TextUtils.isEmpty(banners.get(pos).getRgbColor())) {
                                                         String rgbColor = banners.get(pos).getRgbColor();
-//                                                        ll_bgc.setBackgroundColor(Color.parseColor("#" + rgbColor));
                                                           GradientDrawable aDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
                                                                 new int[]{Color.parseColor("#"+rgbColor),Color.parseColor("#f7f7f7")});
                                                         ll_bgc.setBackground(aDrawable);
@@ -2105,9 +2106,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
                                     } else {
                                         banner.setVisibility(View.GONE);
-                                        iv_fill.setVisibility(View.VISIBLE);
-                                        Glide.with(mActivity).load(data.getHomeBackPic()).into(iv_fill);
-                                        ll_bgc.setVisibility(View.GONE);
+//                                        iv_fill.setVisibility(View.VISIBLE);
+//                                        Glide.with(mActivity).load(data.getHomeBackPic()).into(iv_fill);
+//                                        ll_bgc.setVisibility(View.GONE);
                                     }
                                 }
 
@@ -3090,5 +3091,53 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
                     }
                 });
+    }
+
+    /**
+     * 获取首页风格
+     */
+    HomeStyleModel.DataBean styleData;
+    private void getHomeStyle() {
+        IndexHomeAPI.getStyle(mActivity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<HomeStyleModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(HomeStyleModel homeStyleModel) {
+                        if(homeStyleModel.getCode()==1) {
+                            if(homeStyleModel.getData()!=null) {
+                                styleData = homeStyleModel.getData();
+                                if(styleData.getAppHomeUrl()!=null&& !styleData.getAppHomeUrl().equals("")) {
+                                    iv_fill.setVisibility(View.VISIBLE);
+                                    ll_bgc.setVisibility(View.GONE);
+                                    Glide.with(mActivity).load(styleData.getAppHomeUrl()).into(iv_fill);
+                                }else {
+                                    ll_bgc.setVisibility(View.VISIBLE);
+                                    iv_fill.setVisibility(View.GONE);
+                                }
+//                                normal常规，black_white黑白，may_day五一，national_day国庆，spring_festival春节
+
+                            }
+
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,homeStyleModel.getMessage());
+                        }
+                    }
+                });
+    }
+    protected void setStatusBar1() {
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getActivity().getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
+        }
     }
 }

@@ -2070,11 +2070,11 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener,
                                         banner.setIndicatorGravity(BannerConfig.RIGHT);
                                         ClickBanner(data.getBanners());
                                         banner.start();
-                                        ll_bgc.setVisibility(View.VISIBLE);
+//                                        ll_bgc.setVisibility(View.VISIBLE);
 
                                     } else {
                                         banner.setVisibility(View.GONE);
-                                        ll_bgc.setVisibility(View.GONE);
+//                                        ll_bgc.setVisibility(View.GONE);
                                     }
                                 }
 
@@ -2179,7 +2179,7 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener,
                         if(homeStyleModel.getCode()==1) {
                             if(homeStyleModel.getData()!=null) {
                                 styleData = homeStyleModel.getData();
-                                if(styleData.getAppHomeUrl()!=null&& styleData.getAppHomeUrl().equals("")) {
+                                if(styleData.getAppHomeUrl()!=null&& !styleData.getAppHomeUrl().equals("")) {
                                     Glide.with(mActivity).load(styleData.getAppHomeUrl()).into(ll_bgc);
                                 }
 //                                normal常规，black_white黑白，may_day五一，national_day国庆，spring_festival春节

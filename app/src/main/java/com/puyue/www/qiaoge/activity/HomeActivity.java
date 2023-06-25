@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -573,7 +574,12 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                             break;
 
                         case "black_white":
-
+                            if (mTabHome == null) {
+                                mTabHome = new HomeFragment();
+                                mFragmentTransaction.add(R.id.layout_home_container, mTabHome);
+                            } else {
+                                mFragmentTransaction.show(mTabHome);
+                            }
                             break;
 
                         case "may_day":
@@ -587,11 +593,21 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                             break;
 
                         case "national_day":
-
+                            if (mTabHome == null) {
+                                mTabHome = new HomeFragment();
+                                mFragmentTransaction.add(R.id.layout_home_container, mTabHome);
+                            } else {
+                                mFragmentTransaction.show(mTabHome);
+                            }
                             break;
 
                         case "spring_festival":
-
+                            if (mTabHome == null) {
+                                mTabHome = new HomeFragment();
+                                mFragmentTransaction.add(R.id.layout_home_container, mTabHome);
+                            } else {
+                                mFragmentTransaction.show(mTabHome);
+                            }
                             break;
                         default:
 
@@ -756,7 +772,12 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                             break;
 
                         case "black_white":
-
+                            if (mTabMine == null) {
+                                mTabMine = new MineFragment();
+                                mFragmentTransaction.add(R.id.layout_home_container, mTabMine);
+                            } else {
+                                mFragmentTransaction.show(mTabMine);
+                            }
                             break;
 
                         case "may_day":
@@ -769,11 +790,21 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                             break;
 
                         case "national_day":
-
+                            if (mTabMine == null) {
+                                mTabMine = new MineFragment();
+                                mFragmentTransaction.add(R.id.layout_home_container, mTabMine);
+                            } else {
+                                mFragmentTransaction.show(mTabMine);
+                            }
                             break;
 
                         case "spring_festival":
-
+                            if (mTabMine == null) {
+                                mTabMine = new MineFragment();
+                                mFragmentTransaction.add(R.id.layout_home_container, mTabMine);
+                            } else {
+                                mFragmentTransaction.show(mTabMine);
+                            }
                             break;
                         default:
 
@@ -938,6 +969,8 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         } else {
             mTvCarNum.setVisibility(View.GONE);
         }
+
+//        setStatusBar1();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -1097,4 +1130,12 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     public void jumpMarket() {
         switchTab(TAB_MARKET);
     }
+
+//    protected void setStatusBar1() {
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
+//        }
+//    }
+
 }

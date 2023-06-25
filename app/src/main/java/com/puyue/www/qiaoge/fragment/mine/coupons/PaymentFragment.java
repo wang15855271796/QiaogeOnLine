@@ -272,13 +272,13 @@ public class PaymentFragment extends DialogFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(outTradeNo!=null&&SharedPreferencesUtil.getString(getContext(),"payKey").equals("5")) {
-            getPayResult(outTradeNo);
-        }
-
-        if(outTradeNo!=null&&SharedPreferencesUtil.getString(getContext(),"payKey").equals("4")) {
-            getPayResult(outTradeNo);
-        }
+//        if(outTradeNo!=null&&SharedPreferencesUtil.getString(getContext(),"payKey").equals("5")) {
+//            getPayResult(outTradeNo);
+//        }
+//
+//        if(outTradeNo!=null&&SharedPreferencesUtil.getString(getContext(),"payKey").equals("4")) {
+//            getPayResult(outTradeNo);
+//        }
 
         if(jumpWx==1) {
             Intent intent = new Intent(getActivity(),NewOrderDetailActivity.class);
@@ -397,7 +397,7 @@ public class PaymentFragment extends DialogFragment {
                                 //支付宝跳转小程序
                                 SharedPreferencesUtil.saveString(getContext(),"payKey","5");
                                 zhiFuBaoPay(orderPayModel.data.payToken);
-                                Log.d("sedfwda......","123");
+
                             }
 
                             lav_activity_loading.setVisibility(View.GONE);

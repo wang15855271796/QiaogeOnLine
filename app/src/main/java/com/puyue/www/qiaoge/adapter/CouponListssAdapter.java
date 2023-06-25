@@ -319,9 +319,7 @@ public class CouponListssAdapter extends BaseQuickAdapter<ItemModel,BaseViewHold
 //      在list中添加数据，并通知条目加入一条
         itemModel.setFocus(true);
         if(datas.size()<10) {
-            Log.d("ewdadwds.....",datas.size()+"--");
             datas.add(datas.size(), itemModel);
-            Log.d("ewdadwds.....",datas.size()+"----");
             items++;
         }else {
             ToastUtil.showSuccessMsg(mContext,"单次最多兑换10张");

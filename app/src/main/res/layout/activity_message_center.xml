@@ -25,18 +25,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="
-            消息中心"
+            android:text="消息中心"
             android:textColor="@color/app_top_bar_text"
             android:textSize="18dp" />
     </com.puyue.www.qiaoge.view.CompatToolbar>
 
-    <WebView
-        android:id="@+id/myWebView2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+<!--    <WebView-->
+<!--        android:id="@+id/myWebView2"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"/>-->
     <in.srain.cube.views.ptr.PtrClassicFrameLayout
-        android:visibility="gone"
         android:id="@+id/ptr_message_center"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

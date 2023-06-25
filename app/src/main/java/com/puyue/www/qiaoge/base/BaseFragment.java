@@ -49,7 +49,7 @@ public abstract class BaseFragment extends Fragment {
         super.onResume();
         setStatusBar();
     }
-
+//    FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
     protected void setStatusBar() {
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 //        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -80,21 +80,7 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Defines the xml file for the fragment
-//        if (null != rootView) {
-//            ViewGroup parent = (ViewGroup) rootView.getParent();
-//            if (null != parent) {
-//                parent.removeView(rootView);
-//            }
-//        } else {
-//            rootView = inflater.inflate(setLayoutId(), container, false);
-//            findViewById(rootView);
-//            initViews(rootView);
-//            setViewData();
-//            setClickEvent();
-//            Log.d("woemingsddddddd....","ssssss");
-//        }
-//        return rootView;
+
         return inflater.inflate(setLayoutId(), container, false);
 
     }

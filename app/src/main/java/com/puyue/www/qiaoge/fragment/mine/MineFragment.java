@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.puyue.www.qiaoge.AutoPollRecyclerView;
 import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
@@ -71,6 +72,7 @@ import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
+import com.puyue.www.qiaoge.model.HomeStyleModel;
 import com.puyue.www.qiaoge.model.IsAuthModel;
 import com.puyue.www.qiaoge.model.ModeModel;
 import com.puyue.www.qiaoge.model.OrderNumsModel;
@@ -181,6 +183,7 @@ public class MineFragment extends BaseFragment {
     TextView tv_save;
     RelativeLayout rl_order;
     RelativeLayout rl_vip1;
+    ImageView iv_bgc;
     public static MineFragment getInstance() {
         MineFragment fragment = new MineFragment();
         Bundle bundle = new Bundle();
@@ -239,6 +242,7 @@ public class MineFragment extends BaseFragment {
     public void findViewById(View view) {
         EventBus.getDefault().register(this);
         tv_save = (view.findViewById(R.id.tv_save));
+        iv_bgc =  (view.findViewById(R.id.iv_bgc));
         rl_vip1 = (view.findViewById(R.id.rl_vip1));
         rl_order = (view.findViewById(R.id.rl_order));
         nestedScrollView = (view.findViewById(R.id.nestedScrollView ));
@@ -372,6 +376,7 @@ public class MineFragment extends BaseFragment {
         requestUpdate();
         getProductsList();
         getVipCenter();
+        getHomeStyle();
     }
 
     @Override
@@ -690,6 +695,7 @@ public class MineFragment extends BaseFragment {
         getMode();
         requestUserInfo();
         requestOrderNum();
+//        setStatusBar1();
         start = System.currentTimeMillis();
     }
 
@@ -1103,6 +1109,50 @@ public class MineFragment extends BaseFragment {
                         }
                     }
                 });
+    }
+
+    /**
+     * 获取首页风格
+     */
+    HomeStyleModel.DataBean styleData;
+    private void getHomeStyle() {
+        IndexHomeAPI.getStyle(mActivity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<HomeStyleModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(HomeStyleModel homeStyleModel) {
+                        if(homeStyleModel.getCode()==1) {
+                            if(homeStyleModel.getData()!=null) {
+                                styleData = homeStyleModel.getData();
+                                if(styleData.getAppMyUrl()!=null&& !styleData.getAppMyUrl().equals("")) {
+                                    Glide.with(mActivity).load(styleData.getAppMyUrl()).into(iv_bgc);
+                                }
+//                                normal常规，black_white黑白，may_day五一，national_day国庆，spring_festival春节
+
+                            }
+
+                        }else {
+                            ToastUtil.showSuccessMsg(mActivity,homeStyleModel.getMessage());
+                        }
+                    }
+                });
+    }
+
+    protected void setStatusBar1() {
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getActivity().getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
+        }
     }
 
     //新改

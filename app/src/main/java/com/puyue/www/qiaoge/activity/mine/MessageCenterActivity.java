@@ -87,15 +87,15 @@ public class MessageCenterActivity extends BaseSwipeActivity {
         mPtr = (PtrClassicFrameLayout) findViewById(R.id.ptr_message_center);
         mRv = (RecyclerView) findViewById(R.id.rv_message_center);
         mIvNoData = (ImageView) findViewById(R.id.iv_message_no_data);
-        WebView myWebView2 = (WebView) findViewById(R.id.myWebView2);
-        tv_message.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myWebView2.loadUrl("file:///android_asset/test1.html");
+//        WebView myWebView2 = (WebView) findViewById(R.id.myWebView2);
+//        tv_message.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                myWebView2.loadUrl("file:///android_asset/test1.html");
 //                Intent intent = new Intent(mContext, CommonH7Activity.class);
 //                startActivity(intent);
-            }
-        });
+//            }
+//        });
     }
 
     @Override
@@ -114,10 +114,6 @@ public class MessageCenterActivity extends BaseSwipeActivity {
         });
 
         mAdapterMessageCenter = new MessageCenterAdapter(R.layout.item_message_center, mListData);
-
-        getItemStavedNum();
-
-
         mAdapterMessageCenter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -150,7 +146,7 @@ public class MessageCenterActivity extends BaseSwipeActivity {
 
             }
         });
-        mRv.setLayoutManager(new LinearLayoutManager(mContext));
+
         mRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -167,8 +163,10 @@ public class MessageCenterActivity extends BaseSwipeActivity {
                 }
             }
         });
+        mRv.setLayoutManager(new LinearLayoutManager(mContext));
         mRv.setAdapter(mAdapterMessageCenter);
 //        requestMessageList();
+        getItemStavedNum();
     }
 
     //得到这个状态数
@@ -214,35 +212,9 @@ public class MessageCenterActivity extends BaseSwipeActivity {
                 });
     }
 
-    private void requestUpdateMessageState(int id) {
-        UpdateMessageStateAPI.requestUpdateMessageState(mContext, id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<UpdateMessageStateModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(UpdateMessageStateModel updateMessageStateModel) {
-                        mModelUpdateMessageState = updateMessageStateModel;
-                        if (mModelUpdateMessageState.success) {
-
-                        } else {
-                            AppHelper.showMsg(mContext, mModelUpdateMessageState.message);
-                        }
-                    }
-                });
-    }
 
     private void requestMessageList() {
-        MessageListAPI.requestMessageList(mContext, pageNum, 20)
+        MessageListAPI.requestMessageList(mContext, pageNum, 10)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<MessageListModel>() {
@@ -282,6 +254,7 @@ public class MessageCenterActivity extends BaseSwipeActivity {
                 //得到状态数
                 getItemStavedNum();
                 mAdapterMessageCenter.notifyDataSetChanged();
+                Log.d("wdwd........",mListData.size()+"-");
             } else {
                 //没数据
                 mIvNoData.setVisibility(View.VISIBLE);
@@ -297,6 +270,32 @@ public class MessageCenterActivity extends BaseSwipeActivity {
         }
     }
 
+    private void requestUpdateMessageState(int id) {
+        UpdateMessageStateAPI.requestUpdateMessageState(mContext, id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<UpdateMessageStateModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(UpdateMessageStateModel updateMessageStateModel) {
+                        mModelUpdateMessageState = updateMessageStateModel;
+                        if (mModelUpdateMessageState.success) {
+
+                        } else {
+                            AppHelper.showMsg(mContext, mModelUpdateMessageState.message);
+                        }
+                    }
+                });
+    }
     /**
      * 这个设置好返回数据即可
      */

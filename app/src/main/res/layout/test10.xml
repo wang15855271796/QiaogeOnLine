@@ -76,10 +76,12 @@
                                         android:layout_height="200dp"
                                         android:layout_marginTop="@dimen/size_35dp" />
 
+
                                 </RelativeLayout>
 
                                 <ImageView
                                     android:id="@+id/iv_fill"
+                                    android:background="@drawable/shape_jianbian6"
                                     android:layout_width="match_parent"
                                     android:layout_height="200dp"
                                     android:scaleType="fitXY" />

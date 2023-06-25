@@ -592,7 +592,7 @@ public class MineWyFragment extends BaseFragment {
                         if(homeStyleModel.getCode()==1) {
                             if(homeStyleModel.getData()!=null) {
                                 styleData = homeStyleModel.getData();
-                                if(styleData.getAppHomeUrl()!=null&& styleData.getAppHomeUrl().equals("")) {
+                                if(styleData.getAppMyUrl()!=null&& !styleData.getAppMyUrl().equals("")) {
                                     Glide.with(mActivity).load(styleData.getAppMyUrl()).into(iv_my_bg);
                                 }
 //                                normal常规，black_white黑白，may_day五一，national_day国庆，spring_festival春节
