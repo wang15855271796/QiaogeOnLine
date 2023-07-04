@@ -64,6 +64,8 @@ public class ShopsActivity extends BaseActivity {
     TextView tv_sale;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.tv_status)
+    TextView tv_status;
     SurplierAdapter surplierAdapter;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
@@ -173,7 +175,6 @@ public class ShopsActivity extends BaseActivity {
     }
 
     private void getSupplierInfo(String surplieId) {
-
         RecommendApI.getSupplier(mContext,surplieId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -195,6 +196,7 @@ public class ShopsActivity extends BaseActivity {
                                tv_title.setText(recommendModel.getData().getSupplierName());
                                tv_goods_num.setText("商品数量:"+recommendModel.getData().getProdNum()+"");
                                tv_sale.setText("月销量:"+recommendModel.getData().getSaleVolume()+"");
+                                tv_status.setText(recommendModel.getData().getBusinessStatus());
                            }
                         } else {
                             ToastUtil.showSuccessMsg(mContext, recommendModel.getMessage());

@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
+import com.puyue.www.qiaoge.activity.ChooseSendAddressActivity;
 import com.puyue.www.qiaoge.activity.FullActiveActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.IntelliGencyInfoActivity;
@@ -50,6 +51,7 @@ import com.puyue.www.qiaoge.dialog.ChooseDialog;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
 import com.puyue.www.qiaoge.dialog.ProductDescDialog;
 import com.puyue.www.qiaoge.dialog.PromoteDialog;
+import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.event.RefreshVideoEvent;
@@ -62,7 +64,9 @@ import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.PicVideoModel;
+import com.puyue.www.qiaoge.model.SurpliModel;
 import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
+import com.puyue.www.qiaoge.model.cart.SendInfoModel;
 import com.puyue.www.qiaoge.model.home.ChoiceSpecModel;
 import com.puyue.www.qiaoge.model.home.ClickCollectionModel;
 import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
@@ -219,6 +223,14 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
     TextView tv_team;
     @BindView(R.id.tv_full)
     TextView tv_full;
+    @BindView(R.id.tv_business_time)
+    TextView tv_business_time;
+    @BindView(R.id.rl_send_address)
+    RelativeLayout rl_send_address;
+    @BindView(R.id.tv_send_address)
+    TextView tv_send_address;
+    @BindView(R.id.tv_send_time)
+    TextView tv_send_time;
     private AlertDialog mTypedialog;
     LinearLayout ll_service;
     TextView tv_price;
@@ -268,8 +280,6 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
     public void setContentView() {
         setContentView(R.layout.activity_common_details);
     }
-
-
 
     @Override
     public void findViewById() {
@@ -397,6 +407,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
 
     @Override
     public void setClickEvent() {
+        rl_send_address.setOnClickListener(noDoubleClickListener);
         ImageViewShare.setOnClickListener(noDoubleClickListener);
         mIvCollection.setOnClickListener(noDoubleClickListener);
         mIvBack.setOnClickListener(noDoubleClickListener);
@@ -500,8 +511,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
                 } else {
                     initDialog();
                 }
-            }
-            else if (view == mTvAddCar) {
+            } else if (view == mTvAddCar) {
                 if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     if(priceType.equals("1")) {
                         if(chooseDialog==null) {
@@ -556,6 +566,9 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
             }
             else if (view == ImageViewShare) {
                 requestGoodsList();
+            }else if(view == rl_send_address) {
+                Intent intent = new Intent(mActivity, ChooseSendAddressActivity.class);
+                startActivityForResult(intent,1);
             }
         }
     };
@@ -678,6 +691,18 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
                             }
                             if(model.getData().getSelfProd()!=null) {
                                 Glide.with(mContext).load(model.getData().getSelfProd()).into(iv_operate);
+                            }
+
+                            if(!TextUtils.isEmpty(model.getData().getAddress())) {
+                                tv_send_address.setText(model.getData().getAddress());
+                            }
+
+                            if(!TextUtils.isEmpty(model.getData().getSendTimeStr())) {
+                                tv_send_time.setText(model.getData().getSendTimeStr());
+                            }
+
+                            if(!TextUtils.isEmpty(model.getData().getBusinessStatus())) {
+                                tv_business_time.setText(model.getData().getBusinessStatus());
                             }
 
                             tv_come.setOnClickListener(new View.OnClickListener() {
@@ -1457,5 +1482,40 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
 
                 break;
         }
+    }
+
+    @Subscribe
+    public void onEventMainThread(AddressEvent event) {
+        getSendInfo();
+    }
+
+    private void getSendInfo() {
+        RecommendApI.getSendInfo(mContext)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<SendInfoModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(SendInfoModel sendInfoModel) {
+                        if (sendInfoModel.getCode()==1) {
+                            if(sendInfoModel.getData()!=null) {
+                                SendInfoModel.DataBean data = sendInfoModel.getData();
+                                tv_send_address.setText(data.getAddress());
+                                tv_send_time.setText(data.getSendTimeStr());
+                            }
+                        } else {
+                            ToastUtil.showSuccessMsg(mContext, sendInfoModel.getMessage());
+                        }
+                    }
+                });
     }
 }

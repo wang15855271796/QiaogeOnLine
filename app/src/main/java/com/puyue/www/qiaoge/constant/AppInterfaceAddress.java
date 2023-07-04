@@ -7,7 +7,7 @@ public class AppInterfaceAddress {
 //    http://192.168.2.162:8088/
     //https://shaokao.qoger.com/qiaoge/正式   http://192.168.2.188:8082/qiaoge/
     //http://116.62.67.230:8082/qiaoge/   测试http://120.55.55.99:8082/qiaoge/
-    public static final String BASE_URL = "http://120.55.55.99:8082/qiaoge/";
+    public static final String BASE_URL = "http://192.168.2.188:8082/qiaoge/";
     // 正式https://shaokao.qoger.com/qiaoge/
     //http://192.168.1.45/   本地192.168.101.69:8088
     //http://qg.zhiyun88u.com/shen
@@ -182,6 +182,11 @@ public class AppInterfaceAddress {
      *详情供应商信息
      */
     public static final String Get_Business = "common/getAppSupplierProdInfo";
+    /**
+     * 获取配送地址 ，配送时间
+     */
+    public static final String Get_Send_Info = "common/getSendAddressTimeByDefault";
+
     /**
      * 获取授权
      */

@@ -104,6 +104,17 @@
                                 android:src="@mipmap/iv_pack1"
                                 android:text="包裹1" />
 
+                            <TextView
+                                android:id="@+id/tv_send_time"
+                                android:textSize="12sp"
+                                android:textColor="#FD552E"
+                                android:layout_marginLeft="10dp"
+                                android:layout_toRightOf="@+id/tv_operate_title"
+                                android:layout_centerVertical="true"
+                                tools:text="现在下单，预计后天(06月14日)17:00~19:00送达"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="10dp"

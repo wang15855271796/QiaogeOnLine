@@ -150,7 +150,6 @@ public class ReturnGoodActivity extends BaseSwipeActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
                 icFirst = true;
             }
         });

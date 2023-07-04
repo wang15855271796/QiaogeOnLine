@@ -58,6 +58,8 @@ public class CartAdapter extends BaseQuickAdapter<CartTestModel.DataBean.ProdsBe
         }else {
             tv_desc.setText("查看活动");
         }
+
+//        tv_buy_tips.setText(item.);
 //        if(mOnRefreshListener != null){
 //            for(int i = 0;i < data.size(); i++){
 //                if(!data.get(i).isSelect()){

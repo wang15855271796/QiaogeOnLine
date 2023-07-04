@@ -82,13 +82,14 @@
                     android:layout_height="wrap_content" />
 
                 <View
-                    android:layout_marginRight="@dimen/size_16dp"
-                    android:layout_marginLeft="@dimen/size_16dp"
-                    android:layout_alignParentBottom="true"
                     android:layout_width="match_parent"
-                    android:background="#f2f3f6"
-                    android:layout_height="0.5dp"/>
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/size_16dp"
+                    android:layout_marginRight="@dimen/size_16dp"
+                    android:background="#f2f3f6" />
             </RelativeLayout>
+
 
             <com.puyue.www.qiaoge.view.SlideRecyclerView
                 android:id="@+id/recyclerView"

@@ -121,9 +121,19 @@ public class GetProductDetailModel {
         boolean hasCollect;
         int fullId;
         String prodVideoUrl;
+        String businessStatus;
+
         private List<String> quarterPic;
 
         List<ActivesBean> actives;
+
+        public String getBusinessStatus() {
+            return businessStatus;
+        }
+
+        public void setBusinessStatus(String businessStatus) {
+            this.businessStatus = businessStatus;
+        }
 
         public List<ActivesBean> getActives() {
             return actives;

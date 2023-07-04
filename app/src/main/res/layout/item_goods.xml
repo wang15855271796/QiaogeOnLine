@@ -11,6 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/tv_buy_tips"
+            android:textSize="12sp"
+            android:layout_marginLeft="13dp"
+            tools:text="(此商品请在明日（6月26日）00:00~23:00进行结算)"
+            android:textColor="#FE5630"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

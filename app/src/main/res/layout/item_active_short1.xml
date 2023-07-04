@@ -47,7 +47,7 @@
             android:maxLines="2"
             android:id="@+id/tv_title"
             android:ellipsize="end"
-            android:textSize="10sp"
+            android:textSize="12sp"
             android:textColor="#414141"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -58,7 +58,7 @@
             android:textColor="#7F7F7F"
             android:lines="1"
             android:ellipsize="end"
-            android:textSize="10sp"
+            android:textSize="11sp"
             android:layout_marginTop="@dimen/size_3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

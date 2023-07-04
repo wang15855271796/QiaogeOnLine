@@ -509,7 +509,6 @@ private List<String> mListReturn = new ArrayList<>();
                 String businessTypes = mListType.toString();
                 String levels = mListStar.toString();
                 String pictures = mListPic.toString();
-                Log.i("qrwrwr", "requestOrderEvaluate: " + pictures);
                 OrderEvaluateAPI.requestOrderComment(mContext, orderId, businessIds, contents, businessTypes, levels, pictures)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())

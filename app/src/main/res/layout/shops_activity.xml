@@ -135,7 +135,21 @@
 
                 </RelativeLayout>
 
-
+                <TextView
+                    android:id="@+id/tv_status"
+                    android:textSize="12sp"
+                    android:textColor="#414141"
+                    android:background="@drawable/shape_grey9"
+                    android:layout_marginTop="@dimen/size_10dp"
+                    android:layout_marginBottom="@dimen/dp_10"
+                    android:layout_below="@+id/recyclerView"
+                    tools:text="12:00"
+                    android:paddingLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="@dimen/size_14dp"
+                    android:layout_marginLeft="@dimen/size_14dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp" />
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView

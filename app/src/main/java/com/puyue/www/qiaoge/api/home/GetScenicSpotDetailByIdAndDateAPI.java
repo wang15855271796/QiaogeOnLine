@@ -5,8 +5,7 @@ import android.content.Context;
 import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
 import com.puyue.www.qiaoge.helper.RestHelper;
 import com.puyue.www.qiaoge.model.home.AddressBean;
-import com.puyue.www.qiaoge.model.home.CityChangeModel;
-import com.puyue.www.qiaoge.model.home.GetScenicSpotDetailByIdAndDateModel;
+
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;

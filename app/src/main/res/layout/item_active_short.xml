@@ -47,7 +47,7 @@
             android:maxLines="2"
             android:id="@+id/tv_title"
             android:ellipsize="end"
-            android:textSize="10sp"
+            android:textSize="12sp"
             android:textColor="#414141"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -62,7 +62,7 @@
             android:paddingTop="@dimen/size_2dp"
             android:paddingRight="@dimen/size_7dp"
             android:paddingLeft="@dimen/size_7dp"
-            android:textSize="10sp"
+            android:textSize="11sp"
             android:background="@drawable/pink"
             android:layout_marginTop="@dimen/size_3dp"
             android:layout_width="wrap_content"
@@ -74,7 +74,7 @@
             android:lines="1"
             android:ellipsize="end"
             android:textColor="#F11705"
-            android:textSize="10sp"
+            android:textSize="11sp"
             android:layout_marginTop="@dimen/size_3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

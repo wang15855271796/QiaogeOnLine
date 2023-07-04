@@ -74,9 +74,9 @@ public class StringHelper {
         String[] str1 = str.split("");
         for (int i = 0; i < str1.length-1; i++) {
             if(str1[i].equals(str1[i+1])) {
-                isSame = true;
-            }else {
                 isSame = false;
+            }else {
+                isSame = true;
             }
         }
 

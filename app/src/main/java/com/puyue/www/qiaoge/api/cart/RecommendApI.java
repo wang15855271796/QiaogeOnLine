@@ -8,6 +8,7 @@ import com.puyue.www.qiaoge.helper.RestHelper;
 import com.puyue.www.qiaoge.model.SupplierModel;
 import com.puyue.www.qiaoge.model.SurpliListModel;
 import com.puyue.www.qiaoge.model.SurpliModel;
+import com.puyue.www.qiaoge.model.cart.SendInfoModel;
 import com.puyue.www.qiaoge.model.home.GuessModel;
 import com.puyue.www.qiaoge.model.home.RecommendModel;
 import com.puyue.www.qiaoge.model.home.SearchResultsModel;
@@ -105,6 +106,19 @@ public class RecommendApI {
     public static Observable<SurpliModel> getSupplier(Context context, String supplierId) {
         SupplierService service = RestHelper.getBaseRetrofit(context).create(SupplierService.class);
         return service.getData(supplierId);
+    }
+
+    /**
+     * 获取配送地址 ，配送时间
+     */
+    private interface GetSendInfoService {
+        @POST(AppInterfaceAddress.Get_Send_Info)
+        Observable<SendInfoModel> getData();
+    }
+
+    public static Observable<SendInfoModel> getSendInfo(Context context) {
+        GetSendInfoService service = RestHelper.getBaseRetrofit(context).create(GetSendInfoService.class);
+        return service.getData();
     }
 
     /**

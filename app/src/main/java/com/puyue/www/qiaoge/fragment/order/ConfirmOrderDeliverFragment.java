@@ -211,6 +211,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     int disType = 0;
     RelativeLayout rl_arrow;
     ImageView iv_deliver;
+    TextView tv_send_time;
     UnOperate1Adapter unOperate1Adapter;
     @Override
     public int setLayoutId() {
@@ -224,6 +225,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
 
     @Override
     public void findViewById(View view) {
+        tv_send_time = (TextView) view.findViewById(R.id.tv_send_time);
         iv_deliver = (ImageView) view.findViewById(R.id.iv_deliver);
         tv_title = (TextView) view.findViewById(R.id.tv_title);
         tv_open = (TextView) view.findViewById(R.id.tv_open);
@@ -290,7 +292,6 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
 
     @Override
     public void setViewData() {
-
         final Calendar mCalendar = Calendar.getInstance();
         long time = System.currentTimeMillis();
         mCalendar.setTimeInMillis(time);
@@ -608,6 +609,10 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                                     }
                                 }
                             }
+
+                            if(!TextUtils.isEmpty(data.getSelfSendTimeStr())) {
+                                tv_send_time.setText(data.getSelfSendTimeStr());
+                            }
                             if(systemList1.size()>0) {
                                 rv_given.setVisibility(View.VISIBLE);
                                 rv_given.setLayoutManager(new LinearLayoutManager(mActivity));
@@ -858,8 +863,6 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
 
 
             } else {
-
-
                 ll_collect_bills.setVisibility(View.VISIBLE);
                 tv_amount_spec.setText(cartBalanceModel.getData().getVipDesc().toString() + "" + "元");
                 tv_vip_content_one.setText("开通会员本单立减");

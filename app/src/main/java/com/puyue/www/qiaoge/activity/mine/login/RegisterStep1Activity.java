@@ -377,14 +377,19 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                     if(password !=null && passwordSure !=null) {
                         if(password.equals(passwordSure)) {
                             if(password.length()>=6&& passwordSure.length()>=6) {
-                                if (StringHelper.isLetterDigit(et_password.getText().toString())) {
-                                    if(!etAuthor.equals("")) {
-                                        getCompanyNames(etAuthor);
-                                    }else {
-                                        AppHelper.showMsg(mContext, "授权码不能为空");
-                                    }
-                                } else {
-                                    AppHelper.showMsg(mContext, "密码由6-16位数字或字母组成");
+//                                if (StringHelper.isLetterDigit(et_password.getText().toString())) {
+//                                    if(!etAuthor.equals("")) {
+//                                        getCompanyNames(etAuthor);
+//                                    }else {
+//                                        AppHelper.showMsg(mContext, "授权码不能为空");
+//                                    }
+//                                } else {
+//                                    AppHelper.showMsg(mContext, "登录密码由6-16位非同一数字或字母组成");
+//                                }
+                                if(!etAuthor.equals("")) {
+                                    getCompanyNames(etAuthor);
+                                }else {
+                                    AppHelper.showMsg(mContext, "授权码不能为空");
                                 }
                             } else {
                                 AppHelper.showMsg(mContext, "密码位数不足!");
@@ -664,7 +669,7 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                                         }
                                     } else {
                                         //  dialog.dismiss();
-                                        AppHelper.showMsg(mContext, mModelRegister.message);
+                                        AppHelper.showMsg(mContext, registerModel.message);
                                     }
                                 }
                             });
@@ -686,8 +691,6 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
 
                                 @Override
                                 public void onNext(RegisterModel registerModel) {
-
-
                                     if (registerModel.code==1) {
                                         if(registerModel.data!=null) {
                                             mModelRegister = registerModel;
@@ -696,15 +699,13 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                                         }
                                     } else {
                                         //  dialog.dismiss();
-                                        AppHelper.showMsg(mContext, mModelRegister.message);
+                                        AppHelper.showMsg(mContext, registerModel.message);
                                     }
                                 }
                             });
                 }
-
             }
         }
-
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

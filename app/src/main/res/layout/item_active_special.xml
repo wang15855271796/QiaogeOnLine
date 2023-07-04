@@ -38,7 +38,7 @@
         <TextView
             android:id="@+id/tv_title"
             android:textColor="#414141"
-            android:textSize="10sp"
+            android:textSize="12sp"
             android:lines="1"
             android:ellipsize="end"
             android:layout_marginTop="@dimen/size_3dp"
@@ -49,7 +49,7 @@
         <TextView
             android:id="@+id/tv_save_price"
             android:textColor="#FF3E2E"
-            android:textSize="8sp"
+            android:textSize="9sp"
             android:text="赠商品、券"
             android:layout_marginTop="@dimen/size_15dp"
             android:paddingRight="@dimen/size_9dp"
@@ -61,7 +61,7 @@
         <TextView
             android:id="@+id/tv_price"
             android:textColor="#F11705"
-            android:textSize="10sp"
+            android:textSize="11sp"
             tools:text="120"
             android:layout_marginTop="@dimen/size_10dp"
             android:layout_width="wrap_content"

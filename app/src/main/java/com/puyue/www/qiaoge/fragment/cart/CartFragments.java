@@ -186,7 +186,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        getCartLists();
+//        getCartLists();
     }
 
 
@@ -241,7 +241,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     public void onResume() {
         super.onResume();
         start = System.currentTimeMillis();
-        getCartLists();
+//        getCartLists();
     }
 
     @Override

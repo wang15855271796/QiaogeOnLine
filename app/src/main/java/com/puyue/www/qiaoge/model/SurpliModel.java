@@ -66,10 +66,18 @@ public class SurpliModel {
          * prodNum : 0
          * saleVolume : 0
          */
-
+        String businessStatus;
         private String supplierName;
         private int prodNum;
         private int saleVolume;
+
+        public String getBusinessStatus() {
+            return businessStatus;
+        }
+
+        public void setBusinessStatus(String businessStatus) {
+            this.businessStatus = businessStatus;
+        }
 
         public String getSupplierName() {
             return supplierName;

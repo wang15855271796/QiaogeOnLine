@@ -729,7 +729,9 @@
         <activity android:name=".activity.mine.order.MapOrderMessageActivity"
             android:screenOrientation="portrait" ></activity>
 
-
+        <activity android:name=".activity.ChooseSendAddressActivity"
+            android:screenOrientation="portrait"
+            />
         <!--ShopListActivity-->
         <activity android:name=".activity.mine.login.ShopListActivity"
             android:screenOrientation="portrait" />

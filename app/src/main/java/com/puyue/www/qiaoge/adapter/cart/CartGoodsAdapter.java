@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -54,6 +55,7 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
     @Override
     protected void convert(BaseViewHolder helper, CartTestModel.DataBean.ProdsBeanX.ProdsBean item) {
         TextView tv_delete = helper.getView(R.id.tv_delete);
+        TextView tv_buy_tips = helper.getView(R.id.tv_buy_tips);
         ImageView iv_send = helper.getView(R.id.iv_send);
         ImageView iv_icon = helper.getView(R.id.iv_icon);
         RelativeLayout ll_root = helper.getView(R.id.ll_root);
@@ -65,6 +67,9 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
         CheckBox cb_spec = helper.getView(R.id.cb_spec);
         tv_spec.setText("规格:"+item.getSpec());
 
+        if(!TextUtils.isEmpty(item.getProdBuyTips())) {
+            tv_buy_tips.setText(item.getProdBuyTips());
+        }
         if(item.getNotSend()!=null) {
             if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
                 iv_send.setImageResource(R.mipmap.icon_not_send);

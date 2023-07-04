@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/rl_root"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:id="@+id/rl_item_address"
+        android:layout_width="150dp"
+        android:layout_height="@dimen/size_70dp"
+        android:orientation="vertical">
+
+        <CheckBox
+            android:id="@+id/iv_check"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/size_16dp"
+            android:background="@drawable/address_checkbox"
+            android:button="@null"
+            android:clickable="false"
+            android:enabled="false"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_70dp"
+        android:layout_marginLeft="@dimen/size_42dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/size_60dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="#333333"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            tools:text="杭州翘歌网络科技有限公司" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_title"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:textColor="#999999"
+            android:textSize="@dimen/sp_14"
+            tools:text="最强王者" />
+
+        <TextView
+            android:id="@+id/tv_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_title"
+            android:layout_marginLeft="@dimen/size_18dp"
+            android:layout_marginTop="@dimen/size_8dp"
+            android:layout_toRightOf="@+id/tv_name"
+            android:textColor="#999999"
+            android:textSize="@dimen/sp_14"
+            tools:text="18757104843" />
+
+        <TextView
+            android:id="@+id/tv_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/size_15dp"
+            android:drawableLeft="@mipmap/ic_sub_edit"
+            android:drawablePadding="3dp"
+            android:padding="5dp"
+            android:text="编辑"
+            android:textColor="#FE5630" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

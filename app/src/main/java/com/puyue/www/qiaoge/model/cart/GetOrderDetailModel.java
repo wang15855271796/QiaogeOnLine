@@ -122,7 +122,7 @@ public class GetOrderDetailModel {
             return deliveryModel;
         }
         public List<String> hllConnectOrderIds;
-
+        public String sendTimeStr;
 
         public void setDeliveryModel(int deliveryModel) {
             this.deliveryModel = deliveryModel;
