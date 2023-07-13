@@ -434,7 +434,7 @@ public class CartTestModel {
                 private int businessId;
                 private int selfOrNot;
                 private boolean valid;
-                boolean isSelected = true;
+                boolean isSelected;
                 String notSend;
                 String selfProd;
                 String prodBuyTips;
@@ -594,10 +594,19 @@ public class CartTestModel {
                     private String priceStr;
                     private int unit;
                     private int highNum;
+                    private int productNum1;
                     private int productNum;
                     private String unitDesc;
                     private int productCombinationPriceId;
                     private String oldPrice;
+
+                    public int getProductNum1() {
+                        return productNum1;
+                    }
+
+                    public void setProductNum1(int productNum1) {
+                        this.productNum1 = productNum1;
+                    }
 
                     public String getPrice() {
                         return price;
@@ -988,7 +997,7 @@ public class CartTestModel {
                 private int businessId;
                 private int selfOrNot;
                 private boolean valid;
-                boolean isSelected = true;
+                boolean isSelected;
 
                 @Override
                 public String toString() {

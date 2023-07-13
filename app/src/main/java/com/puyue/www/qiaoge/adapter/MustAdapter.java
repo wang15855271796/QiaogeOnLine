@@ -40,7 +40,7 @@ public class MustAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Li
     View v_champion;
     TextView tv_champion;
     LinearLayout ll_champion;
-
+    ImageView iv_fresh_price;
     public MustAdapter(int layoutResId, @Nullable List<ProductNormalModel.DataBean.ListBean> data,Onclick onclick) {
         super(layoutResId, data);
         this.activesBean = data;
@@ -51,6 +51,7 @@ public class MustAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Li
     protected void convert(BaseViewHolder helper, ProductNormalModel.DataBean.ListBean item) {
         tv_champion = helper.getView(R.id.tv_champion);
         ll_champion = helper.getView(R.id.ll_champion);
+        iv_fresh_price = helper.getView(R.id.iv_fresh_price);
         v_champion = helper.getView(R.id.v_champion);
         iv_next = helper.getView(R.id.iv_next);
         iv_next = helper.getView(R.id.iv_next);
@@ -76,6 +77,13 @@ public class MustAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Li
             }else {
                 iv_send.setVisibility(View.GONE);
             }
+        }
+
+        if(item.getFreshPriceFlag() == 1) {
+            iv_fresh_price.setVisibility(View.VISIBLE);
+            Glide.with(mContext).load(R.mipmap.ic_refresh_price);
+        }else {
+            iv_fresh_price.setVisibility(View.GONE);
         }
 
         if(item.getHotProdFlag()==1) {

@@ -42,6 +42,7 @@ public class CommonListAdapter extends BaseQuickAdapter<ProductNormalModel.DataB
     View v_champion;
     TextView tv_champion;
     LinearLayout ll_champion;
+    ImageView iv_fresh_price;
     public CommonListAdapter(int layoutResId, @Nullable List<ProductNormalModel.DataBean.ListBean> activeList, Onclick onclick) {
         super(layoutResId, activeList);
         this.activesBean = activeList;
@@ -51,6 +52,7 @@ public class CommonListAdapter extends BaseQuickAdapter<ProductNormalModel.DataB
     @Override
     protected void convert(BaseViewHolder helper, ProductNormalModel.DataBean.ListBean item) {
         iv_next = helper.getView(R.id.iv_next);
+        iv_fresh_price = helper.getView(R.id.iv_fresh_price);
         ll_champion = helper.getView(R.id.ll_champion);
         v_champion = helper.getView(R.id.v_champion);
         tv_champion =  helper.getView(R.id.tv_champion);
@@ -74,6 +76,13 @@ public class CommonListAdapter extends BaseQuickAdapter<ProductNormalModel.DataB
             }else {
                 iv_send.setVisibility(View.GONE);
             }
+        }
+
+        if(item.getFreshPriceFlag() == 1) {
+            iv_fresh_price.setVisibility(View.VISIBLE);
+            Glide.with(mContext).load(R.mipmap.ic_refresh_price);
+        }else {
+            iv_fresh_price.setVisibility(View.GONE);
         }
 
         if(item.getHotProdFlag()==1) {

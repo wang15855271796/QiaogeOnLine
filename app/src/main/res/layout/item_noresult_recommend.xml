@@ -180,6 +180,14 @@
                         android:layout_toRightOf="@+id/iv_operate"
                         tools:src="@mipmap/icon_operate" />
 
+                    <ImageView
+                        android:id="@+id/iv_fresh_price"
+                        android:layout_width="@dimen/size_32dp"
+                        android:layout_height="@dimen/size_12dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/iv_type"
+                        tools:src="@mipmap/icon_operate" />
+
                     <RelativeLayout
                         android:visibility="gone"
                         android:id="@+id/rl_spec"

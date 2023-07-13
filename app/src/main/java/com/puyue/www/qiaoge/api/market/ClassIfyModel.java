@@ -111,6 +111,15 @@ public class ClassIfyModel {
 
             private String name;
             private int secondId;
+            public String imgUrl;
+
+            public String getImgUrl() {
+                return imgUrl;
+            }
+
+            public void setImgUrl(String imgUrl) {
+                this.imgUrl = imgUrl;
+            }
 
             public String getName() {
                 return name;

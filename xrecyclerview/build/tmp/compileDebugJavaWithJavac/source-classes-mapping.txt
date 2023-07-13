@@ -10,14 +10,15 @@ com/example/xrecyclerview/WrapAdapter.java
  com.example.xrecyclerview.WrapAdapter
  com.example.xrecyclerview.WrapAdapter$1
  com.example.xrecyclerview.WrapAdapter$SimpleViewHolder
-com/example/xrecyclerview/XRecyclerView.java
- com.example.xrecyclerview.XRecyclerView
- com.example.xrecyclerview.XRecyclerView$1
- com.example.xrecyclerview.XRecyclerView$2
- com.example.xrecyclerview.XRecyclerView$LoadingListener
+com/example/xrecyclerview/DensityUtil.java
+ com.example.xrecyclerview.DensityUtil
 com/example/xrecyclerview/YunRefreshHeader.java
  com.example.xrecyclerview.YunRefreshHeader
  com.example.xrecyclerview.YunRefreshHeader$1
  com.example.xrecyclerview.YunRefreshHeader$2
-com/example/xrecyclerview/DensityUtil.java
- com.example.xrecyclerview.DensityUtil
+com/example/xrecyclerview/XRecyclerView.java
+ com.example.xrecyclerview.XRecyclerView
+ com.example.xrecyclerview.XRecyclerView$1
+ com.example.xrecyclerview.XRecyclerView$2
+ com.example.xrecyclerview.XRecyclerView$3
+ com.example.xrecyclerview.XRecyclerView$LoadingListener

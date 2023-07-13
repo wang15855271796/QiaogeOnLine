@@ -174,18 +174,28 @@
                         android:layout_height="@dimen/size_12dp" />
 
                     <TextView
-                        tools:text="我买过的"
-                        android:layout_centerVertical="true"
                         android:id="@+id/tv_buy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/size_3dp"
+                        android:layout_toRightOf="@+id/iv_type"
+                        android:background="@drawable/shape_orange_shop"
                         android:paddingLeft="@dimen/public_space_value_3"
                         android:paddingRight="@dimen/public_space_value_2"
-                        android:layout_marginLeft="@dimen/size_3dp"
-                        android:background="@drawable/shape_orange_shop"
                         android:textColor="#FF670A"
                         android:textSize="@dimen/dp_10"
-                        android:layout_toRightOf="@+id/iv_type"
+                        tools:text="我买过的" />
+
+                    <ImageView
+                        android:id="@+id/iv_fresh_price"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/size_3dp"
+                        android:layout_toRightOf="@+id/tv_buy"
+                        android:textColor="#FF670A"
+                        android:textSize="@dimen/dp_10" />
 
                     <!-- 规格,获取授权 -->
                     <RelativeLayout

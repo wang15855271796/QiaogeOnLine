@@ -3,6 +3,7 @@ package com.example.xrecyclerview;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,7 @@ public class LoadingMoreFooter extends LinearLayout {
     }
 
     public void setState(int state) {
+
         if (!isVisible){
             return;
         }

@@ -147,6 +147,15 @@ public class SearchResultsModel {
             private List<ProdPricesBean> prodPrices;
             String sendTimeTpl;
             String selfProd;
+            int freshPriceFlag;
+
+            public int getFreshPriceFlag() {
+                return freshPriceFlag;
+            }
+
+            public void setFreshPriceFlag(int freshPriceFlag) {
+                this.freshPriceFlag = freshPriceFlag;
+            }
 
             public String getNotSend() {
                 return notSend;
@@ -495,7 +504,7 @@ public class SearchResultsModel {
                 private List<ProdPricesBean> prodPrices;
                 String sendTimeTpl;
                 String selfProd;
-
+                int freshPriceFlag;
                 @Override
                 public String toString() {
                     return "ListBean{" +
@@ -517,6 +526,14 @@ public class SearchResultsModel {
                             ", sendTimeTpl='" + sendTimeTpl + '\'' +
                             ", selfProd='" + selfProd + '\'' +
                             '}';
+                }
+
+                public int getFreshPriceFlag() {
+                    return freshPriceFlag;
+                }
+
+                public void setFreshPriceFlag(int freshPriceFlag) {
+                    this.freshPriceFlag = freshPriceFlag;
                 }
 
                 public String getNotSend() {

@@ -43,6 +43,7 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
     CartTestModel.DataBean.ProdsBeanX item;
     List<CartTestModel.DataBean.ProdsBeanX> prodsBeanX;
     CartAdapter cartAdapter;
+    boolean isSelect = false;
     public CartGoodsAdapter(int layoutResId, CartAdapter cartAdapter, List<CartTestModel.DataBean.ProdsBeanX> prodsBeanX, CartTestModel.DataBean.ProdsBeanX item, @Nullable List<CartTestModel.DataBean.ProdsBeanX.ProdsBean> data, CartAdapter.OnRefreshListener mOnRefreshListener) {
         super(layoutResId, data);
         this.data = data;
@@ -67,6 +68,7 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
         CheckBox cb_spec = helper.getView(R.id.cb_spec);
         tv_spec.setText("规格:"+item.getSpec());
 
+
         if(!TextUtils.isEmpty(item.getProdBuyTips())) {
             tv_buy_tips.setText(item.getProdBuyTips());
         }
@@ -78,6 +80,7 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
                 iv_send.setVisibility(View.GONE);
             }
         }
+
         if(item.getFlagUrl()!=null&&item.getFlagUrl()!="") {
             Glide.with(mContext).load(item.getFlagUrl()).into(iv_icon);
         }
@@ -89,8 +92,9 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
             }
         });
 
+
         if(mOnRefreshListener != null){
-            boolean isSelect = false;
+
             if(prodsBeanX.size()>1) {
                 for (int i = 0; i < prodsBeanX.size(); i++) {
                     for (int j = 0; j < data.size(); j++) {
@@ -102,18 +106,24 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
                         }
                     }
                 }
+
             }else {
                 for(int i = 0;i < data.size(); i++){
                     if(!data.get(i).isSelected()){
                         isSelect = false;
+                        data.get(i).setSelected(false);
+//                        item.setSelected(false);
                         break;
                     }else{
+                        data.get(i).setSelected(true);
+//                        item.setSelected(true);
                         isSelect = true;
                     }
                 }
             }
             mOnRefreshListener.onRefresh(isSelect);
         }
+
 
         if(item.getSelfProd()!=null&&!item.getSelfProd().equals("")) {
             Glide.with(mContext).load(item.getSelfProd()).into(iv_operate);
@@ -124,7 +134,7 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
 
         RecyclerView rv_price = helper.getView(R.id.rv_price);
         rv_price.setLayoutManager(new LinearLayoutManager(mContext));
-        CartPriceAdapter cartPriceAdapter = new CartPriceAdapter(R.layout.item_choose_content1,item,item.getProductDescVOList(),cartAdapter);
+        CartPriceAdapter cartPriceAdapter = new CartPriceAdapter(R.layout.item_choose_content1,item,item.getProductDescVOList(),cartAdapter,prodsBeanX);
         rv_price.setAdapter(cartPriceAdapter);
 
         cb_item_out.setChecked(item.isSelected());

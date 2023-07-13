@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
@@ -39,18 +40,22 @@ public class MarketSecondAdapter extends BaseQuickAdapter<ClassIfyModel.DataBean
         LinearLayout rl_bg = helper.getView(R.id.rl_bg);
         View iv_point = helper.getView(R.id.iv_point);
         if(helper.getAdapterPosition()==1) {
-            iv_icon.setImageResource(R.mipmap.icon_hot);
+//            iv_icon.setImageResource(R.mipmap.icon_hot);
+            Glide.with(mContext).load(item.getImgUrl()).into(iv_icon);
             iv_icon.setVisibility(View.VISIBLE);
 
         }else if(helper.getAdapterPosition()==2){
-            iv_icon.setImageResource(R.mipmap.icon_tip);
+//            iv_icon.setImageResource(R.mipmap.icon_tip);
             iv_icon.setVisibility(View.VISIBLE);
+            Glide.with(mContext).load(item.getImgUrl()).into(iv_icon);
         }else if(helper.getAdapterPosition()==3){
-            iv_icon.setImageResource(R.mipmap.icon_new);
+//            iv_icon.setImageResource(R.mipmap.icon_new);
             iv_icon.setVisibility(View.VISIBLE);
+            Glide.with(mContext).load(item.getImgUrl()).into(iv_icon);
         }else if(helper.getAdapterPosition()==4){
-            iv_icon.setImageResource(R.mipmap.icon_coupon);
+//            iv_icon.setImageResource(R.mipmap.icon_coupon);
             iv_icon.setVisibility(View.VISIBLE);
+            Glide.with(mContext).load(item.getImgUrl()).into(iv_icon);
         }else {
             iv_icon.setVisibility(View.GONE);
         }

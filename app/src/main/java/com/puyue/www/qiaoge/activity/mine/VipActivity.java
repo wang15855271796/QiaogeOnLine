@@ -128,21 +128,17 @@ public class VipActivity extends BaseActivity {
                                     tv_desc.setVisibility(View.VISIBLE);
                                 }else if(data.getState().equals("OVER")) {
                                     //过期
-                                    tv_title.setVisibility(View.VISIBLE);
-                                    tv_state.setText("立即开通");
-//                                    tv_date.setText(data.getEndTimeDesc());
-//                                    String price = "已购买商品并会员满减"+data.getSaveAmountDesc()+"元";
-//                                    SpannableStringBuilder spannableStringBuilder = StringSpecialHelper.buildSpanColorStyle(price, 9,
-//                                            data.getSaveAmountDesc().length(), Color.parseColor("#FFE7A2"));
-//                                    tv_desc.setText(spannableStringBuilder+"");
-//                                    tv_phone.setText(data.getPhone().substring(0,3)+"****"+data.getPhone().substring(7,11));
-//                                    tv_phone.setVisibility(View.VISIBLE);
-//                                    tv_date.setVisibility(View.VISIBLE);
-//                                    tv_title.setVisibility(View.GONE);
-                                    tv_desc.setText("翘歌VIP会员可与优惠券叠加使用");
-                                    tv_phone.setVisibility(View.GONE);
-                                    tv_date.setVisibility(View.GONE);
+                                    tv_title.setVisibility(View.GONE);
+                                    tv_state.setText("立即续费");
+                                    tv_date.setText(data.getEndTimeDesc());
+                                    String price = "已购买商品并会员满减"+data.getSaveAmountDesc()+"元";
+                                    SpannableStringBuilder spannableStringBuilder = StringSpecialHelper.buildSpanColorStyle(price, 9,
+                                            data.getSaveAmountDesc().length(), Color.parseColor("#FFE7A2"));
+                                    tv_desc.setText(spannableStringBuilder+"");
                                     tv_desc.setVisibility(View.VISIBLE);
+                                    tv_phone.setText(data.getPhone().substring(0,3)+"****"+data.getPhone().substring(7,11));
+                                    tv_phone.setVisibility(View.VISIBLE);
+                                    tv_date.setVisibility(View.VISIBLE);
                                 }else {
                                     //ENABLED（已开通）
                                     tv_title.setVisibility(View.GONE);
@@ -156,7 +152,6 @@ public class VipActivity extends BaseActivity {
                                     tv_phone.setText(data.getPhone().substring(0,3)+"****"+data.getPhone().substring(7,11));
                                     tv_phone.setVisibility(View.VISIBLE);
                                     tv_date.setVisibility(View.VISIBLE);
-
                                 }
 
                                 vipAdapter = new VipAdapter(R.layout.item_vip1,vipPackages,data.getState());

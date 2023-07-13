@@ -210,6 +210,15 @@ public class ProductNormalModel implements Serializable {
             String sendTimeTpl;
             String selfProd;
             int hotProdFlag;
+            int freshPriceFlag;
+
+            public int getFreshPriceFlag() {
+                return freshPriceFlag;
+            }
+
+            public void setFreshPriceFlag(int freshPriceFlag) {
+                this.freshPriceFlag = freshPriceFlag;
+            }
 
             public int getHotProdFlag() {
                 return hotProdFlag;

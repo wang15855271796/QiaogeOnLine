@@ -57,6 +57,14 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
     @Override
     protected void convert(BaseViewHolder helper, MarketRightModel.DataBean.ProdClassifyBean.ListBean item) {
         int businessType = item.getBusinessType();
+        ImageView iv_fresh_price = helper.getView(R.id.iv_fresh_price);
+        if(item.getFreshPriceFlag() == 1) {
+            iv_fresh_price.setVisibility(View.VISIBLE);
+            Glide.with(mContext).load(R.mipmap.ic_refresh_price);
+        }else {
+            iv_fresh_price.setVisibility(View.GONE);
+        }
+
         ImageView iv_send = helper.getView(R.id.iv_send);
         RelativeLayout rl_spec = helper.getView(R.id.rl_spec);
         TextView tv_style = helper.getView(R.id.tv_style);

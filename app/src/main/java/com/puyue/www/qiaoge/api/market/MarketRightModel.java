@@ -597,6 +597,15 @@ public class MarketRightModel {
                 String sendTimeTpl;
                 String selfProd;
                 String notSend;
+                int freshPriceFlag;
+
+                public int getFreshPriceFlag() {
+                    return freshPriceFlag;
+                }
+
+                public void setFreshPriceFlag(int freshPriceFlag) {
+                    this.freshPriceFlag = freshPriceFlag;
+                }
 
                 public String getNotSend() {
                     return notSend;

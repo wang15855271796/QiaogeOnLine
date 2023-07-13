@@ -111,6 +111,17 @@
             tools:src="@mipmap/icon_operate" />
 
         <ImageView
+            android:visibility="gone"
+            android:id="@+id/iv_fresh_price"
+            android:layout_width="wrap_content"
+            android:layout_height="12dp"
+            android:layout_below="@+id/tv_name"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="@dimen/size_3dp"
+            android:layout_toRightOf="@+id/iv_operate"
+            tools:src="@mipmap/icon_operate" />
+
+        <ImageView
             android:id="@+id/iv_after_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

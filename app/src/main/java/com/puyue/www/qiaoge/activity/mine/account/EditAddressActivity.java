@@ -526,7 +526,7 @@ public class EditAddressActivity extends BaseSwipeActivity  {
                 .setContentTextSize(20)
                 .setFlag(false)
                 .build();
-        pvOptions.setPicker(options1Items, null,null);//三级选择器
+        pvOptions.setPicker(options1Items, options2Items,options3Items);//三级选择器
         pvOptions.show();
     }
 

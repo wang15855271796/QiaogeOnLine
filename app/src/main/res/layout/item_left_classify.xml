@@ -41,8 +41,8 @@
                     android:id="@+id/iv_icon"
                     android:paddingRight="@dimen/size_5dp"
                     android:src="@mipmap/icon_hot"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
                     />
                 <!--</com.lijiankun24.shadowlayout.ShadowLayout>-->
                 <TextView

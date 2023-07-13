@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -158,6 +159,7 @@ public class XRecyclerView extends RecyclerView {
     public void onScrollStateChanged(int state) {
         super.onScrollStateChanged(state);
 //        Log.d("wdasdw..........",state+"---"+mLoadingListener+"---"+isLoadingData+"---"+loadingMoreEnabled);
+        Log.d("swadwdssd.....","状态000");
         //滚动是否停止 是否有监听 是否需要加载更多 没有正在加载数据
         if (state == RecyclerView.SCROLL_STATE_IDLE && mLoadingListener != null && !isLoadingData && loadingMoreEnabled) {
             LayoutManager layoutManager = getLayoutManager();
@@ -184,7 +186,13 @@ public class XRecyclerView extends RecyclerView {
                     footView.setVisibility(View.VISIBLE);
                 }
                 if (CheckNetwork.isNetworkConnected(getContext())) {
-                    mLoadingListener.onLoadMore();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mLoadingListener.onLoadMore();
+                        }
+                    },2000);
+
                 } else {
                     postDelayed(new Runnable() {
                         @Override

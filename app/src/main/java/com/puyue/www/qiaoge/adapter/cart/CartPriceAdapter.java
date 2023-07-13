@@ -16,6 +16,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.api.cart.AddMountChangeTwoAPI;
+import com.puyue.www.qiaoge.event.RefreshCarNumEvent1;
 import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.model.cart.CartAddModel;
 import com.puyue.www.qiaoge.model.cart.CartTestModel;
@@ -36,10 +37,12 @@ public class CartPriceAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
 
     CartTestModel.DataBean.ProdsBeanX.ProdsBean prods;
     CartAdapter cartAdapter;
-    public CartPriceAdapter(int layoutResId, CartTestModel.DataBean.ProdsBeanX.ProdsBean item, @Nullable List<CartTestModel.DataBean.ProdsBeanX.ProdsBean.ProductDescVOListBean> data, CartAdapter cartAdapter) {
+    List<CartTestModel.DataBean.ProdsBeanX> prodsBeanX;
+    public CartPriceAdapter(int layoutResId, CartTestModel.DataBean.ProdsBeanX.ProdsBean item, @Nullable List<CartTestModel.DataBean.ProdsBeanX.ProdsBean.ProductDescVOListBean> data, CartAdapter cartAdapter, List<CartTestModel.DataBean.ProdsBeanX> prodsBeanX) {
         super(layoutResId, data);
         this.prods = item;
         this.cartAdapter = cartAdapter;
+        this.prodsBeanX = prodsBeanX;
     }
 
     @Override
@@ -76,7 +79,10 @@ public class CartPriceAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
             public void onClick(View v) {
                 int num = Integer.parseInt(tv_num.getText().toString());
                 num = num + 1;
-                changeCartNum(prods,num,productCombinationPriceId,tv_num);
+                item.setProductNum1(num);
+                item.setProductNum(num);
+                changeCartNum(prods,num,productCombinationPriceId,tv_num,prodsBeanX);
+//                EventBus.getDefault().post(new RefreshCarNumEvent1(prods,num,productCombinationPriceId,tv_num,prodsBeanX));
             }
         });
 
@@ -86,7 +92,10 @@ public class CartPriceAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
                 int num = Integer.parseInt(tv_num.getText().toString());
                 if(num>0) {
                     num = num - 1;
-                    changeCartNum(prods,num,productCombinationPriceId,tv_num);
+                    item.setProductNum(num);
+                    changeCartNum(prods,num,productCombinationPriceId,tv_num,prodsBeanX);
+//                    changeCartNum(prods,num,productCombinationPriceId,tv_num, prods);
+
                 }else {
                     ToastUtil.showSuccessMsg(mContext,"最小数量为0");
                 }
@@ -120,7 +129,9 @@ public class CartPriceAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
             public void onClick(View v) {
                 if(et_num.getText().toString()!=null && !et_num.getText().toString().equals("")) {
                     int num = Integer.parseInt(et_num.getText().toString());
-                    changeCartNum(prods,num,item.getProductCombinationPriceId(),textView);
+                    item.setProductNum(num);
+                    changeCartNum(prods,num,item.getProductCombinationPriceId(),textView,prodsBeanX);
+//                    changeCartNum(prods,num,item.getProductCombinationPriceId(),textView, prods);
                 }
             }
         });
@@ -128,10 +139,12 @@ public class CartPriceAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
 
     /**
      * 修改购物车数量
+     * @param
      * @param item
      * @param num
+     * @param prodsBeanX
      */
-    private void changeCartNum(CartTestModel.DataBean.ProdsBeanX.ProdsBean item, int num, int priceId,TextView textView) {
+    private void changeCartNum(CartTestModel.DataBean.ProdsBeanX.ProdsBean item, int num, int priceId, TextView textView, List<CartTestModel.DataBean.ProdsBeanX> prodsBeanX) {
         AddMountChangeTwoAPI.changeCartNum(mContext,item.getBusinessType(),item.getBusinessId(),num,priceId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -152,14 +165,14 @@ public class CartPriceAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
                             if(cartAddModel.getData()!=null) {
                                 if(cartAddModel.getData().getAddFlag()==0) {
                                     //正常
-                                    EventBus.getDefault().post(new ReduceNumEvent());
                                     ToastUtil.showSuccessMsg(mContext,cartAddModel.getMessage());
                                     textView.setText(num+"");
+                                    EventBus.getDefault().post(new RefreshCarNumEvent1(prodsBeanX));
                                     alertDialog.dismiss();
                                 }else {
-                                    textView.setText(cartAddModel.getData().getNum()+"");
-                                    EventBus.getDefault().post(new ReduceNumEvent());
                                     ToastUtil.showSuccessMsg(mContext,cartAddModel.getData().getMessage());
+                                    textView.setText(cartAddModel.getData().getNum()+"");
+                                    EventBus.getDefault().post(new RefreshCarNumEvent1(prodsBeanX));
                                     alertDialog.dismiss();
                                 }
                             }

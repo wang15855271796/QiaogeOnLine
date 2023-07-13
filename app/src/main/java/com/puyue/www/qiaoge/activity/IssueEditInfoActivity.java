@@ -645,7 +645,6 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
 
             selectList.addAll(images);
             shopImageViewAdapter.setList(selectList);
-            Log.d("cwdadwd.......",selectList.size()+"a");
         }
     }
 

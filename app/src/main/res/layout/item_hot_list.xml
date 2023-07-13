@@ -151,6 +151,15 @@
                 android:layout_toRightOf="@+id/rl"
                 tools:src="@mipmap/icon_after_next" />
 
+            <ImageView
+                android:id="@+id/iv_fresh_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll"
+                android:layout_marginLeft="@dimen/size_12dp"
+                android:layout_toRightOf="@+id/iv_style"
+                tools:src="@mipmap/icon_after_next" />
+
         </RelativeLayout>
 
         <TextView

@@ -44,6 +44,7 @@ public class ReduceAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.
     View v_champion;
     TextView tv_champion;
     LinearLayout ll_champion;
+    ImageView iv_fresh_price;
     public ReduceAdapter(int layoutResId, @Nullable List<ProductNormalModel.DataBean.ListBean> activeList, Onclick onclick) {
         super(layoutResId, activeList);
         this.activesBean = activeList;
@@ -53,6 +54,7 @@ public class ReduceAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.
     @Override
     protected void convert(BaseViewHolder helper, ProductNormalModel.DataBean.ListBean item) {
         iv_next = helper.getView(R.id.iv_next);
+        iv_fresh_price = helper.getView(R.id.iv_fresh_price);
         ll_champion = helper.getView(R.id.ll_champion);
         v_champion = helper.getView(R.id.v_champion);
         iv_operate = helper.getView(R.id.iv_operate);
@@ -78,7 +80,12 @@ public class ReduceAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.
                 iv_send.setVisibility(View.GONE);
             }
         }
-
+        if(item.getFreshPriceFlag() == 1) {
+            iv_fresh_price.setVisibility(View.VISIBLE);
+            Glide.with(mContext).load(R.mipmap.ic_refresh_price);
+        }else {
+            iv_fresh_price.setVisibility(View.GONE);
+        }
         if(item.getHotProdFlag()==1) {
             //1热销
             ll_champion.setVisibility(View.VISIBLE);

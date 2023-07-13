@@ -52,6 +52,7 @@ public class SearchReasultAdapter extends BaseQuickAdapter<SearchResultsModel.Da
     @Override
     protected void convert(BaseViewHolder helper, SearchResultsModel.DataBean.SearchProdBean.ListBean item) {
         iv_operate = helper.getView(R.id.iv_operate);
+        ImageView iv_fresh_price = helper.getView(R.id.iv_fresh_price);
         ImageView iv_no_data = helper.getView(R.id.iv_no_data);
         TextView tv_style = helper.getView(R.id.tv_style);
         tv_price_desc = helper.getView(R.id.tv_price_desc);
@@ -68,6 +69,14 @@ public class SearchReasultAdapter extends BaseQuickAdapter<SearchResultsModel.Da
             iv_type.setVisibility(View.VISIBLE);
             iv_no_data.setVisibility(View.GONE);
         }
+
+        if(item.getFreshPriceFlag() == 1) {
+            iv_fresh_price.setVisibility(View.VISIBLE);
+            Glide.with(mContext).load(R.mipmap.ic_refresh_price);
+        }else {
+            iv_fresh_price.setVisibility(View.GONE);
+        }
+
         RelativeLayout rl_spec = helper.getView(R.id.rl_spec);
         ll_group = helper.getView(R.id.ll_group);
         ll_group.setOnClickListener(new View.OnClickListener() {
