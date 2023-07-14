@@ -72,6 +72,15 @@ public class CommonProductItemAdapter extends BaseQuickAdapter<ExchangeProductMo
             tv_coupon_desc.setText(item.getSpecialOffer());
             rl_desc.setVisibility(View.VISIBLE);
         }
+
+        ImageView iv_fresh_price = helper.getView(R.id.iv_fresh_price);
+        if(item.getFreshPriceFlag() == 1) {
+            iv_fresh_price.setVisibility(View.VISIBLE);
+            Glide.with(mContext).load(R.mipmap.ic_refresh_price);
+        }else {
+            iv_fresh_price.setVisibility(View.GONE);
+        }
+
         TextView tv_weight = helper.getView(R.id.tv_weight);
         if(TextUtils.isEmpty(item.getVolumeWeight())||item.getVolumeWeight().equals("")) {
             tv_weight.setVisibility(View.GONE);

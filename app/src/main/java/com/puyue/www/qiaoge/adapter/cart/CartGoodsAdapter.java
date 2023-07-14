@@ -94,7 +94,6 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
 
 
         if(mOnRefreshListener != null){
-
             if(prodsBeanX.size()>1) {
                 for (int i = 0; i < prodsBeanX.size(); i++) {
                     for (int j = 0; j < data.size(); j++) {
@@ -112,11 +111,9 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
                     if(!data.get(i).isSelected()){
                         isSelect = false;
                         data.get(i).setSelected(false);
-//                        item.setSelected(false);
                         break;
                     }else{
                         data.get(i).setSelected(true);
-//                        item.setSelected(true);
                         isSelect = true;
                     }
                 }

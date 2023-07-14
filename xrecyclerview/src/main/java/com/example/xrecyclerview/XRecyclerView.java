@@ -155,6 +155,14 @@ public class XRecyclerView extends RecyclerView {
 //        return super.getChildCount();
 //    }
 
+//    public int getScollYDistance() {
+//        LinearLayoutManager layoutManager = (LinearLayoutManager) this.getLayoutManager();
+//        int position = layoutManager.findFirstVisibleItemPosition();
+//        View firstVisiableChildView = layoutManager.findViewByPosition(position);
+//        int itemHeight = firstVisiableChildView.getHeight();
+//        return (position) * itemHeight - firstVisiableChildView.getTop();
+//    }
+
     @Override
     public void onScrollStateChanged(int state) {
         super.onScrollStateChanged(state);
@@ -178,13 +186,23 @@ public class XRecyclerView extends RecyclerView {
                     && !isnomore && mRefreshHeader.getState() < YunRefreshHeader.STATE_REFRESHING
                     && layoutManager.getItemCount() > layoutManager.getChildCount()) {
 
+                Log.d("swadwdssd.....","状态111");
+
                 View footView = mFootViews.get(0);
                 isLoadingData = true;
-                if (footView instanceof LoadingMoreFooter) {
-                    ((LoadingMoreFooter) footView).setState(LoadingMoreFooter.STATE_LOADING);
-                } else {
-                    footView.setVisibility(View.VISIBLE);
-                }
+//                ((LoadingMoreFooter) footView).setState(LoadingMoreFooter.STATE_NOMORE);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (footView instanceof LoadingMoreFooter) {
+                            ((LoadingMoreFooter) footView).setState(LoadingMoreFooter.STATE_LOADING);
+                        } else {
+                            footView.setVisibility(View.VISIBLE);
+                        }
+                    }
+                },500);
+
+
                 if (CheckNetwork.isNetworkConnected(getContext())) {
                     new Handler().postDelayed(new Runnable() {
                         @Override

@@ -599,6 +599,15 @@ public class CartTestModel {
                     private String unitDesc;
                     private int productCombinationPriceId;
                     private String oldPrice;
+                    private int freshPriceFlag;
+
+                    public int getFreshPriceFlag() {
+                        return freshPriceFlag;
+                    }
+
+                    public void setFreshPriceFlag(int freshPriceFlag) {
+                        this.freshPriceFlag = freshPriceFlag;
+                    }
 
                     public int getProductNum1() {
                         return productNum1;

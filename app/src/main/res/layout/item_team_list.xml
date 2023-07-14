@@ -119,7 +119,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="@dimen/size_3dp"
             android:layout_toRightOf="@+id/iv_operate"
-            tools:src="@mipmap/icon_operate" />
+            tools:src="@mipmap/ic_refresh_price" />
 
         <ImageView
             android:id="@+id/iv_after_next"

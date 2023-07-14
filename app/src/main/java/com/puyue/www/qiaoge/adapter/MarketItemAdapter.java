@@ -80,6 +80,15 @@ public class MarketItemAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
             tv_weight.setVisibility(View.VISIBLE);
             tv_weight.setText(item.getVolumeWeight());
         }
+
+        ImageView iv_fresh_price = helper.getView(R.id.iv_fresh_price);
+        if(item.getFreshPriceFlag() == 1) {
+            iv_fresh_price.setVisibility(View.VISIBLE);
+            Glide.with(mContext).load(R.mipmap.ic_refresh_price);
+        }else {
+            iv_fresh_price.setVisibility(View.GONE);
+        }
+
         tv_price = helper.getView(R.id.tv_price);
         tv_price.setText(item.getPrice());
         helper.setText(R.id.tv_unit, item.getUnitDesc());

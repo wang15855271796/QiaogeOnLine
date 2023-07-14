@@ -11,15 +11,24 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true">
 
+        <ImageView
+            android:id="@+id/iv_fresh_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/size_10dp"
+            tools:src="@mipmap/ic_refresh_price" />
+
         <TextView
+            android:layout_toRightOf="@+id/iv_fresh_price"
             android:id="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/size_15dp"
+            android:layout_marginLeft="5dp"
             android:textColor="#FE5630"
-            android:textStyle="bold"
             android:textSize="12sp"
+            android:textStyle="bold"
             tools:text="1.5/盒" />
 
         <TextView
@@ -46,13 +55,13 @@
 
         <ImageView
             android:id="@+id/iv_reduce"
+            android:layout_width="@dimen/size_28dp"
+            android:layout_height="@dimen/size_16dp"
             android:layout_centerVertical="true"
-            android:paddingRight="@dimen/size_5dp"
-            android:paddingLeft="@dimen/size_5dp"
             android:layout_marginLeft="@dimen/size_10dp"
             android:layout_toRightOf="@+id/tv_old_price"
-            android:layout_width="@dimen/size_28dp"
-            android:layout_height="@dimen/size_16dp" />
+            android:paddingLeft="@dimen/size_5dp"
+            android:paddingRight="@dimen/size_5dp" />
 
 
         <LinearLayout

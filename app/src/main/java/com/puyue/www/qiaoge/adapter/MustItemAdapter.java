@@ -72,6 +72,15 @@ public class MustItemAdapter extends BaseQuickAdapter<ExchangeProductModel.DataB
         iv_cut = helper.getView(R.id.iv_cut);
         iv_add = helper.getView(R.id.iv_add);
         TextView tv_weight = helper.getView(R.id.tv_weight);
+
+        ImageView iv_fresh_price = helper.getView(R.id.iv_fresh_price);
+        if(item.getFreshPriceFlag() == 1) {
+            iv_fresh_price.setVisibility(View.VISIBLE);
+            Glide.with(mContext).load(R.mipmap.ic_refresh_price);
+        }else {
+            iv_fresh_price.setVisibility(View.GONE);
+        }
+
         if(TextUtils.isEmpty(item.getVolumeWeight())||item.getVolumeWeight().equals("")) {
             tv_weight.setVisibility(View.GONE);
         }else {

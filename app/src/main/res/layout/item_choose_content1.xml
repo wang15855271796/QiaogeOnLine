@@ -35,24 +35,24 @@
 
         <TextView
             android:id="@+id/tv_old_price"
-            tools:text="(1箱10盒)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:textSize="10sp"
-            android:textColor="#666666"
             android:layout_marginLeft="@dimen/size_10dp"
             android:layout_toRightOf="@+id/tv_unit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textColor="#666666"
+            android:textSize="10sp"
+            tools:text="(1箱10盒)" />
 
         <ImageView
-            android:id="@+id/iv_reduce"
+            android:visibility="gone"
+            android:id="@+id/iv_fresh_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_refresh_price"
             android:layout_centerVertical="true"
-            android:paddingRight="@dimen/size_5dp"
-            android:paddingLeft="@dimen/size_5dp"
             android:layout_marginLeft="@dimen/size_10dp"
-            android:layout_toRightOf="@+id/tv_old_price"
-            android:layout_width="@dimen/size_28dp"
-            android:layout_height="@dimen/size_16dp" />
+            android:layout_toRightOf="@+id/tv_old_price" />
 
 
         <LinearLayout

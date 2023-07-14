@@ -53,6 +53,7 @@ import com.puyue.www.qiaoge.event.DeleteGoodsEvent;
 import com.puyue.www.qiaoge.event.GoToMarketEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.event.RefreshCarNumEvent1;
+import com.puyue.www.qiaoge.event.SetAllCheckEvent;
 import com.puyue.www.qiaoge.fragment.home.CityEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.BigDecimalUtils;
@@ -1157,6 +1158,13 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
         getScrollData();
         getCartLists();
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void setChecked(SetAllCheckEvent setAllCheckEvent) {
+        mSelect = true;
+        cb_select_all.setChecked(true);
+    }
+
     //按钮状态
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getCartState(CartGoodsEvent cartGoodsEvent) {

@@ -195,6 +195,8 @@
                         android:layout_marginLeft="@dimen/size_3dp"
                         android:layout_toRightOf="@+id/tv_buy"
                         android:textColor="#FF670A"
+                        android:visibility="gone"
+                        android:src="@mipmap/ic_refresh_price"
                         android:textSize="@dimen/dp_10" />
 
                     <!-- 规格,获取授权 -->

@@ -65,6 +65,7 @@ import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.FromIndexEvent;
 import com.puyue.www.qiaoge.event.LogoutEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
+import com.puyue.www.qiaoge.event.SetAllCheckEvent;
 import com.puyue.www.qiaoge.fragment.home.CityEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.PublicRequestHelper;
@@ -1227,6 +1228,7 @@ public class MarketsFragment extends BaseFragment {
         fromId = fromIndexEvent.getId();
         requestGoodsList(fromId);
     }
+
 
     /**
      * 提示用户去登录还是注册的弹窗

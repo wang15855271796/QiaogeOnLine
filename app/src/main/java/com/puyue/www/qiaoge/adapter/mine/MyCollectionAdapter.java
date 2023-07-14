@@ -66,10 +66,18 @@ public class MyCollectionAdapter extends BaseQuickAdapter<ProductNormalModel.Dat
         TextView tv_price_desc = helper.getView(R.id.tv_price_desc);
         RelativeLayout rl_spec = helper.getView(R.id.rl_spec);
         ImageView iv_operate = helper.getView(R.id.iv_operate);
+        ImageView iv_fresh_price = helper.getView(R.id.iv_fresh_price);
         RelativeLayout rl_price = helper.getView(R.id.rl_price);
         Glide.with(mContext).load(item.getSelfProd()).into(iv_operate);
         iv_sold_out = helper.getView(R.id.iv_sold_out);
         rl_item_collection_data = helper.getView(R.id.rl_item_collection_data);
+
+        if(item.getFreshPriceFlag() == 1) {
+            iv_fresh_price.setVisibility(View.VISIBLE);
+            Glide.with(mContext).load(R.mipmap.ic_refresh_price);
+        }else {
+            iv_fresh_price.setVisibility(View.GONE);
+        }
 
 
         if (StringHelper.notEmptyAndNull(item.getDefaultPic())) {

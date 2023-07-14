@@ -757,6 +757,7 @@ public class AppInterfaceAddress {
     public static final String GET_CART_LISTS = "cart/queryUserCartList";
     //购物车列表
     public static final String GET_CART_LIST = "cart/getAppUserCartListV3";
+
     //满减详情
     public static final String Full_Cart_Detail = "cart/getCityDeductInfoDetail";
     //满减详情(新)
@@ -867,7 +868,7 @@ public class AppInterfaceAddress {
     public static final String ADDCARTJUDGES = "cart/userChangeCartGoodsNum";
 
     /**
-     *购物车列表加减接口
+     *购物车列表加减接口    //购物车数量-重置
      */
     public static final String Cart_Add = "cart/addCartProdNumV3";
 

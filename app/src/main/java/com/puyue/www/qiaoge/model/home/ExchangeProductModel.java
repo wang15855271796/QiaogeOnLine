@@ -362,6 +362,15 @@ public class ExchangeProductModel {
             private String specialOffer;
             private String weight;
             private String volumeWeight;
+            private int freshPriceFlag;
+
+            public int getFreshPriceFlag() {
+                return freshPriceFlag;
+            }
+
+            public void setFreshPriceFlag(int freshPriceFlag) {
+                this.freshPriceFlag = freshPriceFlag;
+            }
 
             public String getVolumeWeight() {
                 return volumeWeight;

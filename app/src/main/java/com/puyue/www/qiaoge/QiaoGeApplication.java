@@ -17,6 +17,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.puyue.www.qiaoge.event.InitEvent;
+import com.puyue.www.qiaoge.event.SetAllCheckEvent;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.utils.HookUtils;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
@@ -64,7 +65,7 @@ public class QiaoGeApplication extends MultiDexApplication {
 
         Tencent.setIsPermissionGranted(true);
         disableAPIDialog();
-
+        EventBus.getDefault().postSticky(new SetAllCheckEvent(true));
         LoadingLayout.getConfig()
                 .setErrorText("出错啦~请稍后重试！")
                 .setNoNetworkText("无网络连接，请检查您的网络···")

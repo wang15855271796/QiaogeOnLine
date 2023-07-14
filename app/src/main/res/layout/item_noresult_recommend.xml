@@ -182,11 +182,11 @@
 
                     <ImageView
                         android:id="@+id/iv_fresh_price"
-                        android:layout_width="@dimen/size_32dp"
-                        android:layout_height="@dimen/size_12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@+id/iv_type"
-                        tools:src="@mipmap/icon_operate" />
+                        tools:src="@mipmap/ic_refresh_price" />
 
                     <RelativeLayout
                         android:visibility="gone"

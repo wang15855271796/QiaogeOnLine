@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
@@ -51,12 +52,19 @@ public class CartPriceAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
         TextView tv_price = helper.getView(R.id.tv_price);
         TextView tv_old_price = helper.getView(R.id.tv_old_price);
         TextView tv_unit = helper.getView(R.id.tv_unit);
+        ImageView iv_fresh_price = helper.getView(R.id.iv_fresh_price);
         ImageView iv_add = helper.getView(R.id.iv_add);
         ImageView iv_cut = helper.getView(R.id.iv_cut);
         TextView tv_num = helper.getView(R.id.tv_num);
         tv_price.setText(item.getPriceStr());
         tv_unit.setText(item.getUnitDesc());
 
+        if(item.getFreshPriceFlag() == 1) {
+            iv_fresh_price.setVisibility(View.VISIBLE);
+            Glide.with(mContext).load(R.mipmap.ic_refresh_price);
+        }else {
+            iv_fresh_price.setVisibility(View.GONE);
+        }
         ll_trend.setVisibility(View.GONE);
         tv_num.setText(item.getProductNum()+"");
         int productCombinationPriceId = item.getProductCombinationPriceId();
