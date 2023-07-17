@@ -2,6 +2,7 @@ package com.puyue.www.qiaoge.event;
 
 import android.widget.TextView;
 
+import com.puyue.www.qiaoge.adapter.cart.CartGoodsAdapter;
 import com.puyue.www.qiaoge.model.cart.CartTestModel;
 
 import java.util.List;
@@ -12,6 +13,10 @@ public class RefreshCarNumEvent1 {
     int productCombinationPriceId;
     TextView tv_num;
     List<CartTestModel.DataBean.ProdsBeanX> prodsBeanX;
+    int adapterPosition;
+    CartGoodsAdapter cartGoodsAdapter;
+    int size;
+    List<CartTestModel.DataBean.ProdsBeanX.ProdsBean> prodsBeans;
     public RefreshCarNumEvent1(CartTestModel.DataBean.ProdsBeanX.ProdsBean prods, int num, int productCombinationPriceId
             , TextView tv_num, List<CartTestModel.DataBean.ProdsBeanX> prodsBeanX) {
         this.prods = prods;
@@ -22,11 +27,46 @@ public class RefreshCarNumEvent1 {
 
     }
 
-    public RefreshCarNumEvent1( List<CartTestModel.DataBean.ProdsBeanX> prodsBeanX) {
+    public RefreshCarNumEvent1(List<CartTestModel.DataBean.ProdsBeanX> prodsBeanX, int adapterPosition
+            , List<CartTestModel.DataBean.ProdsBeanX.ProdsBean> prodsBeans, CartGoodsAdapter cartGoodsAdapter, int size) {
         this.prodsBeanX = prodsBeanX;
-
+        this.adapterPosition = adapterPosition;
+        this.prodsBeans = prodsBeans;
+        this.size = size;
+        this.cartGoodsAdapter = cartGoodsAdapter;
     }
 
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public List<CartTestModel.DataBean.ProdsBeanX.ProdsBean> getProdsBeans() {
+        return prodsBeans;
+    }
+
+    public void setProdsBeans(List<CartTestModel.DataBean.ProdsBeanX.ProdsBean> prodsBeans) {
+        this.prodsBeans = prodsBeans;
+    }
+
+    public CartGoodsAdapter getCartGoodsAdapter() {
+        return cartGoodsAdapter;
+    }
+
+    public void setCartGoodsAdapter(CartGoodsAdapter cartGoodsAdapter) {
+        this.cartGoodsAdapter = cartGoodsAdapter;
+    }
+
+    public int getAdapterPosition() {
+        return adapterPosition;
+    }
+
+    public void setAdapterPosition(int adapterPosition) {
+        this.adapterPosition = adapterPosition;
+    }
 
     public List<CartTestModel.DataBean.ProdsBeanX> getProdsBeanX() {
         return prodsBeanX;

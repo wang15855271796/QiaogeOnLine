@@ -120,7 +120,7 @@ public class CartAdapter extends BaseQuickAdapter<CartTestModel.DataBean.ProdsBe
 
         SlideRecyclerView recyclerView = helper.getView(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        cartGoodsAdapter = new CartGoodsAdapter(R.layout.item_goods,this,data,item,item.getProds(),mOnRefreshListener);
+        cartGoodsAdapter = new CartGoodsAdapter(R.layout.item_goods,this,data,item,item.getProds(),mOnRefreshListener,cartGoodsAdapter);
         recyclerView.setAdapter(cartGoodsAdapter);
         cartGoodsAdapter.notifyDataSetChanged();
     }

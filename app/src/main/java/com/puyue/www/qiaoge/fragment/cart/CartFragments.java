@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Build;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,6 +36,7 @@ import com.puyue.www.qiaoge.activity.mine.order.ConfirmNewOrderActivity;
 import com.puyue.www.qiaoge.adapter.FullCartAdapter;
 import com.puyue.www.qiaoge.adapter.Must2Adapter;
 import com.puyue.www.qiaoge.adapter.cart.CartAdapter;
+import com.puyue.www.qiaoge.adapter.cart.CartGoodsAdapter;
 import com.puyue.www.qiaoge.api.cart.AddMountChangeTwoAPI;
 import com.puyue.www.qiaoge.api.cart.CartBalanceAPI;
 import com.puyue.www.qiaoge.api.cart.CartListAPI;
@@ -53,6 +55,7 @@ import com.puyue.www.qiaoge.event.DeleteGoodsEvent;
 import com.puyue.www.qiaoge.event.GoToMarketEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.event.RefreshCarNumEvent1;
+import com.puyue.www.qiaoge.event.RefreshCarNumEvent2;
 import com.puyue.www.qiaoge.event.SetAllCheckEvent;
 import com.puyue.www.qiaoge.fragment.home.CityEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
@@ -353,6 +356,13 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                                     }
                                 });
 
+                                for (int i = 0; i < prods.size(); i++) {
+                                    prods.get(i).setSelect(true);
+                                    List<CartTestModel.DataBean.ProdsBeanX.ProdsBean> prods1 = CartFragments.this.prods.get(i).getProds();
+                                    for (int j = 0; j < prods1.size(); j++) {
+                                        prods1.get(j).setSelected(true);
+                                    }
+                                }
                                 rv_cart.setAdapter(cartAdapter);
                                 cartAdapter.notifyDataSetChanged();
 
@@ -1021,11 +1031,8 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
 
     //刷新列表
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getCartList(RefreshCarNumEvent1 reduceNumEvent) {
-//        getCartList1();
-        getCartList1();
+    public void getCartList(RefreshCarNumEvent2 reduceNumEvent) {
         getAllPrice(reduceNumEvent.getProdsBeanX());
-        cartAdapter.notifyDataSetChanged();
 
     }
 
