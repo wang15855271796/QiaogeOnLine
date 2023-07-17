@@ -474,6 +474,7 @@
 
                 <!-- 期望配送时间 -->
                 <RelativeLayout
+                    android:visibility="gone"
                     android:id="@+id/rl_distribution"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"

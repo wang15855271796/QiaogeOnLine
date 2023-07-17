@@ -258,6 +258,7 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
     LinearLayout ll_bg;
     RelativeLayout rl_hll_order;
     TextView tv_send_time;
+    RelativeLayout rl_distribution;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -271,6 +272,7 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
     @Override
     public void findViewById() {
         tv_send_time = (TextView) findViewById(R.id.tv_send_time);
+        rl_distribution = findViewById(R.id.rl_distribution);
         rl_hll_order = (RelativeLayout) findViewById(R.id.rl_hll_order);
         ll_bg = (LinearLayout) findViewById(R.id.ll_bg);
         rl_drive_info = (RelativeLayout) findViewById(R.id.rl_drive_info);
@@ -643,7 +645,13 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
         }else {
             linearLayoutPay.setVisibility(View.GONE);
         }
-        tv_send_time.setText(info.data.sendTimeStr);
+        if(TextUtils.isEmpty(info.data.sendTimeStr)) {
+            rl_distribution.setVisibility(View.GONE);
+        }else {
+            rl_distribution.setVisibility(View.VISIBLE);
+            tv_send_time.setText(info.data.sendTimeStr);
+        }
+
         tv_payWay.setText(info.data.payChannel);
         tv_total_amount.setText("￥"+info.data.totalAmount);
         tv_amount.setText(info.data.prodNum+"");

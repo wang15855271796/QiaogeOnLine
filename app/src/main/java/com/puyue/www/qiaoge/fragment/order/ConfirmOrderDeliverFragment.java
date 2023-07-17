@@ -610,9 +610,20 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                                 }
                             }
 
-                            if(!TextUtils.isEmpty(data.getSelfSendTimeStr())) {
-                                tv_send_time.setText(data.getSelfSendTimeStr());
+                            if(disType == 0) {
+                                if(!TextUtils.isEmpty(data.getSelfSendTimeStr())) {
+                                    tv_send_time.setText(data.getSelfSendTimeStr());
+                                    tv_title.setText(data.getSelfSendTimeStr());
+                                    tv_send_time.setVisibility(View.VISIBLE);
+                                }else {
+                                    tv_send_time.setVisibility(View.GONE);
+                                }
+
+                            }else {
+                                tv_title.setText("以下商品暂不支持 “我自己叫货拉拉”");
+                                tv_send_time.setVisibility(View.GONE);
                             }
+
                             if(systemList1.size()>0) {
                                 rv_given.setVisibility(View.VISIBLE);
                                 rv_given.setLayoutManager(new LinearLayoutManager(mActivity));
@@ -680,9 +691,9 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
 
                                 if(listUnOperate.size() > 0) {
                                     if(tv_distribution.getText().toString().equals("买家自己呼叫货拉拉")) {
-                                        tv_title.setVisibility(View.VISIBLE);
+//                                        tv_title.setVisibility(View.VISIBLE);
                                     }else {
-                                        tv_title.setVisibility(View.GONE);
+//                                        tv_title.setVisibility(View.GONE);
                                     }
 
                                     if(listUnOperate.size()>3) {

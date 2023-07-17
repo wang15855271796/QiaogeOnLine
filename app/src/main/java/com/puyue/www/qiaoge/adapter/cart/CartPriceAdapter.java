@@ -180,7 +180,7 @@ public class CartPriceAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("wdadawd....",e.getMessage()+"--");
+
                     }
 
                     @Override
@@ -202,6 +202,7 @@ public class CartPriceAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
                                         notifyItemRangeChanged(helper.getAdapterPosition(),data.size());
                                         notifyDataSetChanged();
                                         EventBus.getDefault().post(new RefreshCarNumEvent1(prodsBeanX,adapterPosition,prodsBeans,cartGoodsAdapter,data.size()));
+                                        Log.d("ewdawdw.....",data.size()+"--");
                                     }
 
                                 }else {

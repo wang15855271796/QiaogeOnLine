@@ -53,6 +53,7 @@ import com.puyue.www.qiaoge.event.GoToMineEvent;
 import com.puyue.www.qiaoge.event.InitEvent;
 import com.puyue.www.qiaoge.event.LogoutEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
+import com.puyue.www.qiaoge.event.RefreshCarNumEvent2;
 import com.puyue.www.qiaoge.event.RentEvent;
 import com.puyue.www.qiaoge.event.changeEvent;
 import com.puyue.www.qiaoge.event.setFragmentEvent;
@@ -978,6 +979,11 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         //刷新UI
         getCartPoductNum();
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getCartList(RefreshCarNumEvent2 reduceNumEvent) {
+        getCartPoductNum();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

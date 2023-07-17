@@ -60,7 +60,9 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
         this.prodsBeanX = prodsBeanX;
         this.cartGoodsAdapter = cartGoodsAdapter;
         this.mOnRefreshListener = mOnRefreshListener;
-        EventBus.getDefault().register(this);
+        if(!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override

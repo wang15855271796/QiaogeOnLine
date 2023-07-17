@@ -105,15 +105,16 @@
                                 android:text="包裹1" />
 
                             <TextView
+                                android:visibility="gone"
                                 android:id="@+id/tv_send_time"
-                                android:textSize="12sp"
-                                android:textColor="#FD552E"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
                                 android:layout_marginLeft="10dp"
                                 android:layout_toRightOf="@+id/tv_operate_title"
-                                android:layout_centerVertical="true"
-                                tools:text="现在下单，预计后天(06月14日)17:00~19:00送达"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:textColor="#FD552E"
+                                android:textSize="12sp"
+                                tools:text="现在下单，预计后天(06月14日)17:00~19:00送达" />
 
                             <View
                                 android:layout_width="match_parent"
@@ -198,9 +199,9 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="@dimen/size_10dp"
                                 android:layout_toRightOf="@+id/tv2"
-                                android:text="以下商品暂不支持 “我自己叫货拉拉”"
+                                tools:text="以下商品暂不支持 “我自己叫货拉拉”"
                                 android:textColor="#FF2925"
-                                android:textSize="@dimen/sp_14" />
+                                android:textSize="12sp" />
 
                             <View
                                 android:layout_width="match_parent"
