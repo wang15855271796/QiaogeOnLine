@@ -6,7 +6,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -25,14 +24,11 @@ import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.activity.home.SpecialGoodDetailActivity;
 import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
 import com.puyue.www.qiaoge.event.DeleteGoodsEvent;
-import com.puyue.www.qiaoge.event.RefreshCarNumEvent1;
 import com.puyue.www.qiaoge.fragment.cart.UpdateEvent;
 import com.puyue.www.qiaoge.model.cart.CartTestModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -46,30 +42,20 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
     CartTestModel.DataBean.ProdsBeanX item;
     List<CartTestModel.DataBean.ProdsBeanX> prodsBeanX;
     CartAdapter cartAdapter;
-    boolean isSelect = false;
-    CartGoodsAdapter cartGoodsAdapter;
-
-    BaseViewHolder helper1;
     public CartGoodsAdapter(int layoutResId, CartAdapter cartAdapter, List<CartTestModel.DataBean.ProdsBeanX> prodsBeanX
             , CartTestModel.DataBean.ProdsBeanX item, @Nullable List<CartTestModel.DataBean.ProdsBeanX.ProdsBean> data
-            , CartAdapter.OnRefreshListener mOnRefreshListener, CartGoodsAdapter cartGoodsAdapter) {
+            , CartAdapter.OnRefreshListener mOnRefreshListener) {
         super(layoutResId, data);
         this.data = data;
         this.cartAdapter = cartAdapter;
         this.item = item;
         this.prodsBeanX = prodsBeanX;
-        this.cartGoodsAdapter = cartGoodsAdapter;
         this.mOnRefreshListener = mOnRefreshListener;
-        if(!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
     }
 
     @Override
     protected void convert(BaseViewHolder helper, CartTestModel.DataBean.ProdsBeanX.ProdsBean item) {
-        helper1 = helper;
         TextView tv_delete = helper.getView(R.id.tv_delete);
-        TextView tv_buy_tips = helper.getView(R.id.tv_buy_tips);
         ImageView iv_send = helper.getView(R.id.iv_send);
         ImageView iv_icon = helper.getView(R.id.iv_icon);
         RelativeLayout ll_root = helper.getView(R.id.ll_root);
@@ -81,9 +67,6 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
         CheckBox cb_spec = helper.getView(R.id.cb_spec);
         tv_spec.setText("规格:"+item.getSpec());
 
-        if(!TextUtils.isEmpty(item.getProdBuyTips())) {
-            tv_buy_tips.setText(item.getProdBuyTips());
-        }
         if(item.getNotSend()!=null) {
             if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
                 iv_send.setImageResource(R.mipmap.icon_not_send);
@@ -92,7 +75,6 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
                 iv_send.setVisibility(View.GONE);
             }
         }
-
         if(item.getFlagUrl()!=null&&item.getFlagUrl()!="") {
             Glide.with(mContext).load(item.getFlagUrl()).into(iv_icon);
         }
@@ -104,8 +86,8 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
             }
         });
 
-
         if(mOnRefreshListener != null){
+            boolean isSelect = false;
             if(prodsBeanX.size()>1) {
                 for (int i = 0; i < prodsBeanX.size(); i++) {
                     for (int j = 0; j < data.size(); j++) {
@@ -117,22 +99,18 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
                         }
                     }
                 }
-
             }else {
                 for(int i = 0;i < data.size(); i++){
                     if(!data.get(i).isSelected()){
                         isSelect = false;
-                        data.get(i).setSelected(false);
                         break;
                     }else{
-                        data.get(i).setSelected(true);
                         isSelect = true;
                     }
                 }
             }
             mOnRefreshListener.onRefresh(isSelect);
         }
-
 
         if(item.getSelfProd()!=null&&!item.getSelfProd().equals("")) {
             Glide.with(mContext).load(item.getSelfProd()).into(iv_operate);
@@ -143,9 +121,9 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
 
         RecyclerView rv_price = helper.getView(R.id.rv_price);
         rv_price.setLayoutManager(new LinearLayoutManager(mContext));
-        CartPriceAdapter cartPriceAdapter = new CartPriceAdapter(R.layout.item_choose_content1,item,item.getProductDescVOList()
-                ,cartAdapter,prodsBeanX,helper.getAdapterPosition(),data,cartGoodsAdapter);
+        CartPriceAdapter cartPriceAdapter = new CartPriceAdapter(R.layout.item_choose_content1,item,item.getProductDescVOList(),cartAdapter);
         rv_price.setAdapter(cartPriceAdapter);
+
         cb_item_out.setChecked(item.isSelected());
         cb_spec.setChecked(item.isSelected());
         cb_item_out.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -204,18 +182,5 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
                 }
             }
         });
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getCartList(RefreshCarNumEvent1 reduceNumEvent) {
-        if(reduceNumEvent.getSize() ==0) {
-            data.remove(reduceNumEvent.getAdapterPosition());
-            notifyItemRemoved(reduceNumEvent.getAdapterPosition());
-            notifyItemRangeChanged(reduceNumEvent.getAdapterPosition(),data.size());
-            notifyDataSetChanged();
-//            mContext.getItemAnimator()
-        }
-
-//        EventBus.getDefault().post(new RefreshCarNumEvent1(prodsBeanX,0,prodsBeans,cartGoodsAdapter));
     }
 }

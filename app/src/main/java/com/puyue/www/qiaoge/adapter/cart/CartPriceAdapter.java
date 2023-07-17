@@ -3,8 +3,6 @@ package com.puyue.www.qiaoge.adapter.cart;
 import android.app.AlertDialog;
 import android.graphics.Paint;
 import androidx.annotation.Nullable;
-
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -14,13 +12,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.api.cart.AddMountChangeTwoAPI;
-import com.puyue.www.qiaoge.event.RefreshCarNumEvent1;
-import com.puyue.www.qiaoge.event.RefreshCarNumEvent2;
+import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.model.cart.CartAddModel;
 import com.puyue.www.qiaoge.model.cart.CartTestModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
@@ -40,23 +36,10 @@ public class CartPriceAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
 
     CartTestModel.DataBean.ProdsBeanX.ProdsBean prods;
     CartAdapter cartAdapter;
-    List<CartTestModel.DataBean.ProdsBeanX> prodsBeanX;
-    int adapterPosition;
-    CartGoodsAdapter cartGoodsAdapter;
-    List<CartTestModel.DataBean.ProdsBeanX.ProdsBean.ProductDescVOListBean> data;
-    List<CartTestModel.DataBean.ProdsBeanX.ProdsBean> prodsBeans;
-    public CartPriceAdapter(int layoutResId, CartTestModel.DataBean.ProdsBeanX.ProdsBean item
-            , @Nullable List<CartTestModel.DataBean.ProdsBeanX.ProdsBean.ProductDescVOListBean> data
-            , CartAdapter cartAdapter, List<CartTestModel.DataBean.ProdsBeanX> prodsBeanX, int adapterPosition
-            , List<CartTestModel.DataBean.ProdsBeanX.ProdsBean> prodsBeans, CartGoodsAdapter cartGoodsAdapter) {
+    public CartPriceAdapter(int layoutResId, CartTestModel.DataBean.ProdsBeanX.ProdsBean item, @Nullable List<CartTestModel.DataBean.ProdsBeanX.ProdsBean.ProductDescVOListBean> data, CartAdapter cartAdapter) {
         super(layoutResId, data);
         this.prods = item;
-        this.prodsBeans = prodsBeans;
         this.cartAdapter = cartAdapter;
-        this.prodsBeanX = prodsBeanX;
-        this.data = data;
-        this.cartGoodsAdapter = cartGoodsAdapter;
-        this.adapterPosition = adapterPosition;
     }
 
     @Override
@@ -65,19 +48,12 @@ public class CartPriceAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
         TextView tv_price = helper.getView(R.id.tv_price);
         TextView tv_old_price = helper.getView(R.id.tv_old_price);
         TextView tv_unit = helper.getView(R.id.tv_unit);
-        ImageView iv_fresh_price = helper.getView(R.id.iv_fresh_price);
         ImageView iv_add = helper.getView(R.id.iv_add);
         ImageView iv_cut = helper.getView(R.id.iv_cut);
         TextView tv_num = helper.getView(R.id.tv_num);
         tv_price.setText(item.getPriceStr());
         tv_unit.setText(item.getUnitDesc());
 
-        if(item.getFreshPriceFlag() == 1) {
-            iv_fresh_price.setVisibility(View.VISIBLE);
-            Glide.with(mContext).load(R.mipmap.ic_refresh_price);
-        }else {
-            iv_fresh_price.setVisibility(View.GONE);
-        }
         ll_trend.setVisibility(View.GONE);
         tv_num.setText(item.getProductNum()+"");
         int productCombinationPriceId = item.getProductCombinationPriceId();
@@ -91,7 +67,7 @@ public class CartPriceAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
         tv_num.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getCartNum(helper,item,tv_num);
+                getCartNum(item,tv_num);
             }
         });
 
@@ -100,11 +76,7 @@ public class CartPriceAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
             public void onClick(View v) {
                 int num = Integer.parseInt(tv_num.getText().toString());
                 num = num + 1;
-                item.setProductNum1(num);
-                item.setProductNum(num);
-                changeCartNum(helper, prods,num,productCombinationPriceId,tv_num,prodsBeanX);
-
-//                EventBus.getDefault().post(new RefreshCarNumEvent1(prods,num,productCombinationPriceId,tv_num,prodsBeanX));
+                changeCartNum(prods,num,productCombinationPriceId,tv_num);
             }
         });
 
@@ -114,10 +86,7 @@ public class CartPriceAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
                 int num = Integer.parseInt(tv_num.getText().toString());
                 if(num>0) {
                     num = num - 1;
-                    item.setProductNum(num);
-                    changeCartNum(helper,prods,num,productCombinationPriceId,tv_num,prodsBeanX);
-//                    changeCartNum(prods,num,productCombinationPriceId,tv_num, prods);
-
+                    changeCartNum(prods,num,productCombinationPriceId,tv_num);
                 }else {
                     ToastUtil.showSuccessMsg(mContext,"最小数量为0");
                 }
@@ -125,7 +94,7 @@ public class CartPriceAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
         });
     }
     AlertDialog alertDialog;
-    private void getCartNum(BaseViewHolder helper, CartTestModel.DataBean.ProdsBeanX.ProdsBean.ProductDescVOListBean item, TextView textView) {
+    private void getCartNum(CartTestModel.DataBean.ProdsBeanX.ProdsBean.ProductDescVOListBean item,TextView textView) {
         alertDialog = new AlertDialog.Builder(mContext, R.style.DialogStyle).create();
         alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
@@ -151,9 +120,7 @@ public class CartPriceAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
             public void onClick(View v) {
                 if(et_num.getText().toString()!=null && !et_num.getText().toString().equals("")) {
                     int num = Integer.parseInt(et_num.getText().toString());
-                    item.setProductNum(num);
-                    changeCartNum(helper, prods,num,item.getProductCombinationPriceId(),textView,prodsBeanX);
-//                    changeCartNum(prods,num,item.getProductCombinationPriceId(),textView, prods);
+                    changeCartNum(prods,num,item.getProductCombinationPriceId(),textView);
                 }
             }
         });
@@ -161,14 +128,10 @@ public class CartPriceAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
 
     /**
      * 修改购物车数量
-     * @param
-     * @param
-     * @param helper
      * @param item
      * @param num
-     * @param prodsBeanX
      */
-    private void changeCartNum(BaseViewHolder helper, CartTestModel.DataBean.ProdsBeanX.ProdsBean item, int num, int priceId, TextView textView, List<CartTestModel.DataBean.ProdsBeanX> prodsBeanX) {
+    private void changeCartNum(CartTestModel.DataBean.ProdsBeanX.ProdsBean item, int num, int priceId,TextView textView) {
         AddMountChangeTwoAPI.changeCartNum(mContext,item.getBusinessType(),item.getBusinessId(),num,priceId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -189,29 +152,15 @@ public class CartPriceAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
                             if(cartAddModel.getData()!=null) {
                                 if(cartAddModel.getData().getAddFlag()==0) {
                                     //正常
+                                    EventBus.getDefault().post(new ReduceNumEvent());
                                     ToastUtil.showSuccessMsg(mContext,cartAddModel.getMessage());
                                     textView.setText(num+"");
-                                    EventBus.getDefault().post(new RefreshCarNumEvent2(prodsBeanX));
-                                    if(alertDialog!=null) {
-                                        alertDialog.dismiss();
-                                    }
-
-                                    if(num == 0) {
-                                        data.remove(helper.getAdapterPosition());
-                                        notifyItemRemoved(helper.getAdapterPosition());
-                                        notifyItemRangeChanged(helper.getAdapterPosition(),data.size());
-                                        notifyDataSetChanged();
-                                        EventBus.getDefault().post(new RefreshCarNumEvent1(prodsBeanX,adapterPosition,prodsBeans,cartGoodsAdapter,data.size()));
-                                        Log.d("ewdawdw.....",data.size()+"--");
-                                    }
-
+                                    alertDialog.dismiss();
                                 }else {
-                                    ToastUtil.showSuccessMsg(mContext,cartAddModel.getData().getMessage());
                                     textView.setText(cartAddModel.getData().getNum()+"");
-                                    EventBus.getDefault().post(new RefreshCarNumEvent1(prodsBeanX,adapterPosition,prodsBeans,cartGoodsAdapter,data.size()));
-                                    if(alertDialog!=null) {
-                                        alertDialog.dismiss();
-                                    }
+                                    EventBus.getDefault().post(new ReduceNumEvent());
+                                    ToastUtil.showSuccessMsg(mContext,cartAddModel.getData().getMessage());
+                                    alertDialog.dismiss();
                                 }
                             }
                         } else {
