@@ -25,6 +25,7 @@ import com.puyue.www.qiaoge.api.cart.AddMountChangeTwoAPI;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.event.UpDateNumEvent3;
+import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.model.cart.CartAddModel;
 import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
@@ -234,10 +235,11 @@ public class MarketItemAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
                                     EventBus.getDefault().post(new UpDateNumEvent3());
                                     ToastUtil.showSuccessMsg(mContext,cartAddModel.getMessage());
                                     textView.setText(num+"");
+                                    EventBus.getDefault().post(new ReduceNumEvent());
                                     alertDialog.dismiss();
                                 }else {
                                     textView.setText(cartAddModel.getData().getNum()+"");
-                                    EventBus.getDefault().post(new UpDateNumEvent3());
+                                    EventBus.getDefault().post(new ReduceNumEvent());
                                     ToastUtil.showSuccessMsg(mContext,cartAddModel.getData().getMessage());
                                     alertDialog.dismiss();
                                 }

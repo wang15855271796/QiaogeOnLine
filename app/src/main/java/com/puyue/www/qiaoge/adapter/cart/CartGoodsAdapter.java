@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -23,6 +24,7 @@ import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.activity.home.SpecialGoodDetailActivity;
 import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
+import com.puyue.www.qiaoge.adapter.mine.MyCollectionAdapter;
 import com.puyue.www.qiaoge.event.DeleteGoodsEvent;
 import com.puyue.www.qiaoge.fragment.cart.UpdateEvent;
 import com.puyue.www.qiaoge.model.cart.CartTestModel;
@@ -31,6 +33,7 @@ import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ${王涛} on 2021/10/9
@@ -42,11 +45,13 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
     CartTestModel.DataBean.ProdsBeanX item;
     List<CartTestModel.DataBean.ProdsBeanX> prodsBeanX;
     CartAdapter cartAdapter;
-    public CartGoodsAdapter(int layoutResId, CartAdapter cartAdapter, List<CartTestModel.DataBean.ProdsBeanX> prodsBeanX
+    Map<Integer, Boolean> isCheck;
+    public CartGoodsAdapter(int layoutResId, Map<Integer, Boolean> isCheck, CartAdapter cartAdapter, List<CartTestModel.DataBean.ProdsBeanX> prodsBeanX
             , CartTestModel.DataBean.ProdsBeanX item, @Nullable List<CartTestModel.DataBean.ProdsBeanX.ProdsBean> data
             , CartAdapter.OnRefreshListener mOnRefreshListener) {
         super(layoutResId, data);
         this.data = data;
+        this.isCheck = isCheck;
         this.cartAdapter = cartAdapter;
         this.item = item;
         this.prodsBeanX = prodsBeanX;
@@ -66,7 +71,7 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
         CheckBox cb_item_out = helper.getView(R.id.cb_item_out);
         CheckBox cb_spec = helper.getView(R.id.cb_spec);
         tv_spec.setText("规格:"+item.getSpec());
-
+        TextView tv_buy_tips = helper.getView(R.id.tv_buy_tips);
         if(item.getNotSend()!=null) {
             if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
                 iv_send.setImageResource(R.mipmap.icon_not_send);
@@ -89,6 +94,7 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
         if(mOnRefreshListener != null){
             boolean isSelect = false;
             if(prodsBeanX.size()>1) {
+                Log.d("fesfe.....","000");
                 for (int i = 0; i < prodsBeanX.size(); i++) {
                     for (int j = 0; j < data.size(); j++) {
                         if(!data.get(j).isSelected()){
@@ -108,6 +114,7 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
                         isSelect = true;
                     }
                 }
+                Log.d("fesfe.....","111");
             }
             mOnRefreshListener.onRefresh(isSelect);
         }
@@ -121,8 +128,13 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
 
         RecyclerView rv_price = helper.getView(R.id.rv_price);
         rv_price.setLayoutManager(new LinearLayoutManager(mContext));
-        CartPriceAdapter cartPriceAdapter = new CartPriceAdapter(R.layout.item_choose_content1,item,item.getProductDescVOList(),cartAdapter);
+        CartPriceAdapter cartPriceAdapter = new CartPriceAdapter(R.layout.item_choose_content1,item,item.getProductDescVOList()
+                ,cartAdapter,helper.getAdapterPosition());
         rv_price.setAdapter(cartPriceAdapter);
+
+        if(!TextUtils.isEmpty(item.getProdBuyTips())) {
+            tv_buy_tips.setText(item.getProdBuyTips());
+        }
 
         cb_item_out.setChecked(item.isSelected());
         cb_spec.setChecked(item.isSelected());
@@ -140,6 +152,10 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
 
                 cartAdapter.notifyDataSetChanged();
                 EventBus.getDefault().post(new UpdateEvent(cartAdapter.getAllPrice()));
+
+//                if(mOnEventClickListener!=null) {
+//                    mOnEventClickListener.onEventClick(helper.getAdapterPosition());
+//                }
             }
         });
 
@@ -183,4 +199,15 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
             }
         });
     }
+
+    OnEventClickListener mOnEventClickListener;
+
+    public interface OnEventClickListener {
+        void onEventClick(int position);
+    }
+
+    public void setOnItemClickListener(OnEventClickListener onEventClickListener) {
+        mOnEventClickListener = onEventClickListener;
+    }
+
 }

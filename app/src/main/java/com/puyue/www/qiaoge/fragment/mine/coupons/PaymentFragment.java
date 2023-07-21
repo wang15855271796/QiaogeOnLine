@@ -502,6 +502,10 @@ public class PaymentFragment extends DialogFragment {
         intent.putExtra(AppConstant.ORDERID, orderId);
         intent.putExtra(AppConstant.ORDERDELIVERYTYPE, orderDeliveryType+"");
         startActivity(intent);
+//        if(event.getCode().equals("1")) {
+//            //支付成功
+//            getActivity().finish();
+//        }
     }
 
     /**

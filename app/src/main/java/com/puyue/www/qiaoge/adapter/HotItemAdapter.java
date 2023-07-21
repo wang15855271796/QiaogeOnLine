@@ -25,6 +25,7 @@ import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.event.UpDateNumEvent11;
 import com.puyue.www.qiaoge.event.UpDateNumEvent6;
+import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.model.cart.CartAddModel;
 import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
@@ -227,6 +228,7 @@ public class HotItemAdapter extends BaseQuickAdapter<ExchangeProductModel.DataBe
                                 if(cartAddModel.getData().getAddFlag()==0) {
                                     //正常
                                     EventBus.getDefault().post(new UpDateNumEvent6());
+                                    EventBus.getDefault().post(new ReduceNumEvent());
                                     EventBus.getDefault().post(new UpDateNumEvent11());
                                     ToastUtil.showSuccessMsg(mContext,cartAddModel.getMessage());
                                     textView.setText(num+"");
@@ -234,6 +236,7 @@ public class HotItemAdapter extends BaseQuickAdapter<ExchangeProductModel.DataBe
                                 }else {
                                     textView.setText(cartAddModel.getData().getNum()+"");
                                     EventBus.getDefault().post(new UpDateNumEvent6());
+                                    EventBus.getDefault().post(new ReduceNumEvent());
                                     EventBus.getDefault().post(new UpDateNumEvent11());
                                     ToastUtil.showSuccessMsg(mContext,cartAddModel.getData().getMessage());
                                     alertDialog.dismiss();

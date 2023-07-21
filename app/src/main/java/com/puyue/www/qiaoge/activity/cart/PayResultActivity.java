@@ -342,6 +342,7 @@ public class PayResultActivity extends BaseSwipeActivity {
     private TimerTask task = new TimerTask() {
         @Override
         public void run() {
+            Log.d("swdada.......","123");
             getPayResult(outTradeNo);
         }
     };
@@ -530,17 +531,19 @@ public class PayResultActivity extends BaseSwipeActivity {
 
     CountDownTimer countDownTimer;
     private void handleCountDown() {
-        countDownTimer = new CountDownTimer(3000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                tv_huo.setText("呼叫货拉拉"+millisUntilFinished / 1000 + "秒后");
-            }
+        if(countDownTimer == null) {
+            countDownTimer = new CountDownTimer(3000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    tv_huo.setText("呼叫货拉拉"+millisUntilFinished / 1000 + "秒后");
+                }
 
-            @Override
-            public void onFinish() {
-                isAuth();
-            }
-        }.start();
+                @Override
+                public void onFinish() {
+                    isAuth();
+                }
+            }.start();
+        }
     }
 
     private void getConnection(String orderId, String hllOrderId) {

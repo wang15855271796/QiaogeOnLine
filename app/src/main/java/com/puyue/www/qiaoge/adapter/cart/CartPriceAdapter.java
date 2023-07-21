@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
@@ -36,11 +37,15 @@ public class CartPriceAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
 
     CartTestModel.DataBean.ProdsBeanX.ProdsBean prods;
     CartAdapter cartAdapter;
-    public CartPriceAdapter(int layoutResId, CartTestModel.DataBean.ProdsBeanX.ProdsBean item, @Nullable List<CartTestModel.DataBean.ProdsBeanX.ProdsBean.ProductDescVOListBean> data, CartAdapter cartAdapter) {
+    int position;
+    public CartPriceAdapter(int layoutResId, CartTestModel.DataBean.ProdsBeanX.ProdsBean item
+            , @Nullable List<CartTestModel.DataBean.ProdsBeanX.ProdsBean.ProductDescVOListBean> data, CartAdapter cartAdapter, int position) {
         super(layoutResId, data);
         this.prods = item;
+        this.position = position;
         this.cartAdapter = cartAdapter;
     }
+
 
     @Override
     protected void convert(BaseViewHolder helper, CartTestModel.DataBean.ProdsBeanX.ProdsBean.ProductDescVOListBean item) {
@@ -57,6 +62,14 @@ public class CartPriceAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
         ll_trend.setVisibility(View.GONE);
         tv_num.setText(item.getProductNum()+"");
         int productCombinationPriceId = item.getProductCombinationPriceId();
+
+        ImageView iv_fresh_price = helper.getView(R.id.iv_fresh_price);
+        if(item.getFreshPriceFlag() == 1) {
+            iv_fresh_price.setVisibility(View.VISIBLE);
+            Glide.with(mContext).load(R.mipmap.ic_refresh_price);
+        }else {
+            iv_fresh_price.setVisibility(View.GONE);
+        }
 
         if(item.getOldPrice()!=null&&item.getOldPrice()!="") {
             tv_old_price.setText(item.getOldPrice());
@@ -152,13 +165,13 @@ public class CartPriceAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
                             if(cartAddModel.getData()!=null) {
                                 if(cartAddModel.getData().getAddFlag()==0) {
                                     //正常
-                                    EventBus.getDefault().post(new ReduceNumEvent());
+                                    EventBus.getDefault().post(new ReduceNumEvent(position));
                                     ToastUtil.showSuccessMsg(mContext,cartAddModel.getMessage());
                                     textView.setText(num+"");
                                     alertDialog.dismiss();
                                 }else {
                                     textView.setText(cartAddModel.getData().getNum()+"");
-                                    EventBus.getDefault().post(new ReduceNumEvent());
+                                    EventBus.getDefault().post(new ReduceNumEvent(position));
                                     ToastUtil.showSuccessMsg(mContext,cartAddModel.getData().getMessage());
                                     alertDialog.dismiss();
                                 }

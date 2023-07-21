@@ -31,7 +31,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="@dimen/size_15dp"
                 android:background="@drawable/app_equipment_all_select"
-                android:button="@null" />
+                android:button="@null"
+                android:checked="true" />
 
             <RelativeLayout
                 android:layout_marginLeft="@dimen/size_19dp"
@@ -97,6 +98,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="10dp"
+                android:checked="true"
                 android:layout_marginTop="@dimen/size_7dp"
                 android:background="@drawable/app_equipment_all_select"
                 android:button="@null" />

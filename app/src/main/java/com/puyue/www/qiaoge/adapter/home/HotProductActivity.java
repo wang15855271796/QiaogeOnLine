@@ -86,8 +86,8 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
     ImageView iv_carts;
     @BindView(R.id.tv_search)
     TextView tv_search;
-    @BindView(R.id.my_scroll)
-    MyScrollView my_scroll;
+//    @BindView(R.id.my_scroll)
+//    MyScrollView my_scroll;
     @BindView(R.id.rl_bg)
     RelativeLayout rl_bg;
     ProductNormalModel productNormalModel;

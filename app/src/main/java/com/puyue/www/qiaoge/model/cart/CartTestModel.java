@@ -130,7 +130,7 @@ public class CartTestModel {
             private boolean valid;
             private List<AdditionsBean> additions;
             private List<ProdsBean> prods;
-            boolean isSelect = isSelect();
+            boolean isSelect;
 
             public boolean isSelect() {
                 return isSelect;
@@ -434,7 +434,7 @@ public class CartTestModel {
                 private int businessId;
                 private int selfOrNot;
                 private boolean valid;
-                boolean isSelected = isSelected();
+                boolean isSelected;
                 String notSend;
                 String selfProd;
                 String prodBuyTips;
@@ -702,7 +702,7 @@ public class CartTestModel {
             private boolean valid;
             private List<AdditionsBean> additions;
             private List<ProdsBean> prods;
-            boolean isSelect = isSelect();
+            boolean isSelect;
 
             public boolean isSelect() {
                 return isSelect;
@@ -1006,7 +1006,7 @@ public class CartTestModel {
                 private int businessId;
                 private int selfOrNot;
                 private boolean valid;
-                boolean isSelected = isSelected();
+                boolean isSelected;
 
                 @Override
                 public String toString() {

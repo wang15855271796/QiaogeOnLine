@@ -5,7 +5,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,6 +23,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2018/4/17.
@@ -37,11 +37,12 @@ public class CartAdapter extends BaseQuickAdapter<CartTestModel.DataBean.ProdsBe
     CartGoodsAdapter cartGoodsAdapter;
     private OnRefreshListener mOnRefreshListener;
     private Onclick onclick;
-
-    public CartAdapter(int layoutResId, @Nullable List<CartTestModel.DataBean.ProdsBeanX> data,Onclick onclick) {
+    Map<Integer, Boolean> isCheck;
+    public CartAdapter(int layoutResId, Map<Integer, Boolean> isCheck, @Nullable List<CartTestModel.DataBean.ProdsBeanX> data, Onclick onclick) {
         super(layoutResId, data);
         this.data = data;
         this.onclick = onclick;
+        this.isCheck = isCheck;
     }
 
     @Override
@@ -58,8 +59,6 @@ public class CartAdapter extends BaseQuickAdapter<CartTestModel.DataBean.ProdsBe
         }else {
             tv_desc.setText("查看活动");
         }
-
-//        tv_buy_tips.setText(item.);
 //        if(mOnRefreshListener != null){
 //            for(int i = 0;i < data.size(); i++){
 //                if(!data.get(i).isSelect()){
@@ -120,9 +119,16 @@ public class CartAdapter extends BaseQuickAdapter<CartTestModel.DataBean.ProdsBe
 
         SlideRecyclerView recyclerView = helper.getView(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        cartGoodsAdapter = new CartGoodsAdapter(R.layout.item_goods,this,data,item,item.getProds()
-                ,mOnRefreshListener,cartGoodsAdapter);
+        cartGoodsAdapter = new CartGoodsAdapter(R.layout.item_goods,isCheck,this,data,item,item.getProds(),mOnRefreshListener);
         recyclerView.setAdapter(cartGoodsAdapter);
+//        cartGoodsAdapter.setOnItemClickListener(new CartGoodsAdapter.OnEventClickListener() {
+//            @Override
+//            public void onEventClick(int position) {
+//                if(mOnEventClickListener!=null) {
+//                    mOnEventClickListener.onEventClick(position);
+//                }
+//            }
+//        });
         cartGoodsAdapter.notifyDataSetChanged();
     }
 
@@ -169,4 +175,15 @@ public class CartAdapter extends BaseQuickAdapter<CartTestModel.DataBean.ProdsBe
     public interface Onclick {
         void deleteItem(int pos,CartTestModel.DataBean.ProdsBeanX prodsBeanX);
     }
+
+    OnEventClickListener mOnEventClickListener;
+
+    public interface OnEventClickListener {
+        void onEventClick(int position);
+    }
+
+    public void setOnItemClickListener(OnEventClickListener onEventClickListener) {
+        mOnEventClickListener = onEventClickListener;
+    }
+
 }

@@ -32,6 +32,8 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.BeizhuActivity;
 
 import com.puyue.www.qiaoge.activity.ChooseConfirmAddressActivity;
+import com.puyue.www.qiaoge.activity.HomeActivity;
+import com.puyue.www.qiaoge.activity.HomeFragmentEvent;
 import com.puyue.www.qiaoge.activity.flow.FlowLayout;
 import com.puyue.www.qiaoge.activity.flow.TagFlowLayout;
 import com.puyue.www.qiaoge.activity.flow.TagsFlowLayout;
@@ -65,6 +67,7 @@ import com.puyue.www.qiaoge.event.ChooseCoupon1Event;
 import com.puyue.www.qiaoge.event.ChooseCouponEvent;
 import com.puyue.www.qiaoge.event.DisTribution1Event;
 import com.puyue.www.qiaoge.event.DisTributionEvent;
+import com.puyue.www.qiaoge.fragment.home.CityEvent;
 import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragment;
 import com.puyue.www.qiaoge.helper.ActivityResultHelper;
 import com.puyue.www.qiaoge.helper.AlwaysMarqueeTextViewHelper;
@@ -1023,6 +1026,14 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
             }
             disDialog.show();
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refresh(CityEvent event) {
+        EventBus.getDefault().post(new HomeFragmentEvent());
+        mActivity.finish();
+//        Intent intent = new Intent(mActivity, HomeActivity.class);
+//        startActivity(intent);
     }
 
 
