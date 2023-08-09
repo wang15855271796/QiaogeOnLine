@@ -200,6 +200,16 @@ public class SurpliListModel {
             private String unitName;
             private Object amount;
             private Object saleNum;
+            int freshPriceFlag;
+
+            public int getFreshPriceFlag() {
+                return freshPriceFlag;
+            }
+
+            public void setFreshPriceFlag(int freshPriceFlag) {
+                this.freshPriceFlag = freshPriceFlag;
+            }
+
             private List<ProdSpecsBean> prodSpecs;
 
             public String getType() {

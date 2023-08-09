@@ -2,6 +2,7 @@ package com.puyue.www.qiaoge.adapter.home;
 
 import android.content.Intent;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,15 +21,22 @@ import com.puyue.www.qiaoge.activity.flow.FlowLayout;
 import com.puyue.www.qiaoge.activity.flow.TagAdapter;
 import com.puyue.www.qiaoge.activity.flow.TagFlowLayout;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
+import com.puyue.www.qiaoge.adapter.SearchItemAdapter;
+import com.puyue.www.qiaoge.api.home.GetProductDetailAPI;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.SurpDialog;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
 import com.puyue.www.qiaoge.model.home.SearchResultsModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.util.List;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by ${daff}
@@ -72,7 +80,6 @@ public class SearchReasultAdapter extends BaseQuickAdapter<SearchResultsModel.Da
 
         if(item.getFreshPriceFlag() == 1) {
             iv_fresh_price.setVisibility(View.VISIBLE);
-            Glide.with(mContext).load(R.mipmap.ic_refresh_price);
         }else {
             iv_fresh_price.setVisibility(View.GONE);
         }
@@ -144,8 +151,8 @@ public class SearchReasultAdapter extends BaseQuickAdapter<SearchResultsModel.Da
                 if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
                         //已授权
-                        searchDialog = new SearchDialog(mContext,item);
-                        searchDialog.show();
+                        exchangeList(item.getProductId());
+
                     }else{
                         //未授权
                         if(onclick!=null) {
@@ -179,16 +186,10 @@ public class SearchReasultAdapter extends BaseQuickAdapter<SearchResultsModel.Da
         rl_spec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if(onclick!=null) {
-//                    onclick.addDialog();
-//                }
-//
-//                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-
-//                }
                 if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-                    searchDialog = new SearchDialog(mContext,item);
-                    searchDialog.show();
+                    exchangeList(item.getProductId());
+//                    searchDialog = new SearchDialog(mContext,item);
+//                    searchDialog.show();
                 }else {
                     if(onclick!=null) {
                         onclick.addDialog();
@@ -205,6 +206,41 @@ public class SearchReasultAdapter extends BaseQuickAdapter<SearchResultsModel.Da
                 .apply(new RequestOptions().placeholder(iv_head.getDrawable()).skipMemoryCache(false).dontAnimate())
                 .into(iv_head);
 
+    }
+
+    /**
+     * 切换规格
+     * @param productId
+     */
+    private void exchangeList(int productId) {
+        GetProductDetailAPI.getExchangeList(mContext,productId,1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ExchangeProductModel>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ExchangeProductModel exchangeProductModel) {
+                        if(exchangeProductModel.isSuccess()) {
+                            if(exchangeProductModel.getData()!=null) {
+                                searchDialog = new SearchDialog(mContext,exchangeProductModel.getData());
+                                searchDialog.show();
+                            }
+                        }else {
+                            ToastUtil.showSuccessMsg(mContext,exchangeProductModel.getMessage());
+                        }
+
+                    }
+                });
     }
 
     public interface Onclick {

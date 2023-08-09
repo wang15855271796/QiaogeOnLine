@@ -84,24 +84,23 @@ public class MarketGialog extends Dialog implements View.OnClickListener{
     @BindView(R.id.iv_send)
     ImageView iv_send;
     private SpecAdapter specAdapter;
-    MarketRightModel.DataBean.ProdClassifyBean.ListBean listBean;
+    ExchangeProductModel.DataBean listBean;
     int pos = 0;
     private MarketItemAdapter marketItemAdapter;
     ExchangeProductModel exchangeProductModels;
-
-    public MarketGialog(Context context, MarketRightModel.DataBean.ProdClassifyBean.ListBean listBean) {
+    int businessType;
+    public MarketGialog(Context context, ExchangeProductModel.DataBean listBean, int businessType) {
         super(context, R.style.dialog);
         this.context = context;
         this.listBean = listBean;
-
-        if(listBean.getBusinessType()==11) {
-            exchangeLists(listBean.getActiveId(),listBean.getBusinessType());
-        }else {
-            exchangeLists(listBean.getProductId(),listBean.getBusinessType());
-        }
+        this.businessType = businessType;
+//        if(listBean.getBusinessType()==11) {
+//            exchangeLists(listBean.getActiveId(),listBean.getBusinessType());
+//        }else {
+//            exchangeLists(listBean.getProductId(),listBean.getBusinessType());
+//        }
 
         init();
-
         getCartNum();
     }
 
@@ -136,9 +135,9 @@ public class MarketGialog extends Dialog implements View.OnClickListener{
                                 Glide.with(context).load(exchangeProductModel.getData().getSelfProd()).into(iv_operate);
                                 Glide.with(context).load(exchangeProductModel.getData().getDefaultPic()).into(iv_head);
                                 if(businessType==11) {
-                                    marketItemAdapter = new MarketItemAdapter(businessType, exchangeProductModel.getData().getActiveId(), R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices(),exchangeProductModel);
+                                    marketItemAdapter = new MarketItemAdapter(businessType, exchangeProductModel.getData().getActiveId(), R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices(),exchangeProductModel.getData());
                                 }else {
-                                    marketItemAdapter = new MarketItemAdapter(businessType, exchangeProductModel.getData().getProdSpecs().get(pos).getProductId(), R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices(),exchangeProductModel);
+                                    marketItemAdapter = new MarketItemAdapter(businessType, exchangeProductModel.getData().getProdSpecs().get(pos).getProductId(), R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices(),exchangeProductModel.getData());
 
                                 }
                                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -175,7 +174,35 @@ public class MarketGialog extends Dialog implements View.OnClickListener{
         getWindow().setAttributes(attributes);
         iv_close.setOnClickListener(this);
         iv_cart.setOnClickListener(this);
-        List<MarketRightModel.DataBean.ProdClassifyBean.ListBean.ProdSpecsBean> prodSpecs = listBean.getProdSpecs();
+//        List<MarketRightModel.DataBean.ProdClassifyBean.ListBean.ProdSpecsBean> prodSpecs = listBean.getProdSpecs();
+
+        tv_name.setText(listBean.getProductName());
+        tv_sale.setText(listBean.getSalesVolume());
+        tv_price.setText(listBean.getMinMaxPrice());
+        tv_desc.setText(listBean.getSpecialOffer());
+        tv_stock.setText(listBean.getInventory());
+        Glide.with(context).load(listBean.getTypeUrl()).into(iv_pic);
+        Glide.with(context).load(listBean.getSelfProd()).into(iv_operate);
+        Glide.with(context).load(listBean.getDefaultPic()).into(iv_head);
+        if(businessType==11) {
+            marketItemAdapter = new MarketItemAdapter(businessType, listBean.getActiveId(), R.layout.item_choose_content, listBean.getProdPrices(),listBean);
+        }else {
+            marketItemAdapter = new MarketItemAdapter(businessType, listBean.getProdSpecs().get(0).getProductId(), R.layout.item_choose_content, listBean.getProdPrices(),listBean);
+
+        }
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setAdapter(marketItemAdapter);
+        marketItemAdapter.notifyDataSetChanged();
+
+        if(listBean.getNotSend()!=null) {
+            if(listBean.getNotSend().equals("1")||listBean.getNotSend().equals("1.0")) {
+                iv_send.setImageResource(R.mipmap.icon_not_send2);
+                iv_send.setVisibility(View.VISIBLE);
+            }else {
+                iv_send.setVisibility(View.GONE);
+            }
+        }
+
 
         //切换规格
         fl_container.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -183,15 +210,15 @@ public class MarketGialog extends Dialog implements View.OnClickListener{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 pos = position;
                 specAdapter.selectPosition(position);
-                if(listBean.getBusinessType()==11) {
+                if(businessType==11) {
                     exchangeLists(listBean.getActiveId(),11);
                 }else {
-                    exchangeLists(exchangeProductModels.getData().getProdSpecs().get(position).getProductId(),1);
+                    exchangeLists(listBean.getProdSpecs().get(position).getProductId(),1);
 
                 }
             }
         });
-        specAdapter = new SpecAdapter(context,prodSpecs);
+        specAdapter = new SpecAdapter(context,listBean.getProdSpecs());
         fl_container.setAdapter(specAdapter);
     }
 

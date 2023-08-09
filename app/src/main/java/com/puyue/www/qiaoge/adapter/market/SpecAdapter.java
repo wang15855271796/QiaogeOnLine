@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.api.market.MarketRightModel;
+import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
 
 import java.util.List;
 
@@ -21,9 +22,15 @@ import java.util.List;
  */
 public class SpecAdapter extends BaseAdapter {
     Context context;
-    List<MarketRightModel.DataBean.ProdClassifyBean.ListBean.ProdSpecsBean> prodSpecs;
+//    List<MarketRightModel.DataBean.ProdClassifyBean.ListBean.ProdSpecsBean> prodSpecs;
+    List<ExchangeProductModel.DataBean.ProdSpecsBean> prodSpecs;
     int selectPosition;
-    public SpecAdapter(Context context, List<MarketRightModel.DataBean.ProdClassifyBean.ListBean.ProdSpecsBean> prodSpecs) {
+//    public SpecAdapter(Context context, List<MarketRightModel.DataBean.ProdClassifyBean.ListBean.ProdSpecsBean> prodSpecs) {
+//        this.context = context;
+//        this.prodSpecs = prodSpecs;
+//    }
+
+    public SpecAdapter(Context context, List<ExchangeProductModel.DataBean.ProdSpecsBean> prodSpecs) {
         this.context = context;
         this.prodSpecs = prodSpecs;
     }

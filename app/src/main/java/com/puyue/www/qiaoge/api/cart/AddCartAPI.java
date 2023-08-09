@@ -25,11 +25,12 @@ public class AddCartAPI {
         @POST(AppInterfaceAddress.ADDCART)
         Observable<CartAddModel> getData(@Field("businessType") int businessType,
                                          @Field("businessId") int businessId,
-                                         @Field("num") int num);
+                                         @Field("num") int num,
+                                         @Field("freshPriceFlag") int freshPriceFlag);
     }
 
-    public static Observable<CartAddModel> requestData(Context context, int businessType, int businessId, int num) {
+    public static Observable<CartAddModel> requestData(Context context, int businessType, int businessId, int num,int freshPriceFlag) {
         AddCartService service = RestHelper.getBaseRetrofit(context).create(AddCartService.class);
-        return service.getData(businessType, businessId, num);
+        return service.getData(businessType, businessId, num,freshPriceFlag);
     }
 }

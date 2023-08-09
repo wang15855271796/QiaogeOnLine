@@ -6,6 +6,8 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -91,16 +93,16 @@ public class FullDetailDialog extends Dialog implements View.OnClickListener {
     public List<GetProductDetailModel.DataBean.ProdSpecsBean> prodSpecs;
     private ChooseFullSpecAdapters chooseSpecAdapter;
 
-    FullDetailModel.DataBean.ProdsBean item;
-    int pos = 0;
-    private ExchangeProductModel exchangeProductModel1s;
+    ExchangeProductModel.DataBean item;
+    int pos;
 
-    public FullDetailDialog(Context mContext, FullDetailModel.DataBean.ProdsBean item) {
+
+    public FullDetailDialog(Context mContext, ExchangeProductModel.DataBean item, int pos) {
         super(mContext, R.style.dialog);
         this.context = mContext;
         this.item = item;
+        this.pos = pos;
         init();
-        exchangeList(item.getProductId());
         getCartNum();
     }
 
@@ -123,7 +125,6 @@ public class FullDetailDialog extends Dialog implements View.OnClickListener {
         view = View.inflate(context, R.layout.dialog_choice, null);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,DensityUtil.px2dip(514,getContext()));
         view.setLayoutParams(layoutParams);
-//        view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,100));
         binder = ButterKnife.bind(this, view);
         setContentView(view);
         getWindow().setGravity(Gravity.BOTTOM);
@@ -133,15 +134,42 @@ public class FullDetailDialog extends Dialog implements View.OnClickListener {
         iv_close.setOnClickListener(this);
         iv_cart.setOnClickListener(this);
 
+        tv_name.setText(item.getProductName());
+        tv_sale.setText(item.getSalesVolume());
+        tv_price.setText(item.getMinMaxPrice()+"");
+        tv_desc.setText(item.getSpecialOffer());
+        tv_stock.setText(item.getInventory());
+        Glide.with(context).load(item.getDefaultPic()).into(iv_head);
+        Glide.with(context).load(item.getTypeUrl()).into(iv_pic);
+        Glide.with(context).load(item.getSelfProd()).into(iv_operate);
+        HotItemAdapter hotItemAdapter = new HotItemAdapter(1, item.getProdSpecs().get(pos).getProductId(),
+                R.layout.item_choose_content, item.getProdPrices(),item);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setAdapter(hotItemAdapter);
+
+
+        if(item.getNotSend()!=null) {
+            if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
+                iv_send.setImageResource(R.mipmap.icon_not_send2);
+                iv_send.setVisibility(View.VISIBLE);
+            }else {
+                iv_send.setVisibility(View.GONE);
+            }
+        }
+
         fl_container.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 pos = position;
                 chooseSpecAdapter.selectPosition(position);
-                int productId = exchangeProductModel1s.getData().getProdSpecs().get(position).getProductId();
+                int productId = item.getProdSpecs().get(position).getProductId();
                 exchangeList(productId);
+
             }
         });
+        chooseSpecAdapter = new ChooseFullSpecAdapters(context,item.getProdSpecs());
+        fl_container.setAdapter(chooseSpecAdapter);
+        chooseSpecAdapter.selectPosition(pos);
     }
 
     /**
@@ -168,7 +196,6 @@ public class FullDetailDialog extends Dialog implements View.OnClickListener {
                     public void onNext(ExchangeProductModel exchangeProductModel) {
                         if(exchangeProductModel.isSuccess()) {
                             if(exchangeProductModel.getData()!=null) {
-                                exchangeProductModel1s = exchangeProductModel;
                                 tv_name.setText(exchangeProductModel.getData().getProductName());
                                 tv_sale.setText(exchangeProductModel.getData().getSalesVolume());
                                 tv_price.setText(exchangeProductModel.getData().getMinMaxPrice()+"");
@@ -178,14 +205,14 @@ public class FullDetailDialog extends Dialog implements View.OnClickListener {
                                 Glide.with(context).load(exchangeProductModel.getData().getTypeUrl()).into(iv_pic);
                                 Glide.with(context).load(exchangeProductModel.getData().getSelfProd()).into(iv_operate);
                                 HotItemAdapter hotItemAdapter = new HotItemAdapter(1, productId,
-                                        R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices(),exchangeProductModel);
+                                        R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices(),exchangeProductModel.getData());
                                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                                 recyclerView.setAdapter(hotItemAdapter);
 
-                                if(chooseSpecAdapter==null) {
-                                    chooseSpecAdapter = new ChooseFullSpecAdapters(context,exchangeProductModel1s.getData().getProdSpecs());
-                                    fl_container.setAdapter(chooseSpecAdapter);
-                                }
+//                                if(chooseSpecAdapter==null) {
+//                                    chooseSpecAdapter = new ChooseFullSpecAdapters(context,exchangeProductModel.getData().getProdSpecs());
+//                                    fl_container.setAdapter(chooseSpecAdapter);
+//                                }
 
 
                                 if(exchangeProductModel.getData().getNotSend()!=null) {

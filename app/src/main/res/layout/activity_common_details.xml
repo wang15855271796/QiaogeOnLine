@@ -587,18 +587,20 @@
                             android:layout_height="60dp">
 
                             <TextView
-                                android:layout_marginTop="9dp"
                                 android:id="@+id/tv_send_address"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="right"
                                 android:layout_marginLeft="@dimen/size_11dp"
+                                android:layout_marginTop="9dp"
                                 android:drawableLeft="@mipmap/ic_address"
                                 android:drawablePadding="@dimen/size_5dp"
-                                tools:text="浙江省杭州市余杭区起梦科创园A1幢14楼"
                                 android:textColor="#414141"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
+                                android:textSize="13sp"
+                                android:lines="1"
+                                android:ellipsize="end"
+                                android:textStyle="bold"
+                                tools:text="浙江省杭州市余杭区起梦科创园A1幢14楼" />
 
 
                             <ImageView

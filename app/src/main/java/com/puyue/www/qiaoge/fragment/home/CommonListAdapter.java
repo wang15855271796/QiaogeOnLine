@@ -2,6 +2,8 @@ package com.puyue.www.qiaoge.fragment.home;
 
 import android.content.Intent;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,15 +15,23 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
+import com.puyue.www.qiaoge.adapter.CommonItemAdapter;
 import com.puyue.www.qiaoge.adapter.home.HotProductActivity;
+import com.puyue.www.qiaoge.api.home.GetProductDetailAPI;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.CommonListDialog;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.util.List;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by ${王涛} on 2020/3/13
@@ -80,7 +90,6 @@ public class CommonListAdapter extends BaseQuickAdapter<ProductNormalModel.DataB
 
         if(item.getFreshPriceFlag() == 1) {
             iv_fresh_price.setVisibility(View.VISIBLE);
-            Glide.with(mContext).load(R.mipmap.ic_refresh_price);
         }else {
             iv_fresh_price.setVisibility(View.GONE);
         }
@@ -155,8 +164,7 @@ public class CommonListAdapter extends BaseQuickAdapter<ProductNormalModel.DataB
 
                     if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                         if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
-                            commonListDialog = new CommonListDialog(mContext,item.getProductId(),item);
-                            commonListDialog.show();
+                            exchangeList(item.getProductId());
                         }else {
                             onclick.tipClick();
                         }
@@ -169,6 +177,42 @@ public class CommonListAdapter extends BaseQuickAdapter<ProductNormalModel.DataB
         });
 
     }
+
+    /**
+     * 切换商品规格列表
+     * @param productId
+     */
+    private void exchangeList(int productId) {
+        GetProductDetailAPI.getExchangeList(mContext,productId,1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ExchangeProductModel>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ExchangeProductModel exchangeProductModel) {
+                        if(exchangeProductModel.isSuccess()) {
+                            if(exchangeProductModel.getData()!=null) {
+                                commonListDialog = new CommonListDialog(mContext,exchangeProductModel.getData());
+                                commonListDialog.show();
+                            }
+                        }else {
+                            ToastUtil.showSuccessMsg(mContext,exchangeProductModel.getMessage());
+                        }
+
+                    }
+                });
+    }
+
 
     public interface Onclick {
         void addDialog();

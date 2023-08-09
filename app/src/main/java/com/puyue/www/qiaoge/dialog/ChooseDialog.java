@@ -18,21 +18,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.HomeActivity;
-import com.puyue.www.qiaoge.activity.PriceTrendActivity;
 import com.puyue.www.qiaoge.adapter.cart.ItemChooseAdapter;
 import com.puyue.www.qiaoge.adapter.cart.SearchSpecAdapter;
 import com.puyue.www.qiaoge.api.cart.GetCartNumAPI;
 import com.puyue.www.qiaoge.api.home.GetProductDetailAPI;
 import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
-import com.puyue.www.qiaoge.event.RefreshEvent;
 import com.puyue.www.qiaoge.event.RefreshVideoEvent;
 import com.puyue.www.qiaoge.event.UpDateNumEvent10;
 import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
-import com.puyue.www.qiaoge.listener.OnItemClickListener;
 import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
 import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
 import com.puyue.www.qiaoge.model.home.GetProductDetailModel;
@@ -44,7 +40,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.Serializable;
 import java.util.List;
 
 import butterknife.BindView;
@@ -88,7 +83,7 @@ public class ChooseDialog extends Dialog implements View.OnClickListener {
     TextView tv_confirm;
     public String salesVolume;
     int productId;
-    int pos = 0;
+    int pos;
     @BindView(R.id.tv_num)
     TextView tv_num;
     @BindView(R.id.iv_pic)
@@ -102,15 +97,14 @@ public class ChooseDialog extends Dialog implements View.OnClickListener {
 
     private SearchSpecAdapter searchSpecAdapter;
     ExchangeProductModel exchangeProductModels;
-    GetProductDetailModel model;
+    ExchangeProductModel.DataBean model;
     public List<GetProductDetailModel.DataBean.ProdSpecsBean> prodSpecs;
-    public ChooseDialog(Context context,int productId,GetProductDetailModel model,int pos) {
+    public ChooseDialog(Context context, int productId, ExchangeProductModel.DataBean model, int pos) {
         super(context, R.style.dialog);
         this.context = context;
         this.productId = productId;
         this.model = model;
         this.pos = pos;
-        exchangeList(productId);
         getCartNum();
         init();
     }
@@ -173,17 +167,6 @@ public class ChooseDialog extends Dialog implements View.OnClickListener {
                                         iv_send.setVisibility(View.GONE);
                                     }
                                 }
-//                                itemChooseAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-//                                    @Override
-//                                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//                                        Intent intent = new Intent(context, PriceTrendActivity.class);
-//                                        intent.putExtra("priceId", exchangeProductModels.getData().getProdPrices().get(position).getPriceId()+"");
-//                                        intent.putExtra("productId",productId+"");
-//
-//                                        context.startActivity(intent);
-//                                    }
-//                                });
-
                             }
                         }else {
                             ToastUtil.showErroMsg(context,exchangeProductModel.getMessage());
@@ -205,18 +188,43 @@ public class ChooseDialog extends Dialog implements View.OnClickListener {
         iv_cart.setOnClickListener(this);
         tv_confirm.setOnClickListener(this);
 
+        ItemChooseAdapter itemChooseAdapter = new ItemChooseAdapter(1, productId, R.layout.item_choose_content, exchangeProductModels,model.getProdPrices());
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setAdapter(itemChooseAdapter);
+        tv_sale.setText(model.getSalesVolume());
+        tv_price.setText(model.getMinMaxPrice()+"");
+        tv_desc.setText(model.getSpecialOffer());
+        tv_stock.setText(model.getInventory());
+        tv_name.setText(model.getProductName());
+        Glide.with(context).load(model.getDefaultPic()).into(iv_head);
+        Glide.with(context).load(model.getTypeUrl()).into(iv_pic);
+        Glide.with(context).load(model.getSelfProd()).into(iv_operate);
+
+        if(model.getNotSend()!=null) {
+            if(model.getNotSend().equals("1")||model.getNotSend().equals("1.0")) {
+                iv_send.setImageResource(R.mipmap.icon_not_send2);
+                iv_send.setVisibility(View.VISIBLE);
+            }else {
+                iv_send.setVisibility(View.GONE);
+            }
+        }
+
         fl_container.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 searchSpecAdapter.selectPosition(position);
-                int productId = exchangeProductModels.getData().getProdSpecs().get(position).getProductId();
+                productId = model.getProdSpecs().get(position).getProductId();
                 exchangeList(productId);
                 EventBus.getDefault().post(new RefreshVideoEvent(productId,position));
+
             }
         });
+
         if(model!=null) {
-            searchSpecAdapter = new SearchSpecAdapter(context,model.getData().getProdSpecs());
+            searchSpecAdapter = new SearchSpecAdapter(context,model.getProdSpecs());
             fl_container.setAdapter(searchSpecAdapter);
+            searchSpecAdapter.selectPosition(pos);
+
         }
 
     }

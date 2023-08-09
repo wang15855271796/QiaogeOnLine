@@ -342,7 +342,6 @@ public class PayResultActivity extends BaseSwipeActivity {
     private TimerTask task = new TimerTask() {
         @Override
         public void run() {
-            Log.d("swdada.......","123");
             getPayResult(outTradeNo);
         }
     };

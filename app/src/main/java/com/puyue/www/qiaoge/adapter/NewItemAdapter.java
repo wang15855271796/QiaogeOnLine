@@ -72,7 +72,6 @@ public class NewItemAdapter extends BaseQuickAdapter<ExchangeProductModel.DataBe
         ImageView iv_fresh_price = helper.getView(R.id.iv_fresh_price);
         if(item.getFreshPriceFlag() == 1) {
             iv_fresh_price.setVisibility(View.VISIBLE);
-            Glide.with(mContext).load(R.mipmap.ic_refresh_price);
         }else {
             iv_fresh_price.setVisibility(View.GONE);
         }
@@ -193,7 +192,7 @@ public class NewItemAdapter extends BaseQuickAdapter<ExchangeProductModel.DataBe
      * 添加购物车
      */
     private void changeCartNum(int num, int priceId, TextView textView) {
-        AddMountChangeTwoAPI.changeCartNum(mContext,businessType,productId,num,priceId)
+        AddMountChangeTwoAPI.changeCartNum(mContext,businessType,productId,num,priceId,2)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<CartAddModel>() {

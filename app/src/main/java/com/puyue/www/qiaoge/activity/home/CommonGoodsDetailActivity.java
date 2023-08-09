@@ -11,6 +11,7 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,7 @@ import com.puyue.www.qiaoge.adapter.PicVideoAdapter;
 import com.puyue.www.qiaoge.adapter.SupplierAdapter;
 import com.puyue.www.qiaoge.adapter.cart.ChooseSpecAdapter;
 import com.puyue.www.qiaoge.adapter.cart.ImageViewAdapter;
+import com.puyue.www.qiaoge.adapter.cart.ItemChooseAdapter;
 import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
 import com.puyue.www.qiaoge.adapter.market.GoodsRecommendAdapter;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
@@ -265,7 +267,9 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
             if(bundle.getString("priceType")!=null) {
                 priceType = bundle.getString("priceType");
             }
+//            productId = getIntent().getStringExtra("activeId");
             productId = bundle.getInt(AppConstant.ACTIVEID);
+
         }
         return false;
     }
@@ -512,14 +516,11 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
                     initDialog();
                 }
             } else if (view == mTvAddCar) {
+
                 if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     if(priceType.equals("1")) {
-                        if(chooseDialog==null) {
-                            chooseDialog = new ChooseDialog(mContext,productId1,models,0);
-                        }
-                        chooseDialog.show();
+                        exchangeList(productId1);
                     }else {
-//                        showPhoneDialog(cell);
                         AppHelper.ShowAuthDialog(mActivity,cell);
                     }
 
@@ -577,7 +578,6 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
      * 授权弹窗
      * @param cell
      */
-
     private AlertDialog mDialog;
     TextView tv_phone;
     TextView tv_time;
@@ -607,6 +607,38 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
         });
     }
 
+    private void exchangeList(int productId) {
+        GetProductDetailAPI.getExchangeList(mContext,productId,1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ExchangeProductModel>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ExchangeProductModel exchangeProductModel) {
+                        if(exchangeProductModel.getCode()==1) {
+                            if(exchangeProductModel.getData()!=null) {
+                                if(chooseDialog==null) {
+                                    chooseDialog = new ChooseDialog(mContext,productId1,exchangeProductModel.getData(),0);
+                                }
+                                chooseDialog.show();
+                            }
+                        }else {
+                            ToastUtil.showErroMsg(mContext,exchangeProductModel.getMessage());
+                        }
+                    }
+                });
+    }
+
     /**
      * 获取详情
      */
@@ -614,6 +646,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
     String fullId;
     String teamId;
     String disId;
+    int pos;
     private void getProductDetail(final int productId, String num, CommonGoodsDetailActivity commonGoodsDetailActivity) {
         GetProductDetailAPI.requestData(mContext,productId,num)
                 .subscribeOn(Schedulers.io())
@@ -780,14 +813,11 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
                             chooseSpecAdapter = new ChooseSpecAdapter(mContext,prodSpecs, new ChooseSpecAdapter.Onclick() {
                                 @Override
                                 public void addDialog(int position) {
+                                    pos = position;
+
                                     if(priceType.equals("1")) {
                                         chooseSpecAdapter.selectPosition(position);
-                                        if(chooseDialog==null){
-                                            chooseDialog = new ChooseDialog(mContext, productId1,models,position);
-                                        }
-
                                         exchangeList(model.getData().getProdSpecs().get(position).getProductId(),commonGoodsDetailActivity);
-                                        chooseDialog.show();
                                     }else {
                                         AppHelper.ShowAuthDialog(mActivity,cell);
                                     }
@@ -826,7 +856,6 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
 
                             //填充banner
                             fitBanner(models);
-
                             mBanner.addBannerLifecycleObserver(commonGoodsDetailActivity)
                                     .setAdapter(new PicVideoAdapter(mContext, picVideo))
                                     .setIndicator(new NumIndicator(mContext))
@@ -879,7 +908,6 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
                     public void onNext(ExchangeProductModel exchangeProductModel) {
                         if(exchangeProductModel.getCode()==1) {
                             if(exchangeProductModel.getData()!=null) {
-
                                 ExchangeProductModel.DataBean data = exchangeProductModel.getData();
                                 detailList.clear();
                                 detailList.addAll(data.getDetailPic());
@@ -891,9 +919,13 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
                                     rl_check.setVisibility(View.GONE);
                                 }
 
-                                if(data.getQuarterPic()!=null && data.getQuarterPic().size()>0) {
-                                    List<String> quarterPic = data.getQuarterPic();
+                                for (int i = 0; i < data.getProdSpecs().size(); i++) {
+                                    if(data.getProdSpecs().get(i).getProductId() == productId) {
+                                        pos = i;
+                                    }
                                 }
+                                chooseDialog = new ChooseDialog(mContext, productId,exchangeProductModel.getData(),pos);
+                                chooseDialog.show();
 
                                 images.clear();
                                 picVideo.clear();
@@ -958,7 +990,99 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
                 });
     }
 
+    private void exchangeList1(int productId, CommonGoodsDetailActivity commonGoodsDetailActivity) {
+        GetProductDetailAPI.getExchangeList(mContext,productId,1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ExchangeProductModel>() {
 
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ExchangeProductModel exchangeProductModel) {
+                        if(exchangeProductModel.getCode()==1) {
+                            if(exchangeProductModel.getData()!=null) {
+                                ExchangeProductModel.DataBean data = exchangeProductModel.getData();
+                                detailList.clear();
+                                detailList.addAll(data.getDetailPic());
+                                imageViewAdapter.notifyDataSetChanged();
+
+                                if(data.getQuarterPic()!=null && data.getQuarterPic().size()>0) {
+                                    rl_check.setVisibility(View.VISIBLE);
+                                }else {
+                                    rl_check.setVisibility(View.GONE);
+                                }
+
+                                images.clear();
+                                picVideo.clear();
+                                if(data.getTopPic()!=null && data.getTopPic().size()>0) {
+                                    images.addAll(data.getTopPic());
+                                }else {
+                                    images.add(data.getDefaultPic());
+                                }
+
+                                if(data.getProdVideoUrl()!=null&&!data.getProdVideoUrl().equals("")) {
+                                    images.add(0,data.getProdVideoUrl());
+                                    iv_sound.setVisibility(View.VISIBLE);
+                                }else {
+                                    iv_sound.setVisibility(View.GONE);
+                                }
+
+
+                                if(images.size()>0) {
+                                    for (int i = 0; i < images.size(); i++) {
+                                        if(data.getProdVideoUrl()!=null&&!data.getProdVideoUrl().equals("")) {
+                                            if(i==0) {
+                                                picVideo.add(new PicVideoModel.DatasBean(images.get(0),2));
+                                            }else {
+                                                picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
+                                            }
+                                        } else {
+                                            picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
+                                        }
+                                    }
+                                }else {
+                                    for (int i = 0; i < images.size(); i++) {
+                                        picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
+                                    }
+                                }
+
+                                mBanner.addBannerLifecycleObserver(commonGoodsDetailActivity)
+                                        .setAdapter(new PicVideoAdapter(mContext, picVideo))
+                                        .setIndicator(new NumIndicator(mContext))
+                                        .setIndicatorGravity(IndicatorConfig.Direction.RIGHT)
+                                        .addOnPageChangeListener(new OnPageChangeListener() {
+                                            @Override
+                                            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                                                stopVideo(position);
+                                            }
+
+                                            @Override
+                                            public void onPageSelected(int position) {
+                                                stopVideo(position);
+                                            }
+
+                                            @Override
+                                            public void onPageScrollStateChanged(int state) {
+
+                                            }
+                                        });
+
+                            }
+                        }else {
+                            ToastUtil.showErroMsg(mContext,exchangeProductModel.getMessage());
+                        }
+                    }
+                });
+    }
 
     //banner数据
     private void fitBanner(GetProductDetailModel model) {
@@ -1444,7 +1568,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void messageEventBuss(RefreshVideoEvent event) {
         chooseSpecAdapter.selectPosition(event.getPos());
-        exchangeList(event.getProductId(),CommonGoodsDetailActivity.this);
+        exchangeList1(event.getProductId(),CommonGoodsDetailActivity.this);
     }
 
     @Override

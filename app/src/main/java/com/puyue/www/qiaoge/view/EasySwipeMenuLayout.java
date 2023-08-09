@@ -361,7 +361,7 @@ public class EasySwipeMenuLayout extends ViewGroup {
                     mFirstP = new PointF();
                 }
                 mFirstP.set(event.getRawX(), event.getRawY());
-                Log.d("wdwdswdasda.....","down");
+
                 break;
 
             case MotionEvent.ACTION_MOVE:
@@ -382,25 +382,25 @@ public class EasySwipeMenuLayout extends ViewGroup {
                     if (!mCanRightSwipe || mLeftView == null) {
                         //右滑
 //                        scrollTo(0, 0);
-                        Log.d("aswdasddasda.....","111111");
+
                     } else {
                         //左滑
-                        Log.d("aswdasddasda.....","222222");
+
                         if (getScrollX() < mLeftView.getLeft()) {
-                            Log.d("aswdasddasda.....","33333");
+
                             scrollTo(mLeftView.getLeft(), 0);
                         }
 
                     }
                 } else if (getScrollX() > 0) {
-                    Log.d("aswdasddasda.....","44444");
+
                     if (!mCanLeftSwipe || mRightView == null) {
-                        Log.d("aswdasddasda.....","55555");
+
                         scrollTo(0, 0);
                     } else {
-                        Log.d("aswdasddasda.....","666666");
+
                         if (getScrollX() >(mRightView.getRight() - mContentView.getRight() - mContentViewLp.rightMargin)) {
-                            Log.d("aswdasddasda.....","777777");
+
 //                            Log.i("ccaa", "dispatchTouchEvent: "+(mRightView.getRight() - mContentView.getRight() - mContentViewLp.rightMargin));
                             scrollTo(mRightView.getRight() - mContentView.getRight() - mContentViewLp.rightMargin, 0);
                         }

@@ -31,6 +31,7 @@ import com.puyue.www.qiaoge.api.mine.order.MyOrderListAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.dialog.HuoConnentionDialog;
+import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragments;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
@@ -44,6 +45,8 @@ import com.puyue.www.qiaoge.model.mine.order.ConfirmGetGoodsModel;
 import com.puyue.www.qiaoge.model.mine.order.CopyToCartModel;
 import com.puyue.www.qiaoge.model.mine.order.OrderEvaluateListModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -730,6 +733,7 @@ public class AllOrderFragment extends BaseFragment {
                         if (mModelCopyToCart.success) {
                             //将订单内的商品加入购物车
                             AppHelper.showMsg(mActivity, mModelCopyToCart.message);
+                            EventBus.getDefault().post(new ReduceNumEvent());
                         } else {
                             AppHelper.showMsg(mActivity, mModelCopyToCart.message);
                         }

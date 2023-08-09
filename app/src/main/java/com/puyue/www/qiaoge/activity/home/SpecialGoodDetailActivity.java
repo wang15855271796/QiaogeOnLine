@@ -1160,7 +1160,7 @@ private float star;
      * 加入购物车
      */
     private void addCart() {
-        AddCartAPI.requestData(mContext,activityType,productId,amount)
+        AddCartAPI.requestData(mContext,activityType,productId,amount,2)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<CartAddModel>() {

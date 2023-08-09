@@ -7,7 +7,7 @@ public class AppInterfaceAddress {
 //    http://192.168.2.162:8088/
     //https://shaokao.qoger.com/qiaoge/正式   http://192.168.2.188:8082/qiaoge/
     //http://116.62.67.230:8082/qiaoge/   测试http://120.55.55.99:8082/qiaoge/
-    public static final String BASE_URL = "http://192.168.2.188:8082/qiaoge/";
+    public static final String BASE_URL = "https://shaokao.qoger.com/qiaoge/";
     // 正式https://shaokao.qoger.com/qiaoge/
     //http://192.168.1.45/   本地192.168.101.69:8088
     //http://qg.zhiyun88u.com/shen
@@ -757,7 +757,11 @@ public class AppInterfaceAddress {
     public static final String GET_CART_LISTS = "cart/queryUserCartList";
     //购物车列表
     public static final String GET_CART_LIST = "cart/getAppUserCartListV3";
+    //购物车单选
+    public static final String Cart_Choose = "cart/setCartCheckFlag";
 
+    //购物车全选
+    public static final String Cart_Choose_All = "cart/setAllCartCheckFlag";
     //满减详情
     public static final String Full_Cart_Detail = "cart/getCityDeductInfoDetail";
     //满减详情(新)
@@ -947,7 +951,7 @@ public class AppInterfaceAddress {
     /**
      * 撤销退货申请
      */
-    public static final String USERCANCELORDER = "order/cancelReturnOrder";
+    public static final String USERCANCELORDER = "commonOrder/userCancelReturnOrder";
 
     /**
      * 首页关闭优惠券列表弹窗

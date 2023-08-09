@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.adapter.home.SearchSpecsAdapter;
 import com.puyue.www.qiaoge.model.SurpliListModel;
+import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
 import com.puyue.www.qiaoge.model.home.SearchResultsModel;
 
 import java.util.List;
@@ -21,19 +22,24 @@ import java.util.List;
  */
 public class SurpSpecsAdapter extends BaseAdapter {
     Context context;
-    List<SurpliListModel.DataBean.ListBean.ProdSpecsBean> prodSpecs;
+//    List<SurpliListModel.DataBean.ListBean.ProdSpecsBean> prodSpecs;
+    List<ExchangeProductModel.DataBean.ProdSpecsBean> prodSpecs;
     int selectPosition;
 
 
-    public SurpSpecsAdapter(Context mContext, List<SurpliListModel.DataBean.ListBean.ProdSpecsBean> prodSpecs) {
-        this.context = mContext;
+//    public SurpSpecsAdapter(Context mContext, List<SurpliListModel.DataBean.ListBean.ProdSpecsBean> prodSpecs) {
+//        this.context = mContext;
+//        this.prodSpecs = prodSpecs;
+//    }
+
+    public SurpSpecsAdapter(Context context, List<ExchangeProductModel.DataBean.ProdSpecsBean> prodSpecs) {
+        this.context = context;
         this.prodSpecs = prodSpecs;
     }
 
     @Override
     public int getCount() {
         return prodSpecs.size();
-
     }
 
     @Override

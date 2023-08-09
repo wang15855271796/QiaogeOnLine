@@ -2,6 +2,8 @@ package com.puyue.www.qiaoge.adapter;
 
 import android.content.Intent;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,14 +17,21 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.adapter.home.HotProductActivity;
+import com.puyue.www.qiaoge.api.home.GetProductDetailAPI;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.ReduceDialog;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.util.List;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by ${王涛} on 2020/6/2
@@ -82,7 +91,7 @@ public class ReduceAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.
         }
         if(item.getFreshPriceFlag() == 1) {
             iv_fresh_price.setVisibility(View.VISIBLE);
-            Glide.with(mContext).load(R.mipmap.ic_refresh_price);
+
         }else {
             iv_fresh_price.setVisibility(View.GONE);
         }
@@ -140,8 +149,7 @@ public class ReduceAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.
                     if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
                         onclick.addDialog();
                         if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-                            reduceDialog = new ReduceDialog(mContext,item.getProductId(),item);
-                            reduceDialog.show();
+                            exchangeList(item.getProductId());
                         }
                     }else {
                         onclick.tipClick();
@@ -150,6 +158,41 @@ public class ReduceAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.
                 }
             }
         });
+    }
+
+    /**
+     * 切换商品规格列表
+     * @param productId
+     */
+    private void exchangeList(int productId) {
+        GetProductDetailAPI.getExchangeList(mContext,productId,1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ExchangeProductModel>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ExchangeProductModel exchangeProductModel) {
+                        if(exchangeProductModel.getCode()==1) {
+                            if(exchangeProductModel.getData()!=null) {
+                                reduceDialog = new ReduceDialog(mContext,exchangeProductModel.getData());
+                                reduceDialog.show();
+                            }
+                        }else {
+                            ToastUtil.showErroMsg(mContext,exchangeProductModel.getMessage());
+                        }
+
+                    }
+                });
     }
 
     public interface Onclick {

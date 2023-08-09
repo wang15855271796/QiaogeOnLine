@@ -17,6 +17,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -152,7 +153,7 @@ public class MarketsFragment extends BaseFragment {
     Banner banner;
     private TextView mTvOk;
     private ImageView ivSearch;
-    private LoadingDailog dialog;
+//    private LoadingDailog dialog;
     TextView tv_search;
     TextView tv_sale;
     View v_shadow;
@@ -275,7 +276,7 @@ public class MarketsFragment extends BaseFragment {
         ll_price.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.show();
+//                dialog.show();
                 styles++;
                 pageNum =1;
                 tv_price.setTextColor(Color.parseColor("#F6391A"));
@@ -336,7 +337,7 @@ public class MarketsFragment extends BaseFragment {
                 minPrice = "";
                 maxPrice = "";
                 selectBrandName = "";
-                dialog.show();
+//                dialog.show();
                 sendSelectGood(saleVolume, priceUp,priceDown, newProduct, selectBrandName, minPrice, maxPrice);
             }
         });
@@ -368,7 +369,8 @@ public class MarketsFragment extends BaseFragment {
                 clicks = 1;
                 selectBrandName = "";
                 mAdapterMarketSecond.selectPosition(0);
-                dialog.show();
+//                dialog.show();
+                mRvDetail.noMoreLoading(false);
                 pageNum = 1;
                 requestGoodsList(mList.get(position).getFirstId());
                 scrollPosition = 0;
@@ -385,6 +387,7 @@ public class MarketsFragment extends BaseFragment {
                 }
             }
         });
+
         v_shadow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -628,7 +631,7 @@ public class MarketsFragment extends BaseFragment {
                         if (marketGoodSelectModel.getCode()==1) {
                             if(marketGoodSelectModel.getData()!=null) {
                                 mModelMarketGoods = marketGoodSelectModel;
-                                dialog.dismiss();
+//                                dialog.dismiss();
                                 updateMarketGoods();
                                 lav_activity_loading.hide();
                                 flag = true;
@@ -782,6 +785,7 @@ public class MarketsFragment extends BaseFragment {
     //滚动position
     int scrollPosition = 0;
     int selectPosition = 0;
+    boolean isFirstLoading = true;
     @Override
     public void setViewData() {
         lav_activity_loading.show();
@@ -789,18 +793,19 @@ public class MarketsFragment extends BaseFragment {
         getSearchProd();
 
         //切换左边导航时的加载数据弹窗
-        LoadingDailog.Builder loadBuilder = new LoadingDailog.Builder(getContext())
-                .setMessage("获取数据中")
-                .setCancelable(false)
-                .setCancelOutside(true);
-        dialog = loadBuilder.create();
+//        LoadingDailog.Builder loadBuilder = new LoadingDailog.Builder(getContext())
+//                .setMessage("获取数据中")
+//                .setCancelable(false)
+//                .setCancelOutside(true);
+//        dialog = loadBuilder.create();
 
 
         mTypedialog = new AlertDialog.Builder(mActivity, R.style.DialogStyle).create();
         mTypedialog.setCancelable(false);
 
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         mRvSecond.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRvDetail.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRvDetail.setLayoutManager(linearLayoutManager);
 
         mRvDetail.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
@@ -813,28 +818,64 @@ public class MarketsFragment extends BaseFragment {
 
             @Override
             public void onLoadMore() {
+//                mRvDetail.getViewTreeObserver().addOnGlobalLayoutListener(
+//                        new ViewTreeObserver.OnGlobalLayoutListener() {
+//                            @Override
+//                            public void onGlobalLayout() {
+//                                int lastCompletelyVisibleItemPosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
+//                                boolean b = lastCompletelyVisibleItemPosition < mAdapterMarketDetail.getItemCount() - 1;
+//                                if (b){
+//                                    Log.d("test111" ,"超过一屏幕，移除啦");
+//                                    mRvDetail.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+//                                }else {
+//                                    Log.d("test111" ,"没有超出超过一屏幕，继续请求");
+//
+//                                }
+//                            }
+//                        });
+
+
                 if (hasPage) {
                     pageNum++;
                     getData();
                 } else {
                     pageNum = 1;
                     if(scrollPosition != mListSecondNow.size()-1) {
-                        mListGoods.clear();
-                        mAdapterMarketDetail.notifyDataSetChanged();
-                        hasPage = false;
-                        scrollPosition++;
-                        if(scrollPosition==2) {
-                            ll_select.setVisibility(View.GONE);
-                            ll_prod.setVisibility(View.VISIBLE);
-                        }else {
-                            ll_select.setVisibility(View.VISIBLE);
-                            ll_prod.setVisibility(View.GONE);
-                        }
-                        mAdapterMarketSecond.selectPosition(scrollPosition);
-                        dialog.show();
-                        mSecondCode = mListSecondNow.get(scrollPosition).getSecondId();
-                        getData();
+//                        mListGoods.clear();
+//                        mAdapterMarketDetail.notifyDataSetChanged();
+//                        hasPage = false;
+//                        scrollPosition++;
+//                        if(scrollPosition==2) {
+//                            ll_select.setVisibility(View.GONE);
+//                            ll_prod.setVisibility(View.VISIBLE);
+//                        }else {
+//                            ll_select.setVisibility(View.VISIBLE);
+//                            ll_prod.setVisibility(View.GONE);
+//                        }
+//                        mAdapterMarketSecond.selectPosition(scrollPosition);
+//                        mSecondCode = mListSecondNow.get(scrollPosition).getSecondId();
+//                        getData();
 
+                        if(isFirstLoading) {
+                            mRvDetail.noMoreLoading(true);
+                            mRvDetail.refreshComplete();
+                            isFirstLoading = false;
+                        }else {
+                            mListGoods.clear();
+                            mAdapterMarketDetail.notifyDataSetChanged();
+                            hasPage = false;
+                            scrollPosition++;
+                            if(scrollPosition==2) {
+                                ll_select.setVisibility(View.GONE);
+                                ll_prod.setVisibility(View.VISIBLE);
+                            }else {
+                                ll_select.setVisibility(View.VISIBLE);
+                                ll_prod.setVisibility(View.GONE);
+                            }
+                            mAdapterMarketSecond.selectPosition(scrollPosition);
+                            mSecondCode = mListSecondNow.get(scrollPosition).getSecondId();
+                            getData();
+                        }
                     }else {
                         scrollPosition = 0;
                         if(mList.size()!=selectPosition+1) {
@@ -865,6 +906,7 @@ public class MarketsFragment extends BaseFragment {
 
             @Override
             public void onLoadMore() {
+
                 if(hasPage) {
                     pageNum++;
                     getData();
@@ -891,7 +933,7 @@ public class MarketsFragment extends BaseFragment {
                 @Override
                 public void onItemClick(View view, int position) {
                     //在点击二级列表的时候,需要将样式修改过来,然后刷新三级详情列表数据
-                    dialog.show();
+//                    dialog.show();
                     pageNum = 1;
                     minPrice = "";
                     maxPrice = "";
@@ -901,6 +943,7 @@ public class MarketsFragment extends BaseFragment {
                     mAdapterMarketSecond.selectPosition(position);
                     mListGoods.clear();
                     mListProd.clear();
+                    mRvDetail.noMoreLoading(false);
                     prodAdapter.notifyDataSetChanged();
                     mAdapterMarketDetail.notifyDataSetChanged();
                     if(position == 2) {
@@ -1086,9 +1129,11 @@ public class MarketsFragment extends BaseFragment {
             if (mModelMarketGoods.getData().getProdClassify().isHasNextPage()) {
                 hasPage = true;
                 mRvDetail.noMoreLoading(false);
+                isFirstLoading = false;
             } else {
                 hasPage = false;
                 mRvDetail.noMoreLoading(true);
+                isFirstLoading = true;
             }
             mRvDetail.refreshComplete();
         }else {
@@ -1108,12 +1153,13 @@ public class MarketsFragment extends BaseFragment {
                 mIvNoData.setVisibility(View.VISIBLE);
             }
 
-
             if (mModelMarketGoods.getData().getBrandProd().isHasNextPage()) {
                 hasPage = true;
+                isFirstLoading = false;
                 rv_prod_detail.noMoreLoading(false);
             } else {
                 hasPage = false;
+                isFirstLoading = true;
                 rv_prod_detail.noMoreLoading(true);
             }
             rv_prod_detail.refreshComplete();

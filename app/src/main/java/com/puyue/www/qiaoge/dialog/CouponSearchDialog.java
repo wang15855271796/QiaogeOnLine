@@ -82,17 +82,17 @@ public class CouponSearchDialog extends Dialog implements View.OnClickListener {
     ImageView iv_pic;
     @BindView(R.id.iv_operate)
     ImageView iv_operate;
-    ProductNormalModel.DataBean.ListBean listBean;
+    ExchangeProductModel.DataBean listBean;
     int pos = 0;
     private CouponSearchSpecsAdapter searchSpecAdapter;
     @BindView(R.id.iv_send)
     ImageView iv_send;
-    public CouponSearchDialog(Context context, ProductNormalModel.DataBean.ListBean item) {
+    public CouponSearchDialog(Context context, ExchangeProductModel.DataBean item) {
         super(context, R.style.dialog);
         this.context = context;
         this.listBean = item;
         init();
-        exchangeList(listBean.getProductId());
+
         getCartNum();
     }
 
@@ -128,7 +128,30 @@ public class CouponSearchDialog extends Dialog implements View.OnClickListener {
         iv_close.setOnClickListener(this);
         iv_cart.setOnClickListener(this);
 
-        List<ProductNormalModel.DataBean.ListBean.ProdSpecsBean> prodSpecs = listBean.getProdSpecs();
+        SearchItemAdapter searchItemAdapter = new SearchItemAdapter(1,listBean.getProdSpecs().get(0).getProductId(),
+                R.layout.item_choose_content,
+                listBean.getProdPrices(),listBean);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setAdapter(searchItemAdapter);
+        tv_name.setText(listBean.getProductName());
+        tv_sale.setText(listBean.getSalesVolume());
+        tv_price.setText(listBean.getMinMaxPrice()+"");
+        tv_desc.setText(listBean.getSpecialOffer());
+        tv_stock.setText(listBean.getInventory());
+        Glide.with(context).load(listBean.getDefaultPic()).into(iv_head);
+        Glide.with(context).load(listBean.getTypeUrl()).into(iv_pic);
+        Glide.with(context).load(listBean.getSelfProd()).into(iv_operate);
+
+        if(listBean.getNotSend()!=null) {
+            if(listBean.getNotSend().equals("1")||listBean.getNotSend().equals("1.0")) {
+                iv_send.setImageResource(R.mipmap.icon_not_send2);
+                iv_send.setVisibility(View.VISIBLE);
+            }else {
+                iv_send.setVisibility(View.GONE);
+            }
+        }
+
+//        List<ProductNormalModel.DataBean.ListBean.ProdSpecsBean> prodSpecs = listBean.getProdSpecs();
 
         //切换规格
         fl_container.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -136,7 +159,7 @@ public class CouponSearchDialog extends Dialog implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 pos = position;
                 searchSpecAdapter.selectPosition(position);
-                int productId = prodSpecs.get(position).getProductId();
+                int productId = listBean.getProdSpecs().get(position).getProductId();
                 exchangeList(productId);
             }
         });
@@ -170,9 +193,8 @@ public class CouponSearchDialog extends Dialog implements View.OnClickListener {
 
                         if(exchangeProductModel.isSuccess()) {
                             if(exchangeProductModel.getData()!=null) {
-                                SearchItemAdapter searchItemAdapter = new SearchItemAdapter(1,exchangeProductModel.getData().getProdSpecs().get(pos).getProductId(),
-                                        R.layout.item_choose_content,
-                                        exchangeProductModel.getData().getProdPrices(),exchangeProductModel);
+                                SearchItemAdapter searchItemAdapter = new SearchItemAdapter(1,productId, R.layout.item_choose_content,
+                                        exchangeProductModel.getData().getProdPrices(),exchangeProductModel.getData());
                                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                                 recyclerView.setAdapter(searchItemAdapter);
                                 tv_name.setText(exchangeProductModel.getData().getProductName());

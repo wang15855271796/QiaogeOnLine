@@ -204,7 +204,7 @@ public class TeamInnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.Data
     }
 
     private void addCar(int businessId,int businessType, int totalNum) {
-        AddCartAPI.requestData(mContext,businessType, businessId, totalNum)
+        AddCartAPI.requestData(mContext,businessType, businessId, totalNum,2)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<CartAddModel>() {

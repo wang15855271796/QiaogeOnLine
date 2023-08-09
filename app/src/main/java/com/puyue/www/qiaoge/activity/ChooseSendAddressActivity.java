@@ -30,6 +30,7 @@ import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.dialog.ChangeCityDialog;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.mine.address.AddressModel;
 
 import org.greenrobot.eventbus.EventBus;
@@ -101,6 +102,7 @@ public class ChooseSendAddressActivity extends BaseActivity implements View.OnCl
     AddressModel.DataBean dataBean;
     private int defaultId = -1;
     public String changeAddress;
+    int pos = 0;
     ChooseSendAddressssAdapter addressAdapterss;
     ChooseSendAddresssAdapter addressAdapters;
     private void getAddress() {
@@ -175,9 +177,9 @@ public class ChooseSendAddressActivity extends BaseActivity implements View.OnCl
                                                         mListData.get(i).isDefault = 1;
                                                         //这里代表着切换了默认地址
                                                         defaultId = mListData.get(i).id;
+                                                        pos = i;
                                                         changeAddress = mListData.get(i).provinceName + mListData.get(i).cityName + mListData.get(i).areaName + mListData.get(i).detailAddress;
                                                         requestEditDefaultAddress(defaultId, "");
-                                                        Log.d("wsdadwd.....","123");
                                                     }
                                                 } else {
                                                     mListData.get(i).isDefault = 0;
@@ -253,6 +255,10 @@ public class ChooseSendAddressActivity extends BaseActivity implements View.OnCl
                     @Override
                     public void onNext(BaseModel baseModel) {
                         if (baseModel.success) {
+                            UserInfoHelper.saveProvince(mActivity,mListData.get(pos).getProvinceName());
+                            UserInfoHelper.saveCity(mActivity,mListData.get(pos).getCityName());
+                            UserInfoHelper.saveAreaName(mActivity,mListData.get(pos).getAreaName());
+                            UserInfoHelper.saveChangeFlag(mActivity,"0");
                             EventBus.getDefault().post(new AddressEvent());
                             finish();
                         } else {

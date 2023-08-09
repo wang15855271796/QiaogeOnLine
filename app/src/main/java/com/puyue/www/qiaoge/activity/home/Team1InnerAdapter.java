@@ -96,18 +96,18 @@ public class Team1InnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.Dat
         tv_add.setEnabled(false);
     }
 
-        tv_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-
-                }else {
-                    if(onclick!=null) {
-                        onclick.addDialog();
-                    }
-                }
-            }
-        });
+//        tv_add.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+//
+//                }else {
+//                    if(onclick!=null) {
+//                        onclick.addDialog();
+//                    }
+//                }
+//            }
+//        });
 
         rl_price.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -205,6 +205,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
     }
 
 
+
     @Override
     public void initViews(View view) {
         binder = ButterKnife.bind(this, view);

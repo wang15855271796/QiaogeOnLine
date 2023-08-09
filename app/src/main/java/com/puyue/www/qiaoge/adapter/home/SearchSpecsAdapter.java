@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
 import com.puyue.www.qiaoge.model.home.SearchResultsModel;
 
 import java.util.List;
@@ -18,11 +19,17 @@ import java.util.List;
 
 public class SearchSpecsAdapter extends BaseAdapter {
     Context context;
-    List<SearchResultsModel.DataBean.SearchProdBean.ListBean.ProdSpecsBean> prodSpecs;
+//    List<SearchResultsModel.DataBean.SearchProdBean.ListBean.ProdSpecsBean> prodSpecs;
+    List<ExchangeProductModel.DataBean.ProdSpecsBean> prodSpecs;
     int selectPosition;
 
-    public SearchSpecsAdapter(Context mContext, List<SearchResultsModel.DataBean.SearchProdBean.ListBean.ProdSpecsBean> prodSpecs) {
-        this.context = mContext;
+//    public SearchSpecsAdapter(Context mContext, List<SearchResultsModel.DataBean.SearchProdBean.ListBean.ProdSpecsBean> prodSpecs) {
+//        this.context = mContext;
+//        this.prodSpecs = prodSpecs;
+//    }
+
+    public SearchSpecsAdapter(Context context, List<ExchangeProductModel.DataBean.ProdSpecsBean> prodSpecs) {
+        this.context = context;
         this.prodSpecs = prodSpecs;
     }
 

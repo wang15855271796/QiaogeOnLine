@@ -1133,7 +1133,7 @@ public class SeckillGoodActivity extends BaseSwipeActivity {
      * 加入购物车
      */
     private void addCar() {
-        AddCartAPI.requestData(mContext,businessType,productId,amount)
+        AddCartAPI.requestData(mContext,businessType,productId,amount,2)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<CartAddModel>() {

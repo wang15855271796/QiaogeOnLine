@@ -107,30 +107,30 @@ public class Coupon1InnerAdapter extends BaseQuickAdapter<TeamActiveQueryModel.D
             tv_add.setBackgroundResource(R.drawable.shape_yellow6);
         }
 
-        tv_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-                    if(onclick!=null) {
-                        onclick.addDialog();
-                    }
-                }else {
+//        tv_add.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+//                    if(onclick!=null) {
+//                        onclick.addDialog();
+//                    }
+//                }else {
+//
+//                }
+//            }
+//        });
 
-                }
-            }
-        });
-
-        tv_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-                    onclick.addDialog();
-                } else {
-                    AppHelper.showMsg(mContext, "请先登录");
-                    mContext.startActivity(LoginActivity.getIntent(mContext, LoginActivity.class));
-                }
-            }
-        });
+//        tv_add.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+//                    onclick.addDialog();
+//                } else {
+//                    AppHelper.showMsg(mContext, "请先登录");
+//                    mContext.startActivity(LoginActivity.getIntent(mContext, LoginActivity.class));
+//                }
+//            }
+//        });
 
 
         rl_price.setOnClickListener(new View.OnClickListener() {

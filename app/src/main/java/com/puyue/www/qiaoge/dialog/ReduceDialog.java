@@ -89,21 +89,20 @@ public class ReduceDialog extends Dialog implements View.OnClickListener{
     ImageView iv_operate;
     public List<GetProductDetailModel.DataBean.ProdSpecsBean> prodSpecs;
     private ChooseSpecAdapters chooseSpecAdapter;
-    ProductNormalModel.DataBean.ListBean item;
+    ExchangeProductModel.DataBean item;
     int pos = 0;
     private ExchangeProductModel exchangeProductModel1s;
     @BindView(R.id.iv_send)
     ImageView iv_send;
-    public ReduceDialog(Context context,int productId,ProductNormalModel.DataBean.ListBean item) {
-        super(context, R.style.dialog);
-        this.context = context;
-        this.productId = productId;
-        this.item = item;
+
+    public ReduceDialog(Context mContext, ExchangeProductModel.DataBean data) {
+        super(mContext, R.style.dialog);
+        this.context = mContext;
+        this.item = data;
         init();
-        exchangeList(productId);
+//        exchangeList(productId);
         getCartNum();
     }
-
 
     @Override
     public void show() {
@@ -133,13 +132,33 @@ public class ReduceDialog extends Dialog implements View.OnClickListener{
         tv_confirm.setOnClickListener(this);
         iv_cart.setOnClickListener(this);
 
+        tv_name.setText(item.getProductName());
+        tv_sale.setText(item.getSalesVolume());
+        tv_price.setText(item.getMinMaxPrice()+"");
+        tv_desc.setText(item.getSpecialOffer());
+        tv_stock.setText(item.getInventory());
+        Glide.with(context).load(item.getDefaultPic()).into(iv_head);
+        Glide.with(context).load(item.getTypeUrl()).into(iv_pic);
+        Glide.with(context).load(item.getSelfProd()).into(iv_operate);
+        ReduceItemAdapter reduceItemAdapter = new ReduceItemAdapter(1, item.getProdSpecs().get(0).getProductId(), R.layout.item_choose_content, item.getProdPrices(),item);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setAdapter(reduceItemAdapter);
+
+        if(item.getNotSend()!=null) {
+            if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {
+                iv_send.setImageResource(R.mipmap.icon_not_send2);
+                iv_send.setVisibility(View.VISIBLE);
+            }else {
+                iv_send.setVisibility(View.GONE);
+            }
+        }
 
         fl_container.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 pos = position;
                 chooseSpecAdapter.selectPosition(position);
-                int productId = exchangeProductModel1s.getData().getProdSpecs().get(position).getProductId();
+                int productId = item.getProdSpecs().get(position).getProductId();
                 exchangeList(productId);
             }
         });
@@ -181,7 +200,7 @@ public class ReduceDialog extends Dialog implements View.OnClickListener{
                                 Glide.with(context).load(exchangeProductModel.getData().getDefaultPic()).into(iv_head);
                                 Glide.with(context).load(exchangeProductModel.getData().getTypeUrl()).into(iv_pic);
                                 Glide.with(context).load(exchangeProductModel.getData().getSelfProd()).into(iv_operate);
-                                ReduceItemAdapter reduceItemAdapter = new ReduceItemAdapter(1, productId, R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices(),exchangeProductModel);
+                                ReduceItemAdapter reduceItemAdapter = new ReduceItemAdapter(1, productId, R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices(),exchangeProductModel.getData());
                                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                                 recyclerView.setAdapter(reduceItemAdapter);
 

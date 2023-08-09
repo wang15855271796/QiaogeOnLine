@@ -148,27 +148,12 @@ public class XRecyclerView extends RecyclerView {
         super.setAdapter(mWrapAdapter);
         adapter.registerAdapterDataObserver(mDataObserver);
     }
-
-//    @Override
-//    public int getChildCount() {
-//        return getLayoutManager().getChildCount()-1;
-//        return super.getChildCount();
-//    }
-
-//    public int getScollYDistance() {
-//        LinearLayoutManager layoutManager = (LinearLayoutManager) this.getLayoutManager();
-//        int position = layoutManager.findFirstVisibleItemPosition();
-//        View firstVisiableChildView = layoutManager.findViewByPosition(position);
-//        int itemHeight = firstVisiableChildView.getHeight();
-//        return (position) * itemHeight - firstVisiableChildView.getTop();
-//    }
-
+    int lastCompletelyVisibleItemPosition;
     @Override
     public void onScrollStateChanged(int state) {
         super.onScrollStateChanged(state);
-//        Log.d("wdasdw..........",state+"---"+mLoadingListener+"---"+isLoadingData+"---"+loadingMoreEnabled);
-        Log.d("swadwdssd.....","状态000");
         //滚动是否停止 是否有监听 是否需要加载更多 没有正在加载数据
+
         if (state == RecyclerView.SCROLL_STATE_IDLE && mLoadingListener != null && !isLoadingData && loadingMoreEnabled) {
             LayoutManager layoutManager = getLayoutManager();
             int lastVisibleItemPosition;   //最后可见索引
@@ -179,45 +164,39 @@ public class XRecyclerView extends RecyclerView {
                 ((StaggeredGridLayoutManager) layoutManager).findLastVisibleItemPositions(into);
                 lastVisibleItemPosition = findMax(into);
             } else {
+
                 lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
             }
 
             if (layoutManager.getChildCount() > 0 && lastVisibleItemPosition >= layoutManager.getItemCount() - 1
                     && !isnomore && mRefreshHeader.getState() < YunRefreshHeader.STATE_REFRESHING
                     && layoutManager.getItemCount() > layoutManager.getChildCount()) {
-
-                Log.d("swadwdssd.....","状态111");
-
                 View footView = mFootViews.get(0);
                 isLoadingData = true;
-//                ((LoadingMoreFooter) footView).setState(LoadingMoreFooter.STATE_NOMORE);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (footView instanceof LoadingMoreFooter) {
-                            ((LoadingMoreFooter) footView).setState(LoadingMoreFooter.STATE_LOADING);
-                        } else {
-                            footView.setVisibility(View.VISIBLE);
-                        }
-                    }
-                },500);
 
+                if (footView instanceof LoadingMoreFooter) {
+                    ((LoadingMoreFooter) footView).setState(LoadingMoreFooter.STATE_LOADING);
+                } else {
+                    footView.setVisibility(View.VISIBLE);
+                }
 
                 if (CheckNetwork.isNetworkConnected(getContext())) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mLoadingListener.onLoadMore();
-                        }
-                    },2000);
-
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//
+//
+//                        }
+//                    },1000);
+                    mLoadingListener.onLoadMore();
                 } else {
-                    postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mLoadingListener.onLoadMore();
-                        }
-                    }, 1000);
+//                    postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//
+//                        }
+//                    }, 1000);
+                    mLoadingListener.onLoadMore();
                 }
             }
         }

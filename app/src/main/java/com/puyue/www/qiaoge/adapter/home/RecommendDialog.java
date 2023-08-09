@@ -82,19 +82,19 @@ public class RecommendDialog extends Dialog implements View.OnClickListener {
     ImageView iv_pic;
     @BindView(R.id.iv_operate)
     ImageView iv_operate;
-    SearchResultsModel.DataBean.RecommendProdBean listBean;
+    ExchangeProductModel.DataBean listBean;
     int pos = 0;
     @BindView(R.id.iv_send)
     ImageView iv_send;
     private SearchSpecxAdapter searchSpecAdapter;
 
-    public RecommendDialog(Context context, SearchResultsModel.DataBean.RecommendProdBean listBean) {
+    public RecommendDialog(Context context, ExchangeProductModel.DataBean listBean) {
         super(context, R.style.dialog);
         this.context = context;
         this.listBean = listBean;
         init();
         getCartNum();
-        exchangeList(listBean.getProdSpecs().get(0).getProductId());
+//        exchangeList(listBean.getProdSpecs().get(0).getProductId());
     }
 
 
@@ -128,9 +128,33 @@ public class RecommendDialog extends Dialog implements View.OnClickListener {
             attributes.width = Utils.getScreenWidth(context);
             getWindow().setAttributes(attributes);
         }
+
+        SearchItem1Adapter itemChooseAdapter = new SearchItem1Adapter(1,
+                listBean.getProdSpecs().get(0).getProductId(),
+                R.layout.item_choose_content, listBean.getProdPrices(),listBean);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setAdapter(itemChooseAdapter);
+        tv_name.setText(listBean.getProductName());
+        tv_sale.setText(listBean.getSalesVolume());
+        tv_price.setText(listBean.getMinMaxPrice()+"");
+        tv_desc.setText(listBean.getSpecialOffer());
+        tv_stock.setText(listBean.getInventory());
+        Glide.with(context).load(listBean.getDefaultPic()).into(iv_head);
+        Glide.with(context).load(listBean.getTypeUrl()).into(iv_pic);
+        Glide.with(context).load(listBean.getSelfProd()).into(iv_operate);
+
+        if(listBean.getNotSend()!=null) {
+            if(listBean.getNotSend().equals("1")||listBean.getNotSend().equals("1.0")) {
+                iv_send.setImageResource(R.mipmap.icon_not_send2);
+                iv_send.setVisibility(View.VISIBLE);
+            }else {
+                iv_send.setVisibility(View.GONE);
+            }
+        }
+
         iv_close.setOnClickListener(this);
         iv_cart.setOnClickListener(this);
-        List<SearchResultsModel.DataBean.RecommendProdBean.ProdSpecsBean> prodSpecs = listBean.getProdSpecs();
+//        List<SearchResultsModel.DataBean.RecommendProdBean.ProdSpecsBean> prodSpecs = listBean.getProdSpecs();
 
         //切换规格
         fl_container.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -138,7 +162,7 @@ public class RecommendDialog extends Dialog implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 pos = position;
                 searchSpecAdapter.selectPosition(position);
-                int productId = prodSpecs.get(position).getProductId();
+                int productId = listBean.getProdSpecs().get(position).getProductId();
                 exchangeList(productId);
             }
         });
@@ -172,8 +196,8 @@ public class RecommendDialog extends Dialog implements View.OnClickListener {
                         if(exchangeProductModel.isSuccess()) {
                             if(exchangeProductModel.getData()!=null) {
                                 SearchItem1Adapter itemChooseAdapter = new SearchItem1Adapter(1,
-                                        exchangeProductModel.getData().getProdSpecs().get(pos).getProductId(),
-                                        R.layout.item_choose_content, exchangeProductModel.getData().getProdPrices(),exchangeProductModel);
+                                        productId, R.layout.item_choose_content,
+                                        exchangeProductModel.getData().getProdPrices(),exchangeProductModel.getData());
                                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                                 recyclerView.setAdapter(itemChooseAdapter);
                                 tv_name.setText(exchangeProductModel.getData().getProductName());

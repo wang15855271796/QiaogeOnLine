@@ -37,12 +37,11 @@ public class CartAdapter extends BaseQuickAdapter<CartTestModel.DataBean.ProdsBe
     CartGoodsAdapter cartGoodsAdapter;
     private OnRefreshListener mOnRefreshListener;
     private Onclick onclick;
-    Map<Integer, Boolean> isCheck;
-    public CartAdapter(int layoutResId, Map<Integer, Boolean> isCheck, @Nullable List<CartTestModel.DataBean.ProdsBeanX> data, Onclick onclick) {
+
+    public CartAdapter(int layoutResId, @Nullable List<CartTestModel.DataBean.ProdsBeanX> data, Onclick onclick) {
         super(layoutResId, data);
         this.data = data;
         this.onclick = onclick;
-        this.isCheck = isCheck;
     }
 
     @Override
@@ -119,7 +118,7 @@ public class CartAdapter extends BaseQuickAdapter<CartTestModel.DataBean.ProdsBe
 
         SlideRecyclerView recyclerView = helper.getView(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        cartGoodsAdapter = new CartGoodsAdapter(R.layout.item_goods,isCheck,this,data,item,item.getProds(),mOnRefreshListener);
+        cartGoodsAdapter = new CartGoodsAdapter(R.layout.item_goods,this,data,item,item.getProds(),mOnRefreshListener, helper.getAdapterPosition());
         recyclerView.setAdapter(cartGoodsAdapter);
 //        cartGoodsAdapter.setOnItemClickListener(new CartGoodsAdapter.OnEventClickListener() {
 //            @Override
@@ -151,7 +150,7 @@ public class CartAdapter extends BaseQuickAdapter<CartTestModel.DataBean.ProdsBe
         for (int i = 0; i < data.size(); i++) {
             List<CartTestModel.DataBean.ProdsBeanX.ProdsBean> prods1 = data.get(i).getProds();
             for (int j = 0; j < prods1.size(); j++) {
-                if(prods1.get(j).isSelected()) {
+                if(prods1.get(j).getCheckFlag()==1) {
                     List<CartTestModel.DataBean.ProdsBeanX.ProdsBean.ProductDescVOListBean> productDescVOList = prods1.get(j).getProductDescVOList();
                     for (int k = 0; k < productDescVOList.size(); k++) {
                         BigDecimal cartNum = new BigDecimal(productDescVOList.get(k).getProductNum());
@@ -165,7 +164,7 @@ public class CartAdapter extends BaseQuickAdapter<CartTestModel.DataBean.ProdsBe
     }
 
     public interface OnRefreshListener{
-        void onRefresh(boolean isSelect);
+        void onRefresh(boolean isSelect, int selectNum, int size);
     }
 
     public void setRefreshListener(OnRefreshListener mOnRefreshListener){

@@ -2243,11 +2243,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                         Intent intent = new Intent(getActivity(), HotProductActivity.class);
                         startActivity(intent);
                     } else if (AppConstant.COMMON_PROD.equals(banners.get(position).getProdPage())) {
-                        Intent intent = new Intent(getActivity(), CommonProductActivity.class);
-                        startActivity(intent);
-//                        appbar.setExpanded(false);
-//                        getCommonStateTop();
-//                        switchCommon();
+//                        Intent intent = new Intent(getActivity(), CommonProductActivity.class);
+//                        startActivity(intent);
+                        appbar.setExpanded(false);
+                        getCommonStateTop();
+                        switchCommon();
                     } else if (AppConstant.DEDUCT_PROD.equals(banners.get(position).getProdPage())) {
                         appbar.setExpanded(false);
                         getReduceStateTop();

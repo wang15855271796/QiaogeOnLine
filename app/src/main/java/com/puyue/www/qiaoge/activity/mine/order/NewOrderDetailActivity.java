@@ -258,7 +258,9 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
     LinearLayout ll_bg;
     RelativeLayout rl_hll_order;
     TextView tv_send_time;
+    RelativeLayout rl_distribution_time;
     RelativeLayout rl_distribution;
+    RelativeLayout rl_test;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -271,8 +273,10 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
+//        rl_test = (TextView) findViewById(R.id.rl_test);
         tv_send_time = (TextView) findViewById(R.id.tv_send_time);
-        rl_distribution = findViewById(R.id.rl_distribution);
+        rl_distribution_time = (RelativeLayout)findViewById(R.id.rl_distribution_time);
+        rl_distribution = (RelativeLayout)findViewById(R.id.rl_distribution);
         rl_hll_order = (RelativeLayout) findViewById(R.id.rl_hll_order);
         ll_bg = (LinearLayout) findViewById(R.id.ll_bg);
         rl_drive_info = (RelativeLayout) findViewById(R.id.rl_drive_info);
@@ -632,7 +636,6 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
     private void setText(GetOrderDetailModel info) {
         getOrderDetailModel = info.data;
 
-//        ReturnGoodsTitle.setText(getOrderDetailModel.orderStatusName);
         tvOrderTitle.setText(getOrderDetailModel.orderStatusName);
         orderStatusRequest = getOrderDetailModel.orderStatus;
 
@@ -645,11 +648,12 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
         }else {
             linearLayoutPay.setVisibility(View.GONE);
         }
-        if(TextUtils.isEmpty(info.data.sendTimeStr)) {
-            rl_distribution.setVisibility(View.GONE);
-        }else {
-            rl_distribution.setVisibility(View.VISIBLE);
+        if(!TextUtils.isEmpty(info.data.sendTimeStr)) {
+            rl_distribution_time.setVisibility(View.VISIBLE);
             tv_send_time.setText(info.data.sendTimeStr);
+
+        }else {
+            rl_distribution_time.setVisibility(View.GONE);
         }
 
         tv_payWay.setText(info.data.payChannel);

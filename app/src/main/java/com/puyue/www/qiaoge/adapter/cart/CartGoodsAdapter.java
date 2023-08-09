@@ -45,15 +45,15 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
     CartTestModel.DataBean.ProdsBeanX item;
     List<CartTestModel.DataBean.ProdsBeanX> prodsBeanX;
     CartAdapter cartAdapter;
-    Map<Integer, Boolean> isCheck;
-    public CartGoodsAdapter(int layoutResId, Map<Integer, Boolean> isCheck, CartAdapter cartAdapter, List<CartTestModel.DataBean.ProdsBeanX> prodsBeanX
+    int outPosition;
+    public CartGoodsAdapter(int layoutResId, CartAdapter cartAdapter, List<CartTestModel.DataBean.ProdsBeanX> prodsBeanX
             , CartTestModel.DataBean.ProdsBeanX item, @Nullable List<CartTestModel.DataBean.ProdsBeanX.ProdsBean> data
-            , CartAdapter.OnRefreshListener mOnRefreshListener) {
+            , CartAdapter.OnRefreshListener mOnRefreshListener, int outPosition) {
         super(layoutResId, data);
         this.data = data;
-        this.isCheck = isCheck;
         this.cartAdapter = cartAdapter;
         this.item = item;
+        this.outPosition = outPosition;
         this.prodsBeanX = prodsBeanX;
         this.mOnRefreshListener = mOnRefreshListener;
     }
@@ -91,33 +91,36 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
             }
         });
 
-        if(mOnRefreshListener != null){
-            boolean isSelect = false;
-            if(prodsBeanX.size()>1) {
-                Log.d("fesfe.....","000");
-                for (int i = 0; i < prodsBeanX.size(); i++) {
-                    for (int j = 0; j < data.size(); j++) {
-                        if(!data.get(j).isSelected()){
-                            isSelect = false;
-                            break;
-                        }else{
-                            isSelect = true;
-                        }
-                    }
-                }
-            }else {
-                for(int i = 0;i < data.size(); i++){
-                    if(!data.get(i).isSelected()){
-                        isSelect = false;
-                        break;
-                    }else{
-                        isSelect = true;
-                    }
-                }
-                Log.d("fesfe.....","111");
-            }
-            mOnRefreshListener.onRefresh(isSelect);
-        }
+//        if(mOnRefreshListener != null){
+//            boolean isSelect = false;
+//            if(prodsBeanX.size()>1) {
+//                for (int i = 0; i < prodsBeanX.size(); i++) {
+//                    if(prodsBeanX.get(i).isSelect()) {
+//                        for (int j = 0; j < data.size(); j++) {
+//                            if(!data.get(j).isSelected()){
+//                                isSelect = false;
+//                                break;
+//                            }else{
+//                                isSelect = true;
+//                            }
+//                        }
+//                    }else {
+//                        isSelect = false;
+//                    }
+//                }
+//            }else {
+//                for(int i = 0;i < data.size(); i++){
+//                    if(!data.get(i).isSelected()){
+//                        isSelect = false;
+//                        break;
+//                    }else{
+//                        isSelect = true;
+//                    }
+//                }
+//            }
+//            Log.d("sdadw......",isSelect+"--");
+//            mOnRefreshListener.onRefresh(isSelect,1,1);
+//        }
 
         if(item.getSelfProd()!=null&&!item.getSelfProd().equals("")) {
             Glide.with(mContext).load(item.getSelfProd()).into(iv_operate);
@@ -129,57 +132,78 @@ public class CartGoodsAdapter extends BaseQuickAdapter<CartTestModel.DataBean.Pr
         RecyclerView rv_price = helper.getView(R.id.rv_price);
         rv_price.setLayoutManager(new LinearLayoutManager(mContext));
         CartPriceAdapter cartPriceAdapter = new CartPriceAdapter(R.layout.item_choose_content1,item,item.getProductDescVOList()
-                ,cartAdapter,helper.getAdapterPosition());
+                ,cartAdapter,helper.getAdapterPosition(),outPosition);
         rv_price.setAdapter(cartPriceAdapter);
 
         if(!TextUtils.isEmpty(item.getProdBuyTips())) {
             tv_buy_tips.setText(item.getProdBuyTips());
         }
 
-        cb_item_out.setChecked(item.isSelected());
-        cb_spec.setChecked(item.isSelected());
+        if(item.getCheckFlag() ==1) {
+            cb_item_out.setChecked(true);
+            cb_spec.setChecked(true);
+        }else {
+            cb_item_out.setChecked(false);
+            cb_spec.setChecked(false);
+        }
+
+        cb_spec.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                cartAdapter.notifyDataSetChanged();
+                if(item.getCheckFlag() == 1) {
+                    EventBus.getDefault().post(new UpdateEvent(cartAdapter.getAllPrice(),isChecked,item.getProductMainId(),item.getCartId(),0));
+                }else {
+                    EventBus.getDefault().post(new UpdateEvent(cartAdapter.getAllPrice(),isChecked,item.getProductMainId(),item.getCartId(),1));
+                }
+            }
+        });
+
         cb_item_out.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(buttonView.isPressed()) {
-                    item.setSelected(isChecked);
-                    cb_spec.setChecked(isChecked);
-                }
+//                if(buttonView.isPressed()) {
+//                    item.setSelected(isChecked);
+//                    cb_spec.setChecked(isChecked);
+//                }
 
-                for (CartTestModel.DataBean.ProdsBeanX prodsBeanX: prodsBeanX) {
-                    prodsBeanX.setSelect(isChecked);
-                }
+//                for (CartTestModel.DataBean.ProdsBeanX prodsBeanX: prodsBeanX) {
+//                    prodsBeanX.setSelect(isChecked);
+//                }
 
                 cartAdapter.notifyDataSetChanged();
-                EventBus.getDefault().post(new UpdateEvent(cartAdapter.getAllPrice()));
-
-//                if(mOnEventClickListener!=null) {
-//                    mOnEventClickListener.onEventClick(helper.getAdapterPosition());
-//                }
-            }
-        });
-
-        cb_spec.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(item.isSelected()) {
-                    item.setSelected(false);
-                    cb_spec.setChecked(false);
-                    cb_item_out.setChecked(false);
+                if(item.getCheckFlag() == 1) {
+                    EventBus.getDefault().post(new UpdateEvent(cartAdapter.getAllPrice(),isChecked,item.getProductMainId(),item.getCartId(),0));
                 }else {
-                    item.setSelected(true);
-                    cb_item_out.setChecked(true);
-                    cb_spec.setChecked(true);
+                    EventBus.getDefault().post(new UpdateEvent(cartAdapter.getAllPrice(),isChecked,item.getProductMainId(),item.getCartId(),1));
                 }
+
+
+
             }
         });
+
+//        cb_spec.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(item.isSelected()) {
+//                    item.setSelected(false);
+//                    cb_spec.setChecked(false);
+//                    cb_item_out.setChecked(false);
+//                }else {
+//                    item.setSelected(true);
+//                    cb_item_out.setChecked(true);
+//                    cb_spec.setChecked(true);
+//                }
+//            }
+//        });
 
         ll_root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(item.getBusinessType()==1) {
                     Intent intent = new Intent(mContext,CommonGoodsDetailActivity.class);
-                    intent.putExtra("activeId",item.getProductMainId());
+                    intent.putExtra("activeId",Integer.parseInt(item.getProductMainId()));
                     intent.putExtra("priceType", SharedPreferencesUtil.getString(mContext,"priceType"));
                     mContext.startActivity(intent);
                 }else if(item.getBusinessType()==2){

@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
@@ -24,6 +23,7 @@ import com.puyue.www.qiaoge.api.cart.AddMountChangeTwoAPI;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.event.UpDateNumEvent7;
+import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.model.cart.CartAddModel;
 import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
@@ -50,8 +50,8 @@ public class SearchItemAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
     TextView tv_coupon_desc;
     LinearLayout rl_desc;
     AlertDialog alertDialog;
-    ExchangeProductModel exchangeProductModel;
-    public SearchItemAdapter(int businessType, int productId,int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data,ExchangeProductModel exchangeProductModel) {
+    ExchangeProductModel.DataBean exchangeProductModel;
+    public SearchItemAdapter(int businessType, int productId, int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data, ExchangeProductModel.DataBean exchangeProductModel) {
         super(layoutResId, data);
         this.productId = productId;
         this.businessType = businessType;
@@ -74,7 +74,6 @@ public class SearchItemAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
         ImageView iv_fresh_price = helper.getView(R.id.iv_fresh_price);
         if(item.getFreshPriceFlag() == 1) {
             iv_fresh_price.setVisibility(View.VISIBLE);
-            Glide.with(mContext).load(R.mipmap.ic_refresh_price);
         }else {
             iv_fresh_price.setVisibility(View.GONE);
         }
@@ -117,7 +116,7 @@ public class SearchItemAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, PriceTrendActivity.class);
-                intent.putExtra("priceId", exchangeProductModel.getData().getProdPrices().get(helper.getLayoutPosition()).getPriceId()+"");
+                intent.putExtra("priceId", exchangeProductModel.getProdPrices().get(helper.getLayoutPosition()).getPriceId()+"");
                 intent.putExtra("productId",productId+"");
                 mContext.startActivity(intent);
             }
@@ -205,7 +204,7 @@ public class SearchItemAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
      * 添加购物车
      */
     private void changeCartNum(int num, int priceId, TextView textView) {
-        AddMountChangeTwoAPI.changeCartNum(mContext,businessType,productId,num,priceId)
+        AddMountChangeTwoAPI.changeCartNum(mContext,businessType,productId,num,priceId,2)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<CartAddModel>() {
@@ -226,11 +225,13 @@ public class SearchItemAdapter extends BaseQuickAdapter<ExchangeProductModel.Dat
                                 if(cartAddModel.getData().getAddFlag()==0) {
                                     //正常
                                     EventBus.getDefault().post(new UpDateNumEvent7());
+                                    EventBus.getDefault().post(new ReduceNumEvent());
                                     ToastUtil.showSuccessMsg(mContext,cartAddModel.getMessage());
                                     textView.setText(num+"");
                                     alertDialog.dismiss();
                                 }else {
                                     textView.setText(cartAddModel.getData().getNum()+"");
+                                    EventBus.getDefault().post(new ReduceNumEvent());
                                     EventBus.getDefault().post(new UpDateNumEvent7());
                                     ToastUtil.showSuccessMsg(mContext,cartAddModel.getData().getMessage());
                                     alertDialog.dismiss();

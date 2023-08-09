@@ -1,8 +1,10 @@
 package com.puyue.www.qiaoge.adapter;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,13 +15,20 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
+import com.puyue.www.qiaoge.api.home.GetProductDetailAPI;
 import com.puyue.www.qiaoge.dialog.FullDetailDialog;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.FullDetailModel;
+import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.util.List;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by ${王涛} on 2021/10/8
@@ -65,8 +74,6 @@ public class FullActiveAdapter extends BaseQuickAdapter<FullDetailModel.DataBean
             }
         });
 
-
-
         if(item.getNotSend()==1) {
             iv_not_send.setVisibility(View.VISIBLE);
         }else {
@@ -78,8 +85,7 @@ public class FullActiveAdapter extends BaseQuickAdapter<FullDetailModel.DataBean
             public void onClick(View v) {
                 if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
-                        FullDetailDialog fullDialog = new FullDetailDialog(mContext,item);
-                        fullDialog.show();
+                        exchangeList(item.getProductId());
                     }else {
                         onclick.tipClick();
                     }
@@ -91,6 +97,49 @@ public class FullActiveAdapter extends BaseQuickAdapter<FullDetailModel.DataBean
 
             }
         });
+    }
+
+    /**
+     * 切换商品规格列表
+     * @param productId
+     */
+    int pos = 0;
+    private void exchangeList(int productId) {
+        GetProductDetailAPI.getExchangeList(mContext,productId,1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ExchangeProductModel>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(ExchangeProductModel exchangeProductModel) {
+                        if(exchangeProductModel.isSuccess()) {
+                            if(exchangeProductModel.getData()!=null) {
+
+                                List<ExchangeProductModel.DataBean.ProdSpecsBean> prodSpecs = exchangeProductModel.getData().getProdSpecs();
+                                for (int i = 0; i < prodSpecs.size(); i++) {
+                                    if(prodSpecs.get(i).getProductId() == productId) {
+                                        pos = i;
+                                    }
+                                }
+
+                                FullDetailDialog fullDialog = new FullDetailDialog(mContext,exchangeProductModel.getData(),pos);
+                                fullDialog.show();
+                            }
+                        }else {
+                            ToastUtil.showErroMsg(mContext,exchangeProductModel.getMessage());
+                        }
+
+                    }
+                });
     }
 
 

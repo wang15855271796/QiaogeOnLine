@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,18 +84,18 @@ public class SearchDialog extends Dialog implements View.OnClickListener {
     ImageView iv_pic;
     @BindView(R.id.iv_operate)
     ImageView iv_operate;
-    SearchResultsModel.DataBean.SearchProdBean.ListBean listBean;
+    ExchangeProductModel.DataBean listBean;
     int pos = 0;
     private SearchSpecsAdapter searchSpecAdapter;
     @BindView(R.id.iv_send)
     ImageView iv_send;
 
-    public SearchDialog(Context context, SearchResultsModel.DataBean.SearchProdBean.ListBean listBean) {
+    public SearchDialog(Context context, ExchangeProductModel.DataBean listBean) {
         super(context, R.style.dialog);
         this.context = context;
         this.listBean = listBean;
         init();
-        exchangeList(listBean.getProductId());
+//        exchangeList(listBean.getProductId());
         getCartNum();
     }
 
@@ -113,6 +115,7 @@ public class SearchDialog extends Dialog implements View.OnClickListener {
     }
 
     //初始化布局
+    int productId;
     private void init() {
         if(view == null) {
             view = View.inflate(context, R.layout.dialog_choice, null);
@@ -128,7 +131,28 @@ public class SearchDialog extends Dialog implements View.OnClickListener {
         iv_close.setOnClickListener(this);
         iv_cart.setOnClickListener(this);
 
-        List<SearchResultsModel.DataBean.SearchProdBean.ListBean.ProdSpecsBean> prodSpecs = listBean.getProdSpecs();
+        SearchItemAdapter searchItemAdapter = new SearchItemAdapter(1,listBean.getProdSpecs().get(0).getProductId(),
+                R.layout.item_choose_content, listBean.getProdPrices(),listBean);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setAdapter(searchItemAdapter);
+        tv_name.setText(listBean.getProductName());
+        tv_sale.setText(listBean.getSalesVolume());
+        tv_price.setText(listBean.getMinMaxPrice()+"");
+        tv_desc.setText(listBean.getSpecialOffer());
+        tv_stock.setText(listBean.getInventory());
+        Glide.with(context).load(listBean.getDefaultPic()).into(iv_head);
+        Glide.with(context).load(listBean.getTypeUrl()).into(iv_pic);
+        Glide.with(context).load(listBean.getSelfProd()).into(iv_operate);
+        if(listBean.getNotSend()!=null) {
+            if(listBean.getNotSend().equals("1")||listBean.getNotSend().equals("1.0")) {
+                iv_send.setImageResource(R.mipmap.icon_not_send2);
+                iv_send.setVisibility(View.VISIBLE);
+            }else {
+                iv_send.setVisibility(View.GONE);
+            }
+        }
+
+//        List<SearchResultsModel.DataBean.SearchProdBean.ListBean.ProdSpecsBean> prodSpecs = listBean.getProdSpecs();
 
         //切换规格
         fl_container.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -136,11 +160,12 @@ public class SearchDialog extends Dialog implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 pos = position;
                 searchSpecAdapter.selectPosition(position);
-                int productId = prodSpecs.get(position).getProductId();
+                productId = listBean.getProdSpecs().get(position).getProductId();
+//                int productId = prodSpecs.get(position).getProductId();
                 exchangeList(productId);
             }
         });
-
+//
         searchSpecAdapter = new SearchSpecsAdapter(context,listBean.getProdSpecs());
         fl_container.setAdapter(searchSpecAdapter);
     }
@@ -167,12 +192,16 @@ public class SearchDialog extends Dialog implements View.OnClickListener {
 
                     @Override
                     public void onNext(ExchangeProductModel exchangeProductModel) {
-
                         if(exchangeProductModel.isSuccess()) {
                             if(exchangeProductModel.getData()!=null) {
-                                SearchItemAdapter searchItemAdapter = new SearchItemAdapter(1,exchangeProductModel.getData().getProdSpecs().get(pos).getProductId(),
+
+//                                List<ExchangeProductModel.DataBean.ProdSpecsBean> prodSpecs = exchangeProductModel.getData().getProdSpecs();
+//                                searchSpecAdapter = new SearchSpecsAdapter(context,prodSpecs);
+//                                fl_container.setAdapter(searchSpecAdapter);
+
+                                SearchItemAdapter searchItemAdapter = new SearchItemAdapter(1,productId,
                                         R.layout.item_choose_content,
-                                        exchangeProductModel.getData().getProdPrices(),exchangeProductModel);
+                                        exchangeProductModel.getData().getProdPrices(),exchangeProductModel.getData());
                                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                                 recyclerView.setAdapter(searchItemAdapter);
                                 tv_name.setText(exchangeProductModel.getData().getProductName());
@@ -191,7 +220,6 @@ public class SearchDialog extends Dialog implements View.OnClickListener {
                                         iv_send.setVisibility(View.GONE);
                                     }
                                 }
-
                             }
                         }else {
                             ToastUtil.showSuccessMsg(context,exchangeProductModel.getMessage());

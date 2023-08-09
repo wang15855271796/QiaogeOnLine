@@ -3,7 +3,9 @@ package com.puyue.www.qiaoge.adapter.home;
 
 import android.content.Intent;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,15 +22,23 @@ import com.puyue.www.qiaoge.activity.flow.FlowLayout;
 import com.puyue.www.qiaoge.activity.flow.TagAdapter;
 import com.puyue.www.qiaoge.activity.flow.TagFlowLayout;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
+import com.puyue.www.qiaoge.adapter.SearchItem1Adapter;
+import com.puyue.www.qiaoge.api.home.GetProductDetailAPI;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.CouponSearchDialog;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 import com.puyue.www.qiaoge.model.home.SearchResultsModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.util.List;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * If I become novel would you like ?
@@ -72,10 +82,10 @@ public class SearchResultAdapter extends BaseQuickAdapter<SearchResultsModel.Dat
 
         if(item.getFreshPriceFlag() == 1) {
             iv_fresh_price.setVisibility(View.VISIBLE);
-            Glide.with(mContext).load(R.mipmap.ic_refresh_price);
         }else {
             iv_fresh_price.setVisibility(View.GONE);
         }
+
 
         RelativeLayout rl_spec = helper.getView(R.id.rl_spec);
         ll_group = helper.getView(R.id.ll_group);
@@ -118,8 +128,9 @@ public class SearchResultAdapter extends BaseQuickAdapter<SearchResultsModel.Dat
                 if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
                         //已授权
-                        recommendDialog = new RecommendDialog(mContext,item);
-                        recommendDialog.show();
+                        exchangeList(item.getProdSpecs().get(0).getProductId());
+//                        recommendDialog = new RecommendDialog(mContext,item);
+//                        recommendDialog.show();
                     }else{
                         //未授权
                         if(onclick!=null) {
@@ -191,8 +202,9 @@ public class SearchResultAdapter extends BaseQuickAdapter<SearchResultsModel.Dat
 //                }
 
                 if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-                    recommendDialog = new RecommendDialog(mContext,item);
-                    recommendDialog.show();
+                    exchangeList(item.getProdSpecs().get(0).getProductId());
+//                    recommendDialog = new RecommendDialog(mContext,item);
+//                    recommendDialog.show();
                 }else {
                     if(onclick!=null) {
                         onclick.addDialog();
@@ -208,6 +220,42 @@ public class SearchResultAdapter extends BaseQuickAdapter<SearchResultsModel.Dat
                 .apply(new RequestOptions().placeholder(iv_head.getDrawable()).skipMemoryCache(false).dontAnimate())
                 .into(iv_head);
     }
+
+    /**
+     * 切换规格
+     * @param productId
+     */
+    private void exchangeList(int productId) {
+        GetProductDetailAPI.getExchangeList(mContext,productId,1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ExchangeProductModel>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ExchangeProductModel exchangeProductModel) {
+                        if(exchangeProductModel.isSuccess()) {
+                            if(exchangeProductModel.getData()!=null) {
+                                recommendDialog = new RecommendDialog(mContext,exchangeProductModel.getData());
+                                recommendDialog.show();
+                            }
+                        }else {
+                            ToastUtil.showSuccessMsg(mContext,exchangeProductModel.getMessage());
+                        }
+
+                    }
+                });
+    }
+
 
     public interface Onclick {
         void addDialog();

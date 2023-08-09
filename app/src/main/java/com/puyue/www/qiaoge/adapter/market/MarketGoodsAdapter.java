@@ -2,6 +2,7 @@ package com.puyue.www.qiaoge.adapter.market;
 
 import android.content.Intent;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -20,17 +21,24 @@ import com.puyue.www.qiaoge.activity.flow.TagAdapter;
 import com.puyue.www.qiaoge.activity.flow.TagFlowLayout;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.activity.home.SpecialGoodDetailActivity;
+import com.puyue.www.qiaoge.adapter.MarketItemAdapter;
+import com.puyue.www.qiaoge.api.home.GetProductDetailAPI;
 import com.puyue.www.qiaoge.api.market.MarketRightModel;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.CouponSearchDialog;
 import com.puyue.www.qiaoge.dialog.MarketGialog;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.FlowLayout;
 
 import java.util.List;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2018/4/19.
@@ -60,7 +68,6 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
         ImageView iv_fresh_price = helper.getView(R.id.iv_fresh_price);
         if(item.getFreshPriceFlag() == 1) {
             iv_fresh_price.setVisibility(View.VISIBLE);
-            Glide.with(mContext).load(R.mipmap.ic_refresh_price);
         }else {
             iv_fresh_price.setVisibility(View.GONE);
         }
@@ -172,8 +179,12 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
                 if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
                         //已授权
-                        marketGialog = new MarketGialog(mContext, item);
-                        marketGialog.show();
+                        if(item.getBusinessType() == 11) {
+                            exchangeLists(item.getActiveId(),item.getBusinessType());
+                        }else {
+                            exchangeLists(item.getProductId(),item.getBusinessType());
+                        }
+
                     }else{
                         //未授权
                         if(onclick!=null) {
@@ -198,9 +209,13 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
                 }
 
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-                    marketGialog = new MarketGialog(mContext, item);
-                    marketGialog.show();
-
+//                    marketGialog = new MarketGialog(mContext, item);
+//                    marketGialog.show();
+                    if(item.getBusinessType() == 11) {
+                        exchangeLists(item.getActiveId(),item.getBusinessType());
+                    }else {
+                        exchangeLists(item.getProductId(),item.getBusinessType());
+                    }
                 }
             }
         });
@@ -223,6 +238,36 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
                 .apply(new RequestOptions().placeholder(R.mipmap.ic_launcher))
                 .apply(new RequestOptions().placeholder(iv_head.getDrawable()).skipMemoryCache(false).dontAnimate())
                 .into(iv_head);
+    }
+
+    private void exchangeLists(int activeId,int businessType) {
+        GetProductDetailAPI.getExchangeList(mContext,activeId,businessType)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ExchangeProductModel>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ExchangeProductModel exchangeProductModel) {
+                        if(exchangeProductModel.isSuccess()) {
+                            if(exchangeProductModel.getData()!=null) {
+                                marketGialog = new MarketGialog(mContext, exchangeProductModel.getData(),businessType);
+                                marketGialog.show();
+                            }
+                        }else {
+                            ToastUtil.showSuccessMsg(mContext,exchangeProductModel.getMessage());
+                        }
+                    }
+                });
     }
 
     public interface Onclick {

@@ -2,6 +2,7 @@ package com.puyue.www.qiaoge.adapter;
 
 import android.content.Intent;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -22,14 +23,21 @@ import com.puyue.www.qiaoge.activity.flow.TagFlowLayout;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.adapter.home.RecommendDialog;
 import com.puyue.www.qiaoge.adapter.home.SearchReasultAdapter;
+import com.puyue.www.qiaoge.api.home.GetProductDetailAPI;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.SurpDialog;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.SurpliListModel;
+import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.util.List;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by ${王涛} on 2021/4/24
@@ -68,6 +76,13 @@ public class SurplierAdapter extends BaseQuickAdapter<SurpliListModel.DataBean.L
             }else {
                 iv_send.setVisibility(View.GONE);
             }
+        }
+
+        ImageView iv_fresh_price = helper.getView(R.id.iv_fresh_price);
+        if(item.getFreshPriceFlag() == 1) {
+            iv_fresh_price.setVisibility(View.VISIBLE);
+        }else {
+            iv_fresh_price.setVisibility(View.GONE);
         }
 
         if(item.getFlag()==0) {
@@ -109,8 +124,8 @@ public class SurplierAdapter extends BaseQuickAdapter<SurpliListModel.DataBean.L
                 if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                     if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
                         //已授权
-                        surpDialog = new SurpDialog(mContext,item);
-                        surpDialog.show();
+                        exchangeList(item.getProductId());
+
                     }else{
                         //未授权
                         if(onclick!=null) {
@@ -179,8 +194,9 @@ public class SurplierAdapter extends BaseQuickAdapter<SurpliListModel.DataBean.L
                 }
 
                 if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-                    surpDialog = new SurpDialog(mContext,item);
-                    surpDialog.show();
+//                    surpDialog = new SurpDialog(mContext,item);
+//                    surpDialog.show();
+                    exchangeList(item.getProductId());
                 }
             }
         });
@@ -191,6 +207,38 @@ public class SurplierAdapter extends BaseQuickAdapter<SurpliListModel.DataBean.L
                 .apply(new RequestOptions().placeholder(R.mipmap.ic_launcher))
                 .apply(new RequestOptions().placeholder(iv_head.getDrawable()).skipMemoryCache(false).dontAnimate())
                 .into(iv_head);
+    }
+
+    private void exchangeList(int productId) {
+        GetProductDetailAPI.getExchangeList(mContext,productId,1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ExchangeProductModel>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ExchangeProductModel exchangeProductModel) {
+
+                        if(exchangeProductModel.isSuccess()) {
+                            if(exchangeProductModel.getData()!=null) {
+                                surpDialog = new SurpDialog(mContext,exchangeProductModel.getData());
+                                surpDialog.show();
+                            }
+                        }else {
+                            ToastUtil.showSuccessMsg(mContext,exchangeProductModel.getMessage());
+                        }
+
+                    }
+                });
     }
 
     public interface Onclick {

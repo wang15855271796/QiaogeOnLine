@@ -52,11 +52,13 @@ public class AddMountChangeTwoAPI {
         Observable<CartAddModel> setParams(@Field("businessType") int businessType,
                                            @Field("businessId") int businessId,
                                            @Field("num") int num,
-                                           @Field("priceId") int priceId);
+                                           @Field("priceId") int priceId,
+                                           @Field("freshPriceFlag") int freshPriceFlag);
     }
 
-    public static Observable<CartAddModel> changeCartNum(Context context, int businessType, int businessId, int num, int priceId) {
-        Observable<CartAddModel> stringObservable = RestHelper.getBaseRetrofit(context).create(CartAddServices.class).setParams(businessType, businessId, num, priceId);
+    public static Observable<CartAddModel> changeCartNum(Context context, int businessType, int businessId, int num, int priceId,int freshPriceFlag) {
+        Observable<CartAddModel> stringObservable = RestHelper.getBaseRetrofit(context).create(CartAddServices.class).setParams(businessType,
+                businessId, num, priceId,freshPriceFlag);
         return stringObservable;
     }
 }

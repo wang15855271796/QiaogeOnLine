@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
 import com.puyue.www.qiaoge.model.home.SearchResultsModel;
 
 import java.util.List;
@@ -21,10 +22,16 @@ import java.util.List;
  */
 public class SearchSpecxAdapter extends BaseAdapter {
     Context context;
-    List<SearchResultsModel.DataBean.RecommendProdBean.ProdSpecsBean> prodSpecs;
+    List<ExchangeProductModel.DataBean.ProdSpecsBean> prodSpecs;
+//    List<SearchResultsModel.DataBean.RecommendProdBean.ProdSpecsBean> prodSpecs;
     int selectPosition;
-    public SearchSpecxAdapter(Context mContext, List<SearchResultsModel.DataBean.RecommendProdBean.ProdSpecsBean> prodSpecs) {
-        this.context = mContext;
+//    public SearchSpecxAdapter(Context mContext, List<SearchResultsModel.DataBean.RecommendProdBean.ProdSpecsBean> prodSpecs) {
+//        this.context = mContext;
+//        this.prodSpecs = prodSpecs;
+//    }
+
+    public SearchSpecxAdapter(Context context, List<ExchangeProductModel.DataBean.ProdSpecsBean> prodSpecs) {
+        this.context = context;
         this.prodSpecs = prodSpecs;
     }
 

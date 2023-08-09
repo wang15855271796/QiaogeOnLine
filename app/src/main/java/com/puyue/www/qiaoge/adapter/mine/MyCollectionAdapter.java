@@ -1,6 +1,7 @@
 package com.puyue.www.qiaoge.adapter.mine;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.View;
 import android.widget.CheckBox;
@@ -13,16 +14,23 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
-import com.puyue.www.qiaoge.dialog.CollectionDialog;
+import com.puyue.www.qiaoge.adapter.SearchItemAdapter;
+import com.puyue.www.qiaoge.api.home.GetProductDetailAPI;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
+import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.GlideModel;
 
 import java.util.List;
 import java.util.Map;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2018/4/10.
@@ -74,7 +82,7 @@ public class MyCollectionAdapter extends BaseQuickAdapter<ProductNormalModel.Dat
 
         if(item.getFreshPriceFlag() == 1) {
             iv_fresh_price.setVisibility(View.VISIBLE);
-            Glide.with(mContext).load(R.mipmap.ic_refresh_price);
+
         }else {
             iv_fresh_price.setVisibility(View.GONE);
         }
@@ -148,8 +156,7 @@ public class MyCollectionAdapter extends BaseQuickAdapter<ProductNormalModel.Dat
                 }
 
                 if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-                    searchDialog = new CollectionDialog(mContext,item);
-                    searchDialog.show();
+                    exchangeList(item.getProductId());
                 }
             }
         });
@@ -177,4 +184,42 @@ public class MyCollectionAdapter extends BaseQuickAdapter<ProductNormalModel.Dat
             }
         });
     }
+
+    /**
+     * 切换规格
+     * @param productId
+     */
+    private void exchangeList(int productId) {
+        GetProductDetailAPI.getExchangeList(mContext,productId,1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ExchangeProductModel>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ExchangeProductModel exchangeProductModel) {
+
+                        if(exchangeProductModel.isSuccess()) {
+                            if(exchangeProductModel.getData()!=null) {
+                                searchDialog = new CollectionDialog(mContext,exchangeProductModel.getData());
+                                searchDialog.show();
+
+                            }
+                        }else {
+                            ToastUtil.showSuccessMsg(mContext,exchangeProductModel.getMessage());
+                        }
+
+                    }
+                });
+    }
+
 }

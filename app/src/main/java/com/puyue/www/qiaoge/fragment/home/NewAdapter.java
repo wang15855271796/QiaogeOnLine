@@ -2,6 +2,7 @@ package com.puyue.www.qiaoge.fragment.home;
 
 import android.content.Intent;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
 import android.view.View;
@@ -15,15 +16,23 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
+import com.puyue.www.qiaoge.adapter.NewItemAdapter;
 import com.puyue.www.qiaoge.adapter.home.HotProductActivity;
+import com.puyue.www.qiaoge.api.home.GetProductDetailAPI;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.NewDialog;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.util.List;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class NewAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.ListBean,BaseViewHolder> {
 
@@ -85,7 +94,6 @@ public class NewAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
         }
         if(item.getFreshPriceFlag() == 1) {
             iv_fresh_price.setVisibility(View.VISIBLE);
-            Glide.with(mContext).load(R.mipmap.ic_refresh_price);
         }else {
             iv_fresh_price.setVisibility(View.GONE);
         }
@@ -125,8 +133,8 @@ public class NewAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
                 if(onclick!=null) {
                     if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                         if(SharedPreferencesUtil.getString(mContext,"priceType").equals("1")) {
-                            newDialog = new NewDialog(mContext,item.getProductId(),item);
-                            newDialog.show();
+
+                            exchangeList(item.getProductId());
                         }else {
                             onclick.tipClick();
                         }
@@ -154,7 +162,42 @@ public class NewAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
                 mContext.startActivity(intent);
             }
         });
+    }
 
+    /**
+     * 切换商品规格列表
+     * @param productId
+     */
+    private void exchangeList(int productId) {
+        GetProductDetailAPI.getExchangeList(mContext,productId,1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ExchangeProductModel>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ExchangeProductModel exchangeProductModel) {
+                        if(exchangeProductModel.isSuccess()) {
+                            if(exchangeProductModel.getData()!=null) {
+                                newDialog = new NewDialog(mContext,exchangeProductModel.getData());
+                                newDialog.show();
+                            }
+
+                        }else {
+                            ToastUtil.showSuccessMsg(mContext,exchangeProductModel.getMessage());
+                        }
+
+                    }
+                });
     }
 
     public interface Onclick {

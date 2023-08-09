@@ -23,10 +23,15 @@ import java.util.List;
 public class SearchSpecAdapter extends BaseAdapter {
 
     Context context;
-    List<GetProductDetailModel.DataBean.ProdSpecsBean> prodSpecs;
+    List<ExchangeProductModel.DataBean.ProdSpecsBean> prodSpecs;
     int selectPosition;
 
-    public SearchSpecAdapter(Context context, List<GetProductDetailModel.DataBean.ProdSpecsBean> prodSpecs) {
+//    public SearchSpecAdapter(Context context, List<GetProductDetailModel.DataBean.ProdSpecsBean> prodSpecs) {
+//        this.context = context;
+//        this.prodSpecs = prodSpecs;
+//    }
+
+    public SearchSpecAdapter(Context context, List<ExchangeProductModel.DataBean.ProdSpecsBean> prodSpecs) {
         this.context = context;
         this.prodSpecs = prodSpecs;
     }
@@ -91,7 +96,6 @@ public class SearchSpecAdapter extends BaseAdapter {
 
     public void selectPosition(int position) {
         this.selectPosition = position;
-
         notifyDataSetChanged();
     }
 

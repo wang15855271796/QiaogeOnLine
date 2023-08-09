@@ -140,12 +140,14 @@ public class CommonProductDialog extends Dialog implements View.OnClickListener{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 pos = position;
                 chooseSpecAdapter.selectPosition(position);
-                int productId = exchangeProductModel1s.getData().getProdSpecs().get(position).getProductId();
-                exchangeList(productId);
+                if(exchangeProductModel1s!=null) {
+                    int productId = exchangeProductModel1s.getData().getProdSpecs().get(position).getProductId();
+                    exchangeList(productId);
+                }
             }
         });
-        chooseSpecAdapter = new ChooseSpecAdapters(context,item.getProdSpecs());
-        fl_container.setAdapter(chooseSpecAdapter);
+//        chooseSpecAdapter = new ChooseSpecAdapters(context,item.getProdSpecs());
+//        fl_container.setAdapter(chooseSpecAdapter);
 
     }
 

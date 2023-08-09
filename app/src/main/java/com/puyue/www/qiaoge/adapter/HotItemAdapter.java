@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
@@ -53,8 +52,8 @@ public class HotItemAdapter extends BaseQuickAdapter<ExchangeProductModel.DataBe
     com.puyue.www.qiaoge.listener.OnItemClickListener onItemClickListener;
     LinearLayout rl_desc;
     AlertDialog alertDialog;
-    ExchangeProductModel exchangeProductModel;
-    public HotItemAdapter(int businessType,int productId,int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data,ExchangeProductModel exchangeProductModel) {
+    ExchangeProductModel.DataBean exchangeProductModel;
+    public HotItemAdapter(int businessType, int productId, int layoutResId, @Nullable List<ExchangeProductModel.DataBean.ProdPricesBean> data, ExchangeProductModel.DataBean exchangeProductModel) {
         super(layoutResId, data);
         this.productId = productId;
         this.businessType = businessType;
@@ -77,7 +76,6 @@ public class HotItemAdapter extends BaseQuickAdapter<ExchangeProductModel.DataBe
         ImageView iv_fresh_price = helper.getView(R.id.iv_fresh_price);
         if(item.getFreshPriceFlag() == 1) {
             iv_fresh_price.setVisibility(View.VISIBLE);
-            Glide.with(mContext).load(R.mipmap.ic_refresh_price);
         }else {
             iv_fresh_price.setVisibility(View.GONE);
         }
@@ -102,7 +100,7 @@ public class HotItemAdapter extends BaseQuickAdapter<ExchangeProductModel.DataBe
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, PriceTrendActivity.class);
-                intent.putExtra("priceId", exchangeProductModel.getData().getProdPrices().get(helper.getLayoutPosition()).getPriceId()+"");
+                intent.putExtra("priceId", exchangeProductModel.getProdPrices().get(helper.getLayoutPosition()).getPriceId()+"");
                 intent.putExtra("productId",productId+"");
                 mContext.startActivity(intent);
             }
@@ -207,7 +205,7 @@ public class HotItemAdapter extends BaseQuickAdapter<ExchangeProductModel.DataBe
     }
 
     private void changeCartNum(int num, int priceId, TextView textView) {
-        AddMountChangeTwoAPI.changeCartNum(mContext,businessType,productId,num,priceId)
+        AddMountChangeTwoAPI.changeCartNum(mContext,businessType,productId,num,priceId,2)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<CartAddModel>() {

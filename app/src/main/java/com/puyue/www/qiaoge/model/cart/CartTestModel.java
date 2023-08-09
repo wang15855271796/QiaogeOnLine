@@ -430,11 +430,12 @@ public class CartTestModel {
                 private String flagUrl;
                 private String defaultPic;
                 private int businessType;
-                private int productMainId;
+                private String productMainId;
                 private int businessId;
                 private int selfOrNot;
                 private boolean valid;
-                boolean isSelected;
+                boolean isSelected = true;
+                int checkFlag;
                 String notSend;
                 String selfProd;
                 String prodBuyTips;
@@ -454,6 +455,14 @@ public class CartTestModel {
                             ", isSelected=" + isSelected +
                             ", productDescVOList=" + productDescVOList +
                             '}';
+                }
+
+                public int getCheckFlag() {
+                    return checkFlag;
+                }
+
+                public void setCheckFlag(int checkFlag) {
+                    this.checkFlag = checkFlag;
                 }
 
                 public String getProdBuyTips() {
@@ -538,11 +547,11 @@ public class CartTestModel {
                     this.businessType = businessType;
                 }
 
-                public int getProductMainId() {
+                public String getProductMainId() {
                     return productMainId;
                 }
 
-                public void setProductMainId(int productMainId) {
+                public void setProductMainId(String productMainId) {
                     this.productMainId = productMainId;
                 }
 
