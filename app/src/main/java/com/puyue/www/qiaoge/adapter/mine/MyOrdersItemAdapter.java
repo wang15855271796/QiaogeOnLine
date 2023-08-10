@@ -216,6 +216,7 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
             cancelOrder.setVisibility(View.GONE);
             imageGo.setVisibility(View.GONE);
             confirmOrder.setVisibility(View.GONE);
+            tv_call.setVisibility(View.GONE);
             getState(item);
         }else if(item.orderStatus==6) {
             //已评价
@@ -401,7 +402,6 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
             if(item.orderStatus!=1&&item.orderStatus!=7&&item.orderStatus!=11) {
                 if(!TextUtils.isEmpty(item.hllOrderId)&&!item.hllOrderId.equals("")) {
                     tv_call.setVisibility(View.GONE);
-
                 }else {
                     tv_call.setVisibility(View.VISIBLE);
                 }

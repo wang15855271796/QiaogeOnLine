@@ -734,6 +734,11 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
                                 tv_send_time.setText(model.getData().getSendTimeStr());
                             }
 
+                            if(TextUtils.isEmpty(model.getData().getAddress()) && TextUtils.isEmpty(model.getData().getSendTimeStr())) {
+                                rl_send_address.setVisibility(View.GONE);
+                            }else{
+                                rl_send_address.setVisibility(View.VISIBLE);
+                            }
                             if(!TextUtils.isEmpty(model.getData().getBusinessStatus())) {
                                 tv_business_time.setText(model.getData().getBusinessStatus());
                             }
