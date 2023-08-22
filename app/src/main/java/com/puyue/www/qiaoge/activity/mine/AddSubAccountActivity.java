@@ -192,14 +192,8 @@ public class AddSubAccountActivity extends BaseSwipeActivity implements View.OnC
                         //两次密码一致之后判断密码是不是6-16位字母与数字的组合,如果是纯数字或者纯字母,不允许往下走
                         if (et_set_psd.getText().toString().length() >= 6
                                 && et_sure_psd.getText().toString().length() >= 6) {
-                            if (StringHelper.isLetterDigit(et_set_psd.getText().toString())) {
-                                //添加一个子账号,添加子账号会默认注册一个账号
-
-                                requestAddSubAccount(et_phone.getText().toString(), et_name.getText().toString(),
-                                        et_set_psd.getText().toString(), et_yzm.getText().toString(), inPoint, inBalance, inGift,amount_limit,amount,notification,amountRemind);
-                            } else {
-                                AppHelper.showMsg(mContext, "密码由6-16位数字与字母组成");
-                            }
+                            requestAddSubAccount(et_phone.getText().toString(), et_name.getText().toString(),
+                                    et_set_psd.getText().toString(), et_yzm.getText().toString(), inPoint, inBalance, inGift,amount_limit,amount,notification,amountRemind);
                         } else {
                             AppHelper.showMsg(mContext, "密码位数不足!");
                         }

@@ -166,12 +166,7 @@ public class EditPasswordInputPasswordActivity extends BaseSwipeActivity {
                     //两次输入的密码一致才能请求注册
                     //两次密码一致之后判断密码是不是6-16位字母与数字的组合,如果是纯数字或者纯字母,不允许往下走
                     if (mEditOnce.getText().toString().length() >= 6 && mEditSecond.getText().toString().length() >= 6) {
-                        if (StringHelper.isLetterDigit(mEditOnce.getText().toString())) {
-                            requestNewPayPassword();
-
-                        } else {
-                            AppHelper.showMsg(mContext, "密码由6-16位数字与字母组成");
-                        }
+                        requestNewPayPassword();
                     } else {
                         AppHelper.showMsg(mContext, "密码位数不足!");
                     }
