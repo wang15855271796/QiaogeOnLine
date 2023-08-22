@@ -124,11 +124,7 @@ public class SetUnLoginSecret1Activity extends BaseSwipeActivity {
                     if(secret1 !=null && secret2 !=null) {
                         if(secret1.equals(secret2)) {
                             if(secret1.length()>=6&& secret2.length()>=6) {
-                                if (StringHelper.isLetterDigit(et_login_sure.getText().toString())) {
-                                    setSecret(phones,secret2);
-                                } else {
-                                    AppHelper.showMsg(mContext, "密码由6-16位数字与字母组成");
-                                }
+                                setSecret(phones,secret2);
                             } else {
                                 AppHelper.showMsg(mContext, "密码位数不足!");
                             }

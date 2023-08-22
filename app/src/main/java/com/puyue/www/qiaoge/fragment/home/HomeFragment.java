@@ -68,6 +68,7 @@ import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.BannerActivity;
 import com.puyue.www.qiaoge.activity.ChooseCompanyActivity;
 import com.puyue.www.qiaoge.activity.CommonH6Activity;
+import com.puyue.www.qiaoge.activity.HelpPayDeliveryDetailActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.HuoHomeActivity;
 import com.puyue.www.qiaoge.activity.PlayerActivity;
@@ -123,6 +124,7 @@ import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.ChooseHomeDialog;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
 import com.puyue.www.qiaoge.dialog.CouponListDialog;
+import com.puyue.www.qiaoge.dialog.HelpPay1Dialog;
 import com.puyue.www.qiaoge.dialog.HomeActivityDialog;
 import com.puyue.www.qiaoge.dialog.HuoOrderDialog;
 import com.puyue.www.qiaoge.dialog.Privacy4Dialog;
@@ -821,6 +823,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 //    String[] params = { Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION};
     @Override
     public void setViewData() {
+        HelpPay1Dialog helpPay1Dialog = new HelpPay1Dialog(mActivity) {
+            @Override
+            public void sure() {
+                Intent intent = new Intent(mActivity, HelpPayDeliveryDetailActivity.class);
+                startActivity(intent);
+            }
+        };
+
+        helpPay1Dialog.show();
         //判断用户是否选择了企业
         if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
             getStyle();

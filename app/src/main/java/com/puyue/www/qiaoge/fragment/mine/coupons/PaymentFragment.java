@@ -4,9 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,7 +20,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -37,7 +33,6 @@ import com.chinaums.pppay.unify.UnifyPayPlugin;
 import com.chinaums.pppay.unify.UnifyPayRequest;
 import com.puyue.www.qiaoge.R;
 
-import com.puyue.www.qiaoge.activity.CommonH6Activity;
 import com.puyue.www.qiaoge.activity.cart.PayResultActivity;
 import com.puyue.www.qiaoge.activity.mine.account.HisActivity;
 import com.puyue.www.qiaoge.activity.mine.account.PayActivity;
@@ -81,9 +76,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -865,7 +857,7 @@ public class PaymentFragment extends DialogFragment {
                             list.clear();
                             list.addAll(data);
                             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                            payListAdapter = new PayListAdapter(R.layout.item_pay_list,list);
+                            payListAdapter = new PayListAdapter(R.layout.item_pay_list,list, payAmount);
                             recyclerView.setAdapter(payListAdapter);
 
 

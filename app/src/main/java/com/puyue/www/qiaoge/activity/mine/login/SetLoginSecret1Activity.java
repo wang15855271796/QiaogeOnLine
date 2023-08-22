@@ -130,11 +130,7 @@ public class SetLoginSecret1Activity extends BaseSwipeActivity {
                     if(secret1 !=null && secret2 !=null) {
                         if(secret1.equals(secret2)) {
                             if(secret1.length()>=6&& secret2.length()>=6) {
-                                if (StringHelper.isLetterDigit(et_login_sure.getText().toString())) {
-                                    requestChangeLoginPassword(phones,verifyCode,secret2);
-                                } else {
-                                    AppHelper.showMsg(mContext, "密码由6-16位数字与字母组成");
-                                }
+                                requestChangeLoginPassword(phones,verifyCode,secret2);
                             } else {
                                 AppHelper.showMsg(mContext, "密码位数不足!");
                             }
@@ -144,8 +140,6 @@ public class SetLoginSecret1Activity extends BaseSwipeActivity {
                     }else {
                         AppHelper.showMsg(mContext, "密码不能为空");
                     }
-
-
                 }
 
             }

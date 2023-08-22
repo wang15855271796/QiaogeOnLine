@@ -139,10 +139,6 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
     private LinearLayout twoButtonLayout; //二个按钮（取消订单  去支付）
     private TextView buttonCancelOrder; // 取消订单
     private TextView buttonGOPay; // 去支付
-
-    //退货订单 layout 头部
-//    private LinearLayout ReturnGoodsLinearLayout;
-//    private TextView ReturnGoodsTitle; //退货类型
     private TextView ReturnGoodsContent; //退货内容
     TextView tv_full_price;
     TextView tv_full_desc;
@@ -163,7 +159,6 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
     //关联id
     TextView tv_connect_id;
     private TextView tvNewOrderTime;//下单时间
-    private ImageView tvNewOrderPay; //下单方式
     private TextView tvNewOrderRemarks; //备注
     //付款时间
     private LinearLayout tvNewOrderPayTimeLinearLayout;
@@ -227,15 +222,12 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
     private TextView mTvSeeDriverStatus;
     private TextView mTvDriverName;
     private TextView mTvOrderReturn;
-    private TextView tv_return_reason;
+
     private TextView tv_driver_phone;
     private TextView tv_normal_vip_desc;
     private LoadingDailog dialog;
     private TextView buttonReturnGood_two;
     private TextView tv_notify_time;//修改配送时间
-    private String deliverTimeStart = "";
-    private String deliverTimeEnd = "";
-    private String deliverTimeName = "";
     List<String> mlist = new ArrayList<>();
     private TextView tv_evaluate;
     private int returnCode;
@@ -260,7 +252,7 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
     TextView tv_send_time;
     RelativeLayout rl_distribution_time;
     RelativeLayout rl_distribution;
-    RelativeLayout rl_test;
+    TextView tv_friend_pay;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -273,7 +265,7 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
-//        rl_test = (TextView) findViewById(R.id.rl_test);
+        tv_friend_pay = (TextView) findViewById(R.id.tv_friend_pay);
         tv_send_time = (TextView) findViewById(R.id.tv_send_time);
         rl_distribution_time = (RelativeLayout)findViewById(R.id.rl_distribution_time);
         rl_distribution = (RelativeLayout)findViewById(R.id.rl_distribution);
@@ -282,7 +274,6 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
         rl_drive_info = (RelativeLayout) findViewById(R.id.rl_drive_info);
         iv_address_arrow = (ImageView) findViewById(R.id.iv_address_arrow);
         tv_hll_order = (TextView) findViewById(R.id.tv_hll_order);
-//        ll_huo = (LinearLayout) findViewById(R.id.ll_huo);
         tv_order_num = (TextView) findViewById(R.id.tv_order_num);
         rv_huo = (TagFlowLayout) findViewById(R.id.rv_huo);
         tv_call = (TextView) findViewById(R.id.tv_call);
@@ -313,10 +304,8 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
         rv_full = (RecyclerView) findViewById(R.id.rv_full);
         imageViewBreak = (ImageView) findViewById(R.id.imageViewBreak);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-//        orderLinearLayout = (LinearLayout) findViewById(R.id.orderLinearLayout);
         tvOrderTitle = (TextView) findViewById(R.id.tvOrderTitle);
         orderTimerView = (SnapUpCountDownTimerView3) findViewById(R.id.orderTimerView);
-//        snap = (SnapUpCountDownTimerView2) findViewById(R.id.snap);
         tvOrderContent = (TextView) findViewById(R.id.tvOrderContent);
         threeButtonLayout = (LinearLayout) findViewById(R.id.threeButtonLayout);
         buttonReturnGoods = (TextView) findViewById(R.id.buttonReturnGoods);
@@ -325,8 +314,7 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
         twoButtonLayout = (LinearLayout) findViewById(R.id.twoButtonLayout);
         buttonCancelOrder = (TextView) findViewById(R.id.buttonCancelOrder);
         buttonGOPay = (TextView) findViewById(R.id.buttonGOPay);
-//        ReturnGoodsLinearLayout = (LinearLayout) findViewById(R.id.ReturnGoodsLinearLayout);
-//        ReturnGoodsTitle = (TextView) findViewById(R.id.ReturnGoodsTitle);
+
         ReturnGoodsContent = (TextView) findViewById(R.id.ReturnGoodsContent);
         tvNewOrderCommodityAmount = (TextView) findViewById(R.id.tvNewOrderCommodityAmount);
         tvNewOrderDistributionFeePrice = (TextView) findViewById(R.id.tvNewOrderDistributionFeePrice);
@@ -374,7 +362,6 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
         mTvOrderStatus = findViewById(R.id.tv_order_status);
         mTvSeeDriverStatus = findViewById(R.id.tv_order_driver_message);
         mTvDriverName = findViewById(R.id.tv_driver_name);
-        tv_return_reason = findViewById(R.id.tv_return_reason);
         tv_driver_phone = findViewById(R.id.tv_driver_phone);
         tv_normal_vip_desc = findViewById(R.id.tv_normal_vip_desc);
         buttonReturnGood_two = findViewById(R.id.buttonReturnGood_two);

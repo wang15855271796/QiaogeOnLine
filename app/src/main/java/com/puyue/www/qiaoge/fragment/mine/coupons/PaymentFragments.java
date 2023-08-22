@@ -853,7 +853,7 @@ public class PaymentFragments extends DialogFragment {
                                 }
 
                                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                                payListAdapter = new PayListAdapter(R.layout.item_pay_list,list);
+                                payListAdapter = new PayListAdapter(R.layout.item_pay_list,list, payAmount);
                                 recyclerView.setAdapter(payListAdapter);
 
                                 payListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {

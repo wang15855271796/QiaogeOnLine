@@ -125,8 +125,6 @@ public class EditPasswordInputCodeActivity extends BaseSwipeActivity implements 
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
-
                 }
                 break;
 
@@ -224,7 +222,6 @@ public class EditPasswordInputCodeActivity extends BaseSwipeActivity implements 
                 tv_yzm.setEnabled(false);
                 tv_yzm.setText("重新获取"+"("+millisUntilFinished / 1000+")" + "s");
                 tv_yzm.setTextColor(Color.parseColor("#A7A7A7"));
-
             }
 
             @Override

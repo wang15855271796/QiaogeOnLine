@@ -20,13 +20,13 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:layout_marginLeft="@dimen/size_15dp"
-            android:layout_toRightOf="@+id/iv_pic"
-            android:layout_centerVertical="true"
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/size_15dp"
+            android:layout_toRightOf="@+id/iv_pic"
             android:gravity="center"
-            android:id="@+id/tv_title"
             android:text="@string/balance"
             android:textColor="@color/app_black"
             android:textSize="@dimen/size_16dp" />
@@ -51,23 +51,14 @@
             android:layout_height="wrap_content" />
 
         <ImageView
-            android:visibility="gone"
-            android:layout_centerVertical="true"
             android:id="@+id/iv_gou"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:src="@mipmap/ic_market_gou" />
-
-        <View
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginTop="@dimen/size_15dp"
-            android:background="#DEDEDE" />
+            android:layout_centerVertical="true"
+            android:padding="15dp"
+            android:src="@mipmap/ic_un_select_oval" />
 
     </RelativeLayout>
-
-
 
 </LinearLayout>

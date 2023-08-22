@@ -2,37 +2,28 @@ package com.puyue.www.qiaoge.fragment.mine;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.puyue.www.qiaoge.AutoPollRecyclerView;
-import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.CommonH5Activity;
-import com.puyue.www.qiaoge.activity.CommonH6Activity;
-import com.puyue.www.qiaoge.activity.HuoHomeActivity;
+import com.puyue.www.qiaoge.activity.OpenShopActivity;
 import com.puyue.www.qiaoge.activity.mine.FeedBackActivity;
 import com.puyue.www.qiaoge.activity.mine.MessageCenterActivity;
 import com.puyue.www.qiaoge.activity.mine.MyCollectionActivity;
@@ -48,10 +39,8 @@ import com.puyue.www.qiaoge.activity.mine.wallet.MinerIntegralActivity;
 import com.puyue.www.qiaoge.activity.mine.wallet.MyWalletDetailActivity;
 import com.puyue.www.qiaoge.activity.mine.wallet.MyWalletNewActivity;
 import com.puyue.www.qiaoge.adapter.Must2Adapter;
-import com.puyue.www.qiaoge.adapter.Test3Adapter;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
-import com.puyue.www.qiaoge.api.huolala.HuolalaAPI;
 import com.puyue.www.qiaoge.api.mine.AccountCenterAPI;
 import com.puyue.www.qiaoge.api.mine.UpdateAPI;
 import com.puyue.www.qiaoge.api.mine.order.MyOrderListAPI;
@@ -61,7 +50,6 @@ import com.puyue.www.qiaoge.api.mine.subaccount.MineAccountAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.constant.AppConstant;
-import com.puyue.www.qiaoge.dialog.ShowKeFuDialog;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.CouponEvent;
 import com.puyue.www.qiaoge.event.GoToMineEvent;
@@ -73,11 +61,9 @@ import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.HomeStyleModel;
-import com.puyue.www.qiaoge.model.IsAuthModel;
 import com.puyue.www.qiaoge.model.ModeModel;
 import com.puyue.www.qiaoge.model.OrderNumsModel;
 import com.puyue.www.qiaoge.model.VipCenterModel;
-import com.puyue.www.qiaoge.model.VipListModel;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 import com.puyue.www.qiaoge.model.mine.AccountCenterModel;
 import com.puyue.www.qiaoge.model.mine.UpdateModel;
@@ -86,10 +72,7 @@ import com.puyue.www.qiaoge.model.mine.order.MyOrderNumModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.Time;
 import com.puyue.www.qiaoge.utils.ToastUtil;
-import com.puyue.www.qiaoge.view.OutScollerview;
-import com.puyue.www.qiaoge.view.ScrollViewListeners;
 import com.puyue.www.qiaoge.view.SuperTextView;
-import com.puyue.www.qiaoge.view.UserDefineScrollView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -107,7 +90,6 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static androidx.core.view.ViewCompat.TYPE_NON_TOUCH;
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
 /**
@@ -149,7 +131,6 @@ public class MineFragment extends BaseFragment {
     private String commissionUrl;
     Must2Adapter mustAdapter;
     SmartRefreshLayout refreshLayout;
-//    private ImageView iv_vip;
     private TextView tv_amount;
     private TextView tv_point;//积分
     private TextView tv_deductNum;//优惠券数量
@@ -159,7 +140,6 @@ public class MineFragment extends BaseFragment {
     private TextView tv_use_deduct;//使用优惠券
     private ImageView iv_use_deduct;//使用优惠券
     RelativeLayout rl_zizhi;
-//    TextView tv_tip;
     private int day;
     private String giftNo;
     private LinearLayout ll_amount;//余额
@@ -172,7 +152,7 @@ public class MineFragment extends BaseFragment {
     RecyclerView rv2;
     private ImageView iv_message;
     TextView tv_company;
-    RelativeLayout rl_zizhi2;
+    RelativeLayout rl_open_shop;
     private List<MyOrderNumModel.DataBean> mListData = new ArrayList<>();
     private RelativeLayout ll_self_sufficiency;
     private RelativeLayout ll_deliver_order;
@@ -248,7 +228,7 @@ public class MineFragment extends BaseFragment {
         nestedScrollView = (view.findViewById(R.id.nestedScrollView ));
         rl_vip =  (view.findViewById(R.id.rl_vip ));
         iv_vip_state = (view.findViewById(R.id.iv_vip_state));
-        rl_zizhi2 = (view.findViewById(R.id.rl_zizhi2));
+        rl_open_shop = (view.findViewById(R.id.rl_open_shop));
         rl_un_vip =  (view.findViewById(R.id.rl_un_vip));
         tv_company =  (view.findViewById(R.id.tv_company));
         rl_zizhi1 = (view.findViewById(R.id.rl_zizhi1));
@@ -389,10 +369,10 @@ public class MineFragment extends BaseFragment {
             }
         });
 
-        rl_zizhi2.setOnClickListener(new View.OnClickListener() {
+        rl_open_shop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mActivity,IntelliGencyActivity.class);
+                Intent intent = new Intent(mActivity, OpenShopActivity.class);
                 startActivity(intent);
             }
         });
@@ -431,11 +411,9 @@ public class MineFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(getActivity()))) {
-//                    startActivity(MessageCenterActivity.getIntent(getContext(), MessageCenterActivity.class));
                     //写一个携带返回结果的跳转
                     Intent intent = new Intent(getActivity(), MessageCenterActivity.class);
                     startActivityForResult(intent, 101);
-//                    this.startActivityForResult()
                 } else {
                     AppHelper.showMsg(getActivity(), "请先登录");
                     startActivity(LoginActivity.getIntent(getActivity(), LoginActivity.class));
@@ -451,7 +429,6 @@ public class MineFragment extends BaseFragment {
         if (requestCode == 101) {
             if (resultCode == 102) {
                 int newPosition = data.getIntExtra("NewPosition", 5);//NewPosition
-//                setNewPosition(newPosition);
                 Log.e(TAG, "onActivityResult: " + newPosition);
                 if (newPosition > 0) {
                     mViewMessageNum.setVisibility(View.VISIBLE);
@@ -835,7 +812,6 @@ public class MineFragment extends BaseFragment {
 
                                 if(myOrderNumModel.getData().getShowVip()==0) {
                                     //非会员 不展示
-                                    rl_zizhi2.setVisibility(View.GONE);
                                     rl_vip.setVisibility(View.GONE);
                                     rl_un_vip.setVisibility(View.VISIBLE);
                                     rl_vip1.setVisibility(View.GONE);
@@ -853,7 +829,6 @@ public class MineFragment extends BaseFragment {
                                         rl_vip1.setVisibility(View.VISIBLE);
                                     }
 
-                                    rl_zizhi2.setVisibility(View.GONE);
                                     relativeLayoutVip.setVisibility(View.VISIBLE);
                                 }
 
@@ -864,7 +839,6 @@ public class MineFragment extends BaseFragment {
                                 accountManagement.setVisibility(View.VISIBLE);
                                 if(myOrderNumModel.getData().getShowVip()==0) {
                                     //非会员 不展示
-                                    rl_zizhi2.setVisibility(View.GONE);
                                     rl_vip.setVisibility(View.GONE);
                                     rl_un_vip.setVisibility(View.VISIBLE);
                                     relativeLayoutVip.setVisibility(View.GONE);
@@ -881,7 +855,6 @@ public class MineFragment extends BaseFragment {
                                         rl_un_vip.setVisibility(View.GONE);
                                         rl_vip1.setVisibility(View.VISIBLE);
                                     }
-                                    rl_zizhi2.setVisibility(View.INVISIBLE);
                                     relativeLayoutVip.setVisibility(View.VISIBLE);
                                 }
                             }

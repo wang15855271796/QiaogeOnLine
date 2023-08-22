@@ -258,6 +258,20 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
+                android:text="找朋友付"
+                android:id="@+id/tv_friend_pay"
+                android:textColor="#FFFFFF"
+                android:paddingRight="@dimen/size_15dp"
+                android:paddingLeft="@dimen/size_15dp"
+                android:paddingBottom="@dimen/size_7dp"
+                android:paddingTop="@dimen/size_7dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/shape_white9"
+                android:layout_width="wrap_content"
+                android:textSize="12sp"
+                android:layout_height="wrap_content"/>
+
+            <TextView
                 android:text="立即付款"
                 android:id="@+id/buttonGOPay"
                 android:textColor="#FF2A00"
@@ -265,7 +279,7 @@
                 android:paddingLeft="@dimen/size_15dp"
                 android:paddingBottom="@dimen/size_7dp"
                 android:paddingTop="@dimen/size_7dp"
-                android:layout_marginLeft="@dimen/size_15dp"
+                android:layout_marginLeft="8dp"
                 android:background="@drawable/shape_white"
                 android:layout_width="wrap_content"
                 android:textSize="12sp"

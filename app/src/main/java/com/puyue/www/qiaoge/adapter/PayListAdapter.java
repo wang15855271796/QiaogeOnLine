@@ -1,7 +1,8 @@
 package com.puyue.www.qiaoge.adapter;
 
 import androidx.annotation.Nullable;
-import android.view.View;
+
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,33 +18,39 @@ import java.util.List;
  * Created by ${王涛} on 2020/8/31
  */
 public class PayListAdapter extends BaseQuickAdapter<PayListModel.DataBean,BaseViewHolder> {
-    int selectionPosition = 0;
-    ImageView iv_gou;
+    int selectionPosition = -1;
     TextView tv_title;
     ImageView iv_pic;
-    public PayListAdapter(int layoutResId, @Nullable List<PayListModel.DataBean> data) {
+    String payAmount;
+    public PayListAdapter(int layoutResId, @Nullable List<PayListModel.DataBean> data, String payAmount) {
         super(layoutResId, data);
+        this.payAmount = payAmount;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, PayListModel.DataBean item) {
         iv_pic = helper.getView(R.id.iv_pic);
-        iv_gou = helper.getView(R.id.iv_gou);
+        ImageView iv_gou = helper.getView(R.id.iv_gou);
         tv_title = helper.getView(R.id.tv_title);
         if(item.getFlag().equals("0")) {
             tv_title.setText(item.getChannelName()+"("+UserInfoHelper.getUserWalletAccount(mContext)+")");
+            //余额
+            String userWalletAccount = UserInfoHelper.getUserWalletAccount(mContext);
+            if(Double.parseDouble(payAmount) > Double.parseDouble(userWalletAccount)) {
+                //支付金额 > 用户余额
+                iv_gou.setImageResource(R.mipmap.ic_enable_select_oval);
+                iv_gou.setClickable(false);
+            }else {
+                iv_gou.setImageResource(R.mipmap.ic_un_select_oval);
+                iv_gou.setClickable(true);
+            }
         }else {
+            iv_gou.setClickable(true);
             tv_title.setText(item.getChannelName());
+            iv_gou.setImageResource(R.mipmap.ic_un_select_oval);
         }
 
         if(helper.getAdapterPosition()==0) {
-            helper.getView(R.id.iv_recomend).setVisibility(View.VISIBLE);
-        }else {
-            helper.getView(R.id.iv_recomend).setVisibility(View.GONE);
-        }
-
-        if(helper.getAdapterPosition()==0) {
-
             getStat(item);
         }else if(helper.getAdapterPosition()==1){
             getStat(item);
@@ -52,25 +59,31 @@ public class PayListAdapter extends BaseQuickAdapter<PayListModel.DataBean,BaseV
         } else if(helper.getAdapterPosition()==3){
             getStat(item);
         }
-        if(selectionPosition==helper.getAdapterPosition()) {
-            helper.setVisible(R.id.iv_gou,true);
+
+        if(selectionPosition == helper.getAdapterPosition()) {
+            if(item.getFlag().equals("0")) {
+                String userWalletAccount = UserInfoHelper.getUserWalletAccount(mContext);
+                if(Double.parseDouble(payAmount) < Double.parseDouble(userWalletAccount)) {
+                    //支付金额 < 用户余额
+                    iv_gou.setImageResource(R.mipmap.ic_circle_selected);
+                }
+            }else {
+                iv_gou.setImageResource(R.mipmap.ic_circle_selected);
+            }
         }else {
-            helper.setVisible(R.id.iv_gou,false);
+            iv_gou.setImageResource(R.mipmap.ic_un_select_oval);
         }
     }
 
     private void getStat(PayListModel.DataBean item) {
         if(item.getFlag().equals("0")) {
             iv_pic.setImageResource(R.mipmap.ic_balance_pay);
-
         }else if(item.getFlag().equals("1")) {
-
             iv_pic.setImageResource(R.mipmap.ic_pay_alipay);
         }else if(item.getFlag().equals("2")) {
 
             iv_pic.setImageResource(R.mipmap.ic_pay_wechar);
         }else if(item.getFlag().equals("3")) {
-
             iv_pic.setImageResource(R.mipmap.icon_yun);
         }
     }

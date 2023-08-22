@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="#f7f8fa"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:background="@drawable/shape_white4">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/size_18dp"
+            android:layout_marginRight="@dimen/size_22dp"
+            android:padding="5dp"
+            android:src="@mipmap/ic_back_arrow" />
+
+        <TextView
+            android:id="@+id/tv_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="资质信息"
+            android:textColor="#414141"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:background="@drawable/shape_white1"
+                android:layout_width="match_parent"
+                android:layout_height="90dp">
+
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/ic_step_four"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:background="@drawable/shape_red13"
+                    android:layout_width="6dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="13dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:drawablePadding="3dp"
+                    android:text="供应商收款资料"
+                    android:textColor="#000000"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_white1"
+                android:orientation="vertical"
+                android:padding="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:drawablePadding="3dp"
+                    android:text="账户类型"
+                    android:textColor="#414141"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_public_account"
+                        android:layout_marginTop="10dp"
+                        android:drawablePadding="3dp"
+                        android:text="对公银行账户"
+                        android:background="@drawable/shape_grey3"
+                        android:textColor="#414141"
+                        android:textSize="13sp"
+                        android:paddingLeft="18dp"
+                        android:paddingRight="18dp"
+                        android:paddingTop="7dp"
+                        android:paddingBottom="7dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/tv_personal_account"
+                        android:layout_marginTop="10dp"
+                        android:drawablePadding="3dp"
+                        android:text="个人银行卡账户"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/shape_grey3"
+                        android:textColor="#414141"
+                        android:textSize="13sp"
+                        android:paddingLeft="18dp"
+                        android:paddingRight="18dp"
+                        android:paddingTop="7dp"
+                        android:paddingBottom="7dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:drawablePadding="3dp"
+                    android:text="开户名称"
+                    android:textColor="#414141"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <EditText
+                    android:id="@+id/et_open_name"
+                    tools:text="1"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:textColor="#414141"
+                    android:textSize="13sp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/shape_grey4"
+                    android:layout_width="match_parent"
+                    android:layout_height="33dp"/>
+
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:drawablePadding="3dp"
+                    android:text="开户行"
+                    android:textColor="#414141"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <EditText
+                    android:id="@+id/et_open_bank"
+                    tools:text="1"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:textColor="#414141"
+                    android:textSize="13sp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/shape_grey4"
+                    android:layout_width="match_parent"
+                    android:layout_height="33dp"/>
+
+                <LinearLayout
+                    android:layout_marginTop="15dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="开户支行"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/tv_province"
+                        android:background="@drawable/shape_grey4"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="15sp"
+                        android:textColor="#414141"
+                        android:gravity="center_vertical"
+                        tools:text="浙江省"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:drawablePadding="24dp"
+                        android:drawableRight="@mipmap/ic_shop_down"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_city_name"
+                        android:background="@drawable/shape_grey4"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="15sp"
+                        android:textColor="#414141"
+                        android:gravity="center_vertical"
+                        tools:text="杭州"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:drawablePadding="24dp"
+                        android:drawableRight="@mipmap/ic_shop_down"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"/>
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/et_bank_name"
+                    tools:text="1"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:textColor="#414141"
+                    android:textSize="13sp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/shape_grey4"
+                    android:layout_width="match_parent"
+                    android:layout_height="33dp"/>
+
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:drawablePadding="3dp"
+                    android:text="银行账户"
+                    android:textColor="#414141"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <EditText
+                    android:id="@+id/et_bank_account"
+                    tools:text="1"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:textColor="#414141"
+                    android:textSize="13sp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/shape_grey4"
+                    android:layout_width="match_parent"
+                    android:layout_height="33dp"/>
+
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:drawablePadding="3dp"
+                    android:text="收款人手机号"
+                    android:textColor="#414141"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <EditText
+                    android:id="@+id/et_phone"
+                    tools:text="1"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:textColor="#414141"
+                    android:textSize="13sp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/shape_grey4"
+                    android:layout_width="match_parent"
+                    android:layout_height="33dp"/>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:background="@drawable/shape_red13"
+                    android:layout_width="6dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="13dp"/>
+
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:drawablePadding="3dp"
+                    android:text="供应商收款资料"
+                    android:textColor="#000000"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_below="@+id/tv1"
+                    android:textSize="14sp"
+                    android:layout_marginTop="3dp"
+                    android:text="（申请成功后可使用此账号密码直接登录供应商后台）"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_white1"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="登陆账号"
+                            android:textColor="#414141"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="（此账号可用）"
+                            android:textColor="#FF3D03"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/et_login_account"
+                        tools:text="1"
+                        android:layout_marginTop="10dp"
+                        android:paddingLeft="10dp"
+                        android:textColor="#414141"
+                        android:textSize="13sp"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/shape_grey4"
+                        android:layout_width="match_parent"
+                        android:layout_height="33dp"/>
+
+                    <TextView
+                        android:layout_marginTop="20dp"
+                        android:drawablePadding="3dp"
+                        android:text="登陆密码"
+                        android:textColor="#414141"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <EditText
+                        android:id="@+id/et_login_secret"
+                        tools:text="1"
+                        android:layout_marginTop="10dp"
+                        android:paddingLeft="10dp"
+                        android:textColor="#414141"
+                        android:textSize="13sp"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/shape_grey4"
+                        android:layout_width="match_parent"
+                        android:layout_height="33dp"/>
+
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_pre"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/shape_white_reds"
+                    android:gravity="center_horizontal"
+                    android:padding="12dp"
+                    android:text="上一步"
+                    android:textColor="#FF4D29"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_submit"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/shape_jianbian5"
+                    android:gravity="center_horizontal"
+                    android:padding="12dp"
+                    android:text="提交审核"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

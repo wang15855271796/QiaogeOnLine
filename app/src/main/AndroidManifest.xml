@@ -595,6 +595,83 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activity.mine.coupons.ChooseCouponssActivity"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".activity.OpenShopActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.CityWareHouseActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.FrontWareHouseActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.ProviderWareHouseActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.StartProviderActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.OpenShopStep1Activity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.OpenShopStep2Activity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.BusinessDetailActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.AllowDetailActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.OpenShopStep3Activity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.OpenShopStep4Activity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"
+            />
+
+        <activity android:name=".activity.OpenShopListActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.LookOpenShopStep1Activity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.LookOpenShopStep2Activity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.LookOpenShopStep3Activity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.LookOpenShopStep4Activity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.HelpPayDeliveryDetailActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.HelpPaySelfDetailActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.HelpPayResultActivity"
+            android:screenOrientation="portrait"
+            />
         <!--  -->
 
 

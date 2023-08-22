@@ -1,5 +1,6 @@
 package com.puyue.www.qiaoge;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -44,6 +45,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.LinkedList;
+import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -55,6 +58,8 @@ import cn.jpush.android.api.JPushInterface;
 public class QiaoGeApplication extends MultiDexApplication {
     public IWXAPI api;
     private static Context context;
+    private static QiaoGeApplication instance;
+    private List<Activity> mList = new LinkedList<>();
     @Override
     public void onCreate() {
         super.onCreate();
@@ -114,6 +119,26 @@ public class QiaoGeApplication extends MultiDexApplication {
     }
     public static Context getContext() {
         return context;
+    }
+
+    public void addActivity(Activity activity) {
+        mList.add(activity);
+    }
+
+    public void exit() {
+        for (Activity activity:mList) {
+            if (activity != null){
+                activity.finish();
+            }
+        }
+    }
+
+
+    public synchronized static QiaoGeApplication getInstance(){
+        if (null == instance) {
+            instance = new QiaoGeApplication();
+        }
+        return instance;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

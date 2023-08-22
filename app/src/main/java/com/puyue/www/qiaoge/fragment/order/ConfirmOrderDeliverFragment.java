@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.xrecyclerview.DensityUtil;
 import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
@@ -45,12 +46,14 @@ import com.puyue.www.qiaoge.adapter.ConfirmCouponAdapter;
 import com.puyue.www.qiaoge.adapter.ConfirmGivenAdapter;
 import com.puyue.www.qiaoge.adapter.FullConfirmAdapter;
 import com.puyue.www.qiaoge.adapter.FullGivenConfirmAdapter;
+import com.puyue.www.qiaoge.adapter.PayListAdapter;
 import com.puyue.www.qiaoge.adapter.TagsAdapter;
 import com.puyue.www.qiaoge.adapter.UnOperate1Adapter;
 import com.puyue.www.qiaoge.adapter.UnOperateAdapter;
 import com.puyue.www.qiaoge.adapter.mine.ChooseCouponsAdapter;
 import com.puyue.www.qiaoge.adapter.mine.ConfirmOrderNewAdapter;
 import com.puyue.www.qiaoge.api.cart.CartBalanceAPI;
+import com.puyue.www.qiaoge.api.cart.OrderPayAPI;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.GetDeliverTimeAPI;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
@@ -60,6 +63,7 @@ import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.dialog.ChooseAddressDialog;
 import com.puyue.www.qiaoge.dialog.DisDialog;
+import com.puyue.www.qiaoge.dialog.PayDialog;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.BeizhuEvent;
 import com.puyue.www.qiaoge.event.ChangeDeliverEvent;
@@ -75,6 +79,7 @@ import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.ModeModel;
+import com.puyue.www.qiaoge.model.PayListModel;
 import com.puyue.www.qiaoge.model.StatModel;
 import com.puyue.www.qiaoge.model.cart.CartBalanceModel;
 import com.puyue.www.qiaoge.model.home.GetDeliverTimeModel;
@@ -443,8 +448,6 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
 
                                                     //设置背景灰掉
                                                     backgroundAlpha(0.4f);
-                                                    // 设置PopupWindow的弹出和消失效果
-//                                                    popWin.setAnimationStyle(R.style.popupAnimation);
                                                     //显示弹出窗口
                                                     popWin.showAtLocation(buttonPay, Gravity.BOTTOM, 0, 0);
                                                     //pop关闭时变回原来
@@ -926,16 +929,20 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                         if (generateOrderModel.success) {
                             if(generateOrderModel.getData()!=null) {
                                 orderId = generateOrderModel.getData();
-                                PaymentFragment paymentFragment = new PaymentFragment();
-                                Bundle bundle = new Bundle();
-                                bundle.putString("remark", tv_beizhu.getText().toString());
-                                bundle.putString("total", info.getTotalAmount());
-                                bundle.putString("payAmount",payAmount);
-                                bundle.putString("orderId",orderId);
-                                bundle.putString("orderDeliveryType","0");
-                                paymentFragment.setArguments(bundle);
-                                paymentFragment.show(getFragmentManager(),"paymentFragment");
-                                paymentFragment.setCancelable(false);
+                                String remark = tv_beizhu.getText().toString();
+                                PayDialog payDialog = new PayDialog(mActivity,orderId,payAmount,remark,"0");
+                                payDialog.show();
+//                                orderPay();
+//                                PaymentFragment paymentFragment = new PaymentFragment();
+//                                Bundle bundle = new Bundle();
+//                                bundle.putString("remark", tv_beizhu.getText().toString());
+//                                bundle.putString("total", info.getTotalAmount());
+//                                bundle.putString("payAmount",payAmount);
+//                                bundle.putString("orderId",orderId);
+//                                bundle.putString("orderDeliveryType","0");
+//                                paymentFragment.setArguments(bundle);
+//                                paymentFragment.show(getFragmentManager(),"paymentFragment");
+//                                paymentFragment.setCancelable(false);
 
                             }
                             lav_activity_loading.hide();
@@ -951,6 +958,44 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                 });
     }
 
+    /**
+     * 提交订单
+     */
+//    List<PayListModel.DataBean> data;
+//    private void orderPay() {
+//        OrderPayAPI.requestsData(getContext())
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<PayListModel>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(PayListModel payListModel) {
+//                        if (payListModel.success) {
+//                            data = payListModel.getData();
+//                            list.clear();
+//                            list.addAll(data);
+//                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//                            payListAdapter = new PayListAdapter(R.layout.item_pay_list,list);
+//                            recyclerView.setAdapter(payListAdapter);
+//
+//
+//
+//
+//                        } else {
+//                            AppHelper.showMsg(getContext(), payListModel.message);
+//                        }
+//                    }
+//                });
+//    }
 
     @Subscribe
     public void onEventMainThread(AddressEvent event) {

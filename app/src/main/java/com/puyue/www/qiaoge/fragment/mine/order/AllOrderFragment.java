@@ -98,7 +98,6 @@ public class AllOrderFragment extends BaseFragment {
     @Override
     public void setViewData() {
         mListResult.clear();
-
         if (UserInfoHelper.getDeliverType(mActivity) != null && StringHelper.notEmptyAndNull(UserInfoHelper.getDeliverType(mActivity))) {
             orderDeliveryType = Integer.parseInt(UserInfoHelper.getDeliverType(mActivity));
         }

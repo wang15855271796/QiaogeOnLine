@@ -74,4 +74,19 @@ public class SchoolVideoApi {
         return service.getData(videoId);
     }
 
+    /**
+     * 申请入驻城市仓/前置仓
+     */
+    private interface ApplyCityWareService {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Apply_City_WareHouse)
+        Observable<BaseModel> getData(@Field("contactName") String contactName,@Field("contactPhone") String contactPhone
+        ,@Field("cityName") String cityName,@Field("companyType") int companyType);
+    }
+
+    public static Observable<BaseModel> applyWareHouse(Context context,String contactName,String contactPhone,String cityName,int companyType) {
+        ApplyCityWareService service = RestHelper.getBaseRetrofit(context).create(ApplyCityWareService.class);
+        return service.getData(contactName,contactPhone,cityName,companyType);
+    }
+
 }
