@@ -25,6 +25,24 @@ public class PayListModel {
         private String channelName;
         private String flag;
         private int jumpWx;
+        private String walletAmt;
+        private int walletEnabled;
+
+        public String getWalletAmt() {
+            return walletAmt;
+        }
+
+        public void setWalletAmt(String walletAmt) {
+            this.walletAmt = walletAmt;
+        }
+
+        public int getWalletEnabled() {
+            return walletEnabled;
+        }
+
+        public void setWalletEnabled(int walletEnabled) {
+            this.walletEnabled = walletEnabled;
+        }
 
         public int getJumpWx() {
             return jumpWx;

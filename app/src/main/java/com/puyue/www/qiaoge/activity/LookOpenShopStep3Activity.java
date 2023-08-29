@@ -21,10 +21,12 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.view.GlideEngine;
 import com.puyue.www.qiaoge.api.mine.order.SendImageAPI;
 import com.puyue.www.qiaoge.base.BaseActivity;
+import com.puyue.www.qiaoge.model.ApplyInfoModel;
 import com.puyue.www.qiaoge.model.SendImagesModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,9 +49,12 @@ public class LookOpenShopStep3Activity extends BaseActivity implements View.OnCl
     TextView tv_pre;
     @BindView(R.id.tv_next)
     TextView tv_next;
-
+    @BindView(R.id.tv_card)
+    TextView tv_card;
+    ApplyInfoModel.DataBean detailInfo;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
+        detailInfo = (ApplyInfoModel.DataBean)getIntent().getSerializableExtra("detailInfo");
         return false;
     }
 
@@ -66,6 +71,11 @@ public class LookOpenShopStep3Activity extends BaseActivity implements View.OnCl
     @Override
     public void setViewData() {
         QiaoGeApplication.getInstance().addActivity(this);
+        if(detailInfo!=null) {
+            Glide.with(mContext).load(detailInfo.getCorporateCardFront()).into(iv_up_front);
+            Glide.with(mContext).load(detailInfo.getCorporateCardReverse()).into(iv_up_bank);
+            tv_card.setText(detailInfo.getIdNumber());
+        }
     }
 
     @Override
@@ -89,6 +99,7 @@ public class LookOpenShopStep3Activity extends BaseActivity implements View.OnCl
 
             case R.id.tv_next:
                 Intent intent = new Intent(mContext,LookOpenShopStep4Activity.class);
+                intent.putExtra("detailInfo", (Serializable) detailInfo);
                 startActivity(intent);
                 break;
         }

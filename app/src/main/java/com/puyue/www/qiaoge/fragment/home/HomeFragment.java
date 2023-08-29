@@ -823,15 +823,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 //    String[] params = { Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION};
     @Override
     public void setViewData() {
-        HelpPay1Dialog helpPay1Dialog = new HelpPay1Dialog(mActivity) {
-            @Override
-            public void sure() {
-                Intent intent = new Intent(mActivity, HelpPayDeliveryDetailActivity.class);
-                startActivity(intent);
-            }
-        };
 
-        helpPay1Dialog.show();
         //判断用户是否选择了企业
         if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
             getStyle();
@@ -1993,7 +1985,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
                     @Override
                     public void onNext(IndexInfoModel indexInfoModel) {
-//                        Log.d("wdasdwds")
                         if (indexInfoModel.getCode()==1) {
                             if(indexInfoModel.getData()!=null) {
                                 data = indexInfoModel.getData();
@@ -2018,6 +2009,19 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
                                 if(data.getNoticeInfo()!=null && data.getNoticeInfo().size()> 1) {
                                     marqueeView.startScroll();
+                                }
+
+                                if(data.getSendOrder()!=null) {
+                                    IndexInfoModel.DataBean.SendOrderBean sendOrder = data.getSendOrder();
+                                    HelpPay1Dialog helpPay1Dialog = new HelpPay1Dialog(mActivity,sendOrder) {
+                                        @Override
+                                        public void sure() {
+                                            Intent intent = new Intent(mActivity, HelpPayDeliveryDetailActivity.class);
+                                            startActivity(intent);
+                                        }
+                                    };
+
+                                    helpPay1Dialog.show();
                                 }
                                 if(indexInfoModel.getData().getIcons()!=null) {
                                     iconList.addAll(data.getIcons());

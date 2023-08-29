@@ -16,8 +16,10 @@ public class StartProviderActivity extends BaseActivity {
     ImageView iv_back;
     @BindView(R.id.tv_ok)
     TextView tv_ok;
+    String phone;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
+        phone = getIntent().getStringExtra("applyPhone");
         return false;
     }
 
@@ -48,8 +50,8 @@ public class StartProviderActivity extends BaseActivity {
         tv_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext,OpenShopStep1Activity.class);
-                startActivity(intent);
+               Intent intent = new Intent(mContext, OpenShopStep1Activity.class);
+               intent.putExtra("applyPhone",phone);
             }
         });
     }

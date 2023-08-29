@@ -79,6 +79,8 @@ public class OrdersModel {
             public String hllOrderId;
             public String hllOrderStatusName;
             public boolean bankReturnFlag;
+            public int friendPayBtn;
+
         }
     }
 }

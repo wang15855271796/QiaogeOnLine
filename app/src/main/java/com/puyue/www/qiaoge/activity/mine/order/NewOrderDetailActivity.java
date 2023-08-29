@@ -31,6 +31,7 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.BeizhuActivity;
 import com.puyue.www.qiaoge.activity.CommonH5Activity;
 import com.puyue.www.qiaoge.activity.CommonH6Activity;
+import com.puyue.www.qiaoge.activity.HelpPayActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.HuoDetailActivity;
 import com.puyue.www.qiaoge.activity.HuoHomeActivity;
@@ -627,6 +628,21 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
         orderStatusRequest = getOrderDetailModel.orderStatus;
 
         setViewShow();
+        //是否展示找朋友付按钮
+        if(getOrderDetailModel.friendPayBtn == 0) {
+            tv_friend_pay.setVisibility(View.GONE);
+        }else {
+            tv_friend_pay.setVisibility(View.VISIBLE);
+        }
+
+        tv_friend_pay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, HelpPayActivity.class);
+                intent.putExtra("orderId",orderId);
+                mContext.startActivity(intent);
+            }
+        });
 
         //关联id
         if(info.data.connectOrderId!=null) {

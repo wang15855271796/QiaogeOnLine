@@ -101,7 +101,7 @@
                 android:layout_marginTop="10dp"
                 android:src="@mipmap/ic_shop_camera"
                 android:layout_width="match_parent"
-                android:scaleType="fitCenter"
+                android:scaleType="fitXY"
                 android:layout_height="match_parent"/>
 
             <RelativeLayout
@@ -179,7 +179,7 @@
                 android:layout_marginTop="10dp"
                 android:src="@mipmap/ic_shop_camera"
                 android:layout_width="match_parent"
-                android:scaleType="fitCenter"
+                android:scaleType="fitXY"
                 android:layout_height="match_parent"/>
 
 

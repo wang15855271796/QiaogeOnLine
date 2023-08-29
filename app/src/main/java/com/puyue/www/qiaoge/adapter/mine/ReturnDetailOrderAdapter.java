@@ -24,6 +24,7 @@ import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.model.home.JumpModel;
 import com.puyue.www.qiaoge.model.mine.order.NewReturnOrderModel;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -157,6 +158,8 @@ public class ReturnDetailOrderAdapter extends BaseQuickAdapter<NewReturnOrderMod
                             }else {
                                 AppHelper.showMsg(mContext,jumpModel.getMessage());
                             }
+                        }else {
+                            ToastUtil.showSuccessMsg(mContext,jumpModel.getMessage());
                         }
                     }
                 });

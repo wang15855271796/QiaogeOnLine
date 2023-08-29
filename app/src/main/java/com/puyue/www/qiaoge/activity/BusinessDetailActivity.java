@@ -1,5 +1,7 @@
 package com.puyue.www.qiaoge.activity;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -9,18 +11,23 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bumptech.glide.Glide;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.puyue.www.qiaoge.DatePickerView;
+import com.puyue.www.qiaoge.QiaoGeApplication;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.activity.view.GlideEngine;
@@ -31,6 +38,7 @@ import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -60,19 +68,31 @@ public class BusinessDetailActivity extends BaseActivity implements View.OnClick
     TextView tv_regular;
     @BindView(R.id.tv_long_term)
     TextView tv_long_term;
-    @BindView(R.id.et_valid_time)
-    EditText et_valid_time;
+    @BindView(R.id.tv_end_time)
+    TextView tv_end_time;
+    @BindView(R.id.tv_start_time)
+    TextView tv_start_time;
     @BindView(R.id.tv_ok)
     TextView tv_ok;
     @BindView(R.id.tv_upload)
     TextView tv_upload;
     @BindView(R.id.rg_style)
     RadioGroup rg_style;
+    @BindView(R.id.ll_time)
+    LinearLayout ll_time;
     PopupWindow pop;
-    String businessPath;
+    String licensePath;
+    String companyName;
+    String registerNum;
+    String companyAddress;
+    int companyType = -1;
+    int licenseLongTerm = -1;
+    String licenseValidityStart;
+    String licenseValidityEnd;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
-        businessPath = getIntent().getStringExtra("businessPath");
+        licensePath = getIntent().getStringExtra("licensePath");
+
         return false;
     }
 
@@ -88,7 +108,21 @@ public class BusinessDetailActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void setViewData() {
-//        Glide.with(mContext).load(businessPath).into(iv_business);
+        Glide.with(mContext).load(licensePath).into(iv_business);
+        rg_style.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rb_personal:
+                        companyType = 1;
+                        break;
+
+                    case R.id.rb_company:
+                        companyType = 0;
+                        break;
+                }
+            }
+        });
     }
 
     @Override
@@ -98,8 +132,9 @@ public class BusinessDetailActivity extends BaseActivity implements View.OnClick
         tv_long_term.setOnClickListener(this);
         tv_upload.setOnClickListener(this);
         tv_ok.setOnClickListener(this);
-        Drawable background = tv_upload.getBackground();
-        background.setAlpha(30);
+        tv_upload.getBackground().setAlpha(180);
+        tv_end_time.setOnClickListener(this);
+        tv_start_time.setOnClickListener(this);
     }
 
 
@@ -110,7 +145,16 @@ public class BusinessDetailActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
 
+            case R.id.tv_end_time:
+                showDatePickView(1);
+                break;
+            case R.id.tv_start_time:
+                showDatePickView(0);
+                break;
+
             case R.id.tv_regular:
+                licenseLongTerm = 0;
+                ll_time.setVisibility(View.VISIBLE);
                 tv_regular.setBackgroundResource(R.drawable.shape_orange27);
                 tv_long_term.setBackgroundResource(R.drawable.shape_grey3);
                 tv_regular.setTextColor(Color.parseColor("#FF3D03"));
@@ -118,6 +162,10 @@ public class BusinessDetailActivity extends BaseActivity implements View.OnClick
                 break;
 
             case R.id.tv_long_term:
+                licenseLongTerm = 1;
+                licenseValidityStart = "";
+                licenseValidityEnd = "";
+                ll_time.setVisibility(View.GONE);
                 tv_regular.setBackgroundResource(R.drawable.shape_grey3);
                 tv_long_term.setBackgroundResource(R.drawable.shape_orange27);
                 tv_regular.setTextColor(Color.parseColor("#414141"));
@@ -129,11 +177,48 @@ public class BusinessDetailActivity extends BaseActivity implements View.OnClick
                 break;
 
             case R.id.tv_ok:
+                companyName = et_company_name.getText().toString().trim();
+                companyAddress = et_place_business.getText().toString().trim();
+                registerNum = et_register_num.getText().toString().trim();
+                licenseValidityStart = tv_start_time.getText().toString().trim();
+                licenseValidityEnd = tv_end_time.getText().toString().trim();
                 Intent intent = new Intent();
+                intent.putExtra("licenseUrl",licensePath);
+                intent.putExtra("licenseNo",registerNum);
+                intent.putExtra("companyName",companyName);
+                intent.putExtra("companyAddress",companyAddress);
+                intent.putExtra("licenseLongTerm",licenseLongTerm);
+                intent.putExtra("licenseValidityStart",licenseValidityStart);
+                intent.putExtra("licenseValidityEnd",licenseValidityEnd);
                 setResult(3,intent);
+                QiaoGeApplication.getInstance().addActivity(this);
                 finish();
                 break;
         }
+    }
+
+    @SuppressLint("ResourceType")
+    private void showDatePickView(int flag) {
+        Calendar calendar = Calendar.getInstance();
+        new DatePickerDialog(mContext,3, new DatePickerDialog.OnDateSetListener() {
+            // 绑定监听器
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                // 此处得到选择的时间，可以进行你想要的操作
+                int newMonth = monthOfYear+1;
+                if(flag == 0) {
+                    tv_start_time.setText(year+"-"+newMonth +"-"+dayOfMonth);
+                }else {
+
+                    tv_end_time.setText(year+"-"+newMonth +"-"+dayOfMonth);
+                }
+            }
+        }
+                // 设置初始日期
+                , calendar.get(Calendar.YEAR)
+                , calendar.get(Calendar.MONTH)
+                , calendar.get(Calendar.DAY_OF_MONTH)).show();
+
     }
 
     //上传
@@ -199,13 +284,14 @@ public class BusinessDetailActivity extends BaseActivity implements View.OnClick
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == 1) {
+        if(resultCode == -1) {
             picList.clear();
             images.clear();
             images = PictureSelector.obtainMultipleResult(data);
             String compressPath = images.get(0).getCompressPath();
             picList.add(compressPath);
             Glide.with(mActivity).load(compressPath).into(iv_business);
+
             List<MultipartBody.Part> parts = filesToMultipartBodyParts(picList);
             upImage(parts);
         }
@@ -230,7 +316,7 @@ public class BusinessDetailActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void onNext(SendImagesModel sendImageModel) {
                         if (sendImageModel.code==1) {
-
+                            licensePath = sendImageModel.data.get(0);
                         } else {
                             ToastUtil.showSuccessMsg(mContext,sendImageModel.message);
                         }

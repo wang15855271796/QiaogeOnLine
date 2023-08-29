@@ -1,5 +1,6 @@
 package com.puyue.www.qiaoge.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,8 +16,10 @@ public class HelpPayResultActivity extends BaseActivity implements View.OnClickL
     ImageView iv_back;
     @BindView(R.id.tv_look_order)
     TextView tv_look_order;
+    String orderId;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
+        orderId = getIntent().getStringExtra("orderId");
         return false;
     }
 
@@ -49,7 +52,10 @@ public class HelpPayResultActivity extends BaseActivity implements View.OnClickL
                 break;
 
             case R.id.tv_look_order:
-
+                Intent intent = new Intent(mContext,LookDeliveryDetailActivity.class);
+                intent.putExtra("orderId",orderId);
+                startActivity(intent);
+                finish();
                 break;
         }
     }

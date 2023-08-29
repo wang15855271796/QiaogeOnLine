@@ -88,10 +88,10 @@ public class WalletDetailModel {
         private String businessNo;
         private String subUser;
         private String proDesc;
-     public List<Integer> returnMainIdList;
+        public List<Integer> returnMainIdList;
         private Object expireTime;
 
-public String returnMainId;
+        public String returnMainId;
         public String iconUrl;
 
         public String flowRecordTypeStr;
@@ -102,8 +102,15 @@ public String returnMainId;
         public String orderStatus;
 
         public String orderStatusStr;
+        public String otherPhone;
 
+        public String getOtherPhone() {
+            return otherPhone;
+        }
 
+        public void setOtherPhone(String otherPhone) {
+            this.otherPhone = otherPhone;
+        }
 
         public String getFlowRecordType() {
             return flowRecordType;

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,11 +18,14 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.puyue.www.qiaoge.QiaoGeApplication;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.view.GlideEngine;
+import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.mine.order.SendImageAPI;
 import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.model.SendImagesModel;
+import com.puyue.www.qiaoge.model.home.GetAddressModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.io.File;
@@ -56,11 +60,23 @@ public class OpenShopStep2Activity extends BaseActivity implements View.OnClickL
     @BindView(R.id.tv_finish_allow)
     TextView tv_finish_allow;
     PopupWindow pop;
-    String businessPath;
-    String allowPath;
 
+    String checkNo;
+    String applyPhone;
+    String licenseUrl;
+    String licenseNo;
+    String companyName;
+    String companyAddress;
+    int companyType;
+    int licenseLongTerm;
+    String licenseValidityStart;
+    String licenseValidityEnd;
+    String businessUrl;
+    String businessValidity;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
+        checkNo = getIntent().getStringExtra("checkNo");
+        applyPhone = getIntent().getStringExtra("applyPhone");
         return false;
     }
 
@@ -100,11 +116,11 @@ public class OpenShopStep2Activity extends BaseActivity implements View.OnClickL
 
             case R.id.iv_up_business:
                 requestCode = 0;
-                if(TextUtils.isEmpty(businessPath)) {
+                if(TextUtils.isEmpty(licenseUrl)) {
                     showPop(requestCode);
                 }else {
                     Intent intent = new Intent(mContext,BusinessDetailActivity.class);
-                    intent.putExtra("businessPath",businessPath);
+                    intent.putExtra("licensePath",licenseUrl);
                     startActivityForResult(intent,3);
                 }
 
@@ -112,22 +128,52 @@ public class OpenShopStep2Activity extends BaseActivity implements View.OnClickL
 
             case R.id.iv_up_allow:
                 requestCode = 1;
-                if(TextUtils.isEmpty(allowPath)) {
+                if(TextUtils.isEmpty(businessUrl)) {
                     showPop(requestCode);
                 }else {
                     Intent intent = new Intent(mContext,AllowDetailActivity.class);
-                    intent.putExtra("businessPath",businessPath);
-                    startActivityForResult(intent,3);
+                    intent.putExtra("businessPath",businessUrl);
+                    startActivityForResult(intent,4);
                 }
                 break;
 
             case R.id.tv_next:
-                Intent intent = new Intent(mContext, OpenShopStep3Activity.class);
-                startActivity(intent);
+                applyProviderTwo();
+                QiaoGeApplication.getInstance().addActivity(this);
                 break;
         }
     }
 
+    //申请第二步
+    private void applyProviderTwo() {
+        RecommendApI.getQualification(mContext,checkNo,applyPhone,licenseUrl,licenseNo,companyName,companyAddress,companyType,licenseLongTerm
+                        ,licenseValidityStart,licenseValidityEnd,businessUrl,businessValidity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GetAddressModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("wdadwad.....",e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(GetAddressModel getAddressModel) {
+                        if (getAddressModel.getCode()==1) {
+                            Intent intent = new Intent(mContext, OpenShopStep3Activity.class);
+                            intent.putExtra("checkNo",checkNo);
+                            intent.putExtra("applyPhone",applyPhone);
+                            startActivity(intent);
+                        } else {
+                            ToastUtil.showSuccessMsg(mContext, getAddressModel.getMessage());
+                        }
+                    }
+                });
+    }
     //上传
     private void showPop(final int requestCode) {
         View bottomView = View.inflate(mActivity, R.layout.layout_bottom_dialog, null);
@@ -216,11 +262,21 @@ public class OpenShopStep2Activity extends BaseActivity implements View.OnClickL
         if(resultCode == 3) {
             iv_up_business.setVisibility(View.GONE);
             tv_finish_business.setVisibility(View.VISIBLE);
+            licenseUrl = data.getStringExtra("licenseUrl");
+            licenseNo = data.getStringExtra("licenseNo");
+            companyName = data.getStringExtra("companyName");
+            companyAddress = data.getStringExtra("companyAddress");
+            companyType = data.getIntExtra("companyType",0);
+            licenseLongTerm = data.getIntExtra("licenseLongTerm",0);
+            licenseValidityStart = data.getStringExtra("licenseValidityStart");
+            licenseValidityEnd = data.getStringExtra("licenseValidityEnd");
         }
 
         if(resultCode == 4) {
             iv_up_allow.setVisibility(View.GONE);
             tv_finish_allow.setVisibility(View.VISIBLE);
+            businessUrl = data.getStringExtra("businessUrl");
+            businessValidity = data.getStringExtra("businessValidity");
         }
 
     }
@@ -247,11 +303,11 @@ public class OpenShopStep2Activity extends BaseActivity implements View.OnClickL
                             if(sendImageModel.data!=null) {
                                 switch (requestCode) {
                                     case 0:
-                                        businessPath = sendImageModel.data.get(0);
+                                        licenseUrl = sendImageModel.data.get(0);
                                         break;
 
                                     case 1:
-                                        allowPath = sendImageModel.data.get(0);
+                                        businessUrl = sendImageModel.data.get(0);
                                         break;
                                 }
                             }

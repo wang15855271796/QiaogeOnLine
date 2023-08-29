@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.HelpPayActivity;
 import com.puyue.www.qiaoge.activity.mine.order.NewOrderDetailActivity;
 import com.puyue.www.qiaoge.activity.mine.order.ReturnGoodDetailActivity;
 import com.puyue.www.qiaoge.activity.mine.order.SelfSufficiencyOrderDetailActivity;
@@ -56,6 +57,7 @@ public class MySubOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBea
     int orderDeliveryType;
     TextView tv_total;
     LinearLayout ll_info;
+    TextView tv_friend_pay;
     public MySubOrdersItemAdapter(int layoutResId, @Nullable List<OrdersModel.DataBean.ListBean> data, int orderState, int orderDeliveryType, MySubOrdersItemAdapter.OnClick onClick) {
         super(layoutResId, data);
         this.orderState = orderState;
@@ -68,6 +70,7 @@ public class MySubOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBea
     protected void convert(final BaseViewHolder helper, final OrdersModel.DataBean.ListBean item) {
         helper.setIsRecyclable(false);
         tv_call = helper.getView(R.id.tv_call);
+        tv_friend_pay = helper.getView(R.id.tv_friend_pay);
         tv_total = helper.getView(R.id.tv_total);
         ImageView iv_style = helper.getView(R.id.iv_style);
         TextView tv_order = helper.getView(R.id.tv_order);
@@ -104,6 +107,21 @@ public class MySubOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBea
         }else {
             tv_total.setVisibility(View.GONE);
         }
+
+        if(item.friendPayBtn ==0) {
+            tv_friend_pay.setVisibility(View.GONE);
+        }else {
+            tv_friend_pay.setVisibility(View.VISIBLE);
+        }
+
+        tv_friend_pay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, HelpPayActivity.class);
+                intent.putExtra("orderId",item.orderId);
+                mContext.startActivity(intent);
+            }
+        });
 
         if(orderDeliveryType==0) {
             //配送

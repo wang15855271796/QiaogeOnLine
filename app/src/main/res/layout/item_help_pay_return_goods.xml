@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_good"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.puyue.www.qiaoge.RoundImageView
+        android:id="@+id/iv_food"
+        android:layout_width="73dp"
+        android:layout_height="73dp"
+        android:layout_marginLeft="@dimen/size_8dp"
+        android:layout_marginTop="@dimen/size_8dp" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        tools:text="黄鱼"
+        android:layout_marginLeft="@dimen/size_16dp"
+        android:layout_marginTop="@dimen/size_8dp"
+        android:layout_toRightOf="@id/iv_food"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_spec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_title"
+        android:layout_marginLeft="@dimen/size_16dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/iv_food"
+        android:textColor="#969696"
+        android:textSize="9sp"
+        tools:text="30" />
+
+    <TextView
+        android:id="@+id/tv_return_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_title"
+        android:layout_marginLeft="@dimen/size_16dp"
+        android:layout_marginTop="35dp"
+        android:layout_toRightOf="@id/iv_food"
+        android:textColor="#606060"
+        android:textSize="12sp"
+        tools:text="30" />
+
+    <TextView
+        android:id="@+id/tv_return_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_title"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="35dp"
+        android:layout_marginRight="@dimen/size_14dp"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:textSize="@dimen/size_15dp"
+        tools:text="30.0" />
+
+</RelativeLayout>

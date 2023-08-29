@@ -2,8 +2,10 @@ package com.puyue.www.qiaoge.api.cart;
 
 import android.content.Context;
 
+import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
 import com.puyue.www.qiaoge.helper.RestHelper;
+import com.puyue.www.qiaoge.model.HelpPersonInfoModel;
 import com.puyue.www.qiaoge.model.PayInfoListModel;
 import com.puyue.www.qiaoge.model.PayInfoModel;
 import com.puyue.www.qiaoge.model.PayListModel;
@@ -59,6 +61,29 @@ public class OrderPayAPI {
         return service.setParams();
     }
 
+    //查询帮付人信息口
+    private interface QueryHelpPersonService {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Query_Help_Person)
+        Observable<HelpPersonInfoModel> setParams(@Field("queryPhone") String queryPhone);
+    }
+
+    public static Observable<HelpPersonInfoModel> getHelpPerson(Context context,String queryPhone) {
+        QueryHelpPersonService service = RestHelper.getBaseRetrofit(context).create(QueryHelpPersonService.class);
+        return service.setParams(queryPhone);
+    }
+
+    //发送订单给朋友
+    private interface SendOrderPersonService {
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Send_Order_To_Person)
+        Observable<BaseModel> setParams(@Field("orderId") String orderId, @Field("receiveUserId") String receiveUserId);
+    }
+
+    public static Observable<BaseModel> sendOrder(Context context,String orderId,String receiveUserId) {
+        SendOrderPersonService service = RestHelper.getBaseRetrofit(context).create(SendOrderPersonService.class);
+        return service.setParams(orderId,receiveUserId);
+    }
 
     //行业资讯 生成支付信息
     private interface PayInfoService {

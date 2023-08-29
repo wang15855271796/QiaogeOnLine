@@ -374,17 +374,14 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                     startActivity(intents);
                     break;
                 case R.id.linearLayoutAddressHead: // 地址切换
-//                    ChooseAddressDialog chooseAddressDialog = new ChooseAddressDialog(getActivity(),orderId);
-//                    chooseAddressDialog.show();
+
                     Intent intentsss = new Intent(mActivity, ChooseConfirmAddressActivity.class);
                     startActivityForResult(intentsss,1);
                     break;
                 case R.id.LinearLayoutAddress: // 添加地址
                     ChooseAddressDialog chooseAddressDialog1 = new ChooseAddressDialog(getActivity(),orderId);
                     chooseAddressDialog1.show();
-//                    Intent intent1 = AddressListActivity.getIntent(mActivity, AddressListsActivity.class);
-//                    intent1.putExtra("mineAddress", "mineAddress");
-//                    startActivityForResult(intent1, 32);
+
 
                     break;
                 case R.id.buttonPay:// 去支付
@@ -945,15 +942,14 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
 //                                paymentFragment.setCancelable(false);
 
                             }
-                            lav_activity_loading.hide();
-                            lav_activity_loading.setVisibility(View.GONE);
                             buttonPay.setEnabled(true);
                         } else {
                             AppHelper.showMsg(mActivity, generateOrderModel.message);
-                            lav_activity_loading.setVisibility(View.GONE);
-                            lav_activity_loading.hide();
                             buttonPay.setEnabled(true);
                         }
+
+                        lav_activity_loading.hide();
+                        lav_activity_loading.setVisibility(View.GONE);
                     }
                 });
     }

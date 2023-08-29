@@ -20,6 +20,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.QiaoGeApplication;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.HelpPayActivity;
 import com.puyue.www.qiaoge.activity.HuoHomeActivity;
 import com.puyue.www.qiaoge.activity.mine.order.NewOrderDetailActivity;
 
@@ -69,6 +70,7 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
     int orderDeliveryType;
     TextView tv_total;
     LinearLayout ll_info;
+    TextView tv_friend_pay;
     public MyOrdersItemAdapter(int layoutResId, @Nullable List<OrdersModel.DataBean.ListBean> data, int orderState, int orderDeliveryType,OnClick onClick) {
         super(layoutResId, data);
         this.orderState = orderState;
@@ -104,7 +106,7 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
         linearLayoutItem = helper.getView(R.id.linearLayoutItem);
         confirmOrder = helper.getView(R.id.tv_confirm_order);
         tv_product_name.setText(item.prodName);
-
+        tv_friend_pay = helper.getView(R.id.tv_friend_pay);
         tv_time.setText(item.orderTime);
         if(item.subBuyPhone!=null && !item.subBuyPhone.equals("")) {
             tv_sub_account.setText(item.subBuyPhone+"订单");
@@ -119,6 +121,21 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
         }else {
             tv_total.setVisibility(View.GONE);
         }
+
+        if(item.friendPayBtn ==0) {
+            tv_friend_pay.setVisibility(View.GONE);
+        }else {
+            tv_friend_pay.setVisibility(View.VISIBLE);
+        }
+
+        tv_friend_pay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, HelpPayActivity.class);
+                intent.putExtra("orderId",item.orderId);
+                mContext.startActivity(intent);
+            }
+        });
 
         if(orderDeliveryType==0) {
             //配送

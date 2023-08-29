@@ -134,11 +134,11 @@
 
                 <ImageView
                     android:id="@+id/iv_up_front"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="170dp"
+                    android:layout_height="105dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:scaleType="fitCenter"
+                    android:scaleType="fitXY"
                     android:src="@mipmap/ic_card_front" />
             </RelativeLayout>
 
@@ -170,18 +170,40 @@
 
                 <ImageView
                     android:id="@+id/iv_up_bank"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="170dp"
+                    android:layout_height="105dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:scaleType="fitCenter"
+                    android:scaleType="fitXY"
                     android:src="@mipmap/ic_card_bank" />
             </RelativeLayout>
 
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="身份证号"
+                android:textColor="#414141"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_card"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_grey4"
+                android:layout_width="match_parent"
+                android:layout_height="33dp"/>
+
+
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"

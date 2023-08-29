@@ -346,9 +346,9 @@
             android:id="@+id/tv_year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="123"
-            android:layout_marginRight="@dimen/size_15dp"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/size_15dp"
+            android:text="123"
             android:textColor="#858585"
             android:textSize="@dimen/size_13dp" />
 

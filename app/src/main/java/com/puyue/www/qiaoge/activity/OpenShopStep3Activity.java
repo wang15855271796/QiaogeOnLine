@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -16,11 +17,14 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.puyue.www.qiaoge.QiaoGeApplication;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.view.GlideEngine;
+import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.mine.order.SendImageAPI;
 import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.model.SendImagesModel;
+import com.puyue.www.qiaoge.model.home.GetAddressModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.io.File;
@@ -46,11 +50,19 @@ public class OpenShopStep3Activity extends BaseActivity implements View.OnClickL
     TextView tv_pre;
     @BindView(R.id.tv_next)
     TextView tv_next;
+    @BindView(R.id.et_card)
+    EditText et_card;
     PopupWindow pop;
-    String frontPath;
-    String bankPath;
+
+    String checkNo;
+    String applyPhone;
+    String corporateCardFront;
+    String corporateCardReverse;
+    String idNumber;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
+        checkNo = getIntent().getStringExtra("checkNo");
+        applyPhone = getIntent().getStringExtra("applyPhone");
         return false;
     }
 
@@ -89,8 +101,9 @@ public class OpenShopStep3Activity extends BaseActivity implements View.OnClickL
                 break;
 
             case R.id.tv_next:
-                Intent intent = new Intent(mContext,OpenShopStep4Activity.class);
-                startActivity(intent);
+                idNumber = et_card.getText().toString().trim();
+                applyProviderThree();
+                QiaoGeApplication.getInstance().addActivity(this);
                 break;
 
             case R.id.iv_up_front:
@@ -103,6 +116,36 @@ public class OpenShopStep3Activity extends BaseActivity implements View.OnClickL
                 showPop(requestCode);
                 break;
         }
+    }
+
+    //申请第三步
+    private void applyProviderThree() {
+        RecommendApI.getLegalInfo(mContext,checkNo,applyPhone,corporateCardFront,corporateCardReverse,idNumber)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GetAddressModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(GetAddressModel getAddressModel) {
+                        if (getAddressModel.getCode()==1) {
+                            Intent intent = new Intent(mContext,OpenShopStep4Activity.class);
+                            intent.putExtra("checkNo",checkNo);
+                            intent.putExtra("applyPhone",applyPhone);
+                            startActivity(intent);
+                        } else {
+                            ToastUtil.showSuccessMsg(mContext, getAddressModel.getMessage());
+                        }
+                    }
+                });
     }
 
     //上传
@@ -213,11 +256,11 @@ public class OpenShopStep3Activity extends BaseActivity implements View.OnClickL
                             if(sendImageModel.data!=null) {
                                 switch (requestCode) {
                                     case 0:
-                                        frontPath = sendImageModel.data.get(0);
+                                        corporateCardFront = sendImageModel.data.get(0);
                                         break;
 
                                     case 1:
-                                        bankPath = sendImageModel.data.get(0);
+                                        corporateCardReverse = sendImageModel.data.get(0);
                                         break;
                                 }
                             }

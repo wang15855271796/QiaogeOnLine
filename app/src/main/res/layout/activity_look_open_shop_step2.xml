@@ -82,8 +82,7 @@
                     android:layout_height="wrap_content"/>
 
                 <TextView
-                    android:visibility="gone"
-                    android:id="@+id/tv_finish_business"
+                    android:id="@+id/tv_license"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -101,39 +100,8 @@
                 android:layout_marginTop="10dp"
                 android:src="@mipmap/ic_shop_camera"
                 android:layout_width="match_parent"
-                android:scaleType="fitCenter"
-                android:layout_height="match_parent"/>
-
-            <RelativeLayout
-                android:visibility="gone"
-                android:id="@+id/rl_business"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginTop="10dp">
-
-                <TextView
-                    android:id="@+id/tv_up_business"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="10dp"
-                    android:drawableTop="@mipmap/ic_shop_camera1"
-                    android:drawablePadding="5dp"
-                    android:text="上传图片" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/shape_red15"
-                    android:paddingLeft="8dp"
-                    android:paddingTop="3dp"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="3dp"
-                    android:text="需文字清晰无水印"
-                    android:textColor="#ffffff"
-                    android:textSize="12sp" />
-            </RelativeLayout>
+                android:scaleType="fitXY"
+                android:layout_height="150dp"/>
 
 
         </LinearLayout>
@@ -161,8 +129,7 @@
                     android:textSize="15sp" />
 
                 <TextView
-                    android:visibility="gone"
-                    android:id="@+id/tv_finish_allow"
+                    android:id="@+id/tv_allow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -179,40 +146,10 @@
                 android:layout_marginTop="10dp"
                 android:src="@mipmap/ic_shop_camera"
                 android:layout_width="match_parent"
-                android:scaleType="fitCenter"
-                android:layout_height="match_parent"/>
+                android:scaleType="fitXY"
+                android:layout_height="150dp"/>
 
 
-            <RelativeLayout
-                android:visibility="gone"
-                android:id="@+id/rl_allow"
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="150dp">
-
-                <TextView
-                    android:id="@+id/tv_up_allow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="10dp"
-                    android:drawableTop="@mipmap/ic_shop_camera1"
-                    android:drawablePadding="5dp"
-                    android:text="上传图片" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/shape_red15"
-                    android:paddingLeft="8dp"
-                    android:paddingTop="3dp"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="3dp"
-                    android:text="需文字清晰无水印"
-                    android:textColor="#ffffff"
-                    android:textSize="12sp" />
-            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout

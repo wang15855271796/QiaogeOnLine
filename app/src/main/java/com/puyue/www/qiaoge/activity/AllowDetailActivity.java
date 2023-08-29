@@ -1,5 +1,7 @@
 package com.puyue.www.qiaoge.activity;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -8,6 +10,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -20,6 +23,7 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.puyue.www.qiaoge.QiaoGeApplication;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.activity.view.GlideEngine;
@@ -30,6 +34,7 @@ import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -45,22 +50,20 @@ public class AllowDetailActivity extends BaseActivity implements View.OnClickLis
     ImageView iv_back;
     @BindView(R.id.iv_business)
     RoundImageView iv_business;
-    @BindView(R.id.tv_regular)
-    TextView tv_regular;
-    @BindView(R.id.tv_long_term)
-    TextView tv_long_term;
-    @BindView(R.id.et_valid_time)
-    EditText et_valid_time;
+    @BindView(R.id.tv_valid_time)
+    TextView tv_valid_time;
     @BindView(R.id.tv_ok)
     TextView tv_ok;
     @BindView(R.id.tv_upload)
     TextView tv_upload;
 
     PopupWindow pop;
-    String businessPath;
+    String businessUrl;
+    String businessValidity;
+
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
-        businessPath = getIntent().getStringExtra("businessPath");
+        businessUrl = getIntent().getStringExtra("businessPath");
         return false;
     }
 
@@ -76,18 +79,16 @@ public class AllowDetailActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void setViewData() {
-//        Glide.with(mContext).load(businessPath).into(iv_business);
+        Glide.with(mContext).load(businessUrl).into(iv_business);
     }
 
     @Override
     public void setClickEvent() {
         iv_back.setOnClickListener(this);
-        tv_regular.setOnClickListener(this);
-        tv_long_term.setOnClickListener(this);
         tv_upload.setOnClickListener(this);
         tv_ok.setOnClickListener(this);
-        Drawable background = tv_upload.getBackground();
-        background.setAlpha(30);
+        tv_valid_time.setOnClickListener(this);
+        tv_upload.getBackground().setAlpha(180);
     }
 
 
@@ -98,18 +99,8 @@ public class AllowDetailActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
 
-            case R.id.tv_regular:
-                tv_regular.setBackgroundResource(R.drawable.shape_orange27);
-                tv_long_term.setBackgroundResource(R.drawable.shape_grey3);
-                tv_regular.setTextColor(Color.parseColor("#FF3D03"));
-                tv_long_term.setTextColor(Color.parseColor("#414141"));
-                break;
-
-            case R.id.tv_long_term:
-                tv_regular.setBackgroundResource(R.drawable.shape_grey3);
-                tv_long_term.setBackgroundResource(R.drawable.shape_orange27);
-                tv_regular.setTextColor(Color.parseColor("#414141"));
-                tv_long_term.setTextColor(Color.parseColor("#FF3D03"));
+            case R.id.tv_valid_time:
+                showDatePickView();
                 break;
 
             case R.id.tv_upload:
@@ -117,11 +108,34 @@ public class AllowDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.tv_ok:
+                businessValidity = tv_valid_time.getText().toString().trim();
                 Intent intent = new Intent();
+                intent.putExtra("businessUrl",businessUrl);
+                intent.putExtra("businessValidity",businessValidity);
                 setResult(4,intent);
                 finish();
+                QiaoGeApplication.getInstance().addActivity(this);
                 break;
         }
+    }
+
+    @SuppressLint("ResourceType")
+    private void showDatePickView() {
+        Calendar calendar = Calendar.getInstance();
+        new DatePickerDialog(mContext,3, new DatePickerDialog.OnDateSetListener() {
+            // 绑定监听器
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                // 此处得到选择的时间，可以进行你想要的操作
+                int newMonth = monthOfYear+1;
+                tv_valid_time.setText(year+"-"+newMonth +"-"+dayOfMonth);
+            }
+        }
+                // 设置初始日期
+                , calendar.get(Calendar.YEAR)
+                , calendar.get(Calendar.MONTH)
+                , calendar.get(Calendar.DAY_OF_MONTH)).show();
+
     }
 
     //上传
@@ -187,7 +201,7 @@ public class AllowDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == 1) {
+        if(resultCode == -1) {
             picList.clear();
             images.clear();
             images = PictureSelector.obtainMultipleResult(data);
@@ -218,7 +232,7 @@ public class AllowDetailActivity extends BaseActivity implements View.OnClickLis
                     @Override
                     public void onNext(SendImagesModel sendImageModel) {
                         if (sendImageModel.code==1) {
-
+                            businessUrl = sendImageModel.data.get(0);
                         } else {
                             ToastUtil.showSuccessMsg(mContext,sendImageModel.message);
                         }

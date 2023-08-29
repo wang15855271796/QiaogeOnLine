@@ -219,6 +219,8 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
 
     LinearLayout ll_order1;
     LinearLayout ll_order2;
+    TextView tv_sale_name;
+    TextView tv_sale_name1;
     private TextView et_name;
     private TextView et_phone;
 
@@ -269,6 +271,8 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
     public void findViewById() {
         supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.frag);
         ll_order1 = (LinearLayout) findViewById(R.id.ll_order1);
+        tv_sale_name = findViewById(R.id.tv_sale_name);
+        tv_sale_name1 = findViewById(R.id.tv_sale_name1);
         ll_bg = (LinearLayout) findViewById(R.id.ll_bg);
         ll_order2 = (LinearLayout) findViewById(R.id.ll_order2);
         tv_full_price = (TextView) findViewById(R.id.tv_full_price);
@@ -798,12 +802,14 @@ protected void geocoder(String address) {
                                 }
                                 if(orderDetailModel.data.saleSettle==1) {
                                     ll_order1.setVisibility(View.VISIBLE);
+                                    tv_sale_name.setText(getOrderDetailModel.saleName);
                                 }else {
                                     ll_order1.setVisibility(View.GONE);
                                 }
 
                                 if(orderDetailModel.data.salePay==1) {
                                     ll_order2.setVisibility(View.VISIBLE);
+                                    tv_sale_name1.setText(getOrderDetailModel.saleName);
                                 }else {
                                     ll_order2.setVisibility(View.GONE);
                                 }

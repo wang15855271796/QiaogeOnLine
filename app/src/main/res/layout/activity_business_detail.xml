@@ -68,9 +68,8 @@
                     <com.puyue.www.qiaoge.RoundImageView
                         android:id="@+id/iv_business"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-
-                        android:scaleType="fitCenter"
+                        android:layout_height="150dp"
+                        android:scaleType="fitXY"
                         android:src="@mipmap/ic_shop_camera" />
 
                     <TextView
@@ -288,27 +287,62 @@
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
 
-                <TextView
-                    android:layout_marginTop="20dp"
-                    android:drawablePadding="3dp"
-                    android:text="有效日期"
-                    android:textColor="#414141"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <EditText
-                    android:id="@+id/et_valid_time"
-                    tools:text="1"
-                    android:layout_marginTop="10dp"
-                    android:paddingLeft="10dp"
-                    android:textColor="#414141"
-                    android:textSize="13sp"
-                    android:gravity="center_vertical"
-                    android:background="@drawable/shape_grey4"
+                <LinearLayout
+                    android:id="@+id/ll_time"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="33dp"/>
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_marginTop="20dp"
+                        android:drawablePadding="3dp"
+                        android:text="有效日期"
+                        android:textColor="#414141"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <LinearLayout
+                        android:layout_marginTop="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_start_time"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:hint="起止时间"
+                            android:textColor="#414141"
+                            android:background="@drawable/shape_grey4"
+                            android:gravity="center_vertical"
+                            android:layout_height="33dp"/>
+
+                        <TextView
+                            android:id="@+id/tv_start_time"
+                            android:layout_width="wrap_content"
+                            android:text="至"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:textColor="#414141"
+                            android:gravity="center_vertical"
+                            android:layout_height="33dp"/>
+
+                        <TextView
+                            android:id="@+id/tv_end_time"
+                            android:hint="结束时间"
+                            android:paddingLeft="10dp"
+                            android:textColor="#414141"
+                            android:gravity="center_vertical"
+                            android:textSize="13sp"
+                            android:background="@drawable/shape_grey4"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="33dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+
 
             </LinearLayout>
 

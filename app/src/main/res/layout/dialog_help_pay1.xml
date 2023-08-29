@@ -58,11 +58,14 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_amount"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:background="@mipmap/bg_dialog_grey"
             android:text="来自用户：17766091580"
             android:textColor="#000000"
             android:textSize="15sp" />

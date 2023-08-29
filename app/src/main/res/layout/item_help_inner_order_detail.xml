@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:id="@+id/ll_good"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:padding="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl">
+
+        <com.puyue.www.qiaoge.RoundImageView
+            android:id="@+id/imageView"
+            android:layout_width="73dp"
+            android:layout_height="73dp"
+            android:scaleType="fitXY" />
+
+        <RelativeLayout
+            android:id="@+id/RelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/imageView"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/imageView">
+
+            <ImageView
+                android:id="@+id/iv_icon"
+                android:layout_width="@dimen/size_32dp"
+                android:layout_height="@dimen/size_13dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="@dimen/size_3dp"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/iv_icon"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="134测试"
+                android:textColor="@color/app_black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_coupon_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_spec"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/size_30dp"
+                android:layout_marginTop="@dimen/size_10dp"
+                android:layout_marginRight="@dimen/size_90dp"
+                android:layout_toLeftOf="@+id/tv_current_price"
+                android:textColor="#000000"
+                android:textSize="@dimen/size_15dp"
+                tools:text="10" />
+
+
+            <TextView
+                android:id="@+id/tv_old_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_spec"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/size_10dp"
+                android:layout_marginRight="@dimen/size_30dp"
+                android:textColor="#000000"
+                android:textSize="@dimen/size_15dp"
+                tools:text="100" />
+
+            <TextView
+                android:id="@+id/tv_current_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_spec"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/size_10dp"
+                android:textColor="#000000"
+                android:textSize="@dimen/size_15dp"
+                tools:text="10" />
+
+            <TextView
+                android:id="@+id/tv_spec"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_title"
+                android:layout_marginTop="@dimen/size_10dp"
+                android:text="规格"
+                android:textColor="@color/app_black"
+                android:textSize="@dimen/size_12dp" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_price"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_spec"
+                android:layout_marginTop="@dimen/size_10dp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -3,6 +3,7 @@ package com.puyue.www.qiaoge.adapter;
 import androidx.annotation.Nullable;
 
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -60,6 +61,16 @@ public class PayListAdapter extends BaseQuickAdapter<PayListModel.DataBean,BaseV
             getStat(item);
         }
 
+        iv_gou.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(onCheckItemListener!=null) {
+                    onCheckItemListener.onItemClick(helper.getAdapterPosition());
+                }
+            }
+        });
+
+
         if(selectionPosition == helper.getAdapterPosition()) {
             if(item.getFlag().equals("0")) {
                 String userWalletAccount = UserInfoHelper.getUserWalletAccount(mContext);
@@ -92,4 +103,12 @@ public class PayListAdapter extends BaseQuickAdapter<PayListModel.DataBean,BaseV
         this.selectionPosition  = position;
     }
 
+    OnCheckItemListener onCheckItemListener;
+    public void setOnCheckItemListener(OnCheckItemListener onCheckItemListener) {
+        this.onCheckItemListener = onCheckItemListener;
+    }
+
+    public interface OnCheckItemListener {
+        void onItemClick(int pos);
+    }
 }

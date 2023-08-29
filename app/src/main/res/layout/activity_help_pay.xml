@@ -1,79 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:background="#ffffff"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:background="@drawable/shape_jianbian28"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="75dp">
+
+                <ImageView
+                    android:id="@+id/iv_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/size_18dp"
+                    android:layout_marginRight="@dimen/size_22dp"
+                    android:padding="5dp"
+                    android:src="@mipmap/ic_back_arrow" />
+
+                <TextView
+                    android:id="@+id/tv_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="供应商入驻"
+                    android:textColor="#414141"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:src="@mipmap/ic_help_pay" />
+
+
+        </LinearLayout>
+
+        <EditText
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:id="@+id/et_phone"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/shape_grey3"
+            android:hint="请输入手机号"
+            android:paddingLeft="5dp"
+            android:textColor="#414141"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:id="@+id/tv_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="14dp"
+            android:background="@drawable/shape_jianbian5"
+            android:gravity="center_horizontal"
+            android:padding="12dp"
+            android:text="发送"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+    </LinearLayout>
 
 
     <LinearLayout
-        android:background="@drawable/shape_jianbian28"
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="100dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="75dp">
+        <View
+            android:layout_width="30dp"
+            android:layout_height="0.5dp"
+            android:layout_gravity="center_vertical"
+            android:background="#AEAEAE" />
 
-            <ImageView
-                android:id="@+id/iv_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/size_18dp"
-                android:layout_marginRight="@dimen/size_22dp"
-                android:padding="5dp"
-                android:src="@mipmap/ic_back_arrow" />
-
-            <TextView
-                android:id="@+id/tv_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="供应商入驻"
-                android:textColor="#414141"
-                android:textSize="16sp" />
-
-        </RelativeLayout>
-
-        <ImageView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:src="@mipmap/ic_help_pay" />
+            android:layout_gravity="center_vertical"
+            android:text="通过其他方式找朋友帮忙付"
+            android:textColor="#aeaeae"
+            android:textSize="12sp" />
 
-
+        <View
+            android:layout_width="30dp"
+            android:layout_height="0.5dp"
+            android:layout_gravity="center_vertical"
+            android:background="#AEAEAE" />
     </LinearLayout>
 
-    <EditText
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:id="@+id/et_phone"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginTop="18dp"
-        android:background="@drawable/shape_grey3"
-        android:hint="请输入手机号"
-        android:paddingLeft="5dp"
-        android:textColor="#414141"
-        android:textSize="14sp" />
+    <ImageView
+        android:id="@+id/iv_share"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
+        android:src="@mipmap/ic_we_chat_icon" />
 
-
-    <TextView
-        android:id="@+id/tv_next"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="14dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginRight="14dp"
-        android:background="@drawable/shape_jianbian5"
-        android:gravity="center_horizontal"
-        android:padding="12dp"
-        android:text="发送"
-        android:textColor="#ffffff"
-        android:textSize="16sp" />
-</LinearLayout>
+</RelativeLayout>

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -22,6 +23,9 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.HelpPayReturnActivity;
+import com.puyue.www.qiaoge.activity.LookDeliveryDetailActivity;
+import com.puyue.www.qiaoge.activity.LookSelfDetailActivity;
 import com.puyue.www.qiaoge.activity.mine.order.NewOrderDetailActivity;
 import com.puyue.www.qiaoge.activity.mine.order.ReturnGoodDetailActivity;
 import com.puyue.www.qiaoge.activity.mine.order.SelfSufficiencyOrderDetailActivity;
@@ -96,7 +100,8 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
     private String orderId;
 
     private String returnMainId;
-
+    TextView tv_help_pay_account;
+    TextView tv_help_desc;
     private ImageView iv_back;
     TextView tv_style;
     TextView tv_style_desc;
@@ -119,6 +124,8 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
+        tv_help_pay_account = findViewById(R.id.tv_help_pay_account);
+        tv_help_desc = findViewById(R.id.tv_help_desc);
         ll_rent = findViewById(R.id.ll_rent);
         tv_time = findViewById(R.id.tv_time);
         tv_time_desc = findViewById(R.id.tv_time_desc);
@@ -151,9 +158,8 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
 
     @Override
     public void setViewData() {
-
         id = getIntent().getIntExtra("id", 0);
-        type = getIntent().getIntExtra("type", 0);
+//        type = getIntent().getIntExtra("type", 0);
         getData(id);
 
     }
@@ -217,9 +223,22 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
                     intent.putExtra("TYPE", 1);
                     intent.putExtra("name", "");
                     startActivity(intent);
+                }else if(type == 15 ) {
+                    if(orderDeliverType ==0) {
+                        Intent intent = new Intent(mContext, LookDeliveryDetailActivity.class);
+                        intent.putExtra("orderId",orderId);
+                        startActivity(intent);
+                    }else {
+                        Intent intent = new Intent(mContext, LookSelfDetailActivity.class);
+                        intent.putExtra("orderId",orderId);
+                        startActivity(intent);
+                    }
+                }else if(type == 16){
+                    Intent intent = new Intent(mContext, HelpPayReturnActivity.class);
+                    intent.putExtra(AppConstant.RETURNPRODUCTMAINID, returnMainId);
+                    intent.putExtra("orderType",orderDeliverType);
+                    startActivity(intent);
                 }
-
-
             }
         });
 
@@ -342,6 +361,7 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
                             mReturnList.clear();
                             WalletDetailModel.DataBean data = walletDetailModel.getData();
                             orderId = data.getOrderId();
+                            type = Integer.parseInt(walletDetailModel.getData().getFlowRecordType());
                             returnMainId = data.returnMainId;
                             orderDeliverType = data.orderDeliveryType;
                             if (data.returnMainIdList != null && data.returnMainIdList.size() > 0) {
@@ -349,6 +369,7 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
                             }
                             orderStatus = data.orderStatus;
                             vipUrl = data.goUrl;
+
 
                             tv_amount.setText(String.valueOf(data.amount));
                             tv_bill_type.setText(data.flowRecordTypeStr);
@@ -363,7 +384,7 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
                             }else {
                                 tv_order_status.setVisibility(View.GONE);
                             }
-                            Log.d("wdsda......","222");
+
                             if (data.getSubUser() != null && !data.getSubUser().equals("")) {
                                 ll_user.setVisibility(View.VISIBLE);
                                 tv_order_user.setText(data.getSubUser()+"");
@@ -488,7 +509,22 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
                                 ll_two.setVisibility(View.GONE);
                                 ll_three.setVisibility(View.GONE);
                                 ll_rent.setVisibility(View.VISIBLE);
-                                Log.d("wdsda......","122");
+                            }else if(type == 15) {
+                                //5(帮TA付)
+                                tv_help_pay_account.setText(data.otherPhone);
+                                tv_help_desc.setText("申请人");
+                            }else if(type == 16) {
+                                // 16(退款-帮TA付)
+                                tv_help_desc.setText("申请人");
+                                tv_help_pay_account.setText(data.otherPhone);
+                            }
+
+                            if(type == 1 || type == 4) {
+                                if(!TextUtils.isEmpty(data.otherPhone)) {
+                                    tv_help_desc.setText("帮付人");
+                                }else {
+                                    tv_help_desc.setText("申请人");
+                                }
                             }
 
                             if (data.amount.doubleValue() > 0) {

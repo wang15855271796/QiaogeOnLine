@@ -52,11 +52,11 @@
 
         <ImageView
             android:id="@+id/iv_gou"
+            android:padding="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:padding="15dp"
             android:src="@mipmap/ic_un_select_oval" />
 
     </RelativeLayout>

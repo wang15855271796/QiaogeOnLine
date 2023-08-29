@@ -672,6 +672,18 @@
         <activity android:name=".activity.HelpPayResultActivity"
             android:screenOrientation="portrait"
             />
+
+        <activity android:name=".activity.HelpPayActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.LookDeliveryDetailActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.LookSelfDetailActivity"
+            android:screenOrientation="portrait"
+            />
         <!--  -->
 
 

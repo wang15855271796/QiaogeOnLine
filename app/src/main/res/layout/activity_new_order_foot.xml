@@ -51,7 +51,7 @@
 
             <TextView
                 android:id="@+id/tv_pay"
-                android:text="待支付"
+                android:text="代支付"
                 android:textColor="#306AFE"
                 android:textSize="10sp"
                 android:layout_width="wrap_content"
@@ -470,15 +470,15 @@
 
 
             <TextView
-                android:layout_centerVertical="true"
                 android:id="@+id/tv_total_amount"
-                android:layout_marginRight="@dimen/dp_10"
-                android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_10"
                 android:textColor="#F6561A"
-                tools:text="ssassssss"
-                android:textSize="21sp" />
+                android:textSize="21sp"
+                tools:text="ssassssss" />
         </RelativeLayout>
 
     </LinearLayout>

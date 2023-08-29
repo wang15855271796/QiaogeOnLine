@@ -207,7 +207,7 @@
                         android:layout_height="30dp"/>
 
                     <TextView
-                        android:id="@+id/tv_city_name"
+                        android:id="@+id/tv_city"
                         android:background="@drawable/shape_grey4"
                         android:layout_marginLeft="10dp"
                         android:textSize="15sp"
@@ -329,9 +329,10 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tv_account_usable"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="（此账号可用）"
+                            tools:text="（此账号可用）"
                             android:textColor="#FF3D03"
                             android:textSize="12sp" />
 

@@ -177,6 +177,40 @@ public class AppInterfaceAddress {
      *数据埋点
      */
     public static final String Data_Burial = "user/dataPoint";
+
+    /**
+     * 申请入驻供应商-基本信息
+     */
+    public static final String Apply_Provider_Basic_Info = "user/appplySettleInSupplier1";
+
+    /**
+     * 申请入驻供应商-资质信息
+     */
+    public static final String Apply_Qualification_Info = "user/appplySettleInSupplier2";
+
+    /**
+     * 申请入驻供应商-法人信息
+     */
+    public static final String Apply_Legal_Info = "user/appplySettleInSupplier3";
+
+    /**
+     * 申请入驻供应商-结算账户
+     */
+    public static final String Apply_Provider_Final = "user/appplySettleInSupplier4";
+
+    /**
+     * 获取供应商申请信息
+     */
+    public static final String Get_Provider_Apply_Info = "user/querySupplierApplyDetailInfo";
+    /**
+     * 是否已经申请过供应商入驻
+     */
+    public static final String Is_Apply_Provider = "user/querySupplierApplyInfo";
+
+    /**
+     * 验证供应商账号是否可用
+     */
+    public static final String Check_USED = "user/validSupplierLoginNameExist";
     /**
      *
      * 供应商商品列表
@@ -389,6 +423,16 @@ public class AppInterfaceAddress {
      * 支付列表
      */
     public static final String Pay_List = "app/payChannelList";
+
+    /**
+     * 查询帮付人信息口
+     */
+    public static final String Query_Help_Person = "commonOrder/queryFriendUserInfo";
+
+    /**
+     * 发送订单给朋友
+     */
+    public static final String Send_Order_To_Person = "commonOrder/sendOrderToFriend";
 
     /**
      *
@@ -710,7 +754,10 @@ public class AppInterfaceAddress {
      */
     public static final String Point_Exchange = "user/exchangeMallGift";
     public static final String WALLETGETMYBALANCEINFO = "wallet/getMyBalanceInfo";
+    //详情分享
     public static final String COMMONSHARGETSHAREINFO = "common/share/getShareInfo";
+    //订单分享
+    public static final String Order_Share = "commonOrder/getOrderSendShareInfo";
     public static final String AUTHQUERYHOMEPROPUP = "auth/queryHomePropup";
     public static final String AUTHPOPVIEW = "auth/popupView";
     public static final String VIPPAY = "vip/pay";

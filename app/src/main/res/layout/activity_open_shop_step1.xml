@@ -155,12 +155,22 @@
                     android:background="@null"
                     android:layout_marginLeft="10dp"
                     android:textSize="15sp"
+                    android:maxLength="11"
+                    android:inputType="phone"
                     android:textColor="#414141"
                     android:hint="请输入联系电话"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
             </LinearLayout>
+
+            <TextView
+                android:text="意向城市"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:layout_marginTop="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <LinearLayout
                 android:layout_marginTop="15dp"
@@ -170,40 +180,59 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:text="意向城市"
-                    android:textColor="#000000"
-                    android:textSize="15sp"
-                    android:layout_width="85dp"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
                     android:id="@+id/tv_province"
                     android:background="@drawable/shape_grey4"
-                    android:layout_marginLeft="10dp"
                     android:textSize="15sp"
                     android:textColor="#414141"
                     android:gravity="center_vertical"
                     tools:text="浙江省"
+                    android:hint="省"
+                    android:lines="1"
+                    android:ellipsize="end"
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
-                    android:drawablePadding="24dp"
+                    android:drawablePadding="12dp"
                     android:drawableRight="@mipmap/ic_shop_down"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="30dp"/>
 
                 <TextView
                     android:id="@+id/tv_city_name"
-                    android:background="@drawable/shape_grey4"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/shape_grey4"
                     android:textSize="15sp"
                     android:textColor="#414141"
                     android:gravity="center_vertical"
                     tools:text="杭州"
+                    android:hint="市"
+                    android:lines="1"
+                    android:ellipsize="end"
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
-                    android:drawablePadding="24dp"
+                    android:drawablePadding="12dp"
                     android:drawableRight="@mipmap/ic_shop_down"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="30dp"/>
+
+                <TextView
+                    android:id="@+id/tv_area"
+                    android:background="@drawable/shape_grey4"
+                    android:textSize="15sp"
+                    android:textColor="#414141"
+                    android:gravity="center_vertical"
+                    tools:text="杭州"
+                    android:hint="区"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:drawablePadding="12dp"
+                    android:drawableRight="@mipmap/ic_shop_down"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="30dp"/>
 
             </LinearLayout>

@@ -123,6 +123,11 @@ public class GetOrderDetailModel {
         }
         public List<String> hllConnectOrderIds;
         public String sendTimeStr;
+        public int friendPayBtn;
+        public int sendFriendFlag;
+        public String orderPhone;
+        public String payAccount;
+
 
         public void setDeliveryModel(int deliveryModel) {
             this.deliveryModel = deliveryModel;

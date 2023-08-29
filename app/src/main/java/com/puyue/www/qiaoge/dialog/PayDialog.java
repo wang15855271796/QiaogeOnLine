@@ -29,6 +29,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chinaums.pppay.unify.UnifyPayPlugin;
 import com.chinaums.pppay.unify.UnifyPayRequest;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.HelpPayActivity;
 import com.puyue.www.qiaoge.activity.cart.PayResultActivity;
 import com.puyue.www.qiaoge.activity.mine.account.HisActivity;
 import com.puyue.www.qiaoge.activity.mine.account.PayActivity;
@@ -164,7 +165,18 @@ public class PayDialog extends Dialog {
                 lav_activity_loading.setVisibility(View.VISIBLE);
                 lav_activity_loading.show();
                 //调支付接口
-                orderPays(orderId, payChannel, Double.parseDouble(payAmount), remark);
+                if(payChannel == 4) {
+                    Intent intent = new Intent(context,HelpPayActivity.class);
+                    intent.putExtra("orderId",orderId);
+                    context.startActivity(intent);
+                    lav_activity_loading.setVisibility(View.GONE);
+                    lav_activity_loading.hide();
+                    context.finish();
+                    dismiss();
+                }else {
+                    orderPays(orderId, payChannel, Double.parseDouble(payAmount), remark);
+                }
+
                 getDatas(1);
             }
         });
@@ -276,7 +288,6 @@ public class PayDialog extends Dialog {
                                 //支付宝跳转小程序
                                 SharedPreferencesUtil.saveString(getContext(),"payKey","5");
                                 zhiFuBaoPay(orderPayModel.data.payToken);
-
                             }
 
                             lav_activity_loading.setVisibility(View.GONE);
@@ -740,13 +751,14 @@ public class PayDialog extends Dialog {
                             }else if(payListModel.getData().get(0).getFlag().equals("3")){
                                 payChannel = 16;
                                 jumpWx = payListModel.getData().get(0).getJumpWx();
+                            }else if(payListModel.getData().get(0).getFlag().equals("4")) {
+                                payChannel = 4;
+                                jumpWx = payListModel.getData().get(0).getJumpWx();
                             }
 
-
-
-                            payListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                            payListAdapter.setOnCheckItemListener(new PayListAdapter.OnCheckItemListener() {
                                 @Override
-                                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                public void onItemClick(int position) {
                                     payListAdapter.selectionPosition(position);
                                     payListAdapter.notifyDataSetChanged();
                                     selectionPosition = position;
@@ -761,6 +773,9 @@ public class PayDialog extends Dialog {
                                         jumpWx = data.get(position).getJumpWx();
                                     }else if(data.get(position).getFlag().equals("3")){
                                         payChannel = 16;
+                                        jumpWx = data.get(position).getJumpWx();
+                                    }else if(data.get(position).getFlag().equals("4")){
+                                        payChannel = 4;
                                         jumpWx = data.get(position).getJumpWx();
                                     }
                                 }

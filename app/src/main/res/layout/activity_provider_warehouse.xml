@@ -78,8 +78,10 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/shape_grey3"
         android:hint="请输入手机号"
+        android:maxLength="11"
+        android:inputType="phone"
         android:paddingLeft="5dp"
-        android:textColor="#B9B9B9"
+        android:textColor="#414141"
         android:textSize="14sp" />
 
     <RelativeLayout
@@ -101,7 +103,7 @@
             android:inputType="number"
             android:maxLength="6"
             android:paddingLeft="5dp"
-            android:textColor="#000000"
+            android:textColor="#414141"
             android:textSize="14sp" />
 
         <TextView

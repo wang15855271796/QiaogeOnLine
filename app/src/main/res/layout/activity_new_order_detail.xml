@@ -258,6 +258,7 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
+                android:visibility="gone"
                 android:text="找朋友付"
                 android:id="@+id/tv_friend_pay"
                 android:textColor="#FFFFFF"

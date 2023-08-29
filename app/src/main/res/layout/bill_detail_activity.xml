@@ -197,6 +197,70 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/size_15dp"
+                android:layout_marginRight="@dimen/size_15dp"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/size_5dp"
+                android:paddingBottom="@dimen/size_5dp">
+
+
+                <TextView
+                    android:id="@+id/tv_help_desc"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="帮付人"
+                    android:textColor="#868686"
+                    android:textSize="@dimen/size_14dp" />
+
+
+                <TextView
+                    android:id="@+id/tv_help_pay_account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    tools:text="18757824156"
+                    android:textColor="#ff333333"
+                    android:textSize="@dimen/size_14dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/size_15dp"
+                android:layout_marginRight="@dimen/size_15dp"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/size_5dp"
+                android:paddingBottom="@dimen/size_5dp">
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="申请人"
+                    android:textColor="#868686"
+                    android:textSize="@dimen/size_14dp" />
+
+
+                <TextView
+                    android:id="@+id/tv_apply_man"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    tools:text="18757824156"
+                    android:textColor="#ff333333"
+                    android:textSize="@dimen/size_14dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/ll_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
