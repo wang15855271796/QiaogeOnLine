@@ -164,7 +164,8 @@
                         android:layout_height="wrap_content"/>
 
                     <ImageView
-                        android:src="@mipmap/bg_vip1"
+                        android:id="@+id/iv_pic"
+                        tools:src="@mipmap/bg_vip1"
                         android:layout_marginLeft="@dimen/size_14dp"
                         android:layout_marginTop="@dimen/size_22dp"
                         android:layout_width="wrap_content"

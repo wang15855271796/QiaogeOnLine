@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
@@ -50,6 +51,8 @@ public class VipActivity extends BaseActivity {
     TextView tv_title;
     @BindView(R.id.tv_desc)
     TextView tv_desc;
+    @BindView(R.id.iv_pic)
+    ImageView iv_pic;
     VipAdapter vipAdapter;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
@@ -118,6 +121,9 @@ public class VipActivity extends BaseActivity {
                             if(vipListModel.getData()!=null) {
                                 vipPackages.addAll(vipListModel.getData().getVipPackages());
                                 data = vipListModel.getData();
+                                if(data.getVipDeductUrl()!=null && !data.getVipDeductUrl().equals("")) {
+                                    Glide.with(mContext).load(data.getVipDeductUrl()).into(iv_pic);
+                                }
                                 if(data.getState().equals("NONE")) {
                                     //未开通
                                     tv_title.setVisibility(View.VISIBLE);
