@@ -27,10 +27,10 @@ public class MyLinearLayoutManger extends LinearLayoutManager {
         try {
             //try catch一下
             super.onLayoutChildren( recycler, state );
-            Log.d("swdasssssss......","000");
+
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d("swdasssssss......",e.getMessage()+"ss");
+
         }
 
     }

@@ -443,7 +443,7 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
         rv_goods.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                Log.d("fefdsfda....",newState+"aa");
+
 
             }
 

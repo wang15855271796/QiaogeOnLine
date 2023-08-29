@@ -562,9 +562,6 @@ public class MineFragment extends BaseFragment {
                 startActivity(CommonH5Activity.getIntent(getContext(), MinerIntegralActivity.class));
             }  else if (view == relativeLayoutVip || view == tv_vip) { //会员中心
                 Intent intent = new Intent(getContext(), VipActivity.class);
-//                intent.putExtra("URL", urlVIP);
-//                intent.putExtra("TYPE", 1);
-//                intent.putExtra("name", "");
                 startActivity(intent);
 
             }  else if (view == tv_use_deduct)
