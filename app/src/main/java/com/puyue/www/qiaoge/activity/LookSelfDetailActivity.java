@@ -1,6 +1,7 @@
 package com.puyue.www.qiaoge.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -11,11 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.adapter.HelpOrderDetailAdapter;
+import com.puyue.www.qiaoge.adapter.OrderFullAdapter;
 import com.puyue.www.qiaoge.api.home.GetOrderDetailAPI;
 import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.model.cart.GetOrderDetailModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -38,10 +41,6 @@ public class LookSelfDetailActivity  extends BaseActivity implements View.OnClic
     TextView tv_goods_num;
     @BindView(R.id.tv_goods_amount)
     TextView tv_goods_amount;
-
-    @BindView(R.id.tv_send_time)
-    TextView tv_send_time;
-
     @BindView(R.id.tv_full_desc)
     TextView tv_full_desc;
     @BindView(R.id.tv_full_amount)
@@ -62,8 +61,6 @@ public class LookSelfDetailActivity  extends BaseActivity implements View.OnClic
     TextView tv_full_active_amount;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-    @BindView(R.id.tv_pay)
-    TextView tv_pay;
     @BindView(R.id.tv_take_name)
     TextView tv_take_name;
     @BindView(R.id.tv_take_phone)
@@ -78,7 +75,16 @@ public class LookSelfDetailActivity  extends BaseActivity implements View.OnClic
     LinearLayout ll_replace_order;
     @BindView(R.id.ll_replace_pay)
     LinearLayout ll_replace_pay;
+    @BindView(R.id.rv_full)
+    RecyclerView rv_full;
+    @BindView(R.id.tv_status)
+    TextView tv_status;
+    @BindView(R.id.tv_pay_time)
+    TextView tv_pay_time;
+    @BindView(R.id.tv_pay_style)
+    TextView tv_pay_style;
     String orderId;
+    OrderFullAdapter orderFullAdapter;
     HelpOrderDetailAdapter helpOrderDetailAdapter;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
@@ -88,7 +94,7 @@ public class LookSelfDetailActivity  extends BaseActivity implements View.OnClic
 
     @Override
     public void setContentView() {
-        setContentView(R.layout.activity_help_pay_self_detail);
+        setContentView(R.layout.activity_look_self_detail);
     }
 
     @Override
@@ -99,10 +105,14 @@ public class LookSelfDetailActivity  extends BaseActivity implements View.OnClic
     @Override
     public void setViewData() {
         getOrderDetail();
-        tv_pay.setVisibility(View.GONE);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         helpOrderDetailAdapter = new HelpOrderDetailAdapter(R.layout.item_help_order_detail, orderProdsList);
         recyclerView.setAdapter(helpOrderDetailAdapter);
+
+        rv_full.setLayoutManager(new LinearLayoutManager(mContext));
+        orderFullAdapter = new OrderFullAdapter(R.layout.item_full_order,list_full);
+        rv_full.setAdapter(orderFullAdapter);
+
     }
 
     @Override
@@ -111,7 +121,8 @@ public class LookSelfDetailActivity  extends BaseActivity implements View.OnClic
     }
 
     //获取订单详情
-    List<GetOrderDetailModel.DataBean.OrderProdsBean> orderProdsList;
+    private List<GetOrderDetailModel.DataBean.SendGiftInfo> list_full = new ArrayList<>();
+    List<GetOrderDetailModel.DataBean.OrderProdsBean> orderProdsList = new ArrayList<>();
     private void getOrderDetail() {
         GetOrderDetailAPI.requestData(mContext, orderId)
                 .subscribeOn(Schedulers.io())
@@ -124,6 +135,7 @@ public class LookSelfDetailActivity  extends BaseActivity implements View.OnClic
 
                     @Override
                     public void onError(Throwable e) {
+
                     }
 
                     @Override
@@ -132,6 +144,14 @@ public class LookSelfDetailActivity  extends BaseActivity implements View.OnClic
                             if (orderDetailModel.data!= null) {
                                 GetOrderDetailModel.DataBean data = orderDetailModel.data;
                                 orderProdsList.addAll(data.orderProds);
+                                if(data.sendGiftInfo!=null) {
+                                    list_full.addAll(orderDetailModel.data.sendGiftInfo);
+                                    rv_full.setVisibility(View.VISIBLE);
+                                }else {
+                                    rv_full.setVisibility(View.GONE);
+                                }
+
+                                orderFullAdapter.notifyDataSetChanged();
                                 helpOrderDetailAdapter.notifyDataSetChanged();
                                 setContent(data);
                             }
@@ -143,22 +163,22 @@ public class LookSelfDetailActivity  extends BaseActivity implements View.OnClic
     }
 
     private void setContent(GetOrderDetailModel.DataBean data) {
-        if(data.sendFriendFlag==1) {
+        if(data.saleSettle==1) {
             ll_replace_order.setVisibility(View.VISIBLE);
-            ll_replace_pay.setVisibility(View.VISIBLE);
             tv_replace_order.setText(data.saleName);
-            tv_replace_pay.setText(data.payAccount);
         }else {
             ll_replace_order.setVisibility(View.GONE);
-            ll_replace_pay.setVisibility(View.GONE);
         }
+        tv_status.setText(data.orderStatusName);
+        tv_pay_style.setText(data.payChannel);
         tv_apply_person.setText("申请人:"+data.orderPhone);
+        tv_pay_time.setText(data.payDate);
         GetOrderDetailModel.DataBean.AddressVOBean addressVO = data.addressVO;
-        tv_address.setText(addressVO.shopName+ " "+addressVO.userName +" "+addressVO.contactPhone);
+        tv_address.setText(data.wareName);
         tv_detail_address.setText(addressVO.provinceName+addressVO.cityName+addressVO.areaName+addressVO.detailAddress);
         tv_take_name.setText(data.pickUserName);
         tv_take_phone.setText(data.pickPhone);
-        tv_take_time.setText(data.sendStartTime + data.deliverTimeEnd);
+        tv_take_time.setText(data.sendStartTime + data.sendTimeStr);
         tv_goods_num.setText("共"+data.prodNum+"件");
         tv_goods_amount.setText("￥"+data.prodAmount);
         tv_full_desc.setText(data.vipReductStr);

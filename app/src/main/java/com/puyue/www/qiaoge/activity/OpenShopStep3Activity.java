@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -23,11 +25,13 @@ import com.puyue.www.qiaoge.activity.view.GlideEngine;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.mine.order.SendImageAPI;
 import com.puyue.www.qiaoge.base.BaseActivity;
+import com.puyue.www.qiaoge.model.ApplyInfoModel;
 import com.puyue.www.qiaoge.model.SendImagesModel;
 import com.puyue.www.qiaoge.model.home.GetAddressModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,10 +63,12 @@ public class OpenShopStep3Activity extends BaseActivity implements View.OnClickL
     String corporateCardFront;
     String corporateCardReverse;
     String idNumber;
+
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         checkNo = getIntent().getStringExtra("checkNo");
         applyPhone = getIntent().getStringExtra("applyPhone");
+
         return false;
     }
 
@@ -78,7 +84,54 @@ public class OpenShopStep3Activity extends BaseActivity implements View.OnClickL
 
     @Override
     public void setViewData() {
+        if(!TextUtils.isEmpty(checkNo)) {
+            getDetailInfo();
+        }
+        QiaoGeApplication.getInstance().addActivity(this);
+    }
 
+    ApplyInfoModel.DataBean data;
+    private void getDetailInfo() {
+        RecommendApI.getApplyInfo(mContext,checkNo)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApplyInfoModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ApplyInfoModel applyInfoModel) {
+                        if (applyInfoModel.getCode()==1) {
+                            if(applyInfoModel.getData()!=null) {
+                                data = applyInfoModel.getData();
+                                corporateCardFront = data.getCorporateCardFront();
+                                corporateCardReverse = data.getCorporateCardReverse();
+                                if(data.getLicenseFinish() == 1) {
+                                    if(!TextUtils.isEmpty(data.getCorporateCardFront())) {
+                                        Glide.with(mContext).load(data.getCorporateCardFront()).into(iv_up_front);
+                                    }
+
+                                    if(!TextUtils.isEmpty(data.getCorporateCardReverse())) {
+                                        Glide.with(mContext).load(data.getCorporateCardReverse()).into(iv_up_bank);
+                                    }
+
+                                    if(!TextUtils.isEmpty(data.getIdNumber())) {
+                                        et_card.setText(data.getIdNumber());
+                                    }
+                                }
+                            }
+                        } else {
+                            ToastUtil.showSuccessMsg(mContext, applyInfoModel.getMessage());
+                        }
+                    }
+                });
     }
 
     @Override
@@ -97,13 +150,17 @@ public class OpenShopStep3Activity extends BaseActivity implements View.OnClickL
             case R.id.iv_back:
 
             case R.id.tv_pre:
+                Intent intent = new Intent(mContext,OpenShopStep2Activity.class);
+                intent.putExtra("applyPhone",applyPhone);
+                intent.putExtra("checkNo",checkNo);
+                startActivity(intent);
                 finish();
                 break;
 
             case R.id.tv_next:
                 idNumber = et_card.getText().toString().trim();
                 applyProviderThree();
-                QiaoGeApplication.getInstance().addActivity(this);
+
                 break;
 
             case R.id.iv_up_front:
@@ -141,6 +198,7 @@ public class OpenShopStep3Activity extends BaseActivity implements View.OnClickL
                             intent.putExtra("checkNo",checkNo);
                             intent.putExtra("applyPhone",applyPhone);
                             startActivity(intent);
+                            finish();
                         } else {
                             ToastUtil.showSuccessMsg(mContext, getAddressModel.getMessage());
                         }
@@ -216,20 +274,26 @@ public class OpenShopStep3Activity extends BaseActivity implements View.OnClickL
         switch (requestCode) {
             case 0:
                 images = PictureSelector.obtainMultipleResult(data);
-                String compressPath = images.get(0).getCompressPath();
-                picList.add(compressPath);
-                Glide.with(mActivity).load(compressPath).into(iv_up_front);
-                List<MultipartBody.Part> parts = filesToMultipartBodyParts(picList);
-                upImage(parts,requestCode);
+                if(images!=null && images.size()>0) {
+                    String compressPath = images.get(0).getCompressPath();
+                    picList.add(compressPath);
+                    Glide.with(mActivity).load(compressPath).into(iv_up_front);
+                    List<MultipartBody.Part> parts = filesToMultipartBodyParts(picList);
+                    upImage(parts,requestCode);
+                }
+
                 break;
 
             case 1:
                 images = PictureSelector.obtainMultipleResult(data);
-                String compressPath1 = images.get(0).getCompressPath();
-                picList.add(compressPath1);
-                Glide.with(mActivity).load(compressPath1).into(iv_up_bank);
-                List<MultipartBody.Part> parts1 = filesToMultipartBodyParts(picList);
-                upImage(parts1,requestCode);
+                if(images!=null && images.size()>0) {
+                    String compressPath1 = images.get(0).getCompressPath();
+                    picList.add(compressPath1);
+                    Glide.with(mActivity).load(compressPath1).into(iv_up_bank);
+                    List<MultipartBody.Part> parts1 = filesToMultipartBodyParts(picList);
+                    upImage(parts1,requestCode);
+                }
+
                 break;
         }
     }

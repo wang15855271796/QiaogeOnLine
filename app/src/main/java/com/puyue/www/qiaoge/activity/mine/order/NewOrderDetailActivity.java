@@ -60,10 +60,12 @@ import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.HllOrderDialog;
 import com.puyue.www.qiaoge.dialog.HuoConnentionDialog;
+import com.puyue.www.qiaoge.dialog.PayDialog;
 import com.puyue.www.qiaoge.event.BackEvent;
 import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.event.OrderAddressEvent;
 import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
+import com.puyue.www.qiaoge.fragment.mine.PaymentDialog;
 import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragments;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
@@ -549,11 +551,14 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
 
                                 if(orderDetailModel.data.saleSettle==1) {
                                     ll_order1.setVisibility(View.VISIBLE);
+                                    tv_sale_name.setText(getOrderDetailModel.saleName);
                                 }else {
                                     ll_order1.setVisibility(View.GONE);
                                 }
+
                                 if(orderDetailModel.data.salePay==1) {
                                     ll_order2.setVisibility(View.VISIBLE);
+                                    tv_sale_name1.setText(getOrderDetailModel.payAccount);
                                 }else {
                                     ll_order2.setVisibility(View.GONE);
                                 }
@@ -640,6 +645,7 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, HelpPayActivity.class);
                 intent.putExtra("orderId",orderId);
+                intent.putExtra("orderDeliveryType",info.data.orderDeliveryType);
                 mContext.startActivity(intent);
             }
         });
@@ -715,19 +721,7 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
         }else {
             ll_payWay.setVisibility(View.VISIBLE);
         }
-        if(getOrderDetailModel.saleSettle==1) {
-            tv_sale_name.setText(getOrderDetailModel.saleName);
-            tv_order.setVisibility(View.VISIBLE);
-        }else {
-            tv_order.setVisibility(View.GONE);
-        }
 
-        if(getOrderDetailModel.salePay==1) {
-            tv_sale_name1.setText(getOrderDetailModel.saleName);
-            tv_pay.setVisibility(View.VISIBLE);
-        }else {
-            tv_pay.setVisibility(View.GONE);
-        }
         //货拉拉倒计时
 //        snap.SnapUpCountDownTimerViewType(mContext, 1);
 //        snap.setBackTheme(true);
@@ -1164,16 +1158,28 @@ public class NewOrderDetailActivity extends BaseSwipeActivity {
                     showCancleOrder();
                     break;
                 case R.id.buttonGOPay://去支付
-                    PaymentFragments paymentFragment = new PaymentFragments();
+//                    PaymentFragments paymentFragment = new PaymentFragments();
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("total", getOrderDetailModel.totalAmount);
+//                    bundle.putString("remark","");
+//                    bundle.putString("payAmount",getOrderDetailModel.totalAmount);
+//                    bundle.putString("orderId",orderId);
+//                    bundle.putString("orderDeliveryType","0");
+//                    paymentFragment.setArguments(bundle);
+//                    paymentFragment.setCancelable(false);
+//                    paymentFragment.show(getSupportFragmentManager(),"paymentFragment");
+//                    PayDialog payDialog = new PayDialog(mActivity,orderId,getOrderDetailModel.totalAmount,"","0");
+//                    payDialog.show();
+                    PaymentDialog paymentFragment = new PaymentDialog();
                     Bundle bundle = new Bundle();
-                    bundle.putString("total", getOrderDetailModel.totalAmount);
-                    bundle.putString("remark","");
-                    bundle.putString("payAmount",getOrderDetailModel.totalAmount);
                     bundle.putString("orderId",orderId);
+                    bundle.putString("payAmount",getOrderDetailModel.totalAmount);
+                    bundle.putString("remark", "");
                     bundle.putString("orderDeliveryType","0");
+
                     paymentFragment.setArguments(bundle);
-                    paymentFragment.setCancelable(false);
                     paymentFragment.show(getSupportFragmentManager(),"paymentFragment");
+                    paymentFragment.setCancelable(false);
                     break;
 
                 case R.id.buttonReturnGood_two:

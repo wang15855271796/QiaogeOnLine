@@ -41,7 +41,6 @@ public class OrderEvaluateAdapter extends BaseQuickAdapter<OrderEvaluateListMode
 
     private Context context;
 
-
     private OnStatusListener onStatusListener;
 
     public void setOnStatusListener(OnStatusListener onStatusListener) {

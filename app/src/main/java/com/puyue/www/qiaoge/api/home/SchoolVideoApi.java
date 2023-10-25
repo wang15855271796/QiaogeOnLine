@@ -5,6 +5,7 @@ import android.content.Context;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.constant.AppInterfaceAddress;
 import com.puyue.www.qiaoge.helper.RestHelper;
+import com.puyue.www.qiaoge.model.OpenShopInfoModel;
 import com.puyue.www.qiaoge.model.SchoolVideoListModel;
 import com.puyue.www.qiaoge.model.VideoDetailModel;
 import com.puyue.www.qiaoge.model.home.CouponModel;
@@ -81,12 +82,25 @@ public class SchoolVideoApi {
         @FormUrlEncoded
         @POST(AppInterfaceAddress.Apply_City_WareHouse)
         Observable<BaseModel> getData(@Field("contactName") String contactName,@Field("contactPhone") String contactPhone
-        ,@Field("cityName") String cityName,@Field("companyType") int companyType);
+        ,@Field("contactCityName") String contactCityName,@Field("companyType") int companyType);
     }
 
-    public static Observable<BaseModel> applyWareHouse(Context context,String contactName,String contactPhone,String cityName,int companyType) {
+    public static Observable<BaseModel> applyWareHouse(Context context,String contactName,String contactPhone,String contactCityName,int companyType) {
         ApplyCityWareService service = RestHelper.getBaseRetrofit(context).create(ApplyCityWareService.class);
-        return service.getData(contactName,contactPhone,cityName,companyType);
+        return service.getData(contactName,contactPhone,contactCityName,companyType);
+    }
+
+    /**
+     * 开店合作信息
+     */
+    private interface OpenShopInfoService {
+        @POST(AppInterfaceAddress.Open_Shop_Info)
+        Observable<OpenShopInfoModel> getData();
+    }
+
+    public static Observable<OpenShopInfoModel> getOpenShopInfo(Context context) {
+        OpenShopInfoService service = RestHelper.getBaseRetrofit(context).create(OpenShopInfoService.class);
+        return service.getData();
     }
 
 }

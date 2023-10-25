@@ -116,6 +116,7 @@ public class RestHelper {
 //                if (userModel != null) {
 //                    userId = userModel.getUserId();
 //                }
+
                 Request originalRequest = chain.request();
                 String stime = AppSafeHelper.getSTime();
                 HttpUrl commonUrl = originalRequest.url()

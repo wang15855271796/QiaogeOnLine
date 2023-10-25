@@ -16,6 +16,7 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.flow.FlowLayout;
 import com.puyue.www.qiaoge.activity.flow.TagAdapter;
 import com.puyue.www.qiaoge.adapter.HelpOrderDetailAdapter;
+import com.puyue.www.qiaoge.adapter.OrderFullAdapter;
 import com.puyue.www.qiaoge.api.home.GetOrderDetailAPI;
 import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.dialog.HelpPayDialog;
@@ -84,8 +85,12 @@ public class HelpPayDeliveryDetailActivity extends BaseActivity implements View.
     LinearLayout ll_replace_order;
     @BindView(R.id.ll_replace_pay)
     LinearLayout ll_replace_pay;
+    @BindView(R.id.rv_full)
+    RecyclerView rv_full;
     String orderId;
+    private List<GetOrderDetailModel.DataBean.SendGiftInfo> list_full = new ArrayList<>();
     HelpOrderDetailAdapter helpOrderDetailAdapter;
+    OrderFullAdapter orderFullAdapter;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         orderId = getIntent().getStringExtra("orderId");
@@ -108,6 +113,10 @@ public class HelpPayDeliveryDetailActivity extends BaseActivity implements View.
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         helpOrderDetailAdapter = new HelpOrderDetailAdapter(R.layout.item_help_order_detail, orderProdsList);
         recyclerView.setAdapter(helpOrderDetailAdapter);
+
+        rv_full.setLayoutManager(new LinearLayoutManager(mContext));
+        orderFullAdapter = new OrderFullAdapter(R.layout.item_full_order,list_full);
+        rv_full.setAdapter(orderFullAdapter);
     }
 
     @Override
@@ -141,6 +150,14 @@ public class HelpPayDeliveryDetailActivity extends BaseActivity implements View.
                                 dataBean = orderDetailModel.data;
                                 orderProdsList.addAll(dataBean.orderProds);
                                 helpOrderDetailAdapter.notifyDataSetChanged();
+
+                                if(orderDetailModel.data.sendGiftInfo!=null) {
+                                    list_full.addAll(orderDetailModel.data.sendGiftInfo);
+                                    rv_full.setVisibility(View.VISIBLE);
+                                }else {
+                                    rv_full.setVisibility(View.GONE);
+                                }
+                                orderFullAdapter.notifyDataSetChanged();
                                 setContent(dataBean);
                             }
                         } else {
@@ -157,17 +174,22 @@ public class HelpPayDeliveryDetailActivity extends BaseActivity implements View.
             tv_distribution.setText("我自己叫货拉拉");
         }
 
-        if(data.sendFriendFlag==1) {
+        if(data.saleSettle==1) {
             ll_replace_order.setVisibility(View.VISIBLE);
-            ll_replace_pay.setVisibility(View.VISIBLE);
             tv_replace_order.setText(data.saleName);
-            tv_replace_pay.setText(data.payAccount);
         }else {
             ll_replace_order.setVisibility(View.GONE);
+        }
+
+        if(data.salePay==1) {
+            ll_replace_pay.setVisibility(View.VISIBLE);
+            tv_replace_pay.setText(data.payAccount);
+        }else {
             ll_replace_pay.setVisibility(View.GONE);
         }
 
-
+        ll_replace_pay.setVisibility(View.GONE);
+        tv_replace_pay.setText(data.payAccount);
         GetOrderDetailModel.DataBean.AddressVOBean addressVO = data.addressVO;
         tv_apply_person.setText("申请人:"+data.orderPhone);
         tv_address.setText(addressVO.shopName+ " "+addressVO.userName +" "+addressVO.contactPhone);
@@ -204,7 +226,7 @@ public class HelpPayDeliveryDetailActivity extends BaseActivity implements View.
                 break;
 
             case R.id.tv_pay:
-                HelpPayOrderDialog payDialog = new HelpPayOrderDialog(mActivity,orderId,dataBean.totalAmount,dataBean.remark);
+                HelpPayOrderDialog payDialog = new HelpPayOrderDialog(mActivity,orderId,dataBean.totalAmount,dataBean.remark,"0");
                 payDialog.show();
                 break;
         }

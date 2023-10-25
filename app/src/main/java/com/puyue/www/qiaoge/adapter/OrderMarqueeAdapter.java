@@ -14,9 +14,12 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.HelpPayDeliveryDetailActivity;
+import com.puyue.www.qiaoge.activity.HelpPaySelfDetailActivity;
 import com.puyue.www.qiaoge.activity.mine.MessageDetailActivity;
 import com.puyue.www.qiaoge.activity.mine.order.MapOrderMessageActivity;
 import com.puyue.www.qiaoge.activity.mine.order.NewOrderDetailActivity;
+import com.puyue.www.qiaoge.activity.mine.order.SelfSufficiencyOrderDetailActivity;
 import com.puyue.www.qiaoge.api.home.IndexInfoModel;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.model.OrderModel;
@@ -58,14 +61,37 @@ public class OrderMarqueeAdapter extends RecyclerView.Adapter<OrderMarqueeAdapte
             holder.tv_time.setVisibility(View.VISIBLE);
             holder.tv_time.setText(dataBean.getPayDate());
         }
-
+        String orderDeliveryType = dataBean.getOrderDeliveryType();
         holder.ll_root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity, NewOrderDetailActivity.class);
-                intent.putExtra("account","0");
-                intent.putExtra(AppConstant.ORDERID, data.get(position % data.size()).getOrderId());
-                activity.startActivity(intent);
+                if(dataBean.getFriendPay() == 1) {
+                    //帮付
+                    Intent intent;
+                    if(orderDeliveryType.equals("0")) {
+                        //配送
+                        intent = new Intent(activity, HelpPayDeliveryDetailActivity.class);
+                    }else {
+                        intent = new Intent(activity, HelpPaySelfDetailActivity.class);
+                    }
+                    intent.putExtra(AppConstant.ORDERID, data.get(position % data.size()).getOrderId());
+                    activity.startActivity(intent);
+                }else {
+                    Intent intent;
+                    if(orderDeliveryType.equals("0")) {
+                        //配送
+                        intent = new Intent(activity, NewOrderDetailActivity.class);
+                        intent.putExtra("account","0");
+
+                    }else {
+                        intent = new Intent(activity, SelfSufficiencyOrderDetailActivity.class);
+                        intent.putExtra("account","0");
+                        intent.putExtra(AppConstant.RETURNPRODUCTMAINID, "");
+
+                    }
+                    intent.putExtra(AppConstant.ORDERID, data.get(position % data.size()).getOrderId());
+                    activity.startActivity(intent);
+                }
             }
         });
     }

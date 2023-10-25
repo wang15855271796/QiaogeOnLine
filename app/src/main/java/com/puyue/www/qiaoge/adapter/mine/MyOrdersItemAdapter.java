@@ -133,6 +133,7 @@ public class MyOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBean.L
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, HelpPayActivity.class);
                 intent.putExtra("orderId",item.orderId);
+                intent.putExtra("orderDeliveryType",orderDeliveryType);
                 mContext.startActivity(intent);
             }
         });

@@ -54,8 +54,10 @@ public class LookOpenShopStep4Activity extends BaseActivity implements View.OnCl
     @BindView(R.id.tv_login_secret)
     TextView tv_login_secret;
     ApplyInfoModel.DataBean detailInfo;
+    String applyPhone;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
+        applyPhone = getIntent().getStringExtra("applyPhone");
         detailInfo = (ApplyInfoModel.DataBean)getIntent().getSerializableExtra("detailInfo");
         return false;
     }
@@ -120,8 +122,44 @@ public class LookOpenShopStep4Activity extends BaseActivity implements View.OnCl
                 break;
 
             case R.id.tv_back:
-                QiaoGeApplication.getInstance().exit();
+                isApplyProvider();
+
                 break;
         }
     }
+
+    //是否申请过
+    private void isApplyProvider() {
+        RecommendApI.isApplyProvider(mContext,applyPhone)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<IsApplyModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(IsApplyModel isApplyModel) {
+                        if (isApplyModel.getCode()==1) {
+                            if(isApplyModel.getData()!=null) {
+                                //申请过
+                                Intent intent = new Intent(mContext, OpenShopListActivity.class);
+                                intent.putExtra("applyPhone",applyPhone);
+                                intent.putExtra("applyData", (Serializable) isApplyModel.getData());
+                                startActivity(intent);
+                            }
+                            QiaoGeApplication.getInstance().exit();
+                        } else {
+                            ToastUtil.showSuccessMsg(mContext, isApplyModel.getMessage());
+                        }
+                    }
+                });
+    }
+
 }

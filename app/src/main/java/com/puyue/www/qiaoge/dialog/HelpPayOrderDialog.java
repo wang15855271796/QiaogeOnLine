@@ -28,11 +28,11 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.HelpPayResultActivity;
 import com.puyue.www.qiaoge.activity.mine.account.HisActivity;
 import com.puyue.www.qiaoge.activity.mine.account.PayActivity;
+import com.puyue.www.qiaoge.activity.mine.order.NewOrderDetailActivity;
 import com.puyue.www.qiaoge.adapter.PayListAdapter;
 import com.puyue.www.qiaoge.api.cart.CheckPayPwdAPI;
 import com.puyue.www.qiaoge.api.cart.GetPayResultAPI;
 import com.puyue.www.qiaoge.api.cart.OrderPayAPI;
-import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.mine.AccountCenterAPI;
 import com.puyue.www.qiaoge.api.mine.login.LoginAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
@@ -91,15 +91,32 @@ public class HelpPayOrderDialog extends Dialog {
     String payAmount;
     String remark;
     String orderDeliveryType;
-    public HelpPayOrderDialog(Activity context, String orderId, String payAmount, String remark) {
+    public HelpPayOrderDialog(Activity context, String orderId, String payAmount, String remark, String orderDeliveryType) {
         super(context, R.style.dialog);
         this.context = context;
         this.orderId = orderId;
         this.payAmount = payAmount;
         this.remark = remark;
+        this.orderDeliveryType = orderDeliveryType;
         init();
 
     }
+
+//    @Override
+//    public void show() {
+//        super.show();
+//
+//        if(jumpWx==1) {
+//            Intent intent = new Intent(context,NewOrderDetailActivity.class);
+//            intent.putExtra(AppConstant.ORDERID,orderId);
+//            context.startActivity(intent);
+//            context.finish();
+//        }
+//
+//        if(outTradeNo!=null&&jumpWx==0) {
+//            getPayResult(outTradeNo);
+//        }
+//    }
 
     private void init() {
         view = View.inflate(context, R.layout.dialog_order_pay, null);
@@ -123,26 +140,32 @@ public class HelpPayOrderDialog extends Dialog {
             @Override
             public void onClick(View view) {
                 if(data.get(selectionPosition).getFlag().equals("0")) {
-                    String userWalletAccount = UserInfoHelper.getUserWalletAccount(getContext());
-                    if (Double.parseDouble(payAmount) > Double.parseDouble(userWalletAccount)) {
-                        yueDialog = new YueDialog(getContext(), userWalletAccount) {
+                    if (data.get(selectionPosition).getWalletEnabled() == 0) {
+                        yueDialog = new YueDialog(getContext(), data.get(selectionPosition).getWalletAmt()) {
                             @Override
                             public void close() {
                                 dismiss();
                             }
                         };
                         yueDialog.show();
+                    }else {
+                        lav_activity_loading.setVisibility(View.VISIBLE);
+                        lav_activity_loading.show();
+                        //调支付接口
+                        orderPays(orderId, payChannel, Double.parseDouble(payAmount), remark);
                     }
+                }else {
+                    lav_activity_loading.setVisibility(View.VISIBLE);
+                    lav_activity_loading.show();
+                    //调支付接口
+                    orderPays(orderId, payChannel, Double.parseDouble(payAmount), remark);
                 }
-                lav_activity_loading.setVisibility(View.VISIBLE);
-                lav_activity_loading.show();
-                //调支付接口
-                orderPays(orderId, payChannel, Double.parseDouble(payAmount), remark);
+
             }
         });
 
     }
-
+    PayErrorDialog payErrorDialog;
     // 支付
     String outTradeNo;
     int errorFlag = 0;
@@ -251,9 +274,13 @@ public class HelpPayOrderDialog extends Dialog {
 
                             }
 
+                            if(payErrorDialog!=null) {
+                                payErrorDialog.dismiss();
+                            }
+
                         } else if(orderPayModel.code ==100006) {
                             //ok
-                            PayErrorDialog payErrorDialog = new PayErrorDialog(getContext(), orderPayModel.message) {
+                            payErrorDialog = new PayErrorDialog(getContext(), orderPayModel.message) {
                                 @Override
                                 public void Confirm() {
                                     errorFlag = 1;
@@ -391,7 +418,7 @@ public class HelpPayOrderDialog extends Dialog {
         req.userName = "gh_02750c16f80b"; // 填小程序原始id
         req.path = "/pagesGoods/toplay/apptoplay?token="+userId+"&oderNo="+orderId;
         ////拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
-        req.miniprogramType =  WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发版，体验版和正式版
+        req.miniprogramType =  WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW;// 可选打开 开发版，体验版和正式版
         api.sendReq(req);
     }
 
@@ -635,7 +662,7 @@ public class HelpPayOrderDialog extends Dialog {
     byte payChannel = -1;
     int jumpWx;
     private void getPayList() {
-        OrderPayAPI.requestsData(getContext())
+        OrderPayAPI.requestsData(getContext(),orderId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<PayListModel>() {

@@ -17,9 +17,11 @@ public class HelpPayResultActivity extends BaseActivity implements View.OnClickL
     @BindView(R.id.tv_look_order)
     TextView tv_look_order;
     String orderId;
+    String orderDeliveryType;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         orderId = getIntent().getStringExtra("orderId");
+        orderDeliveryType = getIntent().getStringExtra("orderDeliveryType");
         return false;
     }
 
@@ -52,9 +54,15 @@ public class HelpPayResultActivity extends BaseActivity implements View.OnClickL
                 break;
 
             case R.id.tv_look_order:
-                Intent intent = new Intent(mContext,LookDeliveryDetailActivity.class);
+                Intent intent;
+                if(orderDeliveryType.equals("0")) {
+                    intent = new Intent(mContext, LookDeliveryDetailActivity.class);
+                }else {
+                    intent = new Intent(mContext, LookSelfDetailActivity.class);
+                }
                 intent.putExtra("orderId",orderId);
                 startActivity(intent);
+
                 finish();
                 break;
         }

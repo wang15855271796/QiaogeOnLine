@@ -57,7 +57,7 @@ public class VideoAdapter  extends PagerAdapter {
             videoView.setVideoPath(url);
             videoView.start();
         }
-        Log.d("wdasdwdas......",url);
+
         container.addView(videoView);
 //        PhotoView photoView = new PhotoView(context);
 //        Glide.with(context).load(url).into(photoView);

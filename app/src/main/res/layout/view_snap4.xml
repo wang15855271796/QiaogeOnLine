@@ -37,7 +37,7 @@
         android:padding="2dp">
 
         <TextView
-            android:text="支付剩余时间"
+            android:text="支付剩余"
             android:textColor="#ffffff"
             android:textSize="10sp"
             android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="0"
-            android:textColor="#ffffff"
+            android:textColor="#FE0909"
             android:textSize="10sp" />
 
         <TextView
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
             tools:text="0"
-            android:textColor="#ffffff"
+            android:textColor="#FE0909"
             android:textSize="10sp" />
     </LinearLayout>
 
@@ -69,7 +69,7 @@
         android:layout_marginLeft="1dp"
         android:layout_marginRight="1dp"
         android:text=":"
-        android:textColor="#ffffff"
+        android:textColor="#FE0909"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -83,7 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="0"
-            android:textColor="#ffffff"
+            android:textColor="#FE0909"
             android:textSize="10sp" />
 
         <TextView
@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
             tools:text="0"
-            android:textColor="#ffffff"
+            android:textColor="#FE0909"
             android:textSize="10sp" />
     </LinearLayout>
 
@@ -105,13 +105,12 @@
         android:layout_marginLeft="1dp"
         android:layout_marginRight="1dp"
         android:gravity="center_vertical"
-        tools:text=":"
-        android:textColor="#ffffff"
+        android:text=":"
+        android:textColor="#FE0909"
         android:textStyle="bold" />
 
 
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/ll_sec_bg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -122,7 +121,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"
-            android:textColor="#ffffff"
+            android:textColor="#FE0909"
             android:textSize="10sp" />
 
         <TextView
@@ -131,7 +130,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
             android:text="0"
-            android:textColor="#ffffff"
+            android:textColor="#FE0909"
             android:textSize="10sp" />
     </LinearLayout>
 

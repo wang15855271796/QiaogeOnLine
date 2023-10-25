@@ -33,10 +33,9 @@ import rx.schedulers.Schedulers;
 
 public abstract class BackDialog extends Dialog implements View.OnClickListener {
     Activity mContext;
-    RecyclerView recyclerView;
     TextView tv_sure;
     TextView tv_continue;
-    List<CityChangeModel.DataBean.CityNamesBean.AreaNamesBean> areaNames;
+
     public BackDialog(Activity context) {
         super(context, R.style.promptDialog);
         setContentView(R.layout.dialog_back);
@@ -45,12 +44,8 @@ public abstract class BackDialog extends Dialog implements View.OnClickListener 
     }
 
     private void initView() {
-        recyclerView = findViewById(R.id.recyclerView);
         tv_sure = findViewById(R.id.tv_sure);
         tv_continue = findViewById(R.id.tv_continue);
-        recyclerView.setLayoutManager(new GridLayoutManager(mContext,3));
-        AreaAdapter areaAdapter = new AreaAdapter(R.layout.item_citys,areaNames);
-        recyclerView.setAdapter(areaAdapter);
         tv_sure.setOnClickListener(this);
         tv_continue.setOnClickListener(this);
     }

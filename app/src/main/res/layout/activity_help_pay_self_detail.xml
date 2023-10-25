@@ -265,6 +265,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
 
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_full"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/recyclerView"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:background="@drawable/new_order_bg" />
+
                         <LinearLayout
                             android:layout_marginTop="@dimen/dp_10"
                             android:background="@drawable/shape_white1"
@@ -439,6 +447,7 @@
                             android:layout_height="wrap_content">
 
                             <LinearLayout
+                                android:visibility="gone"
                                 android:id="@+id/ll_replace_order"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -462,6 +471,7 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:visibility="gone"
                                 android:id="@+id/ll_replace_pay"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -522,7 +532,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="配送时间段"
+                                    android:text="自提时间段"
                                     android:textColor="@color/app_black"
                                     android:textSize="14sp" />
 

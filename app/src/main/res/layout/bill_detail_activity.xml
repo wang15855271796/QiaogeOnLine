@@ -197,6 +197,8 @@
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/ll_help_pay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/size_15dp"
@@ -211,7 +213,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="帮付人"
+                    tools:text="帮付人"
                     android:textColor="#868686"
                     android:textSize="@dimen/size_14dp" />
 

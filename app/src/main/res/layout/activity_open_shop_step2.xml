@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="供应商入驻"
+            android:text="资质信息"
             android:textColor="#414141"
             android:textSize="16sp" />
 
@@ -69,6 +69,7 @@
             android:layout_height="wrap_content">
 
             <RelativeLayout
+                android:id="@+id/rl_business"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -148,6 +149,7 @@
             android:layout_height="wrap_content">
 
             <RelativeLayout
+                android:id="@+id/rl_allow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

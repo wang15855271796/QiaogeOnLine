@@ -2,9 +2,11 @@ package com.puyue.www.qiaoge.helper;
 
 
 import android.content.Context;
+import android.util.Log;
 
 
 import com.puyue.www.qiaoge.constant.AppConstant;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -434,6 +436,7 @@ private static final String ISREGISTER ="is_register";
     public static void saveAreaName(Context context, String areaName) {
         try {
             PreferenceHelper.saveData(context, USER_INFO, AreaName, EncryptHelper.encrypt(AppConstant.APP_SHA_256, areaName));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -442,10 +445,12 @@ private static final String ISREGISTER ="is_register";
 
     public static String getAreaName(Context context) {
         if ((StringUtils.isBlank(PreferenceHelper.getData(context, USER_INFO, AreaName)))) {
+
             return "";
         } else {
             try {
-                return EncryptHelper.decrypt(AppConstant.APP_SHA_256, PreferenceHelper.getData(context, USER_INFO, AreaName));
+                String decrypt = EncryptHelper.decrypt(AppConstant.APP_SHA_256, PreferenceHelper.getData(context, USER_INFO, AreaName));
+                return decrypt;
             } catch (Exception e) {
                 e.printStackTrace();
                 return "";
@@ -816,4 +821,6 @@ private static final String ISREGISTER ="is_register";
             }
         }
     }
+
+
 }

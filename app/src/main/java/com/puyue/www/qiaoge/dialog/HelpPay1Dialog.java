@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.api.home.IndexInfoModel;
 
+import java.util.List;
+
 public abstract class HelpPay1Dialog extends Dialog implements View.OnClickListener {
 
     Activity mContext;
@@ -16,11 +18,13 @@ public abstract class HelpPay1Dialog extends Dialog implements View.OnClickListe
     TextView tv_phone;
     TextView tv_amount;
     ImageView iv_close;
-    IndexInfoModel.DataBean.SendOrderBean sendOrder;
-    public HelpPay1Dialog(Activity context, IndexInfoModel.DataBean.SendOrderBean sendOrder) {
+    int pos;
+    List<IndexInfoModel.DataBean.SendOrderBean> sendOrder;
+    public HelpPay1Dialog(Activity context, List<IndexInfoModel.DataBean.SendOrderBean> sendOrder, int pos) {
         super(context, R.style.promptDialog);
         setContentView(R.layout.dialog_help_pay1);
         this.mContext = context;
+        this.pos = pos;
         this.sendOrder = sendOrder;
         initView();
     }
@@ -32,17 +36,18 @@ public abstract class HelpPay1Dialog extends Dialog implements View.OnClickListe
         tv_amount = findViewById(R.id.tv_amount);
         tv_look.setOnClickListener(this);
         iv_close.setOnClickListener(this);
-        tv_phone.setText(sendOrder.getSendPhone());
-        tv_amount.setText(sendOrder.getOrderAmt());
+        tv_phone.setText("来自用户:"+sendOrder.get(pos).getSendPhone());
+        tv_amount.setText("￥"+sendOrder.get(pos).getOrderAmt());
     }
 
-    public abstract void sure();
+    public abstract void sure(int pos, int orderDeliveryType);
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_look:
-                sure();
+                sure(pos,sendOrder.get(pos).getOrderDeliveryType());
+                dismiss();
                 break;
 
             case R.id.iv_close:

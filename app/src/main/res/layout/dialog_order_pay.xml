@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/size_20dp"
+    android:paddingBottom="20dp"
     android:background="@drawable/shape_white5"
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -36,38 +36,38 @@
         </RelativeLayout>
 
         <View
-            android:background="#D9D9D9"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"/>
+            android:background="#D9D9D9" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/tv_tips"
-            android:textSize="12sp"
-            android:textColor="#FF1601"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:text="温馨提醒：签收当日如有质量问题请及时联系客服"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:textColor="#FF1601"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_pay"
-            android:text="立即付款"
-            android:gravity="center"
-            android:layout_marginRight="@dimen/size_15dp"
-            android:layout_marginLeft="@dimen/size_15dp"
-            android:background="@drawable/shape_jianbian5"
             android:layout_width="match_parent"
-            android:textColor="#ffffff"
+            android:layout_height="@dimen/size_40dp"
+            android:layout_marginLeft="@dimen/size_15dp"
             android:layout_marginTop="@dimen/size_10dp"
-            android:layout_height="@dimen/size_40dp"/>
+            android:layout_marginRight="@dimen/size_15dp"
+            android:background="@drawable/shape_jianbian5"
+            android:gravity="center"
+            android:text="立即付款"
+            android:textColor="#ffffff" />
     </LinearLayout>
 
     <com.wang.avi.AVLoadingIndicatorView

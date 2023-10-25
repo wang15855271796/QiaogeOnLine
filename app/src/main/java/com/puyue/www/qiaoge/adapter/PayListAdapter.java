@@ -34,11 +34,10 @@ public class PayListAdapter extends BaseQuickAdapter<PayListModel.DataBean,BaseV
         ImageView iv_gou = helper.getView(R.id.iv_gou);
         tv_title = helper.getView(R.id.tv_title);
         if(item.getFlag().equals("0")) {
-            tv_title.setText(item.getChannelName()+"("+UserInfoHelper.getUserWalletAccount(mContext)+")");
+            tv_title.setText(item.getChannelName()+"("+item.getWalletAmt()+")");
             //余额
-            String userWalletAccount = UserInfoHelper.getUserWalletAccount(mContext);
-            if(Double.parseDouble(payAmount) > Double.parseDouble(userWalletAccount)) {
-                //支付金额 > 用户余额
+            if(item.getWalletEnabled()==0) {
+                //支付金额 > 用户余额(余额不足)
                 iv_gou.setImageResource(R.mipmap.ic_enable_select_oval);
                 iv_gou.setClickable(false);
             }else {
@@ -73,16 +72,33 @@ public class PayListAdapter extends BaseQuickAdapter<PayListModel.DataBean,BaseV
 
         if(selectionPosition == helper.getAdapterPosition()) {
             if(item.getFlag().equals("0")) {
-                String userWalletAccount = UserInfoHelper.getUserWalletAccount(mContext);
-                if(Double.parseDouble(payAmount) < Double.parseDouble(userWalletAccount)) {
-                    //支付金额 < 用户余额
+                if(item.getWalletEnabled() ==1) {
+                    //支付金额 < 用户余额(余额充足)
                     iv_gou.setImageResource(R.mipmap.ic_circle_selected);
+                    iv_gou.setClickable(true);
+                }else {
+                    iv_gou.setImageResource(R.mipmap.ic_enable_select_oval);
+                    iv_gou.setClickable(false);
                 }
             }else {
                 iv_gou.setImageResource(R.mipmap.ic_circle_selected);
+                iv_gou.setClickable(true);
             }
         }else {
-            iv_gou.setImageResource(R.mipmap.ic_un_select_oval);
+            if(item.getFlag().equals("0")) {
+                if(item.getWalletEnabled() ==1) {
+                    //支付金额 < 用户余额(余额充足)
+                    iv_gou.setImageResource(R.mipmap.ic_un_select_oval);
+                    iv_gou.setClickable(true);
+                }else {
+                    iv_gou.setImageResource(R.mipmap.ic_enable_select_oval);
+                    iv_gou.setClickable(false);
+                }
+
+            }else {
+                iv_gou.setClickable(true);
+                iv_gou.setImageResource(R.mipmap.ic_un_select_oval);
+            }
         }
     }
 

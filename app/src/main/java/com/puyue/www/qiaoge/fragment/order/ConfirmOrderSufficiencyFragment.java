@@ -60,6 +60,7 @@ import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.dialog.DisSelfDialog;
 import com.puyue.www.qiaoge.dialog.OperateDialog;
+import com.puyue.www.qiaoge.dialog.PayDialog;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.BeizhuEvent;
 import com.puyue.www.qiaoge.event.ChooseCoupon2Event;
@@ -68,6 +69,7 @@ import com.puyue.www.qiaoge.event.DisTributionEvent;
 import com.puyue.www.qiaoge.event.DisTributionSelf1Event;
 import com.puyue.www.qiaoge.event.DisTributionSelfEvent;
 import com.puyue.www.qiaoge.event.RefreshEvent;
+import com.puyue.www.qiaoge.fragment.mine.PaymentDialog;
 import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragment;
 import com.puyue.www.qiaoge.helper.ActivityResultHelper;
 import com.puyue.www.qiaoge.helper.AppHelper;
@@ -1070,16 +1072,29 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                     public void onNext(GenerateOrderModel generateOrderModel) {
                         if (generateOrderModel.success) {
                             orderId = generateOrderModel.getData();
-                            PaymentFragment paymentFragment = new PaymentFragment();
+//                            PaymentFragment paymentFragment = new PaymentFragment();
+//                            Bundle bundle = new Bundle();
+//                            bundle.putString("total", payAmount);
+//                            bundle.putString("payAmount",payAmount);
+//                            bundle.putString("remark","");
+//                            bundle.putString("orderId",orderId);
+//                            bundle.putString("orderDeliveryType","1");
+//                            paymentFragment.setArguments(bundle);
+//                            paymentFragment.setCancelable(false);
+//                            paymentFragment.show(getFragmentManager(),"paymentFragment");
+//                            PayDialog payDialog = new PayDialog(mActivity,orderId,payAmount,"","1");
+//                            payDialog.show();
+
+                            PaymentDialog paymentFragment = new PaymentDialog();
                             Bundle bundle = new Bundle();
-                            bundle.putString("total", payAmount);
-                            bundle.putString("payAmount",payAmount);
-                            bundle.putString("remark","");
                             bundle.putString("orderId",orderId);
+                            bundle.putString("payAmount",payAmount);
+                            bundle.putString("remark", "");
                             bundle.putString("orderDeliveryType","1");
+
                             paymentFragment.setArguments(bundle);
-                            paymentFragment.setCancelable(false);
                             paymentFragment.show(getFragmentManager(),"paymentFragment");
+                            paymentFragment.setCancelable(false);
                             lav_activity_loading.hide();
                             lav_activity_loading.setVisibility(View.GONE);
 

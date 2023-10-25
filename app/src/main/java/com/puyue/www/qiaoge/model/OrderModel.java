@@ -87,6 +87,15 @@ public class OrderModel {
         String orderDeliveryType;
         public long sysCurrentTime;
         public long orderOverTime;
+        public int friendPay;
+
+        public int getFriendPay() {
+            return friendPay;
+        }
+
+        public void setFriendPay(int friendPay) {
+            this.friendPay = friendPay;
+        }
 
         public long getSysCurrentTime() {
             return sysCurrentTime;

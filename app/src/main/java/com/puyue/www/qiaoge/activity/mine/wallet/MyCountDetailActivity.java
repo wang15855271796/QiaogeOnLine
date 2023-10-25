@@ -110,6 +110,7 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
     TextView tv_time_desc;
     LinearLayout ll_three;
     RelativeLayout rl_zero;
+    LinearLayout ll_help_pay;
     private List<Integer> mReturnList = new ArrayList<>();
 
     @Override
@@ -126,6 +127,7 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
     public void findViewById() {
         tv_help_pay_account = findViewById(R.id.tv_help_pay_account);
         tv_help_desc = findViewById(R.id.tv_help_desc);
+        ll_help_pay = findViewById(R.id.ll_help_pay);
         ll_rent = findViewById(R.id.ll_rent);
         tv_time = findViewById(R.id.tv_time);
         tv_time_desc = findViewById(R.id.tv_time_desc);
@@ -484,7 +486,7 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
 
                                 ll_rent.setVisibility(View.GONE);
                             }
-                            Log.d("wdsda......","333");
+
                             if(type == 13) {
                                 //转让招租 付款
                                 tv_style_desc.setText("支付方式");
@@ -511,10 +513,12 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
                                 ll_rent.setVisibility(View.VISIBLE);
                             }else if(type == 15) {
                                 //5(帮TA付)
+                                ll_help_pay.setVisibility(View.VISIBLE);
                                 tv_help_pay_account.setText(data.otherPhone);
                                 tv_help_desc.setText("申请人");
                             }else if(type == 16) {
                                 // 16(退款-帮TA付)
+                                ll_help_pay.setVisibility(View.VISIBLE);
                                 tv_help_desc.setText("申请人");
                                 tv_help_pay_account.setText(data.otherPhone);
                             }
@@ -525,6 +529,7 @@ public class MyCountDetailActivity extends BaseSwipeActivity {
                                 }else {
                                     tv_help_desc.setText("申请人");
                                 }
+                                tv_help_pay_account.setText(data.otherPhone);
                             }
 
                             if (data.amount.doubleValue() > 0) {

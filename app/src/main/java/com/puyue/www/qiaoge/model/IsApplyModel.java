@@ -92,11 +92,11 @@ public class IsApplyModel {
             this.statusStr = statusStr;
         }
 
-        public Integer getStatus() {
+        public int getStatus() {
             return status;
         }
 
-        public void setStatus(Integer status) {
+        public void setStatus(int status) {
             this.status = status;
         }
 

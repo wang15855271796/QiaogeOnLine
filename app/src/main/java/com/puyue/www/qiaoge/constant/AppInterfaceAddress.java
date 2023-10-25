@@ -19,7 +19,12 @@ public class AppInterfaceAddress {
     /**
      * 申请入驻城市仓/前置仓
      */
-    public static final String Apply_City_WareHouse = "admin/user/applySettleInCompany";
+    public static final String Apply_City_WareHouse = "user/applySettleInCompany";
+
+    /**
+     * 开店合作信息
+     */
+    public static final String Open_Shop_Info = "user/showOpenShopInfo";
     /**
      *视频详情
      */

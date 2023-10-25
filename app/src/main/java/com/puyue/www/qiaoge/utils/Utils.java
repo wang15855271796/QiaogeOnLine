@@ -3,6 +3,9 @@ package com.puyue.www.qiaoge.utils;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaMetadataRetriever;
@@ -16,6 +19,8 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.google.android.exoplayer2.util.Util;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,6 +34,57 @@ import java.util.regex.Pattern;
 
 public class Utils {
 
+    public static void setClear(Context mContext) {
+        SharedPreferencesUtil.saveString(mContext,"companyName","");
+        SharedPreferencesUtil.saveString(mContext,"companyAddress","");
+        SharedPreferencesUtil.saveString(mContext,"licenseNo","");
+        SharedPreferencesUtil.saveInt(mContext,"companyType",-1);
+        SharedPreferencesUtil.saveInt(mContext,"licenseLongTerm",-1);
+        SharedPreferencesUtil.saveString(mContext,"licenseValidityStart","");
+        SharedPreferencesUtil.saveString(mContext,"licenseValidityEnd","");
+        SharedPreferencesUtil.saveString(mContext,"validity","");
+        SharedPreferencesUtil.saveString(mContext,"businessUrl","");
+        SharedPreferencesUtil.saveString(mContext,"licenseUrl","");
+    }
+
+    //营业执照
+    public static void getLicense(Context mContext,String companyName,String companyAddress,String registerNum,int companyType, int licenseLongTerm,
+                                  String licenseValidityStart,String licenseValidityEnd,String licensePath) {
+        SharedPreferencesUtil.saveString(mContext,"companyName",companyName);
+        SharedPreferencesUtil.saveString(mContext,"companyAddress",companyAddress);
+        SharedPreferencesUtil.saveString(mContext,"licenseNo",registerNum);
+        SharedPreferencesUtil.saveInt(mContext,"companyType",companyType);
+        SharedPreferencesUtil.saveInt(mContext,"licenseLongTerm",licenseLongTerm);
+        SharedPreferencesUtil.saveString(mContext,"licenseValidityStart",licenseValidityStart);
+        SharedPreferencesUtil.saveString(mContext,"licenseValidityEnd",licenseValidityEnd);
+        SharedPreferencesUtil.saveString(mContext,"licenseUrl",licensePath);
+    }
+
+    //许可证
+    public static void getAllow(Context mContext,String validity,String businessUrl) {
+        SharedPreferencesUtil.saveString(mContext,"validity",validity);
+        SharedPreferencesUtil.saveString(mContext,"businessUrl",businessUrl);
+    }
+
+
+
+    public static Bitmap createTextImage(int width,int height,int txtSize,String innerTxt) {
+        //若使背景为透明，必须设置为Bitmap.Config.ARGB_4444
+        Bitmap bm = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_4444);
+        Canvas canvas = new Canvas(bm);
+
+        Paint paint = new Paint();
+        paint.setColor(Color.GRAY);
+        paint.setTextSize(txtSize);
+
+        //计算得出文字的绘制起始x、y坐标
+        int posX = width/2 - txtSize*innerTxt.length()/2;
+        int posY = height/2 - txtSize/2;
+
+        canvas.drawText(innerTxt, posX, posY, paint);
+
+        return bm;
+    }
 
     public static float getPureDouble(String str) {
         if (str == null || str.length() == 0) return 0;
@@ -43,6 +99,45 @@ public class Utils {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public static byte[] bmpToByteArray (Bitmap bitmap) {
+
+        // 要返回的字符串
+        byte[] reslut = null;
+
+        ByteArrayOutputStream baos = null;
+
+        try {
+            if (bitmap != null) {
+                baos = new ByteArrayOutputStream();
+                /**
+                 * 压缩只对保存有效果bitmap还是原来的大小
+                 */
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+                baos.flush();
+                baos.close();
+                // 转换为字节数组
+                reslut= baos.toByteArray();
+
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (baos != null) {
+                    baos.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return reslut;
+
     }
 
     public static void main(String[] args){

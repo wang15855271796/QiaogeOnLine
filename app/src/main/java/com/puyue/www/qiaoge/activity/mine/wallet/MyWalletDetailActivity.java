@@ -198,7 +198,6 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
         adapters.setOnItemBillListener(new StickyListAdapter.OnItemBillClickListener() {
             @Override
             public void onItemClick(int pos) {
-
                 if (!mListData.get(pos).isNullData()) {
                     Intent intent = new Intent(mContext, MyCountDetailActivity.class);
                     intent.putExtra("id", mListData.get(pos).getId());

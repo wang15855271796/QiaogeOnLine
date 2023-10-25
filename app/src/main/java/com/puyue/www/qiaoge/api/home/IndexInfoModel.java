@@ -107,7 +107,7 @@ public class IndexInfoModel {
         private List<BannersBean> banners;
         private List<IconsBean> icons;
         private List<ClassifyListBean> classifyList;
-        private DataBean.SendOrderBean sendOrder;
+        List<DataBean.SendOrderBean> sendOrder;
         private List<String> hotKey;
         String giftReceiveBtn;
         private UserPopup userPopup;
@@ -119,11 +119,11 @@ public class IndexInfoModel {
         private List<NoticeInfoBean> noticeInfo;
         boolean showQgSchool;
 
-        public DataBean.SendOrderBean getSendOrder() {
+        public List<SendOrderBean> getSendOrder() {
             return sendOrder;
         }
 
-        public void setSendOrder(DataBean.SendOrderBean sendOrder) {
+        public void setSendOrder(List<SendOrderBean> sendOrder) {
             this.sendOrder = sendOrder;
         }
 
@@ -186,6 +186,15 @@ public class IndexInfoModel {
             private String orderId;
             private String orderAmt;
             private String sendPhone;
+            private int orderDeliveryType;
+
+            public int getOrderDeliveryType() {
+                return orderDeliveryType;
+            }
+
+            public void setOrderDeliveryType(int orderDeliveryType) {
+                this.orderDeliveryType = orderDeliveryType;
+            }
 
             public String getOrderId() {
                 return orderId;

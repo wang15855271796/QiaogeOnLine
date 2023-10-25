@@ -88,7 +88,6 @@ import rx.schedulers.Schedulers;
  * Created by ${王涛} on 2020/8/14
  */
 public class PaymentFragment extends DialogFragment {
-
     private RelativeLayout rePayWay, rePayDetail;
     private LinearLayout LinPayWay;
     private Button btnPay;
@@ -264,14 +263,6 @@ public class PaymentFragment extends DialogFragment {
     @Override
     public void onResume() {
         super.onResume();
-//        if(outTradeNo!=null&&SharedPreferencesUtil.getString(getContext(),"payKey").equals("5")) {
-//            getPayResult(outTradeNo);
-//        }
-//
-//        if(outTradeNo!=null&&SharedPreferencesUtil.getString(getContext(),"payKey").equals("4")) {
-//            getPayResult(outTradeNo);
-//        }
-
         if(jumpWx==1) {
             Intent intent = new Intent(getActivity(),NewOrderDetailActivity.class);
             intent.putExtra(AppConstant.ORDERID,orderId);
@@ -463,7 +454,7 @@ public class PaymentFragment extends DialogFragment {
         req.userName = "gh_02750c16f80b"; // 填小程序原始id
         req.path = "/pagesGoods/toplay/apptoplay?token="+userId+"&oderNo="+orderId;
         ////拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
-        req.miniprogramType =  WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发版，体验版和正式版
+        req.miniprogramType =  WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW;// 可选打开 开发版，体验版和正式版
         api.sendReq(req);
     }
 
@@ -835,7 +826,7 @@ public class PaymentFragment extends DialogFragment {
      */
     List<PayListModel.DataBean> data;
     private void orderPay() {
-        OrderPayAPI.requestsData(getContext())
+        OrderPayAPI.requestsData(getContext(),orderId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<PayListModel>() {

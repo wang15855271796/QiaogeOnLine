@@ -1473,24 +1473,6 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
                             .setCallback(umShareListener)//回调监听器
                             .share();
 
-
-                    UMMin umMin =new UMMin(mShareUrl);
-//兼容低版本的网页链接
-                    umMin.setThumb(new UMImage(CommonGoodsDetailActivity.this, mShareIcon));
-// 小程序消息封面图片
-                    umMin.setTitle(mShareTitle);
-// 小程序消息title
-                    umMin.setDescription(mShareDesc);
-// 小程序消息描述
-                    umMin.setPath("/pagesGoods/toplay/apptoplay");
-//小程序页面路径
-                    umMin.setUserName("gh_xxxxxxxxxxxx");
-// 小程序原始id,在微信平台查询
-                    new ShareAction(CommonGoodsDetailActivity.this)
-                            .withMedia(umMin)
-                            .setPlatform(SHARE_MEDIA.WEIXIN)
-                            .setCallback(umShareListener).share();
-
                 } else {
                     Toast.makeText(CommonGoodsDetailActivity.this, "数据不全!", Toast.LENGTH_SHORT).show();
                 }

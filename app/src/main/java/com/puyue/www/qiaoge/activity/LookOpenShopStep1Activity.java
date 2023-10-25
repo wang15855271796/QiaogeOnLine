@@ -48,9 +48,11 @@ public class LookOpenShopStep1Activity extends BaseActivity implements View.OnCl
     TextView tv_style;
     IsApplyModel.DataBean applyData;
     ApplyInfoModel.DataBean detailInfo;
+    String applyPhone;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         applyData = (IsApplyModel.DataBean) getIntent().getSerializableExtra("applyData");
+        applyPhone = getIntent().getStringExtra("applyPhone");
         return false;
     }
 
@@ -97,8 +99,6 @@ public class LookOpenShopStep1Activity extends BaseActivity implements View.OnCl
                             if(applyInfoModel.getData()!=null) {
 
                                 setContent(applyInfoModel.getData());
-//                                Intent intent = new Intent(mContext,OpenShopStep4Activity.class);
-//                                startActivity(intent);
                             }
                         } else {
                             ToastUtil.showSuccessMsg(mContext, applyInfoModel.getMessage());
@@ -113,8 +113,8 @@ public class LookOpenShopStep1Activity extends BaseActivity implements View.OnCl
         tv_address.setText(data.getAddress());
         tv_contact_name.setText(data.getContactName());
         tv_contact_phone.setText(data.getContactPhone());
-        tv_province.setText(data.getProvinceName());
-        tv_city.setText(data.getCityName());
+        tv_province.setText(data.getCompanyProvinceName());
+        tv_city.setText(data.getCompanyCityName());
         tv_area.setText(data.getCompanyAreaName());
         tv_style.setText(data.getSupplyProdType());
     }
@@ -129,6 +129,7 @@ public class LookOpenShopStep1Activity extends BaseActivity implements View.OnCl
             case R.id.tv_next:
                 Intent intent = new Intent(mContext,LookOpenShopStep2Activity.class);
                 intent.putExtra("detailInfo", (Serializable) detailInfo);
+                intent.putExtra("applyPhone",applyPhone);
                 startActivity(intent);
                 break;
         }

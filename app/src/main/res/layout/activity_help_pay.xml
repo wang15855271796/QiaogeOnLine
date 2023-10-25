@@ -37,7 +37,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="供应商入驻"
+                    android:text="帮我付"
                     android:textColor="#414141"
                     android:textSize="16sp" />
 
@@ -62,6 +62,7 @@
             android:layout_marginTop="18dp"
             android:background="@drawable/shape_grey3"
             android:hint="请输入手机号"
+            android:maxLength="11"
             android:paddingLeft="5dp"
             android:textColor="#414141"
             android:textSize="14sp" />

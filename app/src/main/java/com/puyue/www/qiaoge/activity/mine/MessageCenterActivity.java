@@ -254,7 +254,7 @@ public class MessageCenterActivity extends BaseSwipeActivity {
                 //得到状态数
                 getItemStavedNum();
                 mAdapterMessageCenter.notifyDataSetChanged();
-                Log.d("wdwd........",mListData.size()+"-");
+
             } else {
                 //没数据
                 mIvNoData.setVisibility(View.VISIBLE);

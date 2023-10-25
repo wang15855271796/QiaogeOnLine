@@ -3,10 +3,12 @@ package com.puyue.www.qiaoge.activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Looper;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -120,7 +122,7 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
     @Override
     public void onAttachFragment(Fragment fragment) {
         //重新让新的Fragment指向了原本未被销毁的fragment，它就是onAttach方法对应的Fragment对象
-        if (mTabHome == null && fragment instanceof HomeFragment2)
+        if (mTabHome == null && fragment instanceof HomeFragment)
             mTabHome = fragment;
         if (mTabMarket == null && fragment instanceof MarketsFragment)
             mTabMarket = fragment;
@@ -128,9 +130,14 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
             mTabCart = fragment;
         if (mTabInfo == null && fragment instanceof InfoFragment)
             mTabInfo = fragment;
-        if (mTabMine == null && fragment instanceof MineWyFragment)
+        if (mTabMine == null && fragment instanceof MineFragment)
             mTabMine = fragment;
         super.onAttachFragment(fragment);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
     @Override

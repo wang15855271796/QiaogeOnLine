@@ -119,6 +119,7 @@ public class MySubOrdersItemAdapter extends BaseQuickAdapter<OrdersModel.DataBea
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, HelpPayActivity.class);
                 intent.putExtra("orderId",item.orderId);
+                intent.putExtra("orderDeliveryType",orderDeliveryType);
                 mContext.startActivity(intent);
             }
         });

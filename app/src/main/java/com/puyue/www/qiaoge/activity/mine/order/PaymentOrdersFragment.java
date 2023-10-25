@@ -24,6 +24,8 @@ import com.puyue.www.qiaoge.api.mine.order.MyOrderListAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.dialog.HuoConnentionDialog;
+import com.puyue.www.qiaoge.dialog.PayDialog;
+import com.puyue.www.qiaoge.fragment.mine.PaymentDialog;
 import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragments;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
@@ -209,16 +211,29 @@ public class PaymentOrdersFragment extends BaseFragment {
 //                    intent.putExtra("flag", true);
 //
 //                    startActivity(intent);
-                    PaymentFragments paymentFragment = new PaymentFragments();
+//                    PaymentFragments paymentFragment = new PaymentFragments();
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("total", payAmount);
+//                    bundle.putString("remark","");
+//                    bundle.putString("payAmount",payAmount);
+//                    bundle.putString("orderId",orderId);
+//                    bundle.putString("orderDeliveryType",orderDeliveryType+"");
+//                    paymentFragment.setArguments(bundle);
+//                    paymentFragment.setCancelable(false);
+//                    paymentFragment.show(getFragmentManager(),"paymentFragment");
+
+//                    PayDialog payDialog = new PayDialog(mActivity,orderId,payAmount,"",orderDeliveryType+"");
+//                    payDialog.show();
+                    PaymentDialog paymentFragment = new PaymentDialog();
                     Bundle bundle = new Bundle();
-                    bundle.putString("total", payAmount);
-                    bundle.putString("remark","");
-                    bundle.putString("payAmount",payAmount);
                     bundle.putString("orderId",orderId);
+                    bundle.putString("payAmount",payAmount);
+                    bundle.putString("remark", "");
                     bundle.putString("orderDeliveryType",orderDeliveryType+"");
+
                     paymentFragment.setArguments(bundle);
-                    paymentFragment.setCancelable(false);
                     paymentFragment.show(getFragmentManager(),"paymentFragment");
+                    paymentFragment.setCancelable(false);
                 }
 
                 @Override
@@ -324,16 +339,28 @@ public class PaymentOrdersFragment extends BaseFragment {
 //                    intent.putExtra("flag", true);
 //
 //                    startActivity(intent);
-                    PaymentFragments paymentFragment = new PaymentFragments();
+//                    PaymentFragments paymentFragment = new PaymentFragments();
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("total", payAmount);
+//                    bundle.putString("remark","");
+//                    bundle.putString("payAmount",payAmount);
+//                    bundle.putString("orderId",orderId);
+//                    bundle.putString("orderDeliveryType",orderDeliveryType+"");
+//                    paymentFragment.setArguments(bundle);
+//                    paymentFragment.setCancelable(false);
+//                    paymentFragment.show(getFragmentManager(),"paymentFragment");
+//                    PayDialog payDialog = new PayDialog(mActivity,orderId,payAmount,"",orderDeliveryType+"");
+//                    payDialog.show();
+                    PaymentDialog paymentFragment = new PaymentDialog();
                     Bundle bundle = new Bundle();
-                    bundle.putString("total", payAmount);
-                    bundle.putString("remark","");
-                    bundle.putString("payAmount",payAmount);
                     bundle.putString("orderId",orderId);
+                    bundle.putString("payAmount",payAmount);
+                    bundle.putString("remark", "");
                     bundle.putString("orderDeliveryType",orderDeliveryType+"");
+
                     paymentFragment.setArguments(bundle);
-                    paymentFragment.setCancelable(false);
                     paymentFragment.show(getFragmentManager(),"paymentFragment");
+                    paymentFragment.setCancelable(false);
                 }
 
                 @Override

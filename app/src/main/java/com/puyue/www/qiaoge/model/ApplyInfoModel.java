@@ -74,23 +74,23 @@ public class ApplyInfoModel {
         private String companyAreaCode;
         private String companyAreaName;
         private String supplyProdType;
-        private Integer basicFinish;
+        private int basicFinish;
         private String licenseUrl;
         private String businessUrl;
         private String licenseNo;
         private String companyName;
         private String companyAddress;
-        private Integer companyType;
-        private Integer licenseLongTerm;
+        private int companyType;
+        private int licenseLongTerm;
         private String licenseValidityStart;
         private String licenseValidityEnd;
         private String businessValidity;
-        private Integer licenseFinish;
+        private int licenseFinish;
         private String corporateCardFront;
         private String corporateCardReverse;
         private String idNumber;
-        private Integer corporateFinish;
-        private Integer accountType;
+        private int corporateFinish;
+        private int accountType;
         private String accountName;
         private String accountBank;
         private String provinceCode;
@@ -102,7 +102,7 @@ public class ApplyInfoModel {
         private String phone;
         private String userName;
         private String pwd;
-        private Integer settleFinish;
+        private int settleFinish;
         private Integer checkStatus;
 
         public String getCheckNo() {
@@ -209,11 +209,11 @@ public class ApplyInfoModel {
             this.supplyProdType = supplyProdType;
         }
 
-        public Integer getBasicFinish() {
+        public int getBasicFinish() {
             return basicFinish;
         }
 
-        public void setBasicFinish(Integer basicFinish) {
+        public void setBasicFinish(int basicFinish) {
             this.basicFinish = basicFinish;
         }
 
@@ -257,19 +257,19 @@ public class ApplyInfoModel {
             this.companyAddress = companyAddress;
         }
 
-        public Integer getCompanyType() {
+        public int getCompanyType() {
             return companyType;
         }
 
-        public void setCompanyType(Integer companyType) {
+        public void setCompanyType(int companyType) {
             this.companyType = companyType;
         }
 
-        public Integer getLicenseLongTerm() {
+        public int getLicenseLongTerm() {
             return licenseLongTerm;
         }
 
-        public void setLicenseLongTerm(Integer licenseLongTerm) {
+        public void setLicenseLongTerm(int licenseLongTerm) {
             this.licenseLongTerm = licenseLongTerm;
         }
 
@@ -297,11 +297,11 @@ public class ApplyInfoModel {
             this.businessValidity = businessValidity;
         }
 
-        public Integer getLicenseFinish() {
+        public int getLicenseFinish() {
             return licenseFinish;
         }
 
-        public void setLicenseFinish(Integer licenseFinish) {
+        public void setLicenseFinish(int licenseFinish) {
             this.licenseFinish = licenseFinish;
         }
 
@@ -329,19 +329,19 @@ public class ApplyInfoModel {
             this.idNumber = idNumber;
         }
 
-        public Integer getCorporateFinish() {
+        public int getCorporateFinish() {
             return corporateFinish;
         }
 
-        public void setCorporateFinish(Integer corporateFinish) {
+        public void setCorporateFinish(int corporateFinish) {
             this.corporateFinish = corporateFinish;
         }
 
-        public Integer getAccountType() {
+        public int getAccountType() {
             return accountType;
         }
 
-        public void setAccountType(Integer accountType) {
+        public void setAccountType(int accountType) {
             this.accountType = accountType;
         }
 
@@ -433,11 +433,11 @@ public class ApplyInfoModel {
             this.pwd = pwd;
         }
 
-        public Integer getSettleFinish() {
+        public int getSettleFinish() {
             return settleFinish;
         }
 
-        public void setSettleFinish(Integer settleFinish) {
+        public void setSettleFinish(int settleFinish) {
             this.settleFinish = settleFinish;
         }
 

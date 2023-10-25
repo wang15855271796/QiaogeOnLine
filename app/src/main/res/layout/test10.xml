@@ -121,6 +121,7 @@
 
                                     <include layout="@layout/home_tip_iv"/>
 
+
                                     <com.frankfancode.marqueeview.MarqueeView
                                         android:id="@+id/marquee"
                                         android:visibility="gone"
@@ -517,7 +518,6 @@
                     android:layout_marginBottom="@dimen/size_88dp"/>
 
             </RelativeLayout>
-
 
             <com.frankfancode.marqueeview.MarqueeView
                 android:id="@+id/order_marquee"

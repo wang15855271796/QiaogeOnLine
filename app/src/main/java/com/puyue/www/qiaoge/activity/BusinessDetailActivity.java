@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -31,10 +32,18 @@ import com.puyue.www.qiaoge.QiaoGeApplication;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.activity.view.GlideEngine;
+import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.mine.order.SendImageAPI;
 import com.puyue.www.qiaoge.base.BaseActivity;
+import com.puyue.www.qiaoge.dialog.BackDialog;
+import com.puyue.www.qiaoge.dialog.BackDialog1;
+import com.puyue.www.qiaoge.helper.UserInfoHelper;
+import com.puyue.www.qiaoge.model.ApplyInfoModel;
 import com.puyue.www.qiaoge.model.SendImagesModel;
+import com.puyue.www.qiaoge.model.home.GetAddressModel;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
+import com.puyue.www.qiaoge.utils.Utils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -81,7 +90,7 @@ public class BusinessDetailActivity extends BaseActivity implements View.OnClick
     @BindView(R.id.ll_time)
     LinearLayout ll_time;
     PopupWindow pop;
-    String licensePath;
+    String licenseUrl;
     String companyName;
     String registerNum;
     String companyAddress;
@@ -89,9 +98,14 @@ public class BusinessDetailActivity extends BaseActivity implements View.OnClick
     int licenseLongTerm = -1;
     String licenseValidityStart;
     String licenseValidityEnd;
+    String checkNo;
+    ApplyInfoModel.DataBean applyData;
+    int licenseFinish;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
-        licensePath = getIntent().getStringExtra("licensePath");
+        licenseUrl = getIntent().getStringExtra("licensePath");
+        checkNo = getIntent().getStringExtra("checkNo");
+        licenseFinish = getIntent().getIntExtra("licenseFinish",0);
 
         return false;
     }
@@ -108,7 +122,10 @@ public class BusinessDetailActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void setViewData() {
-        Glide.with(mContext).load(licensePath).into(iv_business);
+        if(!TextUtils.isEmpty(licenseUrl)) {
+            Glide.with(mContext).load(licenseUrl).into(iv_business);
+        }
+        QiaoGeApplication.getInstance().addActivity(this);
         rg_style.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
@@ -123,6 +140,120 @@ public class BusinessDetailActivity extends BaseActivity implements View.OnClick
                 }
             }
         });
+
+        if(!TextUtils.isEmpty(checkNo) && licenseFinish == 1 && TextUtils.isEmpty(SharedPreferencesUtil.getString(mContext,"licenseNo"))) {
+            getDetailInfo();
+        }
+
+
+        if(licenseFinish == 0 || licenseFinish == 1 && !TextUtils.isEmpty(SharedPreferencesUtil.getString(mContext,"licenseNo"))) {
+            et_register_num.setText(SharedPreferencesUtil.getString(mContext,"licenseNo"));
+            et_company_name.setText(SharedPreferencesUtil.getString(mContext,"companyName"));
+            et_place_business.setText(SharedPreferencesUtil.getString(mContext,"companyAddress"));
+            if(SharedPreferencesUtil.getInt(mContext,"companyType") == 0) {
+                //企业
+                rb_company.setChecked(true);
+            }
+
+            if(SharedPreferencesUtil.getInt(mContext,"companyType") == 1) {
+                //个人
+                rb_personal.setChecked(true);
+            }
+
+            if(SharedPreferencesUtil.getInt(mContext,"licenseLongTerm") == 0) {
+                licenseLongTerm = 0;
+                ll_time.setVisibility(View.VISIBLE);
+                tv_regular.setBackgroundResource(R.drawable.shape_orange27);
+                tv_long_term.setBackgroundResource(R.drawable.shape_grey3);
+                tv_regular.setTextColor(Color.parseColor("#FF3D03"));
+                tv_long_term.setTextColor(Color.parseColor("#414141"));
+                tv_start_time.setText(SharedPreferencesUtil.getString(mContext,"licenseValidityStart"));
+                tv_end_time.setText(SharedPreferencesUtil.getString(mContext,"licenseValidityEnd"));
+
+            }
+
+            if(SharedPreferencesUtil.getInt(mContext,"licenseLongTerm") == 1) {
+                licenseLongTerm = 1;
+                ll_time.setVisibility(View.GONE);
+                tv_regular.setBackgroundResource(R.drawable.shape_grey3);
+                tv_long_term.setBackgroundResource(R.drawable.shape_orange27);
+                tv_regular.setTextColor(Color.parseColor("#414141"));
+                tv_long_term.setTextColor(Color.parseColor("#FF3D03"));
+            }
+
+            if(!TextUtils.isEmpty(SharedPreferencesUtil.getString(mContext,"licenseUrl"))) {
+                String licenseUrl = SharedPreferencesUtil.getString(mContext, "licenseUrl");
+                Glide.with(mContext).load(licenseUrl).into(iv_business);
+            }
+        }
+    }
+
+    ApplyInfoModel.DataBean data;
+    private void getDetailInfo() {
+        RecommendApI.getApplyInfo(mContext,checkNo)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApplyInfoModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ApplyInfoModel applyInfoModel) {
+                        if (applyInfoModel.getCode()==1) {
+                            if(applyInfoModel.getData()!=null) {
+                                data = applyInfoModel.getData();
+                                if(!TextUtils.isEmpty(data.getLicenseNo())) {
+                                    et_register_num.setText(data.getLicenseNo());
+                                }
+                                if(!TextUtils.isEmpty(data.getCompanyName())) {
+                                    et_company_name.setText(data.getCompanyName());
+                                }
+                                if(!TextUtils.isEmpty(data.getCompanyAddress())) {
+                                    et_place_business.setText(data.getCompanyAddress());
+                                }
+
+                                if(data.getCompanyType() == 0) {
+                                    companyType = 0;
+                                    rb_company.setChecked(true);
+                                }
+
+                                if(data.getCompanyType() == 1) {
+                                    companyType = 1;
+                                    rb_personal.setChecked(true);
+                                }
+
+                                if(data.getLicenseLongTerm() == 0) {
+                                    licenseLongTerm = 0;
+                                    ll_time.setVisibility(View.VISIBLE);
+                                    tv_regular.setBackgroundResource(R.drawable.shape_orange27);
+                                    tv_long_term.setBackgroundResource(R.drawable.shape_grey3);
+                                    tv_regular.setTextColor(Color.parseColor("#FF3D03"));
+                                    tv_long_term.setTextColor(Color.parseColor("#414141"));
+                                    tv_start_time.setText(data.getLicenseValidityStart());
+                                    tv_end_time.setText(data.getLicenseValidityEnd());
+                                }
+
+                                if(data.getLicenseLongTerm() == 1) {
+                                    licenseLongTerm = 1;
+                                    ll_time.setVisibility(View.GONE);
+                                    tv_regular.setBackgroundResource(R.drawable.shape_grey3);
+                                    tv_long_term.setBackgroundResource(R.drawable.shape_orange27);
+                                    tv_regular.setTextColor(Color.parseColor("#414141"));
+                                    tv_long_term.setTextColor(Color.parseColor("#FF3D03"));
+                                }
+                            }
+                        } else {
+                            ToastUtil.showSuccessMsg(mContext, applyInfoModel.getMessage());
+                        }
+                    }
+                });
     }
 
     @Override
@@ -130,18 +261,19 @@ public class BusinessDetailActivity extends BaseActivity implements View.OnClick
         iv_back.setOnClickListener(this);
         tv_regular.setOnClickListener(this);
         tv_long_term.setOnClickListener(this);
-        tv_upload.setOnClickListener(this);
+        iv_business.setOnClickListener(this);
         tv_ok.setOnClickListener(this);
         tv_upload.getBackground().setAlpha(180);
         tv_end_time.setOnClickListener(this);
         tv_start_time.setOnClickListener(this);
     }
 
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
+//                Utils.getLicense(mContext,companyName,companyAddress,registerNum,companyType,licenseLongTerm,
+//                        licenseValidityStart,licenseValidityEnd,licenseUrl);
                 finish();
                 break;
 
@@ -172,30 +304,73 @@ public class BusinessDetailActivity extends BaseActivity implements View.OnClick
                 tv_long_term.setTextColor(Color.parseColor("#FF3D03"));
                 break;
 
-            case R.id.tv_upload:
+            case R.id.iv_business:
                 showPop();
                 break;
 
             case R.id.tv_ok:
+                if(TextUtils.isEmpty(et_register_num.getText().toString().trim())) {
+                    ToastUtil.showSuccessMsg(mContext,"请填写注册号/统一信用代码");
+                    return;
+                }
+
+                if(TextUtils.isEmpty(et_company_name.getText().toString().trim())) {
+                    ToastUtil.showSuccessMsg(mContext,"请填写单位名称");
+                    return;
+                }
+
+                if(TextUtils.isEmpty(et_place_business.getText().toString().trim())) {
+                    ToastUtil.showSuccessMsg(mContext,"请填写经营场所");
+                    return;
+                }
+
+                if(companyType == -1) {
+                    ToastUtil.showSuccessMsg(mContext,"请选择公司类型");
+                    return;
+                }
+
+                if(licenseLongTerm == -1) {
+                    ToastUtil.showSuccessMsg(mContext,"请选择执照有效期");
+                    return;
+                }
+
+                if(licenseLongTerm == 0) {
+                    //营业执照是否长期（否）
+                    if(TextUtils.isEmpty(tv_start_time.getText().toString().trim())) {
+                        ToastUtil.showSuccessMsg(mContext,"请选择执照起始时间");
+                        return;
+                    }
+
+                    if(TextUtils.isEmpty(tv_end_time.getText().toString().trim())) {
+                        ToastUtil.showSuccessMsg(mContext,"请选择执照结束时间");
+                        return;
+                    }
+                }
                 companyName = et_company_name.getText().toString().trim();
                 companyAddress = et_place_business.getText().toString().trim();
                 registerNum = et_register_num.getText().toString().trim();
                 licenseValidityStart = tv_start_time.getText().toString().trim();
                 licenseValidityEnd = tv_end_time.getText().toString().trim();
+
                 Intent intent = new Intent();
-                intent.putExtra("licenseUrl",licensePath);
+                intent.putExtra("licenseUrl",licenseUrl);
                 intent.putExtra("licenseNo",registerNum);
                 intent.putExtra("companyName",companyName);
+                intent.putExtra("companyType",companyType);
                 intent.putExtra("companyAddress",companyAddress);
                 intent.putExtra("licenseLongTerm",licenseLongTerm);
                 intent.putExtra("licenseValidityStart",licenseValidityStart);
                 intent.putExtra("licenseValidityEnd",licenseValidityEnd);
                 setResult(3,intent);
-                QiaoGeApplication.getInstance().addActivity(this);
+
                 finish();
+
+                Utils.getLicense(mContext,companyName,companyAddress,registerNum,companyType,licenseLongTerm,
+                        licenseValidityStart,licenseValidityEnd,licenseUrl);
                 break;
         }
     }
+
 
     @SuppressLint("ResourceType")
     private void showDatePickView(int flag) {
@@ -279,6 +454,8 @@ public class BusinessDetailActivity extends BaseActivity implements View.OnClick
 
     }
 
+
+
     List<String> picList = new ArrayList<>();
     List<LocalMedia> images = new ArrayList<>();
     @Override
@@ -288,14 +465,15 @@ public class BusinessDetailActivity extends BaseActivity implements View.OnClick
             picList.clear();
             images.clear();
             images = PictureSelector.obtainMultipleResult(data);
-            String compressPath = images.get(0).getCompressPath();
-            picList.add(compressPath);
-            Glide.with(mActivity).load(compressPath).into(iv_business);
+            if(images!=null && images.size()>0) {
+                String compressPath = images.get(0).getCompressPath();
+                picList.add(compressPath);
+                Glide.with(mActivity).load(compressPath).into(iv_business);
 
-            List<MultipartBody.Part> parts = filesToMultipartBodyParts(picList);
-            upImage(parts);
+                List<MultipartBody.Part> parts = filesToMultipartBodyParts(picList);
+                upImage(parts);
+            }
         }
-
     }
 
     public void upImage(List<MultipartBody.Part> parts) {
@@ -316,7 +494,8 @@ public class BusinessDetailActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void onNext(SendImagesModel sendImageModel) {
                         if (sendImageModel.code==1) {
-                            licensePath = sendImageModel.data.get(0);
+                            licenseUrl = sendImageModel.data.get(0);
+
                         } else {
                             ToastUtil.showSuccessMsg(mContext,sendImageModel.message);
                         }

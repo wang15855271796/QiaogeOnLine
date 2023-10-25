@@ -24,6 +24,7 @@ import com.puyue.www.qiaoge.model.SurpliListModel;
 import com.puyue.www.qiaoge.model.home.ResetPwdModel;
 import com.puyue.www.qiaoge.utils.EnCodeUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
+import com.puyue.www.qiaoge.utils.Utils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -105,6 +106,16 @@ public class ProviderWareHouseActivity extends BaseActivity implements View.OnCl
             case R.id.tv_next:
                 yzm = et_yzm.getText().toString().trim();
                 phone = et_phone.getText().toString().trim();
+
+                if(TextUtils.isEmpty(phone)) {
+                    ToastUtil.showSuccessMsg(mContext,"请输入手机号");
+                    return;
+                }
+
+                if(TextUtils.isEmpty(yzm)) {
+                    ToastUtil.showSuccessMsg(mContext,"请输入验证码");
+                    return;
+                }
                 checkYzm(phone,yzm);
                 break;
         }
@@ -129,7 +140,11 @@ public class ProviderWareHouseActivity extends BaseActivity implements View.OnCl
                     @Override
                     public void onNext(ResetPwdModel baseModel) {
                         if(baseModel.getCode()==1) {
-                            isApplyProvider();
+                            if(baseModel.isData()) {
+                                isApplyProvider();
+                            }else {
+                                ToastUtil.showSuccessMsg(mContext, "验证失败");
+                            }
                         }else {
                             ToastUtil.showSuccessMsg(mContext, baseModel.getMessage());
                         }
@@ -166,7 +181,7 @@ public class ProviderWareHouseActivity extends BaseActivity implements View.OnCl
                                 //未申请过
                                 intent = new Intent(mContext, StartProviderActivity.class);
                                 intent.putExtra("applyPhone",phone);
-                                finish();
+                                Utils.setClear(mContext);
                             }
                             startActivity(intent);
                         } else {

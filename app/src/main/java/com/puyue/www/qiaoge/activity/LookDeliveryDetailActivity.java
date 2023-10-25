@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.tu.loadingdialog.LoadingDailog;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.adapter.HelpOrderDetailAdapter;
+import com.puyue.www.qiaoge.adapter.OrderFullAdapter;
 import com.puyue.www.qiaoge.api.home.GetOrderDetailAPI;
 import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.dialog.HelpPayOrderDialog;
@@ -86,8 +87,15 @@ public class LookDeliveryDetailActivity extends BaseActivity implements View.OnC
     RelativeLayout rl_driver_info;
     @BindView(R.id.tv_status)
     TextView tv_status;
+    @BindView(R.id.tv_pay_style)
+    TextView tv_pay_style;
+    @BindView(R.id.tv_pay_time)
+    TextView tv_pay_time;
+    @BindView(R.id.rv_full)
+    RecyclerView rv_full;
     String orderId;
     LoadingDailog dialog;
+    OrderFullAdapter orderFullAdapter;
     HelpOrderDetailAdapter helpOrderDetailAdapter;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
@@ -111,6 +119,11 @@ public class LookDeliveryDetailActivity extends BaseActivity implements View.OnC
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         helpOrderDetailAdapter = new HelpOrderDetailAdapter(R.layout.item_help_order_detail, orderProdsList);
         recyclerView.setAdapter(helpOrderDetailAdapter);
+
+        rv_full.setLayoutManager(new LinearLayoutManager(mContext));
+        orderFullAdapter = new OrderFullAdapter(R.layout.item_full_order,list_full);
+        rv_full.setAdapter(orderFullAdapter);
+
     }
 
     @Override
@@ -121,6 +134,7 @@ public class LookDeliveryDetailActivity extends BaseActivity implements View.OnC
 
     //获取订单详情
     GetOrderDetailModel.DataBean dataBean;
+    private List<GetOrderDetailModel.DataBean.SendGiftInfo> list_full = new ArrayList<>();
     List<GetOrderDetailModel.DataBean.OrderProdsBean> orderProdsList = new ArrayList<>();
     private void getOrderDetail() {
         GetOrderDetailAPI.requestData(mContext, orderId)
@@ -143,6 +157,15 @@ public class LookDeliveryDetailActivity extends BaseActivity implements View.OnC
                             if (orderDetailModel.data!= null) {
                                 dataBean = orderDetailModel.data;
                                 orderProdsList.addAll(dataBean.orderProds);
+
+                                if(dataBean.sendGiftInfo!=null) {
+                                    list_full.addAll(orderDetailModel.data.sendGiftInfo);
+                                    rv_full.setVisibility(View.VISIBLE);
+                                }else {
+                                    rv_full.setVisibility(View.GONE);
+                                }
+
+                                orderFullAdapter.notifyDataSetChanged();
                                 helpOrderDetailAdapter.notifyDataSetChanged();
                                 setContent(dataBean);
                             }
@@ -163,15 +186,14 @@ public class LookDeliveryDetailActivity extends BaseActivity implements View.OnC
         }
 
         tv_apply_person.setText("申请人:"+data.orderPhone);
+        tv_pay_time.setText(data.payDate);
+        tv_pay_style.setText(data.payChannel);
 
-        if(data.sendFriendFlag==1) {
+        if(data.saleSettle==1) {
             ll_replace_order.setVisibility(View.VISIBLE);
-            ll_replace_pay.setVisibility(View.VISIBLE);
             tv_replace_order.setText(data.saleName);
-            tv_replace_pay.setText(data.payAccount);
         }else {
             ll_replace_order.setVisibility(View.GONE);
-            ll_replace_pay.setVisibility(View.GONE);
         }
 
         if (data.orderStatus == 2) {
@@ -231,6 +253,7 @@ public class LookDeliveryDetailActivity extends BaseActivity implements View.OnC
                         .setCancelOutside(true);
                 dialog = loadBuilder.create();
                 dialog.show();
+                orderProdsList.clear();
                 getOrderDetail();
                 break;
 

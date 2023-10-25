@@ -684,6 +684,11 @@
         <activity android:name=".activity.LookSelfDetailActivity"
             android:screenOrientation="portrait"
             />
+
+        <activity android:name=".activity.HelpPayDescActivity"
+            android:screenOrientation="portrait"
+            />
+
         <!--  -->
 
 
@@ -867,6 +872,17 @@
         <activity android:name=".activity.mine.order.ReturnGoodDetailActivity"
             android:screenOrientation="portrait" ></activity>
 
+        <activity android:name=".activity.LookBusinessDetailActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.LookAllowDetailActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.HelpPayReturnActivity"
+            android:screenOrientation="portrait"
+            />
         <service
             android:name=".activity.UserService"
             android:process=":pushcore"

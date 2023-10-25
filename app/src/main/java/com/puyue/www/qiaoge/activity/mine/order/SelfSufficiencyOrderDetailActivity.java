@@ -18,6 +18,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -33,6 +34,7 @@ import android.widget.TextView;
 
 import com.android.tu.loadingdialog.LoadingDailog;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.HelpPayActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.mine.account.AddressListActivity;
 import com.puyue.www.qiaoge.adapter.OrderFullAdapter;
@@ -48,9 +50,11 @@ import com.puyue.www.qiaoge.api.mine.order.PostModifyMesAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
+import com.puyue.www.qiaoge.dialog.PayDialog;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.BackEvent;
 import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
+import com.puyue.www.qiaoge.fragment.mine.PaymentDialog;
 import com.puyue.www.qiaoge.fragment.mine.coupons.PaymentFragments;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.MapHelper;
@@ -245,7 +249,7 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
     private String goAccount;
 
     private TextView tv_evaluate;
-    private String account;
+    private String account = "0";
     private RecyclerView rv_full;
     OrderFullAdapter orderFullAdapter;
     TextView tv_amount;
@@ -255,6 +259,7 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
     LinearLayout deliver_linearLayout;
     TextView tv_dis;
     LinearLayout ll_bg;
+    TextView tv_friend_pay;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -270,6 +275,7 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
     @Override
     public void findViewById() {
         supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.frag);
+        tv_friend_pay = (TextView)findViewById(R.id.tv_friend_pay);
         ll_order1 = (LinearLayout) findViewById(R.id.ll_order1);
         tv_sale_name = findViewById(R.id.tv_sale_name);
         tv_sale_name1 = findViewById(R.id.tv_sale_name1);
@@ -372,8 +378,6 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
     @Override
     public void setViewData() {
 
-        // setTranslucentStatus();
-//        EventBus.getDefault().register(this);
         mLinearLayoutDeliver.setVisibility(View.GONE);
         newOrderReturnTimeLinearLayout.setVisibility(View.GONE);
         examineTimeLinearLayout.setVisibility(View.GONE);
@@ -384,8 +388,11 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
         returnProductMainId = getIntent().getStringExtra(AppConstant.RETURNPRODUCTMAINID);
 
         goAccount = getIntent().getStringExtra("goAccount");
-        account = getIntent().getStringExtra("account");
-//        et_time.setVisibility(View.GONE);
+        if(!TextUtils.isEmpty(getIntent().getStringExtra("account"))) {
+            account = getIntent().getStringExtra("account");
+        }
+
+
         tv_year.setVisibility(View.VISIBLE);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         mapss = supportMapFragment.getMap();
@@ -395,26 +402,7 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
                 showMapDialog();
             }
         });
-//        map = mMapView.getMap();
-//        Drawable drawable = getResources().getDrawable(R.mipmap.ic_confirm_map);
-//        TestOverlay testOverlay = new TestOverlay(drawable, mActivity);
-//        mMapView.addOverlay(testOverlay);
-//        map.setZoom(12);
-//        LatLng latLng = new LatLng(30.337315206749725,120.09069890057103);
-//        map.setCenter(latLng);
-//        map.setOnMapClickListener(new TencentMap.OnMapClickListener() {
-//            @Override
-//            public void onMapClick(LatLng latLng) {
-//                showMapDialog();
-//            }
-//        });
 
-//        et_time.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showGetTime();
-//            }
-//        });
 
         //未支付，15分钟后跳转到取消订单
         orderTimerView.setTimeout(new SnapUpCountDownTimerView3.Timeout() {
@@ -439,44 +427,6 @@ public class SelfSufficiencyOrderDetailActivity extends BaseSwipeActivity {
         tvInfo.getPaint().setShader(mLinearGradient);
     }
 
-//    protected void geocoder(String address) {
-//        TencentSearch tencentSearch = new TencentSearch(mActivity);
-//        Address2GeoParam address2GeoParam =
-//                new Address2GeoParam(address).region(UserInfoHelper.getCity(mActivity));
-//        tencentSearch.address2geo(address2GeoParam, new HttpResponseListener<BaseObject>() {
-//
-//            @Override
-//            public void onSuccess(int arg0, BaseObject arg1) {
-//                if (arg1 == null) {
-//                    return;
-//                }
-//                Address2GeoResultObject obj = (Address2GeoResultObject)arg1;
-//                StringBuilder sb = new StringBuilder();
-//                sb.append("地址解析");
-//                if (obj.result.latLng != null) {
-//                    sb.append("\n坐标：" + obj.result.latLng.toString());
-//                } else {
-//                    sb.append("\n无坐标");
-//                }
-//                com.tencent.tencentmap.mapsdk.maps.model.LatLng latLng = obj.result.latLng;
-//                CameraUpdate cameraSigma =
-//                        CameraUpdateFactory.newCameraPosition(new CameraPosition(
-//                                new com.tencent.tencentmap.mapsdk.maps.model.LatLng(latLng.latitude,latLng.longitude),
-//                                15,
-//                                0f,
-//                                0f));
-//                //移动地图
-//                mapss.moveCamera(cameraSigma);
-//                getWalkingRoute(latLng);
-//
-//            }
-//
-//            @Override
-//            public void onFailure(int arg0, String arg1, Throwable arg2) {
-//                Log.e("test", "error code:" + arg0 + ", msg:" + arg1);
-//            }
-//        });
-//    }
 protected void geocoder(String address) {
     TencentSearch tencentSearch = new TencentSearch(mActivity);
     Address2GeoParam address2GeoParam = new Address2GeoParam(address).region(UserInfoHelper.getCity(mActivity));
@@ -569,82 +519,6 @@ protected void geocoder(String address) {
         mapss.addMarker(options);
     }
 
-    interface OnTapListener {
-        void onTap(OverlayItem itemTap);
-        void onEmptyTap(GeoPoint pt);
-    }
-
-    private class TestOverlay extends ItemizedOverlay<OverlayItem> {
-        private List<OverlayItem> overlayItems;
-        private OnTapListener onTapListener;
-
-        public TestOverlay(Drawable drawable, Context context) {
-            // TODO Auto-generated constructor stub
-            super(boundCenterBottom(drawable));
-            overlayItems = new ArrayList<>();
-
-            GeoPoint gp3 = new GeoPoint(30359807, 120054923);
-            String lat = SharedPreferencesUtil.getString(context, "lat");
-            String lon = SharedPreferencesUtil.getString(context, "lon");
-
-            OverlayItem item = new OverlayItem(gp3, "30.359807, 120.054923", "可拖动");
-            item.setDragable(true);
-            overlayItems.add(item);
-            populate();
-        }
-
-        @Override
-        protected OverlayItem createItem(int arg0) {
-            // TODO Auto-generated method stub
-            return overlayItems.get(arg0);
-        }
-
-        @Override
-        public int size() {
-            // TODO Auto-generated method stub
-            return overlayItems.size();
-        }
-
-        @Override
-        public void draw(Canvas arg0, com.tencent.tencentmap.mapsdk.map.MapView arg1) {
-            // TODO Auto-generated method stub
-            super.draw(arg0, arg1);
-            Projection projection = arg1.getProjection();
-            Paint paint = new Paint();
-            paint.setColor(0xff000000);
-            paint.setTextSize(15);
-            float width;
-            float textHeight = paint.measureText("Yy");
-            for (int i = 0; i < overlayItems.size(); i++) {
-                Point point = new Point();
-                projection.toPixels(overlayItems.get(i).getPoint(), point);
-                width = paint.measureText(Integer.toString(i));
-                arg0.drawText(Integer.toString(i),
-                        point.x - width / 2, point.y + textHeight, paint);
-            }
-
-        }
-
-        @Override
-        protected boolean onTap(int arg0) {
-            // TODO Auto-generated method stub
-            OverlayItem  overlayItem = overlayItems.get(arg0);
-            setFocus(overlayItem);
-            if (onTapListener != null) {
-                onTapListener.onTap(overlayItem);
-            }
-            return true;
-        }
-
-        @Override
-        public void onEmptyTap(GeoPoint arg0) {
-            // TODO Auto-generated method stub
-            if (onTapListener != null) {
-                onTapListener.onEmptyTap(arg0);
-            }
-        }
-    }
-
     @Override
     public void setClickEvent() {
 //        ll_beizhu.setOnClickListener(noDoubleClickListener);
@@ -670,28 +544,9 @@ protected void geocoder(String address) {
         ll_two.setOnClickListener(noDoubleClickListener);
         tv_evaluate.setOnClickListener(noDoubleClickListener);
 
+
     }
 
-    /**
-     * 根据经纬度查询距离
-     *
-     * @param lng1 经度
-     * @param lat1 纬度
-     * @param lng2 经度
-     * @param lat2 纬度
-     * @return
-     */
-    private static double getDistance(double lng1, double lat1, double lng2, double lat2) {
-        double radLat1 = rad(lat1);
-        double radLat2 = rad(lat2);
-        double a = radLat1 - radLat2;
-        double b = rad(lng1) - rad(lng2);
-
-        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) +
-                Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
-        s = s * EARTH_RADIUS * 1000;
-        return s;
-    }
 
     private static double rad(double d) {
         return d * Math.PI / 180.0;
@@ -703,7 +558,6 @@ protected void geocoder(String address) {
         getOrderDetail(orderId);
     }
 
-    private GetTimeOrderModel dataBean;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -721,42 +575,6 @@ protected void geocoder(String address) {
         list.clear();
         getOrderDetail(orderId);
 
-    }
-
-    private void getOrderDetailDialog(String orderId) {
-        GetOrderDetailAPI.requestData(mContext, orderId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<GetOrderDetailModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(GetOrderDetailModel orderDetailModel) {
-
-                        if (orderDetailModel.success) {
-                            dialog.dismiss();
-                            if (orderDetailModel != null) {
-                                setText(orderDetailModel);
-                                list.clear();
-                                if (orderDetailModel.data.orderProds.size()>0) {
-                                    list.addAll(orderDetailModel.data.orderProds);
-                                }
-                            }
-                            adapter.notifyDataSetChanged();
-
-                        } else {
-                            AppHelper.showMsg(mContext, orderDetailModel.message);
-                        }
-                    }
-                });
     }
 
     private GetOrderDetailModel mDetailModel;
@@ -786,7 +604,7 @@ protected void geocoder(String address) {
                             content = orderDetailModel.data.wareAddress;
                             if (orderDetailModel != null) {
                                 setText(orderDetailModel);
-                                tv_year.setText(orderDetailModel.data.sendStartTime + orderDetailModel.data.deliverTimeEnd);
+                                tv_year.setText(orderDetailModel.data.sendStartTime + orderDetailModel.data.sendTimeStr);
                                 et_name.setText(orderDetailModel.data.pickUserName);
                                 et_phone.setText(orderDetailModel.data.pickPhone);
                                 tv_address.setText(orderDetailModel.data.wareAddress);
@@ -800,6 +618,8 @@ protected void geocoder(String address) {
 
                                     orderFullAdapter.notifyDataSetChanged();
                                 }
+
+                                //代下单
                                 if(orderDetailModel.data.saleSettle==1) {
                                     ll_order1.setVisibility(View.VISIBLE);
                                     tv_sale_name.setText(getOrderDetailModel.saleName);
@@ -807,9 +627,10 @@ protected void geocoder(String address) {
                                     ll_order1.setVisibility(View.GONE);
                                 }
 
+                                //代支付
                                 if(orderDetailModel.data.salePay==1) {
                                     ll_order2.setVisibility(View.VISIBLE);
-                                    tv_sale_name1.setText(getOrderDetailModel.saleName);
+                                    tv_sale_name1.setText(getOrderDetailModel.payAccount);
                                 }else {
                                     ll_order2.setVisibility(View.GONE);
                                 }
@@ -854,6 +675,24 @@ protected void geocoder(String address) {
 
         tvNewOrderVipSubtractionPrice.setText("￥" + getOrderDetailModel.vipReductStr);
 
+        //是否展示找朋友付按钮
+        if(getOrderDetailModel.friendPayBtn == 0) {
+            tv_friend_pay.setVisibility(View.GONE);
+        }else {
+            tv_friend_pay.setVisibility(View.VISIBLE);
+        }
+
+        tv_friend_pay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, HelpPayActivity.class);
+                intent.putExtra("orderId",orderId);
+                intent.putExtra("orderDeliveryType",info.data.orderDeliveryType);
+                mContext.startActivity(intent);
+            }
+        });
+
+
         //优惠券描述
         tvDeductDsc.setText(getOrderDetailModel.giftName);
         tvNewOrderPayTime.setText(getOrderDetailModel.payDate);
@@ -876,7 +715,7 @@ protected void geocoder(String address) {
         }else if(account.equals("2")){
             Intent intent = new Intent(mContext, MyOrdersActivity.class);
             intent.putExtra("type", AppConstant.PAYMENT);
-            intent.putExtra("orderDeliveryType", 0);
+            intent.putExtra("orderDeliveryType", 1);
             startActivity(intent);
             finish();
         }else if(account.equals("1")) {
@@ -1183,16 +1022,28 @@ protected void geocoder(String address) {
                     break;
                 case R.id.buttonGOPay://去支付
 
-                    PaymentFragments paymentFragment = new PaymentFragments();
+//                    PaymentFragments paymentFragment = new PaymentFragments();
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("total", getOrderDetailModel.totalAmount);
+//                    bundle.putString("remark", "");
+//                    bundle.putString("payAmount",getOrderDetailModel.totalAmount);
+//                    bundle.putString("orderId",orderId);
+//                    bundle.putString("orderDeliveryType",1+"");
+//                    paymentFragment.setArguments(bundle);
+//                    paymentFragment.setCancelable(false);
+//                    paymentFragment.show(getSupportFragmentManager(),"paymentFragment");
+//                    PayDialog payDialog = new PayDialog(mActivity,orderId,getOrderDetailModel.totalAmount,"",1+"");
+//                    payDialog.show();
+                    PaymentDialog paymentFragment = new PaymentDialog();
                     Bundle bundle = new Bundle();
-                    bundle.putString("total", getOrderDetailModel.totalAmount);
-                    bundle.putString("remark", "");
-                    bundle.putString("payAmount",getOrderDetailModel.totalAmount);
                     bundle.putString("orderId",orderId);
+                    bundle.putString("payAmount",getOrderDetailModel.totalAmount);
+                    bundle.putString("remark", "");
                     bundle.putString("orderDeliveryType",1+"");
+
                     paymentFragment.setArguments(bundle);
-                    paymentFragment.setCancelable(false);
                     paymentFragment.show(getSupportFragmentManager(),"paymentFragment");
+                    paymentFragment.setCancelable(false);
                     break;
 
                 case R.id.buttonReturnGood_two:

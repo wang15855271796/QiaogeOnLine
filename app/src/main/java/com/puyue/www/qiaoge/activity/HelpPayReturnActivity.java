@@ -3,6 +3,7 @@ package com.puyue.www.qiaoge.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -125,9 +126,7 @@ public class HelpPayReturnActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void setViewData() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        helpPayReturnAdapter = new HelpPayReturnAdapter(R.layout.item_help_pay_return_goods,productList,dataBean.getOrderId());
-        recyclerView.setAdapter(helpPayReturnAdapter);
+
         getOrderReturn();
     }
 
@@ -160,6 +159,9 @@ public class HelpPayReturnActivity extends BaseActivity implements View.OnClickL
                             if(newReturnOrderModel.getData()!=null) {
                                 dataBean = newReturnOrderModel.getData();
                                 productList.addAll(newReturnOrderModel.getData().getProducts());
+                                recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+                                helpPayReturnAdapter = new HelpPayReturnAdapter(R.layout.item_help_pay_return_goods,productList,dataBean.getOrderId());
+                                recyclerView.setAdapter(helpPayReturnAdapter);
                                 helpPayReturnAdapter.notifyDataSetChanged();
                                 setContent(newReturnOrderModel.getData());
                             }

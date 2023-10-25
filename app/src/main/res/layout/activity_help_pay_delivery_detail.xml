@@ -152,6 +152,14 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
 
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_full"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/recyclerView"
+                                android:layout_marginTop="@dimen/dp_10"
+                                android:background="@drawable/new_order_bg" />
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -362,6 +370,7 @@
                             android:layout_height="wrap_content">
 
                             <LinearLayout
+                                android:visibility="gone"
                                 android:id="@+id/ll_replace_order"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -385,6 +394,7 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:visibility="gone"
                                 android:id="@+id/ll_replace_pay"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"

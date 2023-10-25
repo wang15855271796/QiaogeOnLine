@@ -2,15 +2,18 @@ package com.puyue.www.qiaoge.fragment.home;
 
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
-import android.Manifest;
 import android.animation.IntEvaluator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 
@@ -18,13 +21,10 @@ import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.frankfancode.marqueeview.MarqueeView;
-import com.google.android.exoplayer2.Player;
 import com.google.android.material.appbar.AppBarLayout;
 
 import androidx.annotation.Size;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.app.ActivityCompat;
-import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,21 +35,13 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
-import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
-import android.webkit.PermissionRequest;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.OverScroller;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -69,11 +61,10 @@ import com.puyue.www.qiaoge.activity.BannerActivity;
 import com.puyue.www.qiaoge.activity.ChooseCompanyActivity;
 import com.puyue.www.qiaoge.activity.CommonH6Activity;
 import com.puyue.www.qiaoge.activity.HelpPayDeliveryDetailActivity;
+import com.puyue.www.qiaoge.activity.HelpPaySelfDetailActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.HuoHomeActivity;
-import com.puyue.www.qiaoge.activity.PlayerActivity;
 import com.puyue.www.qiaoge.activity.TopEvent;
-import com.puyue.www.qiaoge.activity.cart.TestActivity;
 import com.puyue.www.qiaoge.activity.home.ChangeCityActivity;
 import com.puyue.www.qiaoge.activity.home.ChooseAddressActivity;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
@@ -102,7 +93,6 @@ import com.puyue.www.qiaoge.adapter.VpDiscountAdapter;
 import com.puyue.www.qiaoge.adapter.VpFullAdapter;
 import com.puyue.www.qiaoge.adapter.VpSkillAdapter;
 import com.puyue.www.qiaoge.adapter.VpTeamAdapter;
-import com.puyue.www.qiaoge.adapter.home.CommonProductActivity;
 import com.puyue.www.qiaoge.adapter.home.HotProductActivity;
 import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
@@ -128,7 +118,6 @@ import com.puyue.www.qiaoge.dialog.HelpPay1Dialog;
 import com.puyue.www.qiaoge.dialog.HomeActivityDialog;
 import com.puyue.www.qiaoge.dialog.HuoOrderDialog;
 import com.puyue.www.qiaoge.dialog.Privacy4Dialog;
-import com.puyue.www.qiaoge.dialog.SchoolDialog;
 import com.puyue.www.qiaoge.dialog.TurnTableDialog;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.BackEvent;
@@ -145,7 +134,6 @@ import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.ChangeCityModel;
 import com.puyue.www.qiaoge.model.CouponModels;
-import com.puyue.www.qiaoge.model.HomeBannerModel;
 import com.puyue.www.qiaoge.model.HomeCouponModel;
 import com.puyue.www.qiaoge.model.HomeStyleModel;
 import com.puyue.www.qiaoge.model.IsAuthModel;
@@ -165,11 +153,8 @@ import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import com.puyue.www.qiaoge.view.CustomAppbarLayout;
 import com.puyue.www.qiaoge.view.HIndicators;
-import com.puyue.www.qiaoge.view.MyCompanyScrollView;
-import com.puyue.www.qiaoge.view.MyScrollView1;
 import com.puyue.www.qiaoge.view.MyScrollView2;
 import com.puyue.www.qiaoge.view.ScrollSpeedLinearLayoutManger;
-import com.puyue.www.qiaoge.view.SnapUpCountDownTimerView3;
 import com.puyue.www.qiaoge.view.SnapUpCountDownTimerViewss;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -180,14 +165,12 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import pub.devrel.easypermissions.EasyPermissions;
 import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -753,7 +736,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         refreshLayout.autoRefresh();
         mTypedialog = new AlertDialog.Builder(mActivity, R.style.DialogStyle).create();
         mTypedialog.setCancelable(false);
-
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -2011,21 +1993,31 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                                     marqueeView.startScroll();
                                 }
 
-                                if(data.getSendOrder()!=null) {
-                                    IndexInfoModel.DataBean.SendOrderBean sendOrder = data.getSendOrder();
-                                    HelpPay1Dialog helpPay1Dialog = new HelpPay1Dialog(mActivity,sendOrder) {
-                                        @Override
-                                        public void sure() {
-                                            Intent intent = new Intent(mActivity, HelpPayDeliveryDetailActivity.class);
-                                            startActivity(intent);
-                                        }
-                                    };
+                                if(data.getSendOrder()!=null &&data.getSendOrder().size()>0) {
+                                    List<IndexInfoModel.DataBean.SendOrderBean> sendOrder = data.getSendOrder();
+                                    for (int i = 0; i < data.getSendOrder().size(); i++) {
+                                        HelpPay1Dialog helpPay1Dialog = new HelpPay1Dialog(mActivity,sendOrder,i) {
+                                            @Override
+                                            public void sure(int pos, int orderDeliveryType) {
+                                                Intent intent;
+                                                if(orderDeliveryType == 0) {
+                                                    //配送
+                                                    intent = new Intent(mActivity, HelpPayDeliveryDetailActivity.class);
+                                                }else {
+                                                    intent = new Intent(mActivity, HelpPaySelfDetailActivity.class);
+                                                }
+                                                intent.putExtra("orderId",sendOrder.get(pos).getOrderId());
+                                                startActivity(intent);
+                                            }
+                                        };
+                                        helpPay1Dialog.show();
+                                    }
 
-                                    helpPay1Dialog.show();
                                 }
                                 if(indexInfoModel.getData().getIcons()!=null) {
                                     iconList.addAll(data.getIcons());
                                 }
+
                                 couponListModels = indexInfoModel.getData();
                                 if(null != data.getGiftReceiveBtn()) {
                                     if(data.getGiftReceiveBtn().equals("0")) {
@@ -2094,8 +2086,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                                         ClickBanner(data.getBanners());
                                         banner.start();
                                         List<IndexInfoModel.DataBean.BannersBean> banners = data.getBanners();
-//                                        iv_fill.setVisibility(View.GONE);
-//                                        ll_bgc.setVisibility(View.VISIBLE);
+
                                         banner.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                                             @Override
                                             public void onPageScrolled(int i, float v, int i1) {
@@ -2121,9 +2112,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
                                     } else {
                                         banner.setVisibility(View.GONE);
-//                                        iv_fill.setVisibility(View.VISIBLE);
-//                                        Glide.with(mActivity).load(data.getHomeBackPic()).into(iv_fill);
-//                                        ll_bgc.setVisibility(View.GONE);
+
                                     }
                                 }
 
@@ -2475,14 +2464,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 break;
 
             case R.id.rl_message:
+
+//                Bitmap thumb = getThumb();
+//                iv_test.setImageBitmap(thumb);
+
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(getActivity()))) {
                     Intent intents = new Intent(getActivity(), MessageCenterActivity.class);
                     startActivityForResult(intents, 101);
-//                    Intent intent2 = new Intent(getActivity(), TestActivity.class);
-//                    startActivity(intent2);
-//                    appbar.setExpanded(false);
-//                    getReduceStateTop();
-//                    switchReduce();
+
                 } else {
                     initDialog();
                 }
@@ -2517,6 +2506,36 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 break;
 
         }
+    }
+
+    private Bitmap getThumb(){
+        byte[] thumb;
+        Bitmap bitmap = BitmapFactory.decodeResource(getActivity().getResources(),R.mipmap.bg_help_pay1);
+        Bitmap sendBitmap = Bitmap.createScaledBitmap(bitmap,180,180,true);
+        bitmap.recycle();
+
+        Canvas canvas = new Canvas(sendBitmap);
+
+        Paint paint = new Paint();
+        paint.setColor(Color.GRAY);
+        paint.setTextSize(35);
+
+        Paint paint1 = new Paint();
+        paint1.setColor(Color.BLACK);
+        paint1.setTypeface(Typeface.DEFAULT_BOLD);
+        paint1.setTextSize(65);
+
+        //计算得出文字的绘制起始x、y坐标
+        int posX = 180/2 - 35*"帮我付".length()/2;
+        int posY = 180/2 - 35/2;
+
+
+        int posX1 = 180/2 - 65*"10000".length()/2;
+        int posY1 = 270/2 - 65/2;
+
+        canvas.drawText("帮我付", posX, posY, paint);
+        canvas.drawText("10000", posX1, posY1, paint1);
+        return sendBitmap;
     }
 
     @Override
@@ -2664,10 +2683,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             tv_title3.setText("物美价廉");
             rb_new_top.setText("新品上市");
             rb_info_top.setText("降价商品");
-//            v2s.setVisibility(View.VISIBLE);
-//            v4s.setVisibility(View.VISIBLE);
-//            tv_title2.setVisibility(View.VISIBLE);
-//            tv_title4.setVisibility(View.VISIBLE);
             ll_must.setVisibility(View.VISIBLE);
             ll_common.setVisibility(View.VISIBLE);
             ll_must_top.setVisibility(View.VISIBLE);
@@ -2678,6 +2693,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rb_common_top.setVisibility(View.VISIBLE);
             rg_new.check(R.id.rb_must_common);
         }
+
+        if(chooseAddressDialog!=null) {
+            chooseAddressDialog.dismiss();
+        }
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -2733,10 +2753,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void cityEvent(CityEvent event) {
         refreshLayout.autoRefresh();
-
-        if(chooseAddressDialog!=null) {
-            chooseAddressDialog.dismiss();
-        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
@@ -3031,7 +3047,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     }
 
     private void getCommonStateTop() {
-        Log.d("wsssss........","444");
         rb_common_top.setChecked(true);
         rb_new.setChecked(false);
         rb_reduce.setChecked(false);

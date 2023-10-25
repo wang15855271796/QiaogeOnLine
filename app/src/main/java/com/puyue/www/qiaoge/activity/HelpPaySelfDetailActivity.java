@@ -11,12 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.adapter.HelpOrderDetailAdapter;
+import com.puyue.www.qiaoge.adapter.OrderFullAdapter;
 import com.puyue.www.qiaoge.api.home.GetOrderDetailAPI;
 import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.dialog.HelpPayOrderDialog;
 import com.puyue.www.qiaoge.model.cart.GetOrderDetailModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -39,10 +41,6 @@ public class HelpPaySelfDetailActivity extends BaseActivity implements View.OnCl
     TextView tv_goods_num;
     @BindView(R.id.tv_goods_amount)
     TextView tv_goods_amount;
-
-    @BindView(R.id.tv_send_time)
-    TextView tv_send_time;
-
     @BindView(R.id.tv_full_desc)
     TextView tv_full_desc;
     @BindView(R.id.tv_full_amount)
@@ -63,8 +61,6 @@ public class HelpPaySelfDetailActivity extends BaseActivity implements View.OnCl
     TextView tv_full_active_amount;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-
-
     @BindView(R.id.tv_pay)
     TextView tv_pay;
     @BindView(R.id.tv_take_name)
@@ -81,8 +77,12 @@ public class HelpPaySelfDetailActivity extends BaseActivity implements View.OnCl
     LinearLayout ll_replace_order;
     @BindView(R.id.ll_replace_pay)
     LinearLayout ll_replace_pay;
+    @BindView(R.id.rv_full)
+    RecyclerView rv_full;
     String orderId;
     HelpOrderDetailAdapter helpOrderDetailAdapter;
+    OrderFullAdapter orderFullAdapter;
+    private List<GetOrderDetailModel.DataBean.SendGiftInfo> list_full = new ArrayList<>();
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         orderId = getIntent().getStringExtra("orderId");
@@ -105,6 +105,11 @@ public class HelpPaySelfDetailActivity extends BaseActivity implements View.OnCl
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         helpOrderDetailAdapter = new HelpOrderDetailAdapter(R.layout.item_help_order_detail, orderProdsList);
         recyclerView.setAdapter(helpOrderDetailAdapter);
+
+        rv_full.setLayoutManager(new LinearLayoutManager(mContext));
+        orderFullAdapter = new OrderFullAdapter(R.layout.item_full_order,list_full);
+        rv_full.setAdapter(orderFullAdapter);
+
     }
 
     @Override
@@ -115,7 +120,7 @@ public class HelpPaySelfDetailActivity extends BaseActivity implements View.OnCl
 
     //获取订单详情
     GetOrderDetailModel.DataBean dataBean;
-    List<GetOrderDetailModel.DataBean.OrderProdsBean> orderProdsList;
+    List<GetOrderDetailModel.DataBean.OrderProdsBean> orderProdsList = new ArrayList<>();
     private void getOrderDetail() {
         GetOrderDetailAPI.requestData(mContext, orderId)
                 .subscribeOn(Schedulers.io())
@@ -137,6 +142,14 @@ public class HelpPaySelfDetailActivity extends BaseActivity implements View.OnCl
                                 dataBean = orderDetailModel.data;
                                 orderProdsList.addAll(dataBean.orderProds);
                                 helpOrderDetailAdapter.notifyDataSetChanged();
+
+                                if(orderDetailModel.data.sendGiftInfo!=null) {
+                                    list_full.addAll(orderDetailModel.data.sendGiftInfo);
+                                    rv_full.setVisibility(View.VISIBLE);
+                                }else {
+                                    rv_full.setVisibility(View.GONE);
+                                }
+                                orderFullAdapter.notifyDataSetChanged();
                                 setContent(dataBean);
                             }
                         } else {
@@ -147,29 +160,43 @@ public class HelpPaySelfDetailActivity extends BaseActivity implements View.OnCl
     }
 
     private void setContent(GetOrderDetailModel.DataBean data) {
-        if(data.sendFriendFlag==1) {
+//        if(data.sendFriendFlag==1) {
+//            ll_replace_order.setVisibility(View.VISIBLE);
+//            ll_replace_pay.setVisibility(View.VISIBLE);
+//            tv_replace_order.setText(data.saleName);
+//            tv_replace_pay.setText(data.payAccount);
+//        }else {
+//            ll_replace_order.setVisibility(View.GONE);
+//            ll_replace_pay.setVisibility(View.GONE);
+//        }
+        if(data.saleSettle==1) {
             ll_replace_order.setVisibility(View.VISIBLE);
-            ll_replace_pay.setVisibility(View.VISIBLE);
             tv_replace_order.setText(data.saleName);
-            tv_replace_pay.setText(data.payAccount);
         }else {
             ll_replace_order.setVisibility(View.GONE);
+        }
+
+        if(data.salePay==1) {
+            ll_replace_pay.setVisibility(View.VISIBLE);
+            tv_replace_pay.setText(data.payAccount);
+        }else {
             ll_replace_pay.setVisibility(View.GONE);
         }
+
         tv_apply_person.setText("申请人:"+data.orderPhone);
         GetOrderDetailModel.DataBean.AddressVOBean addressVO = data.addressVO;
-        tv_address.setText(addressVO.shopName+ " "+addressVO.userName +" "+addressVO.contactPhone);
+        tv_address.setText(data.wareName);
         tv_detail_address.setText(addressVO.provinceName+addressVO.cityName+addressVO.areaName+addressVO.detailAddress);
         tv_take_name.setText(data.pickUserName);
         tv_take_phone.setText(data.pickPhone);
-        tv_take_time.setText(data.sendStartTime + data.deliverTimeEnd);
+        tv_take_time.setText(data.sendStartTime + data.sendTimeStr);
         tv_goods_num.setText("共"+data.prodNum+"件");
         tv_goods_amount.setText("￥"+data.prodAmount);
         tv_full_desc.setText(data.vipReductStr);
-        tv_full_amount.setText(data.vipReduct);
-        tv_full_active_amount.setText(data.normalReduct);
+        tv_full_amount.setText("减￥"+data.vipReduct);
+        tv_full_active_amount.setText("减￥"+data.normalReduct);
         tv_coupon_desc.setText(data.giftName);
-        tv_coupon_amount.setText(data.giftAmount);
+        tv_coupon_amount.setText("减￥"+data.giftAmount);
         tv_should_pay.setText(data.totalAmount);
         tv_create_time.setText(data.gmtCreate);
         tv_delivery_time.setText(data.deliverTimeName + "  " + data.deliverTimeStart + " - " + data.deliverTimeEnd);
@@ -184,7 +211,7 @@ public class HelpPaySelfDetailActivity extends BaseActivity implements View.OnCl
                 break;
 
             case R.id.tv_pay:
-                HelpPayOrderDialog payDialog = new HelpPayOrderDialog(mActivity,orderId,dataBean.totalAmount,dataBean.remark);
+                HelpPayOrderDialog payDialog = new HelpPayOrderDialog(mActivity,orderId,dataBean.totalAmount,dataBean.remark, "1");
                 payDialog.show();
                 break;
         }

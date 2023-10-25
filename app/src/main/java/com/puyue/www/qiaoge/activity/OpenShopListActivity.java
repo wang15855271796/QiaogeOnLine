@@ -3,17 +3,21 @@ package com.puyue.www.qiaoge.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.puyue.www.qiaoge.QiaoGeApplication;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.model.ApplyInfoModel;
 import com.puyue.www.qiaoge.model.IsApplyModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
+import com.puyue.www.qiaoge.utils.Utils;
 
 import java.io.Serializable;
 
@@ -33,6 +37,8 @@ public class OpenShopListActivity extends BaseActivity implements View.OnClickLi
     TextView tv_time;
     @BindView(R.id.rl_content)
     RelativeLayout rl_content;
+    @BindView(R.id.tv_reason)
+    TextView tv_reason;
     IsApplyModel.DataBean applyData;
     String applyPhone;
     int basicFinish;
@@ -59,6 +65,7 @@ public class OpenShopListActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void setViewData() {
+        QiaoGeApplication.getInstance().addActivity(this);
         tv_name.setText(applyData.getSupplierName());
         tv_time.setText("申请时间:"+applyData.getApplyTime());
 //        0待完善 1待审核 2已通过 3未通过
@@ -69,13 +76,18 @@ public class OpenShopListActivity extends BaseActivity implements View.OnClickLi
             tv_status.setBackgroundResource(R.drawable.shape_grey3);
             tv_status.setTextColor(Color.parseColor("#414141"));
         }else if(applyData.getStatus() == 2) {
-            tv_status.setBackgroundResource(R.drawable.shape_red_orders);
+            tv_status.setBackgroundResource(R.drawable.shape_green1);
             tv_status.setTextColor(Color.parseColor("#ffffff"));
         }else if(applyData.getStatus() == 3) {
-            tv_status.setBackgroundResource(R.drawable.shape_green1);
+            tv_reason.setVisibility(View.VISIBLE);
+            tv_status.setBackgroundResource(R.drawable.shape_red_orders);
             tv_status.setTextColor(Color.parseColor("#ffffff"));
         }
         tv_status.setText(applyData.getStatusStr());
+        if(!TextUtils.isEmpty(applyData.getCheckReason())) {
+            tv_reason.setText(applyData.getCheckReason());
+        }
+        Utils.setClear(mContext);
         getDetailInfo();
     }
 
@@ -85,6 +97,7 @@ public class OpenShopListActivity extends BaseActivity implements View.OnClickLi
         rl_content.setOnClickListener(this);
     }
 
+    ApplyInfoModel.DataBean data;
     private void getDetailInfo() {
         RecommendApI.getApplyInfo(mContext,applyData.getCheckNo())
                 .subscribeOn(Schedulers.io())
@@ -104,13 +117,12 @@ public class OpenShopListActivity extends BaseActivity implements View.OnClickLi
                     public void onNext(ApplyInfoModel applyInfoModel) {
                         if (applyInfoModel.getCode()==1) {
                             if(applyInfoModel.getData()!=null) {
-                                ApplyInfoModel.DataBean data = applyInfoModel.getData();
+                                data = applyInfoModel.getData();
                                 basicFinish = data.getBasicFinish();
                                 checkNo = data.getCheckNo();
                                 licenseFinish = data.getLicenseFinish();
                                 corporateFinish = data.getCorporateFinish();
                                 settleFinish = data.getSettleFinish();
-
                             }
                         } else {
                             ToastUtil.showSuccessMsg(mContext, applyInfoModel.getMessage());
@@ -122,6 +134,7 @@ public class OpenShopListActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
+
         switch (view.getId()) {
             case R.id.iv_back:
                 finish();
@@ -136,39 +149,54 @@ public class OpenShopListActivity extends BaseActivity implements View.OnClickLi
                         intent.putExtra("applyPhone", applyPhone);
                         intent.putExtra("checkNo",checkNo);
                         startActivity(intent);
+                        finish();
                         break;
                     }else if(licenseFinish ==0) {
                         Intent intent = new Intent(mContext,OpenShopStep2Activity.class);
                         intent.putExtra("checkNo",checkNo);
                         intent.putExtra("applyPhone", applyPhone);
+
                         startActivity(intent);
+                        finish();
                         break;
                     }else if(corporateFinish ==0) {
                         Intent intent = new Intent(mContext,OpenShopStep3Activity.class);
                         intent.putExtra("applyPhone", applyPhone);
                         intent.putExtra("checkNo",checkNo);
                         startActivity(intent);
+                        finish();
                         break;
                     }else if(settleFinish ==0) {
                         Intent intent = new Intent(mContext,OpenShopStep4Activity.class);
                         intent.putExtra("applyPhone", applyPhone);
                         intent.putExtra("checkNo",checkNo);
                         startActivity(intent);
+                        finish();
+                        break;
+                    }else {
+                        Intent intent = new Intent(mContext,OpenShopStep4Activity.class);
+                        intent.putExtra("applyPhone", applyPhone);
+                        intent.putExtra("checkNo",checkNo);
+                        startActivity(intent);
+                        finish();
                         break;
                     }
                 }else if(applyData.getStatus() == 1) {
                     Intent intent = new Intent(mContext,LookOpenShopStep1Activity.class);
+                    intent.putExtra("applyPhone", applyPhone);
                     intent.putExtra("applyData", (Serializable) applyData);
                     startActivity(intent);
                     break;
                 }else if(applyData.getStatus() == 2) {
                     Intent intent = new Intent(mContext,LookOpenShopStep1Activity.class);
+                    intent.putExtra("applyPhone", applyPhone);
                     intent.putExtra("applyData", (Serializable) applyData);
                     startActivity(intent);
                     break;
                 }else if(applyData.getStatus() == 3) {
                     Intent intent = new Intent(mContext,OpenShopStep1Activity.class);
                     intent.putExtra("applyPhone", applyPhone);
+                    intent.putExtra("checkNo",checkNo);
                     startActivity(intent);
                     break;
                 }

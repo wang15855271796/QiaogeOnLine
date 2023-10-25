@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -27,10 +28,17 @@ import com.puyue.www.qiaoge.QiaoGeApplication;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.activity.view.GlideEngine;
+import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.mine.order.SendImageAPI;
 import com.puyue.www.qiaoge.base.BaseActivity;
+import com.puyue.www.qiaoge.dialog.BackDialog;
+import com.puyue.www.qiaoge.dialog.BackDialog1;
+import com.puyue.www.qiaoge.model.ApplyInfoModel;
 import com.puyue.www.qiaoge.model.SendImagesModel;
+import com.puyue.www.qiaoge.model.home.GetAddressModel;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
+import com.puyue.www.qiaoge.utils.Utils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -60,10 +68,14 @@ public class AllowDetailActivity extends BaseActivity implements View.OnClickLis
     PopupWindow pop;
     String businessUrl;
     String businessValidity;
+    String checkNo;
 
+    int licenseFinish;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         businessUrl = getIntent().getStringExtra("businessPath");
+        checkNo = getIntent().getStringExtra("checkNo");
+        licenseFinish = getIntent().getIntExtra("licenseFinish",0);
         return false;
     }
 
@@ -79,13 +91,28 @@ public class AllowDetailActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void setViewData() {
-        Glide.with(mContext).load(businessUrl).into(iv_business);
+        if(!TextUtils.isEmpty(businessUrl)) {
+            Glide.with(mContext).load(businessUrl).into(iv_business);
+        }
+
+        if(!TextUtils.isEmpty(checkNo) && licenseFinish == 1 && TextUtils.isEmpty(SharedPreferencesUtil.getString(mContext,"validity"))) {
+            getDetailInfo();
+        }
+
+        if(licenseFinish == 0 || licenseFinish == 1 && !TextUtils.isEmpty(SharedPreferencesUtil.getString(mContext,"validity"))) {
+            tv_valid_time.setText(SharedPreferencesUtil.getString(mContext,"validity"));
+            if(!TextUtils.isEmpty(SharedPreferencesUtil.getString(mContext,"businessUrl"))) {
+                String businessUrl = SharedPreferencesUtil.getString(mContext, "businessUrl");
+                Glide.with(mContext).load(businessUrl).into(iv_business);
+            }
+        }
+        QiaoGeApplication.getInstance().addActivity(this);
     }
 
     @Override
     public void setClickEvent() {
         iv_back.setOnClickListener(this);
-        tv_upload.setOnClickListener(this);
+        iv_business.setOnClickListener(this);
         tv_ok.setOnClickListener(this);
         tv_valid_time.setOnClickListener(this);
         tv_upload.getBackground().setAlpha(180);
@@ -97,26 +124,65 @@ public class AllowDetailActivity extends BaseActivity implements View.OnClickLis
         switch (view.getId()) {
             case R.id.iv_back:
                 finish();
+//                Utils.getAllow(mContext,businessValidity,businessUrl);
                 break;
 
             case R.id.tv_valid_time:
                 showDatePickView();
                 break;
 
-            case R.id.tv_upload:
+            case R.id.iv_business:
                 showPop();
                 break;
 
             case R.id.tv_ok:
+                if(TextUtils.isEmpty(tv_valid_time.getText().toString().trim())) {
+                    ToastUtil.showSuccessMsg(mContext,"请选择有效日期");
+                    return;
+                }
                 businessValidity = tv_valid_time.getText().toString().trim();
+                Utils.getAllow(mContext,businessValidity,businessUrl);
                 Intent intent = new Intent();
                 intent.putExtra("businessUrl",businessUrl);
                 intent.putExtra("businessValidity",businessValidity);
                 setResult(4,intent);
                 finish();
-                QiaoGeApplication.getInstance().addActivity(this);
+
+
                 break;
         }
+    }
+
+    ApplyInfoModel.DataBean data;
+    private void getDetailInfo() {
+        RecommendApI.getApplyInfo(mContext,checkNo)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApplyInfoModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ApplyInfoModel applyInfoModel) {
+                        if (applyInfoModel.getCode()==1) {
+                            if(applyInfoModel.getData()!=null) {
+                                data = applyInfoModel.getData();
+                                if(!TextUtils.isEmpty(data.getBusinessValidity())) {
+                                    tv_valid_time.setText(data.getBusinessValidity());
+                                }
+                            }
+                        } else {
+                            ToastUtil.showSuccessMsg(mContext, applyInfoModel.getMessage());
+                        }
+                    }
+                });
     }
 
     @SuppressLint("ResourceType")
@@ -193,7 +259,6 @@ public class AllowDetailActivity extends BaseActivity implements View.OnClickLis
         mAlbum.setOnClickListener(clickListener);
         mCamera.setOnClickListener(clickListener);
         mCancel.setOnClickListener(clickListener);
-
     }
 
     List<String> picList = new ArrayList<>();
@@ -205,11 +270,14 @@ public class AllowDetailActivity extends BaseActivity implements View.OnClickLis
             picList.clear();
             images.clear();
             images = PictureSelector.obtainMultipleResult(data);
-            String compressPath = images.get(0).getCompressPath();
-            picList.add(compressPath);
-            Glide.with(mActivity).load(compressPath).into(iv_business);
-            List<MultipartBody.Part> parts = filesToMultipartBodyParts(picList);
-            upImage(parts);
+            if(images!=null && images.size()>0) {
+                String compressPath = images.get(0).getCompressPath();
+                picList.add(compressPath);
+                Glide.with(mActivity).load(compressPath).into(iv_business);
+                List<MultipartBody.Part> parts = filesToMultipartBodyParts(picList);
+                upImage(parts);
+            }
+
         }
 
     }

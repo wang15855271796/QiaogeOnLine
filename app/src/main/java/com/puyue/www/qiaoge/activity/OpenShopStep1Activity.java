@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,6 +24,7 @@ import com.puyue.www.qiaoge.api.mine.address.AreaModel;
 import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.dialog.BackDialog;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.model.ApplyInfoModel;
 import com.puyue.www.qiaoge.model.IsApplyModel;
 import com.puyue.www.qiaoge.model.home.GetAddressModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
@@ -68,12 +71,14 @@ public class OpenShopStep1Activity extends BaseActivity implements View.OnClickL
     String checkNo;
     String applyPhone;
     String supplyProdType;
+    int applyType;
     //  省
     private List<AreaModel.DataBean> options1Items = new ArrayList<>();
     //  市
     private ArrayList<ArrayList<AreaModel.DataBean.ChildrenBeanX>> options2Items = new ArrayList<>();
     //  区
     private ArrayList<ArrayList<ArrayList<AreaModel.DataBean.ChildrenBeanX.ChildrenBean>>> options3Items = new ArrayList<>();
+
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         applyPhone = getIntent().getStringExtra("applyPhone");
@@ -94,6 +99,11 @@ public class OpenShopStep1Activity extends BaseActivity implements View.OnClickL
     @Override
     public void setViewData() {
         selectCity();
+        if(!TextUtils.isEmpty(checkNo)) {
+            getDetailInfo();
+        }
+        QiaoGeApplication.getInstance().addActivity(this);
+
     }
 
     @Override
@@ -105,28 +115,32 @@ public class OpenShopStep1Activity extends BaseActivity implements View.OnClickL
         tv_area.setOnClickListener(this);
     }
 
+    OptionsPickerView pvOptions;
     private void showPickerView() {
-        OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
-            @Override
-            public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                //返回的分别是三个级别的选中位置
-                companyProvinceCode = options1Items.get(options1).getCode();
-                companyCityCode = options2Items.get(options1).get(options2).getCode();
-                companyAreaCode = options3Items.get(options1).get(options2).get(options3).getCode();
-                String tx = options3Items.get(options1).get(options2).get(options3).getName();
-                tv_province.setText(options1Items.get(options1).getName());
-                tv_city_name.setText(options2Items.get(options1).get(options2).getName()+"");
-                tv_area.setText(tx);
-            }
-        })
+        if(pvOptions == null) {
+            pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+                @Override
+                public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                    //返回的分别是三个级别的选中位置
+                    companyProvinceCode = options1Items.get(options1).getCode();
+                    companyCityCode = options2Items.get(options1).get(options2).getCode();
+                    companyAreaCode = options3Items.get(options1).get(options2).get(options3).getCode();
+                    String tx = options3Items.get(options1).get(options2).get(options3).getName();
+                    tv_province.setText(options1Items.get(options1).getName());
+                    tv_city_name.setText(options2Items.get(options1).get(options2).getName()+"");
+                    tv_area.setText(tx);
+                }
+            })
 
-                .setTitleText("城市选择")
-                .setDividerColor(Color.BLACK)
-                .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
-                .setContentTextSize(20)
-                .setFlag(false)
-                .build();
-        pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
+                    .setTitleText("城市选择")
+                    .setDividerColor(Color.BLACK)
+                    .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
+                    .setContentTextSize(20)
+                    .setFlag(false)
+                    .build();
+            pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
+        }
+
         pvOptions.show();
     }
 
@@ -200,7 +214,80 @@ public class OpenShopStep1Activity extends BaseActivity implements View.OnClickL
 
     }
 
-//    申请第一步
+    ApplyInfoModel.DataBean data;
+    private void getDetailInfo() {
+        RecommendApI.getApplyInfo(mContext,checkNo)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ApplyInfoModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ApplyInfoModel applyInfoModel) {
+                        if (applyInfoModel.getCode()==1) {
+                            if(applyInfoModel.getData()!=null) {
+                                data = applyInfoModel.getData();
+
+                                if(!TextUtils.isEmpty(data.getSupplierName())) {
+                                    et_provider_name.setText(data.getSupplierName());
+                                }
+
+                                if(!TextUtils.isEmpty(data.getAddress())) {
+                                    et_address.setText(data.getAddress());
+                                }
+
+                                if(!TextUtils.isEmpty(data.getContactName())) {
+                                    et_contact_name.setText(data.getContactName());
+                                }
+
+                                if(!TextUtils.isEmpty(data.getContactPhone())) {
+                                    et_contact_phone.setText(data.getContactPhone());
+                                }
+
+                                if(!TextUtils.isEmpty(data.getCompanyProvinceName())) {
+                                    tv_province.setText(data.getCompanyProvinceName());
+                                }
+
+                                if(!TextUtils.isEmpty(data.getCompanyCityName())) {
+                                    tv_city_name.setText(data.getCompanyCityName());
+                                }
+
+                                if(!TextUtils.isEmpty(data.getCompanyAreaName())) {
+                                    tv_area.setText(data.getCompanyAreaName());
+                                }
+
+                                if(!TextUtils.isEmpty(data.getSupplyProdType())) {
+                                    et_style.setText(data.getSupplyProdType());
+                                }
+
+                                if(!TextUtils.isEmpty(data.getCompanyProvinceCode())) {
+                                    companyProvinceCode = data.getCompanyProvinceCode();
+                                }
+
+                                if(!TextUtils.isEmpty(data.getCompanyCityCode())) {
+                                    companyCityCode = data.getCompanyCityCode();
+                                }
+
+                                if(!TextUtils.isEmpty(data.getCompanyAreaCode())) {
+                                    companyAreaCode = data.getCompanyAreaCode();
+                                }
+                            }
+                        } else {
+                            ToastUtil.showSuccessMsg(mContext, applyInfoModel.getMessage());
+                        }
+                    }
+                });
+    }
+
+    //申请第一步
     private void applyProviderOne() {
         RecommendApI.applyProviderOne(mContext,checkNo,applyPhone,supplierName,address,contactName,contactPhone,companyProvinceCode
                 ,companyCityCode,companyAreaCode,supplyProdType)
@@ -225,7 +312,7 @@ public class OpenShopStep1Activity extends BaseActivity implements View.OnClickL
                                 intent.putExtra("checkNo",getAddressModel.getData());
                                 intent.putExtra("applyPhone",applyPhone);
                                 startActivity(intent);
-
+                                finish();
                             }
                         } else {
                             ToastUtil.showSuccessMsg(mContext, getAddressModel.getMessage());
@@ -241,47 +328,18 @@ public class OpenShopStep1Activity extends BaseActivity implements View.OnClickL
                 BackDialog backDialog = new BackDialog(mActivity) {
                     @Override
                     public void Confirm() {
-                        //确认退出
-                        finish();
+                        //继续填写
+                        dismiss();
                     }
 
                     @Override
                     public void sure() {
-                        //继续填写
+                        //确认退出
+                        finish();
                         dismiss();
                     }
                 };
                 backDialog.show();
-//                supplierName = et_provider_name.getText().toString().trim();
-//                address = et_address.getText().toString().trim();
-//                contactName = et_contact_name.getText().toString().trim();
-//                contactPhone = et_contact_phone.getText().toString().trim();
-//                province = tv_province.getText().toString();
-//                city = tv_city_name.getText().toString();
-//                supplyProdType = et_style.getText().toString().trim();
-
-//                if(!TextUtils.isEmpty(supplierName)||!TextUtils.isEmpty(address)||!TextUtils.isEmpty(contactName)||!TextUtils.isEmpty(contactPhone)
-//                        ||!TextUtils.isEmpty(province)||!TextUtils.isEmpty(city)||!TextUtils.isEmpty(supplyProdType)) {
-//                    BackDialog backDialog = new BackDialog(mActivity) {
-//                        @Override
-//                        public void Confirm() {
-//                            //确认退出
-//                            finish();
-//                        }
-//
-//                        @Override
-//                        public void sure() {
-//                            //继续填写
-//                            dismiss();
-//                        }
-//                    };
-//
-//                    backDialog.show();
-//                }else {
-//                    finish();
-//                }
-
-
 
                 break;
 
@@ -294,14 +352,7 @@ public class OpenShopStep1Activity extends BaseActivity implements View.OnClickL
                 city = tv_city_name.getText().toString();
                 supplyProdType = et_style.getText().toString().trim();
 
-//                if(!TextUtils.isEmpty(supplierName)&&!TextUtils.isEmpty(address)&&!TextUtils.isEmpty(contactName)&&!TextUtils.isEmpty(contactPhone)
-//                        &&!TextUtils.isEmpty(province)&&!TextUtils.isEmpty(city)&&!TextUtils.isEmpty(supplyProdType)) {
-//                    Intent intent = new Intent(mContext,OpenShopStep2Activity.class);
-//
-//                }
                 applyProviderOne();
-
-                QiaoGeApplication.getInstance().addActivity(this);
                 break;
 
             case R.id.tv_province:
@@ -315,5 +366,27 @@ public class OpenShopStep1Activity extends BaseActivity implements View.OnClickL
 
                 break;
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            BackDialog backDialog = new BackDialog(mActivity) {
+                @Override
+                public void Confirm() {
+                    //继续填写
+                    dismiss();
+                }
+
+                @Override
+                public void sure() {
+                    //确认退出
+                    finish();
+                    dismiss();
+                }
+            };
+            backDialog.show();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

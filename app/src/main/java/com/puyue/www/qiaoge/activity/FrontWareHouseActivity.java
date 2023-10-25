@@ -76,9 +76,8 @@ public class FrontWareHouseActivity extends BaseActivity implements View.OnClick
                     public void onNext(BaseModel baseModel) {
                         if (baseModel.code==1) {
                             finish();
-                        }else {
-                            ToastUtil.showSuccessMsg(mContext,baseModel.message);
                         }
+                        ToastUtil.showSuccessMsg(mContext,baseModel.message);
                     }
                 });
     }

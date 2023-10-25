@@ -9,6 +9,7 @@ import com.puyue.www.qiaoge.model.HelpPersonInfoModel;
 import com.puyue.www.qiaoge.model.PayInfoListModel;
 import com.puyue.www.qiaoge.model.PayInfoModel;
 import com.puyue.www.qiaoge.model.PayListModel;
+import com.puyue.www.qiaoge.model.ToFriendModel;
 import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
 import com.puyue.www.qiaoge.model.cart.OrderPayModel;
 
@@ -42,13 +43,14 @@ public class OrderPayAPI {
 
 
     private interface PayListService {
-        @GET(AppInterfaceAddress.Pay_List)
-        Observable<PayListModel> setParams();
+        @FormUrlEncoded
+        @POST(AppInterfaceAddress.Pay_List)
+        Observable<PayListModel> setParams(@Field("orderId") String orderId);
     }
 
-    public static Observable<PayListModel> requestsData(Context context) {
+    public static Observable<PayListModel> requestsData(Context context,String orderId) {
         PayListService service = RestHelper.getBaseRetrofit(context).create(PayListService.class);
-        return service.setParams();
+        return service.setParams(orderId);
     }
 
     private interface PayInfoListService {
@@ -77,10 +79,10 @@ public class OrderPayAPI {
     private interface SendOrderPersonService {
         @FormUrlEncoded
         @POST(AppInterfaceAddress.Send_Order_To_Person)
-        Observable<BaseModel> setParams(@Field("orderId") String orderId, @Field("receiveUserId") String receiveUserId);
+        Observable<ToFriendModel> setParams(@Field("orderId") String orderId, @Field("receiveUserId") String receiveUserId);
     }
 
-    public static Observable<BaseModel> sendOrder(Context context,String orderId,String receiveUserId) {
+    public static Observable<ToFriendModel> sendOrder(Context context,String orderId,String receiveUserId) {
         SendOrderPersonService service = RestHelper.getBaseRetrofit(context).create(SendOrderPersonService.class);
         return service.setParams(orderId,receiveUserId);
     }

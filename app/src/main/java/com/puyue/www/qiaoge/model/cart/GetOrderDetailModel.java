@@ -128,7 +128,6 @@ public class GetOrderDetailModel {
         public String orderPhone;
         public String payAccount;
 
-
         public void setDeliveryModel(int deliveryModel) {
             this.deliveryModel = deliveryModel;
         }

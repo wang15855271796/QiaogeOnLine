@@ -29,11 +29,9 @@ public class HelpOrderDetailAdapter extends BaseQuickAdapter<GetOrderDetailModel
     @Override
     protected void convert(BaseViewHolder helper, GetOrderDetailModel.DataBean.OrderProdsBean item) {
         helper.setText(R.id.tv_num,"订单编号:"+item.orderId);
-        helper.setText(R.id.tv_num,item.orderId);
         if(!TextUtils.isEmpty(item.sendTimeStr)) {
             helper.setText(R.id.tv_time,item.sendTimeStr);
         }
-
         RecyclerView rv_goods = helper.getView(R.id.rv_goods);
         rv_goods.setLayoutManager(new LinearLayoutManager(mContext));
         HelpOrderDetailInnerAdapter helpOrderDetailInnerAdapter = new HelpOrderDetailInnerAdapter(R.layout.item_help_inner_order_detail,item.products);

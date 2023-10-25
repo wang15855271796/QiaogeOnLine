@@ -21,6 +21,7 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.view.GlideEngine;
 import com.puyue.www.qiaoge.api.mine.order.SendImageAPI;
 import com.puyue.www.qiaoge.base.BaseActivity;
+import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.model.ApplyInfoModel;
 import com.puyue.www.qiaoge.model.SendImagesModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
@@ -51,9 +52,13 @@ public class LookOpenShopStep3Activity extends BaseActivity implements View.OnCl
     TextView tv_next;
     @BindView(R.id.tv_card)
     TextView tv_card;
+    List<String> pictureLists = new ArrayList<>();
+    List<String> pictureLists1 = new ArrayList<>();
+    String applyPhone;
     ApplyInfoModel.DataBean detailInfo;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
+        applyPhone = getIntent().getStringExtra("applyPhone");
         detailInfo = (ApplyInfoModel.DataBean)getIntent().getSerializableExtra("detailInfo");
         return false;
     }
@@ -75,6 +80,8 @@ public class LookOpenShopStep3Activity extends BaseActivity implements View.OnCl
             Glide.with(mContext).load(detailInfo.getCorporateCardFront()).into(iv_up_front);
             Glide.with(mContext).load(detailInfo.getCorporateCardReverse()).into(iv_up_bank);
             tv_card.setText(detailInfo.getIdNumber());
+            pictureLists.add(detailInfo.getCorporateCardFront());
+            pictureLists1.add(detailInfo.getCorporateCardReverse());
         }
     }
 
@@ -97,9 +104,22 @@ public class LookOpenShopStep3Activity extends BaseActivity implements View.OnCl
                 finish();
                 break;
 
+            case R.id.iv_up_bank:
+                if(pictureLists1.size()>0) {
+                    AppHelper.showIssueDetailDialog(mActivity, pictureLists1, 0);
+                }
+                break;
+
+            case R.id.iv_up_front:
+                if(pictureLists.size()>0) {
+                    AppHelper.showIssueDetailDialog(mActivity, pictureLists, 0);
+                }
+                break;
+
             case R.id.tv_next:
                 Intent intent = new Intent(mContext,LookOpenShopStep4Activity.class);
                 intent.putExtra("detailInfo", (Serializable) detailInfo);
+                intent.putExtra("applyPhone",applyPhone);
                 startActivity(intent);
                 break;
         }

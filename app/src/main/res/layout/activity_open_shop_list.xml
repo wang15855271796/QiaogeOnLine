@@ -83,9 +83,9 @@
                     android:layout_alignParentRight="true"
                     android:background="@drawable/shape_grey3"
                     android:padding="6dp"
-                    tools:text="待审核"
                     android:textColor="#414141"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    tools:text="待审核" />
 
 
                 <TextView
@@ -97,6 +97,17 @@
                     android:textColor="#414141"
                     android:textSize="14sp"
                     tools:text="申请时间：2023-07-18 14:49:11" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_reason"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_time"
+                    android:padding="6dp"
+                    android:textColor="#414141"
+                    android:textSize="14sp"
+                    tools:text="理由" />
 
             </RelativeLayout>
         </LinearLayout>

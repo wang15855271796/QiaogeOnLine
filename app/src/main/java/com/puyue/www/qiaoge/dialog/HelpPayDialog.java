@@ -3,6 +3,7 @@ package com.puyue.www.qiaoge.dialog;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,7 +45,11 @@ public abstract class HelpPayDialog extends Dialog implements View.OnClickListen
         tv_sure.setOnClickListener(this);
         iv_close.setOnClickListener(this);
         tv_cancel.setOnClickListener(this);
-        tv_name.setText(data.getUserName()+"("+data.getPhone()+")");
+        if(!TextUtils.isEmpty(data.getUserName())) {
+            tv_name.setText(data.getUserName()+"("+data.getPhone()+")");
+        }else {
+            tv_name.setText(data.getPhone());
+        }
         tv_desc.setText(data.getShopName());
         tv_address.setText(data.getAddress());
     }

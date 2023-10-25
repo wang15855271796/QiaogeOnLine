@@ -13,6 +13,7 @@
         android:background="@mipmap/bg_help_pay"
         android:orientation="vertical">
 
+
         <TextView
             android:id="@+id/tv_look"
             android:layout_width="match_parent"
@@ -30,18 +31,33 @@
 
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="360dp"
-        android:orientation="vertical">
+        android:layout_marginTop="270dp"
+        android:gravity="center"
+        android:text="拜托你~\n帮我付一笔订单！"
+        android:textColor="#414141"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="140dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="340dp"
+        android:background="@drawable/shape_grey19"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <TextView
             android:id="@+id/tv1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:text="订单金额"
             android:textColor="#000000"
             android:textSize="15sp" />
@@ -51,25 +67,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv1"
-            android:layout_centerHorizontal="true"
-            android:text="300"
             android:textColor="#F30000"
             android:textSize="30sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="300" />
 
         <TextView
             android:id="@+id/tv_phone"
-            android:layout_width="wrap_content"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_amount"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
-            android:gravity="center"
+            android:layout_marginTop="5dp"
             android:background="@mipmap/bg_dialog_grey"
-            android:text="来自用户：17766091580"
+            android:gravity="center"
             android:textColor="#000000"
-            android:textSize="15sp" />
-    </RelativeLayout>
+            android:textSize="15sp"
+            tools:text="来自用户：17766091580" />
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/iv_close"
@@ -79,5 +93,13 @@
         android:src="@mipmap/ic_login_delete_two"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:layout_below="@+id/tv_title"
+        android:layout_marginRight="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_help_pay_tip" />
 
 </RelativeLayout>

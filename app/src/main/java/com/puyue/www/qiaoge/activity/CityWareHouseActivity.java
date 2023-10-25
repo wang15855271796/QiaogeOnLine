@@ -78,9 +78,8 @@ public class CityWareHouseActivity extends BaseActivity implements View.OnClickL
                     public void onNext(BaseModel baseModel) {
                         if (baseModel.code==1) {
                             finish();
-                        }else {
-                            ToastUtil.showSuccessMsg(mContext,baseModel.message);
                         }
+                        ToastUtil.showSuccessMsg(mContext,baseModel.message);
                     }
                 });
     }

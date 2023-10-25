@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="166dp"
+    android:layout_width="170dp"
     android:id="@+id/ll_root"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
-        android:layout_marginLeft="@dimen/size_12dp"
+        android:layout_marginLeft="4dp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_46dp">
 
@@ -18,23 +18,24 @@
 
             <ImageView
                 android:id="@+id/iv_pic"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
                 android:layout_centerInParent="true"
-                android:layout_width="@dimen/size_32dp"
-                android:layout_height="@dimen/size_32dp"
                 android:src="@mipmap/icon_orders" />
 
             <TextView
                 android:id="@+id/tv_position"
-                android:text="1/5"
-                android:textSize="8sp"
-                android:layout_marginTop="@dimen/size_30dp"
-                android:layout_centerHorizontal="true"
-                android:textColor="#ffffff"
-                android:paddingRight="@dimen/dp_4"
-                android:paddingLeft="@dimen/dp_4"
-                android:background="@drawable/shape_yellow3"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/size_30dp"
+                android:background="@drawable/shape_yellow3"
+                android:paddingLeft="@dimen/dp_4"
+                android:paddingRight="@dimen/dp_4"
+                android:text="1/5"
+                android:textColor="#ffffff"
+                android:textSize="8sp"
+                android:visibility="gone" />
         </RelativeLayout>
 
 
@@ -67,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_order_state"
-                android:layout_marginRight="@dimen/size_5dp"
+                android:layout_marginRight="5dp"
                 android:layout_toRightOf="@+id/tv_time" />
 
             <TextView

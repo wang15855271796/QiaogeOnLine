@@ -32,7 +32,7 @@ public class Test1Adapter extends BaseQuickAdapter<String, BaseViewHolder> {
         item_Layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("wdasdw.....","122");
+
 //                swipeMenuLayout.quickClose();
             }
         });
@@ -40,7 +40,7 @@ public class Test1Adapter extends BaseQuickAdapter<String, BaseViewHolder> {
         item_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("wdasdw.....","233");
+
                 swipeMenuLayout.quickClose();
             }
         });
