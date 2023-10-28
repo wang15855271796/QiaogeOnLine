@@ -75,21 +75,23 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
     RecyclerView recyclerView;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.my_scroll)
+    MyScrollView my_scroll;
     HotListAdapter hotAdapter;
     int pageNum = 1;
     int pageSize = 10;
-    @BindView(R.id.iv_back)
     ImageView iv_back;
-    @BindView(R.id.tv_num)
+//    @BindView(R.id.tv_num)
     TextView tv_num;
-    @BindView(R.id.iv_carts)
+//    @BindView(R.id.iv_carts)
     ImageView iv_carts;
-    @BindView(R.id.tv_search)
+//    @BindView(R.id.tv_search)
     TextView tv_search;
-//    @BindView(R.id.my_scroll)
-//    MyScrollView my_scroll;
-    @BindView(R.id.rl_bg)
-    RelativeLayout rl_bg;
+
+//    @BindView(R.id.ll_bg)
+    LinearLayout ll_bg;
+    @BindView(R.id.ll_header1)
+    LinearLayout ll_header1;
     ProductNormalModel productNormalModel;
     private AlertDialog mTypedialog;
     String cell;
@@ -152,13 +154,6 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         refreshLayout.setEnableLoadMore(false);
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(this) {
-//            @Override
-//            public boolean canScrollVertically() {
-//                // 直接禁止垂直滑动
-//                return false;
-//            }
-//        };
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         hotAdapter = new HotListAdapter(R.layout.item_hot_list,list, new HotListAdapter.Onclick() {
             @Override
@@ -172,6 +167,13 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
             }
         });
 
+        View header = View.inflate(this,R.layout.view_header, null);
+        iv_back = header.findViewById(R.id.iv_back);
+        iv_carts = header.findViewById(R.id.iv_carts);
+        tv_num = header.findViewById(R.id.tv_num);
+        tv_search = header.findViewById(R.id.tv_search);
+        ll_bg = header.findViewById(R.id.ll_bg);
+        hotAdapter.addHeaderView(header);
         hotAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -182,6 +184,7 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
             }
         });
         recyclerView.setAdapter(hotAdapter);
+
         iv_back.setOnClickListener(this);
 
         tv_search.setOnClickListener(new View.OnClickListener() {
@@ -215,6 +218,7 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
             }
         });
 
+
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
@@ -227,6 +231,26 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
                         refreshLayout.finishLoadMoreWithNoMoreData();
                     }
                 }
+            }
+        });
+
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                if(newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if(!recyclerView.canScrollVertically(1)) {
+                        //顶端
+                        ll_header1.setVisibility(View.VISIBLE);
+                    }else {
+                        ll_header1.setVisibility(View.GONE);
+                    }
+                }
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
             }
         });
 

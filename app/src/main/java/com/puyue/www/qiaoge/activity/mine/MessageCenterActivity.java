@@ -87,15 +87,6 @@ public class MessageCenterActivity extends BaseSwipeActivity {
         mPtr = (PtrClassicFrameLayout) findViewById(R.id.ptr_message_center);
         mRv = (RecyclerView) findViewById(R.id.rv_message_center);
         mIvNoData = (ImageView) findViewById(R.id.iv_message_no_data);
-//        WebView myWebView2 = (WebView) findViewById(R.id.myWebView2);
-//        tv_message.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-////                myWebView2.loadUrl("file:///android_asset/test1.html");
-//                Intent intent = new Intent(mContext, CommonH7Activity.class);
-//                startActivity(intent);
-//            }
-//        });
     }
 
     @Override
@@ -233,8 +224,13 @@ public class MessageCenterActivity extends BaseSwipeActivity {
                         mPtr.refreshComplete();
                         logoutAndToHome(mContext, messageListModel.code);
                         mModelMessageList = messageListModel;
-                        if (mModelMessageList.success) {
-                            updateMessageList();
+                        if (mModelMessageList.code == 1) {
+                            if(mModelMessageList.data!=null && mModelMessageList.data.list!=null&& mModelMessageList.data.list.size()>0) {
+                                updateMessageList();
+                            }else {
+                                showEmptyLayout(mAdapterMessageCenter);
+                            }
+
                         } else {
                            AppHelper.showMsg(mContext, mModelMessageList.message);
                         }

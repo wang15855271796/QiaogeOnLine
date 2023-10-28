@@ -208,7 +208,6 @@ public class CommonListAdapter extends BaseQuickAdapter<ProductNormalModel.DataB
                         }else {
                             ToastUtil.showSuccessMsg(mContext,exchangeProductModel.getMessage());
                         }
-
                     }
                 });
     }

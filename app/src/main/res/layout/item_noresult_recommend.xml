@@ -55,13 +55,13 @@
 
                 <TextView
                     android:id="@+id/tv_sale"
-                    android:layout_marginLeft="@dimen/size_15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="销量：300"
                     android:layout_below="@+id/rl"
+                    android:layout_marginLeft="@dimen/size_15dp"
                     android:layout_marginTop="5dp"
                     android:layout_toLeftOf="@+id/iv_close"
+                    android:text="销量：300"
                     android:textColor="#666666"
                     android:textSize="10sp" />
 
@@ -211,7 +211,6 @@
                     </RelativeLayout>
 
                 </RelativeLayout>
-
 
                 <TextView
                     android:id="@+id/tv_style"

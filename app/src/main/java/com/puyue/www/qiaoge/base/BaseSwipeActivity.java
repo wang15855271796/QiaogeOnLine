@@ -14,7 +14,9 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.githang.statusbar.StatusBarCompat;
+import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.mine.login.LogoutsEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
@@ -75,6 +77,16 @@ public abstract class BaseSwipeActivity extends FragmentActivity {
         return res;
 
     }
+
+    public void showEmptyLayout(BaseQuickAdapter adapter) {
+        View emptyView=getLayoutInflater().inflate(R.layout.layout_message_empty, null);
+        adapter.setEmptyView(emptyView);
+    }
+
+//    public void showEmptyLayout(BaseQuickAdapter adapter) {
+//        View emptyView=getLayoutInflater().inflate(R.layout.layout_message_empty, null);
+//        adapter.setEmptyView(emptyView);
+//    }
     /**
      * 设置为白色状态栏
      */

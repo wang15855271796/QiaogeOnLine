@@ -6,29 +6,26 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
+        android:layout_marginLeft="6dp"
         android:orientation="vertical"
-        android:layout_marginTop="@dimen/size_6dp"
-        android:layout_marginLeft="@dimen/size_20dp"
         android:gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:layout_marginLeft="@dimen/size_3dp"
-            android:layout_marginRight="@dimen/size_3dp"
-            android:layout_width="@dimen/size_63dp"
-            android:layout_height="@dimen/size_63dp">
+
+            android:layout_width="80dp"
+            android:layout_height="80dp">
 
             <com.puyue.www.qiaoge.RoundImageView
                 android:id="@+id/iv_pic"
-                android:layout_width="@dimen/size_63dp"
-                android:layout_height="@dimen/size_63dp" />
+                android:scaleType="fitXY"
+                android:layout_width="80dp"
+                android:layout_height="80dp" />
 
             <ImageView
                 android:id="@+id/iv_order"
                 android:layout_width="@dimen/size_29dp"
-                android:layout_marginTop="@dimen/size_2dp"
-                android:layout_marginLeft="@dimen/size_2dp"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/icon_one" />
 
@@ -39,20 +36,27 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:src="@mipmap/icon_not_send2" />
+
+            <TextView
+                android:id="@+id/tv_price"
+                tools:text="120"
+                android:background="@drawable/shape_grey20"
+                android:lines="1"
+                android:textStyle="bold"
+                android:ellipsize="end"
+                android:textColor="#FF2925"
+                android:textSize="8sp"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:gravity="center"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="5dp"
+                android:layout_height="14dp"/>
         </RelativeLayout>
 
 
-        <TextView
-            android:id="@+id/tv_price"
-            tools:text="120"
-            android:lines="1"
-            android:textStyle="bold"
-            android:ellipsize="end"
-            android:textColor="#FF2925"
-            android:textSize="10sp"
-            android:layout_marginTop="@dimen/size_1dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+
     </LinearLayout>
 
     <RelativeLayout

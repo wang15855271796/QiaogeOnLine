@@ -11,7 +11,7 @@
         android:id="@+id/rl_prod"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="160dp">
+        android:layout_height="145dp">
 
         <ImageView
             android:id="@+id/iv_pic"
@@ -31,7 +31,8 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:text="翘歌玉米蔬菜猪..."
-            android:textColor="#676767"
+            android:textColor="#414141"
+            android:textStyle="bold"
             android:textSize="9sp" />
 
         <TextView
@@ -46,25 +47,19 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_sale"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="3dp"
-            android:layout_below="@+id/tv_sale"
-            android:id="@+id/tv_price"
-            android:textSize="11sp"
-            android:lines="1"
             android:ellipsize="end"
-            android:textColor="#FF680A"
-            tools:text="100"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        
-        <ImageView
-            android:id="@+id/iv_operate"
-            android:layout_marginLeft="@dimen/size_13dp"
-            android:layout_below="@+id/tv_price"
-            android:src="@mipmap/icon_operate"
-            android:layout_width="@dimen/size_30dp"
-            android:layout_height="@dimen/size_14dp"/>
+            android:lines="1"
+            android:textStyle="bold"
+            android:textColor="#F50404"
+            android:textSize="11sp"
+            tools:text="100" />
+
 
         <RelativeLayout
             android:id="@+id/rl_send"

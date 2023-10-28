@@ -20,6 +20,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -74,7 +75,7 @@ import rx.schedulers.Schedulers;
 public class MyWalletDetailActivity extends BaseSwipeActivity {
     private TextView textViewDetailed;
     private LinearLayout linearLayoutOnclick;
-    private LinearLayout data; // 没有数据的界面
+    private RelativeLayout data; // 没有数据的界面
     private int pageNum = 1;
 
     private List<GetWallertRecordByPageModel.DataBean.RecordsBean> mListData;
@@ -121,6 +122,7 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
     ImageView iv_all;
     ImageView iv_select;
     SmartRefreshLayout refreshLayout;
+    ImageView iv_empty_bill;
     private List<GetWallertRecordByPageModel.DataBean.RecordsBean> records;
     private GetWallertRecordByPageModel.DataBean.RecordsBean recordsBean;
     private int isrefreshormore = 1;//1刷新  2加载
@@ -137,6 +139,7 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
+        iv_empty_bill = FVHelper.fv(this, R.id.iv_empty_bill);
         refreshLayout = FVHelper.fv(this, R.id.refreshLayout);
         mLlTimeSelect = FVHelper.fv(this, R.id.ll_activity_wallet_time);
         iv_select = (ImageView) findViewById(R.id.iv_select);
@@ -146,7 +149,7 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
         textViewDetailed = (TextView) findViewById(R.id.textViewDetailed);
         linearLayoutOnclick = (LinearLayout) findViewById(R.id.linearLayoutOnclick);
         ll_root = (LinearLayout) findViewById(R.id.ll_root);
-        data = (LinearLayout) findViewById(R.id.data);
+        data = (RelativeLayout) findViewById(R.id.data);
         detailedImage = (ImageView) findViewById(R.id.detailedImage);
         tv_all = findViewById(R.id.tv_all);
         tv_select = findViewById(R.id.tv_select);
@@ -663,6 +666,7 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
                                         lists.add(data);
                                     }
                                     mListData.addAll(records);
+                                    iv_empty_bill.setVisibility(View.GONE);
                                 } else {
                                     GetWallertRecordByPageModel.DataBean data = getWallertRecordByPageModel.getData();
                                     lists.add(data);
@@ -670,6 +674,7 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
                                     recordsBean.setNullData(true);
                                     recordsBean.setDateTime(data.getNowYear() + "-" + data.getNowMonth());
                                     mListData.add(recordsBean);
+                                    iv_empty_bill.setVisibility(View.VISIBLE);
                                 }
                             } else {
                                 if (getWallertRecordByPageModels.getData() != null && getWallertRecordByPageModels.getData().getRecords().size() > 0) {
@@ -680,9 +685,11 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
                                     }
                                     mListData.addAll(records);
                                     refreshLayout.finishLoadMore();
+                                    iv_empty_bill.setVisibility(View.GONE);
                                 } else {
                                     adapters.notifyDataSetChanged();
                                     refreshLayout.finishLoadMore();
+                                    iv_empty_bill.setVisibility(View.VISIBLE);
                                 }
                             }
 

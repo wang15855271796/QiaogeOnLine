@@ -198,7 +198,7 @@
 
             <ImageView
                 android:id="@+id/iv_no_data"
-                android:src="@mipmap/ic_no_data"
+                android:src="@mipmap/icon_empty_collection"
                 android:visibility="gone"
                 android:layout_centerInParent="true"
                 android:layout_width="wrap_content"

@@ -254,20 +254,21 @@
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
-                                        android:layout_height="45dp"
+                                        android:layout_height="30dp"
                                         android:layout_marginRight="@dimen/dp_10"
-                                        android:background="@drawable/app_search"
+                                        android:background="@drawable/shape_orange29"
                                         android:orientation="horizontal">
 
                                         <EditText
                                             android:id="@+id/et_goods"
                                             android:layout_width="0dp"
-                                            android:layout_height="32dp"
+                                            android:layout_height="30dp"
                                             android:layout_weight="1"
-                                            android:background="@drawable/bg_search_edit"
                                             android:drawableLeft="@mipmap/icon_search"
                                             android:drawablePadding="5dp"
-                                            android:hint="请输入商品名称"
+                                            android:hint="请输入品牌名称搜索"
+                                            android:layout_marginRight="15dp"
+                                            android:background="@null"
                                             android:imeOptions="actionSearch"
                                             android:paddingLeft="10dp"
                                             android:paddingTop="5dp"
@@ -276,16 +277,28 @@
                                             android:textColorHint="@color/app_cancle_gray"
                                             android:textSize="14dp" />
 
+                                        <ImageView
+                                            android:visibility="gone"
+                                            android:id="@+id/iv_clear"
+                                            android:padding="5dp"
+                                            android:layout_gravity="center_vertical"
+                                            android:src="@mipmap/ic_search_close"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"/>
+
                                         <TextView
                                             android:id="@+id/tv_search"
+                                            android:layout_marginRight="4dp"
+                                            android:layout_gravity="center_vertical"
                                             android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="8dp"
+                                            android:layout_height="25dp"
                                             android:layout_weight="0.06"
+                                            android:paddingLeft="10dp"
+                                            android:paddingRight="10dp"
                                             android:gravity="center"
-                                            android:padding="5dp"
                                             android:text="搜索"
-                                            android:textColor="@color/color_333"
+                                            android:background="@drawable/shape_jianbian18"
+                                            android:textColor="#ffffff"
                                             android:textSize="13sp" />
                                     </LinearLayout>
 

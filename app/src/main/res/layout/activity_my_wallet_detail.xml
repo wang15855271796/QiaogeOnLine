@@ -152,7 +152,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/data"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -163,7 +163,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/colorWhite">
-
 
                     <com.scwang.smartrefresh.layout.SmartRefreshLayout
                         android:id="@+id/refreshLayout"
@@ -188,10 +187,21 @@
 
                     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-
                 </RelativeLayout>
 
-            </LinearLayout>
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/iv_empty_bill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/icon_bill_empty"
+                    android:textColor="#999999"
+                    android:textSize="@dimen/sp_16" />
+            </RelativeLayout>
+
+
         </LinearLayout>
 
         <include layout="@layout/activity_commont_no_data_layout" />

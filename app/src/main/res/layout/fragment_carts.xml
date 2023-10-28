@@ -184,8 +184,9 @@
                                         android:layout_marginTop="15dp"
                                         android:layout_marginBottom="15dp"
                                         android:text="已失效商品"
-                                        android:textColor="@color/color_555555"
-                                        android:textSize="15dp" />
+                                        android:textStyle="bold"
+                                        android:textColor="#414141"
+                                        android:textSize="14sp" />
 
                                     <TextView
                                         android:id="@+id/tv_clear"
@@ -195,7 +196,7 @@
                                         android:layout_centerVertical="true"
                                         android:layout_marginRight="10dp"
                                         android:padding="10dp"
-                                        android:text="清空"
+                                        android:text="清空失效商品"
                                         android:textColor="@color/color_F6551A"
                                         android:textSize="15sp" />
 
@@ -354,6 +355,7 @@
                         android:paddingTop="12dp"
                         android:paddingRight="2dp"
                         android:paddingBottom="12dp"
+                        android:textColor="#ffffff"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -365,7 +367,7 @@
                         android:paddingRight="2dp"
                         android:paddingBottom="12dp"
                         tools:text="1000"
-                        android:textColor="#FFF6551A"
+                        android:textColor="#ffffff"
                         android:textSize="12dp" />
 
                     <TextView
@@ -374,6 +376,7 @@
                         android:paddingTop="12dp"
                         android:paddingRight="2dp"
                         android:paddingBottom="12dp"
+                        android:textColor="#ffffff"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -395,7 +398,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="去凑单"
-                        android:textColor="#FFF6551A"
+                        android:textColor="#ffffff"
                         android:textSize="12dp" />
 
                     <ImageView
@@ -403,7 +406,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginLeft="11dp"
-                        android:src="@mipmap/qg_cart_jump" />
+                        android:src="@mipmap/ic_arrow_right" />
                 </LinearLayout>
 
             </LinearLayout>

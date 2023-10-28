@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -138,7 +140,6 @@ public class MarketsFragment extends BaseFragment {
     Banner banner;
     private TextView mTvOk;
     private ImageView ivSearch;
-//    private LoadingDailog dialog;
     TextView tv_search;
     TextView tv_sale;
     View v_shadow;
@@ -170,6 +171,7 @@ public class MarketsFragment extends BaseFragment {
     LinearLayout ll_price;
     ImageView iv_all;
     LinearLayout ll_root;
+    ImageView iv_clear;
     public static MarketsFragment getInstance() {
         MarketsFragment fragment = new MarketsFragment();
         Bundle bundle = new Bundle();
@@ -231,6 +233,7 @@ public class MarketsFragment extends BaseFragment {
         context = getActivity();
         EventBus.getDefault().register(this);
         iv_all = view.findViewById(R.id.iv_all);
+        iv_clear = view.findViewById(R.id.iv_clear);
         ll_root = view.findViewById(R.id.ll_root);
         tv_select_good = view.findViewById(R.id.tv_select_good);
         iv_tip = view.findViewById(R.id.iv_tip);
@@ -332,15 +335,7 @@ public class MarketsFragment extends BaseFragment {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext,SearchStartActivity.class);
                 startActivity(intent);
-//                selectBrandName = et_goods.getText().toString();
-//                pageNum = 1;
-//                if(mModelMarketGoods.getData().getBrandProd().isHasNextPage()) {
-//                    hasPage = true;
-//                    getData();
-//                }else {
-//                    hasPage = false;
-//                    getData();
-//                }
+
             }
         });
 
@@ -354,7 +349,6 @@ public class MarketsFragment extends BaseFragment {
                 clicks = 1;
                 selectBrandName = "";
                 mAdapterMarketSecond.selectPosition(0);
-//                dialog.show();
                 mRvDetail.noMoreLoading(false);
                 pageNum = 1;
                 requestGoodsList(mList.get(position).getFirstId());
@@ -408,6 +402,34 @@ public class MarketsFragment extends BaseFragment {
                 }
             }
         });
+
+        et_goods.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(editable.toString().trim().equals("")) {
+                    et_goods.setVisibility(View.GONE);
+                }else {
+                    et_goods.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        iv_clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                et_goods.setText("");
+            }
+        });
+
         tv_select_good.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -514,11 +536,11 @@ public class MarketsFragment extends BaseFragment {
     CustomPopWindow mCustomPopWindow;
     private void shopListView() {
         View contentView = LayoutInflater.from(context).inflate(R.layout.cate_list,null);
-        ImageView iv_close = contentView.findViewById(R.id.iv_close);
+        TextView tv_close = contentView.findViewById(R.id.tv_close);
         RecyclerView recyclerView = contentView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(mContext,5));
         recyclerView.setAdapter(firstAdapter);
-        iv_close.setOnClickListener(new View.OnClickListener() {
+        tv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mCustomPopWindow.dissmiss();
@@ -776,7 +798,7 @@ public class MarketsFragment extends BaseFragment {
         lav_activity_loading.show();
         //获取banner
         getSearchProd();
-
+        requestGoodsList1();
         //切换左边导航时的加载数据弹窗
 //        LoadingDailog.Builder loadBuilder = new LoadingDailog.Builder(getContext())
 //                .setMessage("获取数据中")
@@ -826,21 +848,6 @@ public class MarketsFragment extends BaseFragment {
                 } else {
                     pageNum = 1;
                     if(scrollPosition != mListSecondNow.size()-1) {
-//                        mListGoods.clear();
-//                        mAdapterMarketDetail.notifyDataSetChanged();
-//                        hasPage = false;
-//                        scrollPosition++;
-//                        if(scrollPosition==2) {
-//                            ll_select.setVisibility(View.GONE);
-//                            ll_prod.setVisibility(View.VISIBLE);
-//                        }else {
-//                            ll_select.setVisibility(View.VISIBLE);
-//                            ll_prod.setVisibility(View.GONE);
-//                        }
-//                        mAdapterMarketSecond.selectPosition(scrollPosition);
-//                        mSecondCode = mListSecondNow.get(scrollPosition).getSecondId();
-//                        getData();
-
                         if(isFirstLoading) {
                             mRvDetail.noMoreLoading(true);
                             mRvDetail.refreshComplete();
@@ -1078,6 +1085,41 @@ public class MarketsFragment extends BaseFragment {
                                 mAdapterMarketDetail.notifyDataSetChanged();
                             }
 
+                        } else {
+                            ToastUtil.showSuccessMsg(mActivity,marketGoodsModel.getMessage());
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 请求左侧数据集合
+     */
+    private void requestGoodsList1() {
+        MarketGoodsClassifyAPI.getClassify(getContext())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ClassIfyModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ClassIfyModel marketGoodsModel) {
+                        if (marketGoodsModel.getCode()==1) {
+                            mList.clear();
+                            if(marketGoodsModel.getData()!=null && marketGoodsModel.getData().size()>0) {
+                                mList.addAll(marketGoodsModel.getData());
+                            }
+                            firstAdapter.notifyDataSetChanged();
+
+                            shopListView();
                         } else {
                             ToastUtil.showSuccessMsg(mActivity,marketGoodsModel.getMessage());
                         }

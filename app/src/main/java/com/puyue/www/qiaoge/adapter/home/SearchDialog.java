@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -50,7 +51,6 @@ import rx.schedulers.Schedulers;
  * 搜索有数据的弹窗
  */
 public class SearchDialog extends Dialog implements View.OnClickListener {
-
     Context context;
     public View view;
     public Unbinder binder;
@@ -89,13 +89,15 @@ public class SearchDialog extends Dialog implements View.OnClickListener {
     private SearchSpecsAdapter searchSpecAdapter;
     @BindView(R.id.iv_send)
     ImageView iv_send;
-
+    @BindView(R.id.rl_bg)
+    RelativeLayout rl_bg;
+    @BindView(R.id.tv2)
+    TextView tv2;
     public SearchDialog(Context context, ExchangeProductModel.DataBean listBean) {
         super(context, R.style.dialog);
         this.context = context;
         this.listBean = listBean;
         init();
-//        exchangeList(listBean.getProductId());
         getCartNum();
     }
 
@@ -105,7 +107,6 @@ public class SearchDialog extends Dialog implements View.OnClickListener {
         if(!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
-
     }
 
     @Override
@@ -195,10 +196,6 @@ public class SearchDialog extends Dialog implements View.OnClickListener {
                         if(exchangeProductModel.isSuccess()) {
                             if(exchangeProductModel.getData()!=null) {
 
-//                                List<ExchangeProductModel.DataBean.ProdSpecsBean> prodSpecs = exchangeProductModel.getData().getProdSpecs();
-//                                searchSpecAdapter = new SearchSpecsAdapter(context,prodSpecs);
-//                                fl_container.setAdapter(searchSpecAdapter);
-
                                 SearchItemAdapter searchItemAdapter = new SearchItemAdapter(1,productId,
                                         R.layout.item_choose_content,
                                         exchangeProductModel.getData().getProdPrices(),exchangeProductModel.getData());
@@ -272,17 +269,24 @@ public class SearchDialog extends Dialog implements View.OnClickListener {
                     @Override
                     public void onNext(GetCartNumModel getCartNumModel) {
                         if (getCartNumModel.isSuccess()) {
-                            if (Integer.valueOf(getCartNumModel.getData().getNum()) > 0) {
+                            if (Integer.parseInt(getCartNumModel.getData().getNum()) > 0) {
                                 tv_num.setVisibility(View.VISIBLE);
                                 tv_num.setText(getCartNumModel.getData().getNum());
+                                iv_cart.setImageResource(R.mipmap.icon_shop_car);
+                                rl_bg.setBackgroundResource(R.drawable.shape_orange30);
+                                tv2.setVisibility(View.VISIBLE);
+                                tv2.setText("合计");
+                                tv_price_total.setVisibility(View.VISIBLE);
                                 tv_price_total.setText(getCartNumModel.getData().getTotalPrice());
-                                tv_free_desc.setText("满"+getCartNumModel.getData().getSendAmount()+"元免配送费");
                             } else {
-                                tv_free_desc.setText("未选购商品");
+                                tv_price_total.setVisibility(View.GONE);
+                                iv_cart.setImageResource(R.mipmap.icon_unshop_car);
+                                rl_bg.setBackgroundResource(R.drawable.shape_grey21);
+                                tv2.setVisibility(View.VISIBLE);
+                                tv2.setText("未选购商品");
                                 tv_num.setVisibility(View.GONE);
-                                tv_price_total.setText(getCartNumModel.getData().getTotalPrice());
-//                                tv_price_total.setVisibility(View.GONE);
                             }
+                            tv_free_desc.setText("满"+getCartNumModel.getData().getSendAmount()+"元免配送费");
                         } else {
                             AppHelper.showMsg(context, getCartNumModel.getMessage());
                         }

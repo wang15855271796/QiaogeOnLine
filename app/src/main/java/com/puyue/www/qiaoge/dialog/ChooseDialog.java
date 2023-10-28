@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -53,7 +54,6 @@ import rx.schedulers.Schedulers;
  * Created by ${王涛} on 2019/10/9
  */
 public class ChooseDialog extends Dialog implements View.OnClickListener {
-
     Context context;
     public View view;
     public Unbinder binder;
@@ -94,7 +94,10 @@ public class ChooseDialog extends Dialog implements View.OnClickListener {
     TextView tv_free_desc;
     @BindView(R.id.iv_cart)
     ImageView iv_cart;
-
+    @BindView(R.id.rl_bg)
+    RelativeLayout rl_bg;
+    @BindView(R.id.tv2)
+    TextView tv2;
     private SearchSpecAdapter searchSpecAdapter;
     ExchangeProductModel exchangeProductModels;
     ExchangeProductModel.DataBean model;
@@ -105,7 +108,9 @@ public class ChooseDialog extends Dialog implements View.OnClickListener {
         this.productId = productId;
         this.model = model;
         this.pos = pos;
+
         getCartNum();
+
         init();
     }
 
@@ -291,17 +296,25 @@ public class ChooseDialog extends Dialog implements View.OnClickListener {
                     @Override
                     public void onNext(GetCartNumModel getCartNumModel) {
                         if (getCartNumModel.isSuccess()) {
-                            if (Integer.valueOf(getCartNumModel.getData().getNum()) > 0) {
+                            int num = Integer.parseInt(getCartNumModel.getData().getNum());
+                            if (num > 0) {
                                 tv_num.setVisibility(View.VISIBLE);
                                 tv_num.setText(getCartNumModel.getData().getNum());
+                                iv_cart.setImageResource(R.mipmap.icon_shop_car);
+                                rl_bg.setBackgroundResource(R.drawable.shape_orange30);
+                                tv2.setVisibility(View.VISIBLE);
+                                tv2.setText("合计");
+                                tv_price_total.setVisibility(View.VISIBLE);
                                 tv_price_total.setText(getCartNumModel.getData().getTotalPrice());
-                                tv_free_desc.setText("满"+getCartNumModel.getData().getSendAmount()+"元免配送费");
                             } else {
-                                tv_free_desc.setText("未选购商品");
+                                tv_price_total.setVisibility(View.GONE);
+                                iv_cart.setImageResource(R.mipmap.icon_unshop_car);
+                                rl_bg.setBackgroundResource(R.drawable.shape_grey21);
+                                tv2.setVisibility(View.VISIBLE);
+                                tv2.setText("未选购商品");
                                 tv_num.setVisibility(View.GONE);
-                                tv_price_total.setText(getCartNumModel.getData().getTotalPrice());
-//                                tv_price_total.setVisibility(View.GONE);
                             }
+                            tv_free_desc.setText("满"+getCartNumModel.getData().getSendAmount()+"元免配送费");
                         } else {
                             AppHelper.showMsg(context, getCartNumModel.getMessage());
                         }

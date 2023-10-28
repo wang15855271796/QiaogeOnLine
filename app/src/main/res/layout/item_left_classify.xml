@@ -41,10 +41,10 @@
                     android:id="@+id/iv_icon"
                     android:paddingRight="@dimen/size_5dp"
                     android:src="@mipmap/icon_hot"
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
                     />
-                <!--</com.lijiankun24.shadowlayout.ShadowLayout>-->
+
                 <TextView
                     android:id="@+id/tv_name"
                     android:maxLines="2"

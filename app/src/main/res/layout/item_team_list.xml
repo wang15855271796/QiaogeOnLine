@@ -14,7 +14,6 @@
         android:orientation="vertical"
         android:paddingBottom="@dimen/size_15dp">
 
-
         <RelativeLayout
             android:id="@+id/rl_pic"
             android:layout_width="wrap_content"
@@ -179,12 +178,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/size_13dp"
-                android:drawableLeft="@mipmap/icon_hot"
+                android:drawableLeft="@mipmap/ic_billboard"
                 android:drawablePadding="2dp"
                 android:background="@drawable/shape_orange23"
-                android:layout_marginTop="@dimen/size_5dp"
+                android:gravity="center_vertical"
                 android:text="热销TOP榜单 >"
-                android:textColor="#FD4900"
+                android:textColor="#6A2812"
                 android:textSize="10sp" />
         </LinearLayout>
 
@@ -201,4 +200,5 @@
 
 
     </RelativeLayout>
+
 </LinearLayout>

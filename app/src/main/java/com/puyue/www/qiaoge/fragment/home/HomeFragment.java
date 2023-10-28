@@ -386,6 +386,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     ImageView iv_enter;
     @BindView(R.id.iv_half_school)
     ImageView iv_half_school;
+    @BindView(R.id.tv_more)
+    TextView tv_more;
     List<String> list = new ArrayList<>();
     private static final float ENDMARGINLEFT = 50;
     private static final float ENDMARGINTOP = 5;
@@ -732,6 +734,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         iv_school.setOnClickListener(this);
         iv_enter.setOnClickListener(this);
         iv_half_school.setOnClickListener(this);
+        tv_more.setOnClickListener(this);
         requestUpdate();
         refreshLayout.autoRefresh();
         mTypedialog = new AlertDialog.Builder(mActivity, R.style.DialogStyle).create();
@@ -879,32 +882,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                 getPriceDialog();
             }
         };
-
-//        if (EasyPermissions.hasPermissions(mActivity,params)) {//检查是否获取该权限
-//            logoutAndToHomes(mContext, -10000);
-            //全部允许
-//        } else {//第二次请求
-            //存在不允许的权限  对话框为什么一会出来一会不出来
-//            EasyPermissions.requestPermissions(this, "需要定位您当前的位置信息", 1, params);
-
-//        }
-//        requestPermissions(mActivity,"haha",1,params);
-//        if(!EasyPermissions.hasPermissions(mActivity,params)) {
-//            ActivityCompat.requestPermissions(mActivity, params, 1);
-//        }
-
     }
 
     public static void requestPermissions(@NonNull Activity host, String rationale,
                                           int requestCode, @Size(min = 1) @NonNull String... perms) {
-        // 需要原因说明弹窗的依然交给EasyPermission处理
-//        if (!TextUtils.isEmpty(rationale)) {
-//            EasyPermissions.requestPermissions(host, rationale, requestCode, perms);
-//        } else {
-//            // rational的值为空时，直接调用权限申请，绕过EasyPermission的判断
-//            PermissionRequest request = new PermissionRequest.Builder(host, requestCode, perms).build();
-//            request.getHelper().directRequestPermissions(requestCode, perms);
-//        }
+
     }
 
 
@@ -1594,13 +1576,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                             if(getCommonProductModel.getData()!=null) {
                                 if(getCommonProductModel.getData().getList()!=null && getCommonProductModel.getData().getList().size()>0) {
                                     List<ProductNormalModel.DataBean.ListBean> list = getCommonProductModel.getData().getList();
-                                    if(list.size()>3) {
-                                        listBeans.add(list.get(0));
-                                        listBeans.add(list.get(1));
-                                        listBeans.add(list.get(2));
-                                    }else {
-                                        listBeans.addAll(list);
-                                    }
+                                    listBeans.addAll(list);
 
                                     ll_city.setVisibility(View.VISIBLE);
                                 }else {
@@ -2405,6 +2381,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             case R.id.iv_school:
                 Intent intentsc = new Intent(mActivity, SchoolActivity.class);
                 startActivity(intentsc);
+                break;
+
+            case R.id.tv_more:
+                Intent intent2 = new Intent(mActivity,HotProductActivity.class);
+                startActivity(intent2);
                 break;
 
             case R.id.iv_enter:

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:id="@+id/ll_bg"
+        android:orientation="vertical"
+        android:background="@mipmap/bg_hot_sale"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/rl_title"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="80dp">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="@dimen/size_30dp"
+                android:layout_height="@dimen/size_30dp"
+                android:layout_centerVertical="true"
+                android:padding="8dp"
+                android:src="@mipmap/qg_cart_back" />
+
+            <LinearLayout
+                android:alpha="0.4"
+                android:background="@drawable/shape_grey_alpha1"
+                android:layout_width="0dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:layout_height="30dp">
+
+                <TextView
+                    android:id="@+id/tv_search"
+                    android:alpha="1"
+                    android:hint="商品搜索"
+                    android:background="@null"
+                    android:textSize="14sp"
+                    android:drawableLeft="@mipmap/icon_search"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:textColor="#ffffff"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_carts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/ic_home_good_cart"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tv_num"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/shape_car_num"
+                android:gravity="center"
+                android:text="99"
+                android:textColor="@color/white"
+                android:textSize="7dp" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="23dp"
+            android:src="@mipmap/ic_hot_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</RelativeLayout>

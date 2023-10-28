@@ -262,60 +262,58 @@
         android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:elevation="@dimen/size_5dp"
-            android:background="#ffffff"
-            android:layout_marginTop="@dimen/size_12dp"
+            android:id="@+id/rl_bg"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/size_50dp">
+            android:layout_height="@dimen/size_50dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="@dimen/size_12dp"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/shape_grey21"
+            android:elevation="@dimen/size_5dp">
 
-            <View
-                android:background="#eeeeee"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"/>
 
             <TextView
-                android:text="合计:"
                 android:id="@+id/tv2"
-                android:layout_marginLeft="@dimen/size_90dp"
-                android:layout_centerVertical="true"
-                android:textSize="@dimen/sp_16"
-                android:textColor="#666666"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/size_90dp"
+                android:text="合计:"
+                android:textColor="#414141"
+                android:textSize="14sp" />
 
             <TextView
-                android:text="0元"
                 android:id="@+id/tv_price_total"
-                android:textStyle="bold"
-                android:layout_toRightOf="@+id/tv2"
-                android:layout_marginLeft="@dimen/size_5dp"
-                android:layout_centerVertical="true"
-                android:textSize="@dimen/sp_16"
-                android:textColor="#FF680A"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/size_5dp"
+                android:layout_toRightOf="@+id/tv2"
+                tools:text="0元"
+                android:textColor="#F50404"
+                android:textSize="@dimen/sp_16"
+                android:textStyle="bold" />
 
             <View
                 android:id="@+id/v1"
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/size_25dp"
                 android:layout_marginTop="@dimen/size_11dp"
                 android:layout_marginBottom="@dimen/size_11dp"
-                android:background="#E2E2E2"
-                android:layout_marginLeft="@dimen/size_25dp"
                 android:layout_toRightOf="@+id/tv_price_total"
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent"/>
+                android:background="#E2E2E2" />
 
             <TextView
                 android:id="@+id/tv_free_desc"
-                tools:text="未选择商品"
-                android:textStyle="bold"
-                android:layout_toRightOf="@+id/v1"
-                android:layout_marginLeft="@dimen/size_25dp"
-                android:layout_centerVertical="true"
-                android:textSize="@dimen/sp_12"
-                android:textColor="#999999"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/size_25dp"
+                android:layout_toRightOf="@+id/v1"
+                android:textColor="#767676"
+                android:textSize="12sp"
+                tools:text="未选择商品" />
 
         </RelativeLayout>
 
@@ -327,10 +325,10 @@
 
             <ImageView
                 android:id="@+id/iv_cart"
-                android:layout_marginLeft="@dimen/size_15dp"
-                android:src="@drawable/icon_shop_car"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/size_15dp"
+                android:src="@mipmap/icon_unshop_car" />
 
         </RelativeLayout>
 
@@ -339,11 +337,11 @@
             android:id="@+id/tv_num"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/shape_car_num"
             android:gravity="center"
             tools:text="99"
-            android:layout_marginLeft="@dimen/size_50dp"
+            android:layout_marginLeft="80dp"
             android:textColor="@color/white"
             android:textSize="7dp"
             android:visibility="gone"

@@ -303,18 +303,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="160dp">
 
-                    <TextView
-                        android:text="没有搜索结果"
-                        android:textSize="@dimen/size_21dp"
-                        android:textColor="#333"
+                    <ImageView
+                        android:src="@mipmap/ic_no_goods"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"/>
 
                     <TextView
-                        android:text="换个关键词试试吧"
-                        android:textSize="@dimen/size_12dp"
+                        android:layout_marginTop="10dp"
+                        android:text="暂无搜索结果，换个词试试吧~"
+                        android:textSize="11sp"
                         android:textColor="#333"
-                        android:layout_marginTop="@dimen/size_9dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
