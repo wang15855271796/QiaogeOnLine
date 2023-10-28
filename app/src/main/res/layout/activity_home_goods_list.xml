@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="#FAFAFA"
@@ -7,37 +7,193 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/linearLayout_spike"
+    <com.puyue.www.qiaoge.view.OutScollerview
+        android:id="@+id/scoller"
         android:layout_width="match_parent"
-        android:layout_height="270dp"
-        android:background="@mipmap/bg_skill"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/linearLayout_spike"
+                android:layout_width="match_parent"
+                android:layout_height="270dp"
+                android:background="@mipmap/bg_skill"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/ll_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_30dp">
+
+                    <ImageView
+                        android:id="@+id/iv_activity_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="8dp"
+                        android:padding="5dp"
+                        android:src="@mipmap/qg_cart_back" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/iv_activity_back"
+                        android:src="@mipmap/ic_skill_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:drawableLeft="@mipmap/ic_clock"
+                        android:drawablePadding="5dp"
+                        android:text="限时秒杀好物"
+                        android:textColor="#ffffff"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_good_cart"
+                        android:layout_width="@dimen/size_60dp"
+                        android:layout_height="@dimen/size_48dp"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center_horizontal">
+
+                        <ImageView
+                            android:id="@+id/iv_cart"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:src="@mipmap/ic_home_good_cart" />
+
+                        <TextView
+                            android:id="@+id/tv_num"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginLeft="@dimen/size_12dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/shape_white1"
+                            android:gravity="center"
+                            android:textColor="#FF2925"
+                            android:textSize="9sp"
+                            android:visibility="gone"
+                            tools:text="9" />
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/ic_skill_large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_spike_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-70dp"
+                android:background="@drawable/shape_pink4"
+                android:layout_below="@+id/ll_title" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#414141"
+                        android:textStyle="bold"
+                        android:layout_marginLeft="@dimen/size_17dp"
+                        android:textSize="@dimen/sp_12"
+                        tools:text="距离本场活动开始" />
+
+                    <com.puyue.www.qiaoge.view.SnapUpCountDownTimerViewss
+                        android:id="@+id/snap"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="6dp"
+                        android:layout_toRightOf="@+id/tv_title" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_start_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/size_17dp"
+                    android:textColor="#FF1200"
+                    android:textSize="@dimen/sp_12"
+                    tools:text="活动开始时间：2022-07-07 08:23:25" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_activity_goods_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </com.puyue.www.qiaoge.view.OutScollerview>
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/ll_header1"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="#FF2712"
         android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/ll_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size_30dp">
 
             <ImageView
-                android:id="@+id/iv_activity_back"
+                android:id="@+id/iv_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="7dp"
-                android:padding="10dp"
-                android:src="@mipmap/ic_back_arrow" />
+                android:layout_marginLeft="8dp"
+                android:padding="5dp"
+                android:src="@mipmap/qg_cart_back" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/iv_back"
+                android:src="@mipmap/ic_skill_small" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="限时秒杀"
-                android:textStyle="bold"
-                android:textColor="#000000"
-                android:textSize="16sp" />
+                android:drawableLeft="@mipmap/ic_clock"
+                android:drawablePadding="5dp"
+                android:text="限时秒杀好物"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <RelativeLayout
                 android:id="@+id/rl_good_cart"
@@ -51,7 +207,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/iv_car" />
+                    android:src="@mipmap/ic_home_good_cart" />
 
                 <TextView
                     android:id="@+id/tv_num"
@@ -72,61 +228,4 @@
 
     </RelativeLayout>
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_spike_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-70dp"
-        android:background="@drawable/shape_white1"
-        android:layout_below="@+id/ll_title" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_desc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#414141"
-                android:textStyle="bold"
-                android:layout_marginLeft="@dimen/size_17dp"
-                android:textSize="@dimen/sp_12"
-                tools:text="距离本场活动开始" />
-
-            <com.puyue.www.qiaoge.view.SnapUpCountDownTimerViewss
-                android:id="@+id/snap"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="6dp"
-                android:layout_toRightOf="@+id/tv_title" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_start_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:layout_marginLeft="@dimen/size_17dp"
-            android:textColor="#FF1200"
-            android:textSize="@dimen/sp_12"
-            tools:text="活动开始时间：2022-07-07 08:23:25" />
-
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_activity_goods_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-</LinearLayout>
+</RelativeLayout>

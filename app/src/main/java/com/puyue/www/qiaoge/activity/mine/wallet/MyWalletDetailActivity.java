@@ -42,6 +42,7 @@ import com.puyue.www.qiaoge.dialog.DeleteAccountDialog;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.DividerItemDecoration;
 import com.puyue.www.qiaoge.helper.FVHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.home.GetSumPriceModel;
 import com.puyue.www.qiaoge.model.home.SearchListModel;
@@ -635,71 +636,77 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
     List<GetWallertRecordByPageModel.DataBean> lists = new ArrayList();
 
     private void getWallertRecord(String types, String year, String month, String phone, int showType, String walletRecordChannelType) {
-        GetWallertRecordByPageAPI.requestData(mContext, types, year, month, phone, showType, walletRecordChannelType)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<GetWallertRecordByPageModel>() {
-                    @Override
-                    public void onCompleted() {
+        if (!NetWorkHelper.isNetworkAvailable(mContext)) {
+            iv_empty_bill.setImageResource(R.mipmap.ic_404);
+            iv_empty_bill.setVisibility(View.VISIBLE);
+        }else {
+            GetWallertRecordByPageAPI.requestData(mContext, types, year, month, phone, showType, walletRecordChannelType)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<GetWallertRecordByPageModel>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(GetWallertRecordByPageModel getWallertRecordByPageModel) {
-                        if (getWallertRecordByPageModel.isSuccess()) {
-                            getWallertRecordByPageModels = getWallertRecordByPageModel;
-                            dialog.dismiss();
-                            if (isrefreshormore == 1) {
-                                lists.clear();
-
-                                if (getWallertRecordByPageModel.getData().getRecords() != null
-                                        && getWallertRecordByPageModel.getData().getRecords().size() > 0) {
-                                    data.setVisibility(View.VISIBLE);
-                                    records = getWallertRecordByPageModel.getData().getRecords();
-                                    for (int i = 0; i < records.size(); i++) {
-                                        GetWallertRecordByPageModel.DataBean data = getWallertRecordByPageModel.getData();
-                                        lists.add(data);
-                                    }
-                                    mListData.addAll(records);
-                                    iv_empty_bill.setVisibility(View.GONE);
-                                } else {
-                                    GetWallertRecordByPageModel.DataBean data = getWallertRecordByPageModel.getData();
-                                    lists.add(data);
-                                    GetWallertRecordByPageModel.DataBean.RecordsBean recordsBean = new GetWallertRecordByPageModel.DataBean.RecordsBean();
-                                    recordsBean.setNullData(true);
-                                    recordsBean.setDateTime(data.getNowYear() + "-" + data.getNowMonth());
-                                    mListData.add(recordsBean);
-                                    iv_empty_bill.setVisibility(View.VISIBLE);
-                                }
-                            } else {
-                                if (getWallertRecordByPageModels.getData() != null && getWallertRecordByPageModels.getData().getRecords().size() > 0) {
-                                    records = getWallertRecordByPageModel.getData().getRecords();
-                                    for (int i = 0; i < records.size(); i++) {
-                                        GetWallertRecordByPageModel.DataBean data = getWallertRecordByPageModel.getData();
-                                        lists.add(data);
-                                    }
-                                    mListData.addAll(records);
-                                    refreshLayout.finishLoadMore();
-                                    iv_empty_bill.setVisibility(View.GONE);
-                                } else {
-                                    adapters.notifyDataSetChanged();
-                                    refreshLayout.finishLoadMore();
-                                    iv_empty_bill.setVisibility(View.VISIBLE);
-                                }
-                            }
-
-                            adapters.notifyDataSetChanged();
-
-                        } else {
-                            AppHelper.showMsg(MyWalletDetailActivity.this, getWallertRecordByPageModel.getMessage());
                         }
-                    }
-                });
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(GetWallertRecordByPageModel getWallertRecordByPageModel) {
+                            if (getWallertRecordByPageModel.isSuccess()) {
+                                getWallertRecordByPageModels = getWallertRecordByPageModel;
+                                dialog.dismiss();
+                                if (isrefreshormore == 1) {
+                                    lists.clear();
+
+                                    if (getWallertRecordByPageModel.getData().getRecords() != null
+                                            && getWallertRecordByPageModel.getData().getRecords().size() > 0) {
+                                        data.setVisibility(View.VISIBLE);
+                                        records = getWallertRecordByPageModel.getData().getRecords();
+                                        for (int i = 0; i < records.size(); i++) {
+                                            GetWallertRecordByPageModel.DataBean data = getWallertRecordByPageModel.getData();
+                                            lists.add(data);
+                                        }
+                                        mListData.addAll(records);
+                                        iv_empty_bill.setVisibility(View.GONE);
+                                    } else {
+                                        GetWallertRecordByPageModel.DataBean data = getWallertRecordByPageModel.getData();
+                                        lists.add(data);
+                                        GetWallertRecordByPageModel.DataBean.RecordsBean recordsBean = new GetWallertRecordByPageModel.DataBean.RecordsBean();
+                                        recordsBean.setNullData(true);
+                                        recordsBean.setDateTime(data.getNowYear() + "-" + data.getNowMonth());
+                                        mListData.add(recordsBean);
+                                        iv_empty_bill.setVisibility(View.VISIBLE);
+                                    }
+                                } else {
+                                    if (getWallertRecordByPageModels.getData() != null && getWallertRecordByPageModels.getData().getRecords().size() > 0) {
+                                        records = getWallertRecordByPageModel.getData().getRecords();
+                                        for (int i = 0; i < records.size(); i++) {
+                                            GetWallertRecordByPageModel.DataBean data = getWallertRecordByPageModel.getData();
+                                            lists.add(data);
+                                        }
+                                        mListData.addAll(records);
+                                        refreshLayout.finishLoadMore();
+                                        iv_empty_bill.setVisibility(View.GONE);
+                                    } else {
+                                        adapters.notifyDataSetChanged();
+                                        refreshLayout.finishLoadMore();
+                                        iv_empty_bill.setVisibility(View.VISIBLE);
+                                    }
+                                }
+
+                                adapters.notifyDataSetChanged();
+
+                            } else {
+                                AppHelper.showMsg(MyWalletDetailActivity.this, getWallertRecordByPageModel.getMessage());
+                            }
+                        }
+                    });
+        }
+
     }
 
     private void setRecyclerView() {

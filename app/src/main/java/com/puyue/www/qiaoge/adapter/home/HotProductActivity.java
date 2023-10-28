@@ -47,6 +47,8 @@ import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 import com.puyue.www.qiaoge.utils.LoginUtil;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.Time;
+import com.puyue.www.qiaoge.view.OutScollerview;
+import com.puyue.www.qiaoge.view.ScrollViewListeners;
 import com.puyue.www.qiaoge.view.selectmenu.MyScrollView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -76,22 +78,29 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
     @BindView(R.id.my_scroll)
-    MyScrollView my_scroll;
+    OutScollerview my_scroll;
     HotListAdapter hotAdapter;
     int pageNum = 1;
     int pageSize = 10;
+    @BindView(R.id.iv_back)
     ImageView iv_back;
-//    @BindView(R.id.tv_num)
+    @BindView(R.id.tv_num)
     TextView tv_num;
-//    @BindView(R.id.iv_carts)
+    @BindView(R.id.iv_carts)
     ImageView iv_carts;
-//    @BindView(R.id.tv_search)
+    @BindView(R.id.tv_search)
     TextView tv_search;
 
-//    @BindView(R.id.ll_bg)
+    @BindView(R.id.ll_bg)
     LinearLayout ll_bg;
     @BindView(R.id.ll_header1)
-    LinearLayout ll_header1;
+    RelativeLayout ll_header1;
+    @BindView(R.id.iv_carts1)
+    ImageView iv_carts1;
+    @BindView(R.id.iv_back1)
+    ImageView iv_back1;
+    @BindView(R.id.iv_search)
+    ImageView iv_search;
     ProductNormalModel productNormalModel;
     private AlertDialog mTypedialog;
     String cell;
@@ -167,13 +176,6 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
             }
         });
 
-        View header = View.inflate(this,R.layout.view_header, null);
-        iv_back = header.findViewById(R.id.iv_back);
-        iv_carts = header.findViewById(R.id.iv_carts);
-        tv_num = header.findViewById(R.id.tv_num);
-        tv_search = header.findViewById(R.id.tv_search);
-        ll_bg = header.findViewById(R.id.ll_bg);
-        hotAdapter.addHeaderView(header);
         hotAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -212,11 +214,16 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 pageNum = 1;
-                getProductsList(1,pageSize,"hot");
+                list.clear();
+                getProductsList(1,pageSize,"new");
                 getCartNum();
                 refreshLayout.finishRefresh();
             }
         });
+
+        iv_carts1.setOnClickListener(this);
+        iv_back1.setOnClickListener(this);
+        iv_search.setOnClickListener(this);
 
 
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -225,7 +232,7 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
                 if (productNormalModel.getData()!=null) {
                     if(productNormalModel.getData().isHasNextPage()) {
                         pageNum++;
-                        getProductsList(pageNum, 10,"hot");
+                        getProductsList(pageNum, 10,"new");
                         refreshLayout.finishLoadMore();      //加载完成
                     }else {
                         refreshLayout.finishLoadMoreWithNoMoreData();
@@ -234,45 +241,8 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
             }
         });
 
-        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                if(newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if(!recyclerView.canScrollVertically(1)) {
-                        //顶端
-                        ll_header1.setVisibility(View.VISIBLE);
-                    }else {
-                        ll_header1.setVisibility(View.GONE);
-                    }
-                }
-                super.onScrollStateChanged(recyclerView, newState);
-            }
 
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-            }
-        });
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            my_scroll.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-//                @Override
-//                public void onScrollChange(View view, int x, int y, int oldX, int oldY) {
-//                    if (y > 100) {
-//                        y = 500; // 当滑动到指定位置之后设置颜色为纯色，之前的话要渐变---实现下面的公式即可
-//                    } else if (y < 0) {
-//                        y = 0;
-//                    }
-//
-//                    float scale = ((float) y / 255);
-//                    Log.d("wdadwdadads......",scale+"---");
-//
-//                    float scale1 = 1-scale;
-//                    rl_bg.setAlpha(scale1);
-//                    tv_search.setAlpha(scale1);
-//                }
-//            });
-//        }
     }
 
     CouponDialog couponDialog;
@@ -372,17 +342,12 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
                         if (getCommonProductModel.isSuccess()) {
                             productNormalModel = getCommonProductModel;
                             if(getCommonProductModel.getData()!=null) {
-
+                                hotAdapter.notifyDataSetChanged();
                                 if(getCommonProductModel.getData().getList().size()>0) {
                                     List<ProductNormalModel.DataBean.ListBean> lists = getCommonProductModel.getData().getList();
-                                    if(pageNum==1) {
-                                        list.clear();
-                                        list.addAll(lists);
-                                    }else {
-                                        list.addAll(lists);
-                                    }
-
+                                    list.addAll(lists);
                                     hotAdapter.notifyDataSetChanged();
+                                    Log.d("wdasddw......",list.size()+"--");
                                 }
                             }
                             refreshLayout.setEnableLoadMore(true);
@@ -416,6 +381,16 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
         mTypedialog = new AlertDialog.Builder(mActivity, R.style.DialogStyle).create();
         mTypedialog.setCancelable(false);
 
+        my_scroll.setScrollViewListener(new ScrollViewListeners() {
+            @Override
+            public void onScrollChanged(OutScollerview scrollView, int x, int y, int oldx, int oldy) {
+                if(y!=0) {
+                    ll_header1.setVisibility(View.VISIBLE);
+                }else {
+                    ll_header1.setVisibility(View.GONE);
+                }
+            }
+        });
 
     }
 
@@ -463,9 +438,29 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_back:
+
+            case R.id.iv_back1:
                 finish();
                 EventBus.getDefault().post(new UpNumEvent());
                 break;
+
+            case R.id.iv_search:
+                Intent intent = new Intent(mContext,SearchStartActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+
+            case R.id.iv_carts1:
+                if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mActivity))) {
+                    startActivity(new Intent(mContext, HomeActivity.class));
+                    EventBus.getDefault().post(new GoToCartFragmentEvent());
+                } else {
+                    AppHelper.showMsg(mActivity, "请先登录");
+                    startActivity(LoginActivity.getIntent(mActivity, LoginActivity.class));
+                }
+                break;
+
+
         }
     }
 

@@ -280,7 +280,7 @@ public class Must2Dialog extends Dialog implements View.OnClickListener{
                     @Override
                     public void onNext(GetCartNumModel getCartNumModel) {
                         if (getCartNumModel.isSuccess()) {
-                            if (Integer.valueOf(getCartNumModel.getData().getNum()) > 0) {
+                            if (Integer.parseInt(getCartNumModel.getData().getNum()) > 0) {
                                 tv_num.setVisibility(View.VISIBLE);
                                 tv_num.setText(getCartNumModel.getData().getNum());
                                 iv_cart.setImageResource(R.mipmap.icon_shop_car);

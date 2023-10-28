@@ -51,6 +51,8 @@ import com.puyue.www.qiaoge.model.home.SeckillListModel;
 import com.puyue.www.qiaoge.model.home.SpikeNewQueryModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.Time;
+import com.puyue.www.qiaoge.view.OutScollerview;
+import com.puyue.www.qiaoge.view.ScrollViewListeners;
 import com.puyue.www.qiaoge.view.SnapUpCountDownTimerView1;
 import com.puyue.www.qiaoge.view.SnapUpCountDownTimerViewss;
 
@@ -90,6 +92,10 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
     SnapUpCountDownTimerViewss snap;
     TextView tv_desc;
     TextView tv_start_time;
+    OutScollerview scoller;
+    ImageView iv_back;
+    ImageView iv_cart;
+    RelativeLayout ll_header1;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -141,6 +147,8 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
+        iv_back = FVHelper.fv(this, R.id.iv_back);
+        scoller = FVHelper.fv(this, R.id.scoller);
         tv_start_time = FVHelper.fv(this, R.id.tv_start_time);
         tv_desc = FVHelper.fv(this, R.id.tv_desc);
         snap = FVHelper.fv(this, R.id.snap);
@@ -150,6 +158,8 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
         linearLayoutSpike = FVHelper.fv(this, R.id.linearLayout_spike);
         mRvSpikeData = FVHelper.fv(this, R.id.recyclerview_spike_content);
         rl_good_cart = FVHelper.fv(this, R.id.rl_good_cart);
+        ll_header1 = FVHelper.fv(this, R.id.ll_header1);
+        iv_cart = FVHelper.fv(this,R.id.iv_cart);
         EventBus.getDefault().register(this);
         mIvBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,6 +167,44 @@ public class HomeGoodsListActivity extends BaseSwipeActivity {
                 finish();
             }
         });
+
+        scoller.setScrollViewListener(new ScrollViewListeners() {
+            @Override
+            public void onScrollChanged(OutScollerview scrollView, int x, int y, int oldx, int oldy) {
+
+            }
+        });
+
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        iv_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mActivity))) {
+                    startActivity(new Intent(mContext, HomeActivity.class));
+                    EventBus.getDefault().post(new GoToCartFragmentEvent());
+                } else {
+                    AppHelper.showMsg(mActivity, "请先登录");
+                    startActivity(LoginActivity.getIntent(mActivity, LoginActivity.class));
+                }
+            }
+        });
+        scoller.setScrollViewListener(new ScrollViewListeners() {
+            @Override
+            public void onScrollChanged(OutScollerview scrollView, int x, int y, int oldx, int oldy) {
+                if(y!=0) {
+                    ll_header1.setVisibility(View.VISIBLE);
+                }else {
+                    ll_header1.setVisibility(View.GONE);
+                }
+            }
+        });
+
 
     }
 
