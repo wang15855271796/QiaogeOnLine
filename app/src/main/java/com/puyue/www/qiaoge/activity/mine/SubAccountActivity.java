@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.NetWorkActivity;
 import com.puyue.www.qiaoge.adapter.mine.SubAccountAdapter;
 import com.puyue.www.qiaoge.api.mine.subaccount.SubAccountAddAPI;
 import com.puyue.www.qiaoge.api.mine.subaccount.SubAccountDeleteAPI;
@@ -25,6 +26,7 @@ import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.event.BackEvent;
 import com.puyue.www.qiaoge.event.MessageEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.mine.MessageModel;
 import com.puyue.www.qiaoge.model.mine.SubAccountModel;
@@ -241,31 +243,38 @@ public class SubAccountActivity extends BaseSwipeActivity implements View.OnClic
      * 子账户列表
      */
     private void requestSubAccountList() {
-        SubAccountListAPI.requestSubAccountList(mContext)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SubAccountModel>() {
-                    @Override
-                    public void onCompleted() {
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            Intent intent = new Intent(mContext, NetWorkActivity.class);
+            startActivity(intent);
+            finish();
+        }else {
+            SubAccountListAPI.requestSubAccountList(mContext)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<SubAccountModel>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(SubAccountModel subAccountModel) {
-                        mPtr.refreshComplete();
-                        mModelSubAccount = subAccountModel;
-                        if (mModelSubAccount.success) {
-                            updateSubAccountList();
-                        } else {
-                            AppHelper.showMsg(mContext, mModelSubAccount.message);
                         }
-                    }
-                });
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(SubAccountModel subAccountModel) {
+                            mPtr.refreshComplete();
+                            mModelSubAccount = subAccountModel;
+                            if (mModelSubAccount.success) {
+                                updateSubAccountList();
+                            } else {
+                                AppHelper.showMsg(mContext, mModelSubAccount.message);
+                            }
+                        }
+                    });
+        }
+
     }
 
     private void updateSubAccountList() {

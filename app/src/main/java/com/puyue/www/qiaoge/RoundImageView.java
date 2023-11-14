@@ -49,14 +49,14 @@ public class RoundImageView extends ImageView {
             Path path = new Path();
             //四个圆角
             path.moveTo(30, 0);
-            path.lineTo(width - 30, 0);
-            path.quadTo(width, 0, width, 30);
-            path.lineTo(width, height - 30);
-            path.quadTo(width, height, width - 30, height);
-            path.lineTo(30, height);
-            path.quadTo(0, height, 0, height - 30);
-            path.lineTo(0, 30);
-            path.quadTo(0, 0, 30, 0);
+            path.lineTo(width - 40, 0);
+            path.quadTo(width, 0, width, 40);
+            path.lineTo(width, height - 40);
+            path.quadTo(width, height, width - 40, height);
+            path.lineTo(40, height);
+            path.quadTo(0, height, 0, height - 40);
+            path.lineTo(0, 40);
+            path.quadTo(0, 0, 40, 0);
 
             canvas.clipPath(path);
         }

@@ -19,6 +19,7 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.adapter.mine.AreaAdapter;
 import com.puyue.www.qiaoge.api.home.CityChangeAPI;
+import com.puyue.www.qiaoge.event.CityEvent1;
 import com.puyue.www.qiaoge.fragment.home.CityEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
@@ -79,6 +80,7 @@ public abstract class CityDialog extends Dialog implements View.OnClickListener 
                 SharedPreferencesUtil.saveInt(mContext,"isClick",1);
                 UserInfoHelper.saveChangeFlag(mContext,1+"");
                 EventBus.getDefault().post(new CityEvent());
+//                EventBus.getDefault().post(new CityEvent1());
                 dialog.show();
                 new Handler().postDelayed(new Runnable() {
                     @Override

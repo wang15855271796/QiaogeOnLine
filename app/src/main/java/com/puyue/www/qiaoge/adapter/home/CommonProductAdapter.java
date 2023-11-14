@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.CommonProductDialog;
@@ -28,7 +29,7 @@ import java.util.List;
 
 public class CommonProductAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.ListBean,BaseViewHolder> {
 
-    private ImageView iv_pic;
+    private RoundImageView iv_pic;
     List<ProductNormalModel.DataBean.ListBean> activesBean;
     private ImageView iv_add;
     Onclick onclick;

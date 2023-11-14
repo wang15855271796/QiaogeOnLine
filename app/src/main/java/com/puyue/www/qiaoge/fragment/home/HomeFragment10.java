@@ -61,6 +61,7 @@ import com.puyue.www.qiaoge.activity.home.SearchReasultActivity;
 import com.puyue.www.qiaoge.activity.home.SearchStartActivity;
 import com.puyue.www.qiaoge.activity.home.SpecialGoodDetailActivity;
 import com.puyue.www.qiaoge.activity.home.TeamDetailActivity;
+import com.puyue.www.qiaoge.activity.mine.MessageCenterActivity;
 import com.puyue.www.qiaoge.activity.mine.coupons.MyCouponsActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LogoutsEvent;
@@ -2425,10 +2426,10 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
 
             case R.id.rl_message:
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(getActivity()))) {
-//                    Intent intents = new Intent(getActivity(), MessageCenterActivity.class);
-//                    startActivityForResult(intents, 101);
-                    Intent intent2 = new Intent(getActivity(), TestActivity.class);
-                    startActivity(intent2);
+                    Intent intents = new Intent(getActivity(), MessageCenterActivity.class);
+                    startActivityForResult(intents, 101);
+//                    Intent intent2 = new Intent(getActivity(), TestActivity.class);
+//                    startActivity(intent2);
 //                    appbar.setExpanded(false);
 //                    getReduceStateTop();
 //                    switchReduce();

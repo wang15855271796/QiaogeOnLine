@@ -31,12 +31,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <ImageView
+                    <com.puyue.www.qiaoge.RoundImageView
                         android:id="@+id/iv_head"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:scaleType="fitXY"
-                        />
+                        android:scaleType="fitXY" />
 
                     <TextView
                         android:id="@+id/tv_sale"
@@ -157,29 +156,52 @@
                     android:layout_height="@dimen/size_20dp">
 
                     <ImageView
-                        android:layout_centerVertical="true"
                         android:id="@+id/iv_operate"
-                        android:layout_toRightOf="@+id/iv_next"
-                        tools:src="@mipmap/icon_operate"
                         android:layout_width="@dimen/size_24dp"
-                        android:layout_height="@dimen/size_12dp" />
+                        android:layout_height="@dimen/size_12dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/iv_next"
+                        tools:src="@mipmap/icon_operate" />
+
 
                     <ImageView
-                        android:id="@+id/iv_type"
+                        android:visibility="gone"
+                        android:id="@+id/iv_reduce"
+                        android:layout_width="@dimen/size_24dp"
+                        android:layout_height="@dimen/size_12dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/size_3dp"
                         android:layout_toRightOf="@+id/iv_operate"
-                        tools:src="@mipmap/icon_operate"
+                        tools:src="@mipmap/icon_operate" />
+
+                    <ImageView
+                        android:visibility="gone"
+                        android:id="@+id/iv_coupon"
                         android:layout_width="@dimen/size_24dp"
-                        android:layout_height="@dimen/size_12dp" />
+                        android:layout_height="@dimen/size_12dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/size_3dp"
+                        android:layout_toRightOf="@+id/iv_reduce"
+                        tools:src="@mipmap/icon_operate" />
+
+                    <ImageView
+                        android:visibility="gone"
+                        android:id="@+id/iv_new"
+                        android:layout_width="@dimen/size_24dp"
+                        android:layout_height="@dimen/size_12dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/size_3dp"
+                        android:layout_toRightOf="@+id/iv_coupon"
+                        tools:src="@mipmap/icon_operate" />
 
                     <TextView
+                        android:visibility="gone"
                         android:id="@+id/tv_buy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/size_3dp"
-                        android:layout_toRightOf="@+id/iv_type"
+                        android:layout_toRightOf="@+id/iv_reduce"
                         android:background="@drawable/shape_orange_shop"
                         android:paddingLeft="@dimen/public_space_value_3"
                         android:paddingRight="@dimen/public_space_value_2"

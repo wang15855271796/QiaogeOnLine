@@ -17,6 +17,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.activity.flow.FlowLayout;
 import com.puyue.www.qiaoge.activity.flow.TagAdapter;
 import com.puyue.www.qiaoge.activity.flow.TagFlowLayout;
@@ -45,7 +46,7 @@ import rx.schedulers.Schedulers;
  */
 public class SearchReasultAdapter extends BaseQuickAdapter<SearchResultsModel.DataBean.SearchProdBean.ListBean, BaseViewHolder> {
 
-    private ImageView iv_head;
+    private RoundImageView iv_head;
     private LinearLayout ll_group;
     private ImageView iv_type;
     Onclick onclick;

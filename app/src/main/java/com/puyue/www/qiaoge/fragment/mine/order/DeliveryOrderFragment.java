@@ -25,6 +25,7 @@ import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.dialog.HuoConnentionDialog;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.HasConnectModel;
@@ -400,33 +401,40 @@ public class DeliveryOrderFragment extends BaseFragment {
 
     }
     private void requestOrdersList(int orderStatus) {
-        MyOrderListAPI.requestOrderList(getContext(), orderStatus, pageNum, 10,orderDeliveryType)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<OrdersModel>() {
-                    @Override
-                    public void onCompleted() {
-                        mPtr.refreshComplete();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        mPtr.refreshComplete();
-                    }
-
-                    @Override
-                    public void onNext(OrdersModel myOrdersModel) {
-
-                        mPtr.refreshComplete();
-                        logoutAndToHome(getContext(), myOrdersModel.code);
-                        mModelMyOrders = myOrdersModel;
-                        if (mModelMyOrders.success) {
-                            updateOrderList();
-                        } else {
-                            AppHelper.showMsg(getActivity(), mModelMyOrders.message);
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            mIvNoData.setImageResource(R.mipmap.ic_404);
+            mIvNoData.setVisibility(View.VISIBLE);
+            mRv.setVisibility(View.GONE);
+        }else {
+            mIvNoData.setImageResource(R.mipmap.ic_no_data);
+            MyOrderListAPI.requestOrderList(getContext(), orderStatus, pageNum, 10,orderDeliveryType)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<OrdersModel>() {
+                        @Override
+                        public void onCompleted() {
+                            mPtr.refreshComplete();
                         }
-                    }
-                });
+
+                        @Override
+                        public void onError(Throwable e) {
+                            mPtr.refreshComplete();
+                        }
+
+                        @Override
+                        public void onNext(OrdersModel myOrdersModel) {
+
+                            mPtr.refreshComplete();
+                            logoutAndToHome(getContext(), myOrdersModel.code);
+                            mModelMyOrders = myOrdersModel;
+                            if (mModelMyOrders.success) {
+                                updateOrderList();
+                            } else {
+                                AppHelper.showMsg(getActivity(), mModelMyOrders.message);
+                            }
+                        }
+                    });
+        }
     }
 
     // 添加到购物车

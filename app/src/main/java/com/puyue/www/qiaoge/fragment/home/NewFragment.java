@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.BackEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.helper.PublicRequestHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
@@ -62,6 +64,10 @@ public class NewFragment extends BaseFragment {
     RecyclerView recyclerView;
     @BindView(R.id.smart)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.ll_no_data)
+    LinearLayout ll_no_data;
+    @BindView(R.id.iv_empty_data)
+    ImageView iv_empty_data;
     public int pageNum = 1;
     ProductNormalModel productNormalModel;
     View emptyView;
@@ -99,7 +105,7 @@ public class NewFragment extends BaseFragment {
             getProductsList(pageNum,11,type);
         }
         emptyView = View.inflate(mActivity, R.layout.layout_empty, null);
-        newAdapter = new NewAdapter(R.layout.item_team_list, list, new NewAdapter.Onclick() {
+        newAdapter = new NewAdapter(R.layout.item_team_list1, list, new NewAdapter.Onclick() {
             @Override
             public void addDialog() {
                 if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mActivity))) {
@@ -127,7 +133,6 @@ public class NewFragment extends BaseFragment {
                 refreshLayout.finishRefresh();
             }
         });
-
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
@@ -185,37 +190,49 @@ public class NewFragment extends BaseFragment {
      */
 
     private void getProductsList(int pageNums, int pageSize, String type) {
-        ProductListAPI.requestData(mActivity, pageNums, pageSize,type,null)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ProductNormalModel>() {
-                    @Override
-                    public void onCompleted() {
 
-                    }
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            iv_empty_data.setImageResource(R.mipmap.ic_404);
+            ll_no_data.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }else {
+            iv_empty_data.setImageResource(R.mipmap.ic_no_data);
+            ProductListAPI.requestData(mActivity, pageNums, pageSize,type,null)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<ProductNormalModel>() {
+                        @Override
+                        public void onCompleted() {
 
-                    @Override
-                    public void onError(Throwable e) {
+                        }
 
-                    }
+                        @Override
+                        public void onError(Throwable e) {
 
-                    @Override
-                    public void onNext(ProductNormalModel getCommonProductModel) {
-                        productNormalModel = getCommonProductModel;
-                        if (getCommonProductModel.isSuccess()) {
-                            newAdapter.notifyDataSetChanged();
-                            if(getCommonProductModel.getData().getList().size()>0) {
-                                list.addAll(getCommonProductModel.getData().getList());
+                        }
+
+                        @Override
+                        public void onNext(ProductNormalModel getCommonProductModel) {
+                            productNormalModel = getCommonProductModel;
+                            if (getCommonProductModel.isSuccess()) {
                                 newAdapter.notifyDataSetChanged();
+                                if(getCommonProductModel.getData().getList().size()>0) {
+                                    list.addAll(getCommonProductModel.getData().getList());
+                                    newAdapter.notifyDataSetChanged();
+                                    ll_no_data.setVisibility(View.GONE);
+                                    recyclerView.setVisibility(View.VISIBLE);
+                                }else {
+                                    ll_no_data.setVisibility(View.VISIBLE);
+                                    recyclerView.setVisibility(View.GONE);
+                                }
+                                refreshLayout.setEnableLoadMore(true);
                             }
-
-                            refreshLayout.setEnableLoadMore(true);
+                            else {
+                                AppHelper.showMsg(mActivity, getCommonProductModel.getMessage());
+                            }
                         }
-                        else {
-                            AppHelper.showMsg(mActivity, getCommonProductModel.getMessage());
-                        }
-                    }
-                });
+                    });
+        }
     }
 
     @Override
@@ -227,24 +244,6 @@ public class NewFragment extends BaseFragment {
     public void messageEventBusss(BackEvent event) {
 //        getCustomerPhone();
         refreshLayout.autoRefresh();
-    }
-
-
-    private void getCustomerPhone() {
-        PublicRequestHelper.getCustomerPhone(mActivity, new OnHttpCallBack<GetCustomerPhoneModel>() {
-            @Override
-            public void onSuccessful(GetCustomerPhoneModel getCustomerPhoneModel) {
-                if (getCustomerPhoneModel.isSuccess()) {
-                    cell = getCustomerPhoneModel.getData();
-                } else {
-                    AppHelper.showMsg(mActivity, getCustomerPhoneModel.getMessage());
-                }
-            }
-
-            @Override
-            public void onFaild(String errorMsg) {
-            }
-        });
     }
 
     /**

@@ -43,15 +43,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:maxLines="1"
             android:maxLength="5"
+            android:maxLines="1"
             android:paddingLeft="@dimen/size_3dp"
             android:paddingTop="@dimen/size_1dp"
             android:paddingRight="@dimen/size_3dp"
             android:paddingBottom="@dimen/size_1dp"
-            tools:text="新鲜新鲜新鲜"
             android:textColor="#ffffff"
-            android:textSize="9sp" />
+            android:textSize="9sp"
+            tools:text="新鲜新鲜新鲜" />
     </RelativeLayout>
 
 

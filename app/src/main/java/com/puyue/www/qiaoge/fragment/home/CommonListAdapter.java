@@ -26,6 +26,7 @@ import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
+import com.puyue.www.qiaoge.view.RoundImageView;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ import rx.schedulers.Schedulers;
  * Created by ${王涛} on 2020/3/13
  */
 public class CommonListAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.ListBean,BaseViewHolder> {
-    private ImageView iv_pic;
+    private RoundImageView iv_pic;
     List<ProductNormalModel.DataBean.ListBean> activesBean;
     private ImageView iv_add;
     Onclick onclick;
@@ -53,6 +54,9 @@ public class CommonListAdapter extends BaseQuickAdapter<ProductNormalModel.DataB
     TextView tv_champion;
     LinearLayout ll_champion;
     ImageView iv_fresh_price;
+    ImageView iv_reduce;
+    ImageView iv_coupon;
+    ImageView iv_new;
     public CommonListAdapter(int layoutResId, @Nullable List<ProductNormalModel.DataBean.ListBean> activeList, Onclick onclick) {
         super(layoutResId, activeList);
         this.activesBean = activeList;
@@ -63,6 +67,7 @@ public class CommonListAdapter extends BaseQuickAdapter<ProductNormalModel.DataB
     protected void convert(BaseViewHolder helper, ProductNormalModel.DataBean.ListBean item) {
         iv_next = helper.getView(R.id.iv_next);
         iv_fresh_price = helper.getView(R.id.iv_fresh_price);
+
         ll_champion = helper.getView(R.id.ll_champion);
         v_champion = helper.getView(R.id.v_champion);
         tv_champion =  helper.getView(R.id.tv_champion);
@@ -78,6 +83,15 @@ public class CommonListAdapter extends BaseQuickAdapter<ProductNormalModel.DataB
         helper.setText(R.id.tv_name,item.getProductName());
         Glide.with(mContext).load(item.getSelfProd()).into(iv_operate);
         Glide.with(mContext).load(item.getSendTimeTpl()).into(iv_next);
+
+        iv_reduce = helper.getView(R.id.iv_reduce);
+        iv_coupon = helper.getView(R.id.iv_coupon);
+        iv_new = helper.getView(R.id.iv_new);
+        Glide.with(mContext).load(item.getProdDeductUrl()).into(iv_reduce);
+        Glide.with(mContext).load(item.getProdSpecialUrl()).into(iv_coupon);
+        Glide.with(mContext).load(item.getProdNewUrl()).into(iv_new);
+
+
         ImageView iv_send = helper.getView(R.id.iv_send);
         if(item.getNotSend()!=null) {
             if(item.getNotSend().equals("1")||item.getNotSend().equals("1.0")) {

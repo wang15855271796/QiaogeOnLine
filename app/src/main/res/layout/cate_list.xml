@@ -8,15 +8,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
+<!--        bg_market_pop-->
         <LinearLayout
             android:id="@+id/ll_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@mipmap/bg_market_pop"
+            android:background="@drawable/bg_pink"
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/rl_header"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_45dp"
                 android:layout_marginLeft="@dimen/sp_12"
@@ -36,31 +37,34 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_header" />
 
             <TextView
                 android:id="@+id/tv_close"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
                 android:layout_marginRight="@dimen/sp_12"
                 android:drawableRight="@mipmap/icon_up"
                 android:drawablePadding="5dp"
                 android:padding="@dimen/size_9dp"
                 android:text="点击收起"
                 android:textSize="12sp" />
+
         </LinearLayout>
 
-        <View
+
+
+        <TextView
             android:id="@+id/mask"
             android:alpha="0.3"
             android:layout_below="@+id/ll_title"
             android:background="#30000000"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </View>
+            android:layout_height="match_parent"/>
     </RelativeLayout>
 
 

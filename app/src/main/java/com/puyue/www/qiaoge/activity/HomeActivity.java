@@ -449,12 +449,12 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
                     initDialog();
                 }
             }else if(view == ll_info&&!ll_info.isSelected()) {
-
-                if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-                    switchTab(TAB_INFO);
-                } else {
-                    initDialog();
-                }
+                switchTab(TAB_INFO);
+//                if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+//                    switchTab(TAB_INFO);
+//                } else {
+//                    initDialog();
+//                }
             }
         }
     };

@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
@@ -32,6 +33,7 @@ import com.puyue.www.qiaoge.event.MessageEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.event.UpDateNumEvent7;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.helper.PublicRequestHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
@@ -90,7 +92,9 @@ public class MyCollectionActivity extends BaseSwipeActivity implements View.OnCl
     TextView tv_all;
     TextView tv_manger;
     RelativeLayout rl_foot;
+
     AVLoadingIndicatorView lav_activity_loading;
+    ImageView iv_anim;
     String cell;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
@@ -177,6 +181,7 @@ public class MyCollectionActivity extends BaseSwipeActivity implements View.OnCl
     @Override
     public void findViewById() {
         EventBus.getDefault().register(this);
+        iv_anim = (ImageView) findViewById(R.id.iv_anim);
         iv_no_data = (ImageView) findViewById(R.id.iv_no_data);
         tv_num = (TextView) findViewById(R.id.tv_num);
         rl_num = (RelativeLayout) findViewById(R.id.rl_num);
@@ -194,6 +199,7 @@ public class MyCollectionActivity extends BaseSwipeActivity implements View.OnCl
         mLlControl = (LinearLayout) findViewById(R.id.ll_my_collection_control);
         getCartNum();
         getCustomerPhone();
+        Glide.with(mContext).asGif().load(R.drawable.anims).into(iv_anim);
         smart.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -355,102 +361,86 @@ public class MyCollectionActivity extends BaseSwipeActivity implements View.OnCl
      * 获取收藏列表
      */
     private void requestCollectionList(String state,int pageNum,String pageSize) {
-        MyCollectionListAPI.requestCollectionList(mContext,state,pageNum,pageSize)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ProductNormalModel>() {
-                    @Override
-                    public void onCompleted() {
-                        lav_activity_loading.hide();
-                        lav_activity_loading.setVisibility(View.GONE);
-                    }
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            iv_no_data.setImageResource(R.mipmap.ic_404);
+            iv_no_data.setVisibility(View.VISIBLE);
+            mRv.setVisibility(View.GONE);
+            lav_activity_loading.hide();
+            iv_anim.setVisibility(View.GONE);
+        }else {
+            iv_no_data.setImageResource(R.mipmap.icon_empty_collection);
+            MyCollectionListAPI.requestCollectionList(mContext,state,pageNum,pageSize)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<ProductNormalModel>() {
+                        @Override
+                        public void onCompleted() {
+                            lav_activity_loading.hide();
+                            lav_activity_loading.setVisibility(View.GONE);
+                            iv_anim.setVisibility(View.GONE);
+                        }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        lav_activity_loading.hide();
-                        lav_activity_loading.setVisibility(View.GONE);
-                    }
+                        @Override
+                        public void onError(Throwable e) {
+                            lav_activity_loading.hide();
+                            lav_activity_loading.setVisibility(View.GONE);
+                            iv_anim.setVisibility(View.GONE);
+                        }
 
-                    @Override
-                    public void onNext(ProductNormalModel collectionListModel) {
-                        lav_activity_loading.setVisibility(View.VISIBLE);
-                        lav_activity_loading.show();
-                        mModelCollectionList = collectionListModel;
-                        if (mModelCollectionList.isSuccess()) {
-                            if(collectionListModel.getData()!=null) {
-                                List<ProductNormalModel.DataBean.ListBean> lists = collectionListModel.getData().getList();
+                        @Override
+                        public void onNext(ProductNormalModel collectionListModel) {
+                            iv_anim.setVisibility(View.GONE);
+//                            lav_activity_loading.setVisibility(View.VISIBLE);
+//                            lav_activity_loading.show();
+                            mModelCollectionList = collectionListModel;
+                            if (mModelCollectionList.isSuccess()) {
+                                if(collectionListModel.getData()!=null) {
+                                    List<ProductNormalModel.DataBean.ListBean> lists = collectionListModel.getData().getList();
 
-                                if(pageNum ==1) {
-                                    mList.clear();
-                                    mList.addAll(lists);
-                                }else {
-                                    mList.addAll(lists);
+                                    if(pageNum ==1) {
+                                        mList.clear();
+                                        mList.addAll(lists);
+                                    }else {
+                                        mList.addAll(lists);
+                                    }
+
+                                    mAdapterMyCollection.notifyDataSetChanged();
+
+                                    isCheck.clear();
+                                    for (int i = 0; i < mList.size(); i++) {
+                                        isCheck.put(i, false);
+                                    }
+
+
+                                    if(mList.size()>0) {
+                                        mRv.setVisibility(View.VISIBLE);
+                                        iv_no_data.setVisibility(View.GONE);
+                                    }else {
+                                        mRv.setVisibility(View.GONE);
+                                        iv_no_data.setVisibility(View.VISIBLE);
+                                    }
+
+                                    if (lists.size() == 0) {
+                                        AppHelper.cancleLottieAnimation(mAdapterMyCollection.getEmptyView());
+                                        mAdapterMyCollection.setEmptyView(AppHelper.getEmptyView(mContext));
+                                    }
+
+                                    lav_activity_loading.hide();
+                                    lav_activity_loading.setVisibility(View.GONE);
                                 }
-
-                                mAdapterMyCollection.notifyDataSetChanged();
-
-                                isCheck.clear();
-                                for (int i = 0; i < mList.size(); i++) {
-                                    isCheck.put(i, false);
-                                }
-
-
-                                if(mList.size()>0) {
-                                    iv_no_data.setVisibility(View.GONE);
-                                }else {
-                                    iv_no_data.setVisibility(View.VISIBLE);
-                                }
-
-                                if (lists.size() == 0) {
-                                    AppHelper.cancleLottieAnimation(mAdapterMyCollection.getEmptyView());
-                                    mAdapterMyCollection.setEmptyView(AppHelper.getEmptyView(mContext));
-                                }
-
-                                lav_activity_loading.hide();
-                                lav_activity_loading.setVisibility(View.GONE);
-                            }
 
 
 //                            updateCollectionList();
 
-                        } else {
-                            AppHelper.showMsg(mContext, mModelCollectionList.getMessage());
+                            } else {
+                                AppHelper.showMsg(mContext, mModelCollectionList.getMessage());
+                            }
                         }
-                    }
-                });
-    }
-
-    private void updateCollectionList() {
-
-        if(mModelCollectionList.getData()!=null) {
-            mLlControl.setVisibility(View.VISIBLE);
-            List<ProductNormalModel.DataBean.ListBean> list = mModelCollectionList.getData().getList();
-            mList.addAll(list);
-            mAdapterMyCollection.setNewData(mList);
-            mAdapterMyCollection.notifyDataSetChanged();
-            isCheck.clear();
-            for (int i = 0; i < mList.size(); i++) {
-                isCheck.put(i, false);
-            }
-            if(mList.size()>0) {
-                iv_no_data.setVisibility(View.GONE);
-            }else {
-                iv_no_data.setVisibility(View.VISIBLE);
-            }
-
-        } else {
-            mLlControl.setVisibility(View.GONE);
-            mAdapterMyCollection.notifyDataSetChanged();
+                    });
         }
 
-        if (mAdapterMyCollection.getData().size() == 0) {
-            AppHelper.cancleLottieAnimation(mAdapterMyCollection.getEmptyView());
-            mAdapterMyCollection.setEmptyView(AppHelper.getEmptyView(mContext));
-        }
-
-        lav_activity_loading.hide();
-        lav_activity_loading.setVisibility(View.GONE);
     }
+
 
     @Override
     public void setClickEvent() {
@@ -564,12 +554,14 @@ public class MyCollectionActivity extends BaseSwipeActivity implements View.OnCl
                 pageNum = 1;
                 smart.setNoMoreData(false);
                 mList.clear();
-                lav_activity_loading.setVisibility(View.VISIBLE);
-                lav_activity_loading.show();
+//                lav_activity_loading.setVisibility(View.VISIBLE);
+//                lav_activity_loading.show();
+                Glide.with(mContext).asGif().load(R.drawable.anims).into(iv_anim);
+                iv_anim.setVisibility(View.VISIBLE);
                 mAdapterMyCollection.notifyDataSetChanged();
                 requestCollectionList("0",pageNum,pageSize);
-                tv_all.setTextColor(Color.parseColor("#333333"));
-                tv_buy.setTextColor(Color.parseColor("#666666"));
+                tv_all.setTextColor(Color.parseColor("#FF4C0C"));
+                tv_buy.setTextColor(Color.parseColor("#414141"));
 
                 for (int i = 0; i < mList.size(); i++) {
                     isCheck.put(i, false);
@@ -583,12 +575,14 @@ public class MyCollectionActivity extends BaseSwipeActivity implements View.OnCl
                 pageNum = 1;
                 smart.setNoMoreData(false);
                 mList.clear();
-                lav_activity_loading.setVisibility(View.VISIBLE);
-                lav_activity_loading.show();
+                Glide.with(mContext).asGif().load(R.drawable.anims).into(iv_anim);
+                iv_anim.setVisibility(View.VISIBLE);
+//                lav_activity_loading.setVisibility(View.VISIBLE);
+//                lav_activity_loading.show();
                 mAdapterMyCollection.notifyDataSetChanged();
                 requestCollectionList("1",pageNum,pageSize);
-                tv_all.setTextColor(Color.parseColor("#666666"));
-                tv_buy.setTextColor(Color.parseColor("#333333"));
+                tv_all.setTextColor(Color.parseColor("#414141"));
+                tv_buy.setTextColor(Color.parseColor("#FF4C0C"));
                 isChoose = "1";
                 for (int i = 0; i < mList.size(); i++) {
                     isCheck.put(i, false);

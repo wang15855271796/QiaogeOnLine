@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
 import com.puyue.www.qiaoge.event.BackEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
@@ -63,6 +65,8 @@ public class MustFragment extends BaseFragment {
     RelativeLayout rl_content;
     @BindView(R.id.ll_no_data)
     LinearLayout ll_no_data;
+    @BindView(R.id.iv_empty_data)
+    ImageView iv_empty_data;
     MustAdapter mustAdapter;
     View emptyView;
     CouponDialog couponDialog;
@@ -127,7 +131,7 @@ public class MustFragment extends BaseFragment {
     public void findViewById(View view) {
         bind = ButterKnife.bind(this, view);
         emptyView = View.inflate(mActivity, R.layout.layout_empty, null);
-        mustAdapter = new MustAdapter(R.layout.item_team_list, list, new MustAdapter.Onclick() {
+        mustAdapter = new MustAdapter(R.layout.item_team_list1, list, new MustAdapter.Onclick() {
             @Override
             public void addDialog() {
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mActivity))) {
@@ -195,49 +199,56 @@ public class MustFragment extends BaseFragment {
 
 
     private void getProductsList(int pageNum,int pageSize) {
-        IndexHomeAPI.getMust2(mActivity,pageNum,pageSize)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ProductNormalModel>() {
-                    @Override
-                    public void onCompleted() {
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            iv_empty_data.setImageResource(R.mipmap.ic_404);
+            ll_no_data.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }else {
+            iv_empty_data.setImageResource(R.mipmap.ic_no_data);
+            IndexHomeAPI.getMust2(mActivity,pageNum,pageSize)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<ProductNormalModel>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
+                        }
 
-                    @Override
-                    public void onError(Throwable e) {
+                        @Override
+                        public void onError(Throwable e) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onNext(ProductNormalModel getCommonProductModel) {
-                        if (getCommonProductModel.getCode()==1) {
-                            productModels = getCommonProductModel;
-                            mustAdapter.notifyDataSetChanged();
-                            if(getCommonProductModel.getData()!=null) {
-                                if(getCommonProductModel.getData().getList()!=null && getCommonProductModel.getData().getList().size()>0) {
-                                    List<ProductNormalModel.DataBean.ListBean> lists = getCommonProductModel.getData().getList();
-                                    list.addAll(lists);
+                        @Override
+                        public void onNext(ProductNormalModel getCommonProductModel) {
+                            if (getCommonProductModel.getCode()==1) {
+                                productModels = getCommonProductModel;
+                                mustAdapter.notifyDataSetChanged();
+                                if(getCommonProductModel.getData()!=null) {
+                                    if(getCommonProductModel.getData().getList()!=null && getCommonProductModel.getData().getList().size()>0) {
+                                        List<ProductNormalModel.DataBean.ListBean> lists = getCommonProductModel.getData().getList();
+                                        list.addAll(lists);
 
-                                    mustAdapter.notifyDataSetChanged();
-                                    refreshLayout.setEnableLoadMore(true);
-                                    rl_content.setVisibility(View.VISIBLE);
-                                    ll_no_data.setVisibility(View.GONE);
+                                        mustAdapter.notifyDataSetChanged();
+                                        refreshLayout.setEnableLoadMore(true);
+                                        rl_content.setVisibility(View.VISIBLE);
+                                        ll_no_data.setVisibility(View.GONE);
+                                    }else {
+                                        rl_content.setVisibility(View.GONE);
+                                        ll_no_data.setVisibility(View.VISIBLE);
+                                    }
                                 }else {
                                     rl_content.setVisibility(View.GONE);
                                     ll_no_data.setVisibility(View.VISIBLE);
                                 }
 
-                            }else {
-                                rl_content.setVisibility(View.GONE);
-                                ll_no_data.setVisibility(View.VISIBLE);
+                            } else {
+                                AppHelper.showMsg(mActivity, getCommonProductModel.getMessage());
                             }
-
-                        } else {
-                            AppHelper.showMsg(mActivity, getCommonProductModel.getMessage());
                         }
-                    }
-                });
+                    });
+        }
+
     }
 
     @Override

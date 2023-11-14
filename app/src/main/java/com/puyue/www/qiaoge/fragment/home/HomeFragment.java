@@ -14,12 +14,14 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.frankfancode.marqueeview.MarqueeView;
 import com.google.android.material.appbar.AppBarLayout;
 
@@ -65,6 +67,7 @@ import com.puyue.www.qiaoge.activity.HelpPaySelfDetailActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.HuoHomeActivity;
 import com.puyue.www.qiaoge.activity.TopEvent;
+import com.puyue.www.qiaoge.activity.cart.TestActivity;
 import com.puyue.www.qiaoge.activity.home.ChangeCityActivity;
 import com.puyue.www.qiaoge.activity.home.ChooseAddressActivity;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
@@ -388,6 +391,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     ImageView iv_half_school;
     @BindView(R.id.tv_more)
     TextView tv_more;
+    @BindView(R.id.iv_anim)
+    ImageView iv_anim;
     List<String> list = new ArrayList<>();
     private static final float ENDMARGINLEFT = 50;
     private static final float ENDMARGINTOP = 5;
@@ -730,7 +735,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         rl_huo.setOnClickListener(this);
         iv_huo_company.setOnClickListener(this);
         ll_coupon.setOnClickListener(this);
-        lav_activity_loading.show();
+//        lav_activity_loading.show();
         iv_school.setOnClickListener(this);
         iv_enter.setOnClickListener(this);
         iv_half_school.setOnClickListener(this);
@@ -805,10 +810,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     VpDiscountAdapter.Onclick onclickDis;
     VpTeamAdapter.Onclick onclickTeam;
     VpSkillAdapter.Onclick onclickSkill;
-//    String[] params = { Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION};
+    GifDrawable drawable;
     @Override
     public void setViewData() {
-
         //判断用户是否选择了企业
         if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
             getStyle();
@@ -840,10 +844,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             tv_title3.setText("物美价廉");
             rb_new_top.setText("新品上市");
             rb_info_top.setText("降价商品");
-//            v2s.setVisibility(View.VISIBLE);
-//            v4s.setVisibility(View.VISIBLE);
-//            tv_title2.setVisibility(View.VISIBLE);
-//            tv_title4.setVisibility(View.VISIBLE);
             ll_must.setVisibility(View.VISIBLE);
             ll_common.setVisibility(View.VISIBLE);
             ll_must_top.setVisibility(View.VISIBLE);
@@ -853,6 +853,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             rb_common.setVisibility(View.VISIBLE);
             rb_common_top.setVisibility(View.VISIBLE);
             rg_new.check(R.id.rb_must_common);
+
+            Glide.with(this).asGif().load(R.drawable.anims).into(iv_anim);
+
         }
 
         onclick = new VpFullAdapter.Onclick() {
@@ -1159,7 +1162,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_team1.setVisibility(View.GONE);
             ll_discount1.setVisibility(View.GONE);
             ll_skill.setBackgroundResource(R.mipmap.bg_home_skill_l);
-            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_special,dataActive.getSpike().getActives(),onclickSkill);
+            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_skill,dataActive.getSpike().getActives(),onclickSkill);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger7 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger7.setOrientation(RecyclerView.VERTICAL);
             rv_skill.setAdapter(vpSkillAdapter);
@@ -1429,7 +1432,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
             ll_team1.setVisibility(View.GONE);
 
             ll_skill.setBackgroundResource(R.mipmap.bg_home_skill_l);
-            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_special,dataActive.getSpike().getActives(),onclickSkill);
+            VpSkillAdapter vpSkillAdapter = new VpSkillAdapter(mActivity,R.layout.item_active_skill,dataActive.getSpike().getActives(),onclickSkill);
             ScrollSpeedLinearLayoutManger scrollSpeedLinearLayoutManger23 = new ScrollSpeedLinearLayoutManger(mActivity);
             scrollSpeedLinearLayoutManger23.setOrientation(RecyclerView.VERTICAL);
             rv_skill.setAdapter(vpSkillAdapter);
@@ -1548,7 +1551,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
     /**
      * 热卖集合
-     *
      * @param pageNum
      * @param pageSize
      * @param type
@@ -1594,6 +1596,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                                     }else {
                                         initDialog();
                                     }
+                                }
+                            });
+
+                            hotAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                    Intent intent = new Intent(mActivity,CommonGoodsDetailActivity.class);
+                                    intent.putExtra("activeId",listBeans.get(position).getProductMainId());
+                                    intent.putExtra("priceType",SharedPreferencesUtil.getString(mActivity,"priceType"));
+                                    startActivity(intent);
                                 }
                             });
 
@@ -1938,7 +1950,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
                     @Override
                     public void onError(Throwable e) {
-                        lav_activity_loading.hide();
+//                        lav_activity_loading.hide();
                     }
 
                     @Override
@@ -1954,7 +1966,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                                 iconList.clear();
                                 recommendList.clear();
                                 classifyList.clear();
-                                lav_activity_loading.hide();
+//                                lav_activity_loading.hide();
 
                                 if(data.getNoticeInfo()!=null && data.getNoticeInfo().size()> 0) {
                                     marqueeAdapters = new MarqueeAdapter();
@@ -2157,15 +2169,18 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                                     }
                                 });
 
-                                lav_activity_loading.hide();
+//                                lav_activity_loading.hide();
                             }else {
-                                lav_activity_loading.hide();
+//                                lav_activity_loading.hide();
                             }
 
                         } else {
                             AppHelper.showMsg(mActivity, indexInfoModel.getMessage());
-                            lav_activity_loading.hide();
+//                            lav_activity_loading.hide();
                         }
+
+                        iv_anim.setVisibility(View.GONE);
+
                     }
                 });
     }

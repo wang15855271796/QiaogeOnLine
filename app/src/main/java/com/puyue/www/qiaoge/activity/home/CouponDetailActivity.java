@@ -24,6 +24,7 @@ import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
@@ -62,6 +63,8 @@ public class CouponDetailActivity extends BaseSwipeActivity implements View.OnCl
     TextView tv_un_start;
     @BindView(R.id.iv_un_start)
     ImageView iv_un_start;
+    @BindView(R.id.iv_404)
+    ImageView iv_404;
     private FragmentTransaction mFragmentTransaction;
     private static final String Coupon_HOME1 = "coupon_home1";
     private static final String Coupon_HOME2 = "coupon_home2";
@@ -156,35 +159,45 @@ public class CouponDetailActivity extends BaseSwipeActivity implements View.OnCl
      * 购物车数量
      */
     private void getCartNum() {
-        GetCartNumAPI.requestData(mContext)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<GetCartNumModel>() {
-                    @Override
-                    public void onCompleted() {
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            iv_404.setImageResource(R.mipmap.ic_404);
+            iv_404.setVisibility(View.VISIBLE);
+            fl_container.setVisibility(View.GONE);
+        }else {
+            fl_container.setVisibility(View.VISIBLE);
+            iv_404.setImageResource(R.mipmap.ic_no_data);
+            GetCartNumAPI.requestData(mContext)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<GetCartNumModel>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(GetCartNumModel getCartNumModel) {
-                        if (getCartNumModel.isSuccess()) {
-                            if(getCartNumModel.getData().getNum().equals("0")) {
-                                tv_num.setVisibility(View.GONE);
-                            }else {
-                                tv_num.setVisibility(View.VISIBLE);
-
-                                tv_num.setText(getCartNumModel.getData().getNum());
-                            }
-                        } else {
-                            AppHelper.showMsg(mContext, getCartNumModel.getMessage());
                         }
-                    }
-                });
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(GetCartNumModel getCartNumModel) {
+                            if (getCartNumModel.isSuccess()) {
+                                if(getCartNumModel.getData().getNum().equals("0")) {
+                                    tv_num.setVisibility(View.GONE);
+                                }else {
+                                    tv_num.setVisibility(View.VISIBLE);
+
+                                    tv_num.setText(getCartNumModel.getData().getNum());
+                                }
+                            } else {
+                                AppHelper.showMsg(mContext, getCartNumModel.getMessage());
+                            }
+                        }
+                    });
+
+        }
+
     }
 
     @Override

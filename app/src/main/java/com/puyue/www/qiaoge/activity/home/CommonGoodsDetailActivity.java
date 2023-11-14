@@ -63,6 +63,7 @@ import com.puyue.www.qiaoge.fragment.cart.NumEvent;
 import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.FVHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.helper.PublicRequestHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
@@ -240,6 +241,11 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
     TextView tv_send_address;
     @BindView(R.id.tv_send_time)
     TextView tv_send_time;
+    @BindView(R.id.iv_404)
+    ImageView iv_404;
+    @BindView(R.id.ll_root)
+    LinearLayout ll_root;
+
     private AlertDialog mTypedialog;
     LinearLayout ll_service;
     TextView tv_price;
@@ -258,6 +264,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
     String priceType;
     private GetProductDetailModel models;
     RelativeLayout ll_desc;
+    ImageView iv_anim;
     List<String> quarterPic;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
@@ -294,6 +301,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
 
     @Override
     public void findViewById() {
+        iv_anim= FVHelper.fv(this, R.id.iv_anim);;
         ll_desc = FVHelper.fv(this, R.id.ll_desc);
         tv_price =  FVHelper.fv(this, R.id.tv_price);
         ll_service = FVHelper.fv(this, R.id.ll_service);
@@ -326,6 +334,8 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
         if(city!=null) {
             tv_city.setText("该商品为"+city+"地区商品，请切换到该地区购买");
         }
+
+        Glide.with(this).asGif().load(R.drawable.anims).into(iv_anim);
     }
     SupplierAdapter supplierAdapter;
     @Override
@@ -655,249 +665,263 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
     String disId;
     int pos;
     private void getProductDetail(final int productId, String num, CommonGoodsDetailActivity commonGoodsDetailActivity) {
-        GetProductDetailAPI.requestData(mContext,productId,num)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<GetProductDetailModel>() {
-                    @Override
-                    public void onCompleted() {
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            iv_404.setImageResource(R.mipmap.ic_404);
+            iv_404.setVisibility(View.VISIBLE);
+            ll_root.setVisibility(View.GONE);
+            iv_anim.setVisibility(View.GONE);
+        }else {
+            ll_root.setVisibility(View.VISIBLE);
+            iv_404.setImageResource(R.mipmap.ic_no_data);
+            GetProductDetailAPI.requestData(mContext,productId,num)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<GetProductDetailModel>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(GetProductDetailModel model) {
-                        if (model.isSuccess()) {
-                            detailList.clear();
-                            detailList.addAll(model.getData().getDetailPic());
-                            imageViewAdapter.notifyDataSetChanged();
-                            models = model;
-                            boolean hasCollect = models.getData().isHasCollect();
-                            SharedPreferencesUtil.saveBoolean(mContext,"isCollection",hasCollect);
-                            productId1 = model.getData().getProductId();
-                            productName = model.getData().getProductName();
-                            mTvTitle.setText(productName);
-                            cell = model.getData().getCustomerPhone();
-                            if(model.getData().getFullGiftSendInfo()!=null&&model.getData().getFullGiftSendInfo().size()>0) {
-                                tv_full_desc.setText(model.getData().getFullGiftSendInfo().get(0));
-                            }
-
-                            if(models.getData().getQuarterPic()!=null&&models.getData().getQuarterPic().size()>0) {
-                                quarterPic = model.getData().getQuarterPic();
-                                rl_check.setVisibility(View.VISIBLE);
-                            }else {
-                                rl_check.setVisibility(View.GONE);
-                            }
-
-                            if(models.getData().getActives()!=null && models.getData().getActives().size()>0) {
-                                rl_coupon1.setVisibility(View.VISIBLE);
-                            }else {
-                                rl_coupon1.setVisibility(View.GONE);
-                            }
-
-                            if(models.getData().getActives()!=null&&models.getData().getActives().size()>0) {
-                                List<GetProductDetailModel.DataBean.ActivesBean> actives = models.getData().getActives();
-                                for (int i = 0; i < actives.size(); i++) {
-                                    if(actives.get(i).getActiveType()==2) {
-                                        ll_skill_active.setVisibility(View.VISIBLE);
-                                        tv_skill.setText(actives.get(i).getActiveName());
-                                        skillId = actives.get(i).getActiveId();
-                                    }else if(actives.get(i).getActiveType()==3) {
-                                        ll_team_active.setVisibility(View.VISIBLE);
-                                        tv_team.setText(actives.get(i).getActiveName());
-                                        teamId = actives.get(i).getActiveId();
-                                    }else if(actives.get(i).getActiveType()==11) {
-                                        ll_dis_active.setVisibility(View.VISIBLE);
-                                        tv_dis.setText(actives.get(i).getActiveName());
-                                        disId = actives.get(i).getActiveId();
-                                    }else {
-                                        ll_full_active.setVisibility(View.VISIBLE);
-                                        tv_full.setText(actives.get(i).getActiveName());
-                                        fullId = actives.get(i).getActiveId();
-                                    }
-                                }
-                            }
-
-
-                            if (model.getData().isHasCollect()) {
-                                //已收藏
-                                mIvCollection.setImageResource(R.mipmap.icon_collection_fill);
-                            } else {
-                                mIvCollection.setImageResource(R.mipmap.ic_love);
-                            }
-                            if(model.getData().getSelfProd()!=null) {
-                                Glide.with(mContext).load(model.getData().getSelfProd()).into(iv_operate);
-                            }
-
-                            if(!TextUtils.isEmpty(model.getData().getAddress())) {
-                                tv_send_address.setText(model.getData().getAddress());
-                            }
-
-                            if(!TextUtils.isEmpty(model.getData().getSendTimeStr())) {
-                                tv_send_time.setText(model.getData().getSendTimeStr());
-                            }
-
-                            if(TextUtils.isEmpty(model.getData().getAddress()) && TextUtils.isEmpty(model.getData().getSendTimeStr())) {
-                                rl_send_address.setVisibility(View.GONE);
-                            }else{
-                                rl_send_address.setVisibility(View.VISIBLE);
-                            }
-                            if(!TextUtils.isEmpty(model.getData().getBusinessStatus())) {
-                                tv_business_time.setText(model.getData().getBusinessStatus());
-                            }
-
-                            tv_come.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(mContext,ShopsActivity.class);
-                                    intent.putExtra("surplieId",model.getData().getSupplierId());
-                                    startActivity(intent);
-                                }
-                            });
-
-                            if("自营商品".equals(model.getData().getCompanyName())) {
-                                tv_address.setText(model.getData().getCompanyName()+"");
-                            }else {
-                                tv_address.setText(model.getData().getCompanyName());
-                            }
-
-                            if(models.getData().getFullGiftSendInfo()!=null) {
-                                rl_coupon.setVisibility(View.VISIBLE);
-                            }else {
-                                rl_coupon.setVisibility(View.GONE);
-                            }
-
-                            //单点不送
-                            if(models.getData().getNotSend()!=null) {
-                                if(models.getData().getNotSend().equals("1")||models.getData().getNotSend().equals("1.0")) {
-                                    iv_send.setImageResource(R.mipmap.icon_not_send2);
-                                    iv_send.setVisibility(View.VISIBLE);
-                                }else {
-                                    iv_send.setVisibility(View.GONE);
-                                }
-                            }
-
-                            if(priceType.equals("1")) {
-                                mTvPrice.setText(model.getData().getMinMaxPrice());
-                                mTvPrice.setVisibility(View.VISIBLE);
-                                tv_price.setVisibility(View.GONE);
-
-                            }else {
-                                mTvPrice.setVisibility(View.GONE);
-                                tv_price.setVisibility(View.VISIBLE);
-                            }
-
-                            tv_price.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    AppHelper.ShowAuthDialog(mActivity,cell);
-
-                                }
-                            });
-
-                            if(model.getData().getTypeUrl()==null||model.getData().getTypeUrl().equals("")) {
-                                iv_flag.setVisibility(View.GONE);
-                            }else {
-                                iv_flag.setVisibility(View.VISIBLE);
-                                Glide.with(mContext).load(model.getData().getTypeUrl()).into(iv_flag);
-                            }
-                            //单点不送
-                            tv_sale.setText(model.getData().getSalesVolume());
-                            prodSpecs = model.getData().getProdSpecs();
-                            if(model.getData().getIntroduction()==null||model.getData().getIntroduction().equals("")) {
-                                ll_desc.setVisibility(View.GONE);
-                            }else {
-//                                tv_desc.setText(model.getData().getIntroduction());
-                                ll_desc.setVisibility(View.VISIBLE);
-                            }
-                            ll_desc.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    ProductDescDialog productDescDialog = new ProductDescDialog(mActivity,model.getData().getIntroduction());
-                                    productDescDialog.show();
-                                }
-                            });
-
-                            chooseSpecAdapter = new ChooseSpecAdapter(mContext,prodSpecs, new ChooseSpecAdapter.Onclick() {
-                                @Override
-                                public void addDialog(int position) {
-                                    pos = position;
-
-                                    if(priceType.equals("1")) {
-                                        chooseSpecAdapter.selectPosition(position);
-                                        exchangeList(model.getData().getProdSpecs().get(position).getProductId(),commonGoodsDetailActivity);
-                                    }else {
-                                        AppHelper.ShowAuthDialog(mActivity,cell);
-                                    }
-                                }
-                            });
-
-                            fl_container.setAdapter(chooseSpecAdapter);
-
-
-                            if(model.getData().getProdVideoUrl()!=null&&!model.getData().getProdVideoUrl().equals("")) {
-                                images.add(0,model.getData().getProdVideoUrl());
-                                iv_sound.setVisibility(View.VISIBLE);
-                            }else {
-                                iv_sound.setVisibility(View.GONE);
-                            }
-
-                            getProductList();
-                            mTvAddCar.setEnabled(true);
-                            //填充详情
-                            mListDetailImage.clear();
-
-                            if(model.getData().getSupplierId()!=null) {
-                                ll_surp.setVisibility(View.VISIBLE);
-                            }else  {
-                                ll_surp.setVisibility(View.GONE);
-                            }
-
-
-                            //banner设置点击监听
-                            mBanner.setOnBannerListener(new OnBannerListener() {
-                                @Override
-                                public void OnBannerClick(Object data, int position) {
-                                    AppHelper.showPhotoDetailDialog(mContext, images, position);
-                                }
-                            });
-
-                            //填充banner
-                            fitBanner(models);
-                            mBanner.addBannerLifecycleObserver(commonGoodsDetailActivity)
-                                    .setAdapter(new PicVideoAdapter(mContext, picVideo))
-                                    .setIndicator(new NumIndicator(mContext))
-                                    .setIndicatorGravity(IndicatorConfig.Direction.RIGHT)
-                                    .addOnPageChangeListener(new OnPageChangeListener() {
-                                        @Override
-                                        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                                            stopVideo(position);
-                                        }
-
-                                        @Override
-                                        public void onPageSelected(int position) {
-                                            stopVideo(position);
-                                        }
-
-                                        @Override
-                                        public void onPageScrollStateChanged(int state) {
-
-                                        }
-                                    });
-
-                            surplierList.clear();
-                            surplierList.addAll(model.getData().getSupProds());
-                            supplierAdapter.notifyDataSetChanged();
-
-                        } else {
-                            ToastUtil.showErroMsg(mActivity,model.getMessage());
                         }
-                    }
-                });
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(GetProductDetailModel model) {
+                            iv_anim.setVisibility(View.GONE);
+                            if (model.isSuccess()) {
+                                detailList.clear();
+                                detailList.addAll(model.getData().getDetailPic());
+                                imageViewAdapter.notifyDataSetChanged();
+                                models = model;
+                                boolean hasCollect = models.getData().isHasCollect();
+                                SharedPreferencesUtil.saveBoolean(mContext,"isCollection",hasCollect);
+                                productId1 = model.getData().getProductId();
+                                productName = model.getData().getProductName();
+                                mTvTitle.setText(productName);
+                                cell = model.getData().getCustomerPhone();
+                                if(model.getData().getFullGiftSendInfo()!=null&&model.getData().getFullGiftSendInfo().size()>0) {
+                                    tv_full_desc.setText(model.getData().getFullGiftSendInfo().get(0));
+                                }
+
+                                if(models.getData().getQuarterPic()!=null&&models.getData().getQuarterPic().size()>0) {
+                                    quarterPic = model.getData().getQuarterPic();
+                                    rl_check.setVisibility(View.VISIBLE);
+                                }else {
+                                    rl_check.setVisibility(View.GONE);
+                                }
+
+                                if(models.getData().getActives()!=null && models.getData().getActives().size()>0) {
+                                    rl_coupon1.setVisibility(View.VISIBLE);
+                                }else {
+                                    rl_coupon1.setVisibility(View.GONE);
+                                }
+
+                                if(models.getData().getActives()!=null&&models.getData().getActives().size()>0) {
+                                    List<GetProductDetailModel.DataBean.ActivesBean> actives = models.getData().getActives();
+                                    for (int i = 0; i < actives.size(); i++) {
+                                        if(actives.get(i).getActiveType()==2) {
+                                            ll_skill_active.setVisibility(View.VISIBLE);
+                                            tv_skill.setText(actives.get(i).getActiveName());
+                                            skillId = actives.get(i).getActiveId();
+                                        }else if(actives.get(i).getActiveType()==3) {
+                                            ll_team_active.setVisibility(View.VISIBLE);
+                                            tv_team.setText(actives.get(i).getActiveName());
+                                            teamId = actives.get(i).getActiveId();
+                                        }else if(actives.get(i).getActiveType()==11) {
+                                            ll_dis_active.setVisibility(View.VISIBLE);
+                                            tv_dis.setText(actives.get(i).getActiveName());
+                                            disId = actives.get(i).getActiveId();
+                                        }else {
+                                            ll_full_active.setVisibility(View.VISIBLE);
+                                            tv_full.setText(actives.get(i).getActiveName());
+                                            fullId = actives.get(i).getActiveId();
+                                        }
+                                    }
+                                }
+
+
+                                if (model.getData().isHasCollect()) {
+                                    //已收藏
+                                    mIvCollection.setImageResource(R.mipmap.icon_collection_fill);
+                                } else {
+                                    mIvCollection.setImageResource(R.mipmap.ic_love);
+                                }
+                                if(model.getData().getSelfProd()!=null) {
+                                    Glide.with(mContext).load(model.getData().getSelfProd()).into(iv_operate);
+                                }
+
+                                if(!TextUtils.isEmpty(model.getData().getAddress())) {
+                                    tv_send_address.setText(model.getData().getAddress());
+                                }
+
+                                if(!TextUtils.isEmpty(model.getData().getSendTimeStr())) {
+                                    tv_send_time.setText(model.getData().getSendTimeStr());
+                                }
+
+                                if(TextUtils.isEmpty(model.getData().getAddress()) && TextUtils.isEmpty(model.getData().getSendTimeStr())) {
+                                    rl_send_address.setVisibility(View.GONE);
+                                }else{
+                                    rl_send_address.setVisibility(View.VISIBLE);
+                                }
+                                if(!TextUtils.isEmpty(model.getData().getBusinessStatus())) {
+                                    tv_business_time.setText(model.getData().getBusinessStatus());
+                                }
+
+                                tv_come.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(mContext,ShopsActivity.class);
+                                        intent.putExtra("surplieId",model.getData().getSupplierId());
+                                        startActivity(intent);
+                                    }
+                                });
+
+                                if("自营商品".equals(model.getData().getCompanyName())) {
+                                    tv_address.setText(model.getData().getCompanyName()+"");
+                                }else {
+                                    tv_address.setText(model.getData().getCompanyName());
+                                }
+
+                                if(models.getData().getFullGiftSendInfo()!=null) {
+                                    rl_coupon.setVisibility(View.VISIBLE);
+                                }else {
+                                    rl_coupon.setVisibility(View.GONE);
+                                }
+
+                                //单点不送
+                                if(models.getData().getNotSend()!=null) {
+                                    if(models.getData().getNotSend().equals("1")||models.getData().getNotSend().equals("1.0")) {
+                                        iv_send.setImageResource(R.mipmap.icon_not_send2);
+                                        iv_send.setVisibility(View.VISIBLE);
+                                    }else {
+                                        iv_send.setVisibility(View.GONE);
+                                    }
+                                }
+
+                                if(priceType.equals("1")) {
+                                    mTvPrice.setText(model.getData().getMinMaxPrice());
+                                    mTvPrice.setVisibility(View.VISIBLE);
+                                    tv_price.setVisibility(View.GONE);
+
+                                }else {
+                                    mTvPrice.setVisibility(View.GONE);
+                                    tv_price.setVisibility(View.VISIBLE);
+                                }
+
+                                tv_price.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        AppHelper.ShowAuthDialog(mActivity,cell);
+
+                                    }
+                                });
+
+                                if(model.getData().getTypeUrl()==null||model.getData().getTypeUrl().equals("")) {
+                                    iv_flag.setVisibility(View.GONE);
+                                }else {
+                                    iv_flag.setVisibility(View.VISIBLE);
+                                    Glide.with(mContext).load(model.getData().getTypeUrl()).into(iv_flag);
+                                }
+                                //单点不送
+                                tv_sale.setText(model.getData().getSalesVolume());
+                                prodSpecs = model.getData().getProdSpecs();
+                                if(model.getData().getIntroduction()==null||model.getData().getIntroduction().equals("")) {
+                                    ll_desc.setVisibility(View.GONE);
+                                }else {
+//                                tv_desc.setText(model.getData().getIntroduction());
+                                    ll_desc.setVisibility(View.VISIBLE);
+                                }
+                                ll_desc.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        ProductDescDialog productDescDialog = new ProductDescDialog(mActivity,model.getData().getIntroduction());
+                                        productDescDialog.show();
+                                    }
+                                });
+
+                                chooseSpecAdapter = new ChooseSpecAdapter(mContext,prodSpecs, new ChooseSpecAdapter.Onclick() {
+                                    @Override
+                                    public void addDialog(int position) {
+                                        pos = position;
+
+                                        if(priceType.equals("1")) {
+                                            chooseSpecAdapter.selectPosition(position);
+                                            exchangeList(model.getData().getProdSpecs().get(position).getProductId(),commonGoodsDetailActivity);
+                                        }else {
+                                            AppHelper.ShowAuthDialog(mActivity,cell);
+                                        }
+                                    }
+                                });
+
+                                fl_container.setAdapter(chooseSpecAdapter);
+
+
+                                if(model.getData().getProdVideoUrl()!=null&&!model.getData().getProdVideoUrl().equals("")) {
+                                    images.add(0,model.getData().getProdVideoUrl());
+                                    iv_sound.setVisibility(View.VISIBLE);
+                                }else {
+                                    iv_sound.setVisibility(View.GONE);
+                                }
+
+                                getProductList();
+                                mTvAddCar.setEnabled(true);
+                                //填充详情
+                                mListDetailImage.clear();
+
+                                if(model.getData().getSupplierId()!=null) {
+                                    ll_surp.setVisibility(View.VISIBLE);
+                                }else  {
+                                    ll_surp.setVisibility(View.GONE);
+                                }
+
+
+                                //banner设置点击监听
+                                mBanner.setOnBannerListener(new OnBannerListener() {
+                                    @Override
+                                    public void OnBannerClick(Object data, int position) {
+                                        AppHelper.showPhotoDetailDialog(mContext, images, position);
+                                    }
+                                });
+
+                                //填充banner
+                                fitBanner(models);
+                                mBanner.addBannerLifecycleObserver(commonGoodsDetailActivity)
+                                        .setAdapter(new PicVideoAdapter(mContext, picVideo))
+                                        .setIndicator(new NumIndicator(mContext))
+                                        .setIndicatorGravity(IndicatorConfig.Direction.RIGHT)
+                                        .addOnPageChangeListener(new OnPageChangeListener() {
+                                            @Override
+                                            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                                                stopVideo(position);
+                                            }
+
+                                            @Override
+                                            public void onPageSelected(int position) {
+                                                stopVideo(position);
+                                            }
+
+                                            @Override
+                                            public void onPageScrollStateChanged(int state) {
+
+                                            }
+                                        });
+
+                                surplierList.clear();
+                                surplierList.addAll(model.getData().getSupProds());
+                                supplierAdapter.notifyDataSetChanged();
+
+                            } else {
+                                ToastUtil.showErroMsg(mActivity,model.getMessage());
+                            }
+
+
+                        }
+                    });
+        }
+
+
     }
 
     private void exchangeList(int productId, CommonGoodsDetailActivity commonGoodsDetailActivity) {
@@ -995,6 +1019,9 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
                                         });
 
                             }
+                        }else if(exchangeProductModel.getCode() == -10001) {
+                            Intent intent = new Intent(mActivity, LoginActivity.class);
+                            startActivity(intent);
                         }else {
                             ToastUtil.showErroMsg(mContext,exchangeProductModel.getMessage());
                         }

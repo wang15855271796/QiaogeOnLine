@@ -1,5 +1,6 @@
 package com.puyue.www.qiaoge.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.dialog.ExchangeSuccessDialog;
 import com.puyue.www.qiaoge.dialog.PointExchangeDialog;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.model.mine.wallet.MinerIntegralModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 
@@ -91,36 +93,43 @@ public class JiFenShopActivity extends BaseActivity implements View.OnClickListe
     // 获取积分
     List<PointShopModel.DataBean.DeductsBean> deducts = new ArrayList<>();
     private void getPointList() {
-        PointApI.requestData(mContext)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<PointShopModel>() {
-                    @Override
-                    public void onCompleted() {
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            Intent intent = new Intent(mContext, NetWorkActivity.class);
+            startActivity(intent);
+            finish();
+        }else {
+            PointApI.requestData(mContext)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<PointShopModel>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
+                        }
 
-                    @Override
-                    public void onError(Throwable e) {
+                        @Override
+                        public void onError(Throwable e) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onNext(PointShopModel pointShopModel) {
-                        if(pointShopModel.getCode()==1) {
-                            if(pointShopModel.getData()!=null) {
-                                if(pointShopModel.getData().getDeducts()!=null && pointShopModel.getData().getDeducts().size()>0) {
-                                    deducts.addAll(pointShopModel.getData().getDeducts());
-                                    shopAdapter.notifyDataSetChanged();
-                                }
+                        @Override
+                        public void onNext(PointShopModel pointShopModel) {
+                            if(pointShopModel.getCode()==1) {
+                                if(pointShopModel.getData()!=null) {
+                                    if(pointShopModel.getData().getDeducts()!=null && pointShopModel.getData().getDeducts().size()>0) {
+                                        deducts.addAll(pointShopModel.getData().getDeducts());
+                                        shopAdapter.notifyDataSetChanged();
+                                    }
 
-                                if(pointShopModel.getData().getUserPoint()!=null && !pointShopModel.getData().getUserPoint().equals("")) {
-                                    tv_point.setText(pointShopModel.getData().getUserPoint());
+                                    if(pointShopModel.getData().getUserPoint()!=null && !pointShopModel.getData().getUserPoint().equals("")) {
+                                        tv_point.setText(pointShopModel.getData().getUserPoint());
+                                    }
                                 }
                             }
                         }
-                    }
-                });
+                    });
+        }
+
     }
 
     private void exchangePoint(String poolNo) {

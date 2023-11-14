@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.IssueInfoActivity;
+import com.puyue.www.qiaoge.activity.NetWorkActivity;
 import com.puyue.www.qiaoge.activity.TestActivity;
 import com.puyue.www.qiaoge.adapter.MyIssueAdapter;
 import com.puyue.www.qiaoge.api.home.InfoListAPI;
@@ -23,6 +24,7 @@ import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.event.DeletedShopEvent;
 import com.puyue.www.qiaoge.event.MyShopEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -151,45 +153,51 @@ public class IssueActivity extends BaseSwipeActivity {
 
     InfoListModel infoListModels;
     private void getCityList(int pageNum,int pageSize) {
-        InfoListAPI.getMyList(mActivity,pageNum,pageSize)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<InfoListModel>() {
-                    @Override
-                    public void onCompleted() {
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            Intent intent = new Intent(mContext, NetWorkActivity.class);
+            startActivity(intent);
+            finish();
+        }else {
+            InfoListAPI.getMyList(mActivity,pageNum,pageSize)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<InfoListModel>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-
-                    @Override
-                    public void onNext(InfoListModel infoListModel) {
-                        if (infoListModel.isSuccess()) {
-                            if(infoListModel.getData()!=null) {
-                                infoListModels = infoListModel;
-                                List<InfoListModel.DataBean.ListBean> lists = infoListModel.getData().getList();
-                                list.addAll(lists);
-                                myIssueAdapter.notifyDataSetChanged();
-
-                                if(lists.size()>0) {
-                                    ll_empty.setVisibility(View.GONE);
-                                }else {
-                                    ll_empty.setVisibility(View.VISIBLE);
-                                }
-                            }
-                        } else {
-                            AppHelper.showMsg(mActivity, infoListModel.getMessage());
                         }
-                    }
-                });
+
+                        @Override
+                        public void onError(Throwable e) {
+                        }
+
+                        @Override
+                        public void onNext(InfoListModel infoListModel) {
+                            if (infoListModel.isSuccess()) {
+                                if(infoListModel.getData()!=null) {
+                                    infoListModels = infoListModel;
+                                    List<InfoListModel.DataBean.ListBean> lists = infoListModel.getData().getList();
+                                    list.addAll(lists);
+                                    myIssueAdapter.notifyDataSetChanged();
+
+                                    if(lists.size()>0) {
+                                        ll_empty.setVisibility(View.GONE);
+                                    }else {
+                                        ll_empty.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                            } else {
+                                AppHelper.showMsg(mActivity, infoListModel.getMessage());
+                            }
+                        }
+                    });
+        }
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void myShop(MyShopEvent event) {
         list.clear();
         refreshLayout.autoRefresh();
-        Log.d("wdadd........","123");
     }
 }

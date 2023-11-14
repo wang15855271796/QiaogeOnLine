@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:id="@+id/ll_root"
+    android:layout_marginLeft="@dimen/size_5dp"
+    android:layout_height="90dp">
+
+    <RelativeLayout
+        android:layout_width="65dp"
+        android:layout_marginTop="@dimen/size_5dp"
+        android:layout_height="wrap_content">
+
+        <com.puyue.www.qiaoge.RoundImageView
+            android:id="@+id/iv_pic"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginTop="@dimen/dp_10" />
+
+        <ImageView
+            android:id="@+id/iv_not_send"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/icon_not_send2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/size_10dp"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/size_12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:textColor="#414141"
+            android:textSize="12sp"
+            android:lines="1"
+            android:ellipsize="end"
+            android:layout_marginTop="@dimen/size_3dp"
+            android:text="【翘歌】商品名称名称名称名称名称名称名称名称…"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_save_price"
+            android:textColor="#FF3E2E"
+            android:textSize="9sp"
+            android:text="赠商品、券"
+            android:layout_marginTop="10dp"
+            android:paddingRight="@dimen/size_9dp"
+            android:paddingLeft="@dimen/size_9dp"
+            android:background="@drawable/shape_yellow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/size_2dp"
+                android:background="@drawable/shape_jianbian12"
+                android:ellipsize="end"
+                android:lines="1"
+                android:paddingLeft="@dimen/size_7dp"
+                android:paddingRight="4dp"
+                android:textColor="#ffffff"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                tools:text="120" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_light" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

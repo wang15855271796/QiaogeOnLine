@@ -168,7 +168,9 @@ public class AccountCenterActivity extends BaseSwipeActivity {
                 finish();
             } else if (view == mRlPhone) {
                 //更改账号
-                startActivity(EditAccountInputPhoneActivity.getIntent(mContext, EditAccountInputPhoneActivity.class, "0", "account",mModelAccountCenter.data.phone));
+                if(mModelAccountCenter.data!=null) {
+                    startActivity(EditAccountInputPhoneActivity.getIntent(mContext, EditAccountInputPhoneActivity.class, "0", "account",mModelAccountCenter.data.phone));
+                }
 //                finish();
             } else if (view == mRlLoginPassword) {
                 startActivity(EditPasswordInputCodeActivity.getIntent(mContext, EditPasswordInputCodeActivity.class, "0", mUserCell, "login","",0,0));
@@ -184,10 +186,11 @@ public class AccountCenterActivity extends BaseSwipeActivity {
                     }
                 });
             }else if(view == rl_limit) {
-                Intent intent = new Intent(mActivity,CompetActivity.class);
-                intent.putExtra("phone",mModelAccountCenter.data.phone);
-
-                startActivity(intent);
+                if(mModelAccountCenter.data!=null) {
+                    Intent intent = new Intent(mActivity,CompetActivity.class);
+                    intent.putExtra("phone",mModelAccountCenter.data.phone);
+                    startActivity(intent);
+                }
             }
         }
     };

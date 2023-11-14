@@ -14,6 +14,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
 import com.puyue.www.qiaoge.api.market.MarketRightModel;
 import com.puyue.www.qiaoge.constant.AppConstant;
@@ -38,7 +39,7 @@ class ProdInnerAdapter extends BaseQuickAdapter<MarketRightModel.DataBean.BrandP
         helper.setText(R.id.tv_name,item.getProductName());
         helper.setText(R.id.tv_sale,item.getSalesVolume());
         TextView tv_price = helper.getView(R.id.tv_price);
-        ImageView iv_pic = helper.getView(R.id.iv_pic);
+        RoundImageView iv_pic = helper.getView(R.id.iv_pic);
         ImageView iv_send = helper.getView(R.id.iv_send);
 
         if(item.getNotSend()!=null) {

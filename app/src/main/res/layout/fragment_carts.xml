@@ -23,7 +23,7 @@
                 android:id="@+id/ll_cart_order"
                 android:background="@drawable/shape_jianbian6"
                 android:layout_width="match_parent"
-                android:layout_height="185dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <RelativeLayout
@@ -126,7 +126,6 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_marginTop="-70dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -138,6 +137,7 @@
 
                     <com.scwang.smartrefresh.header.MaterialHeader
                         android:id="@+id/header"
+                        android:layout_marginTop="-3dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
@@ -618,4 +618,12 @@
         app:indicatorColor="#f40"
         />
 
+    <ImageView
+        android:layout_centerInParent="true"
+        android:id="@+id/iv_anim"
+        android:src="@drawable/anims"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        />
 </RelativeLayout>

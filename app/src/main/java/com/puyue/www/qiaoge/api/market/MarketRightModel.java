@@ -162,6 +162,15 @@ public class MarketRightModel {
             public static class ListBeanX{
                 private String brandName;
                 private ProdClassifyBean prodClassify;
+                private boolean isOpen;
+
+                public boolean isOpen() {
+                    return isOpen;
+                }
+
+                public void setOpen(boolean open) {
+                    isOpen = open;
+                }
 
                 public String getBrandName() {
                     return brandName;
@@ -598,6 +607,33 @@ public class MarketRightModel {
                 String selfProd;
                 String notSend;
                 int freshPriceFlag;
+                String prodDeductUrl;
+                String prodSpecialUrl;
+                String prodNewUrl;
+
+                public String getProdDeductUrl() {
+                    return prodDeductUrl;
+                }
+
+                public void setProdDeductUrl(String prodDeductUrl) {
+                    this.prodDeductUrl = prodDeductUrl;
+                }
+
+                public String getProdSpecialUrl() {
+                    return prodSpecialUrl;
+                }
+
+                public void setProdSpecialUrl(String prodSpecialUrl) {
+                    this.prodSpecialUrl = prodSpecialUrl;
+                }
+
+                public String getProdNewUrl() {
+                    return prodNewUrl;
+                }
+
+                public void setProdNewUrl(String prodNewUrl) {
+                    this.prodNewUrl = prodNewUrl;
+                }
 
                 public int getFreshPriceFlag() {
                     return freshPriceFlag;

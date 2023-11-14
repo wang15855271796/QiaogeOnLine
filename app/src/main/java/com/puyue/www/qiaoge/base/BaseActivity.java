@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.puyue.www.qiaoge.QiaoGeApplication;
 import com.puyue.www.qiaoge.R;
@@ -76,6 +77,10 @@ public abstract class BaseActivity extends AppCompatActivity  {
         super.onConfigurationChanged(newConfig);
     }
 
+    public void showEmptyLayout(BaseQuickAdapter adapter) {
+        View emptyView=getLayoutInflater().inflate(R.layout.layout_empty_data, null);
+        adapter.setEmptyView(emptyView);
+    }
 
     @Override
     public Resources getResources() {

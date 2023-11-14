@@ -1,5 +1,6 @@
 package com.puyue.www.qiaoge.fragment.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -7,9 +8,11 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.NetWorkActivity;
 import com.puyue.www.qiaoge.api.mine.subaccount.MineAccountAPI;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.model.mine.order.IntellGencyModel;
 
 import java.util.ArrayList;
@@ -66,32 +69,39 @@ public class IntelliGencyActivity extends BaseSwipeActivity {
      * 获取资质列表
      */
     private void getList() {
-        MineAccountAPI.getData(mActivity)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<IntellGencyModel>() {
-                    @Override
-                    public void onCompleted() {
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            Intent intent = new Intent(mContext, NetWorkActivity.class);
+            startActivity(intent);
+            finish();
+        }else {
+            MineAccountAPI.getData(mActivity)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<IntellGencyModel>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(IntellGencyModel intellGencyModel) {
-                        list.clear();
-                        if (intellGencyModel.isSuccess()) {
-                            data = intellGencyModel.getData();
-                            list.addAll(data);
-                            intelliGencyAdapter.notifyDataSetChanged();
-                        } else {
-                            AppHelper.showMsg(mActivity, intellGencyModel.getMessage());
                         }
-                    }
-                });
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(IntellGencyModel intellGencyModel) {
+                            list.clear();
+                            if (intellGencyModel.isSuccess()) {
+                                data = intellGencyModel.getData();
+                                list.addAll(data);
+                                intelliGencyAdapter.notifyDataSetChanged();
+                            } else {
+                                AppHelper.showMsg(mActivity, intellGencyModel.getMessage());
+                            }
+                        }
+                    });
+        }
+
     }
 
     @Override

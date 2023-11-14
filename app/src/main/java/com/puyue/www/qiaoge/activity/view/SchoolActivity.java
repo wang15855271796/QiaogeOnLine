@@ -4,6 +4,7 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -16,14 +17,17 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.AskActivity;
+import com.puyue.www.qiaoge.activity.NetWorkActivity;
 import com.puyue.www.qiaoge.activity.PlayerActivity;
 import com.puyue.www.qiaoge.adapter.SchoolAdapter;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
 import com.puyue.www.qiaoge.api.home.SchoolVideoApi;
 import com.puyue.www.qiaoge.base.BaseActivity;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.model.CouponModels;
 import com.puyue.www.qiaoge.model.SchoolVideoListModel;
 import com.puyue.www.qiaoge.utils.DateUtils;
+import com.puyue.www.qiaoge.view.selectmenu.MyScrollView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -48,8 +52,12 @@ public class SchoolActivity extends BaseActivity implements View.OnClickListener
     RelativeLayout rl_root;
     @BindView(R.id.iv_top)
     ImageView iv_top;
-    @BindView(R.id.smart)
-    SmartRefreshLayout smart;
+    @BindView(R.id.rl_header)
+    RelativeLayout rl_header;
+    @BindView(R.id.iv_back1)
+    ImageView iv_back1;
+    @BindView(R.id.my_scroll)
+    MyScrollView my_scroll;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -71,14 +79,14 @@ public class SchoolActivity extends BaseActivity implements View.OnClickListener
         schoolAdapter = new SchoolAdapter(R.layout.item_school,videos);
         recyclerView.setAdapter(schoolAdapter);
 
-        smart.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(RefreshLayout refreshLayout) {
-                videos.clear();
-                getSchoolVideoList();
-                refreshLayout.finishRefresh();
-            }
-        });
+//        smart.setOnRefreshListener(new OnRefreshListener() {
+//            @Override
+//            public void onRefresh(RefreshLayout refreshLayout) {
+//                videos.clear();
+//                getSchoolVideoList();
+//                refreshLayout.finishRefresh();
+//            }
+//        });
 
         schoolAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -91,46 +99,67 @@ public class SchoolActivity extends BaseActivity implements View.OnClickListener
         });
 
         getSchoolVideoList();
+
+        my_scroll.setScrollChangeListener(new MyScrollView.ScrollChangedListener() {
+            @Override
+            public void onScrollChangedListener(int x, int y, int oldX, int oldY) {
+                if(y==0) {
+                    rl_header.setVisibility(View.GONE);
+                }else {
+                    rl_header.setVisibility(View.VISIBLE);
+                }
+                Log.d("eswdawawd.......",y+"--");
+            }
+        });
     }
 
     @Override
     public void setClickEvent() {
         tv_ok.setOnClickListener(this);
         iv_back.setOnClickListener(this);
+        iv_back1.setOnClickListener(this);
     }
 
 
     List<SchoolVideoListModel.DataBean.VideosBean> videos = new ArrayList<>();
     private void getSchoolVideoList() {
-        SchoolVideoApi.getVideoList(mActivity)
-                .subscribeOn(Schedulers.io())
-                .observeOn(mainThread())
-                .subscribe(new Subscriber<SchoolVideoListModel>() {
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            Intent intent = new Intent(mContext, NetWorkActivity.class);
+            startActivity(intent);
+        }else {
+            SchoolVideoApi.getVideoList(mActivity)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(mainThread())
+                    .subscribe(new Subscriber<SchoolVideoListModel>() {
 
-                    @Override
-                    public void onCompleted() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
+                        }
 
-                    @Override
-                    public void onError(Throwable e) {
+                        @Override
+                        public void onError(Throwable e) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onNext(SchoolVideoListModel schoolVideoListModel) {
-                        if (schoolVideoListModel.getCode()==1) {
-                            if(schoolVideoListModel.getData()!=null) {
-                                if(schoolVideoListModel.getData().getVideos()!=null && schoolVideoListModel.getData().getVideos().size()>0) {
-                                    videos.addAll(schoolVideoListModel.getData().getVideos());
-                                    schoolAdapter.notifyDataSetChanged();
+                        @Override
+                        public void onNext(SchoolVideoListModel schoolVideoListModel) {
+                            if (schoolVideoListModel.getCode()==1) {
+                                if(schoolVideoListModel.getData()!=null) {
+                                    if(schoolVideoListModel.getData().getVideos()!=null && schoolVideoListModel.getData().getVideos().size()>0) {
+                                        videos.addAll(schoolVideoListModel.getData().getVideos());
+                                        schoolAdapter.notifyDataSetChanged();
+                                    }else {
+                                        showEmptyLayout(schoolAdapter);
+                                    }
+                                    String backgroundUrl = schoolVideoListModel.getData().getBackgroundUrl();
+                                    Glide.with(mActivity).load(backgroundUrl).into(iv_top);
                                 }
-                                String backgroundUrl = schoolVideoListModel.getData().getBackgroundUrl();
-                                Glide.with(mActivity).load(backgroundUrl).into(iv_top);
                             }
                         }
-                    }
-                });
+                    });
+        }
+
     }
 
     @Override
@@ -142,6 +171,10 @@ public class SchoolActivity extends BaseActivity implements View.OnClickListener
                 break;
 
             case R.id.iv_back:
+                finish();
+                break;
+
+            case R.id.iv_back1:
                 finish();
                 break;
         }

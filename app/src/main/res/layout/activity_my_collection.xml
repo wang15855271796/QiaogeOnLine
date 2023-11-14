@@ -50,21 +50,20 @@
 
                 <ImageView
                     android:id="@+id/iv_carts"
-                    android:padding="5dp"
-                    android:layout_centerVertical="true"
-                    android:src="@mipmap/ic_tab_cart_unable"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_tab_cart_unable" />
 
                 <TextView
                     android:id="@+id/tv_num"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginTop="5dp"
-                    android:layout_toRightOf="@+id/iv_carts"
                     android:layout_marginRight="@dimen/size_15dp"
                     android:background="@drawable/shape_car_num"
                     android:gravity="center"
+                    android:layout_marginLeft="15dp"
                     tools:text="9"
                     android:visibility="gone"
                     android:textColor="@color/white"
@@ -127,26 +126,26 @@
             android:layout_height="@dimen/size_60dp">
 
             <TextView
-                android:text="全部"
                 android:id="@+id/tv_all"
-                android:textSize="@dimen/sp_16"
-                android:textColor="#333333"
-                android:layout_marginLeft="@dimen/size_20dp"
-                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/size_20dp"
+                android:text="全部"
+                android:textColor="#FF4C0C"
+                android:textSize="@dimen/sp_16" />
 
             <TextView
                 android:id="@+id/tv_buy"
-                android:text="已买过"
-                android:textSize="@dimen/sp_16"
-                android:textColor="#666666"
-                android:layout_marginLeft="@dimen/size_20dp"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/tv_all"
-                android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/size_20dp"
+                android:layout_toRightOf="@+id/tv_all"
+                android:text="已买过"
+                android:textColor="#414141"
+                android:textSize="@dimen/sp_16" />
 
             <TextView
                 android:text="管理"
@@ -185,9 +184,7 @@
                         android:id="@+id/rv_my_collection"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
-
-
-
+                    
                     <com.scwang.smartrefresh.layout.footer.ClassicsFooter
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
@@ -205,6 +202,7 @@
                 android:layout_height="wrap_content" />
 
             <com.wang.avi.AVLoadingIndicatorView
+                android:visibility="gone"
                 android:id="@+id/lav_activity_loading"
                 android:layout_centerInParent="true"
                 android:layout_width="wrap_content"
@@ -212,6 +210,15 @@
                 app:indicatorName="BallPulseIndicator"
                 style="@style/AVLoadingIndicatorView.Large"
                 app:indicatorColor="#f40"
+                />
+
+            <ImageView
+                android:layout_centerInParent="true"
+                android:id="@+id/iv_anim"
+                android:src="@drawable/anims"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
                 />
 
             <RelativeLayout

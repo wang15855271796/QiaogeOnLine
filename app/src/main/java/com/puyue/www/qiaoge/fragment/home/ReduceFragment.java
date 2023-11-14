@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -21,6 +22,7 @@ import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.BackEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.helper.PublicRequestHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
@@ -55,8 +57,10 @@ public class ReduceFragment extends BaseFragment {
     RecyclerView rv_reduce;
     @BindView(R.id.smart)
     SmartRefreshLayout refreshLayout;
-    @BindView(R.id.rl_empty)
-    RelativeLayout rl_empty;
+    @BindView(R.id.ll_no_data)
+    LinearLayout ll_no_data;
+    @BindView(R.id.iv_empty_data)
+    ImageView iv_empty_data;
     int pageNum = 1;
     int pageSize = 10;
     @Override
@@ -98,7 +102,7 @@ public class ReduceFragment extends BaseFragment {
             type = "reduct";
             getProductsList(pageNum,11,type);
         }
-        reduceAdapter = new ReduceAdapter(R.layout.item_team_list, list, new ReduceAdapter.Onclick() {
+        reduceAdapter = new ReduceAdapter(R.layout.item_team_list1, list, new ReduceAdapter.Onclick() {
             @Override
             public void addDialog() {
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mActivity))) {
@@ -193,53 +197,63 @@ public class ReduceFragment extends BaseFragment {
 
     ReduceAdapter reduceAdapter;
     private void getProductsList(int pageNum, int pageSize, String type) {
-        ProductListAPI.requestData(mActivity, pageNum, pageSize,type,null)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ProductNormalModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(ProductNormalModel getCommonProductModel) {
-                        if (getCommonProductModel.isSuccess()) {
-                            productNormalModel = getCommonProductModel;
-                            if (getCommonProductModel.getData().getList()!=null) {
-                                list.addAll(getCommonProductModel.getData().getList());
-                                reduceAdapter.notifyDataSetChanged();
-                                List<ProductNormalModel.DataBean.ListBean> list = getCommonProductModel.getData().getList();
-                                if (pageNum == 1) {
-                                    reduceAdapter.setNewData(list);
-                                } else {
-                                    reduceAdapter.addData(list);
-                                }
-                            }
-
-                            if(getCommonProductModel.getData().getList().size()>0) {
-                                rl_empty.setVisibility(View.GONE);
-                            }else {
-                                rl_empty.setVisibility(View.VISIBLE);
-                            }
-                            //判断是否有下一页
-                            if (!getCommonProductModel.getData().isHasNextPage()) {
-                                reduceAdapter.loadMoreEnd(false);
-                            } else {
-                                reduceAdapter.loadMoreComplete();
-                            }
-                            refreshLayout.setEnableLoadMore(true);
-                        } else {
-                            AppHelper.showMsg(mActivity, getCommonProductModel.getMessage());
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            iv_empty_data.setImageResource(R.mipmap.ic_404);
+            ll_no_data.setVisibility(View.VISIBLE);
+            rv_reduce.setVisibility(View.GONE);
+        }else {
+            iv_empty_data.setImageResource(R.mipmap.ic_no_data);
+            ProductListAPI.requestData(mActivity, pageNum, pageSize,type,null)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<ProductNormalModel>() {
+                        @Override
+                        public void onCompleted() {
 
                         }
-                    }
-                });
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(ProductNormalModel getCommonProductModel) {
+                            if (getCommonProductModel.isSuccess()) {
+                                productNormalModel = getCommonProductModel;
+                                if (getCommonProductModel.getData().getList()!=null) {
+                                    list.addAll(getCommonProductModel.getData().getList());
+                                    reduceAdapter.notifyDataSetChanged();
+                                    List<ProductNormalModel.DataBean.ListBean> list = getCommonProductModel.getData().getList();
+                                    if (pageNum == 1) {
+                                        reduceAdapter.setNewData(list);
+                                    } else {
+                                        reduceAdapter.addData(list);
+                                    }
+                                }
+
+                                if(getCommonProductModel.getData().getList().size()>0) {
+                                    ll_no_data.setVisibility(View.GONE);
+                                    rv_reduce.setVisibility(View.VISIBLE);
+                                }else {
+                                    ll_no_data.setVisibility(View.VISIBLE);
+                                    rv_reduce.setVisibility(View.GONE);
+                                }
+                                //判断是否有下一页
+                                if (!getCommonProductModel.getData().isHasNextPage()) {
+                                    reduceAdapter.loadMoreEnd(false);
+                                } else {
+                                    reduceAdapter.loadMoreComplete();
+                                }
+                                refreshLayout.setEnableLoadMore(true);
+                            } else {
+                                AppHelper.showMsg(mActivity, getCommonProductModel.getMessage());
+
+                            }
+                        }
+                    });
+        }
+
     }
 
     String type = "reduct";

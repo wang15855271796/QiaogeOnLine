@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     android:background="@color/color_E5E5E5">
 
-    <LinearLayout
-        android:id="@+id/data"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <in.srain.cube.views.ptr.PtrClassicFrameLayout
             android:id="@+id/ptrClassicFrameLayout"
             android:layout_width="match_parent"
@@ -27,6 +27,14 @@
             </RelativeLayout>
 
         </in.srain.cube.views.ptr.PtrClassicFrameLayout>
-    </LinearLayout>
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/iv_no_data"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/icon_empty_coupon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
     <include layout="@layout/activity_coupon_no_data"/>
 </LinearLayout>

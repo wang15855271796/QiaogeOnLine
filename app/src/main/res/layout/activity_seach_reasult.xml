@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="@color/white"
+    android:background="#f7f7f7"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -50,7 +50,6 @@
                     android:layout_marginRight="@dimen/dp_10"
                     android:layout_marginBottom="@dimen/size_5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/app_search"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="6dp">
@@ -60,7 +59,8 @@
                         android:layout_width="0dp"
                         android:layout_height="32dp"
                         android:layout_weight="1"
-                        android:background="@drawable/shape_shouye"
+                        android:background="@drawable/shape_white1"
+                        android:drawableLeft="@mipmap/icon_search"
                         android:drawablePadding="5dp"
                         android:hint="请输入商品名称"
                         android:imeOptions="actionSearch"
@@ -102,7 +102,7 @@
                             android:id="@+id/tv_num"
                             android:layout_width="15dp"
                             android:layout_height="15dp"
-                            android:layout_marginTop="5dp"
+                            android:layout_marginTop="7dp"
                             android:layout_toRightOf="@+id/iv_carts"
                             android:background="@drawable/shape_car_num"
                             android:gravity="center"
@@ -377,6 +377,14 @@
             style="@style/AVLoadingIndicatorView.Large"
             app:indicatorColor="#f40"
             />
+
+        <ImageView
+            android:id="@+id/iv_empty_404"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/ic_404"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </RelativeLayout>
 
 

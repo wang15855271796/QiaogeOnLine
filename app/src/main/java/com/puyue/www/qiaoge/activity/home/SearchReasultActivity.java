@@ -42,6 +42,7 @@ import com.puyue.www.qiaoge.event.UpDateNumEvent7;
 import com.puyue.www.qiaoge.event.UpDateNumEvent8;
 import com.puyue.www.qiaoge.fragment.home.CityEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.helper.PublicRequestHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
@@ -126,6 +127,8 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
     LinearLayout ll_all_choose;
     @BindView(R.id.ll_no_search)
     LinearLayout ll_no_search;
+    @BindView(R.id.iv_empty_404)
+    ImageView iv_empty_404;
     String searchWord;
     int pageNum = 1;
     int pageSize = 10;
@@ -336,7 +339,7 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                 .setCancelOutside(false);
         dialog = loadBuilder.create();
 
-        searchReasultAdapter = new SearchReasultAdapter(R.layout.item_noresult_recommend, searchList, new SearchReasultAdapter.Onclick() {
+        searchReasultAdapter = new SearchReasultAdapter(R.layout.item_noresult_recommend1, searchList, new SearchReasultAdapter.Onclick() {
             @Override
             public void addDialog() {
                 initDialog();
@@ -368,9 +371,6 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
             }
         });
     }
-
-
-
 
     /**
      * 获取角标数据
@@ -416,73 +416,82 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
     SearchReasultAdapter searchReasultAdapter;
     SearchResultAdapter searchResultAdapter;
     private void getRecommendList() {
-        RecommendApI.requestData(mContext,searchWord,pageNum,pageSize,isSelf,saleDownFlag,priceFlag)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SearchResultsModel>() {
-                    @Override
-                    public void onCompleted() {
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            iv_empty_404.setImageResource(R.mipmap.ic_404);
+            iv_empty_404.setVisibility(View.VISIBLE);
+            lav_activity_loading.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
+            rv_un.setVisibility(View.GONE);
+        }else {
+            RecommendApI.requestData(mContext,searchWord,pageNum,pageSize,isSelf,saleDownFlag,priceFlag)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<SearchResultsModel>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
+                        }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        dialog.dismiss();
-                    }
+                        @Override
+                        public void onError(Throwable e) {
+                            dialog.dismiss();
+                        }
 
-                    @Override
-                    public void onNext(SearchResultsModel recommendModel) {
-                        if (recommendModel.getCode()==1) {
-                            smart.setEnableLoadMore(true);
-                            if(recommendModel.getData()!=null) {
-                                recommendModels = recommendModel;
-                                lav_activity_loading.setVisibility(View.GONE);
+                        @Override
+                        public void onNext(SearchResultsModel recommendModel) {
+                            if (recommendModel.getCode()==1) {
+                                smart.setEnableLoadMore(true);
+                                if(recommendModel.getData()!=null) {
+                                    recommendModels = recommendModel;
+                                    lav_activity_loading.setVisibility(View.GONE);
+                                    dialog.dismiss();
+                                    if(recommendModel.getData().getSearchProd()!=null && recommendModel.getData().getSearchProd().getList()!=null && recommendModel.getData().getSearchProd().getList().size()> 0) {
+                                        smart.setVisibility(View.VISIBLE);
+                                        rv_un.setVisibility(View.GONE);
+                                        ll_no_search.setVisibility(View.GONE);
+                                        recyclerView.setVisibility(View.VISIBLE);
+                                        List<SearchResultsModel.DataBean.SearchProdBean.ListBean> list = recommendModel.getData().getSearchProd().getList();
+                                        searchList.addAll(list);
+                                        searchReasultAdapter.notifyDataSetChanged();
+
+                                    }
+
+                                    if(recommendModel.getData().getRecommendProd()!=null && recommendModel.getData().getRecommendProd().size()>0) {
+                                        rv_un.setVisibility(View.VISIBLE);
+                                        ll_no_search.setVisibility(View.VISIBLE);
+                                        recyclerView.setVisibility(View.GONE);
+                                        smart.setVisibility(View.GONE);
+                                        recommendList.addAll(recommendModel.getData().getRecommendProd());
+                                        searchResultAdapter = new SearchResultAdapter(R.layout.item_noresult_recommend1, recommendList, new SearchResultAdapter.Onclick() {
+                                            @Override
+                                            public void addDialog() {
+                                                initDialog();
+                                            }
+
+                                            @Override
+                                            public void getPrice() {
+                                                AppHelper.ShowAuthDialog(mActivity,cell);
+                                            }
+                                        });
+                                        rv_un.setLayoutManager(new LinearLayoutManager(mContext));
+                                        rv_un.setAdapter(searchResultAdapter);
+                                        searchResultAdapter.notifyDataSetChanged();
+                                    }
+                                }else {
+                                    lav_activity_loading.setVisibility(View.GONE);
+                                }
+                            } else {
                                 dialog.dismiss();
-                                if(recommendModel.getData().getSearchProd()!=null && recommendModel.getData().getSearchProd().getList()!=null && recommendModel.getData().getSearchProd().getList().size()> 0) {
-                                    smart.setVisibility(View.VISIBLE);
-                                    rv_un.setVisibility(View.GONE);
-                                    ll_no_search.setVisibility(View.GONE);
-                                    recyclerView.setVisibility(View.VISIBLE);
-                                    List<SearchResultsModel.DataBean.SearchProdBean.ListBean> list = recommendModel.getData().getSearchProd().getList();
-                                    searchList.addAll(list);
-                                    searchReasultAdapter.notifyDataSetChanged();
-
-                                }
-
-                                if(recommendModel.getData().getRecommendProd()!=null && recommendModel.getData().getRecommendProd().size()>0) {
-                                    rv_un.setVisibility(View.VISIBLE);
-                                    ll_no_search.setVisibility(View.VISIBLE);
-                                    recyclerView.setVisibility(View.GONE);
-                                    smart.setVisibility(View.GONE);
-                                    recommendList.addAll(recommendModel.getData().getRecommendProd());
-                                    searchResultAdapter = new SearchResultAdapter(R.layout.item_noresult_recommend, recommendList, new SearchResultAdapter.Onclick() {
-                                        @Override
-                                        public void addDialog() {
-                                            initDialog();
-                                        }
-
-                                        @Override
-                                        public void getPrice() {
-                                            AppHelper.ShowAuthDialog(mActivity,cell);
-                                        }
-                                    });
-                                    rv_un.setLayoutManager(new LinearLayoutManager(mContext));
-                                    rv_un.setAdapter(searchResultAdapter);
-                                    searchResultAdapter.notifyDataSetChanged();
-                                }
-                            }else {
+                                AppHelper.showMsg(mContext, recommendModel.getMessage());
                                 lav_activity_loading.setVisibility(View.GONE);
                             }
-                        } else {
-                            dialog.dismiss();
-                            AppHelper.showMsg(mContext, recommendModel.getMessage());
-                            lav_activity_loading.setVisibility(View.GONE);
+
+                            iv_empty_404.setVisibility(View.GONE);
                         }
-                    }
-                });
+                    });
+        }
+
     }
-
-
 
     CouponDialog couponDialog;
     private void initDialog() {

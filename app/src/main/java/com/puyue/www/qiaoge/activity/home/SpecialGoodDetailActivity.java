@@ -46,6 +46,7 @@ import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.HomeActivity;
+import com.puyue.www.qiaoge.activity.NetWorkActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.adapter.cart.ImageViewAdapter;
 import com.puyue.www.qiaoge.adapter.home.RegisterShopAdapterTwo;
@@ -77,6 +78,7 @@ import com.puyue.www.qiaoge.fragment.cart.ReduceNumEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.CollapsingToolbarLayoutStateHelper;
 import com.puyue.www.qiaoge.helper.FVHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.helper.PublicRequestHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
@@ -215,6 +217,7 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
     ImageView iv_pic;
     ImageView iv_send;
     ImageView iv_operate;
+    ImageView iv_anim;
     class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
@@ -258,6 +261,7 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
+        iv_anim = FVHelper.fv(this, R.id.iv_anim);
         iv_operate = FVHelper.fv(this, R.id.iv_operate);
         iv_send = FVHelper.fv(this, R.id.iv_send);
         iv_pic = FVHelper.fv(this, R.id.iv_vip);
@@ -323,7 +327,7 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
         if(city!=null) {
             tv_city.setText("该商品为"+city+"地区商品，请切换到该地区购买");
         }
-
+//        Glide.with(this).asGif().load(R.drawable.anims).into(iv_anim);
     }
 
     @Override
@@ -333,14 +337,14 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
         if(num!=null) {
             if(num.equals("-1")) {
                 mTvAddCar.setEnabled(false);
-                getProductDetail(productId,num);
+//                getProductDetail(productId,num);
                 ll_service.setVisibility(View.GONE);
                 mTvAddCar.setEnabled(true);
                 mTvAddCar.setText("加入购物车");
                 mTvAddCar.setBackgroundResource(R.drawable.shape_jianbian5);
 
             }else {
-                getProductDetail(productId,num);
+//                getProductDetail(productId,num);
                 ll_service.setVisibility(View.VISIBLE);
                 mTvAddCar.setEnabled(false);
                 mTvAddCar.setBackgroundResource(R.drawable.shape_grey);
@@ -551,275 +555,273 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
     SpecialGoodModel models;
     int activityType;
     private void getProductDetail(final int productId,String num) {
-        GetSpecialDetailAPI.requestData(mContext, productId,num)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SpecialGoodModel>() {
-                    @Override
-                    public void onCompleted() {
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            Intent intent = new Intent(mContext, NetWorkActivity.class);
+            startActivity(intent);
+            iv_anim.setVisibility(View.GONE);
+        }else {
+            GetSpecialDetailAPI.requestData(mContext, productId,num)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<SpecialGoodModel>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
+                        }
 
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-
-
-                    @Override
-                    public void onNext(SpecialGoodModel model) {
-                        if (model.isSuccess()) {
-                            detailList.clear();
-                            detailList.addAll(model.getData().getDetailPics());
-                            imageViewAdapter.notifyDataSetChanged();
-                            if(model.getData().getLimitNum()!=null&&!model.getData().getLimitNum().equals("")) {
-                                tv_limit_num.setText(model.getData().getLimitNum());
-                                tv_limit_num.setBackgroundResource(R.drawable.shape_white);
-                            }else {
-                                tv_limit_num.setVisibility(View.GONE);
-//                                tv_limit_num.setBackgroundResource(R.drawable.shape_fff6d2);
-                            }
-                            Glide.with(mContext).load(model.getData().getSelfOrNot()).into(iv_operate);
-                            activityType = model.getData().getActivityType();
-                            tv_sale.setText(model.getData().getSaleVolume());
-                            models = model;
-                            if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-                                if(priceType.equals("1")) {
-                                    mTvGroupPrice.setText(model.getData().getPrice());
-                                    rl_price.setVisibility(View.VISIBLE);
-                                    tv_desc_price.setVisibility(View.GONE);
-                                    tv_old_price.setVisibility(View.VISIBLE);
-                                }else {
-                                    tv_old_price.setVisibility(View.GONE);
-                                    mTvGroupPrice.setText("价格授权后可见");
-                                    rl_price.setVisibility(View.GONE);
-                                    tv_desc_price.setVisibility(View.VISIBLE);
-                                }
-                            }else {
-                                mTvGroupPrice.setText(model.getData().getPrice());
-                                tv_old_price.setVisibility(View.VISIBLE);
-                                tv_desc_price.setVisibility(View.GONE);
-                                rl_price.setVisibility(View.VISIBLE);
-                            }
-
-                            tv_price.setText(model.getData().getShowPrice());
-                            int progress = Integer.parseInt(model.getData().getProgress());
-                            pb.setProgress(progress);
-
-                            //单点不送
-                            if(model.getData().getNotSend()!=null) {
-                                if(models.getData().getNotSend().equals("1")||models.getData().getNotSend().equals("1.0")) {
-                                    iv_send.setImageResource(R.mipmap.icon_not_send2);
-                                    iv_send.setVisibility(View.VISIBLE);
-                                }else {
-                                    iv_send.setVisibility(View.GONE);
-                                }
-                            }
-
-                            tv_old_price.setText(model.getData().getOldPrice());
-                            tv_old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                            tv_old_price.getPaint().setAntiAlias(true);//抗锯齿
-
-                            tv_name.setText(model.getData().getActTypeName());
-
-                            tvOldPrice.setText(model.getData().getShowOldPrice());
-
-                            tv_title.setText(model.getData().getActiveName());
-                            tv_surplus.setText(model.getData().getRemainNum());
-
-                            tv_time.setText(model.getData().getStartTime()+"");
-                            tv_spec.setText("规格："+model.getData().getSpec());
-                            mTvInven.setText(model.getData().getRemainNum());
-
-                            tv_desc.setText(model.getData().getIntroduction());
-                            long currentTime = System.currentTimeMillis();
-                            long startTime = model.getData().getStartTime();
-
-                            long endTime = model.getData().getEndTime();
-                            String current = DateUtils.formatDate(currentTime, "MM月dd日HH时mm分ss秒");
-                            String start = DateUtils.formatDate(startTime, "MM月dd日HH时mm分ss秒");
-                            String end = DateUtils.formatDate(endTime, "MM月dd日HH时mm分ss秒");
-                            try {
-                                currents = Utils.stringToDate(current, "MM月dd日HH时mm分ss秒");
-                                starts = Utils.stringToDate(start, "MM月dd日HH时mm分ss秒");
-                                ends = Utils.stringToDate(end, "MM月dd日HH时mm分ss秒");
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
+                        @Override
+                        public void onError(Throwable e) {
+                            iv_anim.setVisibility(View.GONE);
+                        }
 
 
-                            iv_pic.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(mActivity, NewWebViewActivity.class);
-                                    intent.putExtra("URL", models.getData().getBannerDetailUrl());
-                                    intent.putExtra("TYPE", 1);
-                                    intent.putExtra("name", "");
-                                    startActivity(intent);
-                                }
-                            });
+                        @Override
+                        public void onNext(SpecialGoodModel model) {
+                            iv_anim.setVisibility(View.GONE);
+                            if (model.getCode()==1) {
+                                if(model.getData()!=null) {
 
-                            if(startTime == 0) {
-                                tv_time.setVisibility(View.VISIBLE);
-                                if (model.getData().getSaleDone() == 0) {
-                                    tv_time.setText("产品已售罄");
-                                }else {
-                                    if(model.getData().getActivityType()==3) {
-                                        tv_time.setText("抢购进行中");
-                                    }else if(model.getData().getActivityType()==11) {
-                                        tv_time.setText("折扣进行中");
+                                    if(model.getData().getDetailPics()!=null ) {
+                                        detailList.clear();
+                                        detailList.addAll(model.getData().getDetailPics());
+                                        imageViewAdapter.notifyDataSetChanged();
                                     }
 
-                                }
-                            }else {
-                                boolean hours = DateUtils.isExceed24(currents, starts);
-                                if(hours) {
-                                    //大于24
-                                    tv_time.setText(start+"开抢");
-                                }else {
-                                    //小于24
-                                    if(startTime!=0) {
-                                        if(startTime < currentTime) {
-                                            tv_time.setVisibility(View.VISIBLE);
-                                            if (model.getData().getSaleDone() == 0) {
-                                                tv_time.setText("产品已售罄");
-                                            }else {
-                                                if(model.getData().getActivityType()==3) {
-                                                    tv_time.setText("抢购进行中");
-                                                }else if(model.getData().getActivityType()==11) {
-                                                    tv_time.setText("折扣进行中");
-                                                }
-
-                                            }
-                                        }else {
-                                            tv_cut_down.setTime(true,currentTime,startTime,endTime);
-//                                            tv_cut_down.changeBackGrounds(ContextCompat.getColor(mContext, R.color.color333333));
-                                            tv_cut_down.changeTypeColor(Color.WHITE);
-                                            tv_time.setVisibility(View.INVISIBLE);
-                                            tv_cut_down.start();
-                                            tv_cut_down.setVisibility(View.VISIBLE);
-                                        }
-
+                                    if(model.getData().getLimitNum()!=null&&!model.getData().getLimitNum().equals("")) {
+                                        tv_limit_num.setText(model.getData().getLimitNum());
+                                        tv_limit_num.setBackgroundResource(R.drawable.shape_white);
                                     }else {
-                                        tv_time.setVisibility(View.INVISIBLE);
-                                        tv_cut_down.setVisibility(View.INVISIBLE);
+                                        tv_limit_num.setVisibility(View.GONE);
                                     }
-                                }
 
-                            }
-
-                            tvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
-                            mTvSub.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-                                            //价格不为0表示获取数据成功
-                                            if (amount > 1) {
-                                                amount--;
-                                                mAmount.setText(String.valueOf(amount));
-                                                //  mTvGroupAmount.setText(amount + unit);
-//                                                  mTvTotalMoney.setText("￥" + BigDecimalUtils.mul(price, amount, 2));
-                                            }
-
-                                    } else {
-                                        AppHelper.showMsg(mContext, "请先登录");
-                                        startActivity(LoginActivity.getIntent(mContext, LoginActivity.class));
-                                    }
-                                }
-                            });
-                            mTvAdd.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    //增加
-//                                    if(priceType.equals("1")) {
-//                                        mTvAdd.setEnabled(true);
-//                                        if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-//
-//                                            //价格不为0表示获取数据成功
-//                                            amount++;
-//                                            mAmount.setText(String.valueOf(amount));
-//                                            // mTvGroupAmount.setText(amount + unit);
-//                                            //mTvTotalMoney.setText("￥" + BigDecimalUtils.mul(price, amount, 2));
-//
-//                                        } else {
-//                                            AppHelper.showMsg(mContext, "请先登录");
-//                                            startActivity(LoginActivity.getIntent(mContext, LoginActivity.class));
-//                                        }
-//                                    }else {
-//                                        mTvAdd.setEnabled(false);
-//                                        showPhoneDialog(cell);
-//
-//                                    }
+                                    Glide.with(mContext).load(model.getData().getSelfOrNot()).into(iv_operate);
+                                    activityType = model.getData().getActivityType();
+                                    tv_sale.setText(model.getData().getSaleVolume());
+                                    models = model;
 
                                     if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
                                         if(priceType.equals("1")) {
-                                            amount++;
-                                            mAmount.setText(String.valueOf(amount));
+                                            mTvGroupPrice.setText(model.getData().getPrice());
+                                            rl_price.setVisibility(View.VISIBLE);
+                                            tv_desc_price.setVisibility(View.GONE);
+                                            tv_old_price.setVisibility(View.VISIBLE);
                                         }else {
-//                                            showPhoneDialog(cell);
-                                            AppHelper.ShowAuthDialog(mActivity,cell);
+                                            tv_old_price.setVisibility(View.GONE);
+                                            mTvGroupPrice.setText("价格授权后可见");
+                                            rl_price.setVisibility(View.GONE);
+                                            tv_desc_price.setVisibility(View.VISIBLE);
                                         }
                                     }else {
-                                        initDialog();
+                                        mTvGroupPrice.setText(model.getData().getPrice());
+                                        tv_old_price.setVisibility(View.VISIBLE);
+                                        tv_desc_price.setVisibility(View.GONE);
+                                        rl_price.setVisibility(View.VISIBLE);
                                     }
 
+                                    tv_price.setText(model.getData().getShowPrice());
+                                    int progress = Integer.parseInt(model.getData().getProgress());
+                                    pb.setProgress(progress);
 
-                                }
-                            });
+                                    //单点不送
+                                    if(model.getData().getNotSend()!=null) {
+                                        if(models.getData().getNotSend().equals("1")||models.getData().getNotSend().equals("1.0")) {
+                                            iv_send.setImageResource(R.mipmap.icon_not_send2);
+                                            iv_send.setVisibility(View.VISIBLE);
+                                        }else {
+                                            iv_send.setVisibility(View.GONE);
+                                        }
+                                    }
 
-                            if(currentTime<startTime) {
-                                mTvAddCar.setText("     未开始     ");
-                                mTvAddCar.setBackgroundResource(R.drawable.shape_grey);
+                                    tv_old_price.setText(model.getData().getOldPrice());
+                                    tv_old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                                    tv_old_price.getPaint().setAntiAlias(true);//抗锯齿
 
-                            }else {
-                                if (model.getData().getSaleDone() == 0) {
-                                    mTvAddCar.setEnabled(false);
-                                    mTvAddCar.setText("     已售罄     ");
-                                    mTvAddCar.setBackgroundResource(R.drawable.shape_grey);
-                                } else {
-                                    mTvAddCar.setEnabled(true);
-                                    mTvAddCar.setText("加入购物车");
+                                    tv_name.setText(model.getData().getActTypeName());
+
+                                    tvOldPrice.setText(model.getData().getShowOldPrice());
+
+                                    tv_title.setText(model.getData().getActiveName());
+                                    tv_surplus.setText(model.getData().getRemainNum());
+
+                                    tv_time.setText(model.getData().getStartTime()+"");
+                                    tv_spec.setText("规格："+model.getData().getSpec());
+                                    mTvInven.setText(model.getData().getRemainNum());
+                                    Log.d("edfawda........","123");
+                                    tv_desc.setText(model.getData().getIntroduction());
+                                    long currentTime = System.currentTimeMillis();
+                                    long startTime = model.getData().getStartTime();
+
+                                    long endTime = model.getData().getEndTime();
+                                    String current = DateUtils.formatDate(currentTime, "MM月dd日HH时mm分ss秒");
+                                    String start = DateUtils.formatDate(startTime, "MM月dd日HH时mm分ss秒");
+                                    String end = DateUtils.formatDate(endTime, "MM月dd日HH时mm分ss秒");
+                                    try {
+                                        currents = Utils.stringToDate(current, "MM月dd日HH时mm分ss秒");
+                                        starts = Utils.stringToDate(start, "MM月dd日HH时mm分ss秒");
+                                        ends = Utils.stringToDate(end, "MM月dd日HH时mm分ss秒");
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    Log.d("edfawda........","12");
+                                    iv_pic.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent intent = new Intent(mActivity, NewWebViewActivity.class);
+                                            intent.putExtra("URL", models.getData().getBannerDetailUrl());
+                                            intent.putExtra("TYPE", 1);
+                                            intent.putExtra("name", "");
+                                            startActivity(intent);
+                                        }
+                                    });
+
+                                    if(startTime == 0) {
+                                        tv_time.setVisibility(View.VISIBLE);
+                                        if (model.getData().getSaleDone() == 0) {
+                                            tv_time.setText("产品已售罄");
+                                        }else {
+                                            if(model.getData().getActivityType()==3) {
+                                                tv_time.setText("抢购进行中");
+                                            }else if(model.getData().getActivityType()==11) {
+                                                tv_time.setText("折扣进行中");
+                                            }
+
+                                        }
+                                    }else {
+                                        boolean hours = DateUtils.isExceed24(currents, starts);
+                                        if(hours) {
+                                            //大于24
+                                            tv_time.setText(start+"开抢");
+                                        }else {
+                                            //小于24
+                                            if(startTime!=0) {
+                                                if(startTime < currentTime) {
+                                                    tv_time.setVisibility(View.VISIBLE);
+                                                    if (model.getData().getSaleDone() == 0) {
+                                                        tv_time.setText("产品已售罄");
+                                                    }else {
+                                                        if(model.getData().getActivityType()==3) {
+                                                            tv_time.setText("抢购进行中");
+                                                        }else if(model.getData().getActivityType()==11) {
+                                                            tv_time.setText("折扣进行中");
+                                                        }
+
+                                                    }
+                                                }else {
+                                                    tv_cut_down.setTime(true,currentTime,startTime,endTime);
+//                                            tv_cut_down.changeBackGrounds(ContextCompat.getColor(mContext, R.color.color333333));
+                                                    tv_cut_down.changeTypeColor(Color.WHITE);
+                                                    tv_time.setVisibility(View.INVISIBLE);
+                                                    tv_cut_down.start();
+                                                    tv_cut_down.setVisibility(View.VISIBLE);
+                                                }
+
+                                            }else {
+                                                tv_time.setVisibility(View.INVISIBLE);
+                                                tv_cut_down.setVisibility(View.INVISIBLE);
+                                            }
+                                        }
+
+                                    }
+                                    Log.d("edfawda........","1");
+                                    tvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
+                                    mTvSub.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+                                                //价格不为0表示获取数据成功
+                                                if (amount > 1) {
+                                                    amount--;
+                                                    mAmount.setText(String.valueOf(amount));
+                                                    //  mTvGroupAmount.setText(amount + unit);
+//                                                  mTvTotalMoney.setText("￥" + BigDecimalUtils.mul(price, amount, 2));
+                                                }
+
+                                            } else {
+                                                AppHelper.showMsg(mContext, "请先登录");
+                                                startActivity(LoginActivity.getIntent(mContext, LoginActivity.class));
+                                            }
+                                        }
+                                    });
+                                    mTvAdd.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            //增加
+
+                                            if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
+                                                if(priceType.equals("1")) {
+                                                    amount++;
+                                                    mAmount.setText(String.valueOf(amount));
+                                                }else {
+//                                            showPhoneDialog(cell);
+                                                    AppHelper.ShowAuthDialog(mActivity,cell);
+                                                }
+                                            }else {
+                                                initDialog();
+                                            }
+
+
+                                        }
+                                    });
+
+                                    if(currentTime<startTime) {
+                                        mTvAddCar.setText("     未开始     ");
+                                        mTvAddCar.setBackgroundResource(R.drawable.shape_grey);
+
+                                    }else {
+                                        if (model.getData().getSaleDone() == 0) {
+                                            mTvAddCar.setEnabled(false);
+                                            mTvAddCar.setText("     已售罄     ");
+                                            mTvAddCar.setBackgroundResource(R.drawable.shape_grey);
+                                        } else {
+                                            mTvAddCar.setEnabled(true);
+                                            mTvAddCar.setText("加入购物车");
 //                                    mTvAddCar.setBackgroundColor(Color.parseColor("#F6551A"));
-                                }
-                            }
+                                        }
+                                    }
 //                            if(model.getData().getBannerUrl()!=null) {
 //                                Glide.with(mContext).load(model.getData().getBannerUrl()).into(iv_pic);
 //                            }
 
-                            images.clear();
-                            if (model.getData().getTopPics() != null) {
-                                //设置banner样式
-                                mBanner.setBannerStyle(BannerConfig.NUM_INDICATOR);
-                                //设置图片加载器
-                                mBanner.setImageLoader(new GlideImageLoader());
-                                //设置图片集合
-                                images.addAll(model.getData().getTopPics());
-                                mBanner.setImages(images);
-                                //设置banner动画效果
-                                mBanner.setBannerAnimation(Transformer.DepthPage);
-                                //设置自动轮播，默认为true
-                                mBanner.isAutoPlay(true);
-                                //设置轮播时间
-                                mBanner.setDelayTime(3000);
-                                //设置指示器位置（当banner模式中有指示器时）
-                                mBanner.setIndicatorGravity(BannerConfig.RIGHT);
-                                //banner设置方法全部调用完毕时最后调用
-                                mBanner.start();
+                                    images.clear();
+                                    if (model.getData().getTopPics() != null) {
+                                        //设置banner样式
+                                        mBanner.setBannerStyle(BannerConfig.NUM_INDICATOR);
+                                        //设置图片加载器
+                                        mBanner.setImageLoader(new GlideImageLoader());
+                                        //设置图片集合
+                                        images.addAll(model.getData().getTopPics());
+                                        mBanner.setImages(images);
+                                        //设置banner动画效果
+                                        mBanner.setBannerAnimation(Transformer.DepthPage);
+                                        //设置自动轮播，默认为true
+                                        mBanner.isAutoPlay(true);
+                                        //设置轮播时间
+                                        mBanner.setDelayTime(3000);
+                                        //设置指示器位置（当banner模式中有指示器时）
+                                        mBanner.setIndicatorGravity(BannerConfig.RIGHT);
+                                        //banner设置方法全部调用完毕时最后调用
+                                        mBanner.start();
+                                    }
+
+                                    //banner设置点击监听
+                                    mBanner.setOnBannerListener(new OnBannerListener() {
+                                        @Override
+                                        public void OnBannerClick(int position) {
+                                            AppHelper.showPhotoDetailDialog(mContext, images, position);
+                                        }
+                                    });
+                                    mTvAddCar.setEnabled(true);
+                                }
+                                Log.d("edfawda........","0");
+                            } else {
+                                AppHelper.showMsg(mContext, model.getMessage());
                             }
 
-                            //banner设置点击监听
-                            mBanner.setOnBannerListener(new OnBannerListener() {
-                                @Override
-                                public void OnBannerClick(int position) {
-                                    AppHelper.showPhotoDetailDialog(mContext, images, position);
-                                }
-                            });
-                            mTvAddCar.setEnabled(true);
-                        } else {
-                            AppHelper.showMsg(mContext, model.getMessage());
                         }
+                    });
+        }
 
-                    }
-                });
 
     }
 

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.api.mine.coupon.MyCouponsAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.model.mine.coupons.queryUserDeductByStateModel;
 
 import java.util.ArrayList;
@@ -37,8 +39,9 @@ public class CouponsUseFragment extends BaseFragment {
     private PtrClassicFrameLayout ptrClassicFrameLayout ;
     private MyCouponsUsedAdapter adapter;
     private int pageNum = 1;
-    private LinearLayout data;
-    private  LinearLayout noData;
+    ImageView iv_no_data;
+//    private LinearLayout data;
+//    private  LinearLayout noData;
     TextView tv_desc;
     private List<queryUserDeductByStateModel.DataBean.ListBean > lists =new ArrayList<>();
 
@@ -56,8 +59,9 @@ public class CouponsUseFragment extends BaseFragment {
     public void findViewById(View view) {
         tv_desc = view.findViewById(R.id.tv_desc);
         recyclerView=view.findViewById(R.id.recyclerView);
-        data= view .findViewById(R.id.data);
-        noData= view.findViewById(R.id.noData);
+        iv_no_data = view.findViewById(R.id.iv_no_data);
+//        data= view .findViewById(R.id.data);
+//        noData= view.findViewById(R.id.noData);
         ptrClassicFrameLayout=view.findViewById(R.id.ptrClassicFrameLayout);
     }
 
@@ -114,46 +118,52 @@ public class CouponsUseFragment extends BaseFragment {
 
 
     private void requestMyCoupons() {
-        MyCouponsAPI.requestCoupons(getActivity(), pageNum, 10,"USED")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<queryUserDeductByStateModel>() {
-                    @Override
-                    public void onCompleted() {
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            iv_no_data.setImageResource(R.mipmap.ic_404);
+            iv_no_data.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }else {
+            iv_no_data.setImageResource(R.mipmap.ic_no_data);
+            MyCouponsAPI.requestCoupons(getActivity(), pageNum, 10,"USED")
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<queryUserDeductByStateModel>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(queryUserDeductByStateModel info) {
-                        ptrClassicFrameLayout.refreshComplete();
-                        if (info.isSuccess()) {
-                            updateNoticeList(info);
-                        } else {
-                            AppHelper.showMsg(getContext(), info.getMessage());
                         }
 
+                        @Override
+                        public void onError(Throwable e) {
 
-                    }
-                });
+                        }
+
+                        @Override
+                        public void onNext(queryUserDeductByStateModel info) {
+                            ptrClassicFrameLayout.refreshComplete();
+                            if (info.isSuccess()) {
+                                updateNoticeList(info);
+                            } else {
+                                AppHelper.showMsg(getContext(), info.getMessage());
+                            }
+                        }
+                    });
+        }
+
     }
 
     private void updateNoticeList(queryUserDeductByStateModel info) {
 
         if (pageNum == 1) {
             if (info.getData() != null && info.getData().getList().size() > 0) {
-                data.setVisibility(View.VISIBLE);
-                noData.setVisibility(View.GONE);
+                iv_no_data.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
                 lists.clear();
                 lists.addAll(info.getData().getList());
                 adapter.notifyDataSetChanged();
             } else {
-                data.setVisibility(View.GONE);
-                noData.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+                iv_no_data.setVisibility(View.VISIBLE);
                 tv_desc.setText("您还没有使用优惠券哦");
             }
 

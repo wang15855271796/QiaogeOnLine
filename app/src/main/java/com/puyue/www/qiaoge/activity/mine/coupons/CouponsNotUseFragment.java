@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ import com.puyue.www.qiaoge.api.mine.coupon.MyCouponsAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.fragment.home.CityEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.model.mine.coupons.queryUserDeductByStateModel;
 
 import org.greenrobot.eventbus.EventBus;
@@ -40,9 +42,10 @@ public class CouponsNotUseFragment extends BaseFragment {
     private PtrClassicFrameLayout ptrClassicFrameLayout ;
     private RoleAdapter roleAdapter;
     private int pageNum = 1;
-    private LinearLayout data;
-    private  LinearLayout noData;
+//    private LinearLayout data;
+//    private  LinearLayout noData;
     private RecyclerView rv_role;
+    ImageView iv_no_data;
     TextView tv_desc;
     MyCouponsAdapter adapter;
     private List<queryUserDeductByStateModel.DataBean.ListBean > lists =new ArrayList<>();
@@ -69,8 +72,9 @@ public class CouponsNotUseFragment extends BaseFragment {
         rv_role = view.findViewById(R.id.rv_role);
         tv_desc = view.findViewById(R.id.tv_desc);
         recyclerView=view.findViewById(R.id.recyclerView);
-        data= view .findViewById(R.id.data);
-        noData= view.findViewById(R.id.noData);
+//        data= view .findViewById(R.id.data);
+//        noData= view.findViewById(R.id.noData);
+        iv_no_data = view.findViewById(R.id.iv_no_data);
         ptrClassicFrameLayout=view.findViewById(R.id.ptrClassicFrameLayout);
 
 
@@ -133,6 +137,12 @@ public class CouponsNotUseFragment extends BaseFragment {
 
 
     private void requestMyCoupons() {
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            iv_no_data.setImageResource(R.mipmap.ic_404);
+            iv_no_data.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+    }else {
+            iv_no_data.setImageResource(R.mipmap.ic_no_data);
         MyCouponsAPI.requestCoupons(getActivity(), pageNum, 10,"ENABLED")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -161,18 +171,24 @@ public class CouponsNotUseFragment extends BaseFragment {
                 });
     }
 
+
+    }
+
     private void updateNoticeList(queryUserDeductByStateModel info) {
 
         if (pageNum == 1) {
             if (info.getData() != null && info.getData().getList().size() > 0) {
-                data.setVisibility(View.VISIBLE);
-                noData.setVisibility(View.GONE);
+//                data.setVisibility(View.VISIBLE);
+                iv_no_data.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
                 lists.addAll(info.getData().getList());
                 adapter.notifyDataSetChanged();
             } else {
-                data.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
+                iv_no_data.setVisibility(View.VISIBLE);
+//                data.setVisibility(View.GONE);
                 tv_desc.setText("您还没有优惠券可以使用哦");
-                noData.setVisibility(View.VISIBLE);
+//                noData.setVisibility(View.VISIBLE);
             }
 
         } else {

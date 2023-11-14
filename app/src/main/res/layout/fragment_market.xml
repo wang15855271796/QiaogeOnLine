@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll_market"
     android:layout_width="match_parent"
@@ -68,8 +68,8 @@
                                 android:id="@+id/iv_all"
                                 android:layout_gravity="center_horizontal"
                                 android:src="@mipmap/iv_all"
-                                android:layout_width="@dimen/size_35dp"
-                                android:layout_height="@dimen/size_35dp"/>
+                                android:layout_width="43dp"
+                                android:layout_height="43dp"/>
 
                             <TextView
                                 android:text="全部分类"
@@ -261,14 +261,14 @@
 
                                         <EditText
                                             android:id="@+id/et_goods"
-                                            android:layout_width="0dp"
+                                            android:layout_width="match_parent"
                                             android:layout_height="30dp"
+                                            android:layout_marginRight="15dp"
+                                            android:background="@null"
                                             android:layout_weight="1"
                                             android:drawableLeft="@mipmap/icon_search"
                                             android:drawablePadding="5dp"
                                             android:hint="请输入品牌名称搜索"
-                                            android:layout_marginRight="15dp"
-                                            android:background="@null"
                                             android:imeOptions="actionSearch"
                                             android:paddingLeft="10dp"
                                             android:paddingTop="5dp"
@@ -277,29 +277,29 @@
                                             android:textColorHint="@color/app_cancle_gray"
                                             android:textSize="14dp" />
 
-                                        <ImageView
-                                            android:visibility="gone"
-                                            android:id="@+id/iv_clear"
-                                            android:padding="5dp"
-                                            android:layout_gravity="center_vertical"
-                                            android:src="@mipmap/ic_search_close"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"/>
-
                                         <TextView
-                                            android:id="@+id/tv_search"
-                                            android:layout_marginRight="4dp"
-                                            android:layout_gravity="center_vertical"
-                                            android:layout_width="wrap_content"
+                                            android:id="@+id/tv_search_prod"
+                                            android:layout_width="60dp"
                                             android:layout_height="25dp"
-                                            android:layout_weight="0.06"
+                                            android:layout_gravity="center_vertical"
+                                            android:layout_marginRight="4dp"
+                                            android:background="@drawable/shape_jianbian18"
+                                            android:gravity="center"
                                             android:paddingLeft="10dp"
                                             android:paddingRight="10dp"
-                                            android:gravity="center"
                                             android:text="搜索"
-                                            android:background="@drawable/shape_jianbian18"
                                             android:textColor="#ffffff"
                                             android:textSize="13sp" />
+
+                                        <ImageView
+                                            android:id="@+id/iv_clear"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center_vertical"
+                                            android:padding="5dp"
+                                            android:src="@mipmap/ic_search_close"
+                                            android:visibility="gone" />
+
                                     </LinearLayout>
 
                                     <RelativeLayout
@@ -335,7 +335,16 @@
 
         </LinearLayout>
 
-
     </RelativeLayout>
 
-</LinearLayout>
+    <ImageView
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:id="@+id/iv_anim"
+        android:src="@drawable/anims"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        />
+
+</RelativeLayout>

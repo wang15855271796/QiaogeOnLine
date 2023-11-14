@@ -13,12 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="145dp">
 
-        <ImageView
+        <com.puyue.www.qiaoge.RoundImageView
             android:id="@+id/iv_pic"
-            android:scaleType="fitXY"
             android:layout_width="@dimen/size_82dp"
             android:layout_height="@dimen/size_82dp"
             android:layout_marginLeft="12dp"
+            android:scaleType="fitXY"
             android:src="@mipmap/ic_launcher" />
 
         <TextView

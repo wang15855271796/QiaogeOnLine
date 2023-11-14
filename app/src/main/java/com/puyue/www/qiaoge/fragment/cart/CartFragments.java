@@ -18,7 +18,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.activity.flow.FlowLayout;
 import com.puyue.www.qiaoge.activity.flow.TagAdapter;
 import com.puyue.www.qiaoge.activity.flow.TagFlowLayout;
@@ -45,6 +47,7 @@ import com.puyue.www.qiaoge.event.ReduceNumEvent1;
 import com.puyue.www.qiaoge.fragment.home.CityEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.BigDecimalUtils;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.helper.PublicRequestHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.ComputedFullModel;
@@ -124,6 +127,8 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     TextView btn_sure;
     @BindView(R.id.loading)
     AVLoadingIndicatorView loading;
+    @BindView(R.id.iv_anim)
+    ImageView iv_anim;
     @BindView(R.id.smart)
     SmartRefreshLayout smart;
     @BindView(R.id.rv_recommend)
@@ -179,6 +184,8 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
+        getCartLists();
+        Log.d("wdawdwd......","222");
     }
 
 
@@ -186,6 +193,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     public void findViewById(View view) {
         bind = ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
+        Glide.with(this).asGif().load(R.drawable.anims).into(iv_anim);
         setCartChooseAll();
         getCartLists();
         getProductsList();
@@ -243,21 +251,6 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
 
         rv_cart.setAdapter(cartAdapter);
 
-//        cartAdapter.setOnItemClickListener(new CartAdapter.OnEventClickListener() {
-//            @Override
-//            public void onEventClick(int position) {
-//                if (isCheck.get(position)) {
-//                    //如果取消，则设置map集合中为false
-//                    isCheck.put(position, false);
-//                } else {
-//                    //如果选中，则设置map集合中为true
-//                    isCheck.put(position, true);
-//                }
-//                isFirst = false;
-//                cartAdapter.notifyDataSetChanged();
-//            }
-//        });
-
     }
 
     long start;
@@ -266,7 +259,9 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
         super.onResume();
         start = System.currentTimeMillis();
         getCartLists();
+        Log.d("wdawdwd......","111");
     }
+
 
     @Override
     public void onStop() {
@@ -319,7 +314,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     List<CartTestModel.DataBean.ProdsBeanX> prods = new ArrayList<>();
     List<CartTestModel.DataBean.InValidProdBean> inProds = new ArrayList<>();
     List<CartTestModel.DataBean.InValidProdBean.ProdsBean> inProdss = new ArrayList<>();
-    ImageView iv_head;
+    RoundImageView iv_head;
     TextView tv_title;
     TextView tv_search;
     CartTestModel.DataBean data;
@@ -330,182 +325,148 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     List<Integer> statusList = new ArrayList<>();
     List<String> productMainIdList = new ArrayList<>();
     private void getCartLists() {
-        CartListAPI.getCartsList(getContext())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<CartTestModel>() {
-                    @Override
-                    public void onCompleted() {
-                    }
+        if (!NetWorkHelper.isNetworkAvailable(getContext())) {
+            ToastUtil.showSuccessMsg(getContext(), "网络不给力!");
+            iv_anim.setVisibility(View.GONE);
+        } else {
+            CartListAPI.getCartsList(getContext())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<CartTestModel>() {
+                        @Override
+                        public void onCompleted() {
+                        }
 
 
-                    @Override
-                    public void onError(Throwable e) {
-                    }
+                        @Override
+                        public void onError(Throwable e) {
+                        }
 
-                    @Override
-                    public void onNext(CartTestModel cartTestModel) {
-                        if(cartTestModel.getCode()==1) {
-                            if(cartTestModel.getData()!=null) {
-                                data = cartTestModel.getData();
-                                prods.clear();
-                                inProds.clear();
-                                inProdss.clear();
-                                prods.addAll(data.getProds());
-                                rv_cart.setLayoutManager(new LinearLayoutManager(mActivity));
-                                rv_cart.setActivated(false);
-                                statusList.clear();
-                                for (int i = 0; i < prods.size(); i++) {
-                                    for (int j = 0; j < prods.get(i).getProds().size(); j++) {
-                                        if(prods.get(i).getProds().get(j).getCheckFlag() == 0) {
-                                            statusList.add(0);
+                        @Override
+                        public void onNext(CartTestModel cartTestModel) {
+                            if(cartTestModel.getCode()==1) {
+                                if(cartTestModel.getData()!=null) {
+                                    data = cartTestModel.getData();
+                                    prods.clear();
+                                    inProds.clear();
+                                    inProdss.clear();
+                                    prods.addAll(data.getProds());
+                                    rv_cart.setLayoutManager(new LinearLayoutManager(mActivity));
+                                    rv_cart.setActivated(false);
+
+                                    statusList.clear();
+                                    for (int i = 0; i < prods.size(); i++) {
+                                        for (int j = 0; j < prods.get(i).getProds().size(); j++) {
+                                            if(prods.get(i).getProds().get(j).getCheckFlag() == 0) {
+                                                statusList.add(0);
+                                            }
                                         }
                                     }
-                                }
 
-                                if(statusList.contains(0)) {
-                                    cb_select_all.setChecked(false);
-                                }else {
-                                    cb_select_all.setChecked(true);
-                                }
-//                                if(productMainIdList!=null && productMainIdList.size()>0) {
-//                                    for (int i = 0; i < prods.size(); i++) {
-//                                        List<CartTestModel.DataBean.ProdsBeanX.ProdsBean> prods1 = prods.get(i).getProds();
-//                                        for (int j = 0; j < prods1.size(); j++) {
-//                                            String productMainId = prods1.get(j).getProductMainId();
-//                                            if(productMainIdList.contains(productMainId)) {
-//                                                prods1.get(j).setSelected(false);
-//                                            }else {
-//                                                prods1.get(j).setSelected(true);
-//                                            }
-//                                        }
-//                                    }
-//
-//                                }else {
-//                                    for (int i = 0; i < prods.size(); i++) {
-//                                        for (int j = 0; j < prods.get(i).getProds().size(); j++) {
-//                                            List<CartTestModel.DataBean.ProdsBeanX.ProdsBean> prods1 = prods.get(i).getProds();
-//                                            prods1.get(j).setSelected(true);
-//                                        }
-//                                    }
-//                                }
+                                    if(statusList.contains(0)) {
+                                        cb_select_all.setChecked(false);
+                                        mSelect = false;
+                                        checkFlag = 0;
+                                    }else {
+                                        mSelect = true;
+                                        checkFlag = 1;
+                                        cb_select_all.setChecked(true);
+                                    }
+
+                                    cartAdapter.notifyDataSetChanged();
+                                    if(data.getInValidProdBean()!=null) {
+                                        if(data.getInValidProdBean().getProds()!=null) {
+                                            ll_unList.setVisibility(View.VISIBLE);
+                                            inProdss.addAll(data.getInValidProdBean().getProds());
+                                        }else {
+                                            ll_unList.setVisibility(View.GONE);
+                                        }
 
 
-                                cartAdapter.notifyDataSetChanged();
-                                if(data.getInValidProdBean()!=null) {
-                                    if(data.getInValidProdBean().getProds()!=null) {
-                                        ll_unList.setVisibility(View.VISIBLE);
-                                        inProdss.addAll(data.getInValidProdBean().getProds());
+                                        rv_invalid.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                                            @Override
+                                            public void onGlobalLayout() {
+                                                boolean isOverFlow = rv_invalid.isOverFlow();
+                                                boolean isLimit = rv_invalid.isLimit();
+                                                if (isLimit && isOverFlow) {
+                                                    tv_arrow.setVisibility(View.VISIBLE);
+                                                } else {
+                                                    tv_arrow.setVisibility(View.GONE);
+                                                }
+                                            }
+                                        });
+
+                                        tv_arrow.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                rv_invalid.setLimit(false);
+                                                unAbleAdapter.notifyDataChanged();
+                                            }
+                                        });
+
                                     }else {
                                         ll_unList.setVisibility(View.GONE);
                                     }
 
-
-                                    rv_invalid.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                                    unAbleAdapter = new TagAdapter<CartTestModel.DataBean.InValidProdBean.ProdsBean>(inProdss){
                                         @Override
-                                        public void onGlobalLayout() {
-                                            boolean isOverFlow = rv_invalid.isOverFlow();
-                                            boolean isLimit = rv_invalid.isLimit();
-                                            if (isLimit && isOverFlow) {
-                                                tv_arrow.setVisibility(View.VISIBLE);
-                                            } else {
-                                                tv_arrow.setVisibility(View.GONE);
-                                            }
+                                        public View getView(FlowLayout parent, int position, CartTestModel.DataBean.InValidProdBean.ProdsBean inValidListBean) {
+                                            View view = LayoutInflater.from(mActivity).inflate(R.layout.item_uncarts,rv_invalid, false);
+                                            iv_head = view.findViewById(R.id.iv_head);
+                                            tv_title = view.findViewById(R.id.tv_title);
+                                            tv_search = view.findViewById(R.id.tv_search);
+                                            tv_title.setText(inValidListBean.getProductName());
+                                            Glide.with(mActivity).load(inValidListBean.getDefaultPic()).into(iv_head);
+                                            tv_search.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    Intent intent = new Intent(mActivity,SearchReasultActivity.class);
+                                                    intent.putExtra(AppConstant.SEARCHWORD,inValidListBean.getProductName());
+                                                    startActivity(intent);
+                                                }
+                                            });
+
+                                            return view;
                                         }
-                                    });
+                                    };
+                                    rv_invalid.setAdapter(unAbleAdapter);
+                                    unAbleAdapter.notifyDataChanged();
+                                    //配送金额
+                                    sendAmount = data.getSendAmount();
+                                    String s = sendAmount + "";
+                                    //判断是否展示空数据界面
+                                    if(prods.size()==0&&inProdss.size()==0) {
+                                        ll_NoData.setVisibility(View.VISIBLE);
+                                        tv_delete.setVisibility(View.GONE);
+                                        ll_sure.setVisibility(View.GONE);
+                                        ll_service.setVisibility(View.GONE);
+                                    }else {
+                                        tv_delete.setVisibility(View.VISIBLE);
+                                        ll_NoData.setVisibility(View.GONE);
+                                        ll_sure.setVisibility(View.VISIBLE);
 
-                                    tv_arrow.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            rv_invalid.setLimit(false);
-                                            unAbleAdapter.notifyDataChanged();
-                                        }
-                                    });
-
-                                }else {
-                                    ll_unList.setVisibility(View.GONE);
-                                }
-
-                                unAbleAdapter = new TagAdapter<CartTestModel.DataBean.InValidProdBean.ProdsBean>(inProdss){
-                                    @Override
-                                    public View getView(FlowLayout parent, int position, CartTestModel.DataBean.InValidProdBean.ProdsBean inValidListBean) {
-                                        View view = LayoutInflater.from(mActivity).inflate(R.layout.item_uncarts,rv_invalid, false);
-                                        iv_head = view.findViewById(R.id.iv_head);
-                                        tv_title = view.findViewById(R.id.tv_title);
-                                        tv_search = view.findViewById(R.id.tv_search);
-                                        tv_title.setText(inValidListBean.getProductName());
-
-                                        tv_search.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                Intent intent = new Intent(mActivity,SearchReasultActivity.class);
-                                                intent.putExtra(AppConstant.SEARCHWORD,inValidListBean.getProductName());
-                                                startActivity(intent);
-                                            }
-                                        });
-
-                                        return view;
+                                        //计算总金额
+                                        getAllPrice(prods);
                                     }
-                                };
-                                rv_invalid.setAdapter(unAbleAdapter);
-                                unAbleAdapter.notifyDataChanged();
-                                //配送金额
-                                sendAmount = data.getSendAmount();
-                                String s = sendAmount + "";
-                                //判断是否展示空数据界面
-                                if(prods.size()==0&&inProdss.size()==0) {
-                                    ll_NoData.setVisibility(View.VISIBLE);
-                                    tv_delete.setVisibility(View.GONE);
-                                    ll_sure.setVisibility(View.GONE);
-                                    ll_service.setVisibility(View.GONE);
-                                }else {
-                                    tv_delete.setVisibility(View.VISIBLE);
-                                    ll_NoData.setVisibility(View.GONE);
-                                    ll_sure.setVisibility(View.VISIBLE);
 
-                                    //计算总金额
-                                    getAllPrice(prods);
+                                    if(prods.size()==0) {
+                                        ll_sure.setVisibility(View.GONE);
+                                        tv_delete.setVisibility(View.GONE);
+                                    }else {
+                                        tv_delete.setVisibility(View.VISIBLE);
+                                        ll_sure.setVisibility(View.VISIBLE);
+                                    }
+
                                 }
 
-                                if(prods.size()==0) {
-                                    ll_sure.setVisibility(View.GONE);
-                                    tv_delete.setVisibility(View.GONE);
-                                }else {
-                                    tv_delete.setVisibility(View.VISIBLE);
-                                    ll_sure.setVisibility(View.VISIBLE);
-                                }
-
-
-                                //初始化状态
-//                                cartAdapter.setRefreshListener(new CartAdapter.OnRefreshListener() {
-//                                    @Override
-//                                    public void onRefresh(boolean isSelect, int selectNum, int size) {
-//                                        prodsStatus.clear();
-//                                        for (int i = 0; i < prods.size(); i++) {
-//                                            for (int j = 0; j < prods.get(i).getProds().size(); j++) {
-//                                                if(!prods.get(i).getProds().get(j).isSelected()) {
-//                                                    prodsStatus.add(false);
-//                                                }
-//                                            }
-//                                        }
-//
-//                                        if(prodsStatus.contains(false)) {
-//                                            cb_select_all.setChecked(false);
-//                                            mSelect = false;
-//                                        }else {
-//                                            cb_select_all.setChecked(true);
-//                                            mSelect = true;
-//                                        }
-//                                    }
-//                                });
+                            }else {
+                                ToastUtil.showSuccessMsg(mActivity,cartTestModel.getMessage());
                             }
-
-                        }else {
-                            ToastUtil.showSuccessMsg(mActivity,cartTestModel.getMessage());
+                            iv_anim.setVisibility(View.GONE);
                         }
+                    });
+        }
 
-                    }
-                });
     }
 
 
@@ -562,6 +523,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                             }else {
                                 cb_select_all.setChecked(false);
                             }
+
                             getCartLists();
                         }else {
                             ToastUtil.showSuccessMsg(mActivity,homeCouponModel.getMessage());
@@ -1010,8 +972,15 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
         TextView mTvCancel = (TextView) window.findViewById(R.id.tv_dialog_delete_cart_cancel);
         TextView mTvConfirm = (TextView) window.findViewById(R.id.tv_dialog_delete_cart_confirm);
         if (type == 0) {
-            mTvTitle.setText("确定删除选中的商品吗?");
+            Log.d("wdaswdwad......",mSelect+"");
+            if(mSelect) {
+                mTvTitle.setText("确定删除购物车所有商品?");
+            }else {
+                mTvTitle.setText("确定将这"+cartIdList.size()+"个商品删除?");
+            }
+
         }
+//        确定删除选中的商品吗
         mTvCancel.setOnClickListener(new NoDoubleClickListener() {
             @Override
             public void onNoDoubleClick(View view) {
@@ -1023,6 +992,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
             public void onNoDoubleClick(View view) {
                 if (type == 0) {
                     requestDeleteCart(cartIdList.toString());
+
                 }
                 alertDialog.dismiss();
             }
@@ -1132,20 +1102,6 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     //总金额
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getAllPrice(UpdateEvent updateEvent) {
-
-//        if(updateEvent.isChecked) {
-//            productMainIdList.remove(updateEvent.getProductMainId());
-//
-//        }else {
-//            if(productMainIdList.size()>0) {
-//                for (int i = 0; i < productMainIdList.size(); i++) {
-//                    if(productMainIdList.get(i).equals(updateEvent.getProductMainId())) {
-//                        productMainIdList.remove(i);
-//                    }
-//                }
-//            }
-//            productMainIdList.add(updateEvent.getProductMainId());
-//        }
         cartId = updateEvent.getCartId();
         checkFlag = updateEvent.getCheckFlag();
         setCartChoose();

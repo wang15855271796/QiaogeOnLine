@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -27,6 +28,7 @@ import com.puyue.www.qiaoge.event.GoToCartFragmentEvent;
 import com.puyue.www.qiaoge.event.OnHttpCallBack;
 import com.puyue.www.qiaoge.event.UpDateNumEvent11;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.helper.PublicRequestHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
@@ -74,6 +76,10 @@ public class FullActiveActivity extends BaseSwipeActivity implements View.OnClic
     ImageView iv_back;
     @BindView(R.id.tv_more)
     TextView tv_more;
+    @BindView(R.id.iv_404)
+    ImageView iv_404;
+    @BindView(R.id.ll_root)
+    RelativeLayout ll_root;
     int fullId;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
@@ -200,81 +206,91 @@ public class FullActiveActivity extends BaseSwipeActivity implements View.OnClic
     List<FullDetailModel.DataBean.SendGiftsBean> sendGifts = new ArrayList<>();
     List<FullDetailModel.DataBean.SendGiftsBean> sendGiftList;
     private void getOrder() {
-        IndexHomeAPI.getFullDetail(mActivity,fullId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(mainThread())
-                .subscribe(new Subscriber<FullDetailModel>() {
-                    @Override
-                    public void onCompleted() {
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            iv_404.setImageResource(R.mipmap.ic_404);
+            iv_404.setVisibility(View.VISIBLE);
+            ll_root.setVisibility(View.GONE);
+        }else {
+            ll_root.setVisibility(View.VISIBLE);
+            iv_404.setImageResource(R.mipmap.ic_no_data);
+            IndexHomeAPI.getFullDetail(mActivity,fullId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(mainThread())
+                    .subscribe(new Subscriber<FullDetailModel>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(FullDetailModel fullDetailModel) {
-                        if(fullDetailModel.getCode()==1) {
-                            sendGifts.clear();
-                            list.clear();
-                            if(fullDetailModel.getData()!=null) {
-                                FullDetailModel.DataBean data = fullDetailModel.getData();
-
-                                tv_roll.setText(data.getRoleDesc());
-                                if(!data.getTips().getTips().equals("")&&data.getTips().getTips()!=null) {
-                                    ll_tips.setVisibility(View.VISIBLE);
-                                    tv_tip.setText(data.getTips().getTips());
-                                }else {
-                                    ll_tips.setVisibility(View.GONE);
-                                }
-                                if(data.getTips().getRoleType() ==0) {
-                                    tv_total.setText(data.getTips().getBuyNum());
-                                    tv_total_price.setText(data.getTips().getBuyAmt());
-                                    tv_total_price.setVisibility(View.VISIBLE);
-                                }else {
-                                    tv_total.setText(data.getTips().getBuyAmt());
-                                    tv_total_price.setVisibility(View.GONE);
-                                }
-
-                                if(data.getSendGifts().size()>3) {
-                                    sendGifts.add(data.getSendGifts().get(0));
-                                    sendGifts.add(data.getSendGifts().get(1));
-                                    sendGifts.add(data.getSendGifts().get(2));
-                                    sendGifts.add(data.getSendGifts().get(3));
-                                }else {
-                                    sendGifts.addAll(data.getSendGifts());
-                                }
-                                sendGiftList = data.getSendGifts();
-                                list.addAll(data.getProds());
-
-                                ViewGroup.LayoutParams lp = rv_full_given.getLayoutParams();
-                                if(FullActiveActivity.this.sendGifts.size()==1) {
-                                    lp.height = DensityUtil.dip2px(30 * 1,mContext);
-                                }else if(FullActiveActivity.this.sendGifts.size()==2) {
-                                    lp.height = DensityUtil.dip2px(60 * 1,mContext);
-                                }else if(FullActiveActivity.this.sendGifts.size()==3){
-                                    lp.height = DensityUtil.dip2px(90 * 1,mContext);
-                                }else {
-                                    lp.height = DensityUtil.dip2px(120 * 1,mContext);
-                                }
-                                rv_full_given.setLayoutParams(lp);
-
-                                int total = data.getSendGifts().size();
-                                if(total>3) {
-                                    tv_more.setVisibility(View.VISIBLE);
-                                }else {
-                                    tv_more.setVisibility(View.GONE);
-                                }
-                                fullGivenAdapter.notifyDataSetChanged();
-                                fullActiveAdapter.notifyDataSetChanged();
-                            }
-                        }else {
-                            ToastUtil.showSuccessMsg(mContext,fullDetailModel.getMessage());
                         }
-                    }
-                });
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(FullDetailModel fullDetailModel) {
+                            if(fullDetailModel.getCode()==1) {
+                                sendGifts.clear();
+                                list.clear();
+                                if(fullDetailModel.getData()!=null) {
+                                    FullDetailModel.DataBean data = fullDetailModel.getData();
+
+                                    tv_roll.setText(data.getRoleDesc());
+                                    if(!data.getTips().getTips().equals("")&&data.getTips().getTips()!=null) {
+                                        ll_tips.setVisibility(View.VISIBLE);
+                                        tv_tip.setText(data.getTips().getTips());
+                                    }else {
+                                        ll_tips.setVisibility(View.GONE);
+                                    }
+                                    if(data.getTips().getRoleType() ==0) {
+                                        tv_total.setText(data.getTips().getBuyNum());
+                                        tv_total_price.setText(data.getTips().getBuyAmt());
+                                        tv_total_price.setVisibility(View.VISIBLE);
+                                    }else {
+                                        tv_total.setText(data.getTips().getBuyAmt());
+                                        tv_total_price.setVisibility(View.GONE);
+                                    }
+
+                                    if(data.getSendGifts().size()>3) {
+                                        sendGifts.add(data.getSendGifts().get(0));
+                                        sendGifts.add(data.getSendGifts().get(1));
+                                        sendGifts.add(data.getSendGifts().get(2));
+                                        sendGifts.add(data.getSendGifts().get(3));
+                                    }else {
+                                        sendGifts.addAll(data.getSendGifts());
+                                    }
+                                    sendGiftList = data.getSendGifts();
+                                    list.addAll(data.getProds());
+
+                                    ViewGroup.LayoutParams lp = rv_full_given.getLayoutParams();
+                                    if(FullActiveActivity.this.sendGifts.size()==1) {
+                                        lp.height = DensityUtil.dip2px(30 * 1,mContext);
+                                    }else if(FullActiveActivity.this.sendGifts.size()==2) {
+                                        lp.height = DensityUtil.dip2px(60 * 1,mContext);
+                                    }else if(FullActiveActivity.this.sendGifts.size()==3){
+                                        lp.height = DensityUtil.dip2px(90 * 1,mContext);
+                                    }else {
+                                        lp.height = DensityUtil.dip2px(120 * 1,mContext);
+                                    }
+                                    rv_full_given.setLayoutParams(lp);
+
+                                    int total = data.getSendGifts().size();
+                                    if(total>3) {
+                                        tv_more.setVisibility(View.VISIBLE);
+                                    }else {
+                                        tv_more.setVisibility(View.GONE);
+                                    }
+                                    fullGivenAdapter.notifyDataSetChanged();
+                                    fullActiveAdapter.notifyDataSetChanged();
+                                }
+                            }else {
+                                ToastUtil.showSuccessMsg(mContext,fullDetailModel.getMessage());
+                            }
+                        }
+                    });
+        }
+
+
     }
 
     @Override

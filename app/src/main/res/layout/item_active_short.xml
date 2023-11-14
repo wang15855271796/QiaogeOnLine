@@ -73,6 +73,7 @@
             tools:text="120"
             android:lines="1"
             android:ellipsize="end"
+            android:textStyle="bold"
             android:textColor="#F11705"
             android:textSize="11sp"
             android:layout_marginTop="@dimen/size_3dp"

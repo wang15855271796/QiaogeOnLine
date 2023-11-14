@@ -116,7 +116,6 @@ public class NewDialog extends Dialog implements View.OnClickListener{
         if(!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
-
     }
 
 

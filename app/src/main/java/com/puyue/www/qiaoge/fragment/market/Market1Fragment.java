@@ -511,6 +511,7 @@ public class Market1Fragment extends BaseFragment {
         View contentView = LayoutInflater.from(context).inflate(R.layout.cate_list,null);
         ImageView iv_close = contentView.findViewById(R.id.iv_close);
         RecyclerView recyclerView = contentView.findViewById(R.id.recyclerView);
+        View mask = contentView.findViewById(R.id.mask);
         recyclerView.setLayoutManager(new GridLayoutManager(mContext,5));
         recyclerView.setAdapter(firstAdapter);
         iv_close.setOnClickListener(new View.OnClickListener() {
@@ -519,6 +520,13 @@ public class Market1Fragment extends BaseFragment {
                 mCustomPopWindow.dissmiss();
             }
         });
+        mask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCustomPopWindow.dissmiss();
+            }
+        });
+
         //当前界面没关闭，不是售罄产品才显示
         mCustomPopWindow= new CustomPopWindow.PopupWindowBuilder(getActivity())
                 .setFocusable(false)

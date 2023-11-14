@@ -40,6 +40,7 @@ import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.mine.ShopDetailActivity;
+import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.adapter.FullDescDialogAdapter;
 import com.puyue.www.qiaoge.adapter.PhotoVideoViewAdapter;
 import com.puyue.www.qiaoge.adapter.VideoAdapter;
@@ -211,6 +212,10 @@ public class AppHelper {
                                 }
                             };
                             errorAuthDialog.show();
+                        }else if(judegModel.getCode() == -10001) {
+                            UserInfoHelper.saveUserId(context, "");
+                            Intent intent = new Intent(context, LoginActivity.class);
+                            context.startActivity(intent);
                         }
                     }
                 });

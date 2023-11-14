@@ -96,7 +96,9 @@ public class MyCollectionAdapter extends BaseQuickAdapter<ProductNormalModel.Dat
         helper.setText(R.id.tv_item_my_collection_price, item.getMinMaxPrice());
         helper.setText(R.id.tv_item_my_collection_volume, item.getSalesVolume());
         TextView tv_price = helper.getView(R.id.tv_item_my_collection_price);
+        TextView tv_spec = helper.getView(R.id.tv_spec);
         TextView tv_desc = helper.getView(R.id.tv_desc);
+        tv_spec.setText(item.getSpec());
         CheckBox cb_item_my_collection = helper.getView(R.id.cb_item_my_collection);
         if(isShow) {
             cb_item_my_collection.setVisibility(View.VISIBLE);

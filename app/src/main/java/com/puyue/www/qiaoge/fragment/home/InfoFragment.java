@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.InfoSearchActivity;
 import com.puyue.www.qiaoge.activity.ShopStartActivity;
@@ -28,9 +29,11 @@ import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.dialog.CatePopWindow;
 import com.puyue.www.qiaoge.dialog.ChooseCityPopWindow;
+import com.puyue.www.qiaoge.event.CityEvent1;
 import com.puyue.www.qiaoge.event.RentEvent;
 import com.puyue.www.qiaoge.event.SearchShopEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.PopWindowListener;
 import com.puyue.www.qiaoge.model.HomeStyleTabModel;
@@ -89,6 +92,8 @@ public class InfoFragment extends BaseFragment {
     TextView tv_search;
     @BindView(R.id.tv_title)
     TextView tv_title;
+    @BindView(R.id.iv_anim)
+    ImageView iv_anim;
     List<InfoListModel.DataBean.ListBean> list = new ArrayList<>();
     int pageNum = 1;
     int pageSize = 10;
@@ -125,6 +130,7 @@ public class InfoFragment extends BaseFragment {
         List<String> strings = Arrays.asList(data);
         getCityChoose();
         getHomeTabStyle();
+        Glide.with(this).asGif().load(R.drawable.anims).into(iv_anim);
         search = tv_search.getText().toString();
         tv_search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -330,6 +336,7 @@ public class InfoFragment extends BaseFragment {
 
                     @Override
                     public void onError(Throwable e) {
+
                     }
 
                     @Override
@@ -351,41 +358,48 @@ public class InfoFragment extends BaseFragment {
                            }else {
                                smart.setEnableLoadMore(false);
                            }
-
-
                         } else {
                             AppHelper.showMsg(mActivity, infoListModel.getMessage());
                         }
+
+                        iv_anim.setVisibility(View.GONE);
                     }
                 });
     }
 
     private void getCityChoose() {
-        CityChangeAPI.requestCity(mActivity)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<CityChangeModel>() {
-                    @Override
-                    public void onCompleted() {
+        if (!NetWorkHelper.isNetworkAvailable(getContext())) {
+            ToastUtil.showSuccessMsg(getContext(), "网络不给力!");
+            iv_anim.setVisibility(View.GONE);
+        } else {
+            CityChangeAPI.requestCity(mActivity)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<CityChangeModel>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-
-                    @Override
-                    public void onNext(CityChangeModel cityChangeModel) {
-                        if (cityChangeModel.isSuccess()) {
-                            listCity.clear();
-                            List<CityChangeModel.DataBean> data = cityChangeModel.getData();
-                            listCity.addAll(data);
-
-                        } else {
-                            AppHelper.showMsg(mActivity, cityChangeModel.getMessage());
                         }
-                    }
-                });
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(CityChangeModel cityChangeModel) {
+                            if (cityChangeModel.isSuccess()) {
+                                listCity.clear();
+                                List<CityChangeModel.DataBean> data = cityChangeModel.getData();
+                                listCity.addAll(data);
+
+                            } else {
+                                AppHelper.showMsg(mActivity, cityChangeModel.getMessage());
+                            }
+                        }
+                    });
+        }
+
     }
 
 
@@ -408,11 +422,15 @@ public class InfoFragment extends BaseFragment {
 
         @Override
         public void getValues(CityChangeModel.DataBean.CityNamesBean area) {
+            list.clear();
+            pageNum = 1;
+            smart.setNoMoreData(false);
             if(provinceName == null) {
                 ToastUtil.showSuccessMsg(mActivity,"请选择上一级城市");
                 return;
             }
-            list.clear();
+
+            marketsAdapter.notifyDataSetChanged();
             mask.setVisibility(View.GONE);
             cityName = area.getCityName();
             tv_address.setText(provinceName+cityName);
@@ -429,17 +447,20 @@ public class InfoFragment extends BaseFragment {
             }else {
                 getCityList(search,"4",cityCode,provinceCode);
             }
-
-
         }
 
         @Override
         public void cloese() {
+            pageNum =1;
+            smart.setNoMoreData(false);
+            marketsAdapter.notifyDataSetChanged();
             mask.setVisibility(View.GONE);
             cityCode = "";
             provinceCode = "";
+            list.clear();
             getCityList(search,"","","");
             tv_address.setText("全部");
+
         }
 
     }
@@ -472,17 +493,23 @@ public class InfoFragment extends BaseFragment {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getCitys(CityEvent event) {
-        //刷新UI
-        provinceName = SharedPreferencesUtil.getString(mActivity,"provinceName");
-        cityName = UserInfoHelper.getCity(mActivity);
-        tv_address.setText(provinceName+cityName);
-        smart.autoRefresh();
-    }
+
+//    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+//    public void getCitys(CityEvent1 event) {
+//        //刷新UI
+//        provinceName = SharedPreferencesUtil.getString(mActivity,"provinceName");
+//        cityName = UserInfoHelper.getCity(mActivity);
+//        tv_address.setText(provinceName+cityName);
+//        smart.autoRefresh();
+//
+//    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getShop(SearchShopEvent event) {
+        pageNum =1;
+        list.clear();
+        smart.setNoMoreData(false);
+        marketsAdapter.notifyDataSetChanged();
         String keyWord = event.getKeyWord();
         search = keyWord;
         tv_search.setText(keyWord);

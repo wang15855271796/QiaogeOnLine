@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
 import com.puyue.www.qiaoge.event.BackEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
@@ -55,6 +57,10 @@ public class CommonFragment extends BaseFragment {
     RecyclerView recyclerView;
     @BindView(R.id.smart)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.ll_no_data)
+    LinearLayout ll_no_data;
+    @BindView(R.id.iv_empty_data)
+    ImageView iv_empty_data;
     CommonListAdapter commonListAdapter;
     int pageNum = 1;
     int pageSize = 10;
@@ -87,7 +93,7 @@ public class CommonFragment extends BaseFragment {
         bind = ButterKnife.bind(this, view);
         refreshLayout.setEnableLoadMore(false);
         getProductsList(1,pageSize,"commonBuy");
-        commonListAdapter = new CommonListAdapter(R.layout.item_team_list, list, new CommonListAdapter.Onclick() {
+        commonListAdapter = new CommonListAdapter(R.layout.item_team_list1, list, new CommonListAdapter.Onclick() {
             @Override
             public void addDialog() {
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mActivity))) {
@@ -173,37 +179,48 @@ public class CommonFragment extends BaseFragment {
      * @param pageSize
      * @param
      */
-
     private void getProductsList(int pageNums, int pageSize, String type) {
-        ProductListAPI.requestData(mActivity, pageNums, pageSize,type,null)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ProductNormalModel>() {
-                    @Override
-                    public void onCompleted() {
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            iv_empty_data.setImageResource(R.mipmap.ic_404);
+            ll_no_data.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }else {
+            iv_empty_data.setImageResource(R.mipmap.ic_no_data);
+            ProductListAPI.requestData(mActivity, pageNums, pageSize,type,null)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<ProductNormalModel>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(ProductNormalModel getCommonProductModel) {
-                        productNormalModel = getCommonProductModel;
-                        if (getCommonProductModel.isSuccess()) {
-                            if(getCommonProductModel.getData().getList().size()>0) {
-                                list.addAll(getCommonProductModel.getData().getList());
-                                commonListAdapter.notifyDataSetChanged();
-                            }
-                        }else {
-                            AppHelper.showMsg(mActivity,getCommonProductModel.getMessage());
                         }
 
-                        refreshLayout.setEnableLoadMore(true);
-                    }
-                });
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(ProductNormalModel getCommonProductModel) {
+                            productNormalModel = getCommonProductModel;
+                            if (getCommonProductModel.isSuccess()) {
+                                if(getCommonProductModel.getData().getList().size()>0) {
+                                    list.addAll(getCommonProductModel.getData().getList());
+                                    commonListAdapter.notifyDataSetChanged();
+                                    ll_no_data.setVisibility(View.GONE);
+                                    recyclerView.setVisibility(View.VISIBLE);
+                                }else {
+                                    ll_no_data.setVisibility(View.VISIBLE);
+                                    recyclerView.setVisibility(View.GONE);
+                                }
+                            }else {
+                                AppHelper.showMsg(mActivity,getCommonProductModel.getMessage());
+                            }
+
+                            refreshLayout.setEnableLoadMore(true);
+                        }
+                    });
+        }
     }
 
     @Override

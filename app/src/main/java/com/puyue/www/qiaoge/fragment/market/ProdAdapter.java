@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -39,6 +40,7 @@ public class ProdAdapter extends BaseQuickAdapter<MarketRightModel.DataBean.Bran
     protected void convert(BaseViewHolder helper, MarketRightModel.DataBean.BrandProdBean.ListBeanX item) {
         helper.setText(R.id.tv_titlt,item.getBrandName());
         RelativeLayout rl_prod = helper.getView(R.id.rl_prod);
+        ImageView iv_arrow = helper.getView(R.id.iv_arrow);
         RelativeLayout rl = helper.getView(R.id.rl);
         rl.setVisibility(View.GONE);
         List<MarketRightModel.DataBean.BrandProdBean.ListBeanX.ProdClassifyBean.ListBean> list = item.getProdClassify().getList();
@@ -63,6 +65,8 @@ public class ProdAdapter extends BaseQuickAdapter<MarketRightModel.DataBean.Bran
                 layoutParams.height = DensityUtil.dip2px(225 * 1,mContext);
             }
         }
+
+
         if(list.size()>3 ) {
             tv_expand.setVisibility(View.VISIBLE);
             helper.getView(R.id.rl).setVisibility(View.VISIBLE);
@@ -76,12 +80,14 @@ public class ProdAdapter extends BaseQuickAdapter<MarketRightModel.DataBean.Bran
         rl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (list.size() > 3) {
-                    if(open) {
-                        lp.height = DensityUtil.dip2px(150 * 1,mContext);
 
+                if (list.size() > 3) {
+                    if(item.isOpen()) {
+                        item.setOpen(false);
+                        lp.height = DensityUtil.dip2px(150 * 1,mContext);
                         open = false;
                         tv_expand.setText("展开");
+                        iv_arrow.setImageResource(R.mipmap.icon_arrow_down);
                         recyclerViewProd.setLayoutManager(new GridLayoutManager(mContext,3));
                         prodInnerAdapter = new ProdInnerAdapter(R.layout.item_prod_inner,list);
                         recyclerViewProd.setAdapter(prodInnerAdapter);
@@ -89,30 +95,33 @@ public class ProdAdapter extends BaseQuickAdapter<MarketRightModel.DataBean.Bran
                         if(list.size()%3==0) {
                             lp.height = DensityUtil.dip2px(150 *(list.size()/3),mContext);
                             tv_expand.setText("收起");
+                            item.setOpen(true);
                             open = true;
+                            iv_arrow.setImageResource(R.mipmap.icon_arrow_up);
                             recyclerViewProd.setLayoutManager(new GridLayoutManager(mContext,3));
                             prodInnerAdapter = new ProdInnerAdapter(R.layout.item_prod_inner,list);
                             recyclerViewProd.setAdapter(prodInnerAdapter);
 
                         }else if(list.size()%3==1) {
                             lp.height = DensityUtil.dip2px(150 *(list.size()/2),mContext);
-
+                            item.setOpen(true);
                             tv_expand.setText("收起");
                             open = true;
+                            iv_arrow.setImageResource(R.mipmap.icon_arrow_up);
                             recyclerViewProd.setLayoutManager(new GridLayoutManager(mContext,3));
                             prodInnerAdapter = new ProdInnerAdapter(R.layout.item_prod_inner,list);
                             recyclerViewProd.setAdapter(prodInnerAdapter);
 
                         }else if(list.size()%3==2) {
                             lp.height = DensityUtil.dip2px(150 *(list.size()/2),mContext);
-
+                            iv_arrow.setImageResource(R.mipmap.icon_arrow_up);
                             tv_expand.setText("收起");
+                            item.setOpen(true);
                             open = true;
                             recyclerViewProd.setLayoutManager(new GridLayoutManager(mContext,3));
                             prodInnerAdapter = new ProdInnerAdapter(R.layout.item_prod_inner,list);
                             recyclerViewProd.setAdapter(prodInnerAdapter);
                         }
-
                     }
 
                 } else {

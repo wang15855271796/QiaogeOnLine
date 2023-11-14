@@ -6,58 +6,62 @@
     android:background="#FAFAFA"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/rl_root"
+    <com.puyue.www.qiaoge.view.selectmenu.MyScrollView
+        android:id="@+id/my_scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/iv_top"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="275dp"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/bg_school" />
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="@dimen/size_30dp"
-            android:layout_height="@dimen/size_30dp"
-            android:layout_marginLeft="@dimen/size_20dp"
-            android:layout_marginTop="@dimen/size_35dp"
-            android:padding="8dp"
-            android:src="@mipmap/ic_back_arrow" />
+            <RelativeLayout
+                android:id="@+id/rl_root"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/iv_back"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="150dp"
-            android:src="@mipmap/iv_school_tip" />
+                <ImageView
+                    android:id="@+id/iv_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="275dp"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/bg_school" />
 
-    </RelativeLayout>
+                <ImageView
+                    android:id="@+id/iv_back"
+                    android:layout_width="@dimen/size_30dp"
+                    android:layout_height="@dimen/size_30dp"
+                    android:layout_marginLeft="@dimen/size_20dp"
+                    android:layout_marginTop="@dimen/size_35dp"
+                    android:padding="8dp"
+                    android:src="@mipmap/ic_back_arrow" />
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/smart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/rl_root">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/iv_back"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="150dp"
+                    android:src="@mipmap/iv_school_tip" />
 
-        <com.scwang.smartrefresh.header.MaterialHeader
-            android:id="@+id/header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            </RelativeLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </androidx.core.widget.NestedScrollView>
 
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+        </LinearLayout>
+
+    </com.puyue.www.qiaoge.view.selectmenu.MyScrollView>
+
 
     <TextView
         android:id="@+id/tv_ok"
@@ -72,4 +76,28 @@
         android:background="@drawable/shape_green1"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_45dp"/>
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/rl_header"
+        android:background="@drawable/shape_white4"
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+
+        <ImageView
+            android:id="@+id/iv_back1"
+            android:layout_width="@dimen/size_30dp"
+            android:layout_height="@dimen/size_30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/size_20dp"
+            android:padding="8dp"
+            android:src="@mipmap/ic_back_arrow" />
+
+        <TextView
+            android:text="翘歌学堂"
+            android:textColor="#414141"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
 </RelativeLayout>

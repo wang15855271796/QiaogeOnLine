@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.flow.FlowLayout;
@@ -162,7 +163,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener,T
     TextView tv_time_unOperate;
     @BindView(R.id.smart)
     SmartRefreshLayout refreshLayout;
-    ImageView iv_head;
+    RoundImageView iv_head;
     TextView tv_title;
     TextView tv_search;
     //失效商品的cartId

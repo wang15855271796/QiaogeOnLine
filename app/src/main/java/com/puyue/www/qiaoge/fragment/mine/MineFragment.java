@@ -164,6 +164,7 @@ public class MineFragment extends BaseFragment {
     RelativeLayout rl_order;
     RelativeLayout rl_vip1;
     ImageView iv_bgc;
+    ImageView iv_anim;
     public static MineFragment getInstance() {
         MineFragment fragment = new MineFragment();
         Bundle bundle = new Bundle();
@@ -273,8 +274,10 @@ public class MineFragment extends BaseFragment {
         iv_message = (view.findViewById(R.id.iv_message));
         ll_deliver_order = (view.findViewById(R.id.ll_deliver_order));
         ll_self_sufficiency = (view.findViewById(R.id.ll_self_sufficiency));
+        iv_anim = (view.findViewById(R.id.iv_anim));
         refreshLayout.setEnableRefresh(false);
         refreshLayout.setEnableLoadMore(false);
+        Glide.with(this).asGif().load(R.drawable.anims).into(iv_anim);
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -456,6 +459,7 @@ public class MineFragment extends BaseFragment {
                     startActivity(LoginActivity.getIntent(getContext(), LoginActivity.class));
                 } else if (mStateCode == -10001) {
                     //用户userId过期,也是需要清除userId,让用户重新登录
+                    UserInfoHelper.saveUserId(mActivity, "");
                     startActivity(LoginActivity.getIntent(getContext(), LoginActivity.class));
                 } else {
                     if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(getContext()))) {
@@ -963,6 +967,7 @@ public class MineFragment extends BaseFragment {
                             if (mModelAccountCenter.success) {
                                 updateAccountCenter();
                                 if(accountCenterModel.code==-10001) {
+                                    UserInfoHelper.saveUserId(mActivity, "");
                                     Intent intent = new Intent(mActivity,LoginActivity.class);
                                     startActivity(intent);
                                 }
@@ -1080,6 +1085,8 @@ public class MineFragment extends BaseFragment {
                         } else {
                             AppHelper.showMsg(mActivity, getCommonProductModel.getMessage());
                         }
+
+                        iv_anim.setVisibility(View.GONE);
                     }
                 });
     }

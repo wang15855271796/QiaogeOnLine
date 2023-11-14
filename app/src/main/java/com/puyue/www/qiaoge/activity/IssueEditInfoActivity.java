@@ -54,6 +54,7 @@ import com.puyue.www.qiaoge.dialog.ShopStyleDialog;
 import com.puyue.www.qiaoge.event.MyShopEvent;
 import com.puyue.www.qiaoge.event.ShopStyleEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.model.InfoDetailIssueModel;
 import com.puyue.www.qiaoge.model.SendImagesModel;
 import com.puyue.www.qiaoge.model.home.CityChangeModel;
@@ -132,7 +133,11 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
         position = Integer.parseInt(getIntent().getStringExtra("msgType"));
         getInfoDetail(msgId);
         getCityList();
-
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            Intent intent = new Intent(mContext, NetWorkActivity.class);
+            startActivity(intent);
+            finish();
+        }
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

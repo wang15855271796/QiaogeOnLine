@@ -127,7 +127,7 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
     private List<GetWallertRecordByPageModel.DataBean.RecordsBean> records;
     private GetWallertRecordByPageModel.DataBean.RecordsBean recordsBean;
     private int isrefreshormore = 1;//1刷新  2加载
-
+    LinearLayout ll_no_data;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -140,6 +140,7 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
+        ll_no_data = FVHelper.fv(this, R.id.ll_no_data);
         iv_empty_bill = FVHelper.fv(this, R.id.iv_empty_bill);
         refreshLayout = FVHelper.fv(this, R.id.refreshLayout);
         mLlTimeSelect = FVHelper.fv(this, R.id.ll_activity_wallet_time);
@@ -639,7 +640,9 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
         if (!NetWorkHelper.isNetworkAvailable(mContext)) {
             iv_empty_bill.setImageResource(R.mipmap.ic_404);
             iv_empty_bill.setVisibility(View.VISIBLE);
+
         }else {
+            iv_empty_bill.setImageResource(R.mipmap.icon_bill_empty);
             GetWallertRecordByPageAPI.requestData(mContext, types, year, month, phone, showType, walletRecordChannelType)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())

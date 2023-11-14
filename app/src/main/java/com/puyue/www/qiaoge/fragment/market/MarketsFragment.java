@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.xrecyclerview.XRecyclerView;
 import com.puyue.www.qiaoge.R;
@@ -64,6 +66,7 @@ import com.puyue.www.qiaoge.event.FromIndexEvent;
 import com.puyue.www.qiaoge.event.LogoutEvent;
 import com.puyue.www.qiaoge.fragment.home.CityEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
@@ -128,7 +131,7 @@ public class MarketsFragment extends BaseFragment {
     TextView tv_price;
     ImageView iv_tip;
 //    private SliderLayout mViewBanner;
-    private LinearLayout mllMarket;
+    private RelativeLayout mllMarket;
 //    private RelativeLayout mRlSelectGood;
     private RecyclerView mRyGetGoodName;
     private RecyclerView mRyBuyName;
@@ -159,6 +162,7 @@ public class MarketsFragment extends BaseFragment {
     private String newProduct = "";
     private boolean hasPage = true;
     EditText et_goods;
+    TextView tv_search_prod;
     LinearLayout ll_select;
     LinearLayout ll_prod;
     private ProdAdapter prodAdapter;
@@ -172,6 +176,7 @@ public class MarketsFragment extends BaseFragment {
     ImageView iv_all;
     LinearLayout ll_root;
     ImageView iv_clear;
+    ImageView iv_anim;
     public static MarketsFragment getInstance() {
         MarketsFragment fragment = new MarketsFragment();
         Bundle bundle = new Bundle();
@@ -232,6 +237,8 @@ public class MarketsFragment extends BaseFragment {
     public void findViewById(View view) {
         context = getActivity();
         EventBus.getDefault().register(this);
+        tv_search_prod = view.findViewById(R.id.tv_search_prod);
+        iv_anim = view.findViewById(R.id.iv_anim);
         iv_all = view.findViewById(R.id.iv_all);
         iv_clear = view.findViewById(R.id.iv_clear);
         ll_root = view.findViewById(R.id.ll_root);
@@ -417,9 +424,9 @@ public class MarketsFragment extends BaseFragment {
             @Override
             public void afterTextChanged(Editable editable) {
                 if(editable.toString().trim().equals("")) {
-                    et_goods.setVisibility(View.GONE);
+//                    et_goods.setVisibility(View.INVISIBLE);
                 }else {
-                    et_goods.setVisibility(View.VISIBLE);
+//                    et_goods.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -486,7 +493,6 @@ public class MarketsFragment extends BaseFragment {
                     }
                 });
 
-
                 mTvReresh.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -515,6 +521,23 @@ public class MarketsFragment extends BaseFragment {
                 });
             }
         });
+
+        tv_search_prod.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String prodName = et_goods.getText().toString().trim();
+                pageNum = 1;
+                iv_anim.setVisibility(View.VISIBLE);
+                Glide.with(mContext).asGif().load(R.drawable.anims).into(iv_anim);
+                selectBrandName = prodName;
+                getData();
+                et_goods.setText(selectBrandName);
+                if(dialog1!=null) {
+                    dialog1.dismiss();
+                }
+                hintKbTwo();
+            }
+        });
     }
 
     @Override
@@ -537,10 +560,19 @@ public class MarketsFragment extends BaseFragment {
     private void shopListView() {
         View contentView = LayoutInflater.from(context).inflate(R.layout.cate_list,null);
         TextView tv_close = contentView.findViewById(R.id.tv_close);
+        TextView mask = contentView.findViewById(R.id.mask);
         RecyclerView recyclerView = contentView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(mContext,5));
         recyclerView.setAdapter(firstAdapter);
+
         tv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCustomPopWindow.dissmiss();
+            }
+        });
+
+        mask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mCustomPopWindow.dissmiss();
@@ -581,10 +613,13 @@ public class MarketsFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String prodName = mListRecommendProd.get(position);
+                iv_anim.setVisibility(View.VISIBLE);
+                Glide.with(mContext).asGif().load(R.drawable.anims).into(iv_anim);
                 selectBrandName = prodName;
                 getData();
                 et_goods.setText(selectBrandName);
                 dialog1.dismiss();
+                hintKbTwo();
             }
         });
         searchProdAdapter = new SearchProdAdapter(context,mListRecommendProd);
@@ -629,7 +664,7 @@ public class MarketsFragment extends BaseFragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        lav_activity_loading.hide();
+//                        lav_activity_loading.hide();
                     }
 
                     @Override
@@ -640,6 +675,7 @@ public class MarketsFragment extends BaseFragment {
                                 mModelMarketGoods = marketGoodSelectModel;
 //                                dialog.dismiss();
                                 updateMarketGoods();
+
                                 lav_activity_loading.hide();
                                 flag = true;
                             }
@@ -649,6 +685,8 @@ public class MarketsFragment extends BaseFragment {
                             lav_activity_loading.hide();
 
                         }
+
+                        iv_anim.setVisibility(View.GONE);
                     }
                 });
     }
@@ -771,7 +809,9 @@ public class MarketsFragment extends BaseFragment {
     public void cityEvent(CityEvent event) {
         //刷新UI
         selectPosition = 0;
-        lav_activity_loading.show();
+//        lav_activity_loading.show();
+        iv_anim.setVisibility(View.VISIBLE);
+        Glide.with(this).asGif().load(R.drawable.anims).into(iv_anim);
         getSearchProd();
         ll_select.setVisibility(View.VISIBLE);
         ll_prod.setVisibility(View.GONE);
@@ -784,7 +824,9 @@ public class MarketsFragment extends BaseFragment {
     public void update(AddressEvent event) {
         //刷新数据
         selectPosition = 0;
-        lav_activity_loading.show();
+        iv_anim.setVisibility(View.VISIBLE);
+        Glide.with(this).asGif().load(R.drawable.anims).into(iv_anim);
+//        lav_activity_loading.show();
         getSearchProd();
         requestGoodsList("");
     }
@@ -795,7 +837,8 @@ public class MarketsFragment extends BaseFragment {
     boolean isFirstLoading = true;
     @Override
     public void setViewData() {
-        lav_activity_loading.show();
+//        lav_activity_loading.show();
+        Glide.with(this).asGif().load(R.drawable.anims).into(iv_anim);
         //获取banner
         getSearchProd();
         requestGoodsList1();
@@ -930,11 +973,14 @@ public class MarketsFragment extends BaseFragment {
                     minPrice = "";
                     maxPrice = "";
                     selectBrandName = "";
+                    et_goods.setText("");
                     mSecondCode = mListSecondNow.get(position).getSecondId();
                     scrollPosition = position;
                     mAdapterMarketSecond.selectPosition(position);
                     mListGoods.clear();
                     mListProd.clear();
+                    iv_anim.setVisibility(View.VISIBLE);
+                    Glide.with(mContext).asGif().load(R.drawable.anims).into(iv_anim);
                     mRvDetail.noMoreLoading(false);
                     prodAdapter.notifyDataSetChanged();
                     mAdapterMarketDetail.notifyDataSetChanged();
@@ -1009,6 +1055,7 @@ public class MarketsFragment extends BaseFragment {
                         } else {
                             AppHelper.showMsg(context, recommendModel.getMessage());
                         }
+                        iv_anim.setVisibility(View.GONE);
                     }
                 });
     }
@@ -1021,75 +1068,81 @@ public class MarketsFragment extends BaseFragment {
      * 请求左侧数据集合
      */
     private void requestGoodsList(String fromId) {
-        MarketGoodsClassifyAPI.getClassify(getContext())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ClassIfyModel>() {
-                    @Override
-                    public void onCompleted() {
+        if (!NetWorkHelper.isNetworkAvailable(getContext())) {
+            ToastUtil.showSuccessMsg(getContext(), "网络不给力!");
+            iv_anim.setVisibility(View.GONE);
+        } else {
+            MarketGoodsClassifyAPI.getClassify(getContext())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<ClassIfyModel>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(ClassIfyModel marketGoodsModel) {
-                        if (marketGoodsModel.getCode()==1) {
-                            mList.clear();
-                            mListSecondNow.clear();
-                            if(marketGoodsModel.getData()!=null && marketGoodsModel.getData().size() >0) {
-                                List<ClassIfyModel.DataBean> data = marketGoodsModel.getData();
-                                mList.addAll(data);
-                                if(fromId!="") {
-                                    //首页顶部切换过来
-                                    for (int i = 0; i < mList.size(); i++) {
-                                        if(mList.get(i).getFirstId().equals(fromId)) {
-                                            selectPosition = i;
-                                            rv_cate.scrollToPosition(i);
-                                            mSecondCode = mList.get(i).getSecondClassify().get(0).getSecondId();
-                                            firstAdapter.selectPosition(i);
-                                        }
-                                    }
-
-                                    mFirstCode = fromId;
-                                    mAdapterMarketSecond.selectPosition(0);
-                                    mListSecondNow.addAll(data.get(selectPosition).getSecondClassify());
-                                    getData();
-                                    mAdapterMarketSecond.notifyDataSetChanged();
-                                    firstAdapter.notifyDataSetChanged();
-                                }else {
-                                    //首页底部切换过来
-                                    mList.clear();
-                                    mListSecondNow.clear();
-                                    mFirstCode = data.get(selectPosition).getFirstId();
-                                    mSecondCode = data.get(selectPosition).getSecondClassify().get(0).getSecondId();
-                                    mList.addAll(data);
-                                    firstAdapter.selectPosition(selectPosition);
-                                    mListSecondNow.addAll(data.get(selectPosition).getSecondClassify());
-                                    getData();
-                                    mAdapterMarketSecond.selectPosition(0);
-                                    mAdapterMarketSecond.notifyDataSetChanged();
-                                    firstAdapter.notifyDataSetChanged();
-                                }
-                            }else {
-                                mListSecondNow.clear();
-                                mList.clear();
-                                mListGoods.clear();
-                                mListProd.clear();
-                                prodAdapter.notifyDataSetChanged();
-                                mAdapterMarketSecond.notifyDataSetChanged();
-                                firstAdapter.notifyDataSetChanged();
-                                mAdapterMarketDetail.notifyDataSetChanged();
-                            }
-
-                        } else {
-                            ToastUtil.showSuccessMsg(mActivity,marketGoodsModel.getMessage());
                         }
-                    }
-                });
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(ClassIfyModel marketGoodsModel) {
+                            if (marketGoodsModel.getCode()==1) {
+                                mList.clear();
+                                mListSecondNow.clear();
+                                if(marketGoodsModel.getData()!=null && marketGoodsModel.getData().size() >0) {
+                                    List<ClassIfyModel.DataBean> data = marketGoodsModel.getData();
+                                    mList.addAll(data);
+                                    if(fromId!="") {
+                                        //首页顶部切换过来
+                                        for (int i = 0; i < mList.size(); i++) {
+                                            if(mList.get(i).getFirstId().equals(fromId)) {
+                                                selectPosition = i;
+                                                rv_cate.scrollToPosition(i);
+                                                mSecondCode = mList.get(i).getSecondClassify().get(0).getSecondId();
+                                                firstAdapter.selectPosition(i);
+                                            }
+                                        }
+
+                                        mFirstCode = fromId;
+                                        mAdapterMarketSecond.selectPosition(0);
+                                        mListSecondNow.addAll(data.get(selectPosition).getSecondClassify());
+                                        getData();
+                                        mAdapterMarketSecond.notifyDataSetChanged();
+                                        firstAdapter.notifyDataSetChanged();
+                                    }else {
+                                        //首页底部切换过来
+                                        mList.clear();
+                                        mListSecondNow.clear();
+                                        mFirstCode = data.get(selectPosition).getFirstId();
+                                        mSecondCode = data.get(selectPosition).getSecondClassify().get(0).getSecondId();
+                                        mList.addAll(data);
+                                        firstAdapter.selectPosition(selectPosition);
+                                        mListSecondNow.addAll(data.get(selectPosition).getSecondClassify());
+                                        getData();
+                                        mAdapterMarketSecond.selectPosition(0);
+                                        mAdapterMarketSecond.notifyDataSetChanged();
+                                        firstAdapter.notifyDataSetChanged();
+                                    }
+                                }else {
+                                    mListSecondNow.clear();
+                                    mList.clear();
+                                    mListGoods.clear();
+                                    mListProd.clear();
+                                    prodAdapter.notifyDataSetChanged();
+                                    mAdapterMarketSecond.notifyDataSetChanged();
+                                    firstAdapter.notifyDataSetChanged();
+                                    mAdapterMarketDetail.notifyDataSetChanged();
+                                }
+
+                            } else {
+                                ToastUtil.showSuccessMsg(mActivity,marketGoodsModel.getMessage());
+                            }
+                        }
+                    });
+        }
+
     }
 
     /**
@@ -1166,6 +1219,10 @@ public class MarketsFragment extends BaseFragment {
         }else {
             //产品
             if(mModelMarketGoods.getData().getBrandProd() != null && mModelMarketGoods.getData().getBrandProd().getList().size()>0) {
+                List<MarketRightModel.DataBean.BrandProdBean.ListBeanX> list = mModelMarketGoods.getData().getBrandProd().getList();
+                for (int i = 0; i < list.size(); i++) {
+                    list.get(i).setOpen(false);
+                }
                 mIvNoData.setVisibility(View.GONE);
                 rv_prod_detail.setVisibility(View.VISIBLE);
                 if(pageNum==1) {
@@ -1191,6 +1248,8 @@ public class MarketsFragment extends BaseFragment {
             }
             rv_prod_detail.refreshComplete();
         }
+
+        iv_anim.setVisibility(View.GONE);
     }
 
     @Override

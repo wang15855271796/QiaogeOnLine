@@ -27,6 +27,7 @@ import com.puyue.www.qiaoge.model.home.ExchangeProductModel;
 import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
+import com.puyue.www.qiaoge.view.RoundImageView;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ import rx.schedulers.Schedulers;
 
 public class NewAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.ListBean,BaseViewHolder> {
 
-    private ImageView iv_pic;
+    private RoundImageView iv_pic;
     List<ProductNormalModel.DataBean.ListBean> activesBean;
     private ImageView iv_add;
     Onclick onclick;
@@ -53,6 +54,9 @@ public class NewAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
     TextView tv_champion;
     LinearLayout ll_champion;
     ImageView iv_fresh_price;
+    ImageView iv_reduce;
+    ImageView iv_coupon;
+    ImageView iv_new;
     public NewAdapter(int layoutResId, @Nullable List<ProductNormalModel.DataBean.ListBean> activeList, Onclick onclick) {
         super(layoutResId, activeList);
         this.activesBean = activeList;
@@ -83,6 +87,13 @@ public class NewAdapter extends BaseQuickAdapter<ProductNormalModel.DataBean.Lis
                 iv_send.setVisibility(View.GONE);
             }
         }
+
+        iv_reduce = helper.getView(R.id.iv_reduce);
+        iv_coupon = helper.getView(R.id.iv_coupon);
+        iv_new = helper.getView(R.id.iv_new);
+        Glide.with(mContext).load(item.getProdDeductUrl()).into(iv_reduce);
+        Glide.with(mContext).load(item.getProdSpecialUrl()).into(iv_coupon);
+        Glide.with(mContext).load(item.getProdNewUrl()).into(iv_new);
 
         if(item.getHotProdFlag()==1) {
             //1热销

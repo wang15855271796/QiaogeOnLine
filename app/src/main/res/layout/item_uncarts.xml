@@ -31,15 +31,15 @@
                 android:button="@null" />
 
 
-            <ImageView
+            <com.puyue.www.qiaoge.RoundImageView
                 android:id="@+id/iv_head"
-                android:src="@mipmap/ic_launcher"
-                android:layout_toRightOf="@+id/cb_item_cart"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:layout_marginLeft="44dp"
                 android:layout_marginTop="15dp"
-                android:scaleType="fitXY" />
+                android:layout_toRightOf="@+id/cb_item_cart"
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_launcher" />
 
             <ImageView
                 tools:text="销量1000"

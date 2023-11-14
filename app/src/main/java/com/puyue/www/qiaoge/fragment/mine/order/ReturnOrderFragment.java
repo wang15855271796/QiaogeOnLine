@@ -21,6 +21,7 @@ import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.dialog.HuoConnentionDialog;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.HasConnectModel;
@@ -318,32 +319,41 @@ public class ReturnOrderFragment extends BaseFragment {
     }
 
     private void requestOrdersList(int orderStatus) {
-        MyOrderListAPI.requestOrderList(getContext(), orderStatus, pageNum, 10, orderDeliveryType)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<OrdersModel>() {
-                    @Override
-                    public void onCompleted() {
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            mIvNoData.setImageResource(R.mipmap.ic_404);
+            mIvNoData.setVisibility(View.VISIBLE);
+            mRv.setVisibility(View.GONE);
+        }else {
+            mIvNoData.setImageResource(R.mipmap.ic_no_data);
+            MyOrderListAPI.requestOrderList(getContext(), orderStatus, pageNum, 10, orderDeliveryType)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<OrdersModel>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-//                        Toast.makeText(getContext(), "错误", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onNext(OrdersModel myOrdersModel) {
-                        logoutAndToHome(getContext(), myOrdersModel.code);
-                        mPtr.refreshComplete();
-                        mModelMyOrders = myOrdersModel;
-                        if (mModelMyOrders.success) {
-                            updateOrderList();
-                        } else {
-                            AppHelper.showMsg(getContext(), mModelMyOrders.message);
                         }
-                    }
-                });
+
+                        @Override
+                        public void onError(Throwable e) {
+//                        Toast.makeText(getContext(), "错误", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onNext(OrdersModel myOrdersModel) {
+                            logoutAndToHome(getContext(), myOrdersModel.code);
+                            mPtr.refreshComplete();
+                            mModelMyOrders = myOrdersModel;
+                            if (mModelMyOrders.success) {
+                                updateOrderList();
+                            } else {
+                                AppHelper.showMsg(getContext(), mModelMyOrders.message);
+                            }
+                        }
+                    });
+        }
+
+
     }
 
     private void getConnection(String orderId, String hllOrderId) {

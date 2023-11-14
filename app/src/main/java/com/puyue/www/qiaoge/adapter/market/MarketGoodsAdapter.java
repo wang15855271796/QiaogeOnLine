@@ -17,6 +17,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.activity.flow.TagAdapter;
 import com.puyue.www.qiaoge.activity.flow.TagFlowLayout;
 import com.puyue.www.qiaoge.activity.home.CommonGoodsDetailActivity;
@@ -46,11 +47,13 @@ import rx.schedulers.Schedulers;
  */
 
 public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBean.ProdClassifyBean.ListBean, BaseViewHolder> {
-
-    private ImageView iv_head;
+    private RoundImageView iv_head;
     private FlowLayout fl_container;
     private LinearLayout ll_group;
-    private ImageView iv_type;
+    ImageView iv_reduce;
+    ImageView iv_coupon;
+    ImageView iv_new;
+//    private ImageView iv_type;
     Onclick onclick;
     MarketGialog marketGialog;
     private TextView tv_price;
@@ -82,7 +85,29 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
         TextView tv_desc = helper.getView(R.id.tv_desc);
         tv_price = helper.getView(R.id.tv_price);
         ImageView iv_no_data = helper.getView(R.id.iv_no_data);
-        iv_type = helper.getView(R.id.iv_type);
+//        iv_type = helper.getView(R.id.iv_type);
+        iv_reduce = helper.getView(R.id.iv_reduce);
+        iv_coupon = helper.getView(R.id.iv_coupon);
+        iv_new = helper.getView(R.id.iv_new);
+        if(item.getProdDeductUrl()!=null && !item.getProdDeductUrl().equals("")) {
+            Glide.with(mContext).load(item.getProdDeductUrl()).into(iv_reduce);
+            iv_reduce.setVisibility(View.VISIBLE);
+        }else {
+            iv_reduce.setVisibility(View.GONE);
+        }
+        if(item.getProdSpecialUrl()!=null && !item.getProdSpecialUrl().equals("")) {
+            Glide.with(mContext).load(item.getProdSpecialUrl()).into(iv_coupon);
+            iv_coupon.setVisibility(View.VISIBLE);
+        }else {
+            iv_coupon.setVisibility(View.GONE);
+        }
+        if(item.getProdNewUrl()!=null && !item.getProdNewUrl().equals("")) {
+            Glide.with(mContext).load(item.getProdNewUrl()).into(iv_new);
+            iv_new.setVisibility(View.VISIBLE);
+        }else {
+            iv_new.setVisibility(View.GONE);
+        }
+
         tv_price.setTextColor(Color.parseColor("#FF2925"));
         rl_spec.setBackgroundResource(R.drawable.shape_jianbian10);
         if(item.getNotSend()!=null) {
@@ -94,22 +119,22 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
             }
         }
 
-        if(item.getBuyFlag().equals("")) {
-            helper.getView(R.id.tv_buy).setVisibility(View.GONE);
-        }else {
+        if(item.getBuyFlag()!=null && !item.getBuyFlag().equals("")) {
             helper.setText(R.id.tv_buy,item.getBuyFlag());
             helper.getView(R.id.tv_buy).setVisibility(View.VISIBLE);
+        }else {
+            helper.getView(R.id.tv_buy).setVisibility(View.GONE);
         }
         if(item.getFlag()==0) {
             Glide.with(mContext).load(item.getTypeUrl()).into(iv_no_data);
             iv_no_data.setVisibility(View.VISIBLE);
-            iv_type.setVisibility(View.GONE);
+//            iv_type.setVisibility(View.GONE);
         }else {
             if(item.getTypeUrl()!=null&&!item.getTypeUrl().equals("")) {
-                Glide.with(mContext).load(item.getTypeUrl()).into(iv_type);
-                iv_type.setVisibility(View.VISIBLE);
+//                Glide.with(mContext).load(item.getTypeUrl()).into(iv_type);
+//                iv_type.setVisibility(View.VISIBLE);
             }else {
-                iv_type.setVisibility(View.GONE);
+//                iv_type.setVisibility(View.GONE);
             }
             iv_no_data.setVisibility(View.GONE);
         }
@@ -132,6 +157,7 @@ public class MarketGoodsAdapter extends BaseQuickAdapter<MarketRightModel.DataBe
         });
 
         fl_container = helper.getView(R.id.fl_container);
+
         helper.setText(R.id.tv_name,item.getProductName());
         helper.setText(R.id.tv_sale,item.getSalesVolume());
         helper.setText(R.id.tv_price,item.getMinMaxPrice());

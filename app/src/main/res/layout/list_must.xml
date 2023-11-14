@@ -55,9 +55,10 @@
             android:id="@+id/ll_no_data"
             android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="800dp">
+            android:layout_height="450dp">
 
                 <ImageView
+                    android:id="@+id/iv_empty_data"
                     android:src="@mipmap/ic_no_data"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>

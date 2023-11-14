@@ -31,6 +31,7 @@ import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.BackEvent;
+import com.puyue.www.qiaoge.event.CityEvent1;
 import com.puyue.www.qiaoge.fragment.home.CityEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
@@ -200,6 +201,7 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
                                 }
                             },1200);
                             EventBus.getDefault().post(new CityEvent());
+//                            EventBus.getDefault().postSticky(new CityEvent1());
 
                         } else {
                             AppHelper.showMsg(mContext, baseModel.message);

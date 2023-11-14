@@ -34,10 +34,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_marginRight="@dimen/size_15dp"
                 android:text="展开"
                 android:textColor="#5A5A5A"
-                android:drawableRight="@mipmap/ic_drop_down"
+                android:textSize="@dimen/size_11dp" />
+
+            <ImageView
+                android:id="@+id/iv_arrow"
+                android:layout_toRightOf="@+id/tv_expand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/icon_arrow_down"
+                android:textColor="#5A5A5A"
                 android:textSize="@dimen/size_11dp" />
 
         </RelativeLayout>

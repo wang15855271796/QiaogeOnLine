@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +14,7 @@ import com.puyue.www.qiaoge.activity.home.Coupon1Adapter;
 import com.puyue.www.qiaoge.adapter.Coupon4Adapter;
 import com.puyue.www.qiaoge.adapter.FullGoodsAdapter;
 import com.puyue.www.qiaoge.base.BaseActivity;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.model.FullDetailModel;
 
 import java.io.Serializable;
@@ -28,6 +30,10 @@ public class FullActivity extends BaseActivity {
     RecyclerView recycler;
     @BindView(R.id.iv_back)
     ImageView iv_back;
+    @BindView(R.id.iv_404)
+    ImageView iv_404;
+    @BindView(R.id.ll_root)
+    LinearLayout ll_root;
     List<FullDetailModel.DataBean.SendGiftsBean> sendGifts;
     List<FullDetailModel.DataBean.SendGiftsBean> list1 = new ArrayList<>();
     List<FullDetailModel.DataBean.SendGiftsBean> list2 = new ArrayList<>();
@@ -48,6 +54,15 @@ public class FullActivity extends BaseActivity {
 
     @Override
     public void setViewData() {
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            iv_404.setImageResource(R.mipmap.ic_404);
+            iv_404.setVisibility(View.VISIBLE);
+            ll_root.setVisibility(View.GONE);
+        }else {
+            ll_root.setVisibility(View.VISIBLE);
+            iv_404.setImageResource(R.mipmap.ic_no_data);
+        }
+
         sendGifts = (List<FullDetailModel.DataBean.SendGiftsBean>) getIntent().getSerializableExtra("sendGifts");
 
         for (int i = 0; i < sendGifts.size(); i++) {

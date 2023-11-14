@@ -211,6 +211,33 @@ public class ProductNormalModel implements Serializable {
             String selfProd;
             int hotProdFlag;
             int freshPriceFlag;
+            String prodDeductUrl;
+            String prodSpecialUrl;
+            String prodNewUrl;
+
+            public String getProdDeductUrl() {
+                return prodDeductUrl;
+            }
+
+            public void setProdDeductUrl(String prodDeductUrl) {
+                this.prodDeductUrl = prodDeductUrl;
+            }
+
+            public String getProdSpecialUrl() {
+                return prodSpecialUrl;
+            }
+
+            public void setProdSpecialUrl(String prodSpecialUrl) {
+                this.prodSpecialUrl = prodSpecialUrl;
+            }
+
+            public String getProdNewUrl() {
+                return prodNewUrl;
+            }
+
+            public void setProdNewUrl(String prodNewUrl) {
+                this.prodNewUrl = prodNewUrl;
+            }
 
             public int getFreshPriceFlag() {
                 return freshPriceFlag;

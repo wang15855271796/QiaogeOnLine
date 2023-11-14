@@ -8,7 +8,7 @@
         android:id="@+id/ll_my_collection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/app_border_bottom_bg"
+        android:background="@drawable/shape_white4"
         android:orientation="horizontal">
 
         <FrameLayout
@@ -42,13 +42,11 @@
                 android:layout_height="wrap_content">
 
 
-
                 <ImageView
                     android:id="@+id/iv_item_my_collection_img"
                     android:layout_width="88dp"
                     android:layout_height="83dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
                     android:scaleType="fitXY" />
 
                 <ImageView
@@ -90,6 +88,7 @@
                     android:textSize="14dp" />
 
                 <TextView
+                    android:visibility="gone"
                     tools:text="销量"
                     android:id="@+id/tv_item_my_collection_volume"
                     android:layout_width="wrap_content"
@@ -99,6 +98,7 @@
                     android:textSize="@dimen/dp_10" />
 
                 <TextView
+                    android:visibility="gone"
                     tools:text="库存"
                     android:id="@+id/tv_stock"
                     android:layout_width="wrap_content"
@@ -121,8 +121,7 @@
                 android:id="@+id/ll_line"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size_2dp"
-                android:layout_alignBottom="@id/ll_pic"
+                android:layout_marginTop="48dp"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/ll_pic"
                 android:orientation="horizontal">
@@ -225,9 +224,4 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/ll_my_collection"
-        android:background="@drawable/app_border_bottom" />
 </RelativeLayout>

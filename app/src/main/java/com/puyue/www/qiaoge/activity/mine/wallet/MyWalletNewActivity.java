@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.NetWorkActivity;
 import com.puyue.www.qiaoge.activity.cart.ExChangesActivity;
 import com.puyue.www.qiaoge.activity.cart.ExchangeActivity;
 import com.puyue.www.qiaoge.adapter.RemainAdapter;
@@ -20,6 +21,7 @@ import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.event.BackEvent;
 import com.puyue.www.qiaoge.event.ExBackEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.BalanceDetailModel;
@@ -140,37 +142,43 @@ public class MyWalletNewActivity extends BaseSwipeActivity {
     }
 
     private void requestGoodsList() {
-        GetMyBalanceAPI.requestGetMyBalance(mContext)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<GetMyBalanceModle>() {
-                    @Override
-                    public void onCompleted() {
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            Intent intent = new Intent(mContext, NetWorkActivity.class);
+            startActivity(intent);
+            finish();
+        }else {
+            GetMyBalanceAPI.requestGetMyBalance(mContext)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<GetMyBalanceModle>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(GetMyBalanceModle getMyBalanceModle) {
-                        if (getMyBalanceModle.isSuccess()) {
-                            getMyBalanceModles = getMyBalanceModle;
-                            tv_amount.setText(getMyBalanceModle.getData().getAmount());
-
-                            relative_account_detail.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent =new Intent(mContext,ExchangeActivity.class);
-                                    intent.putExtra("amount",getMyBalanceModles.getData().getAmount());
-                                    startActivity(intent);
-                                }
-                            });
                         }
-                    }
-                });
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(GetMyBalanceModle getMyBalanceModle) {
+                            if (getMyBalanceModle.isSuccess()) {
+                                getMyBalanceModles = getMyBalanceModle;
+                                tv_amount.setText(getMyBalanceModle.getData().getAmount());
+
+                                relative_account_detail.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent =new Intent(mContext,ExchangeActivity.class);
+                                        intent.putExtra("amount",getMyBalanceModles.getData().getAmount());
+                                        startActivity(intent);
+                                    }
+                                });
+                            }
+                        }
+                    });
+        }
     }
 
     List<BalanceDetailModel.DataBean> lists = new ArrayList();

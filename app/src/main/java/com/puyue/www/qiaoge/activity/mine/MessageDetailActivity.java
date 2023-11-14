@@ -8,9 +8,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.NetWorkActivity;
 import com.puyue.www.qiaoge.api.mine.message.MessageDetailAPI;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.mine.MessageDetailModel;
 
@@ -74,31 +76,37 @@ public class MessageDetailActivity extends BaseSwipeActivity {
     }
 
     private void requestMessageDetail() {
-        MessageDetailAPI.requestMessageDetail(mContext, mId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<MessageDetailModel>() {
-                    @Override
-                    public void onCompleted() {
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            Intent intent = new Intent(mContext, NetWorkActivity.class);
+            startActivity(intent);
+        }else {
+            MessageDetailAPI.requestMessageDetail(mContext, mId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<MessageDetailModel>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(MessageDetailModel messageDetailModel) {
-                        logoutAndToHome(mContext, messageDetailModel.code);
-                        mModelMessageDetail = messageDetailModel;
-                        if (mModelMessageDetail.success) {
-                            updateText();
-                        } else {
-                            AppHelper.showMsg(mContext, mModelMessageDetail.message);
                         }
-                    }
-                });
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(MessageDetailModel messageDetailModel) {
+                            logoutAndToHome(mContext, messageDetailModel.code);
+                            mModelMessageDetail = messageDetailModel;
+                            if (mModelMessageDetail.success) {
+                                updateText();
+                            } else {
+                                AppHelper.showMsg(mContext, mModelMessageDetail.message);
+                            }
+                        }
+                    });
+        }
+
     }
 
     @Override

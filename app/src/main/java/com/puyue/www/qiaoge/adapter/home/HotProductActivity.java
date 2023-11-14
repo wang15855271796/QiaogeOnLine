@@ -1,16 +1,19 @@
 package com.puyue.www.qiaoge.adapter.home;
 
+import android.animation.IntEvaluator;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -19,6 +22,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.example.xrecyclerview.DensityUtil;
+import com.google.android.material.appbar.AppBarLayout;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.HomeActivity;
@@ -47,6 +52,8 @@ import com.puyue.www.qiaoge.model.home.ProductNormalModel;
 import com.puyue.www.qiaoge.utils.LoginUtil;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.Time;
+import com.puyue.www.qiaoge.view.CustomAppbarLayout;
+import com.puyue.www.qiaoge.view.MyScrollView2;
 import com.puyue.www.qiaoge.view.OutScollerview;
 import com.puyue.www.qiaoge.view.ScrollViewListeners;
 import com.puyue.www.qiaoge.view.selectmenu.MyScrollView;
@@ -77,8 +84,8 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
     RecyclerView recyclerView;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
-    @BindView(R.id.my_scroll)
-    OutScollerview my_scroll;
+//    @BindView(R.id.my_scroll)
+//    MyScrollView2 my_scroll;
     HotListAdapter hotAdapter;
     int pageNum = 1;
     int pageSize = 10;
@@ -86,13 +93,13 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
     ImageView iv_back;
     @BindView(R.id.tv_num)
     TextView tv_num;
+    @BindView(R.id.tv_num1)
+    TextView tv_num1;
     @BindView(R.id.iv_carts)
     ImageView iv_carts;
     @BindView(R.id.tv_search)
     TextView tv_search;
 
-    @BindView(R.id.ll_bg)
-    LinearLayout ll_bg;
     @BindView(R.id.ll_header1)
     RelativeLayout ll_header1;
     @BindView(R.id.iv_carts1)
@@ -101,9 +108,19 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
     ImageView iv_back1;
     @BindView(R.id.iv_search)
     ImageView iv_search;
+    @BindView(R.id.rl_grand)
+    RelativeLayout rl_grand;
+    @BindView(R.id.appbar)
+    CustomAppbarLayout appbar;
+    @BindView(R.id.rl_bar)
+    RelativeLayout rl_bar;
+    @BindView(R.id.ll_scroll)
+    LinearLayout ll_scroll;
     ProductNormalModel productNormalModel;
     private AlertDialog mTypedialog;
     String cell;
+    int scrollLength;
+    int topHeight;
     //热销集合
     private List<ProductNormalModel.DataBean.ListBean> list = new ArrayList<>();
 
@@ -200,7 +217,6 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
             @Override
             public void onClick(View v) {
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mActivity))) {
-//                    startActivity(new Intent(mContext, CartActivity.class));
                     startActivity(new Intent(mContext, HomeActivity.class));
                     EventBus.getDefault().post(new GoToCartFragmentEvent());
                 } else {
@@ -215,8 +231,9 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 pageNum = 1;
                 list.clear();
-                getProductsList(1,pageSize,"new");
+                getProductsList(1,pageSize,"hot");
                 getCartNum();
+                refreshLayout.setNoMoreData(false);
                 refreshLayout.finishRefresh();
             }
         });
@@ -232,7 +249,7 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
                 if (productNormalModel.getData()!=null) {
                     if(productNormalModel.getData().isHasNextPage()) {
                         pageNum++;
-                        getProductsList(pageNum, 10,"new");
+                        getProductsList(pageNum, 10,"hot");
                         refreshLayout.finishLoadMore();      //加载完成
                     }else {
                         refreshLayout.finishLoadMoreWithNoMoreData();
@@ -241,7 +258,94 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
             }
         });
 
+        rl_grand.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                rl_grand.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                int bar_height = rl_bar.getHeight();
+                int scroll_height = ll_scroll.getHeight();
+                scrollLength = Math.abs(scroll_height - bar_height);
+                topHeight = DensityUtil.dip2px(scrollLength, mActivity);
+                appbar.post(new Runnable() {
+                    @Override public void run() {
+                        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) appbar.getLayoutParams();
+                        AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) layoutParams.getBehavior();
 
+                        behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
+                            @Override
+                            public boolean canDrag(@NonNull AppBarLayout appBarLayout) {
+                                return true;
+                            }
+                        });
+                    }
+                });
+
+                appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+                    @Override
+                    public void onOffsetChanged(AppBarLayout appBarLayout, int y) {
+//                        long currentTime1 = System.currentTimeMillis();
+                        int abs = Math.abs(y);
+                        int totalScrollRange = appBarLayout.getTotalScrollRange()-262;
+//                        int totalScrollRange = appBarLayout.getTotalScrollRange()-DensityUtil.dip2px(88,mContext)
+//                        if (abs>=totalScrollRange) {
+//                            ll_parent_top.setVisibility(View.VISIBLE);
+////                            snap10.setTime(false, currentTime1, startTime1,endTime1);
+////                            snap10.start();
+//
+//                        } else {
+//                            ll_parent_top.setVisibility(View.INVISIBLE);
+//
+//                        }
+
+
+                        //滑动距离小于顶部栏从透明到不透明所需的距离
+                        if ((scrollLength - abs) > 0) {
+                            //估值器
+                            IntEvaluator evaluator = new IntEvaluator();
+                            float percent = (float) (scrollLength - abs) / scrollLength;
+
+                            if (percent <= 1) {
+                                //透明度
+
+                                rl_bar.setAlpha(1-percent);
+
+//                                //搜索栏左右margin值
+//                                evaluatemargin = evaluator.evaluate(percent, DensityUtil.dip2px(ENDMARGINLEFT,mActivity), DensityUtil.dip2px(STARTMARGINLEFT,mActivity));
+//                                //搜索栏顶部margin值
+//                                evaluatetop = evaluator.evaluate(percent,  DensityUtil.dip2px(ENDMARGINTOP,mActivity), DensityUtil.dip2px(STARTMARGINTOP,mActivity));
+//
+//                                layoutParams = (RelativeLayout.LayoutParams) rl_search.getLayoutParams();
+//                                layoutParams.setMargins(evaluatemargin, evaluatetop, evaluatemargin, 0);
+//                                if(evaluatetop<100) {
+//                                    layoutParams.setMargins(evaluatemargin, 85, evaluatemargin, 0);
+//                                    rl_search.requestLayout();
+//                                }else {
+//                                    layoutParams.setMargins(evaluatemargin, evaluatetop, evaluatemargin, 0);
+//                                    rl_search.requestLayout();
+//                                }
+//
+//
+//                                rl_search.requestLayout();
+//                            }
+                        } else {
+                            rl_bar.setAlpha(1);
+//                            if(layoutParams!=null){
+//                                layoutParams.setMargins(DensityUtil.dip2px(ENDMARGINLEFT,mActivity),85, DensityUtil.dip2px(ENDMARGINLEFT,mActivity), 0);
+//                                rl_search.requestLayout();
+//                                if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+////                                    iv_location.setImageResource(R.mipmap.icon_company_black);
+//                                }else {
+////                                    iv_location.setImageResource(R.mipmap.icon_address1);
+//                                }
+
+
+                            }
+                        }
+
+                    }
+                });
+            }
+        });
 
     }
 
@@ -347,7 +451,7 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
                                     List<ProductNormalModel.DataBean.ListBean> lists = getCommonProductModel.getData().getList();
                                     list.addAll(lists);
                                     hotAdapter.notifyDataSetChanged();
-                                    Log.d("wdasddw......",list.size()+"--");
+
                                 }
                             }
                             refreshLayout.setEnableLoadMore(true);
@@ -381,18 +485,19 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
         mTypedialog = new AlertDialog.Builder(mActivity, R.style.DialogStyle).create();
         mTypedialog.setCancelable(false);
 
-        my_scroll.setScrollViewListener(new ScrollViewListeners() {
-            @Override
-            public void onScrollChanged(OutScollerview scrollView, int x, int y, int oldx, int oldy) {
-                if(y!=0) {
-                    ll_header1.setVisibility(View.VISIBLE);
-                }else {
-                    ll_header1.setVisibility(View.GONE);
-                }
-            }
-        });
+//        my_scroll.setScrollChangeListener(new MyScrollView.ScrollChangedListener() {
+//            @Override
+//            public void onScrollChangedListener(int x, int y, int oldX, int oldY) {
+//                if(y!=0) {
+//                    ll_header1.setVisibility(View.VISIBLE);
+//                }else {
+//                    ll_header1.setVisibility(View.GONE);
+//                }
+//            }
+//        });
 
     }
+
 
     /**
      * 购物车数量
@@ -417,9 +522,12 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
                         if (getCartNumModel.isSuccess()) {
                             if(getCartNumModel.getData().getNum().equals("0")) {
                                 tv_num.setVisibility(View.GONE);
+                                tv_num1.setVisibility(View.GONE);
                             }else {
                                 tv_num.setVisibility(View.VISIBLE);
                                 tv_num.setText(getCartNumModel.getData().getNum());
+                                tv_num1.setVisibility(View.VISIBLE);
+                                tv_num1.setText(getCartNumModel.getData().getNum());
                             }
 
                         } else {
@@ -447,7 +555,7 @@ public class HotProductActivity extends BaseSwipeActivity implements View.OnClic
             case R.id.iv_search:
                 Intent intent = new Intent(mContext,SearchStartActivity.class);
                 startActivity(intent);
-                finish();
+
                 break;
 
             case R.id.iv_carts1:

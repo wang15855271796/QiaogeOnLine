@@ -25,6 +25,7 @@ import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.OrderAddressEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.mine.address.AddressModel;
 import com.puyue.www.qiaoge.utils.ToastUtil;
@@ -169,31 +170,38 @@ public class OrderAddressListActivity extends BaseSwipeActivity {
     }
 
     private void requestAddressList() {
-        AddressListAPI.requestAddressModel(mContext,"")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<AddressModel>() {
-                    @Override
-                    public void onCompleted() {
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            mIvNoData.setImageResource(R.mipmap.ic_404);
+            mIvNoData.setVisibility(View.VISIBLE);
+            mRv.setVisibility(View.GONE);
+        }else {
+            AddressListAPI.requestAddressModel(mContext,"")
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<AddressModel>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(AddressModel addressModel) {
-                        logoutAndToHome(mContext, addressModel.code);
-                        mModelAddress = addressModel;
-                        if (mModelAddress.success) {
-                            updateAddressList();
-                        } else {
-                            AppHelper.showMsg(mContext, mModelAddress.message);
                         }
-                    }
-                });
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(AddressModel addressModel) {
+                            logoutAndToHome(mContext, addressModel.code);
+                            mModelAddress = addressModel;
+                            if (mModelAddress.success) {
+                                updateAddressList();
+                            } else {
+                                AppHelper.showMsg(mContext, mModelAddress.message);
+                            }
+                        }
+                    });
+        }
+
     }
 
     private void updateAddressList() {

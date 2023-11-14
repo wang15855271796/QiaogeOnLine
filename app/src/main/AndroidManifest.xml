@@ -126,8 +126,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <meta-data android:name="TencentMapSDK" android:value="3PXBZ-XEMYK-YD5J3-AFT4I-YUKF2-ROBZR" />
+<!--        G5IBZ-TT3WL-NVXP5-E6UQU-IHAAQ-4JB3H-->
+<!--        3PXBZ-XEMYK-YD5J3-AFT4I-YUKF2-ROBZR-->
+        <meta-data android:name="TencentMapSDK" android:value="G5IBZ-TT3WL-NVXP5-E6UQU-IHAAQ-4JB3H" />
 
         <meta-data
             android:name="com.taobao.android.hotfix.IDSECRET"
@@ -688,7 +689,9 @@
         <activity android:name=".activity.HelpPayDescActivity"
             android:screenOrientation="portrait"
             />
-
+        <activity android:name=".activity.NetWorkActivity"
+            android:screenOrientation="portrait"
+            />
         <!--  -->
 
 

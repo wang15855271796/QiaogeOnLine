@@ -9,6 +9,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.flyco.tablayout.SlidingTabLayout;
@@ -30,6 +31,7 @@ import com.puyue.www.qiaoge.fragment.home.InfoFragment;
 import com.puyue.www.qiaoge.fragment.market.MarketsFragment;
 import com.puyue.www.qiaoge.fragment.mine.MineFragment;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.helper.StringHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.cart.GetCartNumModel;
@@ -70,6 +72,8 @@ public class TeamDetailActivity extends BaseSwipeActivity implements View.OnClic
     TextView tv_un_start;
     @BindView(R.id.iv_un_start)
     ImageView iv_un_start;
+    @BindView(R.id.iv_404)
+    ImageView iv_404;
     private FragmentTransaction mFragmentTransaction;
     TeamFragment teamFragment;
     TeamFragment1 team1Fragment;
@@ -204,35 +208,45 @@ public class TeamDetailActivity extends BaseSwipeActivity implements View.OnClic
      * 购物车数量
      */
     private void getCartNum() {
-        GetCartNumAPI.requestData(mContext)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<GetCartNumModel>() {
-                    @Override
-                    public void onCompleted() {
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            iv_404.setImageResource(R.mipmap.ic_404);
+            iv_404.setVisibility(View.VISIBLE);
+            fl_container.setVisibility(View.GONE);
+        }else {
+            fl_container.setVisibility(View.VISIBLE);
+            iv_404.setImageResource(R.mipmap.ic_no_data);
+            GetCartNumAPI.requestData(mContext)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<GetCartNumModel>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(GetCartNumModel getCartNumModel) {
-                        if (getCartNumModel.isSuccess()) {
-                            if(getCartNumModel.getData().getNum().equals("0")) {
-                                tv_num.setVisibility(View.GONE);
-                            }else {
-                                tv_num.setVisibility(View.VISIBLE);
-
-                                tv_num.setText(getCartNumModel.getData().getNum());
-                            }
-                        } else {
-                            AppHelper.showMsg(mContext, getCartNumModel.getMessage());
                         }
-                    }
-                });
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(GetCartNumModel getCartNumModel) {
+                            if (getCartNumModel.isSuccess()) {
+                                if(getCartNumModel.getData().getNum().equals("0")) {
+                                    tv_num.setVisibility(View.GONE);
+                                }else {
+                                    tv_num.setVisibility(View.VISIBLE);
+
+                                    tv_num.setText(getCartNumModel.getData().getNum());
+                                }
+                            } else {
+                                AppHelper.showMsg(mContext, getCartNumModel.getMessage());
+                            }
+                        }
+                    });
+        }
+
+
     }
 
     @Override

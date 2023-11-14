@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.RoundImageView;
 import com.puyue.www.qiaoge.api.market.ClassIfyModel;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class FirstAdapter extends BaseQuickAdapter<ClassIfyModel.DataBean,BaseVi
 
     @Override
     protected void convert(BaseViewHolder helper, ClassIfyModel.DataBean item) {
-        ImageView iv_icon = helper.getView(R.id.iv_icon);
+        RoundImageView iv_icon = helper.getView(R.id.iv_icon);
         TextView tv_desc = helper.getView(R.id.tv_desc);
         tv_desc.setText(item.getName());
         Glide.with(mContext).load(item.getImgUrl()).into(iv_icon);

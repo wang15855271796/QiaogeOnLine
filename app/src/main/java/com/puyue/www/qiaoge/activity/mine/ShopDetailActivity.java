@@ -19,12 +19,14 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.puyue.www.qiaoge.MyStandardGSYVideoPlayer;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.NetWorkActivity;
 import com.puyue.www.qiaoge.adapter.ImageVideoViewAdapter;
 import com.puyue.www.qiaoge.adapter.cart.ImageViewAdapter;
 import com.puyue.www.qiaoge.api.home.InfoDetailModel;
 import com.puyue.www.qiaoge.api.home.InfoListAPI;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -104,7 +106,11 @@ public class ShopDetailActivity extends BaseSwipeActivity {
         });
         getCityList();
 
-
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            Intent intent = new Intent(mContext, NetWorkActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override

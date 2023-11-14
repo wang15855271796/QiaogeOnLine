@@ -15,6 +15,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.CommonH5Activity;
 import com.puyue.www.qiaoge.activity.CommonH7Activity;
+import com.puyue.www.qiaoge.activity.NetWorkActivity;
 import com.puyue.www.qiaoge.activity.home.HomeGoodsListActivity;
 import com.puyue.www.qiaoge.activity.home.TeamDetailActivity;
 import com.puyue.www.qiaoge.adapter.mine.MessageCenterAdapter;
@@ -23,6 +24,7 @@ import com.puyue.www.qiaoge.api.mine.message.MessageListAPI;
 import com.puyue.www.qiaoge.api.mine.message.UpdateMessageStateAPI;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.helper.AppHelper;
+import com.puyue.www.qiaoge.helper.NetWorkHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.mine.MessageDetailModel;
 import com.puyue.www.qiaoge.model.mine.UpdateMessageStateModel;
@@ -91,6 +93,7 @@ public class MessageCenterActivity extends BaseSwipeActivity {
 
     @Override
     public void setViewData() {
+        requestMessageList();
         mPtr.setPtrHandler(new PtrHandler() {
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
@@ -205,37 +208,45 @@ public class MessageCenterActivity extends BaseSwipeActivity {
 
 
     private void requestMessageList() {
-        MessageListAPI.requestMessageList(mContext, pageNum, 10)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<MessageListModel>() {
-                    @Override
-                    public void onCompleted() {
+        if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
+            Intent intent = new Intent(mContext, NetWorkActivity.class);
+            startActivity(intent);
+            finish();
+            mPtr.refreshComplete();
+        }else {
+            MessageListAPI.requestMessageList(mContext, pageNum, 10)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<MessageListModel>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(MessageListModel messageListModel) {
-                        mPtr.refreshComplete();
-                        logoutAndToHome(mContext, messageListModel.code);
-                        mModelMessageList = messageListModel;
-                        if (mModelMessageList.code == 1) {
-                            if(mModelMessageList.data!=null && mModelMessageList.data.list!=null&& mModelMessageList.data.list.size()>0) {
-                                updateMessageList();
-                            }else {
-                                showEmptyLayout(mAdapterMessageCenter);
-                            }
-
-                        } else {
-                           AppHelper.showMsg(mContext, mModelMessageList.message);
                         }
-                    }
-                });
+
+                        @Override
+                        public void onError(Throwable e) {
+                            mPtr.refreshComplete();
+                        }
+
+                        @Override
+                        public void onNext(MessageListModel messageListModel) {
+                            mPtr.refreshComplete();
+                            logoutAndToHome(mContext, messageListModel.code);
+                            mModelMessageList = messageListModel;
+                            if (mModelMessageList.code == 1) {
+                                if(mModelMessageList.data!=null && mModelMessageList.data.list!=null&& mModelMessageList.data.list.size()>0) {
+                                    updateMessageList();
+                                }else {
+                                    showEmptyLayout(mAdapterMessageCenter);
+                                }
+
+                            } else {
+                                AppHelper.showMsg(mContext, mModelMessageList.message);
+                            }
+                        }
+                    });
+        }
+
     }
 
     private void updateMessageList() {
@@ -327,12 +338,6 @@ public class MessageCenterActivity extends BaseSwipeActivity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        requestMessageList();
-
-    }
 
 
 }
