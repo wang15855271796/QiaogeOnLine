@@ -576,8 +576,8 @@
 
         </LinearLayout>
 
-        <include layout="@layout/view_include_common_detail" />
     </LinearLayout>
+    <include layout="@layout/view_include_common_detail"/>
     <ImageView
         android:layout_centerInParent="true"
         android:id="@+id/iv_anim"

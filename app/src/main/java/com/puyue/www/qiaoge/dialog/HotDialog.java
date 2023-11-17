@@ -293,6 +293,7 @@ public class HotDialog extends Dialog implements View.OnClickListener{
                                 tv2.setText("未选购商品");
                                 tv_num.setVisibility(View.GONE);
                             }
+                            tv_free_desc.setText("满"+getCartNumModel.getData().getSendAmount()+"元免配送费");
                         } else {
                             AppHelper.showMsg(context, getCartNumModel.getMessage());
                         }

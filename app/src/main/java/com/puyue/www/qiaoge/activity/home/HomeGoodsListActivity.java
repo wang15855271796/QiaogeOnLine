@@ -497,7 +497,6 @@ public class HomeGoodsListActivity extends BaseActivity {
 
     @Override
     public void setViewData() {
-        Log.d("wdawdawd.....","12");
         getNewSpikeTool();
         getCartNum();
         getCustomerPhone();
@@ -551,7 +550,7 @@ public class HomeGoodsListActivity extends BaseActivity {
 
                         @Override
                         public void onError(Throwable e) {
-                            Log.d("wdawdawd.....","1234");
+
                         }
 
                         @Override
@@ -723,7 +722,6 @@ public class HomeGoodsListActivity extends BaseActivity {
                                     intent.putExtra("priceType",SharedPreferencesUtil.getString(mContext,"priceType"));
                                     intent.putExtra("num","-1");
                                     startActivity(intent);
-
                                 }
                             });
 
@@ -734,6 +732,10 @@ public class HomeGoodsListActivity extends BaseActivity {
                             if (seckillListModel.data.kills != null) {
                                 mListSeckill.addAll(seckillListModel.data.kills);
                             }
+
+                            int flag = seckillListModel.data.flag;
+                            UserInfoHelper.saveSpikePosition(mContext, String.valueOf(flag));
+
                         } else {
 
                             AppHelper.showMsg(mActivity, seckillListModel.message);

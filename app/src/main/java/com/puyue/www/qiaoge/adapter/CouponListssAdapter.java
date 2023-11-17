@@ -251,7 +251,6 @@ public class CouponListssAdapter extends BaseQuickAdapter<ItemModel,BaseViewHold
                         for (int i = 0; i <datas.size()-1 ; i++) {
                             if(datas.get(i).getNum()==null||datas.get(i).getNum().equals("")||datas.get(i).getNum().equals("0")||datas.get(i).getNum().equals("0.")||datas.get(i).getNum().equals("0.0")||datas.get(i).getNum().equals("0.00")) {
                                 ToastUtil.showSuccessMsg(mContext,"请输入数字");
-                                Log.d("wwwww...","222");
                                 return;
                             }else {
                                 Double s = Double.valueOf(datas.get(i).getNum());

@@ -646,7 +646,6 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
                                     tv_time.setText(model.getData().getStartTime()+"");
                                     tv_spec.setText("规格："+model.getData().getSpec());
                                     mTvInven.setText(model.getData().getRemainNum());
-                                    Log.d("edfawda........","123");
                                     tv_desc.setText(model.getData().getIntroduction());
                                     long currentTime = System.currentTimeMillis();
                                     long startTime = model.getData().getStartTime();
@@ -663,7 +662,6 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
                                         e.printStackTrace();
                                     }
 
-                                    Log.d("edfawda........","12");
                                     iv_pic.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
@@ -723,7 +721,6 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
                                         }
 
                                     }
-                                    Log.d("edfawda........","1");
                                     tvOldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
                                     mTvSub.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -813,7 +810,6 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
                                     });
                                     mTvAddCar.setEnabled(true);
                                 }
-                                Log.d("edfawda........","0");
                             } else {
                                 AppHelper.showMsg(mContext, model.getMessage());
                             }

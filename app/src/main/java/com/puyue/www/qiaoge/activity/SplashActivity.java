@@ -51,7 +51,6 @@ public class SplashActivity extends BaseActivity {
     @Override
     public void setViewData() {
         //是否点击了隐私权限
-        Log.d("wxSdqwda.....","12");
 //        Intent intent = getIntent();
 //        Uri uri = intent.getData();
 //        Log.d("swdaswdasd....",uri+"--");

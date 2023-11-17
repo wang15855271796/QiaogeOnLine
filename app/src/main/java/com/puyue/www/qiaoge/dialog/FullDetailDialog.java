@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -90,6 +91,10 @@ public class FullDetailDialog extends Dialog implements View.OnClickListener {
     ImageView iv_pic;
     @BindView(R.id.iv_operate)
     ImageView iv_operate;
+    @BindView(R.id.rl_bg)
+    RelativeLayout rl_bg;
+    @BindView(R.id.tv2)
+    TextView tv2;
     public List<GetProductDetailModel.DataBean.ProdSpecsBean> prodSpecs;
     private ChooseFullSpecAdapters chooseSpecAdapter;
 
@@ -284,12 +289,23 @@ public class FullDetailDialog extends Dialog implements View.OnClickListener {
                                 tv_num.setVisibility(View.VISIBLE);
                                 tv_num.setText(getCartNumModel.getData().getNum());
                                 tv_price_total.setText(getCartNumModel.getData().getTotalPrice());
-                                tv_free_desc.setText("满"+getCartNumModel.getData().getSendAmount()+"元免配送费");
+//                                tv_free_desc.setText("满"+getCartNumModel.getData().getSendAmount()+"元免配送费");
+
+                                iv_cart.setImageResource(R.mipmap.icon_shop_car);
+                                rl_bg.setBackgroundResource(R.drawable.shape_orange30);
+                                tv2.setVisibility(View.VISIBLE);
+                                tv2.setText("合计");
+                                tv_price_total.setVisibility(View.VISIBLE);
                             } else {
-                                tv_free_desc.setText("未选购商品");
+//                                tv_free_desc.setText("未选购商品");
                                 tv_num.setVisibility(View.GONE);
-                                tv_price_total.setText(getCartNumModel.getData().getTotalPrice());
+                                tv_price_total.setVisibility(View.GONE);
+                                iv_cart.setImageResource(R.mipmap.icon_unshop_car);
+                                rl_bg.setBackgroundResource(R.drawable.shape_grey21);
+                                tv2.setVisibility(View.VISIBLE);
+                                tv2.setText("未选购商品");
                             }
+                            tv_free_desc.setText("满"+getCartNumModel.getData().getSendAmount()+"元免配送费");
                         } else {
                             AppHelper.showMsg(context, getCartNumModel.getMessage());
                         }

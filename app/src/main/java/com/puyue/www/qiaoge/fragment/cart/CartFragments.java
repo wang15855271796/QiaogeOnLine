@@ -184,8 +184,8 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        getCartLists();
-        Log.d("wdawdwd......","222");
+//        getCartLists();
+
     }
 
 
@@ -259,7 +259,6 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
         super.onResume();
         start = System.currentTimeMillis();
         getCartLists();
-        Log.d("wdawdwd......","111");
     }
 
 
@@ -325,6 +324,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     List<Integer> statusList = new ArrayList<>();
     List<String> productMainIdList = new ArrayList<>();
     private void getCartLists() {
+
         if (!NetWorkHelper.isNetworkAvailable(getContext())) {
             ToastUtil.showSuccessMsg(getContext(), "网络不给力!");
             iv_anim.setVisibility(View.GONE);
