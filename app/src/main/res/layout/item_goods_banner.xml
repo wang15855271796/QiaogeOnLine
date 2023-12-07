@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:scaleType="fitXY"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/iv_image"
+        android:layout_width="match_parent"
+        android:layout_height="376dp" />
+
+    <ImageView
+        android:id="@+id/iv_player"
+        android:visibility="gone"
+        android:src="@mipmap/icon_player"
+        android:layout_width="@dimen/size_30dp"
+        android:layout_centerInParent="true"
+        android:layout_height="@dimen/size_30dp"/>
+
+</RelativeLayout>

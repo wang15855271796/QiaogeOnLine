@@ -322,9 +322,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
     int cartId;
     int checkFlag = 1;
     List<Integer> statusList = new ArrayList<>();
-    List<String> productMainIdList = new ArrayList<>();
     private void getCartLists() {
-
         if (!NetWorkHelper.isNetworkAvailable(getContext())) {
             ToastUtil.showSuccessMsg(getContext(), "网络不给力!");
             iv_anim.setVisibility(View.GONE);
@@ -811,14 +809,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
                     checkFlag = 1;
                 }
                 setCartChooseAll();
-//                if (mSelect) {
-//                    mSelect = false;
-//                    cartAdapter.setSelectAll(false);
-//
-//                } else {
-//                    mSelect = true;
-//                    cartAdapter.setSelectAll(true);
-//                }
+
                 break;
 
             case R.id.tv_buy:
@@ -1132,10 +1123,6 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
         getScrollData();
         getCartLists();
     }
-
-
-
-
 
     //按钮状态
     @Subscribe(threadMode = ThreadMode.MAIN)

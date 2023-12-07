@@ -843,8 +843,17 @@ public class AppHelper {
         //将自定义布局加载到dialog上
         dialog.setContentView(dialogView);
         final TextView mTv = dialog.findViewById(R.id.tv_dialog_photo);
+        ImageView iv_back = dialog.findViewById(R.id.iv_back);
         NoPreloadViewPager mVp = dialog.findViewById(R.id.vp_dialog_photo);
         FingerFrameLayout mFl = dialog.findViewById(R.id.ffl_dialog_photo);
+
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                hidePhotoDetailDialog();
+            }
+        });
         mFl.setOnAlphaChangeListener(new FingerFrameLayout.onAlphaChangedListener() {
             @Override
             public void onAlphaChanged(float alpha) {
@@ -883,6 +892,7 @@ public class AppHelper {
 
             @Override
             public void onPageSelected(int position) {
+
                 mTv.setText(position + 1 + "/" + mListUrl.size());
                 mTv.getBackground().setAlpha(100);
             }

@@ -25,13 +25,13 @@ public class ImageVideoViewAdapter extends BaseQuickAdapter<String, BaseViewHold
     @Override
     protected void convert(BaseViewHolder helper, String item) {
         imageView = helper.getView(R.id.iv_image);
-        ImageView iv_player = helper.getView(R.id.iv_player);
+//        ImageView iv_player = helper.getView(R.id.iv_player);
         Glide.with(mContext).load(item).into(imageView);
-        if(item.contains(".mp4")) {
-            iv_player.setVisibility(View.VISIBLE);
-        }else {
-            iv_player.setVisibility(View.GONE);
-        }
+//        if(item.contains(".mp4")) {
+//            iv_player.setVisibility(View.VISIBLE);
+//        }else {
+//            iv_player.setVisibility(View.GONE);
+//        }
 //        imageView.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {

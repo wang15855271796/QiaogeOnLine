@@ -245,7 +245,7 @@
                                             android:layout_weight="1"
                                             android:gravity="center"
                                             android:padding="3dp"
-                                            android:text="余额"
+                                            android:text="余额-充值（元）"
                                             android:textColor="#979797"
                                             android:textSize="10sp" />
 

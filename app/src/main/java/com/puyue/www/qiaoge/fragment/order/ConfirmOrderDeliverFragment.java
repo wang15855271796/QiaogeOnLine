@@ -1,22 +1,30 @@
 package com.puyue.www.qiaoge.fragment.order;
 
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
+
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,23 +33,32 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alipay.sdk.app.PayTask;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chinaums.pppay.unify.UnifyPayPlugin;
+import com.chinaums.pppay.unify.UnifyPayRequest;
 import com.example.xrecyclerview.DensityUtil;
 import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.activity.BeizhuActivity;
 
 import com.puyue.www.qiaoge.activity.ChooseConfirmAddressActivity;
+import com.puyue.www.qiaoge.activity.HelpPayActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.HomeFragmentEvent;
+import com.puyue.www.qiaoge.activity.cart.PayResultActivity;
 import com.puyue.www.qiaoge.activity.flow.FlowLayout;
 import com.puyue.www.qiaoge.activity.flow.TagFlowLayout;
 import com.puyue.www.qiaoge.activity.flow.TagsFlowLayout;
 import com.puyue.www.qiaoge.activity.home.ChooseAddressActivity;
 import com.puyue.www.qiaoge.activity.mine.account.AddressListActivity;
 import com.puyue.www.qiaoge.activity.mine.account.AddressListsActivity;
+import com.puyue.www.qiaoge.activity.mine.account.HisActivity;
+import com.puyue.www.qiaoge.activity.mine.account.PayActivity;
 import com.puyue.www.qiaoge.activity.mine.coupons.ChooseCouponsActivity;
+import com.puyue.www.qiaoge.activity.mine.order.NewOrderDetailActivity;
+import com.puyue.www.qiaoge.activity.mine.order.SelfSufficiencyOrderDetailActivity;
 import com.puyue.www.qiaoge.adapter.ConfirmCouponAdapter;
 import com.puyue.www.qiaoge.adapter.ConfirmGivenAdapter;
 import com.puyue.www.qiaoge.adapter.FullConfirmAdapter;
@@ -53,17 +70,23 @@ import com.puyue.www.qiaoge.adapter.UnOperateAdapter;
 import com.puyue.www.qiaoge.adapter.mine.ChooseCouponsAdapter;
 import com.puyue.www.qiaoge.adapter.mine.ConfirmOrderNewAdapter;
 import com.puyue.www.qiaoge.api.cart.CartBalanceAPI;
+import com.puyue.www.qiaoge.api.cart.CheckPayPwdAPI;
+import com.puyue.www.qiaoge.api.cart.GetPayResultAPI;
 import com.puyue.www.qiaoge.api.cart.OrderPayAPI;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.GetDeliverTimeAPI;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
+import com.puyue.www.qiaoge.api.mine.AccountCenterAPI;
 import com.puyue.www.qiaoge.api.mine.GetWalletAmountAPI;
+import com.puyue.www.qiaoge.api.mine.login.LoginAPI;
 import com.puyue.www.qiaoge.api.mine.order.GenerateOrderAPI;
 import com.puyue.www.qiaoge.base.BaseFragment;
 import com.puyue.www.qiaoge.base.BaseModel;
+import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.ChooseAddressDialog;
 import com.puyue.www.qiaoge.dialog.DisDialog;
 import com.puyue.www.qiaoge.dialog.PayDialog;
+import com.puyue.www.qiaoge.dialog.PayErrorDialog;
 import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.event.BeizhuEvent;
 import com.puyue.www.qiaoge.event.ChangeDeliverEvent;
@@ -83,11 +106,22 @@ import com.puyue.www.qiaoge.model.ModeModel;
 import com.puyue.www.qiaoge.model.PayListModel;
 import com.puyue.www.qiaoge.model.StatModel;
 import com.puyue.www.qiaoge.model.cart.CartBalanceModel;
+import com.puyue.www.qiaoge.model.cart.CheckPayPwdModel;
+import com.puyue.www.qiaoge.model.cart.GetPayResultModel;
+import com.puyue.www.qiaoge.model.cart.OrderPayModel;
 import com.puyue.www.qiaoge.model.home.GetDeliverTimeModel;
+import com.puyue.www.qiaoge.model.mine.AccountCenterModel;
 import com.puyue.www.qiaoge.model.mine.GetWalletAmountModel;
 import com.puyue.www.qiaoge.model.mine.order.GenerateOrderModel;
+import com.puyue.www.qiaoge.utils.DateUtils;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
+import com.rrtx.tzpaylib.CashierManager;
+import com.rrtx.tzpaylib.PaymentCallback;
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -97,9 +131,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -146,7 +182,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     // 获取想去的参数 和获取订单的参数
     private String normalProductBalanceVOStr;
     private String activityBalanceVOStr;
-    private String equipmentBalanceVOStr;
+
     private String cartListStr;
     private String NewgiftDetailNo = "";
     // 获取选择优惠券的参数
@@ -191,6 +227,8 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     private TextView tv_vip_content_one;
     private TextView tv_vip_content_two;
     private TextView tv_go;
+    TextView tv_test;
+    RecyclerView rv_pay;
     private Double toRechargeAmount;
     private boolean toRecharge;
     private Double totalAmount;
@@ -222,6 +260,8 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
     ImageView iv_deliver;
     TextView tv_send_time;
     UnOperate1Adapter unOperate1Adapter;
+    NestedScrollView nestedScrollView;
+    int selectionPosition = -1;
     @Override
     public int setLayoutId() {
         return R.layout.fragment_confirm_deliver_order;
@@ -234,6 +274,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
 
     @Override
     public void findViewById(View view) {
+        nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedScrollView);
         tv_send_time = (TextView) view.findViewById(R.id.tv_send_time);
         iv_deliver = (ImageView) view.findViewById(R.id.iv_deliver);
         tv_title = (TextView) view.findViewById(R.id.tv_title);
@@ -292,10 +333,22 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
         tv_vip_content_one = (TextView) view.findViewById(R.id.tv_vip_content_one);
         tv_vip_content_two = (TextView) view.findViewById(R.id.tv_tv_vip_content_two);
         tv_go = (TextView) view.findViewById(R.id.tv_go);
-
+        tv_test = (TextView) view.findViewById(R.id.tv_test);
+        rv_pay = (RecyclerView) view.findViewById(R.id.rv_pay);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(getContext(),R.color.white));
         }
+
+        nestedScrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                nestedScrollView.post(new Runnable() {
+                    public void run() {
+                        nestedScrollView.fullScroll(View.FOCUS_DOWN);
+                    }
+                });
+            }
+        });
     }
     
 
@@ -308,7 +361,6 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
         getWalletAmount();
         normalProductBalanceVOStr = mActivity.getIntent().getStringExtra("normalProductBalanceVOStr");
         activityBalanceVOStr = mActivity.getIntent().getStringExtra("activityBalanceVOStr");
-        equipmentBalanceVOStr = mActivity.getIntent().getStringExtra("equipmentBalanceVOStr");
         cartListStr = mActivity.getIntent().getStringExtra("cartListStr");
         adapter = new ConfirmOrderNewAdapter(R.layout.item_confirm_order_new, list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false) {
@@ -322,6 +374,8 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
         recyclerView.setAdapter(adapter);
         requestCartBalance(NewgiftDetailNo, 0,disType);
         requestCartBalance1(NewgiftDetailNo, 0,disType);
+
+
     }
 
     boolean isOpen = false;
@@ -396,6 +450,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                         ToastUtil.showSuccessMsg(mActivity,"无可结算的商品");
                         return;
                     }
+
                     if(tv_distribution.getText().toString().equals("")) {
                         AppHelper.showMsg(mActivity, "请选择配送服务");
                         buttonPay.setEnabled(true);
@@ -413,90 +468,17 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                         AppHelper.showMsg(mActivity, "请填写地址");
                         lav_activity_loading.hide();
                         buttonPay.setEnabled(true);
-                    } else {
-                        GetDeliverTimeAPI.requestDeliverTime(mActivity, areaContent)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Subscriber<GetDeliverTimeModel>() {
-                                    @Override
-                                    public void onCompleted() {
-
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-                                        lav_activity_loading.hide();
-                                        buttonPay.setEnabled(true);
-                                    }
-
-                                    @Override
-                                    public void onNext(GetDeliverTimeModel getDeliverTimeModel) {
-
-                                        if (getDeliverTimeModel.success) {
-                                            if (getDeliverTimeModel.data != null) {
-                                                mlist.clear();
-                                                try {
-                                                    JSONArray jsonArray = new JSONArray(getDeliverTimeModel.data);
-                                                    for (int i = 0; i < jsonArray.length(); i++) {
-                                                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                                        mlist.add(jsonObject.getString("name") + " " + jsonObject.getString("start") + "-" + jsonObject.getString("end"));
-                                                    }
-                                                    popView = View.inflate( getActivity(), R.layout.cztest_popwin, null);
-                                                    popWin = new PopupWindow(popView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true); //实例化PopupWindow
-
-                                                    //设置背景灰掉
-                                                    backgroundAlpha(0.4f);
-                                                    //显示弹出窗口
-                                                    popWin.showAtLocation(buttonPay, Gravity.BOTTOM, 0, 0);
-                                                    //pop关闭时变回原来
-                                                    popWin.setOnDismissListener(new poponDismissListener());
-                                                    //取消
-                                                    textView1 = (TextView) popView.findViewById(R.id.textView1);
-                                                    textView1.setOnClickListener(new View.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(View v) {
-                                                            popWin.dismiss();//关闭
-                                                        }
-                                                    });
-                                                    //确定
-                                                    textView2 = (TextView) popView.findViewById(R.id.textView2);
-                                                    wheelView = (WheelView) popView.findViewById(R.id.wheelView);
-                                                    wheelView.setItems(mlist);
-                                                    textView2.setOnClickListener(new View.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(View v) {
-                                                            JSONObject jsonObjects = null;
-                                                            try {
-                                                                jsonObjects = jsonArray.getJSONObject(wheelView.pos-1);
-                                                                deliverTimeStart = jsonObjects.getString("start");
-                                                                deliverTimeName = jsonObjects.getString("name");
-                                                                deliverTimeEnd = jsonObjects.getString("end");
-                                                            } catch (JSONException e) {
-                                                                e.printStackTrace();
-                                                            }
-                                                            popWin.dismiss();//关闭
-                                                            requestOrderNum();
-                                                        }
-                                                    });
-
-                                                } catch (JSONException e) {
-                                                    e.printStackTrace();
-                                                }
-                                            } else {
-                                                requestOrderNum();
-                                            }
-                                            buttonPay.setEnabled(true);
-                                            lav_activity_loading.hide();
-                                        } else {
-                                            AppHelper.showMsg(mActivity, getDeliverTimeModel.message);
-                                            lav_activity_loading.hide();
-                                            buttonPay.setEnabled(true);
-                                        }
-
-
-                                    }
-                                });
+                        return;
                     }
+
+                    if(selectionPosition == -1) {
+                        ToastUtil.showSuccessMsg(mActivity,"请选择支付方式");
+                        return;
+                    }
+
+                    //获取订单号
+                    requestOrderNum();
+
                     break;
                 case R.id.linearLayoutCoupons: // 优惠券
                     Intent intent2 = new Intent(getContext(), ChooseCouponsActivity.class);
@@ -520,6 +502,90 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
             }
         }
     };
+
+    private void getTimeData() {
+        GetDeliverTimeAPI.requestDeliverTime(mActivity, areaContent)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GetDeliverTimeModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        lav_activity_loading.hide();
+                        buttonPay.setEnabled(true);
+                    }
+
+                    @Override
+                    public void onNext(GetDeliverTimeModel getDeliverTimeModel) {
+                        if (getDeliverTimeModel.success) {
+                            if (getDeliverTimeModel.data != null) {
+                                mlist.clear();
+                                try {
+                                    JSONArray jsonArray = new JSONArray(getDeliverTimeModel.data);
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                        mlist.add(jsonObject.getString("name") + " " + jsonObject.getString("start") + "-" + jsonObject.getString("end"));
+                                    }
+                                    popView = View.inflate( getActivity(), R.layout.cztest_popwin, null);
+                                    popWin = new PopupWindow(popView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true); //实例化PopupWindow
+
+                                    //设置背景灰掉
+                                    backgroundAlpha(0.4f);
+                                    //显示弹出窗口
+                                    popWin.showAtLocation(buttonPay, Gravity.BOTTOM, 0, 0);
+                                    //pop关闭时变回原来
+                                    popWin.setOnDismissListener(new poponDismissListener());
+                                    //取消
+                                    textView1 = (TextView) popView.findViewById(R.id.textView1);
+                                    textView1.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            popWin.dismiss();//关闭
+                                        }
+                                    });
+                                    //确定
+                                    textView2 = (TextView) popView.findViewById(R.id.textView2);
+                                    wheelView = (WheelView) popView.findViewById(R.id.wheelView);
+                                    wheelView.setItems(mlist);
+                                    textView2.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            JSONObject jsonObjects = null;
+                                            try {
+                                                jsonObjects = jsonArray.getJSONObject(wheelView.pos-1);
+                                                deliverTimeStart = jsonObjects.getString("start");
+                                                deliverTimeName = jsonObjects.getString("name");
+                                                deliverTimeEnd = jsonObjects.getString("end");
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                            popWin.dismiss();//关闭
+                                            requestOrderNum();
+                                        }
+                                    });
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                requestOrderNum();
+                            }
+                            buttonPay.setEnabled(true);
+                            lav_activity_loading.hide();
+                        } else {
+                            AppHelper.showMsg(mActivity, getDeliverTimeModel.message);
+                            lav_activity_loading.hide();
+                            buttonPay.setEnabled(true);
+                        }
+
+
+                    }
+                });
+    }
 
     private void getDatas(long end) {
         RecommendApI.getDatas(mActivity,17,end)
@@ -710,6 +776,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                                     ll_unOperate.setVisibility(View.GONE);
                                 }
                             }
+
                             adapter.notifyDataSetChanged();
                         } else {
                             AppHelper.showMsg(mActivity, cartBalanceModel.message);
@@ -777,7 +844,7 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
         totalPrice.setText("¥" + info.getTotalAmount());
         payAmount = info.getTotalAmount();
         commodityAmount.setText("¥" + info.getProdAmount() + "");
-
+        orderPay();
         distributionFee.setText("满" + info.getSendAmount() + "元免配送费");
         for (int i = 0; i < info.getProductVOList().size(); i++) {
             if(info.getProductVOList().get(i).getSelfOrNot()==0) {
@@ -904,6 +971,94 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
         }
     }
 
+    /**
+     * 支付列表
+     */
+    List<PayListModel.DataBean> data;
+    List<PayListModel.DataBean> listPay = new ArrayList<>();
+    int jumpWx = -1;
+    byte payChannel = -1;
+    String walletAmt;
+    PayListAdapter payListAdapter;
+    private void orderPay() {
+        OrderPayAPI.requestsData(getContext(),orderId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<PayListModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(PayListModel payListModel) {
+                        if (payListModel.getCode()==1) {
+                            listPay.clear();
+                            if(payListModel.getData()!=null && payListModel.getData().size()> 0) {
+                                data = payListModel.getData();
+                                listPay.addAll(data);
+                                if(data.get(0).getFlag().equals("0")) {
+                                    payChannel = 1;
+                                    jumpWx = data.get(0).getJumpWx();
+                                }else if(data.get(0).getFlag().equals("1")){
+                                    payChannel = 2;
+                                    jumpWx = data.get(0).getJumpWx();
+                                }else if(data.get(0).getFlag().equals("2")){
+                                    payChannel = 3;
+                                    jumpWx = data.get(0).getJumpWx();
+                                }else if(data.get(0).getFlag().equals("3")){
+                                    payChannel = 16;
+                                    jumpWx = data.get(0).getJumpWx();
+                                }else if(payListModel.getData().get(0).getFlag().equals("4")) {
+                                    payChannel = 4;
+                                    jumpWx = payListModel.getData().get(0).getJumpWx();
+                                }
+
+                                rv_pay.setLayoutManager(new LinearLayoutManager(getContext()));
+                                payListAdapter = new PayListAdapter(R.layout.item_pay_list,listPay, payAmount);
+                                rv_pay.setAdapter(payListAdapter);
+                                payListAdapter.notifyDataSetChanged();
+
+                                payListAdapter.setOnCheckItemListener(new PayListAdapter.OnCheckItemListener() {
+                                    @Override
+                                    public void onItemClick(int position) {
+                                        payListAdapter.selectionPosition(position);
+                                        selectionPosition = position;
+                                        payListAdapter.notifyDataSetChanged();
+                                        if(data.get(position).getFlag().equals("0")) {
+                                            payChannel = 1;
+                                            walletAmt = data.get(position).getWalletAmt();
+                                            jumpWx = data.get(position).getJumpWx();
+                                        }else if(data.get(position).getFlag().equals("1")){
+                                            payChannel = 2;
+                                            jumpWx = data.get(position).getJumpWx();
+                                        }else if(data.get(position).getFlag().equals("2")){
+                                            payChannel = 3;
+                                            jumpWx = data.get(position).getJumpWx();
+                                        }else if(payListModel.getData().get(position).getFlag().equals("3")){
+                                            //flag = 3台州
+                                            payChannel = 16;
+                                            jumpWx = data.get(position).getJumpWx();
+                                        }else if(data.get(position).getFlag().equals("4")){
+                                            payChannel = 4;
+                                            jumpWx = data.get(position).getJumpWx();
+                                        }
+                                    }
+                                });
+                            }
+                        } else {
+
+                            AppHelper.showMsg(getContext(), payListModel.message);
+                        }
+                    }
+                });
+    }
+
     // 获取订单号
     private void requestOrderNum() {
         GenerateOrderAPI.requestGenerateOrder(mActivity, activityBalanceVOStr, normalProductBalanceVOStr, cartListStr, NewgiftDetailNo, tv_beizhu.getText().toString(),
@@ -928,21 +1083,28 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                             if(generateOrderModel.getData()!=null) {
                                 orderId = generateOrderModel.getData();
                                 String remark = tv_beizhu.getText().toString();
-//                                PayDialog payDialog = new PayDialog(mActivity,orderId,payAmount,remark,"0");
-//                                payDialog.show();
-//                                payDialog.setCancelable(false);
-//                                orderPay();
-                                PaymentDialog paymentFragment = new PaymentDialog();
-                                Bundle bundle = new Bundle();
-                                bundle.putString("orderId",orderId);
-                                bundle.putString("payAmount",payAmount);
-                                bundle.putString("remark", remark);
-                                bundle.putString("orderDeliveryType","0");
 
-                                paymentFragment.setArguments(bundle);
-                                paymentFragment.show(getFragmentManager(),"paymentFragment");
-                                paymentFragment.setCancelable(false);
-
+                                if(data.get(selectionPosition).getFlag().equals("0")) {
+                                    //余额充足
+                                    lav_activity_loading.setVisibility(View.VISIBLE);
+                                    lav_activity_loading.show();
+                                    orderPays(orderId,payChannel, Double.parseDouble(payAmount),remark);
+                                }else {
+                                    //调支付接口
+                                    if(payChannel == 4) {
+                                        //代付
+                                        Intent intent = new Intent(getActivity(), HelpPayActivity.class);
+                                        intent.putExtra("orderId",orderId);
+                                        intent.putExtra("orderDeliveryType",Integer.parseInt(orderDeliveryType));
+                                        getActivity().startActivity(intent);
+                                        lav_activity_loading.setVisibility(View.GONE);
+                                        lav_activity_loading.hide();
+                                    }else {
+                                        lav_activity_loading.setVisibility(View.VISIBLE);
+                                        lav_activity_loading.show();
+                                        orderPays(orderId,payChannel, Double.parseDouble(payAmount),remark);
+                                    }
+                                }
                             }
                         } else {
                             AppHelper.showMsg(mActivity, generateOrderModel.message);
@@ -955,45 +1117,526 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
                 });
     }
 
-    /**
-     * 提交订单
-     */
-//    List<PayListModel.DataBean> data;
-//    private void orderPay() {
-//        OrderPayAPI.requestsData(getContext())
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Subscriber<PayListModel>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(PayListModel payListModel) {
-//                        if (payListModel.success) {
-//                            data = payListModel.getData();
-//                            list.clear();
-//                            list.addAll(data);
-//                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//                            payListAdapter = new PayListAdapter(R.layout.item_pay_list,list);
-//                            recyclerView.setAdapter(payListAdapter);
-//
-//
-//
-//
-//                        } else {
-//                            AppHelper.showMsg(getContext(), payListModel.message);
-//                        }
-//                    }
-//                });
-//    }
+    PayErrorDialog payErrorDialog;
+    int errorFlag = 0;
+    // 支付
+    String outTradeNo;
+    private void orderPays(final String orderId, final byte payChannel, double payAmount, String remark) {
+        OrderPayAPI.requestData(getContext(), orderId, payChannel, payAmount, remark,errorFlag)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<OrderPayModel>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(OrderPayModel orderPayModel) {
+                        if (orderPayModel.code ==1) {
+
+                            if(orderPayModel.data!=null) {
+                                outTradeNo = orderPayModel.data.outTradeNo;
+                                String orderNoList = orderPayModel.data.orderNoList;
+                                String businessCstNo = orderPayModel.data.businessCstNo;
+                                String merchantNo = orderPayModel.data.merchantNo;
+                                UserInfoHelper.saveWalletStatus(getContext(), outTradeNo);
+                                JSONObject jsonObject = new JSONObject();
+                                try {
+                                    jsonObject.put("orderFlowNo",orderNoList);
+                                    jsonObject.put("businessCstNo",businessCstNo);
+                                    jsonObject.put("platMerCstNo",merchantNo);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                //台州银行
+                                if(orderPayModel.data.payType==16) {
+                                    CashierManager.getInstance().init(getContext());
+                                    CashierManager.getInstance().launchPayment(jsonObject.toString(), new PaymentCallback() {
+                                        @Override
+                                        public void paymentResult(String s) {
+                                            switch (s){
+                                                case "10":
+                                                    //初始状态
+                                                    break;
+
+                                                case "70":
+                                                    //失败
+                                                    getPayResult(outTradeNo);
+                                                    break;
+
+                                                case "80":
+                                                    //关闭
+                                                    ToastUtil.showSuccessMsg(getContext(),"支付通道关闭");
+                                                    break;
+
+                                                case "90":
+                                                    //成功
+                                                    getPayResult(outTradeNo);
+                                                    break;
+                                            }
+                                        }
+                                    });
+                                }
+
+
+                                if (payChannel == 1) {
+                                    //余额支付
+                                    //ok
+                                    SharedPreferencesUtil.saveString(getContext(),"payKey","1");
+                                    accountCenter();
+
+                                } else if (payChannel == 2&&orderPayModel.data.payType==2) {
+                                    //支付宝支付 已经改好了
+                                    if(DateUtils.isZhiFuBao(getContext())) {
+                                        SharedPreferencesUtil.saveString(getContext(),"payKey","2");
+                                        aliPay(orderPayModel.data.payToken);
+                                    }
+
+                                } else if (payChannel == 3&&jumpWx==1) {
+                                    //微信支付(小程序)1
+                                    if(DateUtils.isWeixin(getContext())) {
+                                        SharedPreferencesUtil.saveString(getContext(),"payKey","3");
+                                        Intent lan = getActivity().getPackageManager().getLaunchIntentForPackage("com.tencent.mm");
+                                        Intent t2 = new Intent(Intent.ACTION_MAIN);
+                                        t2.addCategory(Intent.CATEGORY_LAUNCHER);
+                                        t2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        t2.setComponent(lan.getComponent());
+                                        startActivity(t2);
+                                        weChatPay(orderPayModel.data.payToken);
+                                    }
+
+                                }else if(payChannel == 3&&jumpWx==0) {
+                                    //微信支付
+                                    if(DateUtils.isWeixin(getActivity())) {
+                                        SharedPreferencesUtil.saveString(getContext(),"payKey","3");
+                                        weChatPay2(orderPayModel.data.payToken);
+                                    }
+                                }else if(orderPayModel.data.payType==14&&payChannel == 2) {
+                                    //银联
+                                    if(DateUtils.isZhiFuBao(getActivity())) {
+                                        SharedPreferencesUtil.saveString(getContext(),"payKey","4");
+                                        payAliPay(orderPayModel.data.payToken);
+                                    }
+                                } else if(orderPayModel.data.payType==22) {
+                                    //支付宝跳转小程序
+                                    SharedPreferencesUtil.saveString(getContext(),"payKey","5");
+                                    zhiFuBaoPay(orderPayModel.data.payToken);
+                                }
+//                                else if(payChannel == 4) {
+//                                    Intent intent = new Intent(getActivity(), HelpPayActivity.class);
+//                                    intent.putExtra("orderId",orderId);
+//                                    intent.putExtra("orderDeliveryType",Integer.parseInt(orderDeliveryType));
+//                                    getActivity().startActivity(intent);
+//                                    lav_activity_loading.setVisibility(View.GONE);
+//                                    lav_activity_loading.hide();
+//                                }
+
+                                lav_activity_loading.setVisibility(View.GONE);
+                                lav_activity_loading.hide();
+
+                            }
+
+                            if(payErrorDialog!=null) {
+                                payErrorDialog.dismiss();
+                            }
+                        } else if(orderPayModel.code ==100006) {
+                            //ok
+
+                            payErrorDialog = new PayErrorDialog(getContext(), orderPayModel.message) {
+                                @Override
+                                public void Confirm() {
+                                    errorFlag = 1;
+                                    orderPays(orderId, payChannel, payAmount, remark);
+                                }
+
+                                @Override
+                                public void Cancel() {
+                                    dismiss();
+                                }
+                            };
+
+                            lav_activity_loading.hide();
+                            payErrorDialog.show();
+                        } else {
+                            //ok
+                            lav_activity_loading.setVisibility(View.GONE);
+                            lav_activity_loading.hide();
+                            ToastUtil.showSuccessMsg(getContext(),orderPayModel.message);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 支付宝支付（小程序）
+     */
+    private void zhiFuBaoPay(String json) {
+        try {
+            String uri = json;
+            Intent intent = Intent.parseUri(uri, Intent.URI_INTENT_SCHEME);
+            startActivity(intent);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 支付宝
+     * @param parms
+     */
+    private void payAliPay(String parms){
+        UnifyPayRequest msg = new UnifyPayRequest();
+        msg.payChannel = UnifyPayRequest.CHANNEL_ALIPAY;
+        msg.payData = parms;
+        UnifyPayPlugin.getInstance(getContext()).sendPayRequest(msg);
+    }
+
+    private void weChatPay2(String json) {
+        try {
+            IWXAPI api = WXAPIFactory.createWXAPI(getContext(), "wxbc18d7b8fee86977");
+            JSONObject obj = new JSONObject(json);
+            PayReq request = new PayReq();
+            request.appId = obj.optString("appId");
+            request.partnerId = obj.optString("mchID");
+            request.prepayId = obj.optString("prepayId");
+            request.packageValue = obj.optString("pkg");
+            request.nonceStr = obj.optString("nonceStr");
+            request.timeStamp = obj.optString("timeStamp");
+            request.sign = obj.optString("paySign");
+            api.sendReq(request);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 微信支付(小程序)
+     */
+    private void weChatPay(String json) {
+        SharedPreferencesUtil.saveString(getContext(),"pays","0");
+        String appId = "wx24c9fe5477c95b47"; // 填移动应用(App)的 AppId，非小程序的 AppID
+        IWXAPI api = WXAPIFactory.createWXAPI(getContext(), appId);
+        String userId = UserInfoHelper.getUserId(getContext());
+        WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
+        req.userName = "gh_02750c16f80b"; // 填小程序原始id
+        req.path = "/pagesGoods/toplay/apptoplay?token="+userId+"&oderNo="+orderId;
+        ////拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
+        req.miniprogramType =  WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发版，体验版和正式版
+        api.sendReq(req);
+    }
+
+    /**
+     * 支付宝支付结果
+     */
+    private static final int SDK_AUTH_FLAG = 2;
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @SuppressWarnings("unused")
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case SDK_PAY_FLAG: {
+                    Map<String, String> result = (Map<String, String>) msg.obj;
+                    Log.e("TGA", result.get("resultStatus") + "");
+                    if ("9000".equals(result.get("resultStatus"))) {
+                        //okpay
+                        //支付成功
+                        Intent intent = new Intent(getContext(), PayResultActivity.class);
+                        intent.putExtra(AppConstant.PAYCHANNAL, payChannel);
+                        intent.putExtra(AppConstant.OUTTRADENO, outTradeNo);
+                        intent.putExtra(AppConstant.ORDERDELIVERYTYPE, orderDeliveryType + "");
+
+                        intent.putExtra(AppConstant.ORDERID, orderId);
+                        startActivity(intent);
+                        getActivity().finish();
+                    } else if ("6001".equals(result.get("resultStatus"))) {
+                        //用户取消支付
+                        AppHelper.showMsg(getContext(), "您已取消支付");
+                    } else if ("6002".equals(result.get("resultStatus"))) {
+                        //网络连接错误
+                        AppHelper.showMsg(getContext(), "网络连接错误");
+                    } else {
+                        //okpay
+                        //支付失败
+                        Intent intent = new Intent(getContext(), PayResultActivity.class);
+                        intent.putExtra(AppConstant.PAYCHANNAL, payChannel);
+                        intent.putExtra(AppConstant.OUTTRADENO, outTradeNo);
+                        intent.putExtra(AppConstant.ORDERID, orderId);
+                        intent.putExtra(AppConstant.ORDERDELIVERYTYPE, orderDeliveryType + "");
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+                    break;
+                }
+                case SDK_AUTH_FLAG: {
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+    };
+
+    /**
+     * 支付宝支付
+     */
+    private static final int SDK_PAY_FLAG = 1;
+    private void aliPay(final String orderInfo) {
+        Runnable payRunnable = new Runnable() {
+            @Override
+            public void run() {
+                PayTask alipay = new PayTask(getActivity());
+                Map<String, String> result = alipay.payV2(orderInfo, true);
+                Message msg = new Message();
+                msg.what = SDK_PAY_FLAG;
+                msg.obj = result;
+                mHandler.sendMessage(msg);
+                //设置支付调用
+            }
+        };
+        // 必须异步调用
+        Thread payThread = new Thread(payRunnable);
+        payThread.start();
+    }
+
+    /**
+     * 获取用户支付密码的状态
+     */
+    private String mUserCell;
+    private void accountCenter() {
+        AccountCenterAPI.requestAccountCenter(getContext())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<AccountCenterModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(AccountCenterModel accountCenterModel) {
+
+                        if (accountCenterModel.success) {
+                            mUserCell = accountCenterModel.data.phone;
+                            if (accountCenterModel.data.hasSetPayPwd) {
+                                showInputPwdDialog();
+                            } else {
+                                showGoSetDialog();
+                            }
+                        } else {
+                            AppHelper.showMsg(getContext(), accountCenterModel.message);
+
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 显示输入支付密码弹窗
+     */
+    private AlertDialog mDialog;
+    private void showInputPwdDialog() {
+        mDialog = new AlertDialog.Builder(getContext()).create();
+        mDialog.setView(new EditText(getContext()));
+        mDialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+        mDialog.show();
+        mDialog.getWindow().setContentView(R.layout.dialog_input_pwd);
+        final EditText mEtPwd = mDialog.getWindow().findViewById(R.id.et_dialog_paypwd);
+        mDialog.getWindow().findViewById(R.id.tv_dialog_cancle).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserInfoHelper.saveForgetPas(getContext(), "wwwe");
+                UserInfoHelper.saveDeliverType(getContext(),1+"");
+                checkFirstChange();
+            }
+        });
+        mDialog.getWindow().findViewById(R.id.iv_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog.dismiss();
+                Intent intent;
+                if(orderDeliveryType.equals("0")) {
+                    intent = new Intent(getActivity(), NewOrderDetailActivity.class);
+                }else {
+                    intent = new Intent(getActivity(), SelfSufficiencyOrderDetailActivity.class);
+                    intent.putExtra("account","2");
+                }
+                intent.putExtra(AppConstant.ORDERID,orderId);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+        mDialog.getWindow().findViewById(R.id.tv_dialog_sure).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TextUtils.isEmpty(mEtPwd.getText().toString())) {
+                    AppHelper.showMsg(getContext(), "请输入交易密码");
+                } else {
+                    mDialog.dismiss();
+                    lav_activity_loading.setVisibility(View.VISIBLE);
+                    lav_activity_loading.show();
+                    checkPayPwd(outTradeNo, mEtPwd.getText().toString());
+
+                }
+            }
+        });
+    }
+
+    /**
+     * 校验支付密码
+     */
+    private void checkPayPwd(final String outTradeNo, String passWord) {
+        CheckPayPwdAPI.requestData(getContext(), outTradeNo, passWord)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<CheckPayPwdModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(CheckPayPwdModel checkPayPwdModel) {
+                        if (checkPayPwdModel.code==1) {
+                            lav_activity_loading.hide();
+                            lav_activity_loading.setVisibility(View.GONE);
+                            new Handler().postDelayed(new Runnable() {
+                                public void run() {
+                                    getPayResult(outTradeNo);
+                                }
+                            }, 500);
+                        } else {
+                            lav_activity_loading.hide();
+                            lav_activity_loading.setVisibility(View.GONE);
+                            ToastUtil.showSuccessMsg(getContext(),checkPayPwdModel.message);
+                        }
+                    }
+                });
+    }
+    /**
+     * 显示设置支付密码弹窗
+     */
+    private Handler handler = new Handler();
+    private void showGoSetDialog() {
+        mDialog = new AlertDialog.Builder(getContext()).create();
+        mDialog.setCanceledOnTouchOutside(false);
+        mDialog.show();
+        mDialog.getWindow().setContentView(R.layout.dialog_not_set_paypwd);
+        mDialog.getWindow().findViewById(R.id.tv_dialog_cancle).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog.dismiss();
+
+            }
+        });
+        mDialog.getWindow().findViewById(R.id.tv_dialog_goset).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserInfoHelper.saveDeliverType(getContext(),1+"");
+                UserInfoHelper.saveForgetPas(getContext(), "wwwe");
+                checkFirstChange();
+                mDialog.dismiss();
+
+            }
+        });
+    }
+
+    private void checkFirstChange() {
+        LoginAPI.checkFirst(getContext(),mUserCell)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+                        //没余额
+                        if(baseModel.code==-1) {
+                            Intent intent = new Intent(getActivity(), PayActivity.class);
+                            intent.putExtra("phone",mUserCell);
+                            startActivity(intent);
+                            mDialog.dismiss();
+                        }else if(baseModel.code ==1){
+                            Intent intent = new Intent(getActivity(), HisActivity.class);
+                            intent.putExtra("phone",mUserCell);
+                            startActivity(intent);
+                            mDialog.dismiss();
+                        }else {
+                            ToastUtil.showSuccessMsg(getActivity(),baseModel.message);
+                            mDialog.dismiss();
+                        }
+
+                    }
+
+                });
+    }
+
+    String orderDeliveryType = "0";
+    private void getPayResult(String outTradeNo) {
+        GetPayResultAPI.requestData(getContext(), outTradeNo)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GetPayResultModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        lav_activity_loading.setVisibility(View.GONE);
+                        lav_activity_loading.hide();
+                    }
+
+                    @Override
+                    public void onNext(GetPayResultModel getPayResultModel) {
+                        if (getPayResultModel.isSuccess()) {
+                            if(getPayResultModel.getData()!=null) {
+                                Intent intent = new Intent(getContext(), PayResultActivity.class);
+                                intent.putExtra(AppConstant.PAYCHANNAL, payChannel);
+                                intent.putExtra(AppConstant.OUTTRADENO, outTradeNo);
+                                intent.putExtra(AppConstant.ORDERID, orderId);
+                                intent.putExtra(AppConstant.ORDERDELIVERYTYPE, orderDeliveryType+"");
+                                startActivity(intent);
+                                lav_activity_loading.setVisibility(View.GONE);
+                                lav_activity_loading.hide();
+                                getActivity().finish();
+                            }
+
+                        } else {
+                            AppHelper.showMsg(getContext(), getPayResultModel.getMessage());
+                            lav_activity_loading.setVisibility(View.GONE);
+                            lav_activity_loading.hide();
+
+                        }
+                    }
+                });
+    }
     @Subscribe
     public void onEventMainThread(AddressEvent event) {
         list.clear();
@@ -1033,6 +1676,30 @@ public class ConfirmOrderDeliverFragment extends BaseFragment {
         super.onResume();
         if(!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
+        }
+
+        if(jumpWx==1) {
+            Intent intent;
+            intent = new Intent(getActivity(), NewOrderDetailActivity.class);
+            intent.putExtra(AppConstant.ORDERID,orderId);
+            startActivity(intent);
+            getActivity().finish();
+
+        }
+
+        if(outTradeNo!=null&&jumpWx==0) {
+            getPayResult(outTradeNo);
+        }
+
+        if(orderId!=null && payChannel == 4) {
+            Intent intent = new Intent(getContext(), NewOrderDetailActivity.class);
+            intent.putExtra("orderDeliveryType", orderDeliveryType);
+            intent.setClass(getContext(), NewOrderDetailActivity.class);
+            intent.putExtra("orderId",orderId);
+            intent.putExtra("account","2");
+            intent.putExtra(AppConstant.ORDERSTATE, "1");
+            getActivity().startActivity(intent);
+            SharedPreferencesUtil.saveString(getContext(),"account","2");
         }
     }
 

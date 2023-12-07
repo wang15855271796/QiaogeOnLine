@@ -692,6 +692,11 @@
         <activity android:name=".activity.NetWorkActivity"
             android:screenOrientation="portrait"
             />
+
+        <activity android:name=".activity.MyWalletActivity"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"
+            android:screenOrientation="portrait"
+            />
         <!--  -->
 
 

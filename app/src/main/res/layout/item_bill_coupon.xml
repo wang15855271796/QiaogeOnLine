@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--白底-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="95dp"
+            android:background="@drawable/shape_pink6">
+
+            <RelativeLayout
+                android:id="@+id/rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/sp_12"
+                    android:padding="2dp"
+                    android:background="@drawable/shape_jb4"
+                    tools:text="3张券" />
+
+
+                <TextView
+                    android:id="@+id/tv_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/tv_amount"
+                    android:layout_alignBottom="@+id/tv_amount"
+                    android:layout_marginLeft="@dimen/size_18dp"
+                    android:layout_marginTop="@dimen/size_20dp"
+                    android:text="￥"
+                    android:textColor="#FF3E05" />
+
+                <TextView
+                    android:id="@+id/tv_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_20dp"
+                    android:layout_toRightOf="@+id/tv_tip"
+                    android:textColor="#FF3E05"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    tools:text="12" />
+
+                <LinearLayout
+                    android:id="@+id/ll"
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/size_23dp"
+                    android:layout_toRightOf="@+id/tv_amount"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/size_15dp"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:textColor="#333333"
+                        android:textSize="@dimen/sp_14"
+                        android:textStyle="bold"
+                        tools:text="积分兑换积分兑换积分兑换积分兑换积分兑换" />
+
+                    <TextView
+                        android:id="@+id/tv_spec"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/size_5dp"
+                        android:textColor="#686868"
+                        android:textSize="@dimen/sp_12"
+                        tools:text="200元无门槛消费券" />
+
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/tv_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/size_18dp"
+                    android:layout_marginRight="@dimen/size_20dp"
+                    android:background="@drawable/shape_jb3"
+                    android:padding="5dp"
+                    android:text="查看详情"
+                    android:textColor="#ffffff" />
+
+                <View
+                    android:id="@+id/v"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/size_3dp"
+                    android:layout_below="@+id/ll"
+                    android:layout_marginLeft="@dimen/size_18dp"
+                    android:layout_marginTop="@dimen/size_8dp"
+                    android:layout_marginRight="@dimen/size_18dp"
+                    android:background="@drawable/app_my_coupon1" />
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_role"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/rl"
+                android:layout_marginLeft="@dimen/sp_16"
+                android:layout_marginTop="@dimen/size_5dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="#999999"
+                android:textSize="10dp"
+                tools:text="全场通用（仅限杭州市）" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl"
+                android:textColor="#999999"
+                android:textSize="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="@dimen/size_18dp"
+                tools:text="2020.7.30  8:00—2020.7.31  9:00" />
+
+
+
+        </RelativeLayout>
+
+
+
+    </RelativeLayout>
+</LinearLayout>

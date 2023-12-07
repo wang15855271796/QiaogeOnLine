@@ -23,8 +23,6 @@ import java.util.List;
  * Created by ${王涛} on 2021/1/19
  */
 public class ShopImageViewsAdapter extends RecyclerView.Adapter<ShopImageViewsAdapter.ViewHolder>  {
-    ImageView fiv;
-    ImageView iv_add;
     public static final int TYPE_CAMERA = 1;
     public static final int TYPE_PICTURE = 2;
     private LayoutInflater mInflater;
@@ -97,7 +95,6 @@ public class ShopImageViewsAdapter extends RecyclerView.Adapter<ShopImageViewsAd
                     // 通过源码分析应该是bindViewHolder()暂未绘制完成导致，知道原因的也可联系我~感谢
                     if (index != RecyclerView.NO_POSITION) {
                         notifyItemRemoved(index);
-
                     }
                 }
             });

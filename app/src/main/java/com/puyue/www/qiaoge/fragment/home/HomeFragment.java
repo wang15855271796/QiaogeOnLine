@@ -1608,6 +1608,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                                     startActivity(intent);
                                 }
                             });
+//                            rv_hot.setLayoutManager(new GridLayoutManager(mActivity, 3));
 
                             rv_hot.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
                             rv_hot.setAdapter(hotAdapter);

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -39,6 +40,7 @@ import rx.schedulers.Schedulers;
 
 import static com.umeng.socialize.utils.ContextUtil.getContext;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,8 +58,8 @@ public class MyWalletNewActivity extends BaseSwipeActivity {
     private TextView tv_amount;
     RecyclerView recyclerView;
     TextView tv_all;
-    private RelativeLayout relative_account_detail;
-
+    NestedScrollView nestedScrollView;
+    RelativeLayout ll_header;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -75,7 +77,8 @@ public class MyWalletNewActivity extends BaseSwipeActivity {
         tv_amount = (TextView) findViewById(R.id.tv_amount);
         tv_all = (TextView) findViewById(R.id.tv_all);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        relative_account_detail = (RelativeLayout) findViewById(R.id.relative_account_detail);
+        ll_header =  (RelativeLayout) findViewById(R.id.ll_header);
+        nestedScrollView = (NestedScrollView) findViewById(R.id.nestedScrollView);
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,6 +94,16 @@ public class MyWalletNewActivity extends BaseSwipeActivity {
             }
         });
 
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if(scrollY == 0) {
+                    ll_header.setVisibility(View.GONE);
+                }else {
+                    ll_header.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     /**
@@ -167,14 +180,7 @@ public class MyWalletNewActivity extends BaseSwipeActivity {
                                 getMyBalanceModles = getMyBalanceModle;
                                 tv_amount.setText(getMyBalanceModle.getData().getAmount());
 
-                                relative_account_detail.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Intent intent =new Intent(mContext,ExchangeActivity.class);
-                                        intent.putExtra("amount",getMyBalanceModles.getData().getAmount());
-                                        startActivity(intent);
-                                    }
-                                });
+
                             }
                         }
                     });

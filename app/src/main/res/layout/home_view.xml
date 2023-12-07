@@ -487,7 +487,7 @@
                 android:background="@drawable/shape_jianbian29"
                 android:orientation="vertical"
                 android:padding="6dp"
-                android:layout_height="120dp">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="match_parent"

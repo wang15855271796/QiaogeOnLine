@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.CommonH5Activity;
+import com.puyue.www.qiaoge.activity.MyWalletActivity;
 import com.puyue.www.qiaoge.activity.OpenShopActivity;
 import com.puyue.www.qiaoge.activity.mine.FeedBackActivity;
 import com.puyue.www.qiaoge.activity.mine.MessageCenterActivity;
@@ -564,7 +565,7 @@ public class MineFragment extends BaseFragment {
 
             {
                 String num = "0";
-                Intent intent = new Intent(mActivity, MyWalletNewActivity.class);
+                Intent intent = new Intent(mActivity, MyWalletActivity.class);
                 UserInfoHelper.saveUserWalletNum(getContext(), num);
                 startActivity(intent);
             } else if (view == ll_deduct) {

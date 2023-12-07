@@ -16,6 +16,7 @@
             android:layout_height="match_parent">
 
             <androidx.core.widget.NestedScrollView
+                android:id="@+id/nestedScrollView"
                 android:layout_width="match_parent"
                 android:layout_marginLeft="@dimen/size_8dp"
                 android:layout_marginRight="@dimen/size_8dp"
@@ -37,6 +38,7 @@
                         android:layout_height="@dimen/size_60dp">
 
                         <TextView
+                            android:id="@+id/tv_test"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -513,6 +515,12 @@
                             android:textSize="@dimen/size_12dp" />
 
                     </RelativeLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:background="@drawable/shape_white1"
+                        android:id="@+id/rv_pay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
 
                     <include layout="@layout/fragment_confirm_order_foot" />
 
