@@ -451,6 +451,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                         if (arg1 == null) {
                             return;
                         }
+
                         Address2GeoResultObject obj = (Address2GeoResultObject)arg1;
                         StringBuilder sb = new StringBuilder();
                         sb.append("地址解析");
@@ -849,6 +850,7 @@ public class ConfirmOrderSufficiencyFragment extends BaseFragment {
                                 list.clear();
                                 listUnOperate.clear();
                                 geocoder(cartBalanceModel.getData().wareAddress);
+
                                 if (cartBalanceModel.getData().getProductVOList().size() > 0) {
                                     for (int i = 0; i < cartBalanceModel.getData().getProductVOList().size(); i++) {
                                         if(cartBalanceModel.getData().getProductVOList().get(i).getSelfOrNot()==0) {

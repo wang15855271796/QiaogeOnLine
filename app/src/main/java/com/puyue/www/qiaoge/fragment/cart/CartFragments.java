@@ -972,7 +972,7 @@ public class CartFragments extends BaseFragment implements View.OnClickListener 
         TextView mTvCancel = (TextView) window.findViewById(R.id.tv_dialog_delete_cart_cancel);
         TextView mTvConfirm = (TextView) window.findViewById(R.id.tv_dialog_delete_cart_confirm);
         if (type == 0) {
-            Log.d("wdaswdwad......",mSelect+"");
+
             if(mSelect) {
                 mTvTitle.setText("确定删除购物车所有商品?");
             }else {

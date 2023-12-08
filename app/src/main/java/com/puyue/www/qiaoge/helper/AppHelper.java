@@ -51,6 +51,7 @@ import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.dialog.CartFullDialog;
 import com.puyue.www.qiaoge.dialog.ErrorAuthDialog;
 import com.puyue.www.qiaoge.event.LogoutEvent;
+import com.puyue.www.qiaoge.event.StopSoundEvent;
 import com.puyue.www.qiaoge.fragment.home.CityEvent;
 import com.puyue.www.qiaoge.model.AuthModel;
 import com.puyue.www.qiaoge.model.CartFullModel;
@@ -845,6 +846,15 @@ public class AppHelper {
         final TextView mTv = dialog.findViewById(R.id.tv_dialog_photo);
         NoPreloadViewPager mVp = dialog.findViewById(R.id.vp_dialog_photo);
         FingerFrameLayout mFl = dialog.findViewById(R.id.ffl_dialog_photo);
+        ImageView iv_back = dialog.findViewById(R.id.iv_back);
+
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hidePhotoDetailDialog();
+                EventBus.getDefault().post(new StopSoundEvent());
+            }
+        });
         mFl.setOnAlphaChangeListener(new FingerFrameLayout.onAlphaChangedListener() {
             @Override
             public void onAlphaChanged(float alpha) {

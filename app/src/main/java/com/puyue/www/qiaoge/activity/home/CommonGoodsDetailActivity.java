@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
 import com.puyue.www.qiaoge.activity.ChooseSendAddressActivity;
@@ -36,12 +38,14 @@ import com.puyue.www.qiaoge.activity.ShopsActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.activity.mine.login.RegisterMessageActivity;
 import com.puyue.www.qiaoge.activity.view.VideoHolder;
+import com.puyue.www.qiaoge.adapter.GoodsDetailBannerAdapter;
 import com.puyue.www.qiaoge.adapter.PicVideoAdapter;
 import com.puyue.www.qiaoge.adapter.SupplierAdapter;
 import com.puyue.www.qiaoge.adapter.cart.ChooseSpecAdapter;
 import com.puyue.www.qiaoge.adapter.cart.ImageViewAdapter;
 import com.puyue.www.qiaoge.adapter.cart.ItemChooseAdapter;
 import com.puyue.www.qiaoge.adapter.home.SeckillGoodActivity;
+import com.puyue.www.qiaoge.adapter.market.GoodsDetailAdapter;
 import com.puyue.www.qiaoge.adapter.market.GoodsRecommendAdapter;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.ClickCollectionAPI;
@@ -266,6 +270,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
     RelativeLayout ll_desc;
     ImageView iv_anim;
     List<String> quarterPic;
+    RecyclerView rv_banner;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         if (getIntent() != null && getIntent().getExtras() != null) {
@@ -301,7 +306,8 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
 
     @Override
     public void findViewById() {
-        iv_anim= FVHelper.fv(this, R.id.iv_anim);;
+        rv_banner = FVHelper.fv(this, R.id.rv_banner);
+        iv_anim= FVHelper.fv(this, R.id.iv_anim);
         ll_desc = FVHelper.fv(this, R.id.ll_desc);
         tv_price =  FVHelper.fv(this, R.id.tv_price);
         ll_service = FVHelper.fv(this, R.id.ll_service);
@@ -664,6 +670,7 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
     String teamId;
     String disId;
     int pos;
+
     private void getProductDetail(final int productId, String num, CommonGoodsDetailActivity commonGoodsDetailActivity) {
         if (!NetWorkHelper.isNetworkAvailable(mActivity)) {
             iv_404.setImageResource(R.mipmap.ic_404);
@@ -830,7 +837,6 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
                                 if(model.getData().getIntroduction()==null||model.getData().getIntroduction().equals("")) {
                                     ll_desc.setVisibility(View.GONE);
                                 }else {
-//                                tv_desc.setText(model.getData().getIntroduction());
                                     ll_desc.setVisibility(View.VISIBLE);
                                 }
                                 ll_desc.setOnClickListener(new View.OnClickListener() {
@@ -857,14 +863,6 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
 
                                 fl_container.setAdapter(chooseSpecAdapter);
 
-
-                                if(model.getData().getProdVideoUrl()!=null&&!model.getData().getProdVideoUrl().equals("")) {
-                                    images.add(0,model.getData().getProdVideoUrl());
-                                    iv_sound.setVisibility(View.VISIBLE);
-                                }else {
-                                    iv_sound.setVisibility(View.GONE);
-                                }
-
                                 getProductList();
                                 mTvAddCar.setEnabled(true);
                                 //填充详情
@@ -875,38 +873,50 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
                                 }else  {
                                     ll_surp.setVisibility(View.GONE);
                                 }
+                                images.clear();
+                                if(model.getData().getProdVideoUrl()!=null&&!model.getData().getProdVideoUrl().equals("")) {
+                                    images.add(0,model.getData().getProdVideoUrl());
+                                    iv_sound.setVisibility(View.VISIBLE);
+                                }else {
+                                    iv_sound.setVisibility(View.GONE);
+                                }
 
+                                if(model.getData().getTopPic()!=null && model.getData().getTopPic().size()>0) {
+                                    images.addAll(model.getData().getTopPic());
+                                }
+
+                                setBanner(images);
 
                                 //banner设置点击监听
-                                mBanner.setOnBannerListener(new OnBannerListener() {
-                                    @Override
-                                    public void OnBannerClick(Object data, int position) {
-                                        AppHelper.showPhotoDetailDialog(mContext, images, position);
-                                    }
-                                });
+//                                mBanner.setOnBannerListener(new OnBannerListener() {
+//                                    @Override
+//                                    public void OnBannerClick(Object data, int position) {
+//                                        AppHelper.showPhotoDetailDialog(mContext, images, position);
+//                                    }
+//                                });
 
                                 //填充banner
-                                fitBanner(models);
-                                mBanner.addBannerLifecycleObserver(commonGoodsDetailActivity)
-                                        .setAdapter(new PicVideoAdapter(mContext, picVideo))
-                                        .setIndicator(new NumIndicator(mContext))
-                                        .setIndicatorGravity(IndicatorConfig.Direction.RIGHT)
-                                        .addOnPageChangeListener(new OnPageChangeListener() {
-                                            @Override
-                                            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                                                stopVideo(position);
-                                            }
-
-                                            @Override
-                                            public void onPageSelected(int position) {
-                                                stopVideo(position);
-                                            }
-
-                                            @Override
-                                            public void onPageScrollStateChanged(int state) {
-
-                                            }
-                                        });
+//                                fitBanner(models);
+//                                mBanner.addBannerLifecycleObserver(commonGoodsDetailActivity)
+//                                        .setAdapter(new PicVideoAdapter(mContext, picVideo))
+//                                        .setIndicator(new NumIndicator(mContext))
+//                                        .setIndicatorGravity(IndicatorConfig.Direction.RIGHT)
+//                                        .addOnPageChangeListener(new OnPageChangeListener() {
+//                                            @Override
+//                                            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//                                                stopVideo(position);
+//                                            }
+//
+//                                            @Override
+//                                            public void onPageSelected(int position) {
+//                                                stopVideo(position);
+//                                            }
+//
+//                                            @Override
+//                                            public void onPageScrollStateChanged(int state) {
+//
+//                                            }
+//                                        });
 
                                 surplierList.clear();
                                 surplierList.addAll(model.getData().getSupProds());
@@ -921,6 +931,24 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
                     });
         }
 
+
+    }
+    GoodsDetailBannerAdapter goodsDetailBannerAdapter;
+    PagerSnapHelper pagerSnapHelper;
+    private void setBanner(List<String> images) {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false);
+        pagerSnapHelper = new PagerSnapHelper();
+        rv_banner.setOnFlingListener(null);
+        pagerSnapHelper.attachToRecyclerView(rv_banner);
+        rv_banner.setLayoutManager(linearLayoutManager);
+        goodsDetailBannerAdapter = new GoodsDetailBannerAdapter(R.layout.item_goods_banner,images);
+        rv_banner.setAdapter(goodsDetailBannerAdapter);
+        goodsDetailBannerAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                AppHelper.showIssueDetailDialog(mActivity, images, position);
+            }
+        });
 
     }
 
@@ -965,12 +993,6 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
 
                                 images.clear();
                                 picVideo.clear();
-                                if(data.getTopPic()!=null && data.getTopPic().size()>0) {
-                                    images.addAll(data.getTopPic());
-                                }else {
-                                    images.add(data.getDefaultPic());
-                                }
-
                                 if(data.getProdVideoUrl()!=null&&!data.getProdVideoUrl().equals("")) {
                                     images.add(0,data.getProdVideoUrl());
                                     iv_sound.setVisibility(View.VISIBLE);
@@ -978,45 +1000,53 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
                                     iv_sound.setVisibility(View.GONE);
                                 }
 
-
-                                if(images.size()>0) {
-                                    for (int i = 0; i < images.size(); i++) {
-                                        if(data.getProdVideoUrl()!=null&&!data.getProdVideoUrl().equals("")) {
-                                            if(i==0) {
-                                                picVideo.add(new PicVideoModel.DatasBean(images.get(0),2));
-                                            }else {
-                                                picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
-                                            }
-                                        } else {
-                                            picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
-                                        }
-                                    }
+                                if(data.getTopPic()!=null && data.getTopPic().size()>0) {
+                                    images.addAll(data.getTopPic());
                                 }else {
-                                    for (int i = 0; i < images.size(); i++) {
-                                        picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
-                                    }
+                                    images.add(data.getDefaultPic());
                                 }
 
-                                mBanner.addBannerLifecycleObserver(commonGoodsDetailActivity)
-                                        .setAdapter(new PicVideoAdapter(mContext, picVideo))
-                                        .setIndicator(new NumIndicator(mContext))
-                                        .setIndicatorGravity(IndicatorConfig.Direction.RIGHT)
-                                        .addOnPageChangeListener(new OnPageChangeListener() {
-                                            @Override
-                                            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                                                stopVideo(position);
-                                            }
+                                setBanner(images);
 
-                                            @Override
-                                            public void onPageSelected(int position) {
-                                                stopVideo(position);
-                                            }
 
-                                            @Override
-                                            public void onPageScrollStateChanged(int state) {
+//                                if(images.size()>0) {
+//                                    for (int i = 0; i < images.size(); i++) {
+//                                        if(data.getProdVideoUrl()!=null&&!data.getProdVideoUrl().equals("")) {
+//                                            if(i==0) {
+//                                                picVideo.add(new PicVideoModel.DatasBean(images.get(0),2));
+//                                            }else {
+//                                                picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
+//                                            }
+//                                        } else {
+//                                            picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
+//                                        }
+//                                    }
+//                                }else {
+//                                    for (int i = 0; i < images.size(); i++) {
+//                                        picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
+//                                    }
+//                                }
 
-                                            }
-                                        });
+//                                mBanner.addBannerLifecycleObserver(commonGoodsDetailActivity)
+//                                        .setAdapter(new PicVideoAdapter(mContext, picVideo))
+//                                        .setIndicator(new NumIndicator(mContext))
+//                                        .setIndicatorGravity(IndicatorConfig.Direction.RIGHT)
+//                                        .addOnPageChangeListener(new OnPageChangeListener() {
+//                                            @Override
+//                                            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//                                                stopVideo(position);
+//                                            }
+//
+//                                            @Override
+//                                            public void onPageSelected(int position) {
+//                                                stopVideo(position);
+//                                            }
+//
+//                                            @Override
+//                                            public void onPageScrollStateChanged(int state) {
+//
+//                                            }
+//                                        });
 
                             }
                         }else if(exchangeProductModel.getCode() == -10001) {
@@ -1062,11 +1092,6 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
 
                                 images.clear();
                                 picVideo.clear();
-                                if(data.getTopPic()!=null && data.getTopPic().size()>0) {
-                                    images.addAll(data.getTopPic());
-                                }else {
-                                    images.add(data.getDefaultPic());
-                                }
 
                                 if(data.getProdVideoUrl()!=null&&!data.getProdVideoUrl().equals("")) {
                                     images.add(0,data.getProdVideoUrl());
@@ -1075,45 +1100,53 @@ public class CommonGoodsDetailActivity extends BaseSwipeActivity implements View
                                     iv_sound.setVisibility(View.GONE);
                                 }
 
-
-                                if(images.size()>0) {
-                                    for (int i = 0; i < images.size(); i++) {
-                                        if(data.getProdVideoUrl()!=null&&!data.getProdVideoUrl().equals("")) {
-                                            if(i==0) {
-                                                picVideo.add(new PicVideoModel.DatasBean(images.get(0),2));
-                                            }else {
-                                                picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
-                                            }
-                                        } else {
-                                            picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
-                                        }
-                                    }
+                                if(data.getTopPic()!=null && data.getTopPic().size()>0) {
+                                    images.addAll(data.getTopPic());
                                 }else {
-                                    for (int i = 0; i < images.size(); i++) {
-                                        picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
-                                    }
+                                    images.add(data.getDefaultPic());
                                 }
 
-                                mBanner.addBannerLifecycleObserver(commonGoodsDetailActivity)
-                                        .setAdapter(new PicVideoAdapter(mContext, picVideo))
-                                        .setIndicator(new NumIndicator(mContext))
-                                        .setIndicatorGravity(IndicatorConfig.Direction.RIGHT)
-                                        .addOnPageChangeListener(new OnPageChangeListener() {
-                                            @Override
-                                            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                                                stopVideo(position);
-                                            }
+                                setBanner(images);
 
-                                            @Override
-                                            public void onPageSelected(int position) {
-                                                stopVideo(position);
-                                            }
 
-                                            @Override
-                                            public void onPageScrollStateChanged(int state) {
+//                                if(images.size()>0) {
+//                                    for (int i = 0; i < images.size(); i++) {
+//                                        if(data.getProdVideoUrl()!=null&&!data.getProdVideoUrl().equals("")) {
+//                                            if(i==0) {
+//                                                picVideo.add(new PicVideoModel.DatasBean(images.get(0),2));
+//                                            }else {
+//                                                picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
+//                                            }
+//                                        } else {
+//                                            picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
+//                                        }
+//                                    }
+//                                }else {
+//                                    for (int i = 0; i < images.size(); i++) {
+//                                        picVideo.add(new PicVideoModel.DatasBean(images.get(i),1));
+//                                    }
+//                                }
 
-                                            }
-                                        });
+//                                mBanner.addBannerLifecycleObserver(commonGoodsDetailActivity)
+//                                        .setAdapter(new PicVideoAdapter(mContext, picVideo))
+//                                        .setIndicator(new NumIndicator(mContext))
+//                                        .setIndicatorGravity(IndicatorConfig.Direction.RIGHT)
+//                                        .addOnPageChangeListener(new OnPageChangeListener() {
+//                                            @Override
+//                                            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//                                                stopVideo(position);
+//                                            }
+//
+//                                            @Override
+//                                            public void onPageSelected(int position) {
+//                                                stopVideo(position);
+//                                            }
+//
+//                                            @Override
+//                                            public void onPageScrollStateChanged(int state) {
+//
+//                                            }
+//                                        });
 
                             }
                         }else {

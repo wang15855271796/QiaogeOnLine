@@ -108,7 +108,7 @@ public class SchoolActivity extends BaseActivity implements View.OnClickListener
                 }else {
                     rl_header.setVisibility(View.VISIBLE);
                 }
-                Log.d("eswdawawd.......",y+"--");
+
             }
         });
     }
