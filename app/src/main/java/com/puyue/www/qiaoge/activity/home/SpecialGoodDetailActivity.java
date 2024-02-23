@@ -337,14 +337,12 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
         if(num!=null) {
             if(num.equals("-1")) {
                 mTvAddCar.setEnabled(false);
-//                getProductDetail(productId,num);
                 ll_service.setVisibility(View.GONE);
                 mTvAddCar.setEnabled(true);
                 mTvAddCar.setText("加入购物车");
                 mTvAddCar.setBackgroundResource(R.drawable.shape_jianbian5);
 
             }else {
-//                getProductDetail(productId,num);
                 ll_service.setVisibility(View.VISIBLE);
                 mTvAddCar.setEnabled(false);
                 mTvAddCar.setBackgroundResource(R.drawable.shape_grey);
@@ -463,33 +461,7 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
                 }
             } else if (view == mTvAddCar) {
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-                    if (UserInfoHelper.getUserType(mContext).equals(AppConstant.USER_TYPE_RETAIL)) {
-                        //这个用户是零售用户
-                        if ("批发".equals(type)) {
-                            if (StringHelper.notEmptyAndNull(cell)) {
-                                AppHelper.showAuthorizationDialog(mContext, cell, new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        if (StringHelper.notEmptyAndNull(AppHelper.getAuthorizationCode())) {
-                                            AppHelper.hideAuthorizationDialog();
-                                        showDialog();
-                                        } else {
-                                            AppHelper.showMsg(mActivity, "请输入完整授权码");
-                                        }
-                                    }
-                                });
-                            }
-                        } else {
-                            if (Integer.parseInt(mAmount.getText().toString()) == 0) {
-                                //未选择数量
-                                AppHelper.showMsg(mContext, "请选择数量");
-                            } else {
-                                addCart();
-                                getDatass(1);
-                            }
-                        }
-                    } else if (UserInfoHelper.getUserType(mContext).equals(AppConstant.USER_TYPE_WHOLESALE)) {
-                        //这个用户是批发用户
+                    if(priceType.equals("1")) {
                         if (Integer.parseInt(mAmount.getText().toString()) == 0) {
                             //未选择数量
                             AppHelper.showMsg(mContext, "请选择数量");
@@ -497,39 +469,107 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
                             addCart();
                             getDatass(1);
                         }
+                    }else {
+                        AppHelper.ShowAuthDialog(mActivity,cell);
                     }
+
+
+
+//                    if (StringHelper.notEmptyAndNull(cell)) {
+//                        AppHelper.showAuthorizationDialog(mContext, cell, new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                if (StringHelper.notEmptyAndNull(AppHelper.getAuthorizationCode())) {
+//                                    AppHelper.hideAuthorizationDialog();
+//                                    showDialog();
+//                                } else {
+//                                    AppHelper.showMsg(mActivity, "请输入完整授权码");
+//                                }
+//                            }
+//                        });
+//                    }else {
+//
+//                    }
+
+
+//                    if ("批发".equals(type)) {
+//
+//                    } else {
+//
+//                    }
+//                    if (UserInfoHelper.getUserType(mContext).equals(AppConstant.USER_TYPE_RETAIL)) {
+//                        //这个用户是零售用户
+//                        if ("批发".equals(type)) {
+//                            if (StringHelper.notEmptyAndNull(cell)) {
+//                                AppHelper.showAuthorizationDialog(mContext, cell, new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View view) {
+//                                        if (StringHelper.notEmptyAndNull(AppHelper.getAuthorizationCode())) {
+//                                            AppHelper.hideAuthorizationDialog();
+//                                        showDialog();
+//                                        } else {
+//                                            AppHelper.showMsg(mActivity, "请输入完整授权码");
+//                                        }
+//                                    }
+//                                });
+//                            }
+//                        } else {
+//
+//                            if (Integer.parseInt(mAmount.getText().toString()) == 0) {
+//                                //未选择数量
+//                                AppHelper.showMsg(mContext, "请选择数量");
+//                            } else {
+//                                addCart();
+//                                getDatass(1);
+//                            }
+//                        }
+//                    }
+//                    else if (UserInfoHelper.getUserType(mContext).equals(AppConstant.USER_TYPE_WHOLESALE)) {
+//                        //这个用户是批发用户
+//                        if (Integer.parseInt(mAmount.getText().toString()) == 0) {
+//                            //未选择数量
+//                            AppHelper.showMsg(mContext, "请选择数量");
+//                        } else {
+//                            addCart();
+//                            getDatass(1);
+//                        }
+//                    }
                 } else {
                     AppHelper.showMsg(mContext, "请先登录");
                     startActivity(LoginActivity.getIntent(mContext, LoginActivity.class));
                 }
             } else if (view == mLlCar) {
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(mContext))) {
-                    if (UserInfoHelper.getUserType(mContext).equals(AppConstant.USER_TYPE_RETAIL)) {
+                    startActivity(new Intent(mContext, HomeActivity.class));
+                    EventBus.getDefault().post(new GoToCartFragmentEvent());
+//                    if (UserInfoHelper.getUserType(mContext).equals(AppConstant.USER_TYPE_RETAIL)) {
                         //这个用户是零售用户
-                        if ("批发".equals(type)) {
-                            if (StringHelper.notEmptyAndNull(cell)) {
-                                AppHelper.showAuthorizationDialog(mContext, cell, new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        if (StringHelper.notEmptyAndNull(AppHelper.getAuthorizationCode())) {
-                                            AppHelper.hideAuthorizationDialog();
-                                         showDialog();
-                                        } else {
-                                            AppHelper.showMsg(SpecialGoodDetailActivity.this, "请输入完整授权码");
-                                        }
-                                    }
-                                });
-                            }
-                        } else {
-                            startActivity(new Intent(mContext, HomeActivity.class));
-                            EventBus.getDefault().post(new GoToCartFragmentEvent());
-                        }
-                    } else if (UserInfoHelper.getUserType(mContext).equals(AppConstant.USER_TYPE_WHOLESALE)) {
-                        //这个用户是批发用户
-                        startActivity(new Intent(mContext, HomeActivity.class));
-                        EventBus.getDefault().post(new GoToCartFragmentEvent());
-
-                    }
+//                        if ("批发".equals(type)) {
+//                            if (StringHelper.notEmptyAndNull(cell)) {
+//                                AppHelper.showAuthorizationDialog(mContext, cell, new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View view) {
+//                                        if (StringHelper.notEmptyAndNull(AppHelper.getAuthorizationCode())) {
+//                                            AppHelper.hideAuthorizationDialog();
+//                                         showDialog();
+//                                        } else {
+//                                            AppHelper.showMsg(SpecialGoodDetailActivity.this, "请输入完整授权码");
+//                                        }
+//                                    }
+//                                });
+//                            }
+//                        }
+//                        else {
+//                            startActivity(new Intent(mContext, HomeActivity.class));
+//                            EventBus.getDefault().post(new GoToCartFragmentEvent());
+//                        }
+//                    }
+//                    else if (UserInfoHelper.getUserType(mContext).equals(AppConstant.USER_TYPE_WHOLESALE)) {
+//                        //这个用户是批发用户
+//                        startActivity(new Intent(mContext, HomeActivity.class));
+//                        EventBus.getDefault().post(new GoToCartFragmentEvent());
+//
+//                    }
                 } else {
                     AppHelper.showMsg(mContext, "请先登录");
                     startActivity(LoginActivity.getIntent(mContext, LoginActivity.class));
@@ -773,12 +813,8 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
                                         } else {
                                             mTvAddCar.setEnabled(true);
                                             mTvAddCar.setText("加入购物车");
-//                                    mTvAddCar.setBackgroundColor(Color.parseColor("#F6551A"));
                                         }
                                     }
-//                            if(model.getData().getBannerUrl()!=null) {
-//                                Glide.with(mContext).load(model.getData().getBannerUrl()).into(iv_pic);
-//                            }
 
                                     images.clear();
                                     if (model.getData().getTopPics() != null) {

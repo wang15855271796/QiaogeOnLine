@@ -43,6 +43,7 @@ import com.puyue.www.qiaoge.api.mine.login.RegisterAPI;
 import com.puyue.www.qiaoge.api.mine.login.RegisterAgreementAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
+import com.puyue.www.qiaoge.dialog.PricacyDialog;
 import com.puyue.www.qiaoge.dialog.ShopDialog;
 import com.puyue.www.qiaoge.dialog.ShopStyleDialog;
 import com.puyue.www.qiaoge.event.AddressEvent;
@@ -111,6 +112,8 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
     ImageView iv_back;
     @BindView(R.id.tv_phone)
     TextView tv_phone;
+    @BindView(R.id.ll_xieyi)
+    LinearLayout ll_xieyi;
     private String phone;
     private String yzm;
     String token1;
@@ -123,9 +126,12 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
     private String mUrlAgreement;
     private RegisterAgreementModel mModelRegisterAgreement;
     int shopTypeId;
+    //默认不显示
+    int isDirect = 0;
     private AlertDialog mTypedialog;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
+        isDirect = getIntent().getIntExtra("isDirect",0);
         return false;
     }
 
@@ -192,27 +198,27 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
         tv_register_secret.setOnClickListener(this);
         iv_back.setOnClickListener(this);
         tv_shop_style.setOnClickListener(this);
-        et_author.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if(editable.toString().length()==6) {
-                    getCompanyName(editable.toString());
-                }else {
-                    rl_company_name.setVisibility(View.GONE);
-                    rl_shop_style.setVisibility(View.GONE);
-                }
-            }
-        });
+//        et_author.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//                if(editable.toString().length()==6) {
+//                    getCompanyName(editable.toString());
+//                }else {
+//                    rl_company_name.setVisibility(View.GONE);
+//                    rl_shop_style.setVisibility(View.GONE);
+//                }
+//            }
+//        });
     }
 
 
@@ -310,7 +316,11 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
         mTypedialog = new AlertDialog.Builder(mActivity, R.style.DialogStyle).create();
         mTypedialog.setCancelable(false);
 
-
+        if(isDirect == 0) {
+            ll_xieyi.setVisibility(View.GONE);
+        }else {
+            ll_xieyi.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -365,55 +375,80 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
                 password = et_password.getText().toString();
                 passwordSure = et_password_sure.getText().toString();
                 etAuthor = et_author.getText().toString();
-                if(wad == 0) {
-                    if(tv_shop_style.getText().toString().equals("")) {
-                        AppHelper.showMsg(mContext, "请选择店铺类型");
+                if(tv_shop_style.getText().toString().equals("")) {
+                    AppHelper.showMsg(mContext, "请选择店铺类型");
+                    return;
+                }
+//                if(wad == 0) {
+//                    if(tv_shop_style.getText().toString().equals("")) {
+//                        AppHelper.showMsg(mContext, "请选择店铺类型");
+//                        return;
+//                    }
+//                }
+
+                hintKbTwo();
+                if(isDirect == 1) {
+                    if(!cb_register.isChecked()) {
+                        PricacyDialog pricacyDialog = new PricacyDialog(mContext) {
+                            @Override
+                            public void Confirm() {
+                                cb_register.setChecked(true);
+                                dismiss();
+                            }
+                        };
+
+                        pricacyDialog.show();
                         return;
                     }
                 }
 
-                hintKbTwo();
-                if(cb_register.isChecked()) {
-                    if(password !=null && passwordSure !=null) {
-                        if(password.equals(passwordSure)) {
-                            if(password.length()>=6&& passwordSure.length()>=6) {
-//                                if (StringHelper.isLetterDigit(et_password.getText().toString())) {
-//                                    if(!etAuthor.equals("")) {
-//                                        getCompanyNames(etAuthor);
-//                                    }else {
-//                                        AppHelper.showMsg(mContext, "授权码不能为空");
-//                                    }
-//                                } else {
-//                                    AppHelper.showMsg(mContext, "登录密码由6-16位非同一数字或字母组成");
-//                                }
-                                if(!etAuthor.equals("")) {
-                                    getCompanyNames(etAuthor);
+
+                if(password !=null && passwordSure !=null) {
+                    if(password.equals(passwordSure)) {
+                        if(password.length()>=6&& passwordSure.length()>=6) {
+//                            if(!etAuthor.equals("")) {
+//                                getCompanyNames(etAuthor);
+//                            }else {
+//                                AppHelper.showMsg(mContext, "授权码不能为空");
+//                            }
+                            if(!etAuthor.equals("")) {
+                                getCompanyNames(etAuthor);
+                            }else {
+                                if(!tv_shop_style.getText().toString().equals("")&&!tv_shop_style.getText().toString().equals("0")) {
+                                    updateCheckCode();
                                 }else {
-                                    AppHelper.showMsg(mContext, "授权码不能为空");
+                                    AppHelper.showMsg(mContext, "店铺类型不能为空");
                                 }
-                            } else {
-                                AppHelper.showMsg(mContext, "密码位数不足!");
                             }
-                        }else {
-                            AppHelper.showMsg(mContext, "两次密码不一致!");
+                        } else {
+                            AppHelper.showMsg(mContext, "密码位数不足!");
                         }
                     }else {
-                        AppHelper.showMsg(mContext, "密码不能为空");
+                        AppHelper.showMsg(mContext, "两次密码不一致!");
                     }
-
                 }else {
-                    AppHelper.showMsg(mContext, "请选择注册协议");
+                    AppHelper.showMsg(mContext, "密码不能为空");
                 }
+
                 break;
 
             case R.id.tv_shop_style:
-                if(et_author.getText().toString().length()!=0) {
-                    String sqm = et_author.getText().toString();
+                String sqm = et_author.getText().toString();
+                if(sqm!=null && !sqm.equals("")) {
                     checkNum(sqm);
-
                 }else {
-                    AppHelper.showMsg(mContext, "授权码不能为空");
+                    showSelectType(sqm);
                 }
+
+                //店铺类型
+
+//                if(et_author.getText().toString().length()!=0) {
+//                    String sqm = et_author.getText().toString();
+//                    checkNum(sqm);
+//
+//                }else {
+//                    AppHelper.showMsg(mContext, "授权码不能为空");
+//                }
 
                 break;
 
@@ -730,6 +765,7 @@ public class RegisterStep1Activity extends BaseSwipeActivity implements View.OnC
     private void updateRegister() {
         AppHelper.showMsg(mContext, "注册成功");
         UserInfoHelper.saveUserId(mContext, mModelRegister.data.token);
+        UserInfoHelper.saveChangeFlag(mActivity,"0");
         UserInfoHelper.saveUserCell(mContext, mModelRegister.data.userBaseInfoVO.phone);
         UserInfoHelper.saveUserType(mContext, String.valueOf(mModelRegister.data.userBaseInfoVO.type));
         SharedPreferencesUtil.saveString(mContext,"userId",mModelRegister.data.userBaseInfoVO.id);

@@ -1,8 +1,10 @@
 package com.puyue.www.qiaoge.activity.mine.login;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -12,17 +14,27 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.CommonH5Activity;
+import com.puyue.www.qiaoge.api.mine.login.RegisterAgreementAPI;
 import com.puyue.www.qiaoge.api.mine.login.SendCodeAPI;
 import com.puyue.www.qiaoge.base.BaseActivity;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
+import com.puyue.www.qiaoge.dialog.CouponImageDialog;
+import com.puyue.www.qiaoge.dialog.PricacyDialog;
+import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.NetWorkHelper;
+import com.puyue.www.qiaoge.model.mine.login.RegisterAgreementModel;
 import com.puyue.www.qiaoge.utils.EnCodeUtil;
 import com.puyue.www.qiaoge.utils.StatusUtils;
 import com.puyue.www.qiaoge.utils.ToastUtil;
@@ -50,6 +62,12 @@ public class RegisterMessageActivity extends BaseActivity implements View.OnClic
     TextView tv_next;
     @BindView(R.id.iv_back)
     ImageView iv_back;
+    @BindView(R.id.cb_register)
+    CheckBox cb_register;
+    @BindView(R.id.tv_register_agreement)
+    TextView tv_register_agreement;
+    @BindView(R.id.tv_register_secret)
+    TextView tv_register_secret;
     private BaseModel mModelSendCode;
     private CountDownTimer countDownTimer;
     private boolean isSendingCode = true;
@@ -73,6 +91,14 @@ public class RegisterMessageActivity extends BaseActivity implements View.OnClic
         ll_yzm.setOnClickListener(this);
         tv_next.setOnClickListener(this);
         iv_back.setOnClickListener(this);
+
+        tv_register_secret.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        tv_register_secret.getPaint().setAntiAlias(true);//抗锯齿
+        tv_register_agreement.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        tv_register_agreement.getPaint().setAntiAlias(true);//抗锯齿
+        tv_register_agreement.setOnClickListener(this);
+        tv_register_secret.setOnClickListener(this);
+        requestRegisterAgreement();
     }
 
     @Override
@@ -84,7 +110,40 @@ public class RegisterMessageActivity extends BaseActivity implements View.OnClic
     public void setClickEvent() {
 
     }
+    /**
+     * 注册协议接口
+     */
+    RegisterAgreementModel mModelRegisterAgreement;
+    private void requestRegisterAgreement() {
+        if (!NetWorkHelper.isNetworkAvailable(mContext)) {
+            AppHelper.showMsg(mContext, "网络不给力!");
+        } else {
+            RegisterAgreementAPI.requestRegisterAgreement(mContext)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<RegisterAgreementModel>() {
+                        @Override
+                        public void onCompleted() {
 
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(RegisterAgreementModel registerAgreementModel) {
+                            mModelRegisterAgreement = registerAgreementModel;
+                            if (mModelRegisterAgreement.success) {
+                                mUrlAgreement = mModelRegisterAgreement.data;
+                            } else {
+                                AppHelper.showMsg(mContext, mModelRegisterAgreement.message);
+                            }
+                        }
+                    });
+        }
+    }
     /**
      * 验证手机号码
      * @param username
@@ -100,12 +159,35 @@ public class RegisterMessageActivity extends BaseActivity implements View.OnClic
         }
     }
 
+    private String mUrlAgreement;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
 
+            case R.id.tv_register_secret:
+                String url = "https://shaokao.qoger.com/apph5/html/yszc.html";
+                Intent intent = new Intent(mContext, NewWebViewActivity.class);
+                intent.putExtra("URL", url);
+                intent.putExtra("TYPE", 1);
+                intent.putExtra("name", "协议");
+                startActivity(intent);
+                break;
+
+
+            case R.id.tv_register_agreement:
+                startActivity(CommonH5Activity.getIntent(mContext, CommonH5Activity.class, mUrlAgreement));
+                break;
+
             case R.id.iv_back:
-                finish();
+                CouponImageDialog couponImageDialog = new CouponImageDialog(mContext) {
+                    @Override
+                    public void Confirm() {
+                        dismiss();
+                        finish();
+                    }
+                };
+                couponImageDialog.show();
+
                 break;
 
             case R.id.ll_yzm:
@@ -131,43 +213,78 @@ public class RegisterMessageActivity extends BaseActivity implements View.OnClic
             case R.id.tv_next:
                 String yzms = et_yzm.getText().toString();
                 String phones = et_phone.getText().toString();
-                if(!yzms.isEmpty()&&!phones.isEmpty()) {
-                    SendCodeAPI.requestSendCodes(mContext,phones,yzms)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Subscriber<BaseModel>() {
-                                @Override
-                                public void onCompleted() {
-
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-
-                                }
-
-                                @Override
-                                public void onNext(BaseModel baseModel) {
-                                    mModelSendCode = baseModel;
-                                    if (mModelSendCode.success) {
-                                        Intent intent = new Intent(mContext,RegisterStep1Activity.class);
-                                        intent.putExtra("phone",phones);
-                                        intent.putExtra("yzm",yzms);
-                                        startActivity(intent);
-                                    } else {
-                                        ToastUtil.showSuccessMsg(mContext, mModelSendCode.message);
-                                    }
-                                }
-                            });
-
-                }else {
-                    ToastUtil.showSuccessMsg(mContext,"请填写完信息");
+                hintKbTwo();
+//                if(!cb_register.isChecked()) {
+//                    ToastUtil.showSuccessMsg(mContext,"请勾选协议");
+//                    return;
+//                }
+                if(yzms.isEmpty()) {
+                    ToastUtil.showSuccessMsg(mContext,"请填写验证码");
+                    return;
                 }
 
+                if(phones.isEmpty()) {
+                    ToastUtil.showSuccessMsg(mContext,"请填写号码");
+                    return;
+                }
+
+                if(!cb_register.isChecked()) {
+                    PricacyDialog pricacyDialog = new PricacyDialog(mContext) {
+                        @Override
+                        public void Confirm() {
+                            cb_register.setChecked(true);
+                            dismiss();
+                        }
+                    };
+                    pricacyDialog.show();
+                    return;
+                }
+
+                getCode(phones,yzms);
                 break;
         }
     }
 
+    public void getCode(String phones,String yzms) {
+        SendCodeAPI.requestSendCodes(mContext,phones,yzms)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BaseModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseModel baseModel) {
+                        mModelSendCode = baseModel;
+                        if (mModelSendCode.success) {
+                            Intent intent = new Intent(mContext,RegisterStep1Activity.class);
+                            intent.putExtra("isDirect",0);
+                            intent.putExtra("phone",phones);
+                            intent.putExtra("yzm",yzms);
+                            startActivity(intent);
+                        } else {
+                            ToastUtil.showSuccessMsg(mContext, mModelSendCode.message);
+                        }
+                    }
+                });
+    }
+
+    //此方法只是关闭软键盘
+    private void hintKbTwo() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm.isActive() && getCurrentFocus() != null) {
+            if (getCurrentFocus().getWindowToken() != null) {
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
+    }
     /**
      * 发送验证码
      */

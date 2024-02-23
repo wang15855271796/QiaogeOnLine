@@ -444,7 +444,6 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
         rv_goods.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                Log.d("fefdsfda....",newState+"aa");
 
             }
 
@@ -1913,9 +1912,9 @@ public class HomeFragment10 extends BaseFragment implements View.OnClickListener
                         if (indexInfoModel.getCode()==1) {
                             if(indexInfoModel.getData()!=null) {
                                 data = indexInfoModel.getData();
-                                UserInfoHelper.saveAreaName(mActivity, data.getAreaName());
-                                UserInfoHelper.saveCity(mActivity, data.getCityName());
-                                UserInfoHelper.saveProvince(mActivity, data.getProvinceName());
+//                                UserInfoHelper.saveAreaName(mActivity, data.getAreaName());
+//                                UserInfoHelper.saveCity(mActivity, data.getCityName());
+//                                UserInfoHelper.saveProvince(mActivity, data.getProvinceName());
                                 list.clear();
                                 list1.clear();
                                 iconList.clear();

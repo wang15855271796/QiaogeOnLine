@@ -16,7 +16,7 @@ android {
             storePassword '432152'
         }
     }
-    compileSdkVersion 29
+    compileSdkVersion 30
 //    buildToolsVersion '29.0.2'
     //设置JDK1.8
     compileOptions {
@@ -26,9 +26,9 @@ android {
     defaultConfig {
         applicationId "com.barbecue.app"
         minSdkVersion 19
-        targetSdkVersion 29
-        versionCode 69
-        versionName "2.9.4"
+        targetSdkVersion 30
+        versionCode 70
+        versionName "2.9.5"
 //        manifestPlaceholders = [qqappid: "100424468"]
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         flavorDimensions "versionCode"
@@ -206,5 +206,5 @@ dependencies {
     implementation files('libs/open_sdk_3.5.12.2_r97423a8_lite.jar')
     implementation 'com.umeng.umsdk:share-wx:7.2.1'
 //    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.8.0'
-    implementation 'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.5.0'
+    implementation 'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.5.3.2'
 }

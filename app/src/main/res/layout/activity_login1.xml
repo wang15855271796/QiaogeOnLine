@@ -108,24 +108,27 @@
                 android:layout_marginRight="@dimen/size_21dp"
                 android:background="@null"
                 android:drawablePadding="@dimen/size_15dp"
-                android:hint="请输入密码"
-                android:inputType="textEmailAddress"
-                android:maxLength="16"
+                android:hint="请输入验证码"
+                android:inputType="number"
+                android:maxLength="6"
                 android:paddingLeft="@dimen/size_22dp"
                 android:singleLine="true"
                 android:textColor="#000000"
                 android:textColorHint="@color/color_CACACB"
                 android:textSize="@dimen/size_14dp" />
 
-            <ImageView
-                android:id="@+id/iv_eye"
+            <TextView
+                android:id="@+id/tv_yzm"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/size_42dp"
-                android:padding="@dimen/size_5dp"
-                android:src="@mipmap/icon_eye_close" />
+                android:gravity="center_vertical"
+                android:text="获取验证码"
+                android:textColor="#FF3E20"
+
+                />
 
         </RelativeLayout>
 
@@ -142,42 +145,6 @@
             android:textColor="#ffffff"
             android:textSize="16sp" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/size_30dp"
-            android:layout_marginTop="@dimen/size_2dp"
-            android:layout_marginRight="@dimen/size_30dp">
-
-            <TextView
-                android:id="@+id/tv_login_forget_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/size_10dp"
-                android:text="忘记密码？"
-                android:textColor="#949494"
-                android:textSize="@dimen/dp_10" />
-
-            <TextView
-                android:id="@+id/tv_login1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:padding="@dimen/size_10dp"
-                android:text="短信验证码登录"
-                android:textColor="#FF3B00"
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/tv_login_register"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:padding="@dimen/size_10dp"
-                android:text="立即注册"
-                android:textColor="#949494"
-                android:textSize="@dimen/dp_10" />
-        </RelativeLayout>
 
     </LinearLayout>
 

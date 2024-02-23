@@ -1,5 +1,7 @@
 package com.puyue.www.qiaoge.helper;
 
+import static rx.android.schedulers.AndroidSchedulers.mainThread;
+
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -11,20 +13,25 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
 
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -35,28 +42,43 @@ import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.example.xrecyclerview.DensityUtil;
 import com.luck.picture.lib.PictureSelector;
 import com.puyue.www.qiaoge.R;
 import com.puyue.www.qiaoge.UnicornManager;
+import com.puyue.www.qiaoge.activity.HelpPayDeliveryDetailActivity;
+import com.puyue.www.qiaoge.activity.HelpPaySelfDetailActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.mine.ShopDetailActivity;
 import com.puyue.www.qiaoge.activity.mine.login.LoginActivity;
 import com.puyue.www.qiaoge.adapter.FullDescDialogAdapter;
+import com.puyue.www.qiaoge.adapter.MarqueeAdapter;
 import com.puyue.www.qiaoge.adapter.PhotoVideoViewAdapter;
 import com.puyue.www.qiaoge.adapter.VideoAdapter;
 import com.puyue.www.qiaoge.adapter.market.PhotoViewAdapter;
 import com.puyue.www.qiaoge.api.cart.CartListAPI;
 import com.puyue.www.qiaoge.api.home.IndexHomeAPI;
+import com.puyue.www.qiaoge.api.home.IndexInfoModel;
+import com.puyue.www.qiaoge.banner.BannerConfig;
+import com.puyue.www.qiaoge.banner.GlideImageLoader;
+import com.puyue.www.qiaoge.banner.Transformer;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.dialog.CartFullDialog;
 import com.puyue.www.qiaoge.dialog.ErrorAuthDialog;
+import com.puyue.www.qiaoge.dialog.HelpPay1Dialog;
+import com.puyue.www.qiaoge.dialog.HuoOrderDialog;
+import com.puyue.www.qiaoge.event.FromIndexEvent;
+import com.puyue.www.qiaoge.event.GoToMarketEvent;
 import com.puyue.www.qiaoge.event.LogoutEvent;
 import com.puyue.www.qiaoge.event.StopSoundEvent;
 import com.puyue.www.qiaoge.fragment.home.CityEvent;
+import com.puyue.www.qiaoge.fragment.home.RvIconAdapter;
 import com.puyue.www.qiaoge.model.AuthModel;
 import com.puyue.www.qiaoge.model.CartFullModel;
 import com.puyue.www.qiaoge.model.CartFullsModel;
 import com.puyue.www.qiaoge.model.JudegModel;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.ToastUtil;
 import com.puyue.www.qiaoge.view.NoPreloadViewPager;
 import com.puyue.www.qiaoge.view.PhotoViewPager;
@@ -258,7 +280,7 @@ public class AppHelper {
         });
     }
 
-    private static void getCode(String code, Activity context, AlertDialog mDialog) {
+    public static void getCode1(String code, Activity context, Dialog mDialog) {
         IndexHomeAPI.getCode(context,code)
                 .subscribeOn(Schedulers.io())
                 .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
@@ -295,6 +317,46 @@ public class AppHelper {
                     }
                 });
     }
+
+    private static void getCode(String code, Activity context, AlertDialog mDialog) {
+        IndexHomeAPI.getCode(context,code)
+                .subscribeOn(Schedulers.io())
+                .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<AuthModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(AuthModel indexInfoModel) {
+                        if (indexInfoModel.getCode()==1) {
+                            mDialog.dismiss();
+                            Intent intent = new Intent(context,HomeActivity.class);//跳回首页
+                            context.startActivity(intent);
+                            EventBus.getDefault().post(new CityEvent());
+
+                        }else if(indexInfoModel.getCode()==100005) {
+                            mDialog.dismiss();
+                            ErrorAuthDialog errorAuthDialog = new ErrorAuthDialog(context,indexInfoModel.getData()) {
+                                @Override
+                                public void Confirm(String amount) {
+
+                                }
+                            };
+                            errorAuthDialog.show();
+                        }else {
+                            ToastUtil.showSuccessMsg(context,indexInfoModel.getMessage());
+                        }
+                    }
+                });
+    }
+
+
 
 //    private static void hintKbTwo(Activity context) {
 //        InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);

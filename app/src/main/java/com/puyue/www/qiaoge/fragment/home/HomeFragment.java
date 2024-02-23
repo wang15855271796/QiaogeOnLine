@@ -66,6 +66,7 @@ import com.puyue.www.qiaoge.activity.HelpPayDeliveryDetailActivity;
 import com.puyue.www.qiaoge.activity.HelpPaySelfDetailActivity;
 import com.puyue.www.qiaoge.activity.HomeActivity;
 import com.puyue.www.qiaoge.activity.HuoHomeActivity;
+import com.puyue.www.qiaoge.activity.Login1Activity;
 import com.puyue.www.qiaoge.activity.TopEvent;
 import com.puyue.www.qiaoge.activity.cart.TestActivity;
 import com.puyue.www.qiaoge.activity.home.ChangeCityActivity;
@@ -116,6 +117,8 @@ import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.constant.AppConstant;
 import com.puyue.www.qiaoge.dialog.ChooseHomeDialog;
 import com.puyue.www.qiaoge.dialog.CouponDialog;
+import com.puyue.www.qiaoge.dialog.CouponImage1Dialog;
+import com.puyue.www.qiaoge.dialog.CouponImageDialog;
 import com.puyue.www.qiaoge.dialog.CouponListDialog;
 import com.puyue.www.qiaoge.dialog.HelpPay1Dialog;
 import com.puyue.www.qiaoge.dialog.HomeActivityDialog;
@@ -1658,7 +1661,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
                     @Override
                     public void onNext(IsShowModel isShowModel) {
-                        if (isShowModel.isSuccess()) {
+                        if (isShowModel.getCode() == 1) {
                             if (isShowModel.data != null) {
                                 SharedPreferencesUtil.saveString(mActivity, "priceType", isShowModel.getData().enjoyProduct);
                             }
@@ -1906,7 +1909,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
     /**
      * 搜索热词
      */
-    List<IndexInfoModel.DataBean.ClassifyListBean> classifyLists;
+    List<IndexInfoModel.DataBean.ClassifyListBean> classifyLists = new ArrayList<>();
 
     /**
      * 更新购物车角标
@@ -1951,6 +1954,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                     @Override
                     public void onError(Throwable e) {
 //                        lav_activity_loading.hide();
+
                     }
 
                     @Override
@@ -1967,7 +1971,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                                 recommendList.clear();
                                 classifyList.clear();
 //                                lav_activity_loading.hide();
-
                                 if(data.getNoticeInfo()!=null && data.getNoticeInfo().size()> 0) {
                                     marqueeAdapters = new MarqueeAdapter();
                                     marqueeAdapters.setData(data.getNoticeInfo(),getActivity());
@@ -2146,10 +2149,20 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                                             indicator.setVisibility(View.GONE);
                                         }
 
+                                        rvIconAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                                            @Override
+                                            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                                mActivity.startActivity(new Intent(mActivity, HomeActivity.class));
+                                                EventBus.getDefault().post(new GoToMarketEvent());
+                                                EventBus.getDefault().postSticky(new FromIndexEvent(classifyList.get(position).getId() + ""));
+                                            }
+                                        });
+                                        rvIconAdapter.notifyDataSetChanged();
                                     }else {
                                         rv_icon.setVisibility(View.GONE);
                                         indicator.setVisibility(View.GONE);
                                     }
+
                                 }
 
                                 rv_icon.setLayoutParams(lp);
@@ -2158,16 +2171,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
                                     huoOrderDialog.show();
                                 }
 
-                                rvIconAdapter.notifyDataSetChanged();
 
-                                rvIconAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                                        mActivity.startActivity(new Intent(mActivity, HomeActivity.class));
-                                        EventBus.getDefault().post(new GoToMarketEvent());
-                                        EventBus.getDefault().postSticky(new FromIndexEvent(classifyList.get(position).getId() + ""));
-                                    }
-                                });
+
+
 
 //                                lav_activity_loading.hide();
                             }else {
@@ -2389,6 +2395,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         });
     }
 
+    CouponImage1Dialog couponImageDialog;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -2461,9 +2468,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
             case R.id.rl_message:
 
-//                Bitmap thumb = getThumb();
-//                iv_test.setImageBitmap(thumb);
-
                 if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(getActivity()))) {
                     Intent intents = new Intent(getActivity(), MessageCenterActivity.class);
                     startActivityForResult(intents, 101);
@@ -2475,19 +2479,38 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
 
             case R.id.tv_city:
                 //选择城市
-                if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
-                    Intent intent1 = new Intent(mActivity, ChooseCompanyActivity.class);
-                    startActivity(intent1);
+                if(StringHelper.notEmptyAndNull(UserInfoHelper.getUserId(getActivity()))) {
+                    if(SharedPreferencesUtil.getString(mActivity, "priceType").equals("1")) {
+                        //展示
+                        if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+                            Intent intent1 = new Intent(mActivity, ChooseCompanyActivity.class);
+                            startActivity(intent1);
+                        }else {
+                            if(data!=null) {
+                                Intent messageIntent = new Intent(getActivity(), ChooseAddressActivity.class);
+                                messageIntent.putExtra("cityName", data.getCityName());
+                                messageIntent.putExtra("areaName", data.getAreaName());
+                                messageIntent.putExtra("fromPage", "0");
+                                startActivity(messageIntent);
+                            }
+                        }
+                    }else {
+                        AppHelper.ShowAuthDialog(mActivity,cell);
+                    }
                 }else {
-                    if(data!=null) {
-                        Intent messageIntent = new Intent(getActivity(), ChooseAddressActivity.class);
-                        messageIntent.putExtra("cityName", data.getCityName());
-                        messageIntent.putExtra("areaName", data.getAreaName());
-                        messageIntent.putExtra("fromPage", "0");
-                        startActivity(messageIntent);
+                    if(SharedPreferencesUtil.getInt(mActivity,"wad")==1) {
+                        Intent intent1 = new Intent(mActivity, ChooseCompanyActivity.class);
+                        startActivity(intent1);
+                    }else {
+                        if(data!=null) {
+                            Intent messageIntent = new Intent(getActivity(), ChooseAddressActivity.class);
+                            messageIntent.putExtra("cityName", data.getCityName());
+                            messageIntent.putExtra("areaName", data.getAreaName());
+                            messageIntent.putExtra("fromPage", "0");
+                            startActivity(messageIntent);
+                        }
                     }
                 }
-
                 break;
 
 
@@ -2504,35 +2527,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,B
         }
     }
 
-    private Bitmap getThumb(){
-        byte[] thumb;
-        Bitmap bitmap = BitmapFactory.decodeResource(getActivity().getResources(),R.mipmap.bg_help_pay1);
-        Bitmap sendBitmap = Bitmap.createScaledBitmap(bitmap,180,180,true);
-        bitmap.recycle();
-
-        Canvas canvas = new Canvas(sendBitmap);
-
-        Paint paint = new Paint();
-        paint.setColor(Color.GRAY);
-        paint.setTextSize(35);
-
-        Paint paint1 = new Paint();
-        paint1.setColor(Color.BLACK);
-        paint1.setTypeface(Typeface.DEFAULT_BOLD);
-        paint1.setTextSize(65);
-
-        //计算得出文字的绘制起始x、y坐标
-        int posX = 180/2 - 35*"帮我付".length()/2;
-        int posY = 180/2 - 35/2;
 
 
-        int posX1 = 180/2 - 65*"10000".length()/2;
-        int posY1 = 270/2 - 65/2;
 
-        canvas.drawText("帮我付", posX, posY, paint);
-        canvas.drawText("10000", posX1, posY1, paint1);
-        return sendBitmap;
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

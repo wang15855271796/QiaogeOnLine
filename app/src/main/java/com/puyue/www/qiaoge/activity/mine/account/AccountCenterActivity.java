@@ -260,14 +260,14 @@ public class AccountCenterActivity extends BaseSwipeActivity {
                                 UserInfoHelper.saveAreaName(mContext, "上城区");
                                 UserInfoHelper.saveCity(mActivity, "杭州市");
                                 //清空UserId
-                                    UserInfoHelper.saveUserId(mContext, "");
-                                    UserInfoHelper.saveUserType(mContext, "");
-                                    SharedPreferencesUtil.saveInt(mActivity,"wad",0);
-                                    UserInfoHelper.saveUserHomeRefresh(mContext, "");
-                                    UserInfoHelper.saveUserMarketRefresh(mContext, "");
-                                    UserInfoHelper.saveChangeFlag(mActivity,"0");
-                                    EventBus.getDefault().post(new LogoutsEvent());
-                                    finish();
+                                UserInfoHelper.saveUserId(mContext, "");
+                                UserInfoHelper.saveUserType(mContext, "");
+                                SharedPreferencesUtil.saveInt(mActivity,"wad",0);
+                                UserInfoHelper.saveUserHomeRefresh(mContext, "");
+                                UserInfoHelper.saveUserMarketRefresh(mContext, "");
+                                UserInfoHelper.saveChangeFlag(mActivity,"0");
+                                EventBus.getDefault().post(new LogoutsEvent());
+                                finish();
 
                                 EasyPermissions.requestPermissions(this, "需要加载必要的权限。", 1, params);
 

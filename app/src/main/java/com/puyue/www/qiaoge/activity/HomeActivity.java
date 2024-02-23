@@ -183,16 +183,18 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
             UserInfoHelper.saveAreaName(mContext, district);
             SharedPreferencesUtil.saveString(mContext,"lat",location.getLatitude()+"");
             SharedPreferencesUtil.saveString(mContext,"lon",location.getLongitude()+"");
-
-            if (city != null) {
-                UserInfoHelper.saveCity(mContext, city);
-            } else {
-                UserInfoHelper.saveCity(mContext, "");
-            }
             type = "";
             locationMessage = location.getAddress();    //获取详细地址信息
             if (token != null) {
-                sendLocation();
+                if(i == 0) {
+                    sendLocation();
+                    if (city != null) {
+                        UserInfoHelper.saveCity(mContext, city);
+                    } else {
+                        UserInfoHelper.saveCity(mContext, "杭州市");
+                    }
+                }
+
             }
         }
 
@@ -236,7 +238,6 @@ public class HomeActivity extends BaseActivity implements CartFragment.FragmentI
         token = AppConstant.TOKEN;
         EventBus.getDefault().post(new InitEvent());
         UserInfoHelper.saveChangeFlag(mContext,0+"");
-
         UserInfoHelper.saveCity(mActivity, "杭州市");
         UserInfoHelper.saveAreaName(mContext, "上城区");
         getHomeStyle();

@@ -1978,9 +1978,9 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener,
                         if (indexInfoModel.getCode()==1) {
                             if(indexInfoModel.getData()!=null) {
                                 data = indexInfoModel.getData();
-                                UserInfoHelper.saveAreaName(mActivity, data.getAreaName());
-                                UserInfoHelper.saveCity(mActivity, data.getCityName());
-                                UserInfoHelper.saveProvince(mActivity, data.getProvinceName());
+//                                UserInfoHelper.saveAreaName(mActivity, data.getAreaName());
+//                                UserInfoHelper.saveCity(mActivity, data.getCityName());
+//                                UserInfoHelper.saveProvince(mActivity, data.getProvinceName());
                                 list.clear();
                                 list1.clear();
                                 iconList.clear();

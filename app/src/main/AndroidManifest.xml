@@ -254,6 +254,9 @@
             android:screenOrientation="portrait"
             />
 
+        <activity android:name=".activity.Login1Activity"
+            android:screenOrientation="portrait"
+            />
         <activity android:name=".activity.PlayerActivity"
             android:screenOrientation="portrait"
             />

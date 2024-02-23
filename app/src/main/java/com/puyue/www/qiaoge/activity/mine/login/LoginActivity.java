@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -24,6 +25,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,16 +35,21 @@ import android.widget.TextView;
 import com.chuanglan.shanyan_sdk.OneKeyLoginManager;
 import com.chuanglan.shanyan_sdk.listener.OneKeyLoginListener;
 import com.chuanglan.shanyan_sdk.listener.OpenLoginAuthListener;
+import com.puyue.www.qiaoge.NewWebViewActivity;
 import com.puyue.www.qiaoge.R;
+import com.puyue.www.qiaoge.activity.CommonH5Activity;
 import com.puyue.www.qiaoge.activity.ConfigUtils;
 import com.puyue.www.qiaoge.activity.HomeActivity;
+import com.puyue.www.qiaoge.activity.Login1Activity;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.home.CityChangeAPI;
 import com.puyue.www.qiaoge.api.home.GetCustomerPhoneAPI;
 import com.puyue.www.qiaoge.api.home.OneRegisterModel;
 import com.puyue.www.qiaoge.api.mine.login.LoginAPI;
+import com.puyue.www.qiaoge.api.mine.login.RegisterAgreementAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
+import com.puyue.www.qiaoge.dialog.PricacyDialog;
 import com.puyue.www.qiaoge.event.LogoutEvent;
 import com.puyue.www.qiaoge.fragment.home.CityEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
@@ -52,13 +59,16 @@ import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.listener.NoDoubleClickListener;
 import com.puyue.www.qiaoge.model.IsShowModel;
 import com.puyue.www.qiaoge.model.mine.login.LoginModel;
+import com.puyue.www.qiaoge.model.mine.login.RegisterAgreementModel;
 import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 import com.puyue.www.qiaoge.utils.Time;
+import com.puyue.www.qiaoge.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import butterknife.BindView;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -67,7 +77,7 @@ import rx.schedulers.Schedulers;
  * Created by Administrator on 2018/4/3.
  */
 
-public class LoginActivity extends BaseSwipeActivity {
+public class LoginActivity extends BaseSwipeActivity implements View.OnClickListener {
 
     private EditText mEditAccount;
     private EditText mEditPassword;
@@ -81,6 +91,11 @@ public class LoginActivity extends BaseSwipeActivity {
     private LinearLayout linPsd;
     ImageView iv_eye;
     TextView tv1;
+
+    CheckBox cb_register;
+    TextView tv_register_agreement;
+    TextView tv_register_secret;
+    TextView tv_login1;
     @Override
     public boolean handleExtra(Bundle savedInstanceState) {
         return false;
@@ -95,6 +110,10 @@ public class LoginActivity extends BaseSwipeActivity {
 
     @Override
     public void findViewById() {
+        tv_login1 = (TextView) findViewById(R.id.tv_login1);
+        cb_register = (CheckBox) findViewById(R.id.cb_register);
+        tv_register_agreement = (TextView) findViewById(R.id.tv_register_agreement);
+        tv_register_secret = (TextView) findViewById(R.id.tv_register_secret);
         tv1 =  (TextView) findViewById(R.id.tv1);
         iv_eye = (ImageView) findViewById(R.id.iv_eye);
         mEditAccount = (EditText) findViewById(R.id.edit_login_account);
@@ -120,6 +139,8 @@ public class LoginActivity extends BaseSwipeActivity {
         if (StringHelper.notEmptyAndNull(UserInfoHelper.getUserCell(mContext))) {
             mEditAccount.setText(UserInfoHelper.getUserCell(mContext));
         }
+
+        requestRegisterAgreement();
     }
 
     @Override
@@ -131,6 +152,14 @@ public class LoginActivity extends BaseSwipeActivity {
         mTvForgetPassword.setOnClickListener(noDoubleClickListener);
         mTvRegister.setOnClickListener(noDoubleClickListener);
         mIvBack.setOnClickListener(noDoubleClickListener);
+        tv_login1.setOnClickListener(this);
+        tv_register_secret.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        tv_register_secret.getPaint().setAntiAlias(true);//抗锯齿
+        tv_register_agreement.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        tv_register_agreement.getPaint().setAntiAlias(true);//抗锯齿
+        tv_register_agreement.setOnClickListener(this);
+        tv_register_secret.setOnClickListener(this);
+
     }
 
     private NoDoubleClickListener noDoubleClickListener = new NoDoubleClickListener() {
@@ -150,6 +179,17 @@ public class LoginActivity extends BaseSwipeActivity {
                 }
             } else if (view == tv_login) {
                 //走登录流程
+                 if(!cb_register.isChecked()) {
+                     PricacyDialog pricacyDialog = new PricacyDialog(mContext) {
+                         @Override
+                         public void Confirm() {
+                             cb_register.setChecked(true);
+                             dismiss();
+                         }
+                     };
+                     pricacyDialog.show();
+                     return;
+                 }
                 hintKbTwo();
                 requestLogin();
             } else if (view == mTvForgetPassword) {
@@ -269,6 +309,7 @@ public class LoginActivity extends BaseSwipeActivity {
                         if (baseModel.success) {
                             Intent intent = new Intent(LoginActivity.this,RegisterStep1Activity.class);
                             intent.putExtra("phone",baseModel.data);
+                            intent.putExtra("isDirect",1);
                             intent.putExtra("token1",result);
                             startActivity(intent);
                             OneKeyLoginManager.getInstance().finishAuthActivity();
@@ -337,6 +378,10 @@ public class LoginActivity extends BaseSwipeActivity {
         if (!NetWorkHelper.isNetworkAvailable(mContext)) {
             AppHelper.showMsg(mContext, "网络不给力!");
         } else {
+//            if(!cb_register.isChecked()) {
+//                ToastUtil.showSuccessMsg(mContext,"请勾选协议");
+//                return;
+//            }
             LoginAPI.requestLogin(mContext, mEditAccount.getText().toString(), mEditPassword.getText().toString(), "", 2)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -511,5 +556,64 @@ public class LoginActivity extends BaseSwipeActivity {
         hintKbTwo();
     }
 
+    String mUrlAgreement;
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_register_secret:
+                String url = "https://shaokao.qoger.com/apph5/html/yszc.html";
+                Intent intent = new Intent(mContext, NewWebViewActivity.class);
+                intent.putExtra("URL", url);
+                intent.putExtra("TYPE", 1);
+                intent.putExtra("name", "协议");
+                startActivity(intent);
+                break;
+
+
+            case R.id.tv_register_agreement:
+                startActivity(CommonH5Activity.getIntent(mContext, CommonH5Activity.class, mUrlAgreement));
+                break;
+
+            case R.id.tv_login1:
+                Intent intent1 = new Intent(mContext, Login1Activity.class);
+                startActivity(intent1);
+                break;
+        }
+    }
+
+    /**
+     * 注册协议接口
+     */
+    RegisterAgreementModel mModelRegisterAgreement;
+    private void requestRegisterAgreement() {
+        if (!NetWorkHelper.isNetworkAvailable(mContext)) {
+            AppHelper.showMsg(mContext, "网络不给力!");
+        } else {
+            RegisterAgreementAPI.requestRegisterAgreement(mContext)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<RegisterAgreementModel>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(RegisterAgreementModel registerAgreementModel) {
+                            mModelRegisterAgreement = registerAgreementModel;
+                            if (mModelRegisterAgreement.success) {
+                                mUrlAgreement = mModelRegisterAgreement.data;
+                            } else {
+                                AppHelper.showMsg(mContext, mModelRegisterAgreement.message);
+                            }
+                        }
+                    });
+        }
+    }
 
 }

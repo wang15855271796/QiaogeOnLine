@@ -201,8 +201,8 @@
                 android:layout_marginLeft="@dimen/size_21dp"
                 android:layout_marginTop="@dimen/size_15dp"
                 android:layout_marginRight="@dimen/size_21dp"
-                android:background="@drawable/shape_orange17"
-                android:hint="请输入授权码"
+                android:background="@drawable/shape_orange31"
+                android:hint="授权码(选填)"
                 android:inputType="number"
                 android:maxLength="6"
                 android:paddingLeft="@dimen/size_22dp"
@@ -210,23 +210,10 @@
                 android:textColorHint="#949494"
                 android:textSize="14sp" />
 
-            <TextView
-                android:layout_width="@dimen/size_30dp"
-                android:layout_height="@dimen/size_17dp"
-                android:layout_marginLeft="@dimen/size_21dp"
-                android:layout_marginTop="@dimen/size_8dp"
-                android:background="@mipmap/icon_desc"
-                android:gravity="center"
-                android:paddingBottom="@dimen/size_2dp"
-                android:text="必填"
-                android:textColor="#ffffff"
-                android:textSize="11sp" />
-
         </RelativeLayout>
 
 <!--        店铺类型-->
         <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/rl_shop_style"
             android:layout_marginTop="@dimen/size_16dp"
             android:layout_width="match_parent"
@@ -239,11 +226,12 @@
                 android:layout_height="@dimen/size_45dp"
                 android:layout_marginLeft="@dimen/size_21dp"
                 android:layout_marginRight="@dimen/size_21dp"
+                android:background="@drawable/shape_orange31"
                 android:drawableLeft="@mipmap/iv_shop"
                 android:drawablePadding="@dimen/size_7dp"
                 android:gravity="center_vertical"
-                android:paddingLeft="@dimen/size_24dp"
                 android:hint="店铺类型选择"
+                android:paddingLeft="@dimen/size_24dp"
                 android:textColor="#949494"
                 android:textSize="14sp" />
 
@@ -265,7 +253,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/size_24dp"
+                android:layout_marginRight="40dp"
                 android:src="@mipmap/ic_left_open" />
 
         </RelativeLayout>
@@ -313,12 +301,12 @@
 
     <LinearLayout
         android:layout_alignParentBottom="true"
-        android:id="@+id/ll_xieyi"
         android:layout_width="match_parent"
         android:layout_height="@dimen/public_space_value_125"
         android:orientation="vertical">
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/ll_xieyi"
             android:gravity="center"
             android:layout_width="match_parent"

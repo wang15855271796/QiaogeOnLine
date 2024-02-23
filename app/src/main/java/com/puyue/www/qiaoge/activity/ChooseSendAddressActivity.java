@@ -32,6 +32,7 @@ import com.puyue.www.qiaoge.event.AddressEvent;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
 import com.puyue.www.qiaoge.model.mine.address.AddressModel;
+import com.puyue.www.qiaoge.utils.SharedPreferencesUtil;
 
 import org.greenrobot.eventbus.EventBus;
 

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="240dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/shape_pink6"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:padding="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/iv_close_black" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal">
+
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="服务协议及隐私保护"
+                android:textColor="#414141"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#414141"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_login_password"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="@dimen/size_12dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:text="为了更好地保障您的合法权益，请您阅读并同意以下协议《翘歌平台用户协议》及"
+            android:textColor="#767676" />
+
+        <TextView
+            android:id="@+id/tv_desc1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_login_password"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical"
+            android:text="《隐私政策》"
+            android:textColor="#FF2A00" />
+
+        《翘歌隐私政策》
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_cancel"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="@dimen/size_26dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/shape_red_line"
+                android:gravity="center_horizontal"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_10"
+                android:text="不同意"
+                android:textColor="#FF2A00"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/tv_sure"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="@dimen/size_26dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/shape_jianbian5"
+                android:gravity="center_horizontal"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_10"
+                android:text="同意"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/sp_14" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -92,8 +92,6 @@ public class ChooseAddressActivity extends BaseSwipeActivity implements View.OnC
     RelativeLayout rl_choose_company;
     List<AddressModel.DataBean> list = new ArrayList<>();
     private AddressListAdapter addressListAdapter;
-    //    private SuggestionSearch mSuggestionSearch;
-    private SuggestAdressAdapter adressAdapter;
     private String cityName;
     private String areaName;
     private int isClick;

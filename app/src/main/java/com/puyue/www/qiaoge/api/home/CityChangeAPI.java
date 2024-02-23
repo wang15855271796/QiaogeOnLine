@@ -34,7 +34,7 @@ public class CityChangeAPI {
         Observable<IsShowModel> setParam();
     }
 
-    public static Observable<IsShowModel>  isShow(Context context){
+    public static Observable<IsShowModel> isShow(Context context){
         Observable<IsShowModel> cityChangeModelObservable = RestHelper.getBaseRetrofit(context).create(IsShowCityService.class).setParam();
         return cityChangeModelObservable;
     }
