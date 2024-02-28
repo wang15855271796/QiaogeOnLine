@@ -12,7 +12,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:background="@mipmap/mine_phone_dialog"
-        android:layout_height="270dp">
+        android:layout_height="200dp">
 
         <LinearLayout
             android:layout_marginRight="@dimen/size_20dp"
@@ -36,6 +36,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:visibility="gone"
             android:layout_marginTop="@dimen/size_7dp"
             android:layout_marginRight="@dimen/size_20dp"
             android:layout_marginLeft="@dimen/size_20dp"

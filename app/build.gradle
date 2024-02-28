@@ -27,8 +27,8 @@ android {
         applicationId "com.barbecue.app"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 70
-        versionName "2.9.5"
+        versionCode 71
+        versionName "2.9.6"
 //        manifestPlaceholders = [qqappid: "100424468"]
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         flavorDimensions "versionCode"
