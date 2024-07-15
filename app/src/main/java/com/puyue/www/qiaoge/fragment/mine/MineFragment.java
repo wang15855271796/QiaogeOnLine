@@ -995,10 +995,11 @@ public class MineFragment extends BaseFragment {
         mDialog.show();
         mDialog.getWindow().setContentView(R.layout.dialog_call_phone);
         tv_phone = mDialog.getWindow().findViewById(R.id.tv_phone);
+        TextView tv_call = mDialog.getWindow().findViewById(R.id.tv_call);
         tv_time = mDialog.getWindow().findViewById(R.id.tv_time);
         tv_time.setText("在线客服"+ "("+onlineTime+")");
-        tv_phone.setText("客服热线 ("+cell+")");
-        tv_phone.setOnClickListener(new View.OnClickListener() {
+        tv_phone.setText(cell);
+        tv_call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + cell));

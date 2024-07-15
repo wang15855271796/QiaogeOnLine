@@ -354,8 +354,6 @@ public class MyWalletDetailActivity extends BaseSwipeActivity {
                                 tv_all.setVisibility(View.GONE);
                                 iv_all.setVisibility(View.GONE);
                             }
-
-
                         } else {
                             AppHelper.showMsg(mContext, searchListModel.getMessage());
                         }

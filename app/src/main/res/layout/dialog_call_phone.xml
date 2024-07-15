@@ -12,28 +12,62 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:background="@mipmap/mine_phone_dialog"
-        android:layout_height="200dp">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_marginRight="@dimen/size_20dp"
             android:layout_marginLeft="@dimen/size_20dp"
-            android:layout_marginTop="110dp"
-            android:background="@drawable/shape_white1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:src="@mipmap/ic_contact_custom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="客服热线111111"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="40dp"
+                android:textColor="#414141"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="110dp"
+                android:text="客服热线"
+                android:textColor="#414141"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_phone"
-                android:textColor="#414141"
-                tools:text="客服电话:0571-87758340"
-                android:textSize="@dimen/sp_14"
-                android:gravity="center"
-                android:paddingLeft="@dimen/size_12dp"
-                android:drawablePadding="@dimen/dp_10"
-                android:drawableLeft="@mipmap/icon_phone"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/size_66dp" />
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:textColor="#414141"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                tools:text="0571-87758340" />
+
+            <TextView
+                android:id="@+id/tv_call"
+                android:layout_width="220dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/tv_phone"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/shape_black1"
+                android:gravity="center"
+                android:text="立即呼叫"
+                android:textColor="#FFE1C7"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
 
         <LinearLayout
             android:visibility="gone"

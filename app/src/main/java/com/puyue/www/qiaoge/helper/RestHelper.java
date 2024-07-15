@@ -165,27 +165,26 @@ public class RestHelper {
                             .build();
                 }
                 Response response = chain.proceed(request);
-//                ResponseBody responseBody = response.body();
-//                if (responseBody != null) {
-//                    BufferedSource source = responseBody.source();
-//                    source.request(Long.MAX_VALUE); // Buffer the entire body.
-//                    Buffer buffer = source.buffer();
+                ResponseBody responseBody = response.body();
+                if (responseBody != null) {
+                    BufferedSource source = responseBody.source();
+                    source.request(Long.MAX_VALUE); // Buffer the entire body.
+                    Buffer buffer = source.buffer();
 //
-//                    try {
+                    try {
 //
-//                        String result = buffer.clone().readString(StandardCharsets.UTF_8);
+                        String result = buffer.clone().readString(StandardCharsets.UTF_8);
 //
-//                        JSONObject jsonObject = new JSONObject(result);
+                        JSONObject jsonObject = new JSONObject(result);
 //
-//                        int code = jsonObject.getInt("code");
-//                        if(code==-10001) {
-//                            Intent intent = new Intent(context, LoginActivity.class);
-//                            context.startActivity(intent);
-//                        }
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
+                        int code = jsonObject.getInt("code");
+                        if(code==-10001) {
+                            UserInfoHelper.saveUserId(context, "");
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
 
                 if (NetWorkHelper.isNetworkAvailable(context)) {
                     int maxAge = 0 * 60;

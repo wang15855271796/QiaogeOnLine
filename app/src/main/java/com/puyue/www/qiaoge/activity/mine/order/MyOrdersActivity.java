@@ -232,10 +232,8 @@ public class MyOrdersActivity extends BaseActivity {
                     tv_order_sufficiency.setTextColor(Color.parseColor("#FFA1A1A1"));
                     orderDeliveryType = 0;
                     UserInfoHelper.saveDeliverType(mActivity, orderDeliveryType + "");
-
                     initView();
                 }
-
             }
         });
         tv_order_sufficiency.setOnClickListener(new View.OnClickListener() {

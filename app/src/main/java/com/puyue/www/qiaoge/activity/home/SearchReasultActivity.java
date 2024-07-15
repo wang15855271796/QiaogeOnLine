@@ -453,7 +453,6 @@ public class SearchReasultActivity extends BaseSwipeActivity implements View.OnC
                                         List<SearchResultsModel.DataBean.SearchProdBean.ListBean> list = recommendModel.getData().getSearchProd().getList();
                                         searchList.addAll(list);
                                         searchReasultAdapter.notifyDataSetChanged();
-
                                     }
 
                                     if(recommendModel.getData().getRecommendProd()!=null && recommendModel.getData().getRecommendProd().size()>0) {

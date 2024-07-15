@@ -393,9 +393,9 @@
                                                 android:layout_marginBottom="@dimen/sp_12"
                                                 android:background="@drawable/shape_detail"
                                                 android:orientation="vertical"
-                                                android:paddingBottom="@dimen/dp_10"
                                                 android:paddingLeft="@dimen/size_20dp"
-                                                android:paddingTop="@dimen/size_10dp">
+                                                android:paddingTop="@dimen/size_10dp"
+                                                android:paddingBottom="@dimen/dp_10">
 
                                                 <LinearLayout
                                                     android:id="@+id/ll_full_active"

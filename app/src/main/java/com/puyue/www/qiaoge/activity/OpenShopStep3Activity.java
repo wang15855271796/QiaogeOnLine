@@ -1,6 +1,7 @@
 package com.puyue.www.qiaoge.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import com.bumptech.glide.Glide;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -25,6 +28,7 @@ import com.puyue.www.qiaoge.activity.view.GlideEngine;
 import com.puyue.www.qiaoge.api.cart.RecommendApI;
 import com.puyue.www.qiaoge.api.mine.order.SendImageAPI;
 import com.puyue.www.qiaoge.base.BaseActivity;
+import com.puyue.www.qiaoge.dialog.PermissionDialog;
 import com.puyue.www.qiaoge.model.ApplyInfoModel;
 import com.puyue.www.qiaoge.model.SendImagesModel;
 import com.puyue.www.qiaoge.model.home.GetAddressModel;
@@ -239,16 +243,48 @@ public class OpenShopStep3Activity extends BaseActivity implements View.OnClickL
                 switch (view.getId()) {
                     case R.id.tv_album:
                         //相册
-                        PictureSelector.create(mActivity)
-                                .openGallery(PictureMimeType.ofImage())
-                                .maxSelectNum(1)
-                                .minSelectNum(1)
-                                .imageSpanCount(4)
-                                .compress(true)
-                                .loadImageEngine(GlideEngine.createGlideEngine())
-                                .isCamera(false)
-                                .selectionMode(PictureConfig.MULTIPLE)
-                                .forResult(requestCode);
+//                        PictureSelector.create(mActivity)
+//                                .openGallery(PictureMimeType.ofImage())
+//                                .maxSelectNum(1)
+//                                .minSelectNum(1)
+//                                .imageSpanCount(4)
+//                                .compress(true)
+//                                .loadImageEngine(GlideEngine.createGlideEngine())
+//                                .isCamera(false)
+//                                .selectionMode(PictureConfig.MULTIPLE)
+//                                .forResult(requestCode);
+                        if(ContextCompat.checkSelfPermission(mActivity, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                            PictureSelector.create(mActivity)
+                                    .openGallery(PictureMimeType.ofImage())
+                                    .maxSelectNum(1)
+                                    .minSelectNum(1)
+                                    .imageSpanCount(4)
+                                    .isCompress(true)
+                                    .loadImageEngine(GlideEngine.createGlideEngine())
+                                    .isCamera(false)
+                                    .selectionMode(PictureConfig.MULTIPLE)
+                                    .forResult(requestCode);
+                        }else {
+                            PermissionDialog permissionDialog = new PermissionDialog(mContext) {
+                                @Override
+                                public void Confirm() {
+                                    dismiss();
+                                    PictureSelector.create(mActivity)
+                                            .openGallery(PictureMimeType.ofImage())
+                                            .maxSelectNum(1)
+                                            .minSelectNum(1)
+                                            .imageSpanCount(4)
+                                            .isCompress(true)
+                                            .loadImageEngine(GlideEngine.createGlideEngine())
+                                            .isCamera(false)
+                                            .selectionMode(PictureConfig.MULTIPLE)
+                                            .forResult(requestCode);
+                                }
+                            };
+                            permissionDialog.show();
+                        }
+
+
                         break;
 
                     case R.id.tv_cancel:

@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -15,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
@@ -50,6 +52,7 @@ import com.puyue.www.qiaoge.api.mine.order.SendImageAPI;
 import com.puyue.www.qiaoge.base.BaseModel;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.dialog.InfoPayDialog;
+import com.puyue.www.qiaoge.dialog.PermissionDialog;
 import com.puyue.www.qiaoge.dialog.ShopStyleDialog;
 import com.puyue.www.qiaoge.event.MyShopEvent;
 import com.puyue.www.qiaoge.event.ShopStyleEvent;
@@ -564,18 +567,53 @@ public class IssueEditInfoActivity extends BaseSwipeActivity {
                 switch (view.getId()) {
                     case R.id.tv_album:
                         //相册
-                        PictureSelector.create(IssueEditInfoActivity.this)
-                                .openGallery(PictureMimeType.ofAll())
-                                .maxSelectNum(1)
-                                .maxVideoSelectNum(1)
-//                                .minSelectNum(1)
-                                .queryMaxFileSize(55)
-                                .imageSpanCount(4)
-                                .isCompress(true)
-                                .isCamera(false)
-                                .loadImageEngine(GlideEngine.createGlideEngine())
-                                .selectionMode(PictureConfig.MULTIPLE)
-                                .forResult(PictureConfig.CHOOSE_REQUEST);
+//                        PictureSelector.create(IssueEditInfoActivity.this)
+//                                .openGallery(PictureMimeType.ofAll())
+//                                .maxSelectNum(1)
+//                                .maxVideoSelectNum(1)
+////                                .minSelectNum(1)
+//                                .queryMaxFileSize(55)
+//                                .imageSpanCount(4)
+//                                .isCompress(true)
+//                                .isCamera(false)
+//                                .loadImageEngine(GlideEngine.createGlideEngine())
+//                                .selectionMode(PictureConfig.MULTIPLE)
+//                                .forResult(PictureConfig.CHOOSE_REQUEST);
+
+                        if(ContextCompat.checkSelfPermission(mActivity, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                            PictureSelector.create(mActivity)
+                                    .openGallery(PictureMimeType.ofAll())
+                                    .maxSelectNum(1)
+                                    .maxVideoSelectNum(1)
+//                                    .minSelectNum(1)
+                                    .imageSpanCount(4)
+                                    .queryMaxFileSize(55)
+                                    .isCompress(true)
+                                    .loadImageEngine(GlideEngine.createGlideEngine())
+                                    .isCamera(false)
+                                    .selectionMode(PictureConfig.MULTIPLE)
+                                    .forResult(PictureConfig.CHOOSE_REQUEST);
+                        }else {
+                            PermissionDialog permissionDialog = new PermissionDialog(mContext) {
+                                @Override
+                                public void Confirm() {
+                                    dismiss();
+                                    PictureSelector.create(mActivity)
+                                            .openGallery(PictureMimeType.ofAll())
+                                            .maxSelectNum(1)
+//                                            .minSelectNum(1)
+                                            .maxVideoSelectNum(1)
+                                            .imageSpanCount(4)
+                                            .queryMaxFileSize(55)
+                                            .isCompress(true)
+                                            .loadImageEngine(GlideEngine.createGlideEngine())
+                                            .isCamera(false)
+                                            .selectionMode(PictureConfig.MULTIPLE)
+                                            .forResult(PictureConfig.CHOOSE_REQUEST);
+                                }
+                            };
+                            permissionDialog.show();
+                        }
 
                         break;
                     case R.id.tv_camera:

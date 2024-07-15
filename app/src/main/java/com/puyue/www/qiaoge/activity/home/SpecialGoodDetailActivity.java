@@ -341,12 +341,12 @@ public class SpecialGoodDetailActivity extends BaseSwipeActivity {
                 mTvAddCar.setEnabled(true);
                 mTvAddCar.setText("加入购物车");
                 mTvAddCar.setBackgroundResource(R.drawable.shape_jianbian5);
-
+                getProductDetail(productId,num);
             }else {
                 ll_service.setVisibility(View.VISIBLE);
                 mTvAddCar.setEnabled(false);
                 mTvAddCar.setBackgroundResource(R.drawable.shape_grey);
-
+                getProductDetail(productId,num);
             }
         }else {
             mTvAddCar.setEnabled(false);

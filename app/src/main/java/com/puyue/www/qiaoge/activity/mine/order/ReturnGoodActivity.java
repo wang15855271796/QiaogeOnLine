@@ -3,10 +3,13 @@ package com.puyue.www.qiaoge.activity.mine.order;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,6 +42,7 @@ import com.puyue.www.qiaoge.api.mine.order.ReturnSelectReasonAPI;
 import com.puyue.www.qiaoge.api.mine.order.SendImageAPI;
 import com.puyue.www.qiaoge.base.BaseSwipeActivity;
 import com.puyue.www.qiaoge.constant.AppConstant;
+import com.puyue.www.qiaoge.dialog.PermissionDialog;
 import com.puyue.www.qiaoge.helper.AppHelper;
 import com.puyue.www.qiaoge.helper.DividerItemDecoration;
 import com.puyue.www.qiaoge.helper.UserInfoHelper;
@@ -613,16 +617,48 @@ public class ReturnGoodActivity extends BaseSwipeActivity {
                 switch (view.getId()) {
                     case R.id.tv_album:
                         //相册
-                        PictureSelector.create(ReturnGoodActivity.this)
-                                .openGallery(PictureMimeType.ofImage())
-                                .maxSelectNum(maxSelectNum - selectList.size())
-                                .minSelectNum(1)
-                                .imageSpanCount(4)
-                                .loadImageEngine(GlideEngine.createGlideEngine())
-                                .compress(true)
-                                .isCamera(false)
-                                .selectionMode(PictureConfig.MULTIPLE)
-                                .forResult(PictureConfig.CHOOSE_REQUEST);
+//                        PictureSelector.create(ReturnGoodActivity.this)
+//                                .openGallery(PictureMimeType.ofImage())
+//                                .maxSelectNum(maxSelectNum - selectList.size())
+//                                .minSelectNum(1)
+//                                .imageSpanCount(4)
+//                                .loadImageEngine(GlideEngine.createGlideEngine())
+//                                .compress(true)
+//                                .isCamera(false)
+//                                .selectionMode(PictureConfig.MULTIPLE)
+//                                .forResult(PictureConfig.CHOOSE_REQUEST);
+
+                        if(ContextCompat.checkSelfPermission(mActivity, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                            PictureSelector.create(mActivity)
+                                    .openGallery(PictureMimeType.ofImage())
+                                    .maxSelectNum(maxSelectNum - selectList.size())
+                                    .minSelectNum(1)
+                                    .imageSpanCount(4)
+                                    .isCompress(true)
+                                    .loadImageEngine(GlideEngine.createGlideEngine())
+                                    .isCamera(false)
+                                    .selectionMode(PictureConfig.MULTIPLE)
+                                    .forResult(PictureConfig.CHOOSE_REQUEST);
+                        }else {
+                            PermissionDialog permissionDialog = new PermissionDialog(mContext) {
+                                @Override
+                                public void Confirm() {
+                                    dismiss();
+                                    PictureSelector.create(mActivity)
+                                            .openGallery(PictureMimeType.ofImage())
+                                            .maxSelectNum(maxSelectNum - selectList.size())
+                                            .minSelectNum(1)
+                                            .imageSpanCount(4)
+                                            .isCompress(true)
+                                            .loadImageEngine(GlideEngine.createGlideEngine())
+                                            .isCamera(false)
+                                            .selectionMode(PictureConfig.MULTIPLE)
+                                            .forResult(PictureConfig.CHOOSE_REQUEST);
+                                }
+                            };
+                            permissionDialog.show();
+                        }
+
                         break;
                     case R.id.tv_camera:
 
